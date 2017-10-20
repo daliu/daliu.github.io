@@ -281,13 +281,11 @@
       <h2>Experience</h2>
 
 <li><strong>Data Science Intern at Castlight Health – 2017</strong><br/>
-Experimented with classifiers to match externally sourced entities to entities within our database. De-duplication process involved machine learning in order to optimize for similarity-matches. Utilized hard negative mining to improve our small training dataset. Gradient-boosted classifier with hyper parameters tuned by grid search and retrained with hard-samples produced results of up to around 85-95% precision and recall (uncertainty due to potential over-fitting and lack of extensive validation data). Validated with k-fold cross validation. Used Receiver Operating Curve (ROC) and area under curve (AUC) as another measurement of performance.
+Matched externally sourced entities (hospital/non-hospital facility/practitioner) to entities within our database. De-duplication process involved machine learning in order to optimize for similarity-matches. Utilized hard negative mining to improve our small (less than 1K) training dataset. Gradient-boosted classifier with hyper parameters tuned by grid search and retrained with hard-samples produced results of 85-95% precision and recall depending on entity. Validated with k-fold cross validation. Used Receiver Operating Curve (ROC) and area under curve (AUC) as another measurement of performance.
 </li><br/>
 
 <li><strong>Data Science Intern at RivieraPartners — 2016</strong><br/>
-Built Python wrapper for a survival model time-series written in R, then built algorithms for pre-processing data for the model.
-Also used a gradient-boost algorithm for determining company team sizes based on limited public information. Finally, built
-Flask API route and worked with team to deploy on production server. Presently working on automated scraping project.</li><br/>
+Used a gradient-boost algorithm for determining company team sizes based only on publicly available information. Also built Python wrapper for a survival model time-series written in R, then built algorithms for pre-processing data for the model. Set up Flask API route and worked with team to deploy on production server. Also worked on automated scraping project.</li><br/>
 
 <li><strong>Undergraduate Research Apprentice Program (URAP) at Berkeley Institute of Data Science (BIDS) — Spring 2016</strong><br/>
 Worked on Mapping Team to help map UC Berkeley course progression through different majors. Computationally organized taxonomies of classes, ran deduplication processes, and helped plan data visualization. 
@@ -295,7 +293,7 @@ Worked on Mapping Team to help map UC Berkeley course progression through differ
 
 <li><strong>Data Science Intern at Doximity — 2015</strong><br/>
 Utilized a supervised machine-learning algorithm with a gradient boost classifier to identify mal-formed articles
-scraped from other sites using BeautifulSoup, NLTK, and data visualization tools. Also triangulated doctor names in
+scraped from other sites using BeautifulSoup, NLTK, and data visualization tools. Triangulated doctor names in
 news articles to facilities and database profiles using reverse geocoding and fuzzy string matching.</li><br/>
 
 <li><strong>Web Developer Intern at PriceWater Capital — 2014</strong><br/>
@@ -320,17 +318,21 @@ structure implemented by the university.</li><br/>
   <div class="row slideanim slide">
     <h2>Industry Projects</h2>
     <div class="col-sm-4">
+      <h4>Castlight Health</h4>
+      Model tuning, training, and development. Data visualization and analysis.
+    </div>
+    <div class="col-sm-4">
       <h4>RivieraPartners</h4>
-      Python Wrapper, Machine Learning Algorithms, &amp; Flask API Testing
+      Model tuning, training, and development. Data visualization, analysis, pipelining, and infrastructure.
     </div>
     <div class="col-sm-4">
       <h4>Doximity</h4>
-      Machine Learning Algorithm, Geolocation/Fuzzy-String Matching
+      Machine Learning Algorithm, Data visualization, Geolocation/Fuzzy-String Matching
     </div>
-    <div class="col-sm-4">
+   <!--  <div class="col-sm-4">
       <h4>PriceWater Capital &amp; NJCU &amp; Monmouth University</h4>
       HTML/CSS/Bootstrap, PHP/MySQL
-    </div>
+    </div> -->
   </div>
 
   <!-- Personal -->
@@ -352,7 +354,7 @@ structure implemented by the university.</li><br/>
   </div>
 
   <!-- Class Projects -->
-  <h2>Class Projects</h2>
+  <h2>Extended Class Projects</h2>
   <h4></h4>
   <br>
   <div class="row slideanim slide">
@@ -364,6 +366,7 @@ structure implemented by the university.</li><br/>
     <div class="col-sm-4">
       <h4>Groupie</h4>
       Rails Web App (RoR, HTML/CSS, Bootsrap)
+      groupsie.herokuapp.com
     </div>
   </div>
 
