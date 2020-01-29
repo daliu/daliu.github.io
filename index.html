@@ -56,7 +56,7 @@
       margin-bottom: 30px;
   }  
   .jumbotron {
-      background-color: #1abc9c; /* Green */
+      background-color: #474e5d; /* Dark Blue */
       color: #fff;
       padding: 50px 25px;
       font-family: Montserrat, sans-serif;
@@ -68,11 +68,11 @@
       background-color: #f6f6f6;
   }
   .logo-small {
-      color: #1abc9c; /* Green */
+      color: #474e5d; /* Dark Blue */
       font-size: 50px;
   }
   .logo {
-      color: #1abc9c; /* Green */
+      color: #474e5d; /* Dark Blue */
       font-size: 200px;
   }
   .thumbnail {
@@ -87,13 +87,13 @@
   }
   .carousel-control.right, .carousel-control.left {
       background-image: none;
-      color: #1abc9c; /* Green */
+      color: #474e5d; /* Dark Blue */
   }
   .carousel-indicators li {
-      border-color: #1abc9c; /* Green */
+      border-color: #474e5d; /* Dark Blue */
   }
   .carousel-indicators li.active {
-      background-color: #1abc9c; /* Green */
+      background-color: #474e5d; /* Dark Blue */
   }
   .item h4 {
       font-size: 19px;
@@ -114,9 +114,9 @@
       box-shadow: 5px 0px 40px rgba(0,0,0, .2);
   }
   .panel-footer .btn:hover {
-      border: 1px solid #1abc9c; /* Green */
+      border: 1px solid #474e5d; /* Dark Blue */
       background-color: #fff !important;
-      color: #1abc9c; /* Green */
+      color: #474e5d; /* Dark Blue */
   }
   .panel-heading {
       color: #fff !important;
@@ -140,12 +140,12 @@
   }
   .panel-footer .btn {
       margin: 15px 0;
-      background-color: #1abc9c; /* Green */
+      background-color: #474e5d; /* Dark Blue */
       color: #fff;
   }
   .navbar {
       margin-bottom: 0;
-      background-color: #1abc9c; /* Green */
+      background-color: #2f2f2f; /* Black Gray */
       z-index: 9999;
       border: 0;
       font-size: 12px !important;
@@ -168,7 +168,7 @@
   footer .glyphicon {
       font-size: 20px;
       margin-bottom: 20px;
-      color: #1abc9c; /* Green */
+      color: #474e5d; /* Dark Blue */
   }
   .slideanim {visibility:hidden;}
   .slide {
@@ -213,6 +213,9 @@
         font-size: 150px;
     }
   }
+  .img-circle {
+    border-radius: 25%;
+  }
   </style>
 <script src="Bootstrap%20Theme%20Company%20Page_files/common.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/map.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/util.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/marker.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/onion.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/stats.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/controls.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/QuotaService.js" charset="UTF-8" type="text/javascript"></script><script src="https://use.fontawesome.com/7c37a02403.js"></script></head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -247,9 +250,9 @@
 
 <div class="jumbotron text-center">
 
-  <h1></h1> 
-  <img src="images/face.jpg" class="img-responsive img-circle margin slide" style="display:inline" alt="Bird" height="200" width="200">
-  <p>Tinker, Programmer, Student Always.</p>
+  <h1></h1>
+  <img src="images/biz_pic.jpg" class="img-responsive img-circle margin slide" style="display:inline" alt="Bird" height="400" width="400">
+  <p>Machine Learning Engineer / Data Scientist / Backend Developer</p>
 
   <!-- <form class="form-inline">
     <input class="form-control" size="50" placeholder="Email Address" required="" type="email">
@@ -261,22 +264,22 @@
 <!-- Container (Passion Section) -->
 <div id="passion" class="container-fluid">
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12">
       <h2>My Passion for Data Science</h2>
       <p>I've always been humbled by the importance of data. As information develops a prominent role as one of our modern world's most valuble resources, I aim to be at the forefront of our technologies in this field- understanding how we collect, analyze, and interpret data. From optimization to discovery, data science serves as the modern basis for technological innovation and development. We utilize machine learning algorithms for mapping genetic code, artificial intelligence for interactive hardware devices, and our massive databases to produce valuble information from what we already know. As someone who has always believed in using knowledge to empower people of all races, genders, and backgrounds, data science is more than a career to me- it's a philosophy.</p>
       <br />
     </div>
-    <div class="col-sm-4 slideanim">
+    <!-- <div class="col-sm-4 slideanim">
       <img src="images/biz_pic.jpg" height="300px" width="360px"></img>
-    </div>
+    </div> -->
   </div>
 </div>
 
 <div id="experience" class="container-fluid bg-grey">
   <div class="row">
-    <div class="col-sm-4 slideanim">
+    <!-- <div class="col-sm-4 slideanim">
       <img src="images/exp.jpg" height="400px" width="360px" style="padding-top: 30px; padding-right: 30px;"></img>
-    </div>
+    </div> -->
     <div class="col-sm-8">
       <h2>Experience</h2>
 
@@ -383,13 +386,23 @@ structure implemented by the university.</p><br/>
       </div>
     </div>
     <br /><br />
+
+    <div class="col-sm-4">
+      <h4><a href="http://groupsie.herokuapp.com">Groupie (2015)</a></h4>
+      Website where people can form groups and meet up with others (Ruby on Rails, HTML/CSS, Bootsrap).
+    </div>
+
+    <div class="col-sm-4">
+      <h4><a href="https://github.com/daliu/web_crawler">XRP Trade Algorithm (2014)</a></h4>
+      Built Python Wrapper and Terminal Interface for the Ripple(XRP) API, as well as a sentiment-analysis algorithm to automate exchanges - 3rd Place in Ripple API Contest. Changes in the client API have rendered this deprecated.
+    </div>
   </div>
 
 
   <!-- Class Projects -->
-  <br><br>
+<!--   <br><br>
   <div class="row slideanim slide bg-warning" style="padding:25px;">
-    <h2>Extended Class Projects</h2>
+    <h2>Class Projects</h2>
 
     <div class="col-sm-4">
       <h4><a href="http://groupsie.herokuapp.com">Groupie (2015)</a></h4>
@@ -401,7 +414,7 @@ structure implemented by the university.</p><br/>
       Built Python Wrapper and Terminal Interface for the Ripple(XRP) API, as well as a sentiment-analysis algorithm to automate exchanges - 3rd Place in Ripple API Contest. Changes in the client API have rendered this deprecated.
     </div>
 
-  </div>
+  </div> -->
 
 </div>
 
@@ -456,7 +469,7 @@ structure implemented by the university.</p><br/>
         <h4>"It is a capital mistake to theorize before one has data."<br><span style="font-style:normal;"> ― Arthur Conan Doyle</span></h4>
       </div>
       <div class="item">
-        <h4>“Staying 'UnSpun' really boils down to following a few principles... When confronted with a claim, keep an open mind, ask questions, cross-check, look for the best information, and then weigh the evidence.” <br /> ― Brooks Jackson, unSpun: Finding Facts in a World of Disinformation </span></h4>
+        <h4>“Staying 'UnSpun' really boils down to following a few principles... <br /> When confronted with a claim, keep an open mind, ask questions, cross-check, look for the best information, and then weigh the evidence.” <br /> ― Brooks Jackson, unSpun: Finding Facts in a World of Disinformation </span></h4>
       </div>
       <div class="item active left">
         <h4>“Risk comes from not knowing what you're doing” ― Warren Buffett</h4>
@@ -478,19 +491,19 @@ structure implemented by the university.</p><br/>
 
 
 <!-- Container (Contact Section) -->
-<div id="contact" class="container-fluid bg-1">
+<div id="contact" class="container-fluid bg-2">
   <!-- <h2 class="text-center">Contact Me</h2> -->
   <div class="row">
     <div class="text-center">
       <p><span class="fa fa-envelope-o"></span> 7david12liu@gmail.com</p>
       <p><span class="fa fa-linkedin">
-          <a class="text-white bg-1" href="http://www.linkedin.com/pub/david-liu/75/397/a31/">LinkedIn Profile</a></span>
+          <a class="text-white bg-2" href="https://www.linkedin.com/in/dave-liu-a3139775/">LinkedIn Profile</a></span>
       </p>
       <p><span class="fa fa-github">
-          <a class="text-white bg-1" href="http://www.github.com/daliu">Github Repo</a></span>
+          <a class="text-white bg-2" href="http://www.github.com/daliu">Github Repo</a></span>
       </p>
       <p><span class="fa fa-twitter">
-          <a class="text-white bg-1" href="https://twitter.com/Dave_Liu_Here">Follow me on Twitter</a></span>
+          <a class="text-white bg-2" href="https://twitter.com/Dave_Liu_Here">Follow me on Twitter</a></span>
       </p>
     </div>
   </div>
@@ -552,8 +565,8 @@ $(document).ready(function(){
 
 
 
-
-<script type="text/javascript">
+<!-- Cool connecting dots/lines -->
+<!-- <script type="text/javascript">
 (function() {
 
     var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
@@ -744,7 +757,7 @@ $(document).ready(function(){
     }
     
 })();
-</script>
+</script> -->
 
 
 
