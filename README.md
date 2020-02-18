@@ -2,4 +2,4 @@
 
 Content mostly uses Bootstrap / Javascript (D3, JQuery, etc)
 
-Visit [daliu.github.io](daliu.github.io) to see the site
+Visit [daliu.github.io](https://daliu.github.io) to see the site
