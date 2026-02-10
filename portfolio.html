@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Portfolio - Dave Liu</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dave Liu's portfolio - Senior Data Scientist with experience at Shipt, Freenome, Change Healthcare, and more.">
+  <meta property="og:title" content="Portfolio - Dave Liu">
+  <meta property="og:description" content="Senior Data Scientist who has built production ML systems across biotech, e-commerce, healthcare, recruiting, and fintech.">
+  <meta property="og:image" content="images/biz_pic.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+  <link href="Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
+  <link href="Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
+  <script src="Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+  <script src="Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+  <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+  <style>
+  body {
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #818181;
+  }
+  p {
+    font-size: 16px;
+  }
+  .margin {
+    margin-bottom: 45px;
+  }
+  .bg-1 {
+      background-color: #1abc9c; /* Green */
+      color: #ffffff;
+  }
+  .bg-2 {
+      background-color: #474e5d; /* Dark Blue */
+      color: #ffffff;
+  }
+  .bg-3 {
+      background-color: #ffffff; /* White */
+      color: #555555;
+  }
+  .bg-4 {
+      background-color: #2f2f2f; /* Black Gray */
+      color: #fff;
+  }
+  h2 {
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 30px;
+  }
+  h4 {
+      font-size: 19px;
+      line-height: 1.375em;
+      color: #303030;
+      font-weight: 400;
+      margin-bottom: 30px;
+  }
+  .jumbotron {
+      background-color: #474e5d; /* Dark Blue */
+      color: #fff;
+      padding: 50px 25px;
+      font-family: Montserrat, sans-serif;
+  }
+  .container-fluid {
+      padding: 60px 50px;
+  }
+  .bg-grey {
+      background-color: #f6f6f6;
+  }
+  .logo-small {
+      color: #474e5d; /* Dark Blue */
+      font-size: 50px;
+  }
+  .logo {
+      color: #474e5d; /* Dark Blue */
+      font-size: 200px;
+  }
+  .thumbnail {
+      padding: 0 0 15px 0;
+      border: none;
+      border-radius: 0;
+  }
+  .thumbnail img {
+      width: 100%;
+      height: 100%;
+      margin-bottom: 10px;
+  }
+  .carousel-control.right, .carousel-control.left {
+      background-image: none;
+      color: #474e5d; /* Dark Blue */
+  }
+  .carousel-indicators li {
+      border-color: #474e5d; /* Dark Blue */
+  }
+  .carousel-indicators li.active {
+      background-color: #474e5d; /* Dark Blue */
+  }
+  .item h4 {
+      font-size: 19px;
+      line-height: 1.375em;
+      font-weight: 400;
+      font-style: italic;
+      margin: 70px 0;
+  }
+  .item span {
+      font-style: normal;
+  }
+  .panel {
+      border: 1px solid #1abc9c;  /* Green */
+      border-radius:0 !important;
+      transition: box-shadow 0.5s;
+  }
+  .panel:hover {
+      box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+  .panel-footer .btn:hover {
+      border: 1px solid #474e5d; /* Dark Blue */
+      background-color: #fff !important;
+      color: #474e5d; /* Dark Blue */
+  }
+  .panel-heading {
+      color: #fff !important;
+      background-color: #1abc9c !important; /* Green */
+      padding: 25px;
+      border-bottom: 1px solid transparent;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+  }
+  .panel-footer {
+      background-color: white !important;
+  }
+  .panel-footer h3 {
+      font-size: 32px;
+  }
+  .panel-footer h4 {
+      color: #aaa;
+      font-size: 14px;
+  }
+  .panel-footer .btn {
+      margin: 15px 0;
+      background-color: #474e5d; /* Dark Blue */
+      color: #fff;
+  }
+  .navbar {
+      margin-bottom: 0;
+      background-color: #2f2f2f; /* Black Gray */
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #1abc9c !important; /* Green */
+      background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+      color: #fff !important;
+  }
+  footer .glyphicon {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #474e5d; /* Dark Blue */
+  }
+  .slideanim {visibility:hidden;}
+  .slide {
+      animation-name: slide;
+      -webkit-animation-name: slide;
+      animation-duration: 1s;
+      -webkit-animation-duration: 1s;
+      visibility: visible;
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+        font-size: 150px;
+    }
+  }
+  .img-circle {
+    border-radius: 25%;
+  }
+  .section-divider {
+    width: 60px;
+    height: 3px;
+    background: #1abc9c;
+    margin: 0 0 25px 0;
+  }
+  .exp-block {
+    margin-bottom: 40px;
+  }
+  .exp-role {
+    font-weight: 600;
+    color: #303030;
+    font-size: 17px;
+  }
+  .exp-company a {
+    color: #1abc9c;
+  }
+  .exp-date {
+    color: #1abc9c;
+    font-size: 13px;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .exp-context {
+    color: #555;
+    font-size: 15px;
+    margin: 8px 0 5px 0;
+    font-style: italic;
+  }
+  .exp-list {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  .exp-list li {
+    margin-bottom: 6px;
+    color: #555;
+  }
+  .metric-highlight {
+    color: #1abc9c;
+    font-weight: 600;
+  }
+  .featured-project {
+    background: #fff;
+    border-left: 4px solid #1abc9c;
+    padding: 25px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .featured-project h4 {
+    margin-bottom: 10px;
+  }
+  .featured-project p {
+    margin-bottom: 10px;
+  }
+  .featured-project .btn-view {
+    display: inline-block;
+    background: #474e5d;
+    color: #fff;
+    padding: 8px 20px;
+    text-decoration: none;
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    transition: background 0.3s;
+  }
+  .featured-project .btn-view:hover {
+    background: #1abc9c;
+    color: #fff;
+    text-decoration: none;
+  }
+  .skill-group { margin-bottom: 20px; }
+  .skill-group h4 { margin-bottom: 10px; font-size: 16px; font-weight: 600; }
+  .skill-tag {
+    display: inline-block;
+    background: #474e5d;
+    color: #fff;
+    padding: 5px 12px;
+    margin: 3px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: 1px;
+  }
+  .skill-tag.green { background: #1abc9c; }
+  </style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#myPage">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="autotrader.html">AutoTrader</a></li>
+        <li><a href="index.html">Data</a></li>
+        <li><a href="#quotes">Quotes</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron text-center">
+  <h1></h1>
+  <img src="images/biz_pic.jpg" class="img-responsive img-circle margin slide" style="display:inline" alt="Dave Liu" height="400" width="400">
+  <p>Senior Data Scientist &middot; ML Engineer &middot; Systems Builder</p>
+  <div style="margin-top: 25px;">
+    <a href="#contact" class="btn btn-lg" style="background:#1abc9c; color:#fff; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-right: 10px;">Get in Touch</a>
+    <a href="index.html" class="btn btn-lg" style="border: 2px solid #1abc9c; color:#1abc9c; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px;">Data Dashboard</a>
+  </div>
+</div>
+
+<!-- About Section -->
+<div id="about" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>About Me</h2>
+      <div class="section-divider"></div>
+      <p>I knew I wanted to work in data before I knew what a data scientist was. At ten years old I noticed a pattern: civilizations chased gold and spices, then oil, and now&mdash;in the information age&mdash;data. It struck me that data is the modern gold, and that understanding the world at any real depth requires massive amounts of it. That idea has guided every career decision I've made since.</p>
+      <br>
+      <p>I believe the world is far more complex and nuanced than most people think&mdash;or care to see. Beneath every decision, every behavior, every interaction lies a web of signals that, if you look closely enough, tells a richer story than the surface ever could. To me, understanding those nuances isn't just intellectually satisfying; it's how we build a world that works better for everyone. Predicting the future starts with genuinely understanding the past and present, and I think the best version of our future begins by understanding people.</p>
+      <br>
+      <p>That philosophy has taken me across biotech, e-commerce, healthcare, recruiting, and fintech over the past decade. At <a href="https://www.shipt.com/" style="color:#1abc9c;">Shipt</a> I lead personalization for millions of grocery shoppers. Before that I helped build a <a href="https://freenome.com/" style="color:#1abc9c;">cancer detection model</a> at Freenome, designed a task-matching system that saved <a href="https://changehealthcare.com/" style="color:#1abc9c;">Change Healthcare</a> $7M a year, and built talent-ranking models at <a href="https://rivierapartners.com/" style="color:#1abc9c;">Riviera Partners</a>. On nights and weekends I run <a href="autotrader.html" style="color:#1abc9c;">AutoTrader</a>, a fully autonomous stock prediction system I built from scratch.</p>
+      <br>
+      <p>What ties all of that together is a belief that the hardest part of data science is rarely the model&mdash;it's getting the right data, defining the right metric, and making sure the thing actually ships. I spend as much time asking &ldquo;should we be measuring this at all?&rdquo; as I do writing training loops. It's an approach that's led to production systems at every company I've been part of, and one I don't plan on changing.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Experience Section -->
+<div id="experience" class="container-fluid bg-grey">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Experience</h2>
+      <div class="section-divider"></div>
+
+      <!-- Shipt -->
+      <div class="exp-block">
+        <span class="exp-date">September 2024 &ndash; Present</span><br>
+        <span class="exp-role">Senior Data Scientist &mdash; <span class="exp-company"><a href="https://www.shipt.com/">Shipt</a></span> (Personalization Team)</span>
+        <p class="exp-context">Lead data scientist on Shipt's Personalization team, responsible for the recommender systems behind every personalized shelf on the platform. Mentored 4 data scientists including 2 direct reports.</p>
+        <ul class="exp-list">
+          <li>Delivered up to <span class="metric-highlight">23% Personalized GMV lift</span> across multiple A/B-tested shelves (Trending Items, Similar Items, Deals For You, Complementary Items) over 90 days.</li>
+          <li>Designed and built a two-tower deep retrieval model to replace the legacy ALS recommender. The model improved Deals For You with <span class="metric-highlight">3&ndash;15% lift</span> on Deals-specific shelves and <span class="metric-highlight">11% higher click-through rate</span> overall. Offline evaluation showed +406% NDCG, +87% novelty, and +19% long-tail coverage versus the baseline&mdash;confirming the model recommends genuinely new, relevant products rather than items customers already know.</li>
+          <li>Designed rich user and product embeddings that go beyond surface-level text matching&mdash;capturing product descriptions, categories, pricing, retailer info, dietary preferences, and behavioral signals. Built FAISS approximate nearest neighbor infrastructure on GCS to make retrieval fast at scale.</li>
+          <li>Created a Personalization Interaction Score that captures the full customer funnel&mdash;views, clicks, add-to-carts, and purchases&mdash;weighted by funnel depth. This replaced single-metric optimization (e.g., GMV alone) with a composite measure that reflects how customers actually engage with shelves. The methodology has since been adopted by teammates to power next-generation real-time recommenders.</li>
+          <li>Developed a price-weighted ATC approach for coldstart users (new customers with no purchase history). Result: <span class="metric-highlight">47% engagement lift</span> and <span class="metric-highlight">8% more first-time orders</span> over 90 days. The technique was adopted across other shelves after outperforming alternatives.</li>
+          <li>Built an automated Shelf Attribution pipeline using fuzzy-string matching to measure Personalization's true contribution to GMV. In the process, identified that previously reported 5% attribution figures were irreproducible&mdash;actual numbers sat between 1&ndash;4%. Reported the discrepancy transparently, which helped catalyze a shift toward more defensible success metrics across the organization.</li>
+          <li>Designed and built a Customer Intelligence Platform (CIP) to centralize customer data, and an "Essentials" recommender shelf for commonly purchased products that serves as both a standalone shelf and a relevance filter for others.</li>
+          <li>Partnered with Engineering to replace brittle CSV-based recommendation delivery with Kafka-based pipelines across all legacy recommender systems&mdash;a scalable infrastructure improvement that benefits every model on the platform.</li>
+          <li>Designed a Retrieval-Augmented Generation (RAG) system to recommend products from Shipt's internal retailer catalogs, and built the business case that convinced stakeholders to invest in an agentic AI framework.</li>
+          <li>During the team's first four months, served as the sole data scientist&mdash;maintaining all 16 Discovery Science repositories, resolving issues with Search teammates, and keeping the lights on while simultaneously designing next-generation infrastructure.</li>
+        </ul>
+      </div>
+
+      <!-- Freenome -->
+      <div class="exp-block">
+        <span class="exp-date">November 2020 &ndash; June 2024</span><br>
+        <span class="exp-role">Machine Learning Research Engineer &mdash; <span class="exp-company"><a href="https://freenome.com/">Freenome</a></span></span>
+        <p class="exp-context">Core ML engineer at a genomics company developing a blood test for early-stage cancer detection. Worked at the intersection of infrastructure and research, building the systems that scientists depend on daily.</p>
+        <ul class="exp-list">
+          <li>Key contributor to Freenome's core product: a multiomics cancer detection model that predicts cancer stage (1&ndash;4) from blood-draw data. Built data abstractions to handle petabyte-scale genomic datasets, unblocking cross-analyte feature development and meaningfully accelerating training and evaluation cycles.</li>
+          <li>Built a model comparison system that tracks research versus production model performance side-by-side&mdash;a requirement for FDA audit compliance and a tool that gave the team confidence that production models stayed aligned with research intent.</li>
+          <li>Designed and built large portions of Freenome's distributed ML training and serving platform, used daily by 30+ scientists and researchers. Key contributions included scaling CPU-bound training across O(100) machines, supporting multiple evaluation strategies (leave-one-out, K-fold), and building model artifact storage that made reproducibility straightforward.</li>
+          <li>Led the adoption of PyTorch, MLFlow, and RayTune across the ML team, replacing legacy tooling to enable GPU acceleration, experiment tracking, and hyperparameter tuning at scale.</li>
+          <li>Built a cloud cost monitoring system that surfaced the biggest storage and compute expenses in GCP. The visibility alone drove optimizations that saved the company <span class="metric-highlight">over $10M annually</span>&mdash;making it one of the highest-ROI projects I've worked on.</li>
+          <li>Recognized with a Servant Leadership Award, elected by managers and peers across the engineering organization.</li>
+        </ul>
+      </div>
+
+      <!-- Change Healthcare -->
+      <div class="exp-block">
+        <span class="exp-date">January 2020 &ndash; November 2020</span><br>
+        <span class="exp-role">Sr. Machine Learning Engineer &mdash; <span class="exp-company"><a href="https://changehealthcare.com/">Change Healthcare</a></span></span>
+        <p class="exp-context">Worked on ML systems for health insurance claims processing&mdash;a domain where model accuracy translates directly into operational cost savings.</p>
+        <ul class="exp-list">
+          <li>Designed a ranking model that matches human workers to claims processing tasks based on skill, history, and task complexity. The model delivered <span class="metric-highlight">$7M in annual value</span> by reducing the volume of manual task assignment and the need for additional hires.</li>
+          <li>Built a classification model for partitioning sensitive patient documents, using image and text data to route health insurance claims to the correct processing workflow.</li>
+          <li>Developed internal AWS cloud tooling and production API infrastructure to support the ML team's deployment pipeline.</li>
+          <li>Led a cross-functional tiger team to prototype a conversational chatbot using Rasa and HuggingFace's NLP library for internal claims inquiry workflows.</li>
+        </ul>
+      </div>
+
+      <!-- Riviera Partners -->
+      <div class="exp-block">
+        <span class="exp-date">January 2019 &ndash; December 2019</span><br>
+        <span class="exp-role">Data Scientist &mdash; <span class="exp-company"><a href="https://rivierapartners.com/">Riviera Partners</a></span></span>
+        <p class="exp-context">Built ML models for an executive recruiting firm, working across the full pipeline from data collection to model serving.</p>
+        <ul class="exp-list">
+          <li>Developed a suite of models: a classifier to estimate job-departure likelihood, a regression model to predict team sizes from resume features, and a ranking model to surface and match top candidates to open roles using a custom NDCG listwise loss function.</li>
+          <li>Built an end-to-end framework for rapid model prototyping, training, evaluation, and serving&mdash;enabling the team to iterate on new models without re-engineering infrastructure each time.</li>
+          <li>Wrote data collection scrapers to harvest structured candidate data from public sites and APIs.</li>
+        </ul>
+      </div>
+
+      <!-- Research -->
+      <div class="exp-block">
+        <span class="exp-date">January 2017 &ndash; December 2018</span><br>
+        <span class="exp-role">Undergraduate Researcher &mdash; UC Berkeley</span>
+        <p class="exp-context">Two concurrent research positions exploring ML applications in energy and neuroscience.</p>
+        <ul class="exp-list">
+          <li><strong>California Institute for Energy and Environment (CIEE):</strong> Built a recurrent neural network for predicting building energy usage, exploring how temporal patterns in consumption data can inform smarter grid management.</li>
+          <li><strong>Bengson Research Lab, Sonoma State:</strong> Applied ML models to EEG data to computationally predict individualized occipital lobe activation patterns. The work showed early feasibility for brain-computer interface applications.</li>
+        </ul>
+      </div>
+
+      <!-- Earlier roles -->
+      <div class="exp-block">
+        <span class="exp-date">Earlier Roles</span><br>
+        <p class="exp-context">Where the foundation was built.</p>
+        <ul class="exp-list">
+          <li><strong>Data Science Intern, <a href="https://www.castlighthealth.com/" style="color:#1abc9c;">Castlight Health</a> (2017)</strong> &mdash; Designed an entity matching and deduplication pipeline using gradient-boosted classifiers with hard negative mining. Achieved 85&ndash;95% precision/recall across hospital, facility, and practitioner entity types.</li>
+          <li><strong>Data Science Contractor, <a href="https://rivierapartners.com/" style="color:#1abc9c;">Riviera Partners</a> (2016)</strong> &mdash; Built a team size prediction model from public data and a Python wrapper for survival model time-series analysis. Set up Flask model-serving infrastructure.</li>
+          <li><strong>URAP, <a href="https://bids.berkeley.edu/" style="color:#1abc9c;">Berkeley Institute of Data Science</a> (2016)</strong> &mdash; Helped map UC Berkeley course progression through different majors by computationally organizing class taxonomies and running deduplication.</li>
+          <li><strong>Data Science Intern, <a href="https://www.doximity.com/" style="color:#1abc9c;">Doximity</a> (2015)</strong> &mdash; Built a gradient-boosted classifier to identify malformed web-scraped articles and used reverse geocoding with fuzzy string matching to link doctor names in news articles to facility profiles.</li>
+        </ul>
+      </div>
+
+      <!-- Education -->
+      <div class="exp-block">
+        <span class="exp-date">Education</span><br>
+        <span class="exp-role">University of California, Berkeley &mdash; Class of 2018</span>
+        <ul class="exp-list">
+          <li>BS in Computer Science and Data Science (Dual Degree)</li>
+          <li>Berkeley Institute of Data Science Undergraduate Research Apprenticeship (2015)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Skills Section -->
+<div id="skills" class="container-fluid">
+  <h2>Technical Skills</h2>
+  <div class="section-divider"></div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">Bash</span>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">C/C++</span>
+      </div>
+      <div class="skill-group">
+        <h4>ML &amp; Data</h4>
+        <span class="skill-tag green">PyTorch</span>
+        <span class="skill-tag green">XGBoost</span>
+        <span class="skill-tag green">Scikit-learn</span>
+        <span class="skill-tag green">Pandas</span>
+        <span class="skill-tag green">MLFlow</span>
+        <span class="skill-tag green">FAISS</span>
+        <span class="skill-tag green">Gensim</span>
+        <span class="skill-tag green">NLTK</span>
+        <span class="skill-tag green">SpaCy</span>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="skill-group">
+        <h4>Cloud Platforms</h4>
+        <span class="skill-tag">GCP</span>
+        <span class="skill-tag">AWS</span>
+        <span class="skill-tag">Azure</span>
+      </div>
+      <div class="skill-group">
+        <h4>Data Infrastructure</h4>
+        <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">Snowflake</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">Spark</span>
+        <span class="skill-tag">Kafka</span>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="skill-group">
+        <h4>Orchestration</h4>
+        <span class="skill-tag">Airflow</span>
+        <span class="skill-tag">Flyte</span>
+        <span class="skill-tag">Metaflow</span>
+        <span class="skill-tag">GitHub Actions</span>
+      </div>
+      <div class="skill-group">
+        <h4>Infrastructure</h4>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Kubernetes</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">CI/CD</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials Section -->
+<div id="testimonials" class="container-fluid">
+  <h2 class="text-center">What Colleagues Say</h2>
+  <div class="section-divider" style="margin: 0 auto 30px auto;"></div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div style="background:#fff; padding: 25px 30px; border-left: 4px solid #1abc9c; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; min-height: 200px;">
+        <p style="font-style: italic; color: #555; line-height: 1.7;">"Dave is one of the most thorough and thoughtful engineers I've worked with. He doesn't just build models&mdash;he builds the systems around them that make sure they actually work in production."</p>
+        <p style="font-weight: 600; color: #303030; margin-bottom: 0;">Former Colleague</p>
+        <span style="font-size: 13px; color: #1abc9c;">Freenome</span>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div style="background:#fff; padding: 25px 30px; border-left: 4px solid #1abc9c; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; min-height: 200px;">
+        <p style="font-style: italic; color: #555; line-height: 1.7;">"What sets Dave apart is his willingness to ask the hard questions&mdash;about metrics, about assumptions, about whether we're solving the right problem. That intellectual honesty makes everyone around him better."</p>
+        <p style="font-weight: 600; color: #303030; margin-bottom: 0;">Former Manager</p>
+        <span style="font-size: 13px; color: #1abc9c;">Shipt</span>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div style="background:#fff; padding: 25px 30px; border-left: 4px solid #1abc9c; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; min-height: 200px;">
+        <p style="font-style: italic; color: #555; line-height: 1.7;">"Dave taught me git, and somehow made it make sense. He has a rare ability to explain complex technical concepts in a way that doesn't make you feel stupid for not already knowing them."</p>
+        <p style="font-weight: 600; color: #303030; margin-bottom: 0;">Research Scientist</p>
+        <span style="font-size: 13px; color: #1abc9c;">Freenome</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Projects Section -->
+<div id="projects" class="container-fluid text-center bg-grey">
+
+  <!-- Featured Project: AutoTrader -->
+  <h2>Featured Project</h2>
+  <div class="section-divider" style="margin: 0 auto 30px auto;"></div>
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+      <div class="featured-project text-left">
+        <h4 style="font-weight: 600; color: #303030; margin-bottom: 5px;">AutoTrader &mdash; ML-Powered Stock Prediction System</h4>
+        <span style="color: #1abc9c; font-size: 13px; font-family: Montserrat, sans-serif; letter-spacing: 1px;">2024 &ndash; PRESENT &middot; PERSONAL PROJECT</span>
+        <p style="margin-top: 15px;">What started as a weekend experiment to see if I could beat a simple moving-average crossover turned into a fully autonomous system that collects market data for 600+ tickers nightly, engineers 400+ features from eight distinct sources, trains 1,800+ dual models (one classifier for direction, one regressor for magnitude), and delivers confidence-ranked predictions to subscribers every morning before the market opens.</p>
+        <p>I built every piece myself: the data ingestion pipelines, a custom feature store spanning technical indicators to social sentiment, a dual-model training framework with walk-forward validation and Optuna hyperparameter optimization, FAISS-powered similarity search, a tiered email subscription system with Stripe billing, and the GCP infrastructure that orchestrates everything&mdash;all running autonomously for about $55/month.</p>
+        <a href="autotrader.html" class="btn-view">EXPLORE THE SYSTEM &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <!-- Other Projects -->
+  <div class="row slideanim slide bg-info" style="padding:25px;">
+    <h2>Other Projects</h2>
+
+    <div class="row slideanim slide">
+      <div class="col-sm-4">
+        <h4>Depression Classifier (2018&ndash;2022)</h4>
+        A personal project that grew out of curiosity about whether lifestyle patterns could predict mental health outcomes. Built an ML model trained on behavioral data (sleep, exercise, social activity, diet) that achieved a K-fold cross-validated AUC of 90% (n=110) at classifying depressive episodes. The model's feature importances were eye-opening enough to change some of my own habits&mdash;including joining a running club that I'm still part of.
+      </div>
+
+      <div class="col-sm-4">
+        <h4><a href="https://pypi.python.org/pypi/sentic">Sentic Python Package (2017)</a></h4>
+        An open-source Python library for multi-dimensional sentiment analysis. Goes beyond positive/negative polarity to capture mood, attention, sensitivity, aptitude, and pleasantness across 20+ languages. Built on the SenticNet4 knowledge base. Available on PyPI.
+        <a href="https://github.com/daliu/sentic/"><br>(GitHub)</a>
+      </div>
+
+      <div class="col-sm-4">
+        <h4><a href="https://myndful.us/">Myndful.us (2018)</a></h4>
+        An ML-powered habit-tracking web app designed to help users build healthier routines. I managed a team of 8 through design, development, and launch. The app analyzes journaling entries and activity logs to surface patterns and suggest personalized behavioral nudges.
+      </div>
+    </div>
+    <br><br>
+
+    <div class="row slideanim slide">
+      <div class="col-sm-4">
+        <h4><a href="https://github.com/daliu/climatechase">ClimateChase (2016)</a></h4>
+        A strategy game built with Flask and React where players manage a country's energy portfolio, balancing investments across nuclear, solar, wind, and fossil fuels while responding to economic shocks and policy changes. A fun way to explore the tradeoffs in energy transition.
+      </div>
+
+      <div class="col-sm-4">
+        <h4>PDF-To-Audiobook Converter (2016)</h4>
+        A tool that chains together Google's Tesseract OCR engine with macOS text-to-speech to turn any PDF&mdash;including scanned documents&mdash;into listenable audio files. Built it because I wanted to "read" textbooks while running.
+      </div>
+
+      <div class="col-sm-4">
+        <h4><a href="https://github.com/daliu/web_crawler">XRP Trade Algorithm (2014)</a></h4>
+        My first foray into algorithmic trading: a Python wrapper and terminal interface for the Ripple (XRP) API that combined real-time sentiment analysis with automated trade execution. Won 3rd place in the Ripple API Contest. The earliest sign that I'd eventually build <a href="autotrader.html" style="color:#31b0d5;">something much bigger</a>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quotes -->
+<div id="quotes" class="container-fluid text-center bg-secondary">
+  <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+  <h2>Words I Come Back To</h2>
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
+      <li data-target="#myCarousel" data-slide-to="7"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <h4>"Information is a beacon, a cudgel, an olive branch, a deterrent&mdash;all depending on who wields it and how."<br><span style="font-style:normal;"> &mdash; Steven D. Levitt, <em>Freakonomics</em></span></h4>
+      </div>
+      <div class="item">
+        <h4>"It is a capital mistake to theorize before one has data."<br><span style="font-style:normal;"> &mdash; Arthur Conan Doyle</span></h4>
+      </div>
+      <div class="item">
+        <h4>"When confronted with a claim, keep an open mind, ask questions, cross-check, look for the best information, and then weigh the evidence."<br><span style="font-style:normal;"> &mdash; Brooks Jackson, <em>unSpun</em></span></h4>
+      </div>
+      <div class="item">
+        <h4>"Risk comes from not knowing what you're doing."<br><span style="font-style:normal;"> &mdash; Warren Buffett</span></h4>
+      </div>
+      <div class="item">
+        <h4>"The goal is to turn data into information, and information into insight."<br><span style="font-style:normal;"> &mdash; Carly Fiorina</span></h4>
+      </div>
+      <div class="item">
+        <h4>"Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise."<br><span style="font-style:normal;"> &mdash; John Tukey</span></h4>
+      </div>
+      <div class="item">
+        <h4>"All models are wrong, but some are useful."<br><span style="font-style:normal;"> &mdash; George E. P. Box</span></h4>
+      </div>
+      <div class="item">
+        <h4>"Without data, you're just another person with an opinion."<br><span style="font-style:normal;"> &mdash; W. Edwards Deming</span></h4>
+      </div>
+    </div>
+    <br>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      Previous
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      Next
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<!-- Contact Section -->
+<div id="contact" class="container-fluid bg-2">
+  <div class="row">
+    <div class="text-center">
+      <h2 style="color:#fff;">Get in Touch</h2>
+      <p style="color:#bdc3c7; margin-bottom: 25px;">Always happy to chat about data science, ML systems, or interesting problems.</p>
+      <p><span class="fa fa-envelope-o"></span> 7david12liu@gmail.com</p>
+      <p><span class="fa fa-linkedin">
+          <a class="text-white bg-2" href="https://www.linkedin.com/in/dave-liu-a3139775/">LinkedIn</a></span>
+      </p>
+      <p><span class="fa fa-github">
+          <a class="text-white bg-2" href="http://www.github.com/daliu">GitHub</a></span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
+  <div style="margin-bottom: 15px;">
+    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
+    <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
+  </div>
+  <p style="margin-bottom: 5px;"><a href="portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="index.html" style="color: #1abc9c;">Data</a> &middot; <a href="autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
+  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
+</footer>
+
+<script>
+$(document).ready(function(){
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+        window.location.hash = hash;
+      });
+    }
+  });
+
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
+
+</body></html>

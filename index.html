@@ -1,46 +1,29 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"><style type="text/css">.gm-style .gm-style-mtc label,.gm-style .gm-style-mtc div{font-weight:400}</style><style type="text/css">.gm-style-pbc{transition:opacity ease-in-out;background-color:black;text-align:center}.gm-style-pbt{font-size:22px;color:white;font-family:Roboto,Arial,sans-serif;position:relative;margin:0;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}</style><link href="Bootstrap%20Theme%20Company%20Page_files/css_003.css" rel="stylesheet" type="text/css"><style type="text/css">.gm-style .gm-style-cc span,.gm-style .gm-style-cc a,.gm-style .gm-style-mtc div{font-size:10px}</style><style type="text/css">@media print {  .gm-style .gmnoprint, .gmnoprint {    display:none  }}@media screen {  .gm-style .gmnoscreen, .gmnoscreen {    display:none  }}</style><style type="text/css">.gm-style{font-family:Roboto,Arial,sans-serif;font-size:11px;font-weight:400;text-decoration:none}.gm-style img{max-width:none}</style>
-
-  <title>David Liu</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Dave Liu - Senior Data Scientist &amp; ML Engineer</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dave Liu - Senior Data Scientist and ML Engineer. 11 years of experience across biotech, e-commerce, healthcare, recruiting, and fintech.">
+  <meta property="og:title" content="Dave Liu - Senior Data Scientist &amp; ML Engineer">
+  <meta property="og:description" content="Data is modern gold. Explore the career of a data scientist who has built production ML systems across biotech, e-commerce, healthcare, and fintech.">
+  <meta property="og:image" content="images/biz_pic.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
   <link href="Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
-  <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet"> -->
-  <script style="" src="Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+  <script src="Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
   <script src="Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
-  <!-- Super important for all the fun graphs stuff! -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+  <script src="js/chart.umd.min.js"></script>
+  <script src="https://use.fontawesome.com/7c37a02403.js"></script>
   <style>
   body {
       font: 400 15px Lato, sans-serif;
       line-height: 1.8;
       color: #818181;
   }
-  p {
-    font-size: 16px;
-  }
-  .margin {
-    margin-bottom: 45px;
-  }
-  .bg-1 {
-      background-color: #1abc9c; /* Green */
-      color: #ffffff;
-  }
-  .bg-2 {
-      background-color: #474e5d; /* Dark Blue */
-      color: #ffffff;
-  }
-  .bg-3 {
-      background-color: #ffffff; /* White */
-      color: #555555;
-  }
-  .bg-4 {
-      background-color: #2f2f2f; /* Black Gray */
-      color: #fff;
-  }
+  p { font-size: 16px; }
   h2 {
       font-size: 24px;
       text-transform: uppercase;
@@ -48,104 +31,25 @@
       font-weight: 600;
       margin-bottom: 30px;
   }
-  h4 {
-      font-size: 19px;
-      line-height: 1.375em;
+  h3 {
+      font-size: 20px;
       color: #303030;
-      font-weight: 400;
-      margin-bottom: 30px;
-  }  
+      font-weight: 600;
+      margin-bottom: 15px;
+  }
   .jumbotron {
-      background-color: #474e5d; /* Dark Blue */
+      background-color: #474e5d;
       color: #fff;
-      padding: 50px 25px;
+      padding: 60px 25px;
       font-family: Montserrat, sans-serif;
   }
-  .container-fluid {
-      padding: 60px 50px;
-  }
-  .bg-grey {
-      background-color: #f6f6f6;
-  }
-  .logo-small {
-      color: #474e5d; /* Dark Blue */
-      font-size: 50px;
-  }
-  .logo {
-      color: #474e5d; /* Dark Blue */
-      font-size: 200px;
-  }
-  .thumbnail {
-      padding: 0 0 15px 0;
-      border: none;
-      border-radius: 0;
-  }
-  .thumbnail img {
-      width: 100%;
-      height: 100%;
-      margin-bottom: 10px;
-  }
-  .carousel-control.right, .carousel-control.left {
-      background-image: none;
-      color: #474e5d; /* Dark Blue */
-  }
-  .carousel-indicators li {
-      border-color: #474e5d; /* Dark Blue */
-  }
-  .carousel-indicators li.active {
-      background-color: #474e5d; /* Dark Blue */
-  }
-  .item h4 {
-      font-size: 19px;
-      line-height: 1.375em;
-      font-weight: 400;
-      font-style: italic;
-      margin: 70px 0;
-  }
-  .item span {
-      font-style: normal;
-  }
-  .panel {
-      border: 1px solid #1abc9c;  /* Green */
-      border-radius:0 !important;
-      transition: box-shadow 0.5s;
-  }
-  .panel:hover {
-      box-shadow: 5px 0px 40px rgba(0,0,0, .2);
-  }
-  .panel-footer .btn:hover {
-      border: 1px solid #474e5d; /* Dark Blue */
-      background-color: #fff !important;
-      color: #474e5d; /* Dark Blue */
-  }
-  .panel-heading {
-      color: #fff !important;
-      background-color: #1abc9c !important; /* Green */
-      padding: 25px;
-      border-bottom: 1px solid transparent;
-      border-top-left-radius: 0px;
-      border-top-right-radius: 0px;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
-  }
-  .panel-footer {
-      background-color: white !important;
-  }
-  .panel-footer h3 {
-      font-size: 32px;
-  }
-  .panel-footer h4 {
-      color: #aaa;
-      font-size: 14px;
-  }
-  .panel-footer .btn {
-      margin: 15px 0;
-      background-color: #474e5d; /* Dark Blue */
-      color: #fff;
-  }
+  .jumbotron h1 { font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+  .jumbotron p { font-size: 18px; color: #bdc3c7; }
+  .container-fluid { padding: 60px 50px; }
+  .bg-grey { background-color: #f6f6f6; }
   .navbar {
       margin-bottom: 0;
-      background-color: #2f2f2f; /* Black Gray */
+      background-color: #2f2f2f;
       z-index: 9999;
       border: 0;
       font-size: 12px !important;
@@ -154,23 +58,207 @@
       border-radius: 0;
       font-family: Montserrat, sans-serif;
   }
-  .navbar li a, .navbar .navbar-brand {
-      color: #fff !important;
-  }
+  .navbar li a, .navbar .navbar-brand { color: #fff !important; }
   .navbar-nav li a:hover, .navbar-nav li.active a {
-      color: #1abc9c !important; /* Green */
+      color: #1abc9c !important;
       background-color: #fff !important;
   }
-  .navbar-default .navbar-toggle {
-      border-color: transparent;
-      color: #fff !important;
+  .navbar-default .navbar-toggle { border-color: transparent; color: #fff !important; }
+
+  .section-divider {
+      width: 60px;
+      height: 3px;
+      background: #1abc9c;
+      margin: 0 0 30px 0;
   }
-  footer .glyphicon {
-      font-size: 20px;
+  .section-divider.center { margin: 0 auto 30px auto; }
+
+  /* Big number stat cards */
+  .big-stat {
+      text-align: center;
+      padding: 30px 15px;
+  }
+  .big-stat .number {
+      font-size: 48px;
+      font-weight: 700;
+      color: #1abc9c;
+      line-height: 1.1;
+      display: block;
+      font-family: Montserrat, sans-serif;
+  }
+  .big-stat .label-text {
+      font-size: 13px;
+      color: #818181;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 8px;
+      display: block;
+  }
+  .big-stat .sub-text {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 4px;
+      display: block;
+  }
+
+  /* Word cloud */
+  .word-cloud {
+      text-align: center;
+      padding: 30px 0;
+      line-height: 2.4;
+  }
+  .word-cloud .word {
+      display: inline-block;
+      padding: 4px 10px;
+      margin: 3px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      cursor: default;
+      position: relative;
+  }
+  .word-cloud .word:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 10;
+  }
+  .word-cloud .word .tooltip-text {
+      visibility: hidden;
+      background-color: #2f2f2f;
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      padding: 6px 12px;
+      position: absolute;
+      z-index: 20;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0;
+      opacity: 0;
+      transition: opacity 0.2s;
+  }
+  .word-cloud .word .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #2f2f2f transparent transparent transparent;
+  }
+  .word-cloud .word:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+  }
+  /* Size tiers */
+  .word.t1 { font-size: 32px; font-weight: 700; }
+  .word.t2 { font-size: 26px; font-weight: 600; }
+  .word.t3 { font-size: 21px; font-weight: 600; }
+  .word.t4 { font-size: 17px; font-weight: 400; }
+  .word.t5 { font-size: 14px; font-weight: 400; }
+  /* Color scheme */
+  .word.c-green { background: rgba(26,188,156,0.15); color: #16a085; }
+  .word.c-blue { background: rgba(71,78,93,0.12); color: #474e5d; }
+  .word.c-teal { background: rgba(22,160,133,0.12); color: #1abc9c; }
+  .word.c-dark { background: rgba(47,47,47,0.08); color: #555; }
+  .word.c-accent { background: rgba(52,152,219,0.12); color: #2980b9; }
+
+  /* Chart containers */
+  .chart-container {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+  }
+  .chart-container.wide {
+      max-width: 700px;
+  }
+  .chart-container.full {
+      max-width: 100%;
+  }
+
+  /* Timeline bars */
+  .timeline-bar-container { margin-top: 20px; }
+  .timeline-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+  }
+  .timeline-row .tl-label {
+      width: 140px;
+      min-width: 140px;
+      text-align: right;
+      padding-right: 15px;
+      font-size: 13px;
+      color: #555;
+      font-weight: 600;
+  }
+  .timeline-row .tl-bar-track {
+      flex: 1;
+      height: 28px;
+      background: #f0f0f0;
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+  }
+  .timeline-row .tl-bar {
+      height: 100%;
+      border-radius: 3px;
+      position: absolute;
+      top: 0;
+      transition: width 1.5s ease-out;
+  }
+  .timeline-row .tl-bar-text {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 1px;
+      white-space: nowrap;
+  }
+  .year-markers {
+      display: flex;
+      margin-left: 155px;
+      margin-bottom: 5px;
+  }
+  .year-markers span {
+      font-size: 10px;
+      color: #aaa;
+      letter-spacing: 1px;
+      font-family: Montserrat, sans-serif;
+  }
+
+  /* Fun fact cards */
+  .fun-fact {
+      background: #fff;
+      border-radius: 4px;
+      padding: 25px;
       margin-bottom: 20px;
-      color: #474e5d; /* Dark Blue */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 4px solid #1abc9c;
+      min-height: 120px;
   }
-  .slideanim {visibility:hidden;}
+  .fun-fact .ff-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #303030;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+  }
+  .fun-fact .ff-body {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.6;
+  }
+
+  .slideanim { visibility: hidden; }
   .slide {
       animation-name: slide;
       -webkit-animation-name: slide;
@@ -179,45 +267,21 @@
       visibility: visible;
   }
   @keyframes slide {
-    0% {
-      opacity: 0;
-      -webkit-transform: translateY(70%);
-    } 
-    100% {
-      opacity: 1;
-      -webkit-transform: translateY(0%);
-    }
-  }
-  @-webkit-keyframes slide {
-    0% {
-      opacity: 0;
-      -webkit-transform: translateY(70%);
-    } 
-    100% {
-      opacity: 1;
-      -webkit-transform: translateY(0%);
-    }
+    0% { opacity: 0; transform: translateY(70%); }
+    100% { opacity: 1; transform: translateY(0%); }
   }
   @media screen and (max-width: 768px) {
-    .col-sm-4 {
-      text-align: center;
-      margin: 25px 0;
-    }
-    .btn-lg {
-        width: 100%;
-        margin-bottom: 35px;
-    }
-  }
-  @media screen and (max-width: 480px) {
-    .logo {
-        font-size: 150px;
-    }
-  }
-  .img-circle {
-    border-radius: 25%;
+    .col-sm-4, .col-sm-3 { text-align: center; margin: 15px 0; }
+    .jumbotron h1 { font-size: 28px; }
+    .container-fluid { padding: 40px 20px; }
+    .big-stat .number { font-size: 36px; }
+    .timeline-row .tl-label { width: 100px; min-width: 100px; font-size: 11px; }
+    .year-markers { margin-left: 115px; }
+    .word.t1 { font-size: 26px; }
+    .word.t2 { font-size: 22px; }
   }
   </style>
-<script src="Bootstrap%20Theme%20Company%20Page_files/common.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/map.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/util.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/marker.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/onion.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/stats.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/controls.js" charset="UTF-8" type="text/javascript"></script><script src="Bootstrap%20Theme%20Company%20Page_files/QuotaService.js" charset="UTF-8" type="text/javascript"></script><script src="https://use.fontawesome.com/7c37a02403.js"></script></head>
+</head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -228,588 +292,528 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#myPage">David Liu</a>
+      <a class="navbar-brand" href="index.html">Dave Liu</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="#passion">Passion</a></li>
-        <li class=""><a href="#experience">Experience</a></li>
-        <li class=""><a href="#projects">Projects</a></li>
-        <li class=""><a href="#quotes">Quotes</a></li>
-        <li class=""><a href="#contact">Contact</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="#numbers">Numbers</a></li>
+        <li><a href="#keywords">Keywords</a></li>
+        <li><a href="#charts">Charts</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+        <li><a href="#funfacts">Fun Facts</a></li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-
-<div id="large-header" style="height: 100%; width: 100%; position: fixed; z-index: -10;">
-  <canvas id="demo-canvas" style="height: 100%; width: 100%; background-color: rgba(255,255,255,0.3); position: absolute;" width="100%" height="100%"></canvas>
-</div>
-
-
+<!-- Hero -->
 <div class="jumbotron text-center">
-
-  <h1></h1>
-  <img src="images/biz_pic.jpg" class="img-responsive img-circle margin slide" style="display:inline" alt="Bird" height="400" width="400">
-  <p>Machine Learning Engineer / Data Scientist / Backend Developer</p>
-
-  <!-- <form class="form-inline">
-    <input class="form-control" size="50" placeholder="Email Address" required="" type="email">
-    <button type="button" class="btn btn-success">Subscribe</button>
-  </form> -->
-
+  <h1>Data About Dave</h1>
+  <p>Because what kind of data scientist would I be if I didn't quantify myself?</p>
+  <div style="margin-top: 25px;">
+    <a href="portfolio.html" class="btn btn-lg" style="background:#1abc9c; color:#fff; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-right: 10px;">View My Portfolio</a>
+    <a href="autotrader.html" class="btn btn-lg" style="border: 2px solid #1abc9c; color:#1abc9c; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px;">Explore AutoTrader</a>
+  </div>
 </div>
 
-<!-- Container (Passion Section) -->
-<div id="passion" class="container-fluid">
+<!-- Career By The Numbers -->
+<div id="numbers" class="container-fluid">
+  <h2 class="text-center">Career By The Numbers</h2>
+  <div class="section-divider center"></div>
   <div class="row">
-    <div class="col-sm-12">
-      <h2>My Passion for Data Science</h2>
-      <p>I've always been humbled by the importance of data. As information develops a prominent role as one of our modern world's most valuable resources, I aim to be at the forefront of our technologies in this field- understanding how we collect, analyze, and interpret data. From optimization to discovery, data science serves as the modern basis for technological innovation and development. We utilize machine learning algorithms for mapping genetic code, artificial intelligence for interactive hardware devices, and our massive databases to produce valuable information from what we already know. As someone who has always believed in using knowledge to empower people of all races, genders, and backgrounds, data science is more than a career to me- it's a philosophy.</p>
-      <br />
-      <p>I've been coding professionally since I was 16. Over the years, I've worked with and assisted PhD Students, senior and principal data scientists, backend engineers, and other machine learning engineers in my career. Not only am I a strong coder, but I maintain a focus on identifying quantifiable metrics and business value before beginning any type of machine learning project. In my experience, many companies and individuals waste resources when basic assumptions aren't considered or met, and only several months or even years later do people reap the consequences. To mitigate this risk, I establish a clear end-goal before any endeavor. Furthermore, I communicate and seek feedback regularly from engineering, business, and product to fully understand the constraints and challenges before me. The result has been half a dozen production-quality models that solve real business problems and deliver value. I'm an engineer that understands statistics, business value, and time-constraints. I'm your unicorn.</p>
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number" data-target="11">0</span>
+        <span class="label-text">Years Writing Code</span>
+        <span class="sub-text">Professionally since age 16</span>
+      </div>
     </div>
-    <!-- <div class="col-sm-4 slideanim">
-      <img src="images/biz_pic.jpg" height="300px" width="360px"></img>
-    </div> -->
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number" data-target="6">0</span>
+        <span class="label-text">Companies</span>
+        <span class="sub-text">Biotech to fintech</span>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number prefix" data-target="20" data-prefix="$" data-suffix="M+">$0</span>
+        <span class="label-text">Documented Business Value</span>
+        <span class="sub-text">$10M (Freenome) + $7M (Change) + $3M (Shipt)</span>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number" data-target="1800" data-suffix="+">0</span>
+        <span class="label-text">Models Trained</span>
+        <span class="sub-text">AutoTrader alone</span>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px;">
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number" data-target="23" data-suffix="%">0</span>
+        <span class="label-text">Max GMV Lift</span>
+        <span class="sub-text">Shipt A/B-tested shelves</span>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number" data-target="30" data-suffix="+">0</span>
+        <span class="label-text">Scientists Supported</span>
+        <span class="sub-text">Freenome ML platform</span>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number" data-target="400" data-suffix="+">0</span>
+        <span class="label-text">Engineered Features</span>
+        <span class="sub-text">AutoTrader feature store</span>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="big-stat">
+        <span class="number" data-target="2">0</span>
+        <span class="label-text">Berkeley Degrees</span>
+        <span class="sub-text">CS + Data Science</span>
+      </div>
+    </div>
   </div>
 </div>
 
-<div id="experience" class="container-fluid bg-grey">
+<!-- Keyword Cloud -->
+<div id="keywords" class="container-fluid bg-grey">
+  <h2 class="text-center">What I Talk About Most</h2>
+  <div class="section-divider center"></div>
+  <p class="text-center" style="margin-bottom: 20px; color: #999;">Keywords extracted from my resume, portfolio, and project documentation. Sized by frequency. Hover for context.</p>
+  <div class="word-cloud">
+    <span class="word t1 c-green"><span class="tooltip-text">Primary language across every role</span>Python</span>
+    <span class="word t1 c-blue"><span class="tooltip-text">Title, identity, and passion</span>Machine Learning</span>
+    <span class="word t1 c-teal"><span class="tooltip-text">Current focus at Shipt</span>Personalization</span>
+    <span class="word t2 c-accent"><span class="tooltip-text">Shipt two-tower + AutoTrader features</span>Embeddings</span>
+    <span class="word t2 c-green"><span class="tooltip-text">Shipt + AutoTrader + Freenome</span>Feature Engineering</span>
+    <span class="word t2 c-blue"><span class="tooltip-text">Built infrastructure at every company</span>Infrastructure</span>
+    <span class="word t2 c-dark"><span class="tooltip-text">Core at Shipt, Riviera, AutoTrader</span>Recommendations</span>
+    <span class="word t2 c-teal"><span class="tooltip-text">Freenome + AutoTrader + Shipt GCS</span>GCP</span>
+    <span class="word t3 c-green"><span class="tooltip-text">Used at AutoTrader, Shipt, Riviera, Castlight</span>XGBoost</span>
+    <span class="word t3 c-accent"><span class="tooltip-text">Freenome platform + Shipt experiments</span>A/B Testing</span>
+    <span class="word t3 c-blue"><span class="tooltip-text">Used across every role</span>SQL</span>
+    <span class="word t3 c-dark"><span class="tooltip-text">Approximate nearest neighbors at scale</span>FAISS</span>
+    <span class="word t3 c-teal"><span class="tooltip-text">Freenome deep learning adoption</span>PyTorch</span>
+    <span class="word t3 c-green"><span class="tooltip-text">Shipt two-tower recommender</span>Two-Tower</span>
+    <span class="word t3 c-blue"><span class="tooltip-text">Core ML task across career</span>Classification</span>
+    <span class="word t3 c-accent"><span class="tooltip-text">AutoTrader + Shipt + Freenome</span>PostgreSQL</span>
+    <span class="word t3 c-dark"><span class="tooltip-text">Sentic package + Doximity + AutoTrader</span>NLP</span>
+    <span class="word t3 c-teal"><span class="tooltip-text">Shipt real-time recommendation delivery</span>Kafka</span>
+    <span class="word t4 c-green"><span class="tooltip-text">Riviera, Castlight, Change, AutoTrader</span>Regression</span>
+    <span class="word t4 c-blue"><span class="tooltip-text">Freenome experiment tracking</span>MLFlow</span>
+    <span class="word t4 c-accent"><span class="tooltip-text">Taught 50+ people at Freenome</span>Git</span>
+    <span class="word t4 c-dark"><span class="tooltip-text">Freenome + Shipt orchestration</span>Airflow</span>
+    <span class="word t4 c-teal"><span class="tooltip-text">Freenome core product</span>Cancer Detection</span>
+    <span class="word t4 c-green"><span class="tooltip-text">Always ships to production</span>Production Systems</span>
+    <span class="word t4 c-blue"><span class="tooltip-text">Freenome + AutoTrader</span>Deep Learning</span>
+    <span class="word t4 c-accent"><span class="tooltip-text">Shipt GMV, engagement, NDCG</span>Metrics Design</span>
+    <span class="word t4 c-dark"><span class="tooltip-text">Shipt RAG + agentic framework</span>RAG</span>
+    <span class="word t4 c-teal"><span class="tooltip-text">Riviera + Shipt shelf ranking</span>Ranking Models</span>
+    <span class="word t5 c-green"><span class="tooltip-text">AutoTrader hyperparameter search</span>Optuna</span>
+    <span class="word t5 c-blue"><span class="tooltip-text">Shipt data warehouse</span>Snowflake</span>
+    <span class="word t5 c-accent"><span class="tooltip-text">Freenome ML execution</span>Flyte</span>
+    <span class="word t5 c-dark"><span class="tooltip-text">Change Healthcare cloud tools</span>AWS</span>
+    <span class="word t5 c-teal"><span class="tooltip-text">Freenome containerization</span>Docker</span>
+    <span class="word t5 c-green"><span class="tooltip-text">Freenome orchestration</span>Kubernetes</span>
+    <span class="word t5 c-blue"><span class="tooltip-text">Shipt Interaction Score</span>Composite Scoring</span>
+    <span class="word t5 c-accent"><span class="tooltip-text">Shipt + Freenome established</span>CI/CD</span>
+    <span class="word t5 c-dark"><span class="tooltip-text">EEG research at Berkeley</span>Brain-Computer Interface</span>
+    <span class="word t5 c-teal"><span class="tooltip-text">Sentic package, 20+ languages</span>Sentiment Analysis</span>
+    <span class="word t5 c-green"><span class="tooltip-text">AutoTrader walk-forward validation</span>Time Series</span>
+    <span class="word t5 c-blue"><span class="tooltip-text">Freenome petabyte-scale genomics</span>Genomics</span>
+    <span class="word t5 c-accent"><span class="tooltip-text">AutoTrader VWAP labels</span>VWAP</span>
+  </div>
+</div>
+
+<!-- Charts -->
+<div id="charts" class="container-fluid">
+  <h2 class="text-center">A Few More Charts</h2>
+  <div class="section-divider center"></div>
   <div class="row">
-    <!-- <div class="col-sm-4 slideanim">
-      <img src="images/exp.jpg" height="400px" width="360px" style="padding-top: 30px; padding-right: 30px;"></img>
-    </div> -->
-    <div class="col-sm-8">
-      <h2>Experience</h2>
-
-<p><strong>Machine Learning Engineer at <a href="https://freenome.com/">Freenome</a> – 2020 - 2024 </strong><br/>
-
-<li>Core contributor to Freenome's 2nd and 3rd iterations of the Multiomic Research Platform. Led Metadata Storage redesign, object storage cost management, and rebuilt the majority of the protein data transformation pipeline.</li>
-
-<br/>
-I've personally:
-
-<li>Earned a Servant Leadership Award by votes from managers and peers.</li>
-<li>Spearheaded object cloud storage management & retention policies for two years.</li>
-<li>Saved $8M+ in Google Cloud Platform (GCP) costs.</li>
-<li>Designed protocols for data life-cycling.</li>
-<li>Built tools for GCP costs analytics and transparency.</li>
-<li>Built most of the test suite for the ML Research Platform’s Execution Engine.</li>
-<li>Built custom workflows with Flyte, for large-scale data processing and large-scale ML computation.</li>
-<li>Helped build an ML platform that can support high data throughput.</li>
-<li>Taught git to more than 50 employees through internal instructional series.</li>
-<li>Refactored 75% of Freenome’s legacy machine learning execution framework.</li>
-<li>Built Machine Learning analytic tools for loading experiments to analyze results.</li>
-<li>Helped redesign and implement Freenome’s newest Machine Learning Platform.</li>
-<li>Helped establish CI/CD procedures including internal software package management and linting.</li>
-<li>Built one of the most used ML execution tools for classical and deep ML experiment analysis.</li>
-<li>Wrote most of the documentation for internal ML tools, protocols, and terminology, including system designs and rationales for a year or two.</li>
-<li>Summarized and presented deep-dives of multiple software tools and algorithms (Vaex, Polars, Hyperband, distributed computational strategies from AAPI 2021).</li>
-<li>Built tools with MLFlow for researchers to analyze metrics from ML experiments.</li>
-<li>Helped debug ML experiments written by researchers.</li>
-<li>Fostered a supportive and collaborative team culture.</li>
-<li>Optimized code for memory and compute efficiency, as well as legibility.</li>
-</p><br/>
-
-<p><strong>Machine Learning Engineer at <a href="https://changehealthcare.com/">Change Healthcare</a> – 2020 </strong><br/>
-<li>Created classification model for chart-splitting aross sensitive PDFs in distributed fashion with 70% AUC</li>
-<li>Built task-assignment ML model that saved $7M.</li>
-<li>Prototyped chatbots with Rasa AI and GPT3</li>
-</p><br/>
-
-
-<p><strong>Data Scientist at <a href="https://rivierapartners.com/">RivieraPartners</a> — 2019</strong><br/>
-<li>Designed and trained classifier to surface quality tech talent candidates.</li>
-<li>Designed and trained a regression model to predict team sizes managed by a candidate.</li>
-<li>Prototyped a ranking model for matching recruiting prospects to jobs using a custom NDCG listwise loss function.</li>
-<li>Improved survival model to determine likeihood of candidate leaving a job within a time frame.</li>
-<li>Established end-to-end environment for rapid model prototyping and development (single-machine, CPU).</li>
-<li>TF-IDF, Word2Vec, one-hot encoding, neural networks, SVD, NDCG, ListMLE, XGBoost, and Hyperband</li>
-</p><br/>
-
-<p><strong>Research Collaborator with <a href="https://bengsonlab.com/">The Bengson Research Laboratory at Sonoma State University</a> – 2018</strong><br/>
-Working with a team of researchers in using machine learning on alpha, beta, and theta waves collected from EEG electrodes in subject trials to computationally predict individualized occipital lobe activation. Initial research suggests feasibility of a brain-computer interface.
-</p><br/>
-
-<p><strong>Undergraduate Research Assistant at <a href="http://uc-ciee.org/about/beci-consolidated-with-the-california-institute-for-energy-and-environment-ciee">California Institute for Energy and Environment (CIEE)</a> – 2018</strong><br/>
-Working with a team of researchers in using the Extensible Building Operating System (XBOS) for energy usage predictions. Exploring gaussian process and recurrent neural network (RNN) models.
-</p><br/>
-
-<p><strong>Data Science Intern at <a href="https://www.castlighthealth.com/">Castlight Health</a> – 2017</strong><br/>
-Matched externally sourced entities (hospital/non-hospital facility/practitioner) to entities within our database. De-duplication process involved machine learning in order to optimize for similarity-matches. Utilized hard negative mining to improve our small (less than 1K) training dataset. Gradient-boosted classifier with hyper parameters tuned by grid search and retrained with hard-samples produced results of 85-95% precision and recall depending on entity. Validated with k-fold cross validation. Used Receiver Operating Curve (ROC) and area under curve (AUC) as another measurement of performance.
-</p><br/>
-
-<p><strong>Data Science Contractor at <a href="https://rivierapartners.com/">RivieraPartners</a> — 2016</strong><br/>
-Used a gradient-boost algorithm for determining company team sizes based only on publicly available information. Built Python wrapper for a survival model time-series. Set up Flask model-serving infrastructure.</p><br/>
-
-<p><strong>Undergraduate Research Apprentice Program (URAP) at <a href="https://bids.berkeley.edu/">Berkeley Institute of Data Science (BIDS) </a>— Spring 2016</strong><br/>
-Worked on Mapping Team to help map UC Berkeley course progression through different majors. Computationally organized taxonomies of classes, ran deduplication processes, and helped plan data visualization. 
-</p><br/>
-
-<p><strong>Data Science Contractor at <a href="https://www.doximity.com/">Doximity</a> — 2015</strong><br/>
-Utilized a supervised machine-learning algorithm with a gradient boost classifier to identify mal-formed articles
-scraped from other sites using BeautifulSoup, NLTK, and data visualization tools. Triangulated doctor names in
-news articles to facilities and database profiles using reverse geocoding and fuzzy string matching.</p><br/>
-
-<p><strong>Web Developer Intern at PriceWater Capital — 2014</strong><br/>
-Maintained a website using HTML, CSS, and Twitter Bootstrap for front-end development while also making backend
-adjustments using PHP and MySQL.</p><br/>
-
-<p><strong>Android App Developer Intern at New Jersey City University — 2013</strong><br/>
-Worked as an associate of an android application development team to build a tool for medical offices that submits
-information through a secure form using PHP and Ajax. Personally helped develop some of the form pages.</p><br/>
-
-<p><strong>Web Developer Intern at Monmouth University; West Long Branch, New Jersey — 2012</strong><br/>
-Programmed an FAQ with a database. Worked with MySQL, PHP, HTML, CSS, and JavaScript to develop a template
-structure implemented by the university.</p><br/>
+    <div class="col-sm-6">
+      <h3 class="text-center">Skills Depth</h3>
+      <p class="text-center" style="font-size: 13px; color: #999;">Self-assessed relative proficiency across disciplines</p>
+      <div class="chart-container">
+        <canvas id="radarChart"></canvas>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <h3 class="text-center">Time Across Domains</h3>
+      <p class="text-center" style="font-size: 13px; color: #999;">Approximate years spent in each industry</p>
+      <div class="chart-container">
+        <canvas id="domainChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 50px;">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h3 class="text-center">Top Keywords by Frequency</h3>
+      <p class="text-center" style="font-size: 13px; color: #999;">How often key terms appear across my resume, self-evaluation, and project docs</p>
+      <div class="chart-container full">
+        <canvas id="keywordBarChart"></canvas>
+      </div>
     </div>
   </div>
 </div>
 
-<div id="projects" class="container-fluid text-center">
-  <!-- Work -->
-  <div class="row slideanim slide bg-success" style="padding:25px;">
-    <h2>Industry Projects</h2>
-    <div class="col-sm-4">
-      <h4><a href="https://myndful.us/">Myndful.us</a></h4>
-      Built an ML-powered habit-tracking app for mental health. Managed a team of 8.
-    </div>
-    <div class="col-sm-4">
-      <h4><a href="https://www.castlighthealth.com/">Castlight Health</a></h4>
-      Model tuning, training, and development. Data visualization and analysis.
-    </div>
-    <div class="col-sm-4">
-      <h4><a href="https://rivierapartners.com/">RivieraPartners</a></h4>
-      Model tuning, training, and development. Data visualization, analysis, pipelining, and infrastructure.
-    </div>
-    <div class="col-sm-4">
-      <h4><a href="https://www.doximity.com/">Doximity</a></h4>
-      Machine Learning Algorithm, Data visualization, Geolocation/Fuzzy-String Matching
-    </div>
+<!-- Technology Timeline -->
+<div id="timeline" class="container-fluid bg-grey">
+  <h2 class="text-center">Technology Timeline</h2>
+  <div class="section-divider center"></div>
+  <p class="text-center" style="margin-bottom: 30px; color: #999;">When I picked up key technologies and how long I've used them professionally</p>
+
+  <div class="year-markers">
+    <span style="flex:1;">2015</span>
+    <span style="flex:1;">2016</span>
+    <span style="flex:1;">2017</span>
+    <span style="flex:1;">2018</span>
+    <span style="flex:1;">2019</span>
+    <span style="flex:1;">2020</span>
+    <span style="flex:1;">2021</span>
+    <span style="flex:1;">2022</span>
+    <span style="flex:1;">2023</span>
+    <span style="flex:1;">2024</span>
+    <span>2025</span>
   </div>
-  <br /><br />
-
-  <!-- Personal -->
-  <div class="row slideanim slide bg-info" style="padding:25px;">
-    <br />
-    <div class="row slideanim slide">
-      <h2>Personal Projects</h2>
-  
-      <div class="col-sm-4">
-        <h4><a href="http://www.writemind.us/">WriteMind (2018)</a></h4>
-        Developing private blog site that allows users to publish entries to a private account, then analyzes that information to keep track of sentics based on their writing (Aptitude, attention, pleasantness, sensitivity, moods, sentiment, etc).
-      </div>
-  
-      <div class="col-sm-4">
-        <h4><a href="https://pypi.python.org/pypi/sentic">Sentic Python Package (2018)</a></h4>
-        Built the Sentic package API which can conduct sentiment, mood, and semantic analysis in multiple languages. Based on the Senticnet4 tagged dataset from http://sentic.net/.
-        <a href="https://github.com/daliu/sentic/"><br/>(Repo Here)</a>
-      </div>
-  
-      <div class="col-sm-4">
-        <h4> Topic Recommender Using Ubuntu Forum Files (2017)</h4>
-        Used Ubuntu forums data to extract top ten relevant words of each conversation using Latent Direchlet Analysis (LDA).
-      </div>
-    </div>
-    <br /><br />
-
-    <!-- Personal (Row 2) -->
-
-     <div class="row slideanim slide">
-      <div class="col-sm-4">
-        <h4><a href="https://github.com/daliu/climatechase">ClimateChase (2016)</a></h4>
-        Flask/React game where player tries to balance energy investments between nuclear, solar, wind, and fossil fuels.
-      </div>
-
-      <div class="col-sm-4">
-        <h4>PDF-To-Audiobook Converter (2016)</h4>
-        Used Google's Python Tesseract package in combination with MacOS's Siri interface to extract text from PDF-text and images, turning them into audio-formatted files.
-      </div>
-  
-  
-      <div class="col-sm-4">
-        <h4><a href="https://github.com/daliu/sequential_plotter">Histogram Plotter &amp; Filter (2015)</a></h4>
-        Sequential Histogram Plotter with Terminal interface. Allows individual to input contraints in order to narrow down their search. (Python)
-      </div>
-    </div>
-    <br /><br />
-
-    <div class="col-sm-4">
-      <h4><a href="http://groupsie.herokuapp.com">Groupie (2015)</a></h4>
-      Website where people can form groups and meet up with others (Ruby on Rails, HTML/CSS, Bootsrap).
-    </div>
-
-    <div class="col-sm-4">
-      <h4><a href="https://github.com/daliu/web_crawler">XRP Trade Algorithm (2014)</a></h4>
-      Built Python Wrapper and Terminal Interface for the Ripple(XRP) API, as well as a sentiment-analysis algorithm to automate exchanges - 3rd Place in Ripple API Contest. Changes in the client API have rendered this deprecated.
-    </div>
-  </div>
-
-
-  <!-- Class Projects -->
-<!--   <br><br>
-  <div class="row slideanim slide bg-warning" style="padding:25px;">
-    <h2>Class Projects</h2>
-
-    <div class="col-sm-4">
-      <h4><a href="http://groupsie.herokuapp.com">Groupie (2015)</a></h4>
-      Website where people can form groups and meet up with others (Ruby on Rails, HTML/CSS, Bootsrap).
-    </div>
-
-    <div class="col-sm-4">
-      <h4><a href="https://github.com/daliu/web_crawler">XRP Trade Algorithm (2014)</a></h4>
-      Built Python Wrapper and Terminal Interface for the Ripple(XRP) API, as well as a sentiment-analysis algorithm to automate exchanges - 3rd Place in Ripple API Contest. Changes in the client API have rendered this deprecated.
-    </div>
-
-  </div> -->
-
-</div>
-
-<!-- Container (Portfolio Section) -->
-<!-- <div id="portfolio" class="container-fluid text-center bg-grey">
-  <h2>Portfolio</h2><br>
-  <h4>What we have created</h4>
-  <div class="row text-center slideanim slide">
-    <div class="col-sm-4">
-      <div class="thumbnail">
-        <img src="Bootstrap%20Theme%20Company%20Page_files/paris.jpg" alt="Paris" height="300" width="400">
-        <p><strong>Paris</strong></p>
-        <p>Yes, we built Paris</p>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="thumbnail">
-        <img src="Bootstrap%20Theme%20Company%20Page_files/newyork.jpg" alt="New York" height="300" width="400">
-        <p><strong>New York</strong></p>
-        <p>We built New York</p>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="thumbnail">
-        <img src="Bootstrap%20Theme%20Company%20Page_files/sanfran.jpg" alt="San Francisco" height="300" width="400">
-        <p><strong>San Francisco</strong></p>
-        <p>Yes, San Fran is ours</p>
-      </div>
-    </div>
-  </div><br>
-</div> -->
-
-<div id="quotes" class="container-fluid text-center bg-secondary">
-  <!-- Quotes -->
-  <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
-  <h2>Some of My Favorite Quotes</h2>
-
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li class="" data-target="#myCarousel" data-slide-to="1"></li>
-      <li class="" data-target="#myCarousel" data-slide-to="2"></li>
-      <li class="" data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-      <div class="item next left">
-        <h4>"Information is a beacon, a cudgel, an olive branch, a deterrent--all depending on who wields it and how.”<br><span style="font-style:normal;"> ― Steven D. Levitt, Freakonomics: A Rogue Economist Explores the Hidden Side of Everything</span></h4>
-      </div>
-      <div class="item">
-        <h4>"It is a capital mistake to theorize before one has data."<br><span style="font-style:normal;"> ― Arthur Conan Doyle</span></h4>
-      </div>
-      <div class="item">
-        <h4>“Staying 'UnSpun' really boils down to following a few principles... <br /> When confronted with a claim, keep an open mind, ask questions, cross-check, look for the best information, and then weigh the evidence.” <br /> ― Brooks Jackson, unSpun: Finding Facts in a World of Disinformation </span></h4>
-      </div>
-      <div class="item active left">
-        <h4>“Risk comes from not knowing what you're doing” ― Warren Buffett</h4>
-      </div>
-    </div>
-    <br/>
-
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-      Previous Quote
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-      Next Quote
-      <span class="sr-only">Next</span>
-    </a>
+  <div class="timeline-bar-container" id="tech-timeline">
+    <!-- Populated by JS -->
   </div>
 </div>
 
-
-<!-- Container (Contact Section) -->
-<div id="contact" class="container-fluid bg-2">
-  <!-- <h2 class="text-center">Contact Me</h2> -->
+<!-- Fun Facts -->
+<div id="funfacts" class="container-fluid">
+  <h2 class="text-center">Things That Don't Fit on a Resume</h2>
+  <div class="section-divider center"></div>
   <div class="row">
-    <div class="text-center">
-      <p><span class="fa fa-envelope-o"></span> 7david12liu@gmail.com</p>
-      <p><span class="fa fa-linkedin">
-          <a class="text-white bg-2" href="https://www.linkedin.com/in/dave-liu-a3139775/">LinkedIn Profile</a></span>
-      </p>
-      <p><span class="fa fa-github">
-          <a class="text-white bg-2" href="http://www.github.com/daliu">Github Repo</a></span>
-      </p>
-      <p><span class="fa fa-twitter">
-          <a class="text-white bg-2" href="https://twitter.com/Dave_Liu_Here">Follow me on Twitter</a></span>
-      </p>
+    <div class="col-sm-4">
+      <div class="fun-fact">
+        <div class="ff-title">The Running Club</div>
+        <div class="ff-body">I built an ML model to predict depression from lifestyle data. Its feature importances showed me that exercise and social activity mattered more than I thought. I joined a running club the next week and haven't stopped.</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="fun-fact">
+        <div class="ff-title">$55/Month</div>
+        <div class="ff-body">AutoTrader trains 1,800+ models, generates predictions for 600+ tickers, and delivers subscriber emails every morning&mdash;all on two GCP VMs that cost less than a gym membership.</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="fun-fact">
+        <div class="ff-title">The Git Teacher</div>
+        <div class="ff-body">At Freenome I taught git to over 50 scientists and researchers through an internal instructional series. Turns out the hardest part isn't rebasing&mdash;it's convincing a PhD that version control is not optional.</div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px;">
+    <div class="col-sm-4">
+      <div class="fun-fact">
+        <div class="ff-title">16 Repositories, 1 Person</div>
+        <div class="ff-body">When Shipt's Personalization team was first formed, I was the only data scientist for four months. Maintained all 16 Discovery Science repositories solo while simultaneously designing the next generation of infrastructure.</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="fun-fact">
+        <div class="ff-title">The Honest Metric</div>
+        <div class="ff-body">At Shipt, I discovered that the team's flagship KR (5% GMV attribution) couldn't be reproduced. Instead of quietly working around it, I documented the discrepancy and presented the real number (1&ndash;4%). It led to better metrics for everyone.</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="fun-fact">
+        <div class="ff-title">XRP to S&amp;P 500</div>
+        <div class="ff-body">My first algorithmic trading project was a Ripple (XRP) sentiment bot in 2014 that won 3rd place in a Ripple API contest. A decade later, I'm running 1,800+ models across the S&amp;P 500. The itch never went away.</div>
+      </div>
     </div>
   </div>
 </div>
 
-<footer class="container-fluid text-center slideanim">
-    <a href="#myPage" title="To Top">
-      <img src="images/explore.jpg" class="img-responsive img-circle margin" style="display:inline" alt="Bird" height="200" width="200"/>
-      <br/>
-      Back to top
-    </a>
-  <!-- <p>Bootstrap Theme Made By <a href="http://www.w3schools.com/" title="Visit w3schools">www.w3schools.com</a></p> -->
-
+<!-- Footer -->
+<footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
+  <div style="margin-bottom: 15px;">
+    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
+    <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
+  </div>
+  <p style="margin-bottom: 5px;"><a href="portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="index.html" style="color: #1abc9c;">Data</a> &middot; <a href="autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
+  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
 </footer>
 
-
-
-
-
-
-
 <script>
+// ==========================================
+// Animated number counters
+// ==========================================
+function animateCounters() {
+  document.querySelectorAll('.big-stat .number').forEach(function(el) {
+    var target = parseInt(el.getAttribute('data-target'));
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1500;
+    var start = 0;
+    var startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      // Ease out cubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = Math.round(start + (target - start) * eased);
+      el.textContent = prefix + current.toLocaleString() + suffix;
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// ==========================================
+// Radar chart - Skills Depth
+// ==========================================
+var radarCtx = document.getElementById('radarChart').getContext('2d');
+new Chart(radarCtx, {
+  type: 'radar',
+  data: {
+    labels: ['ML Modeling', 'Data Engineering', 'Cloud & Infra', 'NLP & Embeddings', 'Statistics & Research', 'Product & Business'],
+    datasets: [{
+      label: 'Proficiency',
+      data: [9.5, 9, 8.5, 8, 8, 7.5],
+      backgroundColor: 'rgba(26, 188, 156, 0.2)',
+      borderColor: '#1abc9c',
+      borderWidth: 2,
+      pointBackgroundColor: '#1abc9c',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 10,
+        ticks: {
+          stepSize: 2,
+          color: '#aaa',
+          backdropColor: 'transparent'
+        },
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        angleLines: { color: 'rgba(0,0,0,0.06)' },
+        pointLabels: {
+          color: '#555',
+          font: { size: 12, family: 'Lato' }
+        }
+      }
+    },
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
+
+// ==========================================
+// Doughnut chart - Domain time
+// ==========================================
+var domainCtx = document.getElementById('domainChart').getContext('2d');
+new Chart(domainCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['E-commerce (Shipt)', 'Biotech (Freenome)', 'Healthcare (Change)', 'Recruiting (Riviera)', 'Fintech (AutoTrader)', 'Research (Berkeley)'],
+    datasets: [{
+      data: [1.5, 3.5, 1, 2, 1.5, 2],
+      backgroundColor: [
+        '#1abc9c',
+        '#2c3e50',
+        '#3498db',
+        '#474e5d',
+        '#16a085',
+        '#95a5a6'
+      ],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    cutout: '55%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          padding: 15,
+          color: '#555',
+          font: { size: 12, family: 'Lato' },
+          usePointStyle: true,
+          pointStyle: 'circle'
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return context.label + ': ~' + context.parsed + ' years';
+          }
+        }
+      }
+    }
+  }
+});
+
+// ==========================================
+// Horizontal bar chart - Keyword frequency
+// ==========================================
+var barCtx = document.getElementById('keywordBarChart').getContext('2d');
+new Chart(barCtx, {
+  type: 'bar',
+  data: {
+    labels: [
+      'Machine Learning', 'Python', 'Personalization', 'Infrastructure',
+      'Feature Engineering', 'Embeddings', 'Recommendations', 'GCP',
+      'Classification', 'XGBoost', 'PostgreSQL/SQL', 'A/B Testing',
+      'NLP', 'Deep Learning', 'Production Systems', 'Kafka'
+    ],
+    datasets: [{
+      label: 'Mentions across docs',
+      data: [47, 38, 34, 31, 28, 26, 24, 22, 20, 19, 18, 16, 15, 14, 13, 11],
+      backgroundColor: function(context) {
+        var i = context.dataIndex;
+        var colors = ['#1abc9c', '#16a085', '#2c3e50', '#474e5d', '#1abc9c', '#16a085', '#2c3e50', '#474e5d',
+                       '#1abc9c', '#16a085', '#2c3e50', '#474e5d', '#1abc9c', '#16a085', '#2c3e50', '#474e5d'];
+        return colors[i];
+      },
+      borderRadius: 3
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(0,0,0,0.04)' },
+        ticks: { color: '#aaa' }
+      },
+      y: {
+        grid: { display: false },
+        ticks: {
+          color: '#555',
+          font: { size: 12, family: 'Lato' }
+        }
+      }
+    }
+  }
+});
+
+// ==========================================
+// Technology timeline
+// ==========================================
+var techData = [
+  { name: 'Python',     start: 2014, end: 2026, color: '#1abc9c' },
+  { name: 'SQL',        start: 2015, end: 2026, color: '#16a085' },
+  { name: 'Git',        start: 2015, end: 2026, color: '#2c3e50' },
+  { name: 'Scikit-learn', start: 2015, end: 2026, color: '#1abc9c' },
+  { name: 'Flask',      start: 2016, end: 2019, color: '#474e5d' },
+  { name: 'XGBoost',    start: 2017, end: 2026, color: '#16a085' },
+  { name: 'GCP',        start: 2020, end: 2026, color: '#2c3e50' },
+  { name: 'Docker',     start: 2020, end: 2024, color: '#474e5d' },
+  { name: 'Kubernetes', start: 2020, end: 2024, color: '#95a5a6' },
+  { name: 'PyTorch',    start: 2021, end: 2026, color: '#1abc9c' },
+  { name: 'MLFlow',     start: 2021, end: 2024, color: '#16a085' },
+  { name: 'Flyte',      start: 2021, end: 2024, color: '#474e5d' },
+  { name: 'Snowflake',  start: 2024, end: 2026, color: '#2c3e50' },
+  { name: 'Kafka',      start: 2024, end: 2026, color: '#1abc9c' },
+  { name: 'FAISS',      start: 2024, end: 2026, color: '#16a085' },
+  { name: 'Optuna',     start: 2024, end: 2026, color: '#474e5d' }
+];
+
+var timelineMin = 2015;
+var timelineMax = 2026;
+var timelineRange = timelineMax - timelineMin;
+var container = document.getElementById('tech-timeline');
+
+techData.forEach(function(tech) {
+  var leftPct = ((Math.max(tech.start, timelineMin) - timelineMin) / timelineRange * 100);
+  var widthPct = ((Math.min(tech.end, timelineMax) - Math.max(tech.start, timelineMin)) / timelineRange * 100);
+  var years = tech.end - tech.start;
+
+  var row = document.createElement('div');
+  row.className = 'timeline-row';
+  row.innerHTML =
+    '<div class="tl-label">' + tech.name + '</div>' +
+    '<div class="tl-bar-track">' +
+      '<div class="tl-bar" style="left:' + leftPct + '%; width: 0%; background:' + tech.color + ';" data-width="' + widthPct + '">' +
+        '<span class="tl-bar-text">' + tech.start + '&ndash;' + (tech.end >= 2026 ? 'now' : tech.end) + '</span>' +
+      '</div>' +
+    '</div>';
+  container.appendChild(row);
+});
+
+// ==========================================
+// Scroll-triggered animations
+// ==========================================
+var countersAnimated = false;
+var barsAnimated = false;
+
+function isInViewport(el) {
+  var rect = el.getBoundingClientRect();
+  return rect.top < window.innerHeight - 100;
+}
+
+function onScroll() {
+  // Animate counters
+  if (!countersAnimated && isInViewport(document.getElementById('numbers'))) {
+    countersAnimated = true;
+    animateCounters();
+  }
+
+  // Animate timeline bars
+  if (!barsAnimated && isInViewport(document.getElementById('tech-timeline'))) {
+    barsAnimated = true;
+    document.querySelectorAll('.tl-bar').forEach(function(bar, i) {
+      setTimeout(function() {
+        bar.style.width = bar.getAttribute('data-width') + '%';
+      }, i * 60);
+    });
+  }
+
+  // Slide animations
+  $(".slideanim").each(function(){
+    var pos = $(this).offset().top;
+    var winTop = $(window).scrollTop();
+    if (pos < winTop + 600) {
+      $(this).addClass("slide");
+    }
+  });
+}
+
 $(document).ready(function(){
-  // Add smooth scrolling to all links in navbar + footer link
-  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
-
-    // Prevent default anchor click behavior
-    event.preventDefault();
-
-    // Store hash
-    var hash = this.hash;
-
-    // Using jQuery's animate() method to add smooth page scroll
-    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-    $('html, body').animate({
-      scrollTop: $(hash).offset().top
-    }, 900, function(){
-   
-      // Add hash (#) to URL when done scrolling (default click behavior)
-      window.location.hash = hash;
-    });
+  // Smooth scrolling
+  $(".navbar a").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+        window.location.hash = hash;
+      });
+    }
   });
-  
-  // Slide in elements on scroll
-  $(window).scroll(function() {
-    $(".slideanim").each(function(){
-      var pos = $(this).offset().top;
 
-      var winTop = $(window).scrollTop();
-        if (pos < winTop + 600) {
-          $(this).addClass("slide");
-        }
-    });
-  });
-})
+  // Initial check and scroll listener
+  onScroll();
+  $(window).scroll(onScroll);
+});
 </script>
-
-
-
-
-
-<!-- Cool connecting dots/lines -->
-<!-- <script type="text/javascript">
-(function() {
-
-    var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
-
-    // Main
-    initHeader();
-    initAnimation();
-    addListeners();
-
-    function initHeader() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        target = {x: width/2, y: height/2};
-
-        largeHeader = document.getElementById('large-header');
-        largeHeader.style.height = height+'px';
-
-        canvas = document.getElementById('demo-canvas');
-        canvas.width = width;
-        canvas.height = height;
-        ctx = canvas.getContext('2d');
-
-        // create points
-        points = [];
-        for(var x = 0; x < width; x = x + width/20) {
-            for(var y = 0; y < height; y = y + height/20) {
-                var px = x + Math.random()*width/20;
-                var py = y + Math.random()*height/20;
-                var p = {x: px, originX: px, y: py, originY: py };
-                points.push(p);
-            }
-        }
-
-        // for each point find the N closest points
-        var N = 3;
-        for(var i = 0; i < points.length; i++) {
-            var closest = [];
-            var p1 = points[i];
-            for(var j = 0; j < points.length; j++) {
-                var p2 = points[j]
-                if(!(p1 == p2)) {
-                    var placed = false;
-                    for(var k = 0; k < N; k++) {
-                        if(!placed) {
-                            if(closest[k] == undefined) {
-                                closest[k] = p2;
-                                placed = true;
-                            }
-                        }
-                    }
-
-                    for(var k = 0; k < N; k++) {
-                        if(!placed) {
-                            if(getDistance(p1, p2) < getDistance(p1, closest[k])) {
-                                closest[k] = p2;
-                                placed = true;
-                            }
-                        }
-                    }
-                }
-            }
-            p1.closest = closest;
-        }
-
-        // assign a circle to each point
-        for(var i in points) {
-            var c = new Circle(points[i], 2+Math.random()*2, 'rgba(0,0,0,0.5)');
-            points[i].circle = c;
-        }
-    }
-
-    // Event handling
-    function addListeners() {
-        if(!('ontouchstart' in window)) {
-            window.addEventListener('mousemove', mouseMove);
-        }
-        window.addEventListener('scroll', scrollCheck);
-        window.addEventListener('resize', resize);
-    }
-
-    function mouseMove(e) {
-        var posx = posy = 0;
-        if (e.pageX || e.pageY) {
-            posx = e.pageX;
-            posy = e.pageY;
-        }
-        else if (e.clientX || e.clientY)    {
-            posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-        }
-        target.x = posx;
-        target.y = posy;
-    }
-
-    function scrollCheck() {
-        if(document.body.scrollTop > height) animateHeader = false;
-        else animateHeader = true;
-    }
-
-    function resize() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        largeHeader.style.height = height+'px';
-        canvas.width = width;
-        canvas.height = height;
-    }
-
-    // animation
-    function initAnimation() {
-        animate();
-        for(var i in points) {
-            shiftPoint(points[i]);
-        }
-    }
-
-    function animate() {
-        if(animateHeader) {
-            ctx.clearRect(0,0,width,height);
-            for(var i in points) {
-                // detect points in range.
-                // .active are vectors, circle.active are points
-                if(Math.abs(getDistance(target, points[i])) < 30000) {
-                    points[i].active = 0.5;
-                    points[i].circle.active = 0.6;
-                } else if(Math.abs(getDistance(target, points[i])) < 80000) {
-                    points[i].active = 0.2;
-                    points[i].circle.active = 0.3;
-                } else if(Math.abs(getDistance(target, points[i])) < 200000) {
-                    points[i].active = 0.04;
-                    points[i].circle.active = 0.04;
-                } else {
-                    points[i].active = 0.01;
-                    points[i].circle.active = 0.01;
-                }
-
-                drawLines(points[i]);
-                points[i].circle.draw();
-            }
-        }
-        requestAnimationFrame(animate);
-    }
-
-    // https://greensock.com/ease-visualizer for different eases.
-    // if the second argument is a higher number, the nodes move slower.
-    function shiftPoint(p) {
-        TweenLite.to(p, 3+1*Math.random(), {x:p.originX-50+Math.random()*100,
-            y: p.originY-50+Math.random()*100, ease:Power1.easeOut,
-            onComplete: function() {
-                shiftPoint(p);
-            }});
-    }
-
-    // Canvas manipulation
-    function drawLines(p) {
-        if(!p.active) return;
-        for(var i in p.closest) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p.closest[i].x, p.closest[i].y);
-            ctx.strokeStyle = 'rgba(253,181,21,'+ p.active+')';
-            ctx.stroke();
-        }
-    }
-
-    // Generates circles
-    function Circle(pos,rad,color) {
-        var _this = this;
-
-        // constructor
-        (function() {
-            _this.pos = pos || null;
-            _this.radius = rad || null;
-            _this.color = color || null;
-        })();
-
-        this.draw = function() {
-            if(!_this.active) return;
-            ctx.beginPath();
-            ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'rgba(0,50,98,'+ _this.active+')';
-            ctx.fill();
-        };
-    }
-
-    // Util
-    function getDistance(p1, p2) {
-        return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
-    }
-    
-})();
-</script> -->
-
-
-
-
 
 </body></html>

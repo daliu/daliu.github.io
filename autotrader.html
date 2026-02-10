@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>AutoTrader - Dave Liu</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AutoTrader - A fully autonomous stock prediction system running 1,800+ daily models across the S&amp;P 500. Built by Dave Liu.">
+  <meta property="og:title" content="AutoTrader - Dave Liu">
+  <meta property="og:description" content="A fully autonomous stock prediction system running 1,800+ daily models across the S&amp;P 500, built from scratch on two VMs.">
+  <meta property="og:image" content="images/biz_pic.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+  <link href="Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
+  <link href="Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
+  <script src="Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+  <script src="Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+  <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+  <style>
+  body {
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #818181;
+  }
+  p { font-size: 16px; }
+  .margin { margin-bottom: 45px; }
+  .bg-1 { background-color: #1abc9c; color: #ffffff; }
+  .bg-2 { background-color: #474e5d; color: #ffffff; }
+  .bg-3 { background-color: #ffffff; color: #555555; }
+  .bg-4 { background-color: #2f2f2f; color: #fff; }
+  h2 {
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 30px;
+  }
+  h3 {
+      font-size: 20px;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 15px;
+  }
+  h4 {
+      font-size: 19px;
+      line-height: 1.375em;
+      color: #303030;
+      font-weight: 400;
+      margin-bottom: 15px;
+  }
+  .jumbotron {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 60px 25px;
+      font-family: Montserrat, sans-serif;
+  }
+  .jumbotron h1 { font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+  .jumbotron p { font-size: 18px; color: #bdc3c7; }
+  .container-fluid { padding: 60px 50px; }
+  .bg-grey { background-color: #f6f6f6; }
+  .navbar {
+      margin-bottom: 0;
+      background-color: #2f2f2f;
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand { color: #fff !important; }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #1abc9c !important;
+      background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle { border-color: transparent; color: #fff !important; }
+
+  /* AutoTrader-specific styles */
+  .stat-card {
+      background: #fff;
+      border-left: 4px solid #1abc9c;
+      padding: 20px 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .stat-card .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1abc9c;
+      display: block;
+      line-height: 1.2;
+  }
+  .stat-card .stat-label {
+      font-size: 14px;
+      color: #818181;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+  }
+  .pipeline-section {
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
+  }
+  .pipeline-header {
+      background-color: #474e5d;
+      color: #fff;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-family: Montserrat, sans-serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+  }
+  .pipeline-header:hover { background-color: #3a4049; }
+  .pipeline-header .caret-icon { float: right; transition: transform 0.3s; }
+  .pipeline-header.collapsed .caret-icon { transform: rotate(-90deg); }
+  .pipeline-body { padding: 20px 25px; background: #fff; }
+  .pipeline-body ul { padding-left: 20px; }
+  .pipeline-body li { margin-bottom: 8px; color: #555; }
+  .tech-badge {
+      display: inline-block;
+      background: #474e5d;
+      color: #fff;
+      padding: 6px 14px;
+      margin: 4px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: Montserrat, sans-serif;
+      letter-spacing: 1px;
+  }
+  .tech-badge.green { background: #1abc9c; }
+  .tier-table { width: 100%; border-collapse: collapse; }
+  .tier-table th {
+      background: #474e5d;
+      color: #fff;
+      padding: 12px 15px;
+      text-align: center;
+      font-family: Montserrat, sans-serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+  }
+  .tier-table td {
+      padding: 10px 15px;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: center;
+      color: #555;
+  }
+  .tier-table tr:nth-child(even) { background: #f9f9f9; }
+  .tier-table .tier-name { font-weight: 600; color: #303030; }
+  .timeline-item {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 30px;
+      border-left: 3px solid #1abc9c;
+  }
+  .timeline-item .timeline-time {
+      font-size: 12px;
+      color: #1abc9c;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: Montserrat, sans-serif;
+      margin-bottom: 5px;
+  }
+  .timeline-item .timeline-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #303030;
+      margin-bottom: 5px;
+  }
+  .timeline-item .timeline-desc { color: #818181; font-size: 14px; }
+  .arch-box {
+      background: #fff;
+      border: 2px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 15px;
+      min-height: 160px;
+  }
+  .arch-box h4 { color: #303030; margin-bottom: 10px; }
+  .arch-box p { font-size: 13px; color: #818181; margin-bottom: 0; }
+  .arch-box.primary { border-color: #1abc9c; }
+  .arch-box.primary h4 { color: #1abc9c; }
+  .section-divider {
+      width: 60px;
+      height: 3px;
+      background: #1abc9c;
+      margin: 0 0 30px 0;
+  }
+  .section-divider.center { margin: 0 auto 30px auto; }
+  code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 13px;
+      color: #c0392b;
+  }
+  .feature-grid { margin-top: 15px; }
+  .feature-item {
+      background: #f9f9f9;
+      border-left: 3px solid #1abc9c;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+  }
+  .feature-item strong { color: #303030; }
+  .feature-item span { color: #1abc9c; font-weight: 600; }
+  .callout {
+      background: #f9f9f9;
+      border-left: 4px solid #1abc9c;
+      padding: 20px 25px;
+      margin: 20px 0;
+      font-style: italic;
+      color: #555;
+  }
+
+  .slideanim { visibility: hidden; }
+  .slide {
+      animation-name: slide;
+      -webkit-animation-name: slide;
+      animation-duration: 1s;
+      -webkit-animation-duration: 1s;
+      visibility: visible;
+  }
+  @keyframes slide {
+    0% { opacity: 0; transform: translateY(70%); }
+    100% { opacity: 1; transform: translateY(0%); }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 { text-align: center; margin: 25px 0; }
+    .jumbotron h1 { font-size: 28px; }
+    .container-fluid { padding: 40px 20px; }
+    .stat-card .stat-number { font-size: 24px; }
+  }
+  </style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="index.html">Data</a></li>
+        <li><a href="#story">The Story</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#pipelines">Pipelines</a></li>
+        <li><a href="#decisions">Design</a></li>
+        <li><a href="#tech">Tech Stack</a></li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="jumbotron text-center">
+  <h1>AutoTrader</h1>
+  <p>An ML-Powered Stock Prediction &amp; Trading System</p>
+  <p style="font-size: 14px; color: #95a5a6; margin-top: 15px;">
+    Personal Project &middot; 2024&ndash;Present &middot; Live in Production
+  </p>
+</div>
+
+<!-- The Story -->
+<div id="story" class="container-fluid">
+  <h2>The Story</h2>
+  <div class="section-divider"></div>
+  <div class="row">
+    <div class="col-sm-8">
+      <p>AutoTrader started the way a lot of side projects do: with a question I couldn't let go of. I'd been working with recommendation systems at my day job, and it struck me that the core problem&mdash;predicting what a person will want next based on noisy, incomplete signals&mdash;isn't that different from predicting where a stock will move next based on noisy, incomplete market data.</p>
+      <p>So I started small. A few tickers, a basic feature set, a model that ran on my M3 laptop. But as I dug in, the scope grew naturally. A single ticker needed multi-timeframe analysis. Multi-timeframe analysis needed richer features. Richer features needed a real data pipeline. A real data pipeline needed cloud infrastructure. And before long, I was building a system that ingests data for 600+ tickers every night, engineers 400+ features from eight distinct sources, trains over 1,800 models, and delivers ranked predictions to subscribers before the opening bell.</p>
+      <p>Every component was designed and built by me from scratch. It runs autonomously on Google Cloud for about $55 a month, and it's become the most technically satisfying project I've worked on&mdash;a place where I get to combine ML modeling, data engineering, infrastructure design, and product thinking all in one system.</p>
+    </div>
+    <div class="col-sm-4">
+      <div class="stat-card">
+        <span class="stat-number">1,800+</span>
+        <span class="stat-label">Trained Models</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">400+</span>
+        <span class="stat-label">Engineered Features</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">600+</span>
+        <span class="stat-label">Tickers Covered</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">~$55/mo</span>
+        <span class="stat-label">Total Infrastructure Cost</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Architecture -->
+<div id="architecture" class="container-fluid bg-grey">
+  <h2>System Architecture</h2>
+  <div class="section-divider"></div>
+
+  <p>The system is split across two GCP virtual machines, coordinated through Google Cloud Storage and PostgreSQL. The separation isn't arbitrary: feature engineering is I/O-bound (lots of API calls and database writes), while model training is CPU-bound (lots of number crunching). Putting them on different VMs means I can right-size each machine's resources without overpaying for either workload.</p>
+
+  <p>Everything is orchestrated by cron jobs that hand off data downstream in sequence. There are no manual steps in the daily workflow&mdash;from raw market data to delivered email predictions, the system runs end-to-end without intervention.</p>
+
+  <!-- Nightly Timeline -->
+  <h3 style="margin-top: 30px;">Daily Workflow (EST)</h3>
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-sm-12">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div class="timeline-item" style="flex: 1; min-width: 150px;">
+          <div class="timeline-time">12:10 AM</div>
+          <div class="timeline-title">Data Collection</div>
+          <div class="timeline-desc">VM2 pulls OHLCV data from 600+ tickers via the EODHD API, computes 400+ features per ticker, and writes everything to PostgreSQL and GCS. Takes about 45&ndash;60 minutes.</div>
+        </div>
+        <div class="timeline-item" style="flex: 1; min-width: 150px;">
+          <div class="timeline-time">3:00 AM (Sat)</div>
+          <div class="timeline-title">Comprehensive Training</div>
+          <div class="timeline-desc">VM3 retrains all ~1,800 models with Optuna hyperparameter optimization and walk-forward validation. Incremental training (100&ndash;200 models) runs on weekdays.</div>
+        </div>
+        <div class="timeline-item" style="flex: 1; min-width: 150px;">
+          <div class="timeline-time">5:00 AM</div>
+          <div class="timeline-title">Inference</div>
+          <div class="timeline-desc">VM3 loads every active model and generates predictions for the upcoming trading day. Each prediction combines a directional call with a magnitude estimate and a confidence score.</div>
+        </div>
+        <div class="timeline-item" style="flex: 1; min-width: 150px;">
+          <div class="timeline-time">5:30 AM</div>
+          <div class="timeline-title">Email Delivery</div>
+          <div class="timeline-desc">Tiered emails go out to subscribers with ranked predictions, market sentiment context, and analysis reports&mdash;all before the 9:30 AM open.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VM Architecture -->
+  <h3 style="margin-top: 40px;">Infrastructure</h3>
+  <div class="row" style="margin-top: 15px;">
+    <div class="col-sm-4">
+      <div class="arch-box primary">
+        <h4>VM2: Feature Engineering</h4>
+        <p>2 vCPU, 8 GB RAM &middot; $15/mo</p>
+        <hr style="margin: 10px 0;">
+        <p>EODHD API data collection<br>
+        Feature computation (400+)<br>
+        VWAP label generation<br>
+        Auxiliary data (PCR, VIX, sentiment)</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="arch-box">
+        <h4>GCS + PostgreSQL</h4>
+        <p>Shared data layer &middot; $0.30/mo</p>
+        <hr style="margin: 10px 0;">
+        <p>Raw OHLCV data &amp; feature store<br>
+        Trained model artifacts<br>
+        Model registry &amp; predictions<br>
+        Subscriber management</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="arch-box primary">
+        <h4>VM3: Training &amp; Inference</h4>
+        <p>4 vCPU, 16 GB RAM &middot; $40/mo</p>
+        <hr style="margin: 10px 0;">
+        <p>Dual model training (XGBoost)<br>
+        Optuna hyperparameter search<br>
+        Daily prediction generation<br>
+        Tiered email delivery</p>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px;">
+    <div class="col-sm-12 text-center">
+      <p style="color: #818181; font-size: 14px;">
+        <strong>Data flow:</strong> EODHD API &rarr; VM2 (collect &amp; engineer) &rarr; GCS / PostgreSQL (store) &rarr; VM3 (train &amp; predict) &rarr; Subscribers (email)
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Pipelines -->
+<div id="pipelines" class="container-fluid">
+  <h2>Pipeline Details</h2>
+  <div class="section-divider"></div>
+  <p style="margin-bottom: 25px;">Click any section below to expand or collapse it.</p>
+
+  <!-- Data Collection Pipeline -->
+  <div class="pipeline-section">
+    <div class="pipeline-header" data-toggle="collapse" data-target="#pipeline-data">
+      Data Collection &amp; Feature Engineering
+      <span class="caret-icon">&#9660;</span>
+    </div>
+    <div id="pipeline-data" class="collapse in pipeline-body">
+      <p>This is where the raw ingredients come from. Every night, the pipeline pulls fresh market data from the EODHD API for all S&amp;P 500 constituents plus 184 ETFs, then transforms that data into a rich set of 400+ engineered features. The features come from eight distinct sources, each capturing a different dimension of market behavior.</p>
+      <div class="row">
+        <div class="col-sm-6">
+          <h4>How It Works</h4>
+          <ul>
+            <li>Check daily API usage against the 100K call limit (and queue any overage for backfill)</li>
+            <li>Prioritize high-signal tickers (SPY, QQQ, AAPL processed first)</li>
+            <li>Fetch OHLCV data across three timeframes (daily, weekly, monthly)</li>
+            <li>Store raw data to both PostgreSQL and GCS for redundancy</li>
+            <li>Run the <code>HybridFeatureComputationPipeline</code> to compute 400+ features per ticker</li>
+            <li>Collect auxiliary signals: CBOE Put/Call ratio, CNN Fear &amp; Greed Index, ApeWisdom social sentiment, Forex Factory economic calendar</li>
+            <li>Compute VWAP-based labels that serve as training targets for downstream models</li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <h4>Feature Sources (8 Families)</h4>
+          <div class="feature-grid">
+            <div class="feature-item"><strong>TA-Lib Technical Indicators</strong> &mdash; <span>~200</span><br>Trend (EMA, MACD, ADX), momentum (RSI, Stochastic), volatility (ATR, Bollinger), volume (OBV, CMF), plus 61 candlestick patterns</div>
+            <div class="feature-item"><strong>EODHD Fundamentals</strong> &mdash; <span>~100</span><br>Valuation ratios (P/E, P/B, P/S), dividend yield, EPS estimates, and news sentiment polarity scores</div>
+            <div class="feature-item"><strong>Cross-Industry Signals</strong> &mdash; <span>~100</span><br>Sector rotation strength, defensive vs. cyclical momentum, market breadth, and capitulation detection</div>
+            <div class="feature-item"><strong>Kinematics</strong> &mdash; <span>~80</span><br>Derivatives of price movement: velocity, acceleration, jerk, turning point patterns, and momentum extremes</div>
+            <div class="feature-item"><strong>All-Time-High Analysis</strong> &mdash; <span>~45</span><br>Days since ATH, drought severity and frequency, statistical significance of proximity to highs</div>
+            <div class="feature-item"><strong>Enhanced VWAP</strong> &mdash; <span>~38</span><br>Calendar and event flags (FOMC meetings, earnings dates, options expiration), institutional activity signals</div>
+            <div class="feature-item"><strong>Auxiliary &amp; Sentiment</strong> &mdash; <span>~30</span><br>Economic calendar events, Fear &amp; Greed index, Reddit trending stocks (ApeWisdom), CBOE Put/Call ratios</div>
+            <div class="feature-item"><strong>Intraday</strong> &mdash; <span>~20</span><br>5-minute VWAP, intraday momentum profiles, hour-of-day effects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Training Pipeline -->
+  <div class="pipeline-section">
+    <div class="pipeline-header" data-toggle="collapse" data-target="#pipeline-train">
+      Model Training
+      <span class="caret-icon">&#9660;</span>
+    </div>
+    <div id="pipeline-train" class="collapse in pipeline-body">
+      <p>The core insight behind the training architecture is that direction and magnitude are fundamentally different prediction tasks and benefit from being modeled separately. Every ticker/timeframe combination gets two XGBoost models: a classifier that predicts whether the stock goes up or down, and a regressor that predicts by how much.</p>
+      <div class="row">
+        <div class="col-sm-6">
+          <h4>Dual Model Architecture</h4>
+          <p>Training two models per ticker lets each be optimized for what it's best at:</p>
+          <ul>
+            <li><strong>Classifier (XGBClassifier):</strong> Predicts direction (bullish or bearish). Optimized on AUC. Trained on <em>filtered</em> data with low-movement noise days removed (bottom 20% by absolute VWAP move), so it focuses on days when the market is actually making a call.</li>
+            <li><strong>Regressor (XGBRegressor):</strong> Predicts magnitude (% expected move). Optimized on directional accuracy. Trained on the <em>full</em> dataset to capture the complete range of outcomes, including quiet days.</li>
+          </ul>
+          <p>At inference time, the two predictions are combined:<br>
+          <code>signal = (direction * 2 - 1) * magnitude</code><br>
+          <code>confidence = probability * (1 + magnitude)</code></p>
+          <p>This produces a single confidence-ranked score that captures both conviction and expected size of the move.</p>
+        </div>
+        <div class="col-sm-6">
+          <h4>Training Process</h4>
+          <ul>
+            <li><strong>Priority queue:</strong> Models are queued by strategy (worst-performing first, new tickers first, etc.) so training time is spent where it has the most impact</li>
+            <li><strong>Data loading:</strong> Features and VWAP labels pulled from PostgreSQL/GCS</li>
+            <li><strong>Noise filtering:</strong> Bottom 20th percentile of movement days removed for classifier training</li>
+            <li><strong>Walk-forward validation:</strong> 5 expanding-window folds that respect temporal ordering (no future data leakage)</li>
+            <li><strong>Hyperparameter optimization:</strong> Optuna runs 30&ndash;50 trials per model, searching across learning rate, max depth, subsample, and regularization</li>
+            <li><strong>Evaluation:</strong> AUC, directional accuracy, and separate bullish/bearish accuracy tracked per fold</li>
+            <li><strong>Model storage:</strong> Artifacts saved to GCS, metadata registered in PostgreSQL</li>
+            <li><strong>Lifecycle management:</strong> Top 3 model versions retained per ticker/timeframe; older versions pruned automatically</li>
+          </ul>
+          <div class="callout">
+            Comprehensive training (all ~1,800 models) runs every Saturday and takes 2&ndash;4 hours. Incremental training (100&ndash;200 models) runs on weekdays in 20&ndash;60 minutes, focusing on new tickers and underperformers.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inference Pipeline -->
+  <div class="pipeline-section">
+    <div class="pipeline-header" data-toggle="collapse" data-target="#pipeline-infer">
+      Inference &amp; Prediction
+      <span class="caret-icon">&#9660;</span>
+    </div>
+    <div id="pipeline-infer" class="collapse in pipeline-body">
+      <p>Every weekday morning at 5:00 AM, the inference pipeline loads all active models and generates a prediction for each ticker/timeframe pair. The output is a ranked list of the day's highest-confidence predictions, ready for delivery.</p>
+      <div class="row">
+        <div class="col-sm-6">
+          <h4>How It Works</h4>
+          <ul>
+            <li>Query the model registry for all active models (status = active)</li>
+            <li>For each ticker/timeframe: load the classifier and regressor from GCS</li>
+            <li>Load the most recent features for the current prediction date</li>
+            <li>Generate a direction prediction (bullish/bearish) with probability</li>
+            <li>Generate a magnitude prediction (% expected move)</li>
+            <li>Combine into a single confidence-ranked score</li>
+            <li>Store all predictions in PostgreSQL and upload a snapshot to GCS</li>
+            <li>Rank by confidence and split into top bullish and top bearish lists</li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <h4>Current Production Scale</h4>
+          <div class="stat-card">
+            <span class="stat-number">937</span>
+            <span class="stat-label">Predictions Generated Daily</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">358</span>
+            <span class="stat-label">Tickers with Active Models</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">~32/min</span>
+            <span class="stat-label">Prediction Throughput</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Delivery Pipeline -->
+  <div class="pipeline-section">
+    <div class="pipeline-header" data-toggle="collapse" data-target="#pipeline-email">
+      Email Delivery &amp; Subscriptions
+      <span class="caret-icon">&#9660;</span>
+    </div>
+    <div id="pipeline-email" class="collapse in pipeline-body">
+      <p>The delivery system takes predictions and wraps them in context: market sentiment, economic calendar events, and analysis reports. Subscribers receive content matched to their tier, delivered as polished HTML emails with optional attachments.</p>
+      <div class="row">
+        <div class="col-sm-6">
+          <h4>Delivery Workflow</h4>
+          <ul>
+            <li>Validate PostgreSQL tunnel connectivity (auto-start if needed)</li>
+            <li>Check data freshness via <code>TradingDayValidator</code>&mdash;trigger a sync if data is stale</li>
+            <li>Generate or load analysis reports for the current trading day</li>
+            <li>Load predictions from PostgreSQL</li>
+            <li>Collect market context: Put/Call ratio, Fear &amp; Greed index, social sentiment (ApeWisdom), Forex Factory economic calendar</li>
+            <li>Load subscriber list and filter by tier</li>
+            <li>Render tier-specific HTML emails with appropriate attachments</li>
+            <li>Send via SMTP with a lock file to prevent duplicate sends</li>
+            <li>SMS notification to admin on success or failure</li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <h4>Subscription Tiers</h4>
+          <p style="margin-bottom: 15px;">Content scales with tier&mdash;everyone gets predictions, but the depth of analysis and number of picks increases as you move up.</p>
+          <table class="tier-table">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Predictions</th>
+                <th>Analysis</th>
+                <th>Attachments</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tier-name">Basic</td>
+                <td>Top 5</td>
+                <td>Summary</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td class="tier-name">Premium</td>
+                <td>Top 10</td>
+                <td>Market context</td>
+                <td>TXT</td>
+              </tr>
+              <tr>
+                <td class="tier-name">Professional</td>
+                <td>All</td>
+                <td>Full reports</td>
+                <td>TXT + PDF</td>
+              </tr>
+              <tr>
+                <td class="tier-name">Secret</td>
+                <td>All</td>
+                <td>Full + econ calendar</td>
+                <td>TXT + PDF</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Key Design Decisions -->
+<div id="decisions" class="container-fluid bg-grey">
+  <h2>Design Decisions</h2>
+  <div class="section-divider"></div>
+  <p style="margin-bottom: 30px;">A system like this involves hundreds of small choices. Here are the ones that shaped the architecture most significantly&mdash;and the reasoning behind each.</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <h4>Why dual models instead of one?</h4>
+      <p>Early on I tried a single model that predicted signed returns directly. It was mediocre at both direction and magnitude. Splitting the problem into a classifier ("which way?") and a regressor ("how far?") lets each model focus on what it does best. The classifier trains on filtered data with noise days removed; the regressor sees the full distribution. The combined signal is stronger than either alone.</p>
+
+      <h4>Why walk-forward validation?</h4>
+      <p>Standard K-fold cross-validation would let the model see Tuesday's data while training on Thursday's. In financial data, that's cheating&mdash;any time-series pattern, regime change, or structural break gets leaked across the boundary. Walk-forward validation with expanding windows respects temporal ordering, which means the performance estimates I get are realistic rather than flattering.</p>
+
+      <h4>Why VWAP labels instead of close-to-close returns?</h4>
+      <p>A stock can gap up 2% at the open, sell off all day, and still show a positive daily return. Close-to-close labels miss the intraday story. Volume-Weighted Average Price captures where trading activity actually concentrated, giving a more honest signal about directional intent. It's noisier to compute but produces better labels for training.</p>
+    </div>
+    <div class="col-sm-6">
+      <h4>Why separate VMs?</h4>
+      <p>Feature engineering spends most of its time waiting on API responses and writing to databases (I/O-bound). Model training spends most of its time in XGBoost's gradient computations (CPU-bound). Running both on a single VM would mean paying for 16 GB of RAM during data collection when I only need 8, or paying for beefy CPUs during the data pipeline when they'd sit idle. The 2-VM split lets me right-size each workload and keeps total costs under $55/month.</p>
+
+      <h4>Why filter low-movement days for the classifier?</h4>
+      <p>On days when a stock barely moves (less than 0.1%), predicting "up" or "down" is basically a coin flip&mdash;and training on those coin flips adds noise without signal. Removing the bottom 20% of movement days by absolute VWAP change lets the classifier focus on days when the market is actually making a directional commitment. The regressor still sees all data, because even small-movement days carry information about magnitude distributions.</p>
+
+      <h4>Why build everything from scratch?</h4>
+      <p>Partly because I wanted to understand every piece of the system at a level that using off-the-shelf solutions wouldn't give me. But also because the constraints of a personal project&mdash;tight budget, single maintainer, zero tolerance for pager fatigue&mdash;reward simplicity. Cron jobs, PostgreSQL, and GCS are boring, well-understood technologies. That's the point. I'd rather spend my engineering time on feature research and model architecture than debugging Kubernetes manifests.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Technologies -->
+<div id="tech" class="container-fluid">
+  <h2>Tech Stack</h2>
+  <div class="section-divider"></div>
+  <div class="row">
+    <div class="col-sm-6">
+      <h4>Machine Learning</h4>
+      <span class="tech-badge green">XGBoost</span>
+      <span class="tech-badge green">Optuna</span>
+      <span class="tech-badge green">Scikit-learn</span>
+      <span class="tech-badge green">TA-Lib</span>
+      <span class="tech-badge green">FAISS</span>
+      <span class="tech-badge green">Pandas</span>
+      <span class="tech-badge green">NumPy</span>
+      <span class="tech-badge green">SciPy</span>
+      <br><br>
+      <h4>Data Sources</h4>
+      <span class="tech-badge">EODHD API</span>
+      <span class="tech-badge">CBOE</span>
+      <span class="tech-badge">CNN Fear &amp; Greed</span>
+      <span class="tech-badge">ApeWisdom</span>
+      <span class="tech-badge">Forex Factory</span>
+      <span class="tech-badge">AAII Sentiment</span>
+    </div>
+    <div class="col-sm-6">
+      <h4>Infrastructure</h4>
+      <span class="tech-badge">GCP Compute Engine</span>
+      <span class="tech-badge">Google Cloud Storage</span>
+      <span class="tech-badge">PostgreSQL</span>
+      <span class="tech-badge">SQLite</span>
+      <span class="tech-badge">Cron</span>
+      <span class="tech-badge">SSH Tunnels</span>
+      <br><br>
+      <h4>Trading &amp; Delivery</h4>
+      <span class="tech-badge green">Alpaca API</span>
+      <span class="tech-badge green">SMTP / Gmail</span>
+      <span class="tech-badge green">SMS Alerts</span>
+      <span class="tech-badge green">Stripe</span>
+      <br><br>
+      <h4>Languages &amp; Tools</h4>
+      <span class="tech-badge">Python</span>
+      <span class="tech-badge">Bash</span>
+      <span class="tech-badge">SQL</span>
+      <span class="tech-badge">Git</span>
+      <span class="tech-badge">Selenium</span>
+    </div>
+  </div>
+</div>
+
+<!-- What's Next -->
+<div class="container-fluid bg-grey">
+  <h2>What's Next</h2>
+  <div class="section-divider"></div>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>AutoTrader is a living system&mdash;it runs in production daily, but it's also my primary playground for exploring new ideas. A few things on the roadmap:</p>
+      <ul style="color: #555; padding-left: 20px;">
+        <li><strong>Ensemble methods:</strong> Exploring how to combine predictions across timeframes (daily, weekly, monthly) into a single multi-horizon signal, weighted by each model's recent accuracy.</li>
+        <li><strong>Transformer-based models:</strong> The current XGBoost approach works well on tabular features, but I'm curious whether attention mechanisms over raw price sequences could capture patterns that hand-engineered features miss.</li>
+        <li><strong>Portfolio optimization:</strong> Moving beyond individual ticker predictions to portfolio-level allocation&mdash;factoring in correlation, sector exposure, and risk constraints.</li>
+        <li><strong>Real-time inference:</strong> Currently predictions run once daily. Exploring whether intraday feature updates and streaming inference could capture opportunities that the overnight pipeline misses.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
+  <div style="margin-bottom: 15px;">
+    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
+    <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
+  </div>
+  <p style="margin-bottom: 5px;"><a href="portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="index.html" style="color: #1abc9c;">Data</a> &middot; <a href="autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
+  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
+</footer>
+
+<script>
+$(document).ready(function(){
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+        window.location.hash = hash;
+      });
+    }
+  });
+
+  // Toggle caret on collapse
+  $('.pipeline-header').on('click', function() {
+    $(this).toggleClass('collapsed');
+  });
+
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+      var winTop = $(window).scrollTop();
+      if (pos < winTop + 600) {
+        $(this).addClass("slide");
+      }
+    });
+  });
+});
+</script>
+
+</body></html>
