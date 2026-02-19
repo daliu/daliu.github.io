@@ -421,6 +421,7 @@ def main():
         )
         if result.returncode != 0:  # There are staged changes
             subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+            subprocess.run(["git", "pull", "--rebase"], check=True)
             subprocess.run(["git", "push"], check=True)
             print("  Pushed to GitHub!")
         else:
