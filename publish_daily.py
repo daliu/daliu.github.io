@@ -421,7 +421,14 @@ def main():
         )
         if result.returncode != 0:  # There are staged changes
             subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+            # Stash any unstaged changes (e.g. .DS_Store) before rebase
+            stash_result = subprocess.run(
+                ["git", "stash"], capture_output=True, text=True
+            )
+            stashed = "No local changes" not in stash_result.stdout
             subprocess.run(["git", "pull", "--rebase"], check=True)
+            if stashed:
+                subprocess.run(["git", "stash", "pop"], check=False)
             subprocess.run(["git", "push"], check=True)
             print("  Pushed to GitHub!")
         else:
