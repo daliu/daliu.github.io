@@ -168,6 +168,9 @@
       border-color: transparent;
       color: #fff !important;
   }
+  .navbar .dropdown-menu { background-color: #2f2f2f; border: 1px solid #444; }
+  .navbar .dropdown-menu > li > a { color: #fff !important; padding: 8px 20px; }
+  .navbar .dropdown-menu > li > a:hover { color: #1abc9c !important; background-color: #3a3a3a !important; }
   footer .glyphicon {
       font-size: 20px;
       margin-bottom: 20px;
@@ -325,12 +328,17 @@
         <li><a href="index.html">Data</a></li>
         <li><a href="autotrader.html">AutoTrader</a></li>
         <li><a href="autotrader/daily/index.html">Daily Updates</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#quotes">Quotes</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Sections <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#quotes">Quotes</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </li>
         <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
         <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
       </ul>
