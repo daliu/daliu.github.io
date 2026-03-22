@@ -147,6 +147,11 @@ def generate_wrapper_page(date_str, date_obj):
       background-color: #fff !important;
   }}
   .navbar-default .navbar-toggle {{ border-color: transparent; color: #fff !important; }}
+  .navbar-default .navbar-nav > .dropdown > .dropdown-menu {{ background-color: #2f2f2f; border: 1px solid #444; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }}
+  .navbar-default .navbar-nav > .dropdown > .dropdown-menu > li > a {{ color: #fff !important; padding: 8px 20px; background-color: transparent !important; }}
+  .navbar-default .navbar-nav > .dropdown > .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav > .dropdown > .dropdown-menu > li > a:focus {{ color: #1abc9c !important; background-color: #3a3a3a !important; }}
+  .navbar-default .navbar-nav > .dropdown > .dropdown-menu .divider {{ background-color: #444; }}
   .container-fluid {{ padding: 60px 50px; }}
   .section-divider {{
       width: 60px;
@@ -201,8 +206,13 @@ def generate_wrapper_page(date_str, date_obj):
       <ul class="nav navbar-nav navbar-right">
         <li><a href="../../portfolio.html">Portfolio</a></li>
         <li><a href="../../index.html">Data</a></li>
-        <li><a href="../../autotrader.html">AutoTrader</a></li>
-        <li class="active"><a href="index.html">Daily Updates</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../autotrader.html">Overview</a></li>
+            <li><a href="index.html">Daily Updates</a></li>
+          </ul>
+        </li>
         <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
         <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
       </ul>
