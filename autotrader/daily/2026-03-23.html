@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Daily Updates - AutoTrader - Dave Liu</title>
+  <title>Daily Update - Mar 23, 2026 - AutoTrader</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AutoTrader daily market predictions and analysis updates">
+  <meta name="description" content="AutoTrader daily market predictions for March 23, 2026">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
@@ -29,13 +29,6 @@
       color: #303030;
       font-weight: 600;
       margin-bottom: 30px;
-  }
-  h4 {
-      font-size: 19px;
-      line-height: 1.375em;
-      color: #303030;
-      font-weight: 400;
-      margin-bottom: 15px;
   }
   .navbar {
       margin-bottom: 0;
@@ -70,49 +63,30 @@
       margin: 0 0 30px 0;
   }
   .bg-grey { background-color: #f6f6f6; }
-  .update-card {
-      background: #fff;
-      border-left: 4px solid #1abc9c;
-      padding: 20px 25px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      transition: box-shadow 0.2s, transform 0.2s;
+  .email-iframe {
+      width: 100%;
+      border: none;
+      min-height: 600px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   }
-  .update-card:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-      transform: translateY(-2px);
-  }
-  .update-card a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-  }
-  .update-card .update-date {
+  .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #1abc9c;
       font-family: Montserrat, sans-serif;
-      font-size: 12px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-decoration: none;
+  }
+  .back-link:hover { color: #16a085; text-decoration: underline; }
+  .date-heading {
+      font-family: Montserrat, sans-serif;
+      font-size: 14px;
       color: #1abc9c;
       text-transform: uppercase;
       letter-spacing: 2px;
       margin-bottom: 5px;
-  }
-  .update-card .update-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #303030;
-      margin-bottom: 5px;
-  }
-  .update-card .update-desc {
-      font-size: 14px;
-      color: #818181;
-      margin: 0;
-  }
-  .callout {
-      background: #f9f9f9;
-      border-left: 4px solid #1abc9c;
-      padding: 20px 25px;
-      margin: 20px 0;
-      font-style: italic;
-      color: #555;
   }
   @media screen and (max-width: 768px) {
     .container-fluid { padding: 40px 20px; }
@@ -152,42 +126,13 @@
 <div style="height: 50px;"></div>
 
 <div class="container-fluid">
-  <h2>Daily Updates</h2>
+  <a href="index.html" class="back-link">&larr; All Daily Updates</a>
+  <div class="date-heading">March 23, 2026</div>
+  <h2>Daily Market Update</h2>
   <div class="section-divider"></div>
-  <p style="margin-bottom: 30px;">AutoTrader generates daily market predictions for 600+ tickers before the opening bell. Each update includes top bullish and bearish picks, market sentiment indicators, economic calendar events, and social sentiment data.</p>
+  <p>AutoTrader's daily predictions and market analysis for the upcoming trading day. This report includes top bullish and bearish picks, market sentiment indicators, economic calendar events, and social sentiment data.</p>
 
-  <div class="callout">
-    These reports are generated automatically by the AutoTrader ML system every weekday morning. Content shown is the Basic tier preview.
-  </div>
-  <!-- DAILY-ENTRIES -->
-  <h4 style="margin-top: 30px;">March 2026</h4>
-
-  <div class="update-card">
-    <a href="2026-03-23.html">
-      <div class="update-date">March 23, 2026 &middot; Monday</div>
-      <div class="update-title">Daily Market Update</div>
-      <p class="update-desc">13 tickers analyzed &middot; Market sentiment: Extreme Fear (16/100) &middot; Crypto: Extreme Fear (8/100)</p>
-    </a>
-  </div>
-
-  <div class="update-card">
-    <a href="2026-03-20.html">
-      <div class="update-date">March 20, 2026 &middot; Friday</div>
-      <div class="update-title">Daily Market Update</div>
-      <p class="update-desc">13 tickers analyzed &middot; Market sentiment: Extreme Fear (16/100) &middot; Crypto: Extreme Fear (11/100)</p>
-    </a>
-  </div>
-
-  <h4 style="margin-top: 30px;">February 2026</h4>
-
-  <div class="update-card">
-    <a href="2026-02-18.html">
-      <div class="update-date">February 18, 2026 &middot; Wednesday</div>
-      <div class="update-title">Daily Market Update</div>
-      <p class="update-desc">630 tickers analyzed &middot; Market sentiment: Fear (40/100) &middot; Crypto: Extreme Fear (9/100) &middot; 50 congress trades tracked</p>
-    </a>
-  </div>
-  <!-- /DAILY-ENTRIES -->
+  <iframe src="emails/2026-03-23.html" class="email-iframe" id="emailFrame"></iframe>
 </div>
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
@@ -199,5 +144,20 @@
   <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
   <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
 </footer>
+
+<script>
+// Auto-resize iframe to fit content
+function resizeIframe() {
+  var iframe = document.getElementById('emailFrame');
+  try {
+    var height = iframe.contentWindow.document.documentElement.scrollHeight;
+    iframe.style.height = height + 40 + 'px';
+  } catch(e) {
+    // Cross-origin fallback: set a generous default
+    iframe.style.height = '3000px';
+  }
+}
+document.getElementById('emailFrame').addEventListener('load', resizeIframe);
+</script>
 
 </body></html>
