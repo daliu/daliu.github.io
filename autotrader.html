@@ -138,6 +138,42 @@
       letter-spacing: 1px;
   }
   .tech-badge.green { background: #1abc9c; }
+  .pricing-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      height: 100%;
+  }
+  .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .pricing-card.featured { border: 2px solid #1abc9c; }
+  .pricing-card .badge-popular {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: #1abc9c; color: #fff; padding: 4px 16px; border-radius: 12px;
+      font-family: Montserrat, sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .pricing-card .tier-name { font-family: Montserrat, sans-serif; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+  .pricing-card .tier-price { font-size: 42px; font-weight: 700; color: #303030; margin-bottom: 5px; }
+  .pricing-card .tier-price span { font-size: 16px; font-weight: 400; color: #888; }
+  .pricing-card .tier-desc { font-size: 14px; color: #888; margin-bottom: 20px; }
+  .pricing-card ul { list-style: none; padding: 0; text-align: left; margin-bottom: 25px; }
+  .pricing-card ul li { padding: 6px 0; font-size: 14px; color: #555; border-bottom: 1px solid #f0f0f0; }
+  .pricing-card ul li:last-child { border-bottom: none; }
+  .pricing-card ul li:before { content: "\2713"; color: #1abc9c; font-weight: 700; margin-right: 8px; }
+  .btn-subscribe {
+      display: inline-block; padding: 12px 30px; border-radius: 4px;
+      font-family: Montserrat, sans-serif; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; transition: all 0.2s;
+  }
+  .btn-subscribe.btn-primary-cta { background: #1abc9c; color: #fff; border: 2px solid #1abc9c; }
+  .btn-subscribe.btn-primary-cta:hover { background: #16a085; border-color: #16a085; color: #fff; }
+  .btn-subscribe.btn-outline { background: transparent; color: #1abc9c; border: 2px solid #1abc9c; }
+  .btn-subscribe.btn-outline:hover { background: #1abc9c; color: #fff; }
+  .btn-subscribe.btn-contact { background: transparent; color: #474e5d; border: 2px solid #474e5d; }
+  .btn-subscribe.btn-contact:hover { background: #474e5d; color: #fff; }
   .tier-table { width: 100%; border-collapse: collapse; }
   .tier-table th {
       background: #474e5d;
@@ -269,6 +305,7 @@
             <li><a href="#pipelines">Pipelines</a></li>
             <li><a href="#decisions">Design</a></li>
             <li><a href="#tech">Tech Stack</a></li>
+            <li><a href="#pricing">Subscribe</a></li>
           </ul>
         </li>
         <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
@@ -677,8 +714,95 @@
   </div>
 </div>
 
+<!-- Pricing -->
+<div id="pricing" class="container-fluid bg-grey">
+  <h2>Subscribe</h2>
+  <div class="section-divider"></div>
+  <p style="margin-bottom: 10px;">AutoTrader delivers ML-driven market predictions to your inbox every trading day before the opening bell. 1,800+ models, 600+ tickers, 400+ features &mdash; fully autonomous.</p>
+  <p style="margin-bottom: 40px; color: #888; font-size: 14px;">All paid tiers include a 7-day free preview of the Basic tier so you can see the system in action.</p>
+
+  <div class="row" style="display: flex; flex-wrap: wrap;">
+    <!-- Basic -->
+    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+      <div class="pricing-card" style="display: flex; flex-direction: column;">
+        <div class="tier-name">Basic</div>
+        <div class="tier-price">Free</div>
+        <div class="tier-desc">Daily market snapshot</div>
+        <ul style="flex-grow: 1;">
+          <li>SPY prediction</li>
+          <li>Fear &amp; Greed index</li>
+          <li>Key events for tomorrow</li>
+          <li>2 business news headlines</li>
+          <li>Market sentiment snapshot</li>
+        </ul>
+        <a href="mailto:7david12liu@gmail.com?subject=AutoTrader%20Basic%20Signup&body=I'd%20like%20to%20sign%20up%20for%20the%20free%20Basic%20tier.%0A%0AName%3A%20%0AEmail%3A%20" class="btn-subscribe btn-outline">Sign Up Free</a>
+      </div>
+    </div>
+
+    <!-- Premium -->
+    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+      <div class="pricing-card featured" style="display: flex; flex-direction: column;">
+        <div class="badge-popular">Most Popular</div>
+        <div class="tier-name">Premium</div>
+        <div class="tier-price">$29<span>/mo</span></div>
+        <div class="tier-desc">Active trader essentials</div>
+        <ul style="flex-grow: 1;">
+          <li>Top 20 predictions (all tickers)</li>
+          <li>Full news coverage</li>
+          <li>Put/Call ratio analysis</li>
+          <li>Top 50 ticker momentum table</li>
+          <li>Social sentiment (Reddit + YouTube)</li>
+          <li>Congress stock trades</li>
+          <li>Full economic calendar</li>
+          <li>Priority email delivery</li>
+        </ul>
+        <a href="https://buy.stripe.com/7sYdRag1I8Ii13ja6P5c400" class="btn-subscribe btn-primary-cta">Subscribe</a>
+      </div>
+    </div>
+
+    <!-- Professional -->
+    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+      <div class="pricing-card" style="display: flex; flex-direction: column;">
+        <div class="tier-name">Professional</div>
+        <div class="tier-price">$99<span>/mo</span></div>
+        <div class="tier-desc">Full signal access</div>
+        <ul style="flex-grow: 1;">
+          <li>All 600+ ticker predictions</li>
+          <li>All timeframes (daily, weekly, monthly)</li>
+          <li>LLM market synthesis &amp; narrative</li>
+          <li>S&amp;P 500 premium predictions</li>
+          <li>GICS heatmap attachments</li>
+          <li>CSV data exports</li>
+          <li>Full momentum table with AUC</li>
+          <li>Everything in Premium</li>
+        </ul>
+        <a href="https://buy.stripe.com/7sYdRag1I8Ii13ja6P5c400" class="btn-subscribe btn-outline">Subscribe</a>
+      </div>
+    </div>
+
+    <!-- Secret / API -->
+    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+      <div class="pricing-card" style="display: flex; flex-direction: column;">
+        <div class="tier-name">API + Secret</div>
+        <div class="tier-price">$999<span>/mo</span></div>
+        <div class="tier-desc">For quants &amp; builders</div>
+        <ul style="flex-grow: 1;">
+          <li>Public data API (18 endpoints)</li>
+          <li>Raw model predictions &amp; features</li>
+          <li>Feature importance data</li>
+          <li>Enhanced LLM synthesis (Sonnet)</li>
+          <li>50 headlines per news category</li>
+          <li>Raw CSV exports (models, features)</li>
+          <li>Everything in Professional</li>
+        </ul>
+        <a href="mailto:7david12liu@gmail.com?subject=AutoTrader%20API%20%2B%20Secret%20Tier&body=I'm%20interested%20in%20the%20API%20%2B%20Secret%20tier.%0A%0AName%3A%20%0AEmail%3A%20%0AUse%20case%3A%20" class="btn-subscribe btn-contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- What's Next -->
-<div class="container-fluid bg-grey">
+<div class="container-fluid">
   <h2>What's Next</h2>
   <div class="section-divider"></div>
   <div class="row">
