@@ -138,15 +138,18 @@
       letter-spacing: 1px;
   }
   .tech-badge.green { background: #1abc9c; }
+  .pricing-row { display: flex; flex-wrap: wrap; margin: 0 -6px; }
+  .pricing-row > div { padding: 0 6px; margin-bottom: 12px; display: flex; }
   .pricing-card {
       background: #fff;
       border-radius: 8px;
-      padding: 30px 25px;
+      padding: 22px 20px;
       text-align: center;
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       transition: transform 0.2s, box-shadow 0.2s;
       position: relative;
       height: 100%;
+      width: 100%;
   }
   .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
   .pricing-card.featured { border: 2px solid #1abc9c; }
@@ -682,12 +685,12 @@
       <span class="tech-badge green">SciPy</span>
       <br><br>
       <h4>Data Sources</h4>
-      <span class="tech-badge">EODHD API</span>
-      <span class="tech-badge">CBOE</span>
-      <span class="tech-badge">CNN Fear &amp; Greed</span>
-      <span class="tech-badge">ApeWisdom</span>
-      <span class="tech-badge">Forex Factory</span>
-      <span class="tech-badge">AAII Sentiment</span>
+      <span class="tech-badge">Ticker &amp; Price Data</span>
+      <span class="tech-badge">Options Flow</span>
+      <span class="tech-badge">Market Sentiment</span>
+      <span class="tech-badge">Social Sentiment</span>
+      <span class="tech-badge">Economic Calendar</span>
+      <span class="tech-badge">Investor Surveys</span>
     </div>
     <div class="col-sm-6">
       <h4>Infrastructure</h4>
@@ -721,9 +724,10 @@
   <p style="margin-bottom: 10px;">AutoTrader delivers ML-driven market predictions to your inbox every trading day before the opening bell. 1,800+ models, 600+ tickers, 400+ features &mdash; fully autonomous.</p>
   <p style="margin-bottom: 40px; color: #888; font-size: 14px;">All paid tiers include a 7-day free preview of the Basic tier so you can see the system in action.</p>
 
-  <div class="row" style="display: flex; flex-wrap: wrap;">
+  <h3>Email Subscriptions</h3>
+  <div class="pricing-row">
     <!-- Basic -->
-    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+    <div class="col-sm-4">
       <div class="pricing-card" style="display: flex; flex-direction: column;">
         <div class="tier-name">Basic</div>
         <div class="tier-price">Free</div>
@@ -735,12 +739,21 @@
           <li>2 business news headlines</li>
           <li>Market sentiment snapshot</li>
         </ul>
-        <a href="mailto:7david12liu@gmail.com?subject=AutoTrader%20Basic%20Signup&body=I'd%20like%20to%20sign%20up%20for%20the%20free%20Basic%20tier.%0A%0AName%3A%20%0AEmail%3A%20" class="btn-subscribe btn-outline">Sign Up Free</a>
+        <form id="signup-form" style="margin-top: auto;" onsubmit="return false;">
+          <input type="email" id="signup-email" placeholder="your@email.com" required
+                 style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 4px; font-size: 14px; margin-bottom: 8px; text-align: center; font-family: Lato, sans-serif;">
+          <div style="position: absolute; left: -9999px;" aria-hidden="true">
+            <input type="text" id="signup-hp" name="hp_field" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" id="signup-btn" class="btn-subscribe btn-outline"
+                  style="width: 100%; cursor: pointer;">Sign Up Free</button>
+          <div id="signup-msg" style="margin-top: 8px; font-size: 13px; text-align: center; min-height: 20px;"></div>
+        </form>
       </div>
     </div>
 
     <!-- Premium -->
-    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+    <div class="col-sm-4">
       <div class="pricing-card featured" style="display: flex; flex-direction: column;">
         <div class="badge-popular">Most Popular</div>
         <div class="tier-name">Premium</div>
@@ -761,7 +774,7 @@
     </div>
 
     <!-- Professional -->
-    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+    <div class="col-sm-4">
       <div class="pricing-card" style="display: flex; flex-direction: column;">
         <div class="tier-name">Professional</div>
         <div class="tier-price">$99<span>/mo</span></div>
@@ -779,23 +792,60 @@
         <a href="https://buy.stripe.com/7sYdRag1I8Ii13ja6P5c400" class="btn-subscribe btn-outline">Subscribe</a>
       </div>
     </div>
+  </div>
 
-    <!-- Secret / API -->
-    <div class="col-sm-3" style="margin-bottom: 20px; display: flex;">
+  <h3 style="margin-top: 20px;">API Access</h3>
+  <p style="margin-bottom: 12px;">Programmatic access to AutoTrader's predictions, features, and model data. Built for quants, algo traders, and fintech developers.</p>
+  <div class="pricing-row">
+    <!-- API Starter -->
+    <div class="col-sm-4">
       <div class="pricing-card" style="display: flex; flex-direction: column;">
-        <div class="tier-name">API + Secret</div>
-        <div class="tier-price">$999<span>/mo</span></div>
-        <div class="tier-desc">For quants &amp; builders</div>
+        <div class="tier-name">API Starter</div>
+        <div class="tier-price">$49<span>/mo</span></div>
+        <div class="tier-desc">For side projects &amp; exploration</div>
         <ul style="flex-grow: 1;">
-          <li>Public data API (18 endpoints)</li>
+          <li>Core prediction endpoints</li>
+          <li>1,000 API calls / day</li>
+          <li>Daily predictions (JSON)</li>
+          <li>Market sentiment data</li>
+          <li>Standard rate limiting</li>
+        </ul>
+        <a href="mailto:50685071@proton.me?subject=AutoTrader%20API%20Starter&body=I'm%20interested%20in%20API%20Starter%20access.%0A%0AName%3A%20%0AEmail%3A%20%0AUse%20case%3A%20" class="btn-subscribe btn-outline">Get Started</a>
+      </div>
+    </div>
+
+    <!-- API Pro -->
+    <div class="col-sm-4">
+      <div class="pricing-card" style="display: flex; flex-direction: column;">
+        <div class="tier-name">API Pro</div>
+        <div class="tier-price">$199<span>/mo</span></div>
+        <div class="tier-desc">For algo traders &amp; small funds</div>
+        <ul style="flex-grow: 1;">
+          <li>All 18 endpoints</li>
+          <li>10,000 API calls / day</li>
           <li>Raw model predictions &amp; features</li>
           <li>Feature importance data</li>
-          <li>Enhanced LLM synthesis (Sonnet)</li>
-          <li>50 headlines per news category</li>
-          <li>Raw CSV exports (models, features)</li>
-          <li>Everything in Professional</li>
+          <li>Historical prediction archive</li>
+          <li>CSV &amp; JSON exports</li>
         </ul>
-        <a href="mailto:7david12liu@gmail.com?subject=AutoTrader%20API%20%2B%20Secret%20Tier&body=I'm%20interested%20in%20the%20API%20%2B%20Secret%20tier.%0A%0AName%3A%20%0AEmail%3A%20%0AUse%20case%3A%20" class="btn-subscribe btn-contact">Contact</a>
+        <a href="mailto:50685071@proton.me?subject=AutoTrader%20API%20Pro&body=I'm%20interested%20in%20API%20Pro%20access.%0A%0AName%3A%20%0AEmail%3A%20%0AUse%20case%3A%20" class="btn-subscribe btn-primary-cta">Get Started</a>
+      </div>
+    </div>
+
+    <!-- API Enterprise -->
+    <div class="col-sm-4">
+      <div class="pricing-card" style="display: flex; flex-direction: column;">
+        <div class="tier-name">Enterprise</div>
+        <div class="tier-price">Custom</div>
+        <div class="tier-desc">For teams &amp; institutions</div>
+        <ul style="flex-grow: 1;">
+          <li>Unlimited API calls</li>
+          <li>Dedicated support &amp; SLA</li>
+          <li>Custom endpoints &amp; integrations</li>
+          <li>Bulk historical data access</li>
+          <li>Architecture licensing available</li>
+        </ul>
+        <a href="mailto:50685071@proton.me?subject=AutoTrader%20Enterprise%20%2F%20Architecture%20Licensing&body=I'm%20interested%20in%20Enterprise%20API%20access%20or%20architecture%20licensing.%0A%0AName%3A%20%0ACompany%3A%20%0AEmail%3A%20%0AUse%20case%3A%20" class="btn-subscribe btn-contact">Contact</a>
       </div>
     </div>
   </div>
@@ -823,7 +873,7 @@
   <div style="margin-bottom: 15px;">
     <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
     <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
-    <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
+    <a href="mailto:50685071@proton.me" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
   <p style="margin-bottom: 5px;"><a href="portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
   <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
@@ -858,6 +908,42 @@ $(document).ready(function(){
     });
   });
 });
+
+// --- Basic tier signup ---
+(function() {
+  var loadedAt = Date.now() / 1000;
+  var form = document.getElementById('signup-form');
+  if (!form) return;
+  var msgEl = document.getElementById('signup-msg');
+  var btn   = document.getElementById('signup-btn');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    msgEl.textContent = '';
+    msgEl.style.color = '#818181';
+
+    var email = document.getElementById('signup-email').value.trim();
+    var hp    = document.getElementById('signup-hp').value;
+    if (!email) { msgEl.textContent = 'Please enter your email.'; msgEl.style.color = '#c0392b'; return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Signing up...';
+
+    fetch('https://signup.moneysignals.us/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, name: '', hp_field: hp, _loaded_at: loadedAt })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      msgEl.textContent = d.message || (d.success ? 'Subscribed!' : 'Something went wrong.');
+      msgEl.style.color = d.success ? '#1abc9c' : '#c0392b';
+      if (d.success) document.getElementById('signup-email').value = '';
+    })
+    .catch(function() { msgEl.textContent = 'Network error. Please try again.'; msgEl.style.color = '#c0392b'; })
+    .finally(function() { btn.disabled = false; btn.textContent = 'Sign Up Free'; });
+  });
+})();
 </script>
 
 </body></html>
