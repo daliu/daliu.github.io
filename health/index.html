@@ -18,6 +18,7 @@
             --yellow: #d29922;
             --red: #f85149;
             --purple: #a371f7;
+            --cyan: #39c5cf;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -37,45 +38,81 @@
             border-bottom: 1px solid var(--border);
         }
         h1 { font-size: 1.8rem; font-weight: 600; }
+        h1 a { color: inherit; text-decoration: none; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-top: 4px; }
         .updated { color: var(--text-muted); font-size: 0.9rem; }
         .back-link { color: var(--accent); text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
         
+        /* Current Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
             margin-bottom: 30px;
         }
         .stat-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 15px;
+            padding: 14px;
             text-align: center;
         }
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 5px;
-        }
+        .stat-value { font-size: 1.8rem; font-weight: 700; line-height: 1.2; }
+        .stat-label { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
         .stat-card.battery .stat-value { color: var(--green); }
         .stat-card.heart .stat-value { color: var(--red); }
         .stat-card.sleep .stat-value { color: var(--purple); }
         .stat-card.steps .stat-value { color: var(--accent); }
         .stat-card.stress .stat-value { color: var(--yellow); }
+        .stat-card.hrv .stat-value { color: var(--cyan); }
         
+        /* Statistics Table */
+        .stats-table-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        .stats-table-container h2 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .stats-table th, .stats-table td {
+            padding: 10px 12px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+        }
+        .stats-table th:first-child, .stats-table td:first-child {
+            text-align: left;
+        }
+        .stats-table th {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .stats-table tr:last-child td { border-bottom: none; }
+        .stats-table .metric-name { font-weight: 600; }
+        .stats-table .good { color: var(--green); }
+        .stats-table .warn { color: var(--yellow); }
+        .stats-table .bad { color: var(--red); }
+        
+        /* Charts */
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 20px;
         }
-        @media (max-width: 700px) {
+        @media (max-width: 600px) {
             .charts-grid { grid-template-columns: 1fr; }
         }
         .chart-card {
@@ -85,38 +122,41 @@
             padding: 20px;
         }
         .chart-card h2 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             margin-bottom: 15px;
             color: var(--text-muted);
         }
-        .chart-container {
-            position: relative;
-            height: 250px;
-        }
+        .chart-container { position: relative; height: 220px; }
         canvas { max-width: 100%; }
-        
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: var(--text-muted);
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <div>
-                <h1>⚡ Health Dashboard</h1>
-                <span class="updated" id="updated">Loading...</span>
+                <h1><a href="../">Dave Liu</a> / Health Dashboard</h1>
+                <div class="subtitle">Garmin biometrics · Auto-updated daily</div>
             </div>
-            <a href="../" class="back-link">← Back to Portfolio</a>
+            <div style="text-align: right;">
+                <span class="updated" id="updated">Loading...</span><br>
+                <a href="../" class="back-link">← Back to Profile</a>
+            </div>
         </header>
         
+        <!-- Current Stats -->
         <div class="stats-grid" id="stats">
             <div class="stat-card battery">
                 <div class="stat-value" id="current-battery">--</div>
                 <div class="stat-label">Body Battery</div>
+            </div>
+            <div class="stat-card hrv">
+                <div class="stat-value" id="current-hrv">--</div>
+                <div class="stat-label">HRV (ms)</div>
+            </div>
+            <div class="stat-card heart">
+                <div class="stat-value" id="current-rhr">--</div>
+                <div class="stat-label">Resting HR</div>
             </div>
             <div class="stat-card sleep">
                 <div class="stat-value" id="current-sleep">--</div>
@@ -124,47 +164,86 @@
             </div>
             <div class="stat-card steps">
                 <div class="stat-value" id="current-steps">--</div>
-                <div class="stat-label">Steps (Today)</div>
+                <div class="stat-label">Steps</div>
             </div>
             <div class="stat-card stress">
                 <div class="stat-value" id="current-stress">--</div>
-                <div class="stat-label">Avg Stress</div>
-            </div>
-            <div class="stat-card heart">
-                <div class="stat-value" id="avg-sleep-hours">--</div>
-                <div class="stat-label">Avg Sleep (hrs)</div>
+                <div class="stat-label">Stress</div>
             </div>
         </div>
         
+        <!-- Comprehensive Statistics -->
+        <div class="stats-table-container">
+            <h2>📊 30-Day Statistics</h2>
+            <table class="stats-table" id="statsTable">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Mean</th>
+                        <th>Median</th>
+                        <th>Std Dev</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                        <th>Range</th>
+                    </tr>
+                </thead>
+                <tbody id="statsBody">
+                    <tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Charts -->
         <div class="charts-grid">
             <div class="chart-card">
-                <h2>🔋 Body Battery (30 days)</h2>
-                <div class="chart-container">
-                    <canvas id="batteryChart"></canvas>
-                </div>
+                <h2>🔋 Body Battery</h2>
+                <div class="chart-container"><canvas id="batteryChart"></canvas></div>
             </div>
             <div class="chart-card">
-                <h2>😴 Sleep Score (30 days)</h2>
-                <div class="chart-container">
-                    <canvas id="sleepChart"></canvas>
-                </div>
+                <h2>💓 HRV (Heart Rate Variability)</h2>
+                <div class="chart-container"><canvas id="hrvChart"></canvas></div>
             </div>
             <div class="chart-card">
-                <h2>👟 Daily Steps (30 days)</h2>
-                <div class="chart-container">
-                    <canvas id="stepsChart"></canvas>
-                </div>
+                <h2>❤️ Resting Heart Rate</h2>
+                <div class="chart-container"><canvas id="rhrChart"></canvas></div>
             </div>
             <div class="chart-card">
-                <h2>😌 Stress Level (30 days)</h2>
-                <div class="chart-container">
-                    <canvas id="stressChart"></canvas>
-                </div>
+                <h2>😴 Sleep Score</h2>
+                <div class="chart-container"><canvas id="sleepChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>👟 Daily Steps</h2>
+                <div class="chart-container"><canvas id="stepsChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>😌 Stress Level</h2>
+                <div class="chart-container"><canvas id="stressChart"></canvas></div>
             </div>
         </div>
     </div>
 
     <script>
+        // Statistical functions
+        const stats = {
+            mean: arr => arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : null,
+            median: arr => {
+                if (!arr.length) return null;
+                const sorted = [...arr].sort((a,b) => a-b);
+                const mid = Math.floor(sorted.length / 2);
+                return sorted.length % 2 ? sorted[mid] : (sorted[mid-1] + sorted[mid]) / 2;
+            },
+            std: arr => {
+                if (arr.length < 2) return null;
+                const m = stats.mean(arr);
+                return Math.sqrt(arr.reduce((sum, x) => sum + Math.pow(x - m, 2), 0) / (arr.length - 1));
+            },
+            min: arr => arr.length ? Math.min(...arr) : null,
+            max: arr => arr.length ? Math.max(...arr) : null,
+        };
+        
+        const fmt = (v, decimals = 1) => v != null ? v.toFixed(decimals) : '--';
+        const fmtInt = v => v != null ? Math.round(v).toLocaleString() : '--';
+
         const chartDefaults = {
             responsive: true,
             maintainAspectRatio: false,
@@ -185,7 +264,7 @@
                     type: 'time',
                     time: { unit: 'day', displayFormats: { day: 'MMM d' } },
                     grid: { color: '#30363d', drawBorder: false },
-                    ticks: { color: '#8b949e' }
+                    ticks: { color: '#8b949e', maxTicksLimit: 8 }
                 },
                 y: {
                     grid: { color: '#30363d', drawBorder: false },
@@ -224,7 +303,7 @@
                             label: 'Max',
                             data: maxData,
                             borderColor: '#3fb950',
-                            backgroundColor: '#3fb95030',
+                            backgroundColor: '#3fb95025',
                             fill: '+1',
                             tension: 0.3,
                             pointRadius: 2,
@@ -233,7 +312,7 @@
                         {
                             label: 'Min',
                             data: minData,
-                            borderColor: '#f8514960',
+                            borderColor: '#f8514980',
                             backgroundColor: 'transparent',
                             fill: false,
                             tension: 0.3,
@@ -246,10 +325,56 @@
                     ...chartDefaults,
                     plugins: {
                         ...chartDefaults.plugins,
-                        legend: { display: true, labels: { color: '#8b949e' } }
+                        legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } }
                     }
                 }
             });
+        }
+        
+        function buildStatsTable(daily) {
+            const metrics = [
+                { name: 'Body Battery (Max)', key: 'max_body_battery', unit: '', good: [70, 100], warn: [40, 70] },
+                { name: 'Body Battery (Min)', key: 'min_body_battery', unit: '', good: [20, 100], warn: [5, 20] },
+                { name: 'HRV', key: 'hrv_last_night', unit: ' ms', good: [60, 200], warn: [40, 60] },
+                { name: 'Resting HR', key: 'resting_hr', unit: ' bpm', good: [0, 50], warn: [50, 60] },
+                { name: 'Sleep Score', key: 'sleep_score', unit: '', good: [80, 100], warn: [60, 80] },
+                { name: 'Sleep Duration', key: 'sleep_hours', unit: ' hrs', good: [7, 9], warn: [6, 7] },
+                { name: 'Steps', key: 'total_steps', unit: '', good: [10000, Infinity], warn: [5000, 10000] },
+                { name: 'Stress', key: 'avg_stress', unit: '', good: [0, 25], warn: [25, 40] },
+            ];
+            
+            let html = '';
+            for (const m of metrics) {
+                const values = daily.map(d => d[m.key]).filter(v => v != null);
+                if (!values.length) continue;
+                
+                const mean = stats.mean(values);
+                const median = stats.median(values);
+                const std = stats.std(values);
+                const min = stats.min(values);
+                const max = stats.max(values);
+                const range = max - min;
+                
+                const isInt = ['total_steps'].includes(m.key);
+                const format = isInt ? fmtInt : (v => fmt(v, 1));
+                
+                // Color coding for mean
+                let cls = '';
+                if (m.good && mean >= m.good[0] && mean <= m.good[1]) cls = 'good';
+                else if (m.warn && mean >= m.warn[0] && mean <= m.warn[1]) cls = 'warn';
+                else if (m.good || m.warn) cls = 'bad';
+                
+                html += `<tr>
+                    <td class="metric-name">${m.name}</td>
+                    <td class="${cls}">${format(mean)}${m.unit}</td>
+                    <td>${format(median)}${m.unit}</td>
+                    <td>${format(std)}</td>
+                    <td>${format(min)}${m.unit}</td>
+                    <td>${format(max)}${m.unit}</td>
+                    <td>${format(range)}</td>
+                </tr>`;
+            }
+            document.getElementById('statsBody').innerHTML = html;
         }
 
         async function loadData() {
@@ -257,49 +382,52 @@
                 const resp = await fetch('data.json?t=' + Date.now());
                 const data = await resp.json();
                 
-                // Update timestamp
                 const updated = new Date(data.updated);
                 document.getElementById('updated').textContent = 
-                    'Last updated: ' + updated.toLocaleString();
+                    'Updated: ' + updated.toLocaleString();
                 
-                const daily = data.daily.slice(-30); // Last 30 days
+                const daily = data.daily.slice(-30);
                 const latest = daily[daily.length - 1];
                 
-                // Update stat cards
-                document.getElementById('current-battery').textContent = 
-                    latest?.max_body_battery ?? '--';
-                document.getElementById('current-sleep').textContent = 
-                    latest?.sleep_score ?? '--';
+                // Current stats
+                document.getElementById('current-battery').textContent = latest?.max_body_battery ?? '--';
+                document.getElementById('current-hrv').textContent = latest?.hrv_last_night ?? '--';
+                document.getElementById('current-rhr').textContent = latest?.resting_hr ?? '--';
+                document.getElementById('current-sleep').textContent = latest?.sleep_score ?? '--';
                 document.getElementById('current-steps').textContent = 
                     latest?.total_steps?.toLocaleString() ?? '--';
-                document.getElementById('current-stress').textContent = 
-                    latest?.avg_stress ?? '--';
+                document.getElementById('current-stress').textContent = latest?.avg_stress ?? '--';
                 
-                // Calculate avg sleep hours
-                const sleepHours = daily.filter(d => d.sleep_hours).map(d => d.sleep_hours);
-                const avgSleep = sleepHours.length ? 
-                    (sleepHours.reduce((a,b) => a+b, 0) / sleepHours.length).toFixed(1) : '--';
-                document.getElementById('avg-sleep-hours').textContent = avgSleep;
+                // Build statistics table
+                buildStatsTable(daily);
                 
-                // Body Battery chart (min/max range)
+                // Charts
                 createRangeChart('batteryChart',
                     daily.map(d => ({ x: d.date, y: d.min_body_battery })),
                     daily.map(d => ({ x: d.date, y: d.max_body_battery }))
                 );
                 
-                // Sleep chart
+                createChart('hrvChart',
+                    daily.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })),
+                    '#39c5cf'
+                );
+                
+                createChart('rhrChart',
+                    daily.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })),
+                    '#f85149',
+                    false
+                );
+                
                 createChart('sleepChart',
                     daily.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })),
                     '#a371f7'
                 );
                 
-                // Steps chart
                 createChart('stepsChart',
                     daily.map(d => ({ x: d.date, y: d.total_steps })),
                     '#58a6ff'
                 );
                 
-                // Stress chart
                 createChart('stressChart',
                     daily.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })),
                     '#d29922',
