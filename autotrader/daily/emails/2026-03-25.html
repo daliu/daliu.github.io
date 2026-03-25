@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 20px;
+    background: #f5f5f5;
+    color: #333;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h1 {
+    color: #1a1a2e;
+    border-bottom: 3px solid #4a90d9;
+    padding-bottom: 15px;
+}
+h2 { color: #16213e; }
+.summary {
+    background-color: #4f46e5;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+.summary strong, .summary b {
+    color: #ffffff;
+}
+.summary p { margin: 8px 0; }
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+}
+th {
+    background-color: #1e1b4b;
+    color: #ffffff;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+}
+th.ticker { text-align: left; }
+td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+td:nth-child(2) { text-align: left; }
+tr:hover { background: #f8f9fa; }
+.bullish { color: #10b981; font-weight: bold; }
+.bearish { color: #ef4444; font-weight: bold; }
+.neutral { color: #9ca3af; }
+.high-confidence { background: #d1fae5 !important; }
+.low-confidence { background: #fee2e2 !important; }
+.auc-cell { color: #6366f1; font-size: 0.9em; }
+.issues-section {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+.legend {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+.footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-size: 0.85em;
+}
+.info-section {
+    background: #f8f9fa;
+    border-left: 4px solid #4a90d9;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+.info-section h3 {
+    margin-top: 0;
+    color: #1a1a2e;
+}
+.info-section pre {
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+}
+.events-section {
+    background-color: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #78350f;
+}
+.events-section strong, .events-section b {
+    color: #92400e;
+}
+.calendar-section {
+    background-color: #dbeafe;
+    border-left: 4px solid #2563eb;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #1e3a8a;
+}
+.calendar-section strong, .calendar-section b {
+    color: #1e40af;
+}
+.pcr-section {
+    background-color: #ede9fe;
+    border-left: 4px solid #7c3aed;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #2e1065;
+}
+.pcr-section strong, .pcr-section b {
+    color: #4c1d95;
+}
+.content-body {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: inherit;
+}
+.content-body strong {
+    color: inherit;
+    font-weight: 700;
+}
+.content-body ul {
+    margin: 8px 0;
+    padding-left: 25px;
+}
+.content-body li {
+    margin: 4px 0;
+    color: inherit;
+}
+.news-section {
+    background-color: #e0e7ff;
+    border-left: 4px solid #4f46e5;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #1e1b4b;
+}
+.news-section strong, .news-section b {
+    color: #312e81;
+}
+.signals-section {
+    background-color: #d1fae5;
+    border-left: 4px solid #059669;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #064e3b;
+}
+.signals-section strong, .signals-section b {
+    color: #065f46;
+}
+.synthesis-section {
+    background-color: #ede9fe;
+    border-left: 4px solid #7c3aed;
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 10px;
+    color: #2e1065;
+}
+.synthesis-section strong, .synthesis-section b {
+    color: #4c1d95;
+}
+.synthesis-section .content-body {
+    font-size: 0.98em;
+    line-height: 1.7;
+}
+.fear-greed-section {
+    background-color: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #78350f;
+}
+.fear-greed-section strong, .fear-greed-section b {
+    color: #92400e;
+}
+.social-section {
+    background-color: #d1fae5;
+    border-left: 4px solid #059669;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #064e3b;
+}
+.social-section strong, .social-section b {
+    color: #065f46;
+}
+.congress-section {
+    background-color: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #78350f;
+}
+.congress-section strong, .congress-section b {
+    color: #92400e;
+}
+.disclaimer {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 0.85em;
+    color: #4b5563;
+    line-height: 1.6;
+}
+.disclaimer h3 {
+    color: #dc2626;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+.disclaimer p {
+    margin: 10px 0;
+}
+.disclaimer strong {
+    color: #1f2937;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Multi-Timeframe Predictions - Top Predictions</h1>
+        <p><strong>Valid For:</strong> 2026-03-25 (Wednesday)</p>
+        <p><strong>Generated:</strong> 2026-03-24 17:32:55 EST</p>
+
+        
+    <div class="summary">
+        <h2 style="margin-top: 0; color: white;">📈 Summary</h2>
+        <p><strong>Total Tickers:</strong> 13</p>
+        <p><strong>With Predictions:</strong> 13</p>
+        <p><strong>Daily:</strong> 0 |
+           <strong>Weekly:</strong> 0 |
+           <strong>Monthly:</strong> 13</p>
+    </div>
+    
+
+        
+        <div class="news-section">
+            <div class="content-body"><div style="margin: 3px 0;">📰 <strong>MARKET-RELEVANT NEWS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;"><strong>💼 Business & Markets:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.cnbc.com/2026/03/24/jamie-dimon-iran-war-middle-east-peace-prospects-long-term.html" style="color: #3498db; text-decoration: none;">Jamie Dimon says Iran war makes Middle East peace prospects better in the long term</a> [CNBC] (2m ago)</li>
+<li><a href="https://www.cnbc.com/2026/03/24/dhs-homeland-shutdown-tsa-delays-senate-white-house-funding-deal.html" style="color: #3498db; text-decoration: none;">Senate, White House start to coalesce around ending DHS shutdown amid TSA delays</a> [CNBC] (2m ago)</li>
+<li><a href="https://www.cnbc.com/2026/03/24/arm-launches-its-own-cpu-with-meta-as-first-customer.html" style="color: #3498db; text-decoration: none;">Arm releases first in-house chip, with Meta as debut customer</a> [CNBC] (8m ago)</li>
+<li><a href="https://finance.yahoo.com/markets/stocks/articles/why-servicenow-stock-drifting-lower-171813039.html" style="color: #3498db; text-decoration: none;">Why ServiceNow Stock Was Drifting Lower Today</a> [Yahoo Finance] (12m ago)</li>
+<li><a href="https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-drop-after-rally-as-iran-war-drags-on-171812803.html" style="color: #3498db; text-decoration: none;">Stock market today: Dow, S&P 500, Nasdaq drop after rally as Iran war drags on</a> [Yahoo Finance] (12m ago)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>🏛️ Economy & Fed:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.cnbc.com/2026/03/24/us-to-pay-totalenergies-1-billion-to-kill-east-coast-wind-projects.html" style="color: #3498db; text-decoration: none;">White House to pay TotalEnergies $1 billion to kill off East Coast wind farm projects</a> [CNBC Economy] (10h ago)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>🇺🇸 US News:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.nytimes.com/2026/03/24/us/politics/senate-republicans-homeland-security-shutdown-ice.html" style="color: #3498db; text-decoration: none;">Republicans Step Up Efforts to Reach DHS Funding Deal and End Shutdown</a> [NYT US] (1h ago)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>🌍 World News:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.nytimes.com/live/2026/03/24/world/iran-war-trump-oil" style="color: #3498db; text-decoration: none;">Iran War Live Updates: Tehran Fires New Barrages After U.S. Claims Progress on Talks</a> [NYT World] (16m ago)</li>
+</ul>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 8 of 35 headlines shown</div></div>
+        </div>
+                    
+
+        <div class="events-section">
+            <div class="content-body">
+                <strong>📅 Important Events for Tomorrow</strong><br>
+                <span style="color: #666; font-style: italic;">No major events scheduled for tomorrow.</span>
+            </div>
+        </div>
+                
+
+        <div class="signals-section">
+            <div class="content-body"><div style="margin: 3px 0;">🎯 <strong>MARKET SIGNALS FROM NEWS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;"><strong>📰 Key Headlines & Ticker Implications:</strong></div>
+<br>
+<div style="margin: 3px 0;"><strong>1.</strong> <a href="https://www.nytimes.com/2026/03/24/us/politics/cuba-russia-china.html" style="color: #3498db; text-decoration: none;">Russian Oil Shipment Puts Focus on Kremlin Spy Outpost in Cuba</a></div>
+<div style="margin: 3px 0;">     🟢 XLE, DFEN, GLD · 🔴 TLT</div>
+<br>
+<div style="margin: 3px 0;"><strong>2.</strong> <a href="https://www.npr.org/2026/03/24/nx-s1-5759259/cornhole-amputee-dayton-webber-murder-arrest" style="color: #3498db; text-decoration: none;">A professional cornhole player and quadruple amputee is arrested for murder</a></div>
+<div style="margin: 3px 0;">     🟢 PFE, BRKB</div>
+<br>
+<div style="margin: 3px 0;"><strong>3.</strong> <a href="https://www.nytimes.com/2026/03/24/us/politics/senate-republicans-homeland-security-shutdown-ice.html" style="color: #3498db; text-decoration: none;">Republicans Step Up Efforts to Reach DHS Funding Deal and End Shutdown</a></div>
+<div style="margin: 3px 0;">     🟢 XLF, XLI, ITA</div>
+<br>
+<div style="margin: 3px 0;"><strong>4.</strong> <a href="https://www.nytimes.com/live/2026/03/24/world/iran-war-trump-oil" style="color: #3498db; text-decoration: none;">Iran War Live Updates: Tehran Fires New Barrages After U.S. Claims Progress on Talks</a></div>
+<div style="margin: 3px 0;">     🟢 XLE, DFEN, GLD · 🔴 TLT</div>
+<br>
+<div style="margin: 3px 0;"><strong>5.</strong> <a href="https://www.bbc.com/news/articles/cy91j9qwp4do?at_medium=RSS&at_campaign=rss" style="color: #3498db; text-decoration: none;">Israel says it will take control of large buffer zone in southern Lebanon</a></div>
+<div style="margin: 3px 0;">     🟢 DFEN, XLE, GLD</div>
+<br>
+<div style="margin: 3px 0;"><strong>6.</strong> <a href="https://www.bbc.com/news/articles/cz90gpyw90wo?at_medium=RSS&at_campaign=rss" style="color: #3498db; text-decoration: none;">Ukraine Unesco site damaged as Russia launches 400 drones in deadly daytime attack</a></div>
+<div style="margin: 3px 0;">     🟢 DFEN, XLE, GLD</div>
+<br>
+<div style="margin: 3px 0;"><strong>📊 Ticker Signal Summary:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>🟢 Bullish: <strong>XLE</strong> (oil) ×5, <strong>DFEN</strong> (defense) ×5, <strong>GLD</strong> (safe haven) ×5, <strong>PFE</strong> (healthcare) ×1, <strong>BRKB</strong> (insurance) ×1, <strong>XLF</strong> (financials) ×1</li>
+<li>🔴 Bearish: <strong>TLT</strong> (treasury risk) ×3, <strong>SPY</strong> (market) ×1, <strong>QQQ</strong> (tech) ×1, <strong>DIA</strong> (industrials) ×1</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="synthesis-section" style="border-left: 4px solid #a78bfa; padding: 18px 22px; margin-bottom: 20px; background-color: #1e1b4b; border-radius: 10px; color: #e0e7ff;">
+            <div class="content-body" style="color: #e0e7ff;"><div style="margin: 3px 0;">🧠 <strong>MARKET SYNTHESIS & OPPORTUNITIES</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;"><strong>PART 1 - TOP STORIES SUMMARY:</strong></div>
+<br>
+<div style="margin: 3px 0;"><strong>Theme 1: Risk-Off / Safe Haven Rotation Dominating</strong></div>
+<div style="margin: 3px 0;">The dominant narrative today is a clear flight to safety. <strong>GLD</strong> (gold) leading bullish signals with 7 mentions alongside <strong>VXX</strong> (volatility index ETF) turning bullish strongly suggests institutional money is hedging aggressively. This is a classic defensive positioning pattern — traders are buying protection, not risk.</div>
+<br>
+<div style="margin: 3px 0;"><strong>Theme 2: Geopolitical Tensions Driving Commodity & Defense Bid</strong></div>
+<div style="margin: 3px 0;"><strong>DFEN</strong> (defense ETF) at 7 bullish mentions and <strong>XLE</strong> (energy) at 6 bullish mentions, combined with <strong>WEAT</strong> (wheat) bullish and <strong>RSX</strong> (Russia ETF) bearish, paints a coherent geopolitical stress picture. Sanctions pressure on Russian assets, energy supply concerns, and defense spending expectations are all converging. This looks like an escalation narrative in Eastern Europe or Middle East.</div>
+<br>
+<div style="margin: 3px 0;"><strong>Theme 3: Crypto in Extreme Fear, Tech Selectively Bid</strong></div>
+<div style="margin: 3px 0;">Crypto Fear & Greed at <strong>11/100</strong> is near historic capitulation territory. Simultaneously, <strong>NVDA</strong> and <strong>AMD</strong> are seeing modest bullish mentions — suggesting tech hardware/AI demand remains a bright spot even as speculative assets crater.</div>
+<br>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;"><strong>PART 2 - SHORT-TERM OPPORTUNITIES:</strong></div>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>The most important macro signal today is the convergence of GLD + VXX bullishness</strong> — when both gold AND volatility are being bought simultaneously, it signals genuine fear of a disorderly market move, not just routine hedging. Traders should respect this combination and size risk accordingly.</li>
+</ul>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>GLD</strong> presents the cleanest high-conviction trade: 7 bullish mentions, safe-haven demand, and the bearish RSX/geopolitical backdrop all reinforce gold's bid. Electronic components sector strength (+4.1%) also aligns with supply chain disruption narratives that typically support commodity prices.</li>
+</ul>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>DFEN</strong> (Direxion Aerospace & Defense 3x) is seeing maximum bullish signal intensity (7B mentions) — matching GLD. Defense spending accelerates during geopolitical stress cycles. With Oil & Gas Equipment (+4.0%) also ripping, the "conflict economy" trade is clearly active today.</li>
+</ul>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>XLE</strong> benefits from a double tailwind: geopolitical supply disruption risk AND sector momentum in Oil & Gas Equipment & Services (+4.0%). The WEAT bullish signal reinforces the commodity disruption theme. <strong>XLE + WEAT as a paired commodity stress basket</strong> is a coherent short-term idea.</li>
+</ul>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>Crypto Fear & Greed at 11 is a contrarian watch</strong> — not necessarily an entry signal *today*, but levels this extreme (bottom 5% historically) have preceded sharp mean-reversion bounces within 3-7 days. Patient traders should watchlist <strong>BTC proxies</strong> for a sentiment exhaustion bounce, but wait for a confirming reversal candle first. Do NOT fight the tape preemptively.</li>
+</ul>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>NVDA and AMD</strong> bullish mentions, while modest (1B each), are notable *because* they're occurring in a risk-off environment. This suggests AI/semiconductor demand is viewed as structurally decoupled from macro fear. These are <strong>hold/accumulate on dips</strong> rather than aggressive chase setups today.</li>
+</ul>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>Avoid the laggards with conviction</strong>: Industrial Gases (-1.5%), Other Specialty Retail (-1.</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="calendar-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📅 <strong>ECONOMIC CALENDAR - SECRET TIER</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<div style="margin: 3px 0;">All Global Events (Sorted by Impact)</div>
+<div style="margin: 3px 0;">Data Collected: 2026-03-24 17:32:50</div>
+<br>
+<div style="margin: 3px 0;">💱 <strong>AUD EVENTS:</strong></div>
+<div style="margin: 3px 0;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 5:15pm - RBA Assist Gov Kent Speaks</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: </div>
+<div style="margin: 3px 0;">    🕐 Tentative - NAB Quarterly Business Confidence</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: 0</div>
+<br>
+<div style="margin: 3px 0;">💱 <strong>CHF EVENTS:</strong></div>
+<div style="margin: 3px 0;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 4:00am - UBS Economic Expectations</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: 9.8</div>
+<div style="margin: 3px 0;">    🕐 9:00am - SNB Quarterly Bulletin</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: </div>
+<br>
+<div style="margin: 3px 0;">💱 <strong>CNY EVENTS:</strong></div>
+<div style="margin: 3px 0;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 8:00am - CB Leading Index m/m</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: -0.3%</div>
+<br>
+<div style="margin: 3px 0;">💱 <strong>Currency EVENTS:</strong></div>
+<div style="margin: 3px 0;">💱 <strong>EUR EVENTS:</strong></div>
+<div style="margin: 3px 0;">  🟡 <strong>Medium IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 3:45am - ECB President Lagarde Speaks</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: </div>
+<br>
+<div style="margin: 3px 0;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 4:00am - German ifo Business Climate</div>
+<div style="margin: 3px 0;">       Forecast: 86.2 | Previous: 88.6</div>
+<div style="margin: 3px 0;">    🕐 9:00am - Belgian NBB Business Climate</div>
+<div style="margin: 3px 0;">       Forecast: -14.8 | Previous: -13.7</div>
+<br>
+<div style="margin: 3px 0;">💱 <strong>GBP EVENTS:</strong></div>
+<div style="margin: 3px 0;">  🔴 <strong>High IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 2:00am - CPI y/y</div>
+<div style="margin: 3px 0;">       Forecast: 3.0% | Previous: 3.0%</div>
+<br>
+<div style="margin: 3px 0;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 2:00am - Core CPI y/y</div>
+<div style="margin: 3px 0;">       Forecast: 3.1% | Previous: 3.1%</div>
+<div style="margin: 3px 0;">    🕐 2:00am - PPI Input m/m</div>
+<div style="margin: 3px 0;">       Forecast: 0.5% | Previous: 0.4%</div>
+<div style="margin: 3px 0;">    🕐 2:00am - PPI Output m/m</div>
+<div style="margin: 3px 0;">       Forecast: 0.3% | Previous: 0.0%</div>
+<div style="margin: 3px 0;">    🕐 2:00am - RPI y/y</div>
+<div style="margin: 3px 0;">       Forecast: 3.7% | Previous: 3.8%</div>
+<div style="margin: 3px 0;">    🕐 4:30am - HPI y/y</div>
+<div style="margin: 3px 0;">       Forecast: 1.7% | Previous: 2.4%</div>
+<div style="margin: 3px 0;">    🕐 7:00am - MPC Member Greene Speaks</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: </div>
+<br>
+<div style="margin: 3px 0;">💱 <strong>JPY EVENTS:</strong></div>
+<div style="margin: 3px 0;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 6:50pm - SPPI y/y</div>
+<div style="margin: 3px 0;">       Forecast: 2.6% | Previous: 2.6%</div>
+<br>
+<div style="margin: 3px 0;">💱 <strong>USD EVENTS:</strong></div>
+<div style="margin: 3px 0;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin: 3px 0;">    🕐 7:30am - Current Account</div>
+<div style="margin: 3px 0;">       Forecast: -211B | Previous: -226B</div>
+<div style="margin: 3px 0;">    🕐 7:30am - Import Prices m/m</div>
+<div style="margin: 3px 0;">       Forecast: 0.6% | Previous: 0.2%</div>
+<div style="margin: 3px 0;">    🕐 9:30am - Crude Oil Inventories</div>
+<div style="margin: 3px 0;">       Forecast: -1.4M | Previous: 6.2M</div>
+<div style="margin: 3px 0;">    🕐 3:10pm - FOMC Member Miran Speaks</div>
+<div style="margin: 3px 0;">       Forecast:  | Previous: </div>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>DETAILED DATA:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>Complete CSV data available in attachment</li>
+<li>File: economic_calendar_20260325_003037.csv</li>
+</ul>
+<br>
+<div style="margin: 3px 0;">💡 <strong>SECRET TIER ACCESS:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>All global economic events</li>
+<li>Sorted by currency and impact level</li>
+<li>Complete CSV data included</li>
+</ul></div>
+        </div>
+                
+
+        <div class="pcr-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>PUT/CALL RATIO ANALYSIS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<div style="margin: 3px 0;">Latest Options Activity: 2026-03-23</div>
+<br>
+<div style="margin: 3px 0;"><strong>Market Sentiment Interpretation:</strong></div>
+<div style="margin: 3px 0;">  🐻⚠️ <strong>Moderately Bearish</strong> - Elevated put activity</div>
+<br>
+<div style="margin: 3px 0;"><strong>Key Ratios:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>TOTAL PUT/CALL RATIO: 0.990</li>
+</ul>
+<div style="margin: 3px 0;">    Overall market sentiment - 🐂✅ Bullish (Call buying > Put buying - Moderate upside)</div>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>EQUITY PUT/CALL RATIO: 0.570</li>
+</ul>
+<div style="margin: 3px 0;">    Individual stock sentiment - 🐂✅ Bullish (Call buying > Put buying - Moderate upside)</div>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>INDEX PUT/CALL RATIO: 1.060</li>
+</ul>
+<div style="margin: 3px 0;">    Index options sentiment - 🐻📉 Bearish (Put buying > Call buying - Downside protection)</div>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>CBOE VOLATILITY INDEX (VIX) PUT/CALL RATIO: 0.720</li>
+</ul>
+<div style="margin: 3px 0;">    Volatility sentiment - 🐻⚠️ Bearish (VIX Call buying > VIX Put buying - Volatility expected)</div>
+<br>
+<div style="margin: 3px 0;">💡 <strong>SECRET TIER ACCESS:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>Complete Put/Call ratio analysis</li>
+<li>All key market sentiment indicators</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="fear-greed-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>FEAR & GREED INDEX</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<div style="margin: 3px 0;">Data Collected: 2026-03-24 17:32:51</div>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">🏛️ <strong>Stock Market: 14/100 - EXTREME FEAR 🔴</strong></div>
+<div style="margin: 3px 0;">   💡 Market may be oversold</div>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">₿ <strong>Crypto Market: 11/100 - EXTREME FEAR 🔴</strong></div>
+<br>
+<div style="margin: 3px 0;">💡 <strong>Fear & Greed Insights:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>Extreme Fear = Potential buying opportunity</li>
+<li>Extreme Greed = Potential selling opportunity</li>
+<li>Use as contrarian indicator for market timing</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="social-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>SOCIAL SENTIMENT - TRENDING STOCKS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<div style="margin: 3px 0;">Data Collected: 2026-03-24T17:32:51.879520</div>
+<br>
+<div style="margin: 3px 0;"><strong>Top 10 Trending Stocks On Reddit (Last 24 Hours):</strong></div>
+<br>
+<div style="margin: 3px 0;">   1. SPY    -  536 mentions,  2591 upvotes</div>
+<div style="margin: 3px 0;">   2. MSFT   -  367 mentions,  1821 upvotes</div>
+<div style="margin: 3px 0;">   3. USO    -  115 mentions,   318 upvotes</div>
+<div style="margin: 3px 0;">   4. MU     -  100 mentions,   257 upvotes</div>
+<div style="margin: 3px 0;">   5. AM     -   74 mentions,   520 upvotes</div>
+<div style="margin: 3px 0;">   6. DTE    -   72 mentions,   486 upvotes</div>
+<div style="margin: 3px 0;">   7. NVDA   -   66 mentions,   335 upvotes</div>
+<div style="margin: 3px 0;">   8. QQQ    -   61 mentions,   179 upvotes</div>
+<div style="margin: 3px 0;">   9. SMCI   -   60 mentions,   181 upvotes</div>
+<div style="margin: 3px 0;">  10. MOS    -   54 mentions,  2089 upvotes</div>
+<br>
+<div style="margin: 3px 0;"><strong>Summary:</strong> 103 stocks tracked, 1505 total mentions</div>
+<div style="margin: 3px 0;">Average mentions per stock: 150.5</div></div>
+        </div>
+                    
+
+        <div class="social-section">
+            <div class="content-body"><div style="margin: 3px 0;">📱 <strong>SOCIAL TRENDS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;"><strong>🟠 Reddit Trending Tickers:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>SPY</strong>: 4 mentions, 2,972 engagement 🟢 +0.82 [r/options, r/StockMarket]</li>
+<li><strong>VIX</strong>: 4 mentions, 432 engagement 🟢 +0.42 [r/options]</li>
+<li><strong>QQQ</strong>: 3 mentions, 142 engagement 🟢 +0.40 [r/stocks, r/options]</li>
+<li><strong>POET</strong>: 1 mentions, 17 engagement 🟢 +0.74 [WSB]</li>
+<li><strong>USO</strong>: 1 mentions, 179 engagement 🟢 +0.62 [WSB]</li>
+<li><strong>BNO</strong>: 1 mentions, 179 engagement 🟢 +0.62 [WSB]</li>
+<li><strong>JPM</strong>: 1 mentions, 12 engagement 🟢 +0.30 [r/stocks]</li>
+<li><strong>GLD</strong>: 1 mentions, 12 engagement 🟢 +0.30 [r/stocks]</li>
+<li><strong>SLV</strong>: 1 mentions, 12 engagement 🟢 +0.30 [r/stocks]</li>
+<li><strong>GOOG</strong>: 1 mentions, 23 engagement ⚪ -0.14 [r/stocks]</li>
+<li><strong>TSLA</strong>: 1 mentions, 8 engagement 🟢 +0.50 [r/options]</li>
+<li><strong>GOOGL</strong>: 1 mentions, 87 engagement 🟢 +0.50 [r/options]</li>
+<li><strong>NVDA</strong>: 1 mentions, 124 engagement 🟢 +1.26 [r/options, r/StockMarket]</li>
+<li><strong>MU</strong>: 1 mentions, 87 engagement 🟢 +0.50 [r/options]</li>
+<li><strong>AMD</strong>: 1 mentions, 87 engagement 🟢 +0.50 [r/options]</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>🔴 YouTube Trending Finance:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>NOW</strong>: 1 views, 0 engagement — TIME TO BUY! NOW!! GOLD • SILVER • BITCOIN</li>
+</ul>
+<br></div>
+        </div>
+                    
+
+        <div class="info-section">
+            <div class="content-body"><div style="margin: 3px 0;">🌍 <strong>GENERAL TRENDS</strong> (non-finance viral content)</div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;">_Trending topics outside finance that may indirectly affect markets_</div>
+<div style="margin: 3px 0;">_— consumer sentiment, geopolitics, cultural shifts, tech adoption_</div>
+<br>
+<div style="margin: 3px 0;"><strong>1.</strong> BREAKING: Trump HALTS strikes against Iran energy targets — Fox News</div>
+<div style="margin: 3px 0;">   YouTube: 2,001,130 views, 35,809 engagement</div>
+<div style="margin: 3px 0;"><strong>2.</strong> Iran Israel War LIVE: ईरान ने इजरायल के परमाणु केंद्र को उड़ाया? | America | Trump | Nulce — ABP NEWS</div>
+<div style="margin: 3px 0;">   YouTube: 1,279,092 views, 4,056 engagement</div>
+<div style="margin: 3px 0;"><strong>3.</strong> US and Israel Attack Iran &amp; Plane Hits Truck at LaGuardia Airport  - LIVE Double News  — Agenda-Free TV</div>
+<div style="margin: 3px 0;">   YouTube: 709,934 views, 9,431 engagement</div>
+<div style="margin: 3px 0;"><strong>4.</strong> Iran Vs US-Israel War LIVE: लो रुक गया युद्ध? जीत गया ईरान? | Trump | Breaking | Attack LI — ABP NEWS</div>
+<div style="margin: 3px 0;">   YouTube: 591,029 views, 2,614 engagement</div>
+<div style="margin: 3px 0;"><strong>5.</strong> Американцы могут взять под контроль Ормуз #иран #трамп #нетаньяху #новости #политика #сша — CTVBY</div>
+<div style="margin: 3px 0;">   YouTube: 514,091 views, 3,165 engagement</div>
+<div style="margin: 3px 0;"><strong>6.</strong> Паника в Израиле. Болезненный удар по Димоне #иран #трамп #нетаньяху #новости #политика #и — CTVBY</div>
+<div style="margin: 3px 0;">   YouTube: 497,603 views, 8,955 engagement</div>
+<div style="margin: 3px 0;"><strong>7.</strong> BREAKING: MAJOR announcement about US airports — Brian Tyler Cohen</div>
+<div style="margin: 3px 0;">   YouTube: 399,555 views, 27,086 engagement</div>
+<div style="margin: 3px 0;"><strong>8.</strong> Iran Israel America War News LIVE: ईरान का रौद्र रूप, तेज हुई जंग! | Trump | Breaking News — Republic Bharat</div>
+<div style="margin: 3px 0;">   YouTube: 354,368 views, 1,489 engagement</div>
+<div style="margin: 3px 0;"><strong>9.</strong> 🔴LIVE : நாட்டையே உலுக்கிய சாத்தான்குளம் வழக்கு - சற்றுநேரத்தில் தீர்ப்பு வாசிப்பு — Thanthi TV</div>
+<div style="margin: 3px 0;">   YouTube: 317,001 views, 1,398 engagement</div>
+<div style="margin: 3px 0;"><strong>10.</strong> Iran US Israel War : ट्रंप का 5 दिन वाला प्‍लान सरेंडर या नया छल I  Donald Trump I Iran Vs — TV9 Bharatvarsh</div>
+<div style="margin: 3px 0;">   YouTube: 285,352 views, 1,708 engagement</div>
+<div style="margin: 3px 0;"><strong>11.</strong> Trump postpones strikes against Iran power plants due to &quot;productive&quot; talks with — BBC News</div>
+<div style="margin: 3px 0;">   YouTube: 273,505 views, 4,660 engagement</div>
+<div style="margin: 3px 0;"><strong>12.</strong> Iran war: Trump says Strait of Hormuz must open or U.S. will bomb power plants | FOX 10 Ph — FOX 10 Phoenix</div>
+<div style="margin: 3px 0;">   YouTube: 246,534 views, 2,822 engagement</div>
+<br></div>
+        </div>
+                    
+
+        
+
+        <h2>🎯 Predictions by Ticker</h2>
+        <p style="color: #666;">Sorted by daily confidence (descending). Direction from classifier, confidence from regressor.</p>
+
+        <table>
+            <thead>
+                
+        <tr>
+            <th>#</th>
+            <th class="ticker">Ticker</th>
+            <th>Daily Dir</th>
+            <th>Daily Conf</th>
+            <th>Daily AUC</th>
+            <th>Weekly Dir</th>
+            <th>Weekly Conf</th>
+            <th>Weekly AUC</th>
+            <th>Monthly Dir</th>
+            <th>Monthly Conf</th>
+            <th>Monthly AUC</th>
+            <th>Coverage</th>
+        </tr>
+        
+            </thead>
+            <tbody>
+                
+        <tr class="low-confidence">
+            <td>1</td>
+            <td><strong>GOOGL</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>2</td>
+            <td><strong>AZO</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>3</td>
+            <td><strong>AAPL</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>4</td>
+            <td><strong>ANSS</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>5</td>
+            <td><strong>ADP</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>6</td>
+            <td><strong>QQQ</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>7</td>
+            <td><strong>AMZN</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>8</td>
+            <td><strong>BAC</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>9</td>
+            <td><strong>BBY</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>10</td>
+            <td><strong>JPM</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>11</td>
+            <td><strong>MSFT</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>12</td>
+            <td><strong>NVDA</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>13</td>
+            <td><strong>SPY</strong></td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="bearish">📉 ↓</td>
+            <td>50.0%</td>
+            <td class="auc-cell">—</td>
+            <td>1/3</td>
+        </tr>
+        
+            </tbody>
+        </table>
+
+        
+    <div class="legend">
+        <h3 style="margin-top: 0;">📖 Legend</h3>
+        <p><span class="bullish">📈 ↑ BULLISH</span> - Classifier predicts price increase</p>
+        <p><span class="bearish">📉 ↓ BEARISH</span> - Classifier predicts price decrease</p>
+        <p><strong>Confidence:</strong> Direction accuracy from regressor model (historical win rate)</p>
+        <p><strong>AUC:</strong> Area Under ROC Curve from classifier (classification quality metric)</p>
+        <p><strong>Coverage:</strong> Number of timeframes with valid predictions (Daily/Weekly/Monthly)</p>
+        <p style="color: #10b981;">🟢 Green rows: High confidence (≥60%)</p>
+        <p style="color: #ef4444;">🔴 Red rows: Low confidence (&lt;52%)</p>
+    </div>
+    
+
+        
+    <div class="footer">
+        <p>Generated by AutoTrader ML System</p>
+        <p>📺 YouTube: <a href="https://www.youtube.com/@investwithdave">@investwithdave</a></p>
+        <p>🔗 Learn more about trading strategies, market analysis, and financial insights</p>
+    </div>
+    
+
+        
+    <div class="disclaimer">
+        <h3>⚠️ IMPORTANT DISCLAIMERS</h3>
+
+        <p><strong>💰 FINANCIAL DISCLAIMER:</strong><br>
+        This analysis is for informational and educational purposes only. It does not constitute investment advice, financial advice, trading advice, or any other sort of advice. The information provided is not intended to be used as the sole basis for any investment decisions. Past performance does not guarantee future results. All investments involve risk, including the potential loss of principal.</p>
+
+        <p><strong>🚫 NO INVESTMENT RECOMMENDATIONS:</strong><br>
+        We do not recommend, endorse, or suggest any specific investments, securities, or trading strategies. The analysis provided is based on historical data and statistical models that may not accurately predict future market movements. Market conditions change rapidly and unpredictably.</p>
+
+        <p><strong>🤖 AUTOMATED ANALYSIS:</strong><br>
+        This report is generated by automated systems using machine learning models. These models have limitations and may produce inaccurate predictions. Always conduct your own research and consult with qualified financial professionals before making investment decisions.</p>
+
+        <p><strong>📊 DATA ACCURACY:</strong><br>
+        While we strive for accuracy, we do not guarantee the accuracy, completeness, or timeliness of any information provided. Data sources may have errors, delays, or other issues that could affect the analysis.</p>
+
+        <p><strong>⚖️ LEGAL DISCLAIMER:</strong><br>
+        This service is provided 'as is' without warranties of any kind. We disclaim all warranties, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+        <p><strong>👤 INDIVIDUAL RESPONSIBILITY:</strong><br>
+        You are solely responsible for your investment decisions and their outcomes. You should conduct your own research and due diligence before making any investment decisions. Never invest more than you can afford to lose.</p>
+
+        <p style="font-size: 0.85em; margin-top: 15px;">
+        By using this service, you acknowledge that you have read, understood, and agree to these disclaimers.<br>
+        For questions or concerns, contact: 50685071@proton.me
+        </p>
+    </div>
+    
+    </div>
+</body>
+</html>
+    
