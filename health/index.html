@@ -293,6 +293,10 @@
             <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.3rem;" id="current-waketime">--</div><div class="stat-label">Wake</div></div>
         </div>
         
+        <!-- AI-Generated Insights -->
+        <div class="section-title">🧠 Pattern Insights</div>
+        <div class="insights-grid" id="patternInsights"></div>
+        
         <!-- Weekly Insights -->
         <div class="section-title">📈 This Week vs Last Week</div>
         <div class="insights-grid" id="weeklyInsights"></div>
@@ -534,6 +538,178 @@
                 },
                 options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } } } }
             });
+        }
+        
+        function buildPatternInsights(daily) {
+            const insights = [];
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            // 1. Exercise paradox - check if big exercise hurts next-day recovery
+            const bigExercise = [];
+            const normalExercise = [];
+            for (let i = 0; i < daily.length - 1; i++) {
+                const vig = daily[i].vigorous_minutes || 0;
+                const nextSleep = daily[i+1].sleep_score;
+                const nextHrv = daily[i+1].hrv_last_night;
+                if (nextSleep != null) {
+                    if (vig > 60) bigExercise.push({ sleep: nextSleep, hrv: nextHrv });
+                    else normalExercise.push({ sleep: nextSleep, hrv: nextHrv });
+                }
+            }
+            if (bigExercise.length >= 3 && normalExercise.length >= 3) {
+                const bigSleep = stats.mean(bigExercise.map(d => d.sleep));
+                const normSleep = stats.mean(normalExercise.map(d => d.sleep));
+                const diff = bigSleep - normSleep;
+                if (Math.abs(diff) > 5) {
+                    insights.push({
+                        emoji: diff < 0 ? '🏃💤' : '🏃✨',
+                        title: 'Exercise & Sleep',
+                        text: diff < 0 
+                            ? `Big exercise days (>60min) are followed by ${Math.abs(diff).toFixed(0)} points worse sleep. Your body needs recovery time.`
+                            : `Exercise improves your sleep! ${diff.toFixed(0)} points better after active days.`,
+                        color: diff < 0 ? 'var(--yellow)' : 'var(--green)'
+                    });
+                }
+            }
+            
+            // 2. Best day of week for sleep
+            const dowSleep = [0,1,2,3,4,5,6].map(d => {
+                const vals = daily.filter(x => new Date(x.date).getDay() === d && x.sleep_score).map(x => x.sleep_score);
+                return { day: d, avg: vals.length ? stats.mean(vals) : null, n: vals.length };
+            }).filter(d => d.avg != null);
+            
+            if (dowSleep.length >= 5) {
+                const best = dowSleep.reduce((a, b) => a.avg > b.avg ? a : b);
+                const worst = dowSleep.reduce((a, b) => a.avg < b.avg ? a : b);
+                if (best.avg - worst.avg > 10) {
+                    insights.push({
+                        emoji: '📅',
+                        title: 'Sleep Patterns by Day',
+                        text: `You sleep best on ${days[best.day]}s (${best.avg.toFixed(0)}/100) and worst on ${days[worst.day]}s (${worst.avg.toFixed(0)}/100). ${best.avg - worst.avg > 15 ? 'Huge difference!' : ''}`,
+                        color: 'var(--purple)'
+                    });
+                }
+            }
+            
+            // 3. Sleep duration threshold
+            const above7 = daily.filter(d => d.sleep_hours >= 7 && d.sleep_score).map(d => d.sleep_score);
+            const below7 = daily.filter(d => d.sleep_hours && d.sleep_hours < 7 && d.sleep_score).map(d => d.sleep_score);
+            if (above7.length >= 5 && below7.length >= 5) {
+                const diff = stats.mean(above7) - stats.mean(below7);
+                if (diff > 10) {
+                    insights.push({
+                        emoji: '⏰',
+                        title: '7-Hour Threshold',
+                        text: `Getting 7+ hours = ${diff.toFixed(0)} point better sleep score. The magic number is real for you.`,
+                        color: 'var(--cyan)'
+                    });
+                }
+            }
+            
+            // 4. Most active day
+            const dowSteps = [0,1,2,3,4,5,6].map(d => {
+                const vals = daily.filter(x => new Date(x.date).getDay() === d && x.total_steps).map(x => x.total_steps);
+                return { day: d, avg: vals.length ? stats.mean(vals) : 0 };
+            });
+            const maxStepsDay = dowSteps.reduce((a, b) => a.avg > b.avg ? a : b);
+            const avgSteps = stats.mean(daily.filter(d => d.total_steps).map(d => d.total_steps)) || 0;
+            if (maxStepsDay.avg > avgSteps * 1.5) {
+                insights.push({
+                    emoji: '👟',
+                    title: `${days[maxStepsDay.day]} = Active Day`,
+                    text: `You average ${(maxStepsDay.avg/1000).toFixed(0)}k steps on ${days[maxStepsDay.day]}s — ${((maxStepsDay.avg/avgSteps - 1) * 100).toFixed(0)}% more than other days.`,
+                    color: 'var(--accent)'
+                });
+            }
+            
+            // 5. HRV-HR correlation (physiological insight)
+            const hrvVals = daily.filter(d => d.hrv_last_night && d.resting_hr).map(d => d.hrv_last_night);
+            const hrVals = daily.filter(d => d.hrv_last_night && d.resting_hr).map(d => d.resting_hr);
+            if (hrvVals.length >= 10) {
+                const r = stats.correlation(hrvVals, hrVals);
+                if (r && r < -0.4) {
+                    insights.push({
+                        emoji: '💓',
+                        title: 'HRV-HR Connection',
+                        text: `Your HRV and resting HR are strongly inverse-correlated (r=${r.toFixed(2)}). Lower HR = higher HRV = better recovery.`,
+                        color: 'var(--red)'
+                    });
+                }
+            }
+            
+            // 6. Body battery predicts activity
+            const bbVals = daily.filter(d => d.max_body_battery && d.total_steps);
+            if (bbVals.length >= 10) {
+                const r = stats.correlation(bbVals.map(d => d.max_body_battery), bbVals.map(d => d.total_steps));
+                if (r && r > 0.4) {
+                    insights.push({
+                        emoji: '🔋',
+                        title: 'Energy = Action',
+                        text: `Higher body battery strongly predicts more steps (r=${r.toFixed(2)}). You actually use your energy!`,
+                        color: 'var(--green)'
+                    });
+                }
+            }
+            
+            // 7. Recent trend alert
+            const last7 = daily.slice(-7);
+            const prior7 = daily.slice(-14, -7);
+            if (last7.length >= 5 && prior7.length >= 5) {
+                const recentStress = stats.mean(last7.filter(d => d.avg_stress).map(d => d.avg_stress));
+                const priorStress = stats.mean(prior7.filter(d => d.avg_stress).map(d => d.avg_stress));
+                const recentSteps = stats.mean(last7.filter(d => d.total_steps).map(d => d.total_steps));
+                const priorSteps = stats.mean(prior7.filter(d => d.total_steps).map(d => d.total_steps));
+                
+                if (recentStress && priorStress && recentStress > priorStress * 1.3) {
+                    insights.push({
+                        emoji: '⚠️',
+                        title: 'Stress Spike',
+                        text: `Stress is up ${((recentStress/priorStress - 1) * 100).toFixed(0)}% this week vs last. Something going on?`,
+                        color: 'var(--yellow)'
+                    });
+                }
+                if (recentSteps && priorSteps && recentSteps < priorSteps * 0.6) {
+                    insights.push({
+                        emoji: '📉',
+                        title: 'Activity Drop',
+                        text: `Steps down ${((1 - recentSteps/priorSteps) * 100).toFixed(0)}% this week. Rest week or time to get moving?`,
+                        color: 'var(--yellow)'
+                    });
+                }
+            }
+            
+            // 8. Streaks
+            let maxSleepStreak = 0, currentStreak = 0;
+            for (const d of daily) {
+                if (d.sleep_score >= 80) { currentStreak++; maxSleepStreak = Math.max(maxSleepStreak, currentStreak); }
+                else currentStreak = 0;
+            }
+            let maxStepStreak = 0; currentStreak = 0;
+            for (const d of daily) {
+                if (d.total_steps >= 10000) { currentStreak++; maxStepStreak = Math.max(maxStepStreak, currentStreak); }
+                else currentStreak = 0;
+            }
+            if (maxSleepStreak >= 3 || maxStepStreak >= 5) {
+                const text = [];
+                if (maxSleepStreak >= 3) text.push(`${maxSleepStreak}-day good sleep streak`);
+                if (maxStepStreak >= 5) text.push(`${maxStepStreak}-day 10k step streak`);
+                insights.push({
+                    emoji: '🔥',
+                    title: 'Best Streaks',
+                    text: text.join(' • '),
+                    color: 'var(--yellow)'
+                });
+            }
+            
+            // Render insights
+            let html = '';
+            for (const ins of insights.slice(0, 8)) {  // Max 8 insights
+                html += `<div class="insight-card">
+                    <h3>${ins.emoji} ${ins.title}</h3>
+                    <div class="insight-detail" style="color: ${ins.color}; font-size: 0.9rem;">${ins.text}</div>
+                </div>`;
+            }
+            document.getElementById('patternInsights').innerHTML = html || '<p style="color: var(--text-muted)">Not enough data for pattern detection yet.</p>';
         }
         
         function buildWeeklyInsights(daily) {
@@ -1141,6 +1317,7 @@
                 document.getElementById('current-waketime').textContent = formatTime(latest?.sleep_end);
                 
                 // Build all sections
+                buildPatternInsights(daily30);
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
                 buildHeatmap(daily);
