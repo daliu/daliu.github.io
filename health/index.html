@@ -152,7 +152,7 @@
             </div>
             <div class="stat-card hrv">
                 <div class="stat-value" id="current-hrv">--</div>
-                <div class="stat-label">HRV (ms)</div>
+                <div class="stat-label">HRV</div>
             </div>
             <div class="stat-card heart">
                 <div class="stat-value" id="current-rhr">--</div>
@@ -169,6 +169,14 @@
             <div class="stat-card stress">
                 <div class="stat-value" id="current-stress">--</div>
                 <div class="stat-label">Stress</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #1a1f2e 0%, #161b22 100%);">
+                <div class="stat-value" style="color: #8b949e; font-size: 1.4rem;" id="current-bedtime">--</div>
+                <div class="stat-label">Bedtime</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #1f2a1a 0%, #161b22 100%);">
+                <div class="stat-value" style="color: #8b949e; font-size: 1.4rem;" id="current-waketime">--</div>
+                <div class="stat-label">Wake Time</div>
             </div>
         </div>
         
@@ -331,16 +339,32 @@
             });
         }
         
+        // Convert HH:MM to decimal hours for stats
+        const timeToDecimal = (t) => {
+            if (!t) return null;
+            const [h, m] = t.split(':').map(Number);
+            return h + m / 60;
+        };
+        
+        const decimalToTime = (d) => {
+            if (d == null) return '--';
+            const h = Math.floor(d) % 24;
+            const m = Math.round((d % 1) * 60);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
+        };
+        
         function buildStatsTable(daily) {
             const metrics = [
-                { name: 'Body Battery (Max)', key: 'max_body_battery', unit: '', good: [70, 100], warn: [40, 70] },
-                { name: 'Body Battery (Min)', key: 'min_body_battery', unit: '', good: [20, 100], warn: [5, 20] },
+                { name: 'Body Battery (Max)', key: 'max_body_battery', unit: '%', good: [70, 100], warn: [40, 70] },
+                { name: 'Body Battery (Min)', key: 'min_body_battery', unit: '%', good: [20, 100], warn: [5, 20] },
                 { name: 'HRV', key: 'hrv_last_night', unit: ' ms', good: [60, 200], warn: [40, 60] },
                 { name: 'Resting HR', key: 'resting_hr', unit: ' bpm', good: [0, 50], warn: [50, 60] },
-                { name: 'Sleep Score', key: 'sleep_score', unit: '', good: [80, 100], warn: [60, 80] },
+                { name: 'Sleep Score', key: 'sleep_score', unit: '/100', good: [80, 100], warn: [60, 80] },
                 { name: 'Sleep Duration', key: 'sleep_hours', unit: ' hrs', good: [7, 9], warn: [6, 7] },
-                { name: 'Steps', key: 'total_steps', unit: '', good: [10000, Infinity], warn: [5000, 10000] },
-                { name: 'Stress', key: 'avg_stress', unit: '', good: [0, 25], warn: [25, 40] },
+                { name: 'Steps', key: 'total_steps', unit: ' steps', good: [10000, Infinity], warn: [5000, 10000] },
+                { name: 'Stress', key: 'avg_stress', unit: '/100', good: [0, 25], warn: [25, 40] },
             ];
             
             let html = '';
@@ -374,6 +398,45 @@
                     <td>${format(range)}</td>
                 </tr>`;
             }
+            
+            // Add sleep timing stats
+            const bedtimes = daily.map(d => timeToDecimal(d.sleep_start)).filter(v => v != null);
+            const waketimes = daily.map(d => timeToDecimal(d.sleep_end)).filter(v => v != null);
+            
+            if (bedtimes.length) {
+                const mean = stats.mean(bedtimes);
+                const median = stats.median(bedtimes);
+                const std = stats.std(bedtimes);
+                const min = stats.min(bedtimes);
+                const max = stats.max(bedtimes);
+                html += `<tr>
+                    <td class="metric-name">Bedtime</td>
+                    <td>${decimalToTime(mean)}</td>
+                    <td>${decimalToTime(median)}</td>
+                    <td>${fmt(std, 1)} hrs</td>
+                    <td>${decimalToTime(min)}</td>
+                    <td>${decimalToTime(max)}</td>
+                    <td>${fmt(max - min, 1)} hrs</td>
+                </tr>`;
+            }
+            
+            if (waketimes.length) {
+                const mean = stats.mean(waketimes);
+                const median = stats.median(waketimes);
+                const std = stats.std(waketimes);
+                const min = stats.min(waketimes);
+                const max = stats.max(waketimes);
+                html += `<tr>
+                    <td class="metric-name">Wake Time</td>
+                    <td>${decimalToTime(mean)}</td>
+                    <td>${decimalToTime(median)}</td>
+                    <td>${fmt(std, 1)} hrs</td>
+                    <td>${decimalToTime(min)}</td>
+                    <td>${decimalToTime(max)}</td>
+                    <td>${fmt(max - min, 1)} hrs</td>
+                </tr>`;
+            }
+            
             document.getElementById('statsBody').innerHTML = html;
         }
 
@@ -389,14 +452,30 @@
                 const daily = data.daily.slice(-30);
                 const latest = daily[daily.length - 1];
                 
-                // Current stats
-                document.getElementById('current-battery').textContent = latest?.max_body_battery ?? '--';
-                document.getElementById('current-hrv').textContent = latest?.hrv_last_night ?? '--';
-                document.getElementById('current-rhr').textContent = latest?.resting_hr ?? '--';
-                document.getElementById('current-sleep').textContent = latest?.sleep_score ?? '--';
+                // Current stats with units
+                document.getElementById('current-battery').textContent = 
+                    latest?.max_body_battery != null ? latest.max_body_battery + '%' : '--';
+                document.getElementById('current-hrv').textContent = 
+                    latest?.hrv_last_night != null ? latest.hrv_last_night + ' ms' : '--';
+                document.getElementById('current-rhr').textContent = 
+                    latest?.resting_hr != null ? latest.resting_hr + ' bpm' : '--';
+                document.getElementById('current-sleep').textContent = 
+                    latest?.sleep_score != null ? latest.sleep_score + '/100' : '--';
                 document.getElementById('current-steps').textContent = 
-                    latest?.total_steps?.toLocaleString() ?? '--';
-                document.getElementById('current-stress').textContent = latest?.avg_stress ?? '--';
+                    latest?.total_steps != null ? latest.total_steps.toLocaleString() : '--';
+                document.getElementById('current-stress').textContent = 
+                    latest?.avg_stress != null ? latest.avg_stress + '/100' : '--';
+                
+                // Sleep times (convert 24h to 12h format)
+                const formatTime = (t) => {
+                    if (!t) return '--';
+                    const [h, m] = t.split(':').map(Number);
+                    const ampm = h >= 12 ? 'PM' : 'AM';
+                    const h12 = h % 12 || 12;
+                    return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
+                };
+                document.getElementById('current-bedtime').textContent = formatTime(latest?.sleep_start);
+                document.getElementById('current-waketime').textContent = formatTime(latest?.sleep_end);
                 
                 // Build statistics table
                 buildStatsTable(daily);
