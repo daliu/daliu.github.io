@@ -379,7 +379,7 @@
         </div>
         
         <!-- Exercise Impact Visualization -->
-        <div class="section-title">🏃 Exercise Impact on Recovery</div>
+        <div class="section-title">🏃 Exercise & Stress Impact</div>
         <div class="charts-grid">
             <div class="chart-card">
                 <h2>Vigorous Exercise → Next Day Sleep Score</h2>
@@ -396,6 +396,27 @@
             <div class="chart-card">
                 <h2>Stress → Next Day HRV</h2>
                 <div class="chart-container"><canvas id="stressHrvChart"></canvas></div>
+            </div>
+        </div>
+        
+        <!-- Sleep Impact Visualization -->
+        <div class="section-title">😴 Sleep Impact on Next Day</div>
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2>Sleep Score → Next Day Stress</h2>
+                <div class="chart-container"><canvas id="sleepStressChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Sleep Score → Next Day Body Battery</h2>
+                <div class="chart-container"><canvas id="sleepBatteryChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Sleep Score → Next Day HRV</h2>
+                <div class="chart-container"><canvas id="sleepHrvChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Sleep Duration → Next Day Steps</h2>
+                <div class="chart-container"><canvas id="sleepStepsChart"></canvas></div>
             </div>
         </div>
         
@@ -754,6 +775,30 @@
                     question: 'Does good sleep boost HRV?',
                     goodDir: 'positive'
                 },
+                {
+                    cause: 'sleep_score',
+                    effect: 'avg_stress',
+                    controls: ['vigorous_minutes'],
+                    lag: 1,
+                    question: 'Does good sleep reduce stress?',
+                    goodDir: 'negative'
+                },
+                {
+                    cause: 'sleep_score',
+                    effect: 'max_body_battery',
+                    controls: ['avg_stress'],
+                    lag: 1,
+                    question: 'Does good sleep boost energy?',
+                    goodDir: 'positive'
+                },
+                {
+                    cause: 'sleep_hours',
+                    effect: 'total_steps',
+                    controls: ['avg_stress'],
+                    lag: 1,
+                    question: 'Does more sleep → more active?',
+                    goodDir: 'positive'
+                },
             ];
             
             let html = '';
@@ -772,12 +817,17 @@
                 const causeLabel = {
                     'vigorous_minutes': 'Vigorous exercise',
                     'avg_stress': 'High stress',
-                    'sleep_score': 'Good sleep'
+                    'sleep_score': 'Good sleep',
+                    'sleep_hours': 'More sleep'
                 }[a.cause] || a.cause;
                 
                 const effectLabel = {
                     'sleep_score': 'sleep score',
-                    'hrv_last_night': 'HRV'
+                    'hrv_last_night': 'HRV',
+                    'avg_stress': 'stress',
+                    'max_body_battery': 'body battery',
+                    'total_steps': 'activity',
+                    'resting_hr': 'resting HR'
                 }[a.effect] || a.effect;
                 
                 let verdict, verdictColor, emoji;
@@ -820,6 +870,14 @@
                 { cause: 'sleep_score', causeLabel: '😴 Sleep Score', effect: 'hrv_last_night', effectLabel: 'HRV (+1d)', controls: ['avg_stress'] },
                 { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'hrv_last_night', effectLabel: 'HRV (+1d)', controls: ['avg_stress'] },
                 { cause: 'total_steps', causeLabel: '👟 Steps', effect: 'sleep_score', effectLabel: 'Sleep Score (+1d)', controls: ['avg_stress'] },
+                // Sleep impact on next day
+                { cause: 'sleep_score', causeLabel: '😴 Sleep Score', effect: 'avg_stress', effectLabel: 'Stress (+1d)', controls: ['vigorous_minutes'] },
+                { cause: 'sleep_score', causeLabel: '😴 Sleep Score', effect: 'max_body_battery', effectLabel: 'Body Battery (+1d)', controls: ['avg_stress'] },
+                { cause: 'sleep_score', causeLabel: '😴 Sleep Score', effect: 'total_steps', effectLabel: 'Steps (+1d)', controls: ['avg_stress'] },
+                { cause: 'sleep_score', causeLabel: '😴 Sleep Score', effect: 'resting_hr', effectLabel: 'Resting HR (+1d)', controls: ['vigorous_minutes'] },
+                { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'avg_stress', effectLabel: 'Stress (+1d)', controls: ['vigorous_minutes'] },
+                { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'max_body_battery', effectLabel: 'Body Battery (+1d)', controls: ['avg_stress'] },
+                { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'total_steps', effectLabel: 'Steps (+1d)', controls: ['avg_stress'] },
             ];
             
             let html = '';
@@ -1098,6 +1156,12 @@
                 createScatterChart('exerciseHrvChart', daily30, 'vigorous_minutes', 'hrv_last_night', 1, 'Vigorous Minutes', 'Next Day HRV (ms)', '#39c5cf');
                 createScatterChart('stressSleepChart', daily30, 'avg_stress', 'sleep_score', 1, 'Stress Level', 'Next Day Sleep Score', '#d29922');
                 createScatterChart('stressHrvChart', daily30, 'avg_stress', 'hrv_last_night', 1, 'Stress Level', 'Next Day HRV (ms)', '#f85149');
+                
+                // Scatter plots for sleep impact on next day
+                createScatterChart('sleepStressChart', daily30, 'sleep_score', 'avg_stress', 1, 'Sleep Score', 'Next Day Stress', '#a371f7');
+                createScatterChart('sleepBatteryChart', daily30, 'sleep_score', 'max_body_battery', 1, 'Sleep Score', 'Next Day Body Battery', '#a371f7');
+                createScatterChart('sleepHrvChart', daily30, 'sleep_score', 'hrv_last_night', 1, 'Sleep Score', 'Next Day HRV (ms)', '#a371f7');
+                createScatterChart('sleepStepsChart', daily30, 'sleep_hours', 'total_steps', 1, 'Sleep Duration (hrs)', 'Next Day Steps', '#a371f7');
                 
                 // Charts
                 createRangeChart('batteryChart',
