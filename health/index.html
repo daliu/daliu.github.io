@@ -331,8 +331,50 @@
             </div>
         </div>
         
+        <!-- Lagged Effects Analysis -->
+        <div class="section-title">⏱️ Cause & Effect (Lagged Correlations)</div>
+        <div class="stats-table-container">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                How today's activity affects tomorrow's recovery. Positive = helps, Negative = hurts.
+            </p>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>→ Sleep (next day)</th>
+                        <th>→ Sleep (+2 days)</th>
+                        <th>→ HRV (next day)</th>
+                        <th>→ HRV (+2 days)</th>
+                        <th>→ Resting HR (next day)</th>
+                    </tr>
+                </thead>
+                <tbody id="laggedEffects"></tbody>
+            </table>
+        </div>
+        
+        <!-- Exercise Impact Visualization -->
+        <div class="section-title">🏃 Exercise Impact on Recovery</div>
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2>Vigorous Exercise → Next Day Sleep Score</h2>
+                <div class="chart-container"><canvas id="exerciseSleepChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Vigorous Exercise → Next Day HRV</h2>
+                <div class="chart-container"><canvas id="exerciseHrvChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Stress → Next Day Sleep Score</h2>
+                <div class="chart-container"><canvas id="stressSleepChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Stress → Next Day HRV</h2>
+                <div class="chart-container"><canvas id="stressHrvChart"></canvas></div>
+            </div>
+        </div>
+        
         <!-- Correlations -->
-        <div class="section-title">🔗 Metric Correlations</div>
+        <div class="section-title">🔗 Same-Day Correlations</div>
         <div class="stats-table-container">
             <div id="correlationMatrix"></div>
             <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px;">
@@ -569,6 +611,126 @@
             buildBars('dowStress', 'stress', '#d29922', 50);
         }
         
+        function buildLaggedEffects(daily) {
+            // Calculate correlations between today's X and future day's Y
+            const laggedCorr = (data, xKey, yKey, lag) => {
+                const pairs = [];
+                for (let i = 0; i < data.length - lag; i++) {
+                    const x = data[i][xKey];
+                    const y = data[i + lag][yKey];
+                    if (x != null && y != null) pairs.push([x, y]);
+                }
+                if (pairs.length < 5) return null;
+                return stats.correlation(pairs.map(p => p[0]), pairs.map(p => p[1]));
+            };
+            
+            const factors = [
+                { key: 'vigorous_minutes', label: '🏃 Vigorous Exercise (min)' },
+                { key: 'intensity_minutes', label: '⚡ Total Intensity (min)' },
+                { key: 'active_calories', label: '🔥 Active Calories' },
+                { key: 'total_steps', label: '👟 Steps' },
+                { key: 'avg_stress', label: '😰 Stress Level' },
+                { key: 'sleep_score', label: '😴 Sleep Score' },
+            ];
+            
+            let html = '';
+            for (const f of factors) {
+                const sleep1 = laggedCorr(daily, f.key, 'sleep_score', 1);
+                const sleep2 = laggedCorr(daily, f.key, 'sleep_score', 2);
+                const hrv1 = laggedCorr(daily, f.key, 'hrv_last_night', 1);
+                const hrv2 = laggedCorr(daily, f.key, 'hrv_last_night', 2);
+                const rhr1 = laggedCorr(daily, f.key, 'resting_hr', 1);
+                
+                const fmtCorr = (r, invert = false) => {
+                    if (r == null) return '<span style="color: var(--text-muted)">--</span>';
+                    const adjusted = invert ? -r : r;  // For RHR, negative is good
+                    const color = adjusted > 0.15 ? 'var(--green)' : adjusted < -0.15 ? 'var(--red)' : 'var(--text-muted)';
+                    const arrow = r > 0.1 ? '↑' : r < -0.1 ? '↓' : '→';
+                    return `<span style="color: ${color}">${arrow} ${r.toFixed(2)}</span>`;
+                };
+                
+                html += `<tr>
+                    <td class="metric-name">${f.label}</td>
+                    <td>${fmtCorr(sleep1)}</td>
+                    <td>${fmtCorr(sleep2)}</td>
+                    <td>${fmtCorr(hrv1)}</td>
+                    <td>${fmtCorr(hrv2)}</td>
+                    <td>${fmtCorr(rhr1, true)}</td>
+                </tr>`;
+            }
+            document.getElementById('laggedEffects').innerHTML = html;
+        }
+        
+        function createScatterChart(canvasId, data, xKey, yKey, lag, xLabel, yLabel, color) {
+            const pairs = [];
+            for (let i = 0; i < data.length - lag; i++) {
+                const x = data[i][xKey];
+                const y = data[i + lag][yKey];
+                if (x != null && y != null) pairs.push({ x, y });
+            }
+            
+            // Calculate trend line
+            const xs = pairs.map(p => p.x);
+            const ys = pairs.map(p => p.y);
+            const r = stats.correlation(xs, ys);
+            const mx = stats.mean(xs), my = stats.mean(ys);
+            const sx = stats.std(xs), sy = stats.std(ys);
+            const slope = r && sx ? (r * sy / sx) : 0;
+            const intercept = my - slope * mx;
+            
+            const minX = stats.min(xs), maxX = stats.max(xs);
+            const trendData = [
+                { x: minX, y: slope * minX + intercept },
+                { x: maxX, y: slope * maxX + intercept }
+            ];
+            
+            new Chart(document.getElementById(canvasId).getContext('2d'), {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Data',
+                            data: pairs,
+                            backgroundColor: color + '80',
+                            borderColor: color,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                        },
+                        {
+                            label: `Trend (r=${r?.toFixed(2) || 'N/A'})`,
+                            data: trendData,
+                            type: 'line',
+                            borderColor: '#ffffff50',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } },
+                        tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e' }
+                    },
+                    scales: {
+                        x: { 
+                            title: { display: true, text: xLabel, color: '#8b949e' },
+                            grid: { color: '#30363d' }, 
+                            ticks: { color: '#8b949e' } 
+                        },
+                        y: { 
+                            title: { display: true, text: yLabel, color: '#8b949e' },
+                            grid: { color: '#30363d' }, 
+                            ticks: { color: '#8b949e' } 
+                        }
+                    }
+                }
+            });
+        }
+        
         function buildCorrelationMatrix(daily) {
             const metrics = [
                 { key: 'sleep_score', label: 'Sleep' },
@@ -688,8 +850,15 @@
                 buildRecords(daily30);
                 buildHeatmap(daily);
                 buildDayOfWeek(daily30);
+                buildLaggedEffects(daily30);
                 buildCorrelationMatrix(daily30);
                 buildStatsTable(daily30);
+                
+                // Scatter plots for exercise/stress impact
+                createScatterChart('exerciseSleepChart', daily30, 'vigorous_minutes', 'sleep_score', 1, 'Vigorous Minutes', 'Next Day Sleep Score', '#3fb950');
+                createScatterChart('exerciseHrvChart', daily30, 'vigorous_minutes', 'hrv_last_night', 1, 'Vigorous Minutes', 'Next Day HRV (ms)', '#39c5cf');
+                createScatterChart('stressSleepChart', daily30, 'avg_stress', 'sleep_score', 1, 'Stress Level', 'Next Day Sleep Score', '#d29922');
+                createScatterChart('stressHrvChart', daily30, 'avg_stress', 'hrv_last_night', 1, 'Stress Level', 'Next Day HRV (ms)', '#f85149');
                 
                 // Charts
                 createRangeChart('batteryChart',
