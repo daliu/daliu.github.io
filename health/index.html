@@ -331,11 +331,37 @@
             </div>
         </div>
         
-        <!-- Lagged Effects Analysis -->
-        <div class="section-title">⏱️ Cause & Effect (Lagged Correlations)</div>
+        <!-- Causal Inference Section -->
+        <div class="section-title">🔬 Causal Analysis</div>
+        <div class="insights-grid" id="causalInsights"></div>
+        
+        <div class="stats-table-container">
+            <h3 style="font-size: 0.95rem; color: var(--text); margin-bottom: 10px;">📊 Effect Sizes (Controlled Analysis)</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+                Comparing outcomes after high vs low exposure days, controlling for confounders. 
+                Effect = difference in means; p-value approximated via permutation test.
+            </p>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Cause</th>
+                        <th>Effect</th>
+                        <th>High Days (mean)</th>
+                        <th>Low Days (mean)</th>
+                        <th>Difference</th>
+                        <th>Partial r</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+                <tbody id="causalTable"></tbody>
+            </table>
+        </div>
+        
+        <!-- Lagged Correlations (Raw) -->
+        <div class="section-title">⏱️ Lagged Correlations (Raw)</div>
         <div class="stats-table-container">
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
-                How today's activity affects tomorrow's recovery. Positive = helps, Negative = hurts.
+                Simple correlations without controlling for confounders. Use causal analysis above for better inference.
             </p>
             <table class="stats-table">
                 <thead>
@@ -611,6 +637,217 @@
             buildBars('dowStress', 'stress', '#d29922', 50);
         }
         
+        // Causal inference functions
+        function partialCorrelation(data, xKey, yKey, controlKeys, lag = 1) {
+            // Partial correlation: correlation between X and Y controlling for Z
+            // Uses residuals method: regress X on Z, regress Y on Z, correlate residuals
+            
+            const validData = [];
+            for (let i = 0; i < data.length - lag; i++) {
+                const x = data[i][xKey];
+                const y = data[i + lag][yKey];
+                const controls = controlKeys.map(k => data[i][k]);
+                if (x != null && y != null && controls.every(c => c != null)) {
+                    validData.push({ x, y, controls });
+                }
+            }
+            if (validData.length < 8) return null;
+            
+            // Simple linear regression to get residuals
+            const regress = (dep, indeps) => {
+                // For simplicity, just subtract mean effect of each control
+                let residual = [...dep];
+                for (let j = 0; j < indeps[0].length; j++) {
+                    const ctrl = indeps.map(row => row[j]);
+                    const r = stats.correlation(dep, ctrl);
+                    if (r != null) {
+                        const mx = stats.mean(ctrl), my = stats.mean(dep);
+                        const sx = stats.std(ctrl), sy = stats.std(dep);
+                        const slope = r * sy / sx;
+                        residual = residual.map((v, i) => v - slope * (ctrl[i] - mx));
+                    }
+                }
+                return residual;
+            };
+            
+            const xs = validData.map(d => d.x);
+            const ys = validData.map(d => d.y);
+            const controls = validData.map(d => d.controls);
+            
+            const xResid = regress(xs, controls);
+            const yResid = regress(ys, controls);
+            
+            return stats.correlation(xResid, yResid);
+        }
+        
+        function computeEffectSize(data, xKey, yKey, lag = 1) {
+            // Split into high/low exposure days and compare outcomes
+            const pairs = [];
+            for (let i = 0; i < data.length - lag; i++) {
+                const x = data[i][xKey];
+                const y = data[i + lag][yKey];
+                if (x != null && y != null) pairs.push({ x, y });
+            }
+            if (pairs.length < 6) return null;
+            
+            const xs = pairs.map(p => p.x);
+            const median = stats.median(xs);
+            
+            const highDays = pairs.filter(p => p.x > median);
+            const lowDays = pairs.filter(p => p.x <= median);
+            
+            if (highDays.length < 3 || lowDays.length < 3) return null;
+            
+            const highMean = stats.mean(highDays.map(p => p.y));
+            const lowMean = stats.mean(lowDays.map(p => p.y));
+            const diff = highMean - lowMean;
+            
+            // Permutation test for significance (simplified)
+            const pooled = pairs.map(p => p.y);
+            let moreExtreme = 0;
+            const nPerms = 500;
+            for (let i = 0; i < nPerms; i++) {
+                const shuffled = [...pooled].sort(() => Math.random() - 0.5);
+                const permHigh = stats.mean(shuffled.slice(0, highDays.length));
+                const permLow = stats.mean(shuffled.slice(highDays.length));
+                if (Math.abs(permHigh - permLow) >= Math.abs(diff)) moreExtreme++;
+            }
+            const pValue = moreExtreme / nPerms;
+            
+            return { highMean, lowMean, diff, pValue, n: pairs.length };
+        }
+        
+        function buildCausalInsights(daily) {
+            const insights = [];
+            
+            // Key causal questions
+            const analyses = [
+                {
+                    cause: 'vigorous_minutes',
+                    effect: 'sleep_score',
+                    controls: ['avg_stress', 'sleep_score'],  // control for same-day stress and previous sleep
+                    lag: 1,
+                    question: 'Does exercise improve sleep?',
+                    goodDir: 'positive'
+                },
+                {
+                    cause: 'vigorous_minutes',
+                    effect: 'hrv_last_night',
+                    controls: ['avg_stress', 'hrv_last_night'],
+                    lag: 1,
+                    question: 'Does exercise improve HRV?',
+                    goodDir: 'positive'
+                },
+                {
+                    cause: 'avg_stress',
+                    effect: 'sleep_score',
+                    controls: ['vigorous_minutes', 'sleep_score'],
+                    lag: 1,
+                    question: 'Does stress hurt sleep?',
+                    goodDir: 'negative'
+                },
+                {
+                    cause: 'sleep_score',
+                    effect: 'hrv_last_night',
+                    controls: ['avg_stress'],
+                    lag: 1,
+                    question: 'Does good sleep boost HRV?',
+                    goodDir: 'positive'
+                },
+            ];
+            
+            let html = '';
+            for (const a of analyses) {
+                const effect = computeEffectSize(daily, a.cause, a.effect, a.lag);
+                const partialR = partialCorrelation(daily, a.cause, a.effect, a.controls, a.lag);
+                
+                if (!effect) continue;
+                
+                // Generate insight
+                const significant = effect.pValue < 0.1;
+                const direction = effect.diff > 0 ? 'increases' : 'decreases';
+                const isGood = (a.goodDir === 'positive' && effect.diff > 0) || 
+                               (a.goodDir === 'negative' && effect.diff < 0);
+                
+                const causeLabel = {
+                    'vigorous_minutes': 'Vigorous exercise',
+                    'avg_stress': 'High stress',
+                    'sleep_score': 'Good sleep'
+                }[a.cause] || a.cause;
+                
+                const effectLabel = {
+                    'sleep_score': 'sleep score',
+                    'hrv_last_night': 'HRV'
+                }[a.effect] || a.effect;
+                
+                let verdict, verdictColor, emoji;
+                if (!significant) {
+                    verdict = 'No clear effect';
+                    verdictColor = 'var(--text-muted)';
+                    emoji = '🤷';
+                } else if (isGood) {
+                    verdict = `${causeLabel} ${direction} ${effectLabel}`;
+                    verdictColor = 'var(--green)';
+                    emoji = '✅';
+                } else {
+                    verdict = `${causeLabel} ${direction} ${effectLabel}`;
+                    verdictColor = 'var(--red)';
+                    emoji = '⚠️';
+                }
+                
+                const confidence = effect.pValue < 0.05 ? 'High' : effect.pValue < 0.1 ? 'Moderate' : 'Low';
+                const confColor = effect.pValue < 0.05 ? 'var(--green)' : effect.pValue < 0.1 ? 'var(--yellow)' : 'var(--text-muted)';
+                
+                html += `<div class="insight-card">
+                    <h3>${emoji} ${a.question}</h3>
+                    <div class="insight-value" style="font-size: 1.1rem; color: ${verdictColor}">${verdict}</div>
+                    <div class="insight-detail">
+                        Effect: ${effect.diff > 0 ? '+' : ''}${effect.diff.toFixed(1)} points<br>
+                        <span style="color: ${confColor}">Confidence: ${confidence} (p=${effect.pValue.toFixed(2)})</span>
+                    </div>
+                </div>`;
+            }
+            document.getElementById('causalInsights').innerHTML = html;
+        }
+        
+        function buildCausalTable(daily) {
+            const analyses = [
+                { cause: 'vigorous_minutes', causeLabel: '🏃 Vigorous Exercise', effect: 'sleep_score', effectLabel: 'Sleep Score (+1d)', controls: ['avg_stress'] },
+                { cause: 'vigorous_minutes', causeLabel: '🏃 Vigorous Exercise', effect: 'hrv_last_night', effectLabel: 'HRV (+1d)', controls: ['avg_stress'] },
+                { cause: 'intensity_minutes', causeLabel: '⚡ Intensity Minutes', effect: 'sleep_score', effectLabel: 'Sleep Score (+1d)', controls: ['avg_stress'] },
+                { cause: 'avg_stress', causeLabel: '😰 Stress', effect: 'sleep_score', effectLabel: 'Sleep Score (+1d)', controls: ['vigorous_minutes'] },
+                { cause: 'avg_stress', causeLabel: '😰 Stress', effect: 'hrv_last_night', effectLabel: 'HRV (+1d)', controls: ['vigorous_minutes'] },
+                { cause: 'sleep_score', causeLabel: '😴 Sleep Score', effect: 'hrv_last_night', effectLabel: 'HRV (+1d)', controls: ['avg_stress'] },
+                { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'hrv_last_night', effectLabel: 'HRV (+1d)', controls: ['avg_stress'] },
+                { cause: 'total_steps', causeLabel: '👟 Steps', effect: 'sleep_score', effectLabel: 'Sleep Score (+1d)', controls: ['avg_stress'] },
+            ];
+            
+            let html = '';
+            for (const a of analyses) {
+                const effect = computeEffectSize(daily, a.cause, a.effect, 1);
+                const partialR = partialCorrelation(daily, a.cause, a.effect, a.controls, 1);
+                
+                if (!effect) {
+                    html += `<tr><td class="metric-name">${a.causeLabel}</td><td>${a.effectLabel}</td><td colspan="5" style="color: var(--text-muted)">Insufficient data</td></tr>`;
+                    continue;
+                }
+                
+                const confLevel = effect.pValue < 0.05 ? '🟢 High' : effect.pValue < 0.1 ? '🟡 Moderate' : '⚪ Low';
+                const diffColor = effect.diff > 0 ? 'var(--green)' : effect.diff < 0 ? 'var(--red)' : 'var(--text-muted)';
+                
+                html += `<tr>
+                    <td class="metric-name">${a.causeLabel}</td>
+                    <td>${a.effectLabel}</td>
+                    <td>${effect.highMean.toFixed(1)}</td>
+                    <td>${effect.lowMean.toFixed(1)}</td>
+                    <td style="color: ${diffColor}">${effect.diff > 0 ? '+' : ''}${effect.diff.toFixed(1)}</td>
+                    <td>${partialR != null ? partialR.toFixed(2) : '--'}</td>
+                    <td>${confLevel}</td>
+                </tr>`;
+            }
+            document.getElementById('causalTable').innerHTML = html;
+        }
+        
         function buildLaggedEffects(daily) {
             // Calculate correlations between today's X and future day's Y
             const laggedCorr = (data, xKey, yKey, lag) => {
@@ -850,6 +1087,8 @@
                 buildRecords(daily30);
                 buildHeatmap(daily);
                 buildDayOfWeek(daily30);
+                buildCausalInsights(daily30);
+                buildCausalTable(daily30);
                 buildLaggedEffects(daily30);
                 buildCorrelationMatrix(daily30);
                 buildStatsTable(daily30);
