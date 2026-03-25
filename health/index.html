@@ -44,12 +44,23 @@
         .back-link { color: var(--accent); text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
         
+        /* Section titles */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 30px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
         /* Current Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             gap: 12px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .stat-card {
             background: var(--card-bg);
@@ -58,8 +69,8 @@
             padding: 14px;
             text-align: center;
         }
-        .stat-value { font-size: 1.8rem; font-weight: 700; line-height: 1.2; }
-        .stat-label { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+        .stat-value { font-size: 1.6rem; font-weight: 700; line-height: 1.2; }
+        .stat-label { color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; text-transform: uppercase; }
         .stat-card.battery .stat-value { color: var(--green); }
         .stat-card.heart .stat-value { color: var(--red); }
         .stat-card.sleep .stat-value { color: var(--purple); }
@@ -67,37 +78,146 @@
         .stat-card.stress .stat-value { color: var(--yellow); }
         .stat-card.hrv .stat-value { color: var(--cyan); }
         
+        /* Insights Grid */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .insight-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .insight-card h3 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .insight-value { font-size: 1.8rem; font-weight: 700; }
+        .insight-detail { color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; }
+        .trend-up { color: var(--green); }
+        .trend-down { color: var(--red); }
+        .trend-neutral { color: var(--text-muted); }
+        
+        /* Heatmap */
+        .heatmap-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        .heatmap {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            max-width: 900px;
+        }
+        .heatmap-day {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background: var(--border);
+        }
+        .heatmap-day[data-level="1"] { background: #0e4429; }
+        .heatmap-day[data-level="2"] { background: #006d32; }
+        .heatmap-day[data-level="3"] { background: #26a641; }
+        .heatmap-day[data-level="4"] { background: #39d353; }
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* Personal Records */
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .record-card {
+            background: linear-gradient(135deg, #1a1f2e 0%, var(--card-bg) 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .record-card .emoji { font-size: 1.5rem; }
+        .record-card .value { font-size: 1.3rem; font-weight: 700; color: var(--yellow); }
+        .record-card .label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+        .record-card .date { font-size: 0.7rem; color: var(--text-muted); }
+        
+        /* Day of Week Analysis */
+        .dow-chart {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .dow-bars {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 120px;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .dow-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .dow-bar .bar {
+            width: 100%;
+            max-width: 40px;
+            background: var(--accent);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s;
+        }
+        .dow-bar .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .dow-bar .value {
+            font-size: 0.7rem;
+            color: var(--text);
+        }
+        
         /* Statistics Table */
         .stats-table-container {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             overflow-x: auto;
-        }
-        .stats-table-container h2 {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: var(--text-muted);
         }
         .stats-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .stats-table th, .stats-table td {
             padding: 10px 12px;
             text-align: right;
             border-bottom: 1px solid var(--border);
         }
-        .stats-table th:first-child, .stats-table td:first-child {
-            text-align: left;
-        }
+        .stats-table th:first-child, .stats-table td:first-child { text-align: left; }
         .stats-table th {
             color: var(--text-muted);
             font-weight: 500;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
         }
         .stats-table tr:last-child td { border-bottom: none; }
@@ -106,11 +226,28 @@
         .stats-table .warn { color: var(--yellow); }
         .stats-table .bad { color: var(--red); }
         
+        /* Correlation Matrix */
+        .correlation-matrix {
+            display: grid;
+            gap: 2px;
+            font-size: 0.7rem;
+        }
+        .corr-cell {
+            padding: 8px 4px;
+            text-align: center;
+            border-radius: 3px;
+        }
+        .corr-header { 
+            color: var(--text-muted); 
+            font-weight: 600;
+            background: transparent !important;
+        }
+        
         /* Charts */
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 15px;
         }
         @media (max-width: 600px) {
             .charts-grid { grid-template-columns: 1fr; }
@@ -122,12 +259,12 @@
             padding: 20px;
         }
         .chart-card h2 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 15px;
             color: var(--text-muted);
         }
-        .chart-container { position: relative; height: 220px; }
+        .chart-container { position: relative; height: 200px; }
         canvas { max-width: 100%; }
     </style>
 </head>
@@ -146,87 +283,83 @@
         
         <!-- Current Stats -->
         <div class="stats-grid" id="stats">
-            <div class="stat-card battery">
-                <div class="stat-value" id="current-battery">--</div>
-                <div class="stat-label">Body Battery</div>
-            </div>
-            <div class="stat-card hrv">
-                <div class="stat-value" id="current-hrv">--</div>
-                <div class="stat-label">HRV</div>
-            </div>
-            <div class="stat-card heart">
-                <div class="stat-value" id="current-rhr">--</div>
-                <div class="stat-label">Resting HR</div>
-            </div>
-            <div class="stat-card sleep">
-                <div class="stat-value" id="current-sleep">--</div>
-                <div class="stat-label">Sleep Score</div>
-            </div>
-            <div class="stat-card steps">
-                <div class="stat-value" id="current-steps">--</div>
-                <div class="stat-label">Steps</div>
-            </div>
-            <div class="stat-card stress">
-                <div class="stat-value" id="current-stress">--</div>
-                <div class="stat-label">Stress</div>
-            </div>
-            <div class="stat-card" style="background: linear-gradient(135deg, #1a1f2e 0%, #161b22 100%);">
-                <div class="stat-value" style="color: #8b949e; font-size: 1.4rem;" id="current-bedtime">--</div>
-                <div class="stat-label">Bedtime</div>
-            </div>
-            <div class="stat-card" style="background: linear-gradient(135deg, #1f2a1a 0%, #161b22 100%);">
-                <div class="stat-value" style="color: #8b949e; font-size: 1.4rem;" id="current-waketime">--</div>
-                <div class="stat-label">Wake Time</div>
+            <div class="stat-card battery"><div class="stat-value" id="current-battery">--</div><div class="stat-label">Body Battery</div></div>
+            <div class="stat-card hrv"><div class="stat-value" id="current-hrv">--</div><div class="stat-label">HRV</div></div>
+            <div class="stat-card heart"><div class="stat-value" id="current-rhr">--</div><div class="stat-label">Resting HR</div></div>
+            <div class="stat-card sleep"><div class="stat-value" id="current-sleep">--</div><div class="stat-label">Sleep Score</div></div>
+            <div class="stat-card steps"><div class="stat-value" id="current-steps">--</div><div class="stat-label">Steps</div></div>
+            <div class="stat-card stress"><div class="stat-value" id="current-stress">--</div><div class="stat-label">Stress</div></div>
+            <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.3rem;" id="current-bedtime">--</div><div class="stat-label">Bedtime</div></div>
+            <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.3rem;" id="current-waketime">--</div><div class="stat-label">Wake</div></div>
+        </div>
+        
+        <!-- Weekly Insights -->
+        <div class="section-title">📈 This Week vs Last Week</div>
+        <div class="insights-grid" id="weeklyInsights"></div>
+        
+        <!-- Personal Records -->
+        <div class="section-title">🏆 Personal Records (30 days)</div>
+        <div class="records-grid" id="records"></div>
+        
+        <!-- Activity Heatmap -->
+        <div class="section-title">🗓️ Daily Steps (90 days)</div>
+        <div class="heatmap-container">
+            <div class="heatmap" id="heatmap"></div>
+            <div class="heatmap-legend">
+                Less <div class="heatmap-day"></div>
+                <div class="heatmap-day" data-level="1"></div>
+                <div class="heatmap-day" data-level="2"></div>
+                <div class="heatmap-day" data-level="3"></div>
+                <div class="heatmap-day" data-level="4"></div> More
             </div>
         </div>
         
-        <!-- Comprehensive Statistics -->
+        <!-- Day of Week Analysis -->
+        <div class="section-title">📅 Averages by Day of Week</div>
+        <div class="insights-grid">
+            <div class="dow-chart">
+                <h3 style="font-size: 0.85rem; color: var(--text-muted);">Average Steps</h3>
+                <div class="dow-bars" id="dowSteps"></div>
+            </div>
+            <div class="dow-chart">
+                <h3 style="font-size: 0.85rem; color: var(--text-muted);">Average Sleep Score</h3>
+                <div class="dow-bars" id="dowSleep"></div>
+            </div>
+            <div class="dow-chart">
+                <h3 style="font-size: 0.85rem; color: var(--text-muted);">Average Stress</h3>
+                <div class="dow-bars" id="dowStress"></div>
+            </div>
+        </div>
+        
+        <!-- Correlations -->
+        <div class="section-title">🔗 Metric Correlations</div>
         <div class="stats-table-container">
-            <h2>📊 30-Day Statistics</h2>
+            <div id="correlationMatrix"></div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px;">
+                Pearson correlation coefficients. Green = positive correlation, Red = negative correlation.
+            </p>
+        </div>
+        
+        <!-- Comprehensive Statistics -->
+        <div class="section-title">📊 30-Day Statistics</div>
+        <div class="stats-table-container">
             <table class="stats-table" id="statsTable">
                 <thead>
-                    <tr>
-                        <th>Metric</th>
-                        <th>Mean</th>
-                        <th>Median</th>
-                        <th>Std Dev</th>
-                        <th>Min</th>
-                        <th>Max</th>
-                        <th>Range</th>
-                    </tr>
+                    <tr><th>Metric</th><th>Mean</th><th>Median</th><th>Std Dev</th><th>Min</th><th>Max</th><th>Range</th></tr>
                 </thead>
-                <tbody id="statsBody">
-                    <tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Loading...</td></tr>
-                </tbody>
+                <tbody id="statsBody"><tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Loading...</td></tr></tbody>
             </table>
         </div>
         
         <!-- Charts -->
+        <div class="section-title">📉 Trends (30 days)</div>
         <div class="charts-grid">
-            <div class="chart-card">
-                <h2>🔋 Body Battery</h2>
-                <div class="chart-container"><canvas id="batteryChart"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h2>💓 HRV (Heart Rate Variability)</h2>
-                <div class="chart-container"><canvas id="hrvChart"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h2>❤️ Resting Heart Rate</h2>
-                <div class="chart-container"><canvas id="rhrChart"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h2>😴 Sleep Score</h2>
-                <div class="chart-container"><canvas id="sleepChart"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h2>👟 Daily Steps</h2>
-                <div class="chart-container"><canvas id="stepsChart"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h2>😌 Stress Level</h2>
-                <div class="chart-container"><canvas id="stressChart"></canvas></div>
-            </div>
+            <div class="chart-card"><h2>🔋 Body Battery</h2><div class="chart-container"><canvas id="batteryChart"></canvas></div></div>
+            <div class="chart-card"><h2>💓 HRV</h2><div class="chart-container"><canvas id="hrvChart"></canvas></div></div>
+            <div class="chart-card"><h2>❤️ Resting Heart Rate</h2><div class="chart-container"><canvas id="rhrChart"></canvas></div></div>
+            <div class="chart-card"><h2>😴 Sleep Score</h2><div class="chart-container"><canvas id="sleepChart"></canvas></div></div>
+            <div class="chart-card"><h2>👟 Daily Steps</h2><div class="chart-container"><canvas id="stepsChart"></canvas></div></div>
+            <div class="chart-card"><h2>😌 Stress Level</h2><div class="chart-container"><canvas id="stressChart"></canvas></div></div>
         </div>
     </div>
 
@@ -247,105 +380,30 @@
             },
             min: arr => arr.length ? Math.min(...arr) : null,
             max: arr => arr.length ? Math.max(...arr) : null,
+            correlation: (x, y) => {
+                if (x.length !== y.length || x.length < 3) return null;
+                const mx = stats.mean(x), my = stats.mean(y);
+                const num = x.reduce((sum, xi, i) => sum + (xi - mx) * (y[i] - my), 0);
+                const denX = Math.sqrt(x.reduce((sum, xi) => sum + Math.pow(xi - mx, 2), 0));
+                const denY = Math.sqrt(y.reduce((sum, yi) => sum + Math.pow(yi - my, 2), 0));
+                return denX && denY ? num / (denX * denY) : null;
+            }
         };
         
         const fmt = (v, decimals = 1) => v != null ? v.toFixed(decimals) : '--';
         const fmtInt = v => v != null ? Math.round(v).toLocaleString() : '--';
-
-        const chartDefaults = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#161b22',
-                    borderColor: '#30363d',
-                    borderWidth: 1,
-                    titleColor: '#e6edf3',
-                    bodyColor: '#8b949e',
-                    padding: 10,
-                    cornerRadius: 6
-                }
-            },
-            scales: {
-                x: {
-                    type: 'time',
-                    time: { unit: 'day', displayFormats: { day: 'MMM d' } },
-                    grid: { color: '#30363d', drawBorder: false },
-                    ticks: { color: '#8b949e', maxTicksLimit: 8 }
-                },
-                y: {
-                    grid: { color: '#30363d', drawBorder: false },
-                    ticks: { color: '#8b949e' }
-                }
-            }
+        const formatTime = (t) => {
+            if (!t) return '--';
+            const [h, m] = t.split(':').map(Number);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
         };
-
-        function createChart(id, data, color, fill = true) {
-            const ctx = document.getElementById(id).getContext('2d');
-            return new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        data: data,
-                        borderColor: color,
-                        backgroundColor: fill ? color + '20' : 'transparent',
-                        fill: fill,
-                        tension: 0.3,
-                        pointRadius: 2,
-                        pointHoverRadius: 5,
-                        borderWidth: 2
-                    }]
-                },
-                options: chartDefaults
-            });
-        }
-
-        function createRangeChart(id, minData, maxData) {
-            const ctx = document.getElementById(id).getContext('2d');
-            return new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [
-                        {
-                            label: 'Max',
-                            data: maxData,
-                            borderColor: '#3fb950',
-                            backgroundColor: '#3fb95025',
-                            fill: '+1',
-                            tension: 0.3,
-                            pointRadius: 2,
-                            borderWidth: 2
-                        },
-                        {
-                            label: 'Min',
-                            data: minData,
-                            borderColor: '#f8514980',
-                            backgroundColor: 'transparent',
-                            fill: false,
-                            tension: 0.3,
-                            pointRadius: 2,
-                            borderWidth: 2
-                        }
-                    ]
-                },
-                options: {
-                    ...chartDefaults,
-                    plugins: {
-                        ...chartDefaults.plugins,
-                        legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } }
-                    }
-                }
-            });
-        }
-        
-        // Convert HH:MM to decimal hours for stats
         const timeToDecimal = (t) => {
             if (!t) return null;
             const [h, m] = t.split(':').map(Number);
             return h + m / 60;
         };
-        
         const decimalToTime = (d) => {
             if (d == null) return '--';
             const h = Math.floor(d) % 24;
@@ -354,6 +412,198 @@
             const h12 = h % 12 || 12;
             return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
         };
+
+        const chartDefaults = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e', padding: 10, cornerRadius: 6 }
+            },
+            scales: {
+                x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'MMM d' } }, grid: { color: '#30363d', drawBorder: false }, ticks: { color: '#8b949e', maxTicksLimit: 8 } },
+                y: { grid: { color: '#30363d', drawBorder: false }, ticks: { color: '#8b949e' } }
+            }
+        };
+
+        function createChart(id, data, color, fill = true) {
+            return new Chart(document.getElementById(id).getContext('2d'), {
+                type: 'line',
+                data: { datasets: [{ data, borderColor: color, backgroundColor: fill ? color + '20' : 'transparent', fill, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 }] },
+                options: chartDefaults
+            });
+        }
+
+        function createRangeChart(id, minData, maxData) {
+            return new Chart(document.getElementById(id).getContext('2d'), {
+                type: 'line',
+                data: {
+                    datasets: [
+                        { label: 'Max', data: maxData, borderColor: '#3fb950', backgroundColor: '#3fb95025', fill: '+1', tension: 0.3, pointRadius: 2, borderWidth: 2 },
+                        { label: 'Min', data: minData, borderColor: '#f8514980', backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 2, borderWidth: 2 }
+                    ]
+                },
+                options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } } } }
+            });
+        }
+        
+        function buildWeeklyInsights(daily) {
+            const thisWeek = daily.slice(-7);
+            const lastWeek = daily.slice(-14, -7);
+            
+            const metrics = [
+                { key: 'total_steps', label: 'Steps', emoji: '👟', format: fmtInt },
+                { key: 'sleep_score', label: 'Sleep', emoji: '😴', format: v => fmt(v, 0) },
+                { key: 'hrv_last_night', label: 'HRV', emoji: '💓', format: v => fmt(v, 0) + ' ms' },
+                { key: 'avg_stress', label: 'Stress', emoji: '😌', format: v => fmt(v, 0), invert: true },
+            ];
+            
+            let html = '';
+            for (const m of metrics) {
+                const tw = thisWeek.map(d => d[m.key]).filter(v => v != null);
+                const lw = lastWeek.map(d => d[m.key]).filter(v => v != null);
+                const twAvg = stats.mean(tw);
+                const lwAvg = stats.mean(lw);
+                
+                let trend = '', trendClass = 'trend-neutral';
+                if (twAvg != null && lwAvg != null) {
+                    const diff = twAvg - lwAvg;
+                    const pct = (diff / lwAvg * 100);
+                    const isGood = m.invert ? diff < 0 : diff > 0;
+                    trend = `${diff > 0 ? '+' : ''}${fmt(pct, 0)}% vs last week`;
+                    trendClass = Math.abs(pct) < 3 ? 'trend-neutral' : (isGood ? 'trend-up' : 'trend-down');
+                }
+                
+                html += `<div class="insight-card">
+                    <h3>${m.emoji} ${m.label}</h3>
+                    <div class="insight-value">${m.format(twAvg)}</div>
+                    <div class="insight-detail ${trendClass}">${trend}</div>
+                </div>`;
+            }
+            document.getElementById('weeklyInsights').innerHTML = html;
+        }
+        
+        function buildRecords(daily) {
+            const records = [
+                { key: 'total_steps', label: 'Most Steps', emoji: '👟', best: 'max', format: fmtInt },
+                { key: 'sleep_score', label: 'Best Sleep', emoji: '😴', best: 'max', format: v => v + '/100' },
+                { key: 'max_body_battery', label: 'Peak Battery', emoji: '🔋', best: 'max', format: v => v + '%' },
+                { key: 'hrv_last_night', label: 'Best HRV', emoji: '💓', best: 'max', format: v => v + ' ms' },
+                { key: 'resting_hr', label: 'Lowest RHR', emoji: '❤️', best: 'min', format: v => v + ' bpm' },
+                { key: 'avg_stress', label: 'Calmest Day', emoji: '🧘', best: 'min', format: v => v + '/100' },
+            ];
+            
+            let html = '';
+            for (const r of records) {
+                const withVal = daily.filter(d => d[r.key] != null);
+                if (!withVal.length) continue;
+                
+                const sorted = [...withVal].sort((a, b) => r.best === 'max' ? b[r.key] - a[r.key] : a[r.key] - b[r.key]);
+                const best = sorted[0];
+                const date = new Date(best.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                
+                html += `<div class="record-card">
+                    <div class="emoji">${r.emoji}</div>
+                    <div class="value">${r.format(best[r.key])}</div>
+                    <div class="label">${r.label}</div>
+                    <div class="date">${date}</div>
+                </div>`;
+            }
+            document.getElementById('records').innerHTML = html;
+        }
+        
+        function buildHeatmap(daily) {
+            const stepLevels = [0, 5000, 10000, 15000, 20000];
+            let html = '';
+            
+            // Fill in 90 days
+            const today = new Date();
+            for (let i = 89; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                const dateStr = d.toISOString().slice(0, 10);
+                const day = daily.find(x => x.date === dateStr);
+                const steps = day?.total_steps || 0;
+                
+                let level = 0;
+                if (steps >= stepLevels[4]) level = 4;
+                else if (steps >= stepLevels[3]) level = 3;
+                else if (steps >= stepLevels[2]) level = 2;
+                else if (steps >= stepLevels[1]) level = 1;
+                
+                const title = `${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${steps.toLocaleString()} steps`;
+                html += `<div class="heatmap-day" data-level="${level}" title="${title}"></div>`;
+            }
+            document.getElementById('heatmap').innerHTML = html;
+        }
+        
+        function buildDayOfWeek(daily) {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const byDay = days.map(() => ({ steps: [], sleep: [], stress: [] }));
+            
+            for (const d of daily) {
+                const dow = new Date(d.date).getDay();
+                if (d.total_steps != null) byDay[dow].steps.push(d.total_steps);
+                if (d.sleep_score != null) byDay[dow].sleep.push(d.sleep_score);
+                if (d.avg_stress != null) byDay[dow].stress.push(d.avg_stress);
+            }
+            
+            const buildBars = (containerId, key, color, max) => {
+                const avgs = byDay.map(d => stats.mean(d[key]) || 0);
+                const maxVal = Math.max(...avgs, max);
+                let html = '';
+                days.forEach((day, i) => {
+                    const pct = (avgs[i] / maxVal * 100) || 0;
+                    const val = key === 'steps' ? fmtInt(avgs[i]) : fmt(avgs[i], 0);
+                    html += `<div class="dow-bar">
+                        <div class="value">${val}</div>
+                        <div class="bar" style="height: ${pct}%; background: ${color};"></div>
+                        <div class="label">${day}</div>
+                    </div>`;
+                });
+                document.getElementById(containerId).innerHTML = html;
+            };
+            
+            buildBars('dowSteps', 'steps', '#58a6ff', 15000);
+            buildBars('dowSleep', 'sleep', '#a371f7', 100);
+            buildBars('dowStress', 'stress', '#d29922', 50);
+        }
+        
+        function buildCorrelationMatrix(daily) {
+            const metrics = [
+                { key: 'sleep_score', label: 'Sleep' },
+                { key: 'hrv_last_night', label: 'HRV' },
+                { key: 'avg_stress', label: 'Stress' },
+                { key: 'total_steps', label: 'Steps' },
+                { key: 'max_body_battery', label: 'Battery' },
+                { key: 'resting_hr', label: 'RHR' },
+            ];
+            
+            const n = metrics.length;
+            let html = `<div class="correlation-matrix" style="grid-template-columns: repeat(${n + 1}, 1fr);">`;
+            html += `<div class="corr-cell corr-header"></div>`;
+            metrics.forEach(m => html += `<div class="corr-cell corr-header">${m.label}</div>`);
+            
+            for (let i = 0; i < n; i++) {
+                html += `<div class="corr-cell corr-header">${metrics[i].label}</div>`;
+                for (let j = 0; j < n; j++) {
+                    if (i === j) {
+                        html += `<div class="corr-cell" style="background: #30363d;">1.00</div>`;
+                    } else {
+                        const pairs = daily.filter(d => d[metrics[i].key] != null && d[metrics[j].key] != null);
+                        const x = pairs.map(d => d[metrics[i].key]);
+                        const y = pairs.map(d => d[metrics[j].key]);
+                        const r = stats.correlation(x, y);
+                        const bg = r == null ? 'transparent' : 
+                            r > 0 ? `rgba(63, 185, 80, ${Math.abs(r) * 0.6})` : 
+                            `rgba(248, 81, 73, ${Math.abs(r) * 0.6})`;
+                        html += `<div class="corr-cell" style="background: ${bg};">${r != null ? r.toFixed(2) : '--'}</div>`;
+                    }
+                }
+            }
+            html += '</div>';
+            document.getElementById('correlationMatrix').innerHTML = html;
+        }
         
         function buildStatsTable(daily) {
             const metrics = [
@@ -363,7 +613,7 @@
                 { name: 'Resting HR', key: 'resting_hr', unit: ' bpm', good: [0, 50], warn: [50, 60] },
                 { name: 'Sleep Score', key: 'sleep_score', unit: '/100', good: [80, 100], warn: [60, 80] },
                 { name: 'Sleep Duration', key: 'sleep_hours', unit: ' hrs', good: [7, 9], warn: [6, 7] },
-                { name: 'Steps', key: 'total_steps', unit: ' steps', good: [10000, Infinity], warn: [5000, 10000] },
+                { name: 'Steps', key: 'total_steps', unit: '', good: [10000, Infinity], warn: [5000, 10000] },
                 { name: 'Stress', key: 'avg_stress', unit: '/100', good: [0, 25], warn: [25, 40] },
             ];
             
@@ -382,7 +632,6 @@
                 const isInt = ['total_steps'].includes(m.key);
                 const format = isInt ? fmtInt : (v => fmt(v, 1));
                 
-                // Color coding for mean
                 let cls = '';
                 if (m.good && mean >= m.good[0] && mean <= m.good[1]) cls = 'good';
                 else if (m.warn && mean >= m.warn[0] && mean <= m.warn[1]) cls = 'warn';
@@ -399,42 +648,15 @@
                 </tr>`;
             }
             
-            // Add sleep timing stats
+            // Sleep timing
             const bedtimes = daily.map(d => timeToDecimal(d.sleep_start)).filter(v => v != null);
             const waketimes = daily.map(d => timeToDecimal(d.sleep_end)).filter(v => v != null);
             
             if (bedtimes.length) {
-                const mean = stats.mean(bedtimes);
-                const median = stats.median(bedtimes);
-                const std = stats.std(bedtimes);
-                const min = stats.min(bedtimes);
-                const max = stats.max(bedtimes);
-                html += `<tr>
-                    <td class="metric-name">Bedtime</td>
-                    <td>${decimalToTime(mean)}</td>
-                    <td>${decimalToTime(median)}</td>
-                    <td>${fmt(std, 1)} hrs</td>
-                    <td>${decimalToTime(min)}</td>
-                    <td>${decimalToTime(max)}</td>
-                    <td>${fmt(max - min, 1)} hrs</td>
-                </tr>`;
+                html += `<tr><td class="metric-name">Bedtime</td><td>${decimalToTime(stats.mean(bedtimes))}</td><td>${decimalToTime(stats.median(bedtimes))}</td><td>${fmt(stats.std(bedtimes), 1)} hrs</td><td>${decimalToTime(stats.min(bedtimes))}</td><td>${decimalToTime(stats.max(bedtimes))}</td><td>${fmt(stats.max(bedtimes) - stats.min(bedtimes), 1)} hrs</td></tr>`;
             }
-            
             if (waketimes.length) {
-                const mean = stats.mean(waketimes);
-                const median = stats.median(waketimes);
-                const std = stats.std(waketimes);
-                const min = stats.min(waketimes);
-                const max = stats.max(waketimes);
-                html += `<tr>
-                    <td class="metric-name">Wake Time</td>
-                    <td>${decimalToTime(mean)}</td>
-                    <td>${decimalToTime(median)}</td>
-                    <td>${fmt(std, 1)} hrs</td>
-                    <td>${decimalToTime(min)}</td>
-                    <td>${decimalToTime(max)}</td>
-                    <td>${fmt(max - min, 1)} hrs</td>
-                </tr>`;
+                html += `<tr><td class="metric-name">Wake Time</td><td>${decimalToTime(stats.mean(waketimes))}</td><td>${decimalToTime(stats.median(waketimes))}</td><td>${fmt(stats.std(waketimes), 1)} hrs</td><td>${decimalToTime(stats.min(waketimes))}</td><td>${decimalToTime(stats.max(waketimes))}</td><td>${fmt(stats.max(waketimes) - stats.min(waketimes), 1)} hrs</td></tr>`;
             }
             
             document.getElementById('statsBody').innerHTML = html;
@@ -445,73 +667,40 @@
                 const resp = await fetch('data.json?t=' + Date.now());
                 const data = await resp.json();
                 
-                const updated = new Date(data.updated);
-                document.getElementById('updated').textContent = 
-                    'Updated: ' + updated.toLocaleString();
+                document.getElementById('updated').textContent = 'Updated: ' + new Date(data.updated).toLocaleString();
                 
-                const daily = data.daily.slice(-30);
+                const daily = data.daily;
+                const daily30 = daily.slice(-30);
                 const latest = daily[daily.length - 1];
                 
-                // Current stats with units
-                document.getElementById('current-battery').textContent = 
-                    latest?.max_body_battery != null ? latest.max_body_battery + '%' : '--';
-                document.getElementById('current-hrv').textContent = 
-                    latest?.hrv_last_night != null ? latest.hrv_last_night + ' ms' : '--';
-                document.getElementById('current-rhr').textContent = 
-                    latest?.resting_hr != null ? latest.resting_hr + ' bpm' : '--';
-                document.getElementById('current-sleep').textContent = 
-                    latest?.sleep_score != null ? latest.sleep_score + '/100' : '--';
-                document.getElementById('current-steps').textContent = 
-                    latest?.total_steps != null ? latest.total_steps.toLocaleString() : '--';
-                document.getElementById('current-stress').textContent = 
-                    latest?.avg_stress != null ? latest.avg_stress + '/100' : '--';
-                
-                // Sleep times (convert 24h to 12h format)
-                const formatTime = (t) => {
-                    if (!t) return '--';
-                    const [h, m] = t.split(':').map(Number);
-                    const ampm = h >= 12 ? 'PM' : 'AM';
-                    const h12 = h % 12 || 12;
-                    return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
-                };
+                // Current stats
+                document.getElementById('current-battery').textContent = latest?.max_body_battery != null ? latest.max_body_battery + '%' : '--';
+                document.getElementById('current-hrv').textContent = latest?.hrv_last_night != null ? latest.hrv_last_night + ' ms' : '--';
+                document.getElementById('current-rhr').textContent = latest?.resting_hr != null ? latest.resting_hr + ' bpm' : '--';
+                document.getElementById('current-sleep').textContent = latest?.sleep_score != null ? latest.sleep_score + '/100' : '--';
+                document.getElementById('current-steps').textContent = latest?.total_steps != null ? latest.total_steps.toLocaleString() : '--';
+                document.getElementById('current-stress').textContent = latest?.avg_stress != null ? latest.avg_stress + '/100' : '--';
                 document.getElementById('current-bedtime').textContent = formatTime(latest?.sleep_start);
                 document.getElementById('current-waketime').textContent = formatTime(latest?.sleep_end);
                 
-                // Build statistics table
-                buildStatsTable(daily);
+                // Build all sections
+                buildWeeklyInsights(daily30);
+                buildRecords(daily30);
+                buildHeatmap(daily);
+                buildDayOfWeek(daily30);
+                buildCorrelationMatrix(daily30);
+                buildStatsTable(daily30);
                 
                 // Charts
                 createRangeChart('batteryChart',
-                    daily.map(d => ({ x: d.date, y: d.min_body_battery })),
-                    daily.map(d => ({ x: d.date, y: d.max_body_battery }))
+                    daily30.map(d => ({ x: d.date, y: d.min_body_battery })),
+                    daily30.map(d => ({ x: d.date, y: d.max_body_battery }))
                 );
-                
-                createChart('hrvChart',
-                    daily.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })),
-                    '#39c5cf'
-                );
-                
-                createChart('rhrChart',
-                    daily.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })),
-                    '#f85149',
-                    false
-                );
-                
-                createChart('sleepChart',
-                    daily.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })),
-                    '#a371f7'
-                );
-                
-                createChart('stepsChart',
-                    daily.map(d => ({ x: d.date, y: d.total_steps })),
-                    '#58a6ff'
-                );
-                
-                createChart('stressChart',
-                    daily.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })),
-                    '#d29922',
-                    false
-                );
+                createChart('hrvChart', daily30.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })), '#39c5cf');
+                createChart('rhrChart', daily30.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })), '#f85149', false);
+                createChart('sleepChart', daily30.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })), '#a371f7');
+                createChart('stepsChart', daily30.map(d => ({ x: d.date, y: d.total_steps })), '#58a6ff');
+                createChart('stressChart', daily30.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })), '#d29922', false);
                 
             } catch (err) {
                 console.error('Failed to load data:', err);
