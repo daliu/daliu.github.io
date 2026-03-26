@@ -77,7 +77,7 @@
         .updated { color: var(--text-muted); font-size: 1.1rem; }
         .back-link { color: var(--accent); text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
-        
+
         /* Section titles */
         .section-title {
             font-size: 1.6rem;
@@ -88,7 +88,7 @@
             align-items: center;
             gap: 8px;
         }
-        
+
         /* Current Stats Grid */
         .stats-grid {
             display: grid;
@@ -112,7 +112,7 @@
         .stat-card.steps .stat-value { color: var(--accent); }
         .stat-card.stress .stat-value { color: var(--yellow); }
         .stat-card.hrv .stat-value { color: var(--cyan); }
-        
+
         /* Insights Grid */
         .insights-grid {
             display: grid;
@@ -138,7 +138,7 @@
         .trend-up { color: var(--green); }
         .trend-down { color: var(--red); }
         .trend-neutral { color: var(--text-muted); }
-        
+
         /* Heatmap */
         .heatmap-container {
             background: var(--card-bg);
@@ -172,7 +172,7 @@
             font-size: 1rem;
             color: var(--text-muted);
         }
-        
+
         /* Personal Records */
         .records-grid {
             display: grid;
@@ -190,8 +190,8 @@
         .record-card .value { font-size: 1.8rem; font-weight: 700; color: var(--yellow); }
         .record-card .label { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; }
         .record-card .date { font-size: 0.95rem; color: var(--text-muted); }
-        
-        
+
+
         /* Statistics Table */
         .stats-table-container {
             background: var(--card-bg);
@@ -223,7 +223,7 @@
         .stats-table .good { color: var(--green); }
         .stats-table .warn { color: var(--yellow); }
         .stats-table .bad { color: var(--red); }
-        
+
         /* Correlation Matrix */
         .correlation-matrix {
             display: grid;
@@ -235,12 +235,12 @@
             text-align: center;
             border-radius: 3px;
         }
-        .corr-header { 
-            color: var(--text-muted); 
+        .corr-header {
+            color: var(--text-muted);
             font-weight: 600;
             background: transparent !important;
         }
-        
+
         /* Charts */
         .charts-grid {
             display: grid;
@@ -264,6 +264,135 @@
         }
         .chart-container { position: relative; height: 200px; }
         canvas { max-width: 100%; }
+
+        /* Time Range Selector */
+        .time-range-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px;
+            width: fit-content;
+        }
+        .time-range-btn {
+            padding: 6px 18px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .time-range-btn:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+        .time-range-btn.active {
+            background: var(--accent);
+            color: #0d1117;
+        }
+
+        /* Sleep Architecture */
+        .sleep-arch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .sleep-arch-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+        }
+        .sleep-arch-card h3 {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .consistency-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* Recovery Forecast */
+        .forecast-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .gauge-bar {
+            width: 100%;
+            height: 24px;
+            background: var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .gauge-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.8s ease;
+        }
+        .coeff-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px 0;
+            font-size: 1rem;
+        }
+        .coeff-bar .bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .coeff-bar .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            position: absolute;
+        }
+        .whatif-slider-container {
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(88, 166, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        .whatif-slider-container label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .whatif-slider-container input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent);
+            margin: 4px 0;
+        }
+        .whatif-result {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 6px;
+        }
     </style>
 </head>
 <body>
@@ -312,7 +441,7 @@
                 <span class="updated" id="updated">Loading...</span>
             </div>
         </header>
-        
+
         <!-- Current Stats -->
         <div class="stats-grid" id="stats">
             <div class="stat-card battery"><div class="stat-value" id="current-battery">--</div><div class="stat-label">Body Battery</div></div>
@@ -323,19 +452,29 @@
             <div class="stat-card stress"><div class="stat-value" id="current-stress">--</div><div class="stat-label">Stress</div></div>
             <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.6rem;" id="current-bedtime">--</div><div class="stat-label">Bedtime</div></div>
         </div>
-        
+
         <!-- AI-Generated Insights -->
         <div class="section-title">🧠 Pattern Insights</div>
         <div class="insights-grid" id="patternInsights"></div>
-        
+
         <!-- Weekly Insights -->
         <div class="section-title">📈 This Week vs Last Week</div>
         <div class="insights-grid" id="weeklyInsights"></div>
-        
+
         <!-- Personal Records -->
         <div class="section-title">🏆 Personal Records (30 days)</div>
         <div class="records-grid" id="records"></div>
-        
+
+        <!-- Sleep Architecture (NEW) -->
+        <div class="section-title">🛏️ Sleep Architecture</div>
+        <div class="sleep-arch-grid" id="sleepArchGrid"></div>
+        <div class="charts-grid" style="margin-top: 15px;">
+            <div class="chart-card">
+                <h2>Sleep Score by Bedtime Hour</h2>
+                <div class="chart-container"><canvas id="sleepEfficiencyChart"></canvas></div>
+            </div>
+        </div>
+
         <!-- Activity Heatmap -->
         <div class="section-title">🗓️ Daily Steps (90 days)</div>
         <div class="heatmap-container">
@@ -348,7 +487,7 @@
                 <div class="heatmap-day" data-level="4"></div> More
             </div>
         </div>
-        
+
         <!-- Day of Week Analysis -->
         <div class="section-title">📅 Averages by Day of Week</div>
         <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
@@ -365,15 +504,15 @@
                 <div class="chart-container"><canvas id="dowStressChart"></canvas></div>
             </div>
         </div>
-        
+
         <!-- Causal Inference Section -->
         <div class="section-title">🔬 Causal Analysis</div>
         <div class="insights-grid" id="causalInsights"></div>
-        
+
         <div class="stats-table-container">
             <h3 style="font-size: 1.2rem; color: var(--text); margin-bottom: 10px;">📊 Effect Sizes (Controlled Analysis)</h3>
             <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 15px;">
-                Comparing outcomes after high vs low exposure days, controlling for confounders. 
+                Comparing outcomes after high vs low exposure days, controlling for confounders.
                 Effect = difference in means; p-value approximated via permutation test.
             </p>
             <table class="stats-table">
@@ -391,7 +530,13 @@
                 <tbody id="causalTable"></tbody>
             </table>
         </div>
-        
+
+        <!-- Recovery Forecast (NEW) -->
+        <div class="section-title">🔮 Recovery Forecast</div>
+        <div class="forecast-container" id="recoveryForecast">
+            <p style="color: var(--text-muted);">Calculating prediction model...</p>
+        </div>
+
         <!-- Lagged Correlations (Raw) -->
         <div class="section-title">⏱️ Lagged Correlations (Raw)</div>
         <div class="stats-table-container">
@@ -412,7 +557,7 @@
                 <tbody id="laggedEffects"></tbody>
             </table>
         </div>
-        
+
         <!-- Exercise Impact Visualization -->
         <div class="section-title">🏃 Exercise & Stress Impact</div>
         <div class="charts-grid">
@@ -433,7 +578,7 @@
                 <div class="chart-container"><canvas id="stressHrvChart"></canvas></div>
             </div>
         </div>
-        
+
         <!-- Sleep Impact Visualization -->
         <div class="section-title">😴 Sleep Impact on Next Day</div>
         <div class="charts-grid">
@@ -454,11 +599,11 @@
                 <div class="chart-container"><canvas id="sleepStepsChart"></canvas></div>
             </div>
         </div>
-        
+
         <!-- Behavioral Insights -->
         <div class="section-title">💡 Insights</div>
         <div class="insights-grid" id="calendarInsights"></div>
-        
+
         <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
             <div class="chart-card">
                 <h2>Day of Week → Body Battery</h2>
@@ -481,7 +626,7 @@
                 <div class="chart-container"><canvas id="categoryChart"></canvas></div>
             </div>
         </div>
-        
+
         <div class="stats-table-container">
             <h3 style="font-size: 1.3rem; color: var(--text); margin-bottom: 10px;">⏱️ Delayed Effects (48-72 hour lag)</h3>
             <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 15px;">
@@ -500,7 +645,7 @@
                 <tbody id="laggedTable"></tbody>
             </table>
         </div>
-        
+
         <!-- Correlations -->
         <div class="section-title">🔗 Same-Day Correlations</div>
         <div class="stats-table-container">
@@ -509,7 +654,7 @@
                 Pearson correlation coefficients. Green = positive correlation, Red = negative correlation.
             </p>
         </div>
-        
+
         <!-- Comprehensive Statistics -->
         <div class="section-title">📊 30-Day Statistics</div>
         <div class="stats-table-container">
@@ -520,10 +665,16 @@
                 <tbody id="statsBody"><tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Loading...</td></tr></tbody>
             </table>
         </div>
-        
-        <!-- Charts -->
-        <div class="section-title">📉 Trends (30 days)</div>
-        <div class="charts-grid">
+
+        <!-- Charts with Time Range Selector -->
+        <div class="section-title">📉 Trends</div>
+        <div class="time-range-bar" id="timeRangeBar">
+            <button class="time-range-btn" data-range="7">7d</button>
+            <button class="time-range-btn" data-range="14">14d</button>
+            <button class="time-range-btn active" data-range="30">30d</button>
+            <button class="time-range-btn" data-range="all">All</button>
+        </div>
+        <div class="charts-grid" id="trendChartsGrid">
             <div class="chart-card"><h2>🔋 Body Battery</h2><div class="chart-container"><canvas id="batteryChart"></canvas></div></div>
             <div class="chart-card"><h2>💓 HRV</h2><div class="chart-container"><canvas id="hrvChart"></canvas></div></div>
             <div class="chart-card"><h2>❤️ Resting Heart Rate</h2><div class="chart-container"><canvas id="rhrChart"></canvas></div></div>
@@ -559,7 +710,7 @@
                 return denX && denY ? num / (denX * denY) : null;
             }
         };
-        
+
         const fmt = (v, decimals = 1) => v != null ? v.toFixed(decimals) : '--';
         const fmtInt = v => v != null ? Math.round(v).toLocaleString() : '--';
         const formatTime = (t) => {
@@ -583,6 +734,60 @@
             return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
         };
 
+        // Normalize bedtime to a continuous scale (hours after 6 PM = 18:00)
+        // So 11 PM = 5, midnight = 6, 1 AM = 7, etc.
+        const bedtimeToNormalized = (t) => {
+            if (!t) return null;
+            const [h, m] = t.split(':').map(Number);
+            let decimal = h + m / 60;
+            // Normalize: subtract 18 to make 6 PM = 0; wrap around for times after midnight
+            if (decimal < 12) decimal += 24; // times like 1 AM become 25
+            return decimal - 18; // 6 PM=0, 11 PM=5, midnight=6, 1 AM=7
+        };
+
+        const normalizedToBedtime12h = (n) => {
+            if (n == null) return '--';
+            let h24 = (n + 18) % 24;
+            const m = Math.round((h24 % 1) * 60);
+            h24 = Math.floor(h24);
+            const ampm = h24 >= 12 ? 'PM' : 'AM';
+            const h12 = h24 % 12 || 12;
+            return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
+        };
+
+        // ---- Animated Stat Counters ----
+        function animateValue(el, start, end, duration, formatter) {
+            const startTime = performance.now();
+            const diff = end - start;
+            function step(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease-out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = start + diff * eased;
+                el.textContent = formatter(current);
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+            requestAnimationFrame(step);
+        }
+
+        // ---- Rolling Average Helper ----
+        function computeRollingAverage(dataPoints, windowSize) {
+            // dataPoints is array of {x: date, y: value}
+            const result = [];
+            for (let i = 0; i < dataPoints.length; i++) {
+                const windowStart = Math.max(0, i - windowSize + 1);
+                const windowSlice = dataPoints.slice(windowStart, i + 1).filter(d => d.y != null);
+                if (windowSlice.length > 0) {
+                    const avg = windowSlice.reduce((sum, d) => sum + d.y, 0) / windowSlice.length;
+                    result.push({ x: dataPoints[i].x, y: Math.round(avg * 10) / 10 });
+                }
+            }
+            return result;
+        }
+
         const chartDefaults = {
             responsive: true,
             maintainAspectRatio: false,
@@ -596,31 +801,71 @@
             }
         };
 
-        function createChart(id, data, color, fill = true) {
+        function createChart(id, data, color, fill = true, addRollingAvg = false) {
+            const datasets = [{ data, borderColor: color, backgroundColor: fill ? color + '20' : 'transparent', fill, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 }];
+            if (addRollingAvg && data.length >= 7) {
+                const rollingData = computeRollingAverage(data, 7);
+                datasets.push({
+                    label: '7-day avg',
+                    data: rollingData,
+                    borderColor: color + '99',
+                    backgroundColor: 'transparent',
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 2.5,
+                    borderDash: [6, 4],
+                });
+            }
+            const opts = addRollingAvg && data.length >= 7
+                ? { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12, generateLabels: (chart) => {
+                    return chart.data.datasets.map((ds, i) => ({
+                        text: i === 0 ? 'Daily' : '7-day avg',
+                        fillStyle: ds.borderColor,
+                        strokeStyle: ds.borderColor,
+                        lineWidth: 2,
+                        lineDash: ds.borderDash || [],
+                        datasetIndex: i,
+                    }));
+                } } } } }
+                : chartDefaults;
             return new Chart(document.getElementById(id).getContext('2d'), {
                 type: 'line',
-                data: { datasets: [{ data, borderColor: color, backgroundColor: fill ? color + '20' : 'transparent', fill, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 }] },
-                options: chartDefaults
+                data: { datasets },
+                options: opts
             });
         }
 
-        function createRangeChart(id, minData, maxData) {
+        function createRangeChart(id, minData, maxData, addRollingAvg = false) {
+            const datasets = [
+                { label: 'Max', data: maxData, borderColor: '#3fb950', backgroundColor: '#3fb95025', fill: '+1', tension: 0.3, pointRadius: 2, borderWidth: 2 },
+                { label: 'Min', data: minData, borderColor: '#f8514980', backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 2, borderWidth: 2 }
+            ];
+            if (addRollingAvg && maxData.length >= 7) {
+                const rollingMax = computeRollingAverage(maxData, 7);
+                datasets.push({
+                    label: '7-day avg (Max)',
+                    data: rollingMax,
+                    borderColor: '#3fb95099',
+                    backgroundColor: 'transparent',
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 2.5,
+                    borderDash: [6, 4],
+                });
+            }
             return new Chart(document.getElementById(id).getContext('2d'), {
                 type: 'line',
-                data: {
-                    datasets: [
-                        { label: 'Max', data: maxData, borderColor: '#3fb950', backgroundColor: '#3fb95025', fill: '+1', tension: 0.3, pointRadius: 2, borderWidth: 2 },
-                        { label: 'Min', data: minData, borderColor: '#f8514980', backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 2, borderWidth: 2 }
-                    ]
-                },
+                data: { datasets },
                 options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } } } }
             });
         }
-        
+
         function buildPatternInsights(daily) {
             const insights = [];
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            
+
             // 1. Exercise paradox - check if big exercise hurts next-day recovery
             const bigExercise = [];
             const normalExercise = [];
@@ -641,20 +886,20 @@
                     insights.push({
                         emoji: diff < 0 ? '🏃💤' : '🏃✨',
                         title: 'Exercise & Sleep',
-                        text: diff < 0 
+                        text: diff < 0
                             ? `Big exercise days (>60min) are followed by ${Math.abs(diff).toFixed(0)} points worse sleep. Your body needs recovery time.`
                             : `Exercise improves your sleep! ${diff.toFixed(0)} points better after active days.`,
                         color: diff < 0 ? 'var(--yellow)' : 'var(--green)'
                     });
                 }
             }
-            
+
             // 2. Best day of week for sleep
             const dowSleep = [0,1,2,3,4,5,6].map(d => {
                 const vals = daily.filter(x => new Date(x.date).getDay() === d && x.sleep_score).map(x => x.sleep_score);
                 return { day: d, avg: vals.length ? stats.mean(vals) : null, n: vals.length };
             }).filter(d => d.avg != null);
-            
+
             if (dowSleep.length >= 5) {
                 const best = dowSleep.reduce((a, b) => a.avg > b.avg ? a : b);
                 const worst = dowSleep.reduce((a, b) => a.avg < b.avg ? a : b);
@@ -667,7 +912,7 @@
                     });
                 }
             }
-            
+
             // 3. Sleep duration threshold
             const above7 = daily.filter(d => d.sleep_hours >= 7 && d.sleep_score).map(d => d.sleep_score);
             const below7 = daily.filter(d => d.sleep_hours && d.sleep_hours < 7 && d.sleep_score).map(d => d.sleep_score);
@@ -682,7 +927,7 @@
                     });
                 }
             }
-            
+
             // 4. Most active day
             const dowSteps = [0,1,2,3,4,5,6].map(d => {
                 const vals = daily.filter(x => new Date(x.date).getDay() === d && x.total_steps).map(x => x.total_steps);
@@ -698,7 +943,7 @@
                     color: 'var(--accent)'
                 });
             }
-            
+
             // 5. HRV-HR correlation (physiological insight)
             const hrvVals = daily.filter(d => d.hrv_last_night && d.resting_hr).map(d => d.hrv_last_night);
             const hrVals = daily.filter(d => d.hrv_last_night && d.resting_hr).map(d => d.resting_hr);
@@ -713,7 +958,7 @@
                     });
                 }
             }
-            
+
             // 6. Body battery predicts activity
             const bbVals = daily.filter(d => d.max_body_battery && d.total_steps);
             if (bbVals.length >= 10) {
@@ -727,7 +972,7 @@
                     });
                 }
             }
-            
+
             // 7. Recent trend alert
             const last7 = daily.slice(-7);
             const prior7 = daily.slice(-14, -7);
@@ -736,7 +981,7 @@
                 const priorStress = stats.mean(prior7.filter(d => d.avg_stress).map(d => d.avg_stress));
                 const recentSteps = stats.mean(last7.filter(d => d.total_steps).map(d => d.total_steps));
                 const priorSteps = stats.mean(prior7.filter(d => d.total_steps).map(d => d.total_steps));
-                
+
                 if (recentStress && priorStress && recentStress > priorStress * 1.3) {
                     insights.push({
                         emoji: '⚠️',
@@ -754,7 +999,7 @@
                     });
                 }
             }
-            
+
             // 8. Streaks
             let maxSleepStreak = 0, currentStreak = 0;
             for (const d of daily) {
@@ -777,7 +1022,7 @@
                     color: 'var(--yellow)'
                 });
             }
-            
+
             // Render insights
             let html = '';
             for (const ins of insights.slice(0, 8)) {  // Max 8 insights
@@ -788,25 +1033,25 @@
             }
             document.getElementById('patternInsights').innerHTML = html || '<p style="color: var(--text-muted)">Not enough data for pattern detection yet.</p>';
         }
-        
+
         function buildWeeklyInsights(daily) {
             const thisWeek = daily.slice(-7);
             const lastWeek = daily.slice(-14, -7);
-            
+
             const metrics = [
                 { key: 'total_steps', label: 'Steps', emoji: '👟', format: fmtInt },
                 { key: 'sleep_score', label: 'Sleep', emoji: '😴', format: v => fmt(v, 0) },
                 { key: 'hrv_last_night', label: 'HRV', emoji: '💓', format: v => fmt(v, 0) + ' ms' },
                 { key: 'avg_stress', label: 'Stress', emoji: '😌', format: v => fmt(v, 0), invert: true },
             ];
-            
+
             let html = '';
             for (const m of metrics) {
                 const tw = thisWeek.map(d => d[m.key]).filter(v => v != null);
                 const lw = lastWeek.map(d => d[m.key]).filter(v => v != null);
                 const twAvg = stats.mean(tw);
                 const lwAvg = stats.mean(lw);
-                
+
                 let trend = '', trendClass = 'trend-neutral';
                 if (twAvg != null && lwAvg != null) {
                     const diff = twAvg - lwAvg;
@@ -815,7 +1060,7 @@
                     trend = `${diff > 0 ? '+' : ''}${fmt(pct, 0)}% vs last week`;
                     trendClass = Math.abs(pct) < 3 ? 'trend-neutral' : (isGood ? 'trend-up' : 'trend-down');
                 }
-                
+
                 html += `<div class="insight-card">
                     <h3>${m.emoji} ${m.label}</h3>
                     <div class="insight-value">${m.format(twAvg)}</div>
@@ -824,7 +1069,7 @@
             }
             document.getElementById('weeklyInsights').innerHTML = html;
         }
-        
+
         function buildRecords(daily) {
             const records = [
                 { key: 'total_steps', label: 'Most Steps', emoji: '👟', best: 'max', format: fmtInt },
@@ -834,16 +1079,16 @@
                 { key: 'resting_hr', label: 'Lowest RHR', emoji: '❤️', best: 'min', format: v => v + ' bpm' },
                 { key: 'avg_stress', label: 'Calmest Day', emoji: '🧘', best: 'min', format: v => v + '/100' },
             ];
-            
+
             let html = '';
             for (const r of records) {
                 const withVal = daily.filter(d => d[r.key] != null);
                 if (!withVal.length) continue;
-                
+
                 const sorted = [...withVal].sort((a, b) => r.best === 'max' ? b[r.key] - a[r.key] : a[r.key] - b[r.key]);
                 const best = sorted[0];
                 const date = new Date(best.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                
+
                 html += `<div class="record-card">
                     <div class="emoji">${r.emoji}</div>
                     <div class="value">${r.format(best[r.key])}</div>
@@ -853,11 +1098,130 @@
             }
             document.getElementById('records').innerHTML = html;
         }
-        
+
+        // ---- Sleep Architecture (NEW) ----
+        function buildSleepArchitecture(daily) {
+            const bedtimeNorms = daily.map(d => bedtimeToNormalized(d.sleep_start)).filter(v => v != null);
+
+            if (bedtimeNorms.length < 5) {
+                document.getElementById('sleepArchGrid').innerHTML = '<p style="color: var(--text-muted);">Not enough sleep data for architecture analysis.</p>';
+                return;
+            }
+
+            // 1. Bedtime consistency score
+            const stdHours = stats.std(bedtimeNorms);
+            const stdMinutes = stdHours != null ? stdHours * 60 : null;
+            let consistencyLabel, consistencyColor, consistencyBg;
+            if (stdMinutes != null) {
+                if (stdMinutes < 30) {
+                    consistencyLabel = 'Very Consistent';
+                    consistencyColor = 'var(--green)';
+                    consistencyBg = 'rgba(63, 185, 80, 0.15)';
+                } else if (stdMinutes < 45) {
+                    consistencyLabel = 'Fairly Consistent';
+                    consistencyColor = 'var(--cyan)';
+                    consistencyBg = 'rgba(57, 197, 207, 0.15)';
+                } else if (stdMinutes <= 60) {
+                    consistencyLabel = 'Moderate';
+                    consistencyColor = 'var(--yellow)';
+                    consistencyBg = 'rgba(210, 153, 34, 0.15)';
+                } else {
+                    consistencyLabel = 'Inconsistent';
+                    consistencyColor = 'var(--red)';
+                    consistencyBg = 'rgba(248, 81, 73, 0.15)';
+                }
+            }
+
+            // 2. Optimal bedtime window
+            // Pair each day's bedtime with its sleep_score
+            const bedtimeSleepPairs = daily
+                .filter(d => d.sleep_start && d.sleep_score != null)
+                .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score, raw: d.sleep_start }));
+
+            let optimalWindow = '--';
+            if (bedtimeSleepPairs.length >= 5) {
+                // Sort by sleep score descending, take top 30%
+                const sorted = [...bedtimeSleepPairs].sort((a, b) => b.score - a.score);
+                const topN = Math.max(3, Math.ceil(sorted.length * 0.3));
+                const topBedtimes = sorted.slice(0, topN).map(d => d.norm);
+                const minBed = stats.min(topBedtimes);
+                const maxBed = stats.max(topBedtimes);
+                optimalWindow = `${normalizedToBedtime12h(minBed)} - ${normalizedToBedtime12h(maxBed)}`;
+            }
+
+            // 3. Build the cards
+            let html = '';
+            html += `<div class="sleep-arch-card">
+                <h3>Bedtime Consistency</h3>
+                <div style="margin-bottom: 8px;">
+                    <span class="consistency-badge" style="color: ${consistencyColor}; background: ${consistencyBg};">${consistencyLabel}</span>
+                </div>
+                <div class="insight-detail">Std deviation: ${stdMinutes != null ? stdMinutes.toFixed(0) : '--'} min</div>
+                <div class="insight-detail">Average bedtime: ${normalizedToBedtime12h(stats.mean(bedtimeNorms))}</div>
+            </div>`;
+
+            html += `<div class="sleep-arch-card">
+                <h3>Optimal Bedtime Window</h3>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--purple); margin-bottom: 4px;">${optimalWindow}</div>
+                <div class="insight-detail">Bedtime range correlated with your top 30% sleep scores</div>
+            </div>`;
+
+            document.getElementById('sleepArchGrid').innerHTML = html;
+
+            // 4. Sleep efficiency bar chart by bedtime bucket
+            const buckets = [
+                { label: 'Before 11 PM', min: -Infinity, max: 5 },
+                { label: '11 PM - 12 AM', min: 5, max: 6 },
+                { label: '12 - 1 AM', min: 6, max: 7 },
+                { label: '1 - 2 AM', min: 7, max: 8 },
+                { label: 'After 2 AM', min: 8, max: Infinity },
+            ];
+
+            const bucketScores = buckets.map(b => {
+                const scores = bedtimeSleepPairs
+                    .filter(p => p.norm >= b.min && p.norm < b.max)
+                    .map(p => p.score);
+                return { label: b.label, avg: scores.length >= 2 ? stats.mean(scores) : null, n: scores.length };
+            });
+
+            const labels = bucketScores.map(b => b.label);
+            const data = bucketScores.map(b => b.avg != null ? Math.round(b.avg) : 0);
+            const counts = bucketScores.map(b => b.n);
+
+            new Chart(document.getElementById('sleepEfficiencyChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: data.map(v => v >= 75 ? 'rgba(163, 113, 247, 0.7)' : v >= 60 ? 'rgba(210, 153, 34, 0.7)' : v > 0 ? 'rgba(248, 81, 73, 0.7)' : 'rgba(48, 54, 61, 0.5)'),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e',
+                            callbacks: {
+                                afterLabel: (ctx) => `(${counts[ctx.dataIndex]} nights)`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } },
+                        x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
         function buildHeatmap(daily) {
             const stepLevels = [0, 5000, 10000, 15000, 20000];
             let html = '';
-            
+
             // Fill in 90 days
             const today = new Date();
             for (let i = 89; i >= 0; i--) {
@@ -866,19 +1230,19 @@
                 const dateStr = d.toISOString().slice(0, 10);
                 const day = daily.find(x => x.date === dateStr);
                 const steps = day?.total_steps || 0;
-                
+
                 let level = 0;
                 if (steps >= stepLevels[4]) level = 4;
                 else if (steps >= stepLevels[3]) level = 3;
                 else if (steps >= stepLevels[2]) level = 2;
                 else if (steps >= stepLevels[1]) level = 1;
-                
+
                 const title = `${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${steps.toLocaleString()} steps`;
                 html += `<div class="heatmap-day" data-level="${level}" title="${title}"></div>`;
             }
             document.getElementById('heatmap').innerHTML = html;
         }
-        
+
         function buildDayOfWeek(daily) {
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const byDay = days.map(() => ({ steps: [], sleep: [], stress: [] }));
@@ -930,12 +1294,12 @@
                 options: chartOpts(60, 15)
             });
         }
-        
+
         // Causal inference functions
         function partialCorrelation(data, xKey, yKey, controlKeys, lag = 1) {
             // Partial correlation: correlation between X and Y controlling for Z
             // Uses residuals method: regress X on Z, regress Y on Z, correlate residuals
-            
+
             const validData = [];
             for (let i = 0; i < data.length - lag; i++) {
                 const x = data[i][xKey];
@@ -946,7 +1310,7 @@
                 }
             }
             if (validData.length < 8) return null;
-            
+
             // Simple linear regression to get residuals
             const regress = (dep, indeps) => {
                 // For simplicity, just subtract mean effect of each control
@@ -963,17 +1327,17 @@
                 }
                 return residual;
             };
-            
+
             const xs = validData.map(d => d.x);
             const ys = validData.map(d => d.y);
             const controls = validData.map(d => d.controls);
-            
+
             const xResid = regress(xs, controls);
             const yResid = regress(ys, controls);
-            
+
             return stats.correlation(xResid, yResid);
         }
-        
+
         function computeEffectSize(data, xKey, yKey, lag = 1) {
             // Split into high/low exposure days and compare outcomes
             const pairs = [];
@@ -983,19 +1347,19 @@
                 if (x != null && y != null) pairs.push({ x, y });
             }
             if (pairs.length < 6) return null;
-            
+
             const xs = pairs.map(p => p.x);
             const median = stats.median(xs);
-            
+
             const highDays = pairs.filter(p => p.x > median);
             const lowDays = pairs.filter(p => p.x <= median);
-            
+
             if (highDays.length < 3 || lowDays.length < 3) return null;
-            
+
             const highMean = stats.mean(highDays.map(p => p.y));
             const lowMean = stats.mean(lowDays.map(p => p.y));
             const diff = highMean - lowMean;
-            
+
             // Permutation test for significance (simplified)
             const pooled = pairs.map(p => p.y);
             let moreExtreme = 0;
@@ -1007,13 +1371,13 @@
                 if (Math.abs(permHigh - permLow) >= Math.abs(diff)) moreExtreme++;
             }
             const pValue = moreExtreme / nPerms;
-            
+
             return { highMean, lowMean, diff, pValue, n: pairs.length };
         }
-        
+
         function buildCausalInsights(daily) {
             const insights = [];
-            
+
             // Key causal questions
             const analyses = [
                 {
@@ -1073,27 +1437,27 @@
                     goodDir: 'positive'
                 },
             ];
-            
+
             let html = '';
             for (const a of analyses) {
                 const effect = computeEffectSize(daily, a.cause, a.effect, a.lag);
                 const partialR = partialCorrelation(daily, a.cause, a.effect, a.controls, a.lag);
-                
+
                 if (!effect) continue;
-                
+
                 // Generate insight
                 const significant = effect.pValue < 0.1;
                 const direction = effect.diff > 0 ? 'increases' : 'decreases';
-                const isGood = (a.goodDir === 'positive' && effect.diff > 0) || 
+                const isGood = (a.goodDir === 'positive' && effect.diff > 0) ||
                                (a.goodDir === 'negative' && effect.diff < 0);
-                
+
                 const causeLabel = {
                     'vigorous_minutes': 'Vigorous exercise',
                     'avg_stress': 'High stress',
                     'sleep_score': 'Good sleep',
                     'sleep_hours': 'More sleep'
                 }[a.cause] || a.cause;
-                
+
                 const effectLabel = {
                     'sleep_score': 'sleep score',
                     'hrv_last_night': 'HRV',
@@ -1102,7 +1466,7 @@
                     'total_steps': 'activity',
                     'resting_hr': 'resting HR'
                 }[a.effect] || a.effect;
-                
+
                 let verdict, verdictColor, emoji;
                 if (!significant) {
                     verdict = 'No clear effect';
@@ -1117,10 +1481,10 @@
                     verdictColor = 'var(--red)';
                     emoji = '⚠️';
                 }
-                
+
                 const confidence = effect.pValue < 0.05 ? 'High' : effect.pValue < 0.1 ? 'Moderate' : 'Low';
                 const confColor = effect.pValue < 0.05 ? 'var(--green)' : effect.pValue < 0.1 ? 'var(--yellow)' : 'var(--text-muted)';
-                
+
                 html += `<div class="insight-card">
                     <h3>${emoji} ${a.question}</h3>
                     <div class="insight-value" style="font-size: 1.1rem; color: ${verdictColor}">${verdict}</div>
@@ -1132,7 +1496,7 @@
             }
             document.getElementById('causalInsights').innerHTML = html;
         }
-        
+
         function buildCausalTable(daily) {
             const analyses = [
                 { cause: 'vigorous_minutes', causeLabel: '🏃 Vigorous Exercise', effect: 'sleep_score', effectLabel: 'Sleep Score (+1d)', controls: ['avg_stress'] },
@@ -1152,20 +1516,20 @@
                 { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'max_body_battery', effectLabel: 'Body Battery (+1d)', controls: ['avg_stress'] },
                 { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'total_steps', effectLabel: 'Steps (+1d)', controls: ['avg_stress'] },
             ];
-            
+
             let html = '';
             for (const a of analyses) {
                 const effect = computeEffectSize(daily, a.cause, a.effect, 1);
                 const partialR = partialCorrelation(daily, a.cause, a.effect, a.controls, 1);
-                
+
                 if (!effect) {
                     html += `<tr><td class="metric-name">${a.causeLabel}</td><td>${a.effectLabel}</td><td colspan="5" style="color: var(--text-muted)">Insufficient data</td></tr>`;
                     continue;
                 }
-                
+
                 const confLevel = effect.pValue < 0.05 ? '🟢 High' : effect.pValue < 0.1 ? '🟡 Moderate' : '⚪ Low';
                 const diffColor = effect.diff > 0 ? 'var(--green)' : effect.diff < 0 ? 'var(--red)' : 'var(--text-muted)';
-                
+
                 html += `<tr>
                     <td class="metric-name">${a.causeLabel}</td>
                     <td>${a.effectLabel}</td>
@@ -1178,7 +1542,7 @@
             }
             document.getElementById('causalTable').innerHTML = html;
         }
-        
+
         function buildLaggedEffects(daily) {
             // Calculate correlations between today's X and future day's Y
             const laggedCorr = (data, xKey, yKey, lag) => {
@@ -1191,7 +1555,7 @@
                 if (pairs.length < 5) return null;
                 return stats.correlation(pairs.map(p => p[0]), pairs.map(p => p[1]));
             };
-            
+
             const factors = [
                 { key: 'vigorous_minutes', label: '🏃 Vigorous Exercise (min)' },
                 { key: 'intensity_minutes', label: '⚡ Total Intensity (min)' },
@@ -1200,7 +1564,7 @@
                 { key: 'avg_stress', label: '😰 Stress Level' },
                 { key: 'sleep_score', label: '😴 Sleep Score' },
             ];
-            
+
             let html = '';
             for (const f of factors) {
                 const sleep1 = laggedCorr(daily, f.key, 'sleep_score', 1);
@@ -1208,7 +1572,7 @@
                 const hrv1 = laggedCorr(daily, f.key, 'hrv_last_night', 1);
                 const hrv2 = laggedCorr(daily, f.key, 'hrv_last_night', 2);
                 const rhr1 = laggedCorr(daily, f.key, 'resting_hr', 1);
-                
+
                 const fmtCorr = (r, invert = false) => {
                     if (r == null) return '<span style="color: var(--text-muted)">--</span>';
                     const adjusted = invert ? -r : r;  // For RHR, negative is good
@@ -1216,7 +1580,7 @@
                     const arrow = r > 0.1 ? '↑' : r < -0.1 ? '↓' : '→';
                     return `<span style="color: ${color}">${arrow} ${r.toFixed(2)}</span>`;
                 };
-                
+
                 html += `<tr>
                     <td class="metric-name">${f.label}</td>
                     <td>${fmtCorr(sleep1)}</td>
@@ -1228,7 +1592,7 @@
             }
             document.getElementById('laggedEffects').innerHTML = html;
         }
-        
+
         function createScatterChart(canvasId, data, xKey, yKey, lag, xLabel, yLabel, color) {
             const pairs = [];
             for (let i = 0; i < data.length - lag; i++) {
@@ -1236,7 +1600,7 @@
                 const y = data[i + lag][yKey];
                 if (x != null && y != null) pairs.push({ x, y });
             }
-            
+
             // Calculate trend line
             const xs = pairs.map(p => p.x);
             const ys = pairs.map(p => p.y);
@@ -1245,13 +1609,13 @@
             const sx = stats.std(xs), sy = stats.std(ys);
             const slope = r && sx ? (r * sy / sx) : 0;
             const intercept = my - slope * mx;
-            
+
             const minX = stats.min(xs), maxX = stats.max(xs);
             const trendData = [
                 { x: minX, y: slope * minX + intercept },
                 { x: maxX, y: slope * maxX + intercept }
             ];
-            
+
             new Chart(document.getElementById(canvasId).getContext('2d'), {
                 type: 'scatter',
                 data: {
@@ -1284,21 +1648,21 @@
                         tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e' }
                     },
                     scales: {
-                        x: { 
+                        x: {
                             title: { display: true, text: xLabel, color: '#8b949e' },
-                            grid: { color: '#30363d' }, 
-                            ticks: { color: '#8b949e' } 
+                            grid: { color: '#30363d' },
+                            ticks: { color: '#8b949e' }
                         },
-                        y: { 
+                        y: {
                             title: { display: true, text: yLabel, color: '#8b949e' },
-                            grid: { color: '#30363d' }, 
-                            ticks: { color: '#8b949e' } 
+                            grid: { color: '#30363d' },
+                            ticks: { color: '#8b949e' }
                         }
                     }
                 }
             });
         }
-        
+
         function buildCorrelationMatrix(daily) {
             const metrics = [
                 { key: 'sleep_score', label: 'Sleep' },
@@ -1308,12 +1672,12 @@
                 { key: 'max_body_battery', label: 'Battery' },
                 { key: 'resting_hr', label: 'RHR' },
             ];
-            
+
             const n = metrics.length;
             let html = `<div class="correlation-matrix" style="grid-template-columns: repeat(${n + 1}, 1fr);">`;
             html += `<div class="corr-cell corr-header"></div>`;
             metrics.forEach(m => html += `<div class="corr-cell corr-header">${m.label}</div>`);
-            
+
             for (let i = 0; i < n; i++) {
                 html += `<div class="corr-cell corr-header">${metrics[i].label}</div>`;
                 for (let j = 0; j < n; j++) {
@@ -1324,8 +1688,8 @@
                         const x = pairs.map(d => d[metrics[i].key]);
                         const y = pairs.map(d => d[metrics[j].key]);
                         const r = stats.correlation(x, y);
-                        const bg = r == null ? 'transparent' : 
-                            r > 0 ? `rgba(63, 185, 80, ${Math.abs(r) * 0.6})` : 
+                        const bg = r == null ? 'transparent' :
+                            r > 0 ? `rgba(63, 185, 80, ${Math.abs(r) * 0.6})` :
                             `rgba(248, 81, 73, ${Math.abs(r) * 0.6})`;
                         html += `<div class="corr-cell" style="background: ${bg};">${r != null ? r.toFixed(2) : '--'}</div>`;
                     }
@@ -1334,7 +1698,7 @@
             html += '</div>';
             document.getElementById('correlationMatrix').innerHTML = html;
         }
-        
+
         function buildStatsTable(daily) {
             const metrics = [
                 { name: 'Body Battery (Max)', key: 'max_body_battery', unit: '%', good: [70, 100], warn: [40, 70] },
@@ -1346,27 +1710,27 @@
                 { name: 'Steps', key: 'total_steps', unit: '', good: [10000, Infinity], warn: [5000, 10000] },
                 { name: 'Stress', key: 'avg_stress', unit: '/100', good: [0, 25], warn: [25, 40] },
             ];
-            
+
             let html = '';
             for (const m of metrics) {
                 const values = daily.map(d => d[m.key]).filter(v => v != null);
                 if (!values.length) continue;
-                
+
                 const mean = stats.mean(values);
                 const median = stats.median(values);
                 const std = stats.std(values);
                 const min = stats.min(values);
                 const max = stats.max(values);
                 const range = max - min;
-                
+
                 const isInt = ['total_steps'].includes(m.key);
                 const format = isInt ? fmtInt : (v => fmt(v, 1));
-                
+
                 let cls = '';
                 if (m.good && mean >= m.good[0] && mean <= m.good[1]) cls = 'good';
                 else if (m.warn && mean >= m.warn[0] && mean <= m.warn[1]) cls = 'warn';
                 else if (m.good || m.warn) cls = 'bad';
-                
+
                 html += `<tr>
                     <td class="metric-name">${m.name}</td>
                     <td class="${cls}">${format(mean)}${m.unit}</td>
@@ -1377,26 +1741,288 @@
                     <td>${format(range)}</td>
                 </tr>`;
             }
-            
+
             // Sleep timing
             const bedtimes = daily.map(d => timeToDecimal(d.sleep_start)).filter(v => v != null);
             const waketimes = daily.map(d => timeToDecimal(d.sleep_end)).filter(v => v != null);
-            
+
             if (bedtimes.length) {
                 html += `<tr><td class="metric-name">Bedtime</td><td>${decimalToTime(stats.mean(bedtimes))}</td><td>${decimalToTime(stats.median(bedtimes))}</td><td>${fmt(stats.std(bedtimes), 1)} hrs</td><td>${decimalToTime(stats.min(bedtimes))}</td><td>${decimalToTime(stats.max(bedtimes))}</td><td>${fmt(stats.max(bedtimes) - stats.min(bedtimes), 1)} hrs</td></tr>`;
             }
             if (waketimes.length) {
                 html += `<tr><td class="metric-name">Wake Time</td><td>${decimalToTime(stats.mean(waketimes))}</td><td>${decimalToTime(stats.median(waketimes))}</td><td>${fmt(stats.std(waketimes), 1)} hrs</td><td>${decimalToTime(stats.min(waketimes))}</td><td>${decimalToTime(stats.max(waketimes))}</td><td>${fmt(stats.max(waketimes) - stats.min(waketimes), 1)} hrs</td></tr>`;
             }
-            
+
             document.getElementById('statsBody').innerHTML = html;
+        }
+
+        // ---- Recovery Prediction Model (NEW) ----
+        function buildRecoveryForecast(daily) {
+            // Multivariate linear regression from scratch
+            // Predict tomorrow's max_body_battery from today's vigorous_minutes, avg_stress, sleep_score, total_steps
+
+            const featureKeys = ['vigorous_minutes', 'avg_stress', 'sleep_score', 'total_steps'];
+            const featureLabels = ['Vigorous Min', 'Avg Stress', 'Sleep Score', 'Steps'];
+            const targetKey = 'max_body_battery';
+
+            // Build training pairs: today's features -> tomorrow's battery
+            const samples = [];
+            for (let i = 0; i < daily.length - 1; i++) {
+                const features = featureKeys.map(k => daily[i][k]);
+                const target = daily[i + 1][targetKey];
+                if (features.every(f => f != null) && target != null) {
+                    samples.push({ features, target });
+                }
+            }
+
+            if (samples.length < 10) {
+                document.getElementById('recoveryForecast').innerHTML = '<p style="color: var(--text-muted);">Not enough data to build recovery model (need 10+ complete days).</p>';
+                return;
+            }
+
+            const n = samples.length;
+            const p = featureKeys.length;
+
+            // Standardize features for numerical stability
+            const featureMeans = featureKeys.map((_, j) => stats.mean(samples.map(s => s.features[j])));
+            const featureStds = featureKeys.map((_, j) => stats.std(samples.map(s => s.features[j])));
+            const targetMean = stats.mean(samples.map(s => s.target));
+
+            // Normal equation: beta = (X^T X)^{-1} X^T y
+            // X has a column of 1s for intercept
+            const X = samples.map(s => {
+                const row = [1]; // intercept
+                for (let j = 0; j < p; j++) {
+                    row.push(featureStds[j] > 0 ? (s.features[j] - featureMeans[j]) / featureStds[j] : 0);
+                }
+                return row;
+            });
+            const y = samples.map(s => s.target);
+
+            // X^T X
+            const cols = p + 1;
+            const XtX = Array.from({ length: cols }, () => new Array(cols).fill(0));
+            const Xty = new Array(cols).fill(0);
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < cols; j++) {
+                    Xty[j] += X[i][j] * y[i];
+                    for (let k = 0; k < cols; k++) {
+                        XtX[j][k] += X[i][j] * X[i][k];
+                    }
+                }
+            }
+
+            // Invert XtX using Gauss-Jordan elimination
+            const aug = XtX.map((row, i) => {
+                const identity = new Array(cols).fill(0);
+                identity[i] = 1;
+                return [...row, ...identity];
+            });
+
+            for (let i = 0; i < cols; i++) {
+                // Partial pivoting
+                let maxRow = i;
+                for (let r = i + 1; r < cols; r++) {
+                    if (Math.abs(aug[r][i]) > Math.abs(aug[maxRow][i])) maxRow = r;
+                }
+                [aug[i], aug[maxRow]] = [aug[maxRow], aug[i]];
+
+                const pivot = aug[i][i];
+                if (Math.abs(pivot) < 1e-12) {
+                    document.getElementById('recoveryForecast').innerHTML = '<p style="color: var(--text-muted);">Could not fit regression model (singular matrix).</p>';
+                    return;
+                }
+                for (let j = 0; j < 2 * cols; j++) aug[i][j] /= pivot;
+                for (let r = 0; r < cols; r++) {
+                    if (r === i) continue;
+                    const factor = aug[r][i];
+                    for (let j = 0; j < 2 * cols; j++) aug[r][j] -= factor * aug[i][j];
+                }
+            }
+
+            const inv = aug.map(row => row.slice(cols));
+
+            // beta = inv(XtX) * Xty
+            const beta = new Array(cols).fill(0);
+            for (let j = 0; j < cols; j++) {
+                for (let k = 0; k < cols; k++) {
+                    beta[j] += inv[j][k] * Xty[k];
+                }
+            }
+
+            // Calculate R^2
+            const yPred = X.map(row => row.reduce((sum, x, j) => sum + x * beta[j], 0));
+            const ssRes = y.reduce((sum, yi, i) => sum + Math.pow(yi - yPred[i], 2), 0);
+            const ssTot = y.reduce((sum, yi) => sum + Math.pow(yi - targetMean, 2), 0);
+            const r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
+
+            // Today's prediction (latest day -> tomorrow)
+            const latest = daily[daily.length - 1];
+            const latestFeatures = featureKeys.map(k => latest[k]);
+            let prediction = null;
+            if (latestFeatures.every(f => f != null)) {
+                const xRow = [1];
+                for (let j = 0; j < p; j++) {
+                    xRow.push(featureStds[j] > 0 ? (latestFeatures[j] - featureMeans[j]) / featureStds[j] : 0);
+                }
+                prediction = xRow.reduce((sum, x, j) => sum + x * beta[j], 0);
+                prediction = Math.max(0, Math.min(100, Math.round(prediction)));
+            }
+
+            // Coefficients in original scale for display
+            const origCoeffs = featureKeys.map((_, j) => {
+                return featureStds[j] > 0 ? beta[j + 1] / featureStds[j] : 0;
+            });
+
+            // Standardized coefficients (beta[1..p] are already standardized)
+            const stdCoeffs = featureKeys.map((_, j) => beta[j + 1]);
+            const maxAbsCoeff = Math.max(...stdCoeffs.map(Math.abs), 0.01);
+
+            // Build what-if prediction function
+            // Store model parameters for the slider
+            window._recoveryModel = { beta, featureMeans, featureStds, featureKeys, p, latestFeatures };
+
+            // Render
+            let html = '<div class="forecast-grid">';
+
+            // Prediction gauge
+            html += '<div>';
+            html += '<h3 style="font-size: 1.15rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">Predicted Tomorrow\'s Battery</h3>';
+            if (prediction != null) {
+                const gaugeColor = prediction >= 70 ? 'var(--green)' : prediction >= 40 ? 'var(--yellow)' : 'var(--red)';
+                html += `<div style="font-size: 3rem; font-weight: 700; color: ${gaugeColor};">${prediction}%</div>`;
+                html += `<div class="gauge-bar"><div class="gauge-fill" style="width: ${prediction}%; background: ${gaugeColor};"></div></div>`;
+                html += `<div style="color: var(--text-muted); font-size: 0.95rem;">Model R² = ${r2.toFixed(2)} (${r2 >= 0.5 ? 'good' : r2 >= 0.3 ? 'moderate' : 'weak'} fit on ${n} days)</div>`;
+            } else {
+                html += '<div style="color: var(--text-muted);">Missing today\'s data for prediction</div>';
+            }
+
+            // What-if slider
+            const currentVig = latestFeatures[0] != null ? latestFeatures[0] : 0;
+            html += `<div class="whatif-slider-container">
+                <label>What-if: Vigorous Minutes Today</label>
+                <input type="range" id="whatifSlider" min="0" max="120" step="5" value="${Math.round(currentVig)}">
+                <div style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.9rem;">
+                    <span>0 min</span>
+                    <span id="whatifSliderVal">${Math.round(currentVig)} min</span>
+                    <span>120 min</span>
+                </div>
+                <div class="whatif-result" id="whatifResult" style="color: var(--accent);">Predicted battery: ${prediction != null ? prediction + '%' : '--'}</div>
+            </div>`;
+            html += '</div>';
+
+            // Contributing factors
+            html += '<div>';
+            html += '<h3 style="font-size: 1.15rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">Contributing Factors</h3>';
+
+            for (let j = 0; j < p; j++) {
+                const coeff = stdCoeffs[j];
+                const pct = Math.abs(coeff) / maxAbsCoeff * 100;
+                const isPositive = coeff > 0;
+                const color = isPositive ? 'var(--green)' : 'var(--red)';
+                const sign = isPositive ? '+' : '';
+                const direction = isPositive ? 'right' : 'left';
+
+                html += `<div class="coeff-bar">
+                    <span style="width: 110px; color: var(--text-muted); font-size: 0.95rem;">${featureLabels[j]}</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: ${pct}%; background: ${color}; ${direction === 'right' ? 'left: 0;' : 'right: 0;'}"></div>
+                    </div>
+                    <span style="width: 70px; text-align: right; color: ${color}; font-weight: 600; font-size: 0.95rem;">${sign}${origCoeffs[j].toFixed(2)}</span>
+                </div>`;
+            }
+
+            html += `<div style="margin-top: 10px; color: var(--text-muted); font-size: 0.9rem;">
+                Coefficients show the change in predicted battery per unit change in each factor.
+            </div>`;
+            html += '</div>';
+
+            html += '</div>';
+            document.getElementById('recoveryForecast').innerHTML = html;
+
+            // Wire up what-if slider
+            const slider = document.getElementById('whatifSlider');
+            if (slider && prediction != null) {
+                slider.addEventListener('input', function() {
+                    const m = window._recoveryModel;
+                    const val = parseFloat(this.value);
+                    document.getElementById('whatifSliderVal').textContent = val + ' min';
+
+                    const xRow = [1];
+                    for (let j = 0; j < m.p; j++) {
+                        const fVal = j === 0 ? val : m.latestFeatures[j];
+                        xRow.push(m.featureStds[j] > 0 ? (fVal - m.featureMeans[j]) / m.featureStds[j] : 0);
+                    }
+                    let pred = xRow.reduce((sum, x, j) => sum + x * m.beta[j], 0);
+                    pred = Math.max(0, Math.min(100, Math.round(pred)));
+
+                    const gaugeColor = pred >= 70 ? 'var(--green)' : pred >= 40 ? 'var(--yellow)' : 'var(--red)';
+                    document.getElementById('whatifResult').innerHTML = `Predicted battery: <span style="color: ${gaugeColor};">${pred}%</span>`;
+                });
+            }
+        }
+
+        // ---- Time Range Selector (NEW) ----
+        let selectedRange = 30;
+        let allDailyData = null;
+        let trendChartInstances = [];
+
+        function setupTimeRangeSelector() {
+            const buttons = document.querySelectorAll('.time-range-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const range = this.dataset.range;
+                    selectedRange = range === 'all' ? 'all' : parseInt(range);
+                    if (allDailyData) {
+                        renderTrendCharts(allDailyData);
+                    }
+                });
+            });
+        }
+
+        function getFilteredData(daily) {
+            if (selectedRange === 'all') return daily;
+            return daily.slice(-selectedRange);
+        }
+
+        function renderTrendCharts(daily) {
+            // Destroy existing chart instances
+            trendChartInstances.forEach(c => c.destroy());
+            trendChartInstances = [];
+
+            const filtered = getFilteredData(daily);
+
+            trendChartInstances.push(
+                createRangeChart('batteryChart',
+                    filtered.map(d => ({ x: d.date, y: d.min_body_battery })),
+                    filtered.map(d => ({ x: d.date, y: d.max_body_battery })),
+                    true
+                )
+            );
+            trendChartInstances.push(
+                createChart('hrvChart', filtered.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })), '#39c5cf', true, true)
+            );
+            trendChartInstances.push(
+                createChart('rhrChart', filtered.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })), '#f85149', false, true)
+            );
+            trendChartInstances.push(
+                createChart('sleepChart', filtered.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })), '#a371f7', true, true)
+            );
+            trendChartInstances.push(
+                createChart('stepsChart', filtered.map(d => ({ x: d.date, y: d.total_steps })), '#58a6ff', true, true)
+            );
+            trendChartInstances.push(
+                createChart('stressChart', filtered.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })), '#d29922', false, true)
+            );
         }
 
         async function loadCorrelations() {
             try {
                 const resp = await fetch('correlations.json?t=' + Date.now());
                 const corr = await resp.json();
-                
+
                 // Calendar Insights
                 const insightsHtml = corr.insights.map(i => {
                     const icon = i.impact === 'positive' ? '↑' : i.impact === 'negative' ? '↓' : '→';
@@ -1408,7 +2034,7 @@
                     </div>`;
                 }).join('');
                 document.getElementById('calendarInsights').innerHTML = insightsHtml || '<p style="color: var(--text-muted);">Collecting more data...</p>';
-                
+
                 // Day of Week Chart
                 const dow = corr.day_of_week;
                 const dowLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -1431,7 +2057,7 @@
                         scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                     }
                 });
-                
+
                 // Activity Level Chart
                 const activity = corr.activity_levels || {};
                 const actLevels = ['rest_day', 'light', 'moderate', 'intense'];
@@ -1487,7 +2113,7 @@
                         scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                     }
                 });
-                
+
                 // Sleep Lag Chart
                 const sleepGreat = corr.lagged_effects.sleep_great || {};
                 const sleepPoor = corr.lagged_effects.sleep_poor || {};
@@ -1521,7 +2147,7 @@
                         scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                     }
                 });
-                
+
                 // Category Impact Chart (one-off calendar events)
                 const cats = corr.event_categories;
                 const catLabels = Object.keys(cats);
@@ -1556,7 +2182,7 @@
                 } else {
                     document.getElementById('categoryChart').parentElement.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 40px 0;">Not enough one-off calendar events yet</p>';
                 }
-                
+
                 // Lagged Effects Table
                 const factors = ['exercise', 'high_steps', 'sleep_great', 'sleep_poor'];
                 const factorLabels = { 'exercise': '🏃 Active (10K+)', 'high_steps': '🚶 High Steps (20K+)', 'sleep_great': '😴 Great Sleep', 'sleep_poor': '😵 Poor Sleep' };
@@ -1578,73 +2204,88 @@
                     </tr>`;
                 }
                 document.getElementById('laggedTable').innerHTML = tableHtml;
-                
+
             } catch (err) {
                 console.log('Correlations not available yet:', err.message);
             }
         }
-        
+
         async function loadData() {
             try {
                 const resp = await fetch('data.json?t=' + Date.now());
                 const data = await resp.json();
-                
+
                 document.getElementById('updated').textContent = 'Updated: ' + new Date(data.updated).toLocaleString();
-                
+
                 const daily = data.daily;
                 const daily30 = daily.slice(-30);
                 const latest = daily[daily.length - 1];
-                
-                // Current stats
-                document.getElementById('current-battery').textContent = latest?.max_body_battery != null ? latest.max_body_battery + '%' : '--';
-                document.getElementById('current-hrv').textContent = latest?.hrv_last_night != null ? latest.hrv_last_night + ' ms' : '--';
-                document.getElementById('current-rhr').textContent = latest?.resting_hr != null ? latest.resting_hr + ' bpm' : '--';
-                document.getElementById('current-sleep').textContent = latest?.sleep_score != null ? latest.sleep_score + '/100' : '--';
-                document.getElementById('current-steps').textContent = latest?.total_steps != null ? latest.total_steps.toLocaleString() : '--';
-                document.getElementById('current-stress').textContent = latest?.avg_stress != null ? latest.avg_stress + '/100' : '--';
+
+                // Store for time range re-rendering
+                allDailyData = daily;
+
+                // Current stats with animated counters
+                const animTargets = [
+                    { id: 'current-battery', value: latest?.max_body_battery, suffix: '%', decimals: 0 },
+                    { id: 'current-hrv', value: latest?.hrv_last_night, suffix: ' ms', decimals: 0 },
+                    { id: 'current-rhr', value: latest?.resting_hr, suffix: ' bpm', decimals: 0 },
+                    { id: 'current-sleep', value: latest?.sleep_score, suffix: '/100', decimals: 0 },
+                    { id: 'current-steps', value: latest?.total_steps, suffix: '', decimals: 0, useLocale: true },
+                    { id: 'current-stress', value: latest?.avg_stress, suffix: '/100', decimals: 0 },
+                ];
+
+                for (const t of animTargets) {
+                    const el = document.getElementById(t.id);
+                    if (t.value != null) {
+                        animateValue(el, 0, t.value, 800, (v) => {
+                            const rounded = Math.round(v);
+                            const display = t.useLocale ? rounded.toLocaleString() : rounded;
+                            return display + t.suffix;
+                        });
+                    } else {
+                        el.textContent = '--';
+                    }
+                }
+
+                // Bedtime is not animated (it's a string)
                 document.getElementById('current-bedtime').textContent = formatTime(latest?.sleep_start);
-                
+
                 // Build all sections
                 buildPatternInsights(daily30);
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
+                buildSleepArchitecture(daily30);
                 buildHeatmap(daily);
                 buildDayOfWeek(daily30);
                 buildCausalInsights(daily30);
                 buildCausalTable(daily30);
+                buildRecoveryForecast(daily30);
                 buildLaggedEffects(daily30);
                 buildCorrelationMatrix(daily30);
                 buildStatsTable(daily30);
-                
+
                 // Scatter plots for exercise/stress impact
                 createScatterChart('exerciseSleepChart', daily30, 'vigorous_minutes', 'sleep_score', 1, 'Vigorous Minutes', 'Next Day Sleep Score', '#3fb950');
                 createScatterChart('exerciseHrvChart', daily30, 'vigorous_minutes', 'hrv_last_night', 1, 'Vigorous Minutes', 'Next Day HRV (ms)', '#39c5cf');
                 createScatterChart('stressSleepChart', daily30, 'avg_stress', 'sleep_score', 1, 'Stress Level', 'Next Day Sleep Score', '#d29922');
                 createScatterChart('stressHrvChart', daily30, 'avg_stress', 'hrv_last_night', 1, 'Stress Level', 'Next Day HRV (ms)', '#f85149');
-                
+
                 // Scatter plots for sleep impact on next day
                 createScatterChart('sleepStressChart', daily30, 'sleep_score', 'avg_stress', 1, 'Sleep Score', 'Next Day Stress', '#a371f7');
                 createScatterChart('sleepBatteryChart', daily30, 'sleep_score', 'max_body_battery', 1, 'Sleep Score', 'Next Day Body Battery', '#a371f7');
                 createScatterChart('sleepHrvChart', daily30, 'sleep_score', 'hrv_last_night', 1, 'Sleep Score', 'Next Day HRV (ms)', '#a371f7');
                 createScatterChart('sleepStepsChart', daily30, 'sleep_hours', 'total_steps', 1, 'Sleep Duration (hrs)', 'Next Day Steps', '#a371f7');
-                
-                // Charts
-                createRangeChart('batteryChart',
-                    daily30.map(d => ({ x: d.date, y: d.min_body_battery })),
-                    daily30.map(d => ({ x: d.date, y: d.max_body_battery }))
-                );
-                createChart('hrvChart', daily30.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })), '#39c5cf');
-                createChart('rhrChart', daily30.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })), '#f85149', false);
-                createChart('sleepChart', daily30.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })), '#a371f7');
-                createChart('stepsChart', daily30.map(d => ({ x: d.date, y: d.total_steps })), '#58a6ff');
-                createChart('stressChart', daily30.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })), '#d29922', false);
-                
+
+                // Trend charts with rolling averages and time range support
+                renderTrendCharts(daily);
+
             } catch (err) {
                 console.error('Failed to load data:', err);
                 document.getElementById('updated').textContent = 'Failed to load data';
             }
         }
 
+        setupTimeRangeSelector();
         loadData();
         loadCorrelations();
     </script>
