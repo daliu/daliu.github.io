@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Dashboard | Dave Liu</title>
+    <link rel="stylesheet" href="../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+    <script src="../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+    <script src="../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+    <script src="https://use.fontawesome.com/7c37a02403.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <style>
@@ -27,7 +31,23 @@
             color: var(--text);
             line-height: 1.6;
             padding: 20px;
+            padding-top: 70px;
         }
+        .navbar { background-color: #2f2f2f; border: none; margin-bottom: 0; }
+        .navbar li a, .navbar .navbar-brand { color: #fff !important; }
+        .navbar-nav li a:hover, .navbar-nav li.active a {
+            color: #1abc9c !important; background-color: #3a3a3a !important;
+        }
+        .navbar-default .navbar-toggle { border-color: transparent; color: #fff !important; }
+        .navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
+        .navbar-default .navbar-nav > .open > a,
+        .navbar-default .navbar-nav > .open > a:hover,
+        .navbar-default .navbar-nav > .open > a:focus { background-color: #3a3a3a !important; color: #1abc9c !important; }
+        .navbar-default .navbar-nav .dropdown-menu { background-color: #2f2f2f; border: 1px solid #444; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .navbar-default .navbar-nav .dropdown-menu > li > a { color: #fff !important; padding: 8px 20px; background-color: #2f2f2f !important; }
+        .navbar-default .navbar-nav .dropdown-menu > li > a:hover,
+        .navbar-default .navbar-nav .dropdown-menu > li > a:focus { color: #1abc9c !important; background-color: #3a3a3a !important; }
+        .navbar-default .navbar-nav .dropdown-menu .divider { background-color: #444; }
         .container { max-width: 1400px; margin: 0 auto; }
         header {
             display: flex;
@@ -269,15 +289,49 @@
     </style>
 </head>
 <body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../index.html">Overview</a></li>
+            <li><a href="../health/">Health Dashboard</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../autotrader.html">Overview</a></li>
+            <li><a href="../autotrader/daily/index.html">Daily Updates</a></li>
+          </ul>
+        </li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
     <div class="container">
         <header>
             <div>
-                <h1><a href="../">Dave Liu</a> / Health Dashboard</h1>
+                <h1>Health Dashboard</h1>
                 <div class="subtitle">Garmin biometrics · Auto-updated daily</div>
             </div>
             <div style="text-align: right;">
-                <span class="updated" id="updated">Loading...</span><br>
-                <a href="../" class="back-link">← Back to Profile</a>
+                <span class="updated" id="updated">Loading...</span>
             </div>
         </header>
         
