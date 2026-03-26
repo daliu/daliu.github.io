@@ -1590,7 +1590,6 @@
                 document.getElementById('current-steps').textContent = latest?.total_steps != null ? latest.total_steps.toLocaleString() : '--';
                 document.getElementById('current-stress').textContent = latest?.avg_stress != null ? latest.avg_stress + '/100' : '--';
                 document.getElementById('current-bedtime').textContent = formatTime(latest?.sleep_start);
-                document.getElementById('current-waketime').textContent = formatTime(latest?.sleep_end);
                 
                 // Build all sections
                 buildPatternInsights(daily30);
