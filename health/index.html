@@ -32,6 +32,7 @@
             line-height: 1.6;
             padding: 20px;
             padding-top: 70px;
+            font-size: 18px;
         }
         .navbar { background-color: #2f2f2f; border: none; margin-bottom: 0; }
         .navbar li a, .navbar .navbar-brand { color: #fff !important; }
@@ -57,19 +58,19 @@
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border);
         }
-        h1 { font-size: 2rem; font-weight: 600; }
+        h1 { font-size: 2.4rem; font-weight: 600; }
         h1 a { color: inherit; text-decoration: none; }
-        .subtitle { color: var(--text-muted); font-size: 1.05rem; margin-top: 4px; }
-        .updated { color: var(--text-muted); font-size: 1rem; }
+        .subtitle { color: var(--text-muted); font-size: 1.2rem; margin-top: 4px; }
+        .updated { color: var(--text-muted); font-size: 1.1rem; }
         .back-link { color: var(--accent); text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
         
         /* Section titles */
         .section-title {
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: var(--text-muted);
-            margin: 30px 0 15px;
+            margin: 35px 0 18px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -89,8 +90,8 @@
             padding: 14px;
             text-align: center;
         }
-        .stat-value { font-size: 2rem; font-weight: 700; line-height: 1.2; }
-        .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; text-transform: uppercase; }
+        .stat-value { font-size: 2.4rem; font-weight: 700; line-height: 1.2; }
+        .stat-label { color: var(--text-muted); font-size: 1.05rem; margin-top: 4px; text-transform: uppercase; }
         .stat-card.battery .stat-value { color: var(--green); }
         .stat-card.heart .stat-value { color: var(--red); }
         .stat-card.sleep .stat-value { color: var(--purple); }
@@ -112,14 +113,14 @@
             padding: 16px;
         }
         .insight-card h3 {
-            font-size: 0.95rem;
+            font-size: 1.15rem;
             color: var(--text-muted);
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .insight-value { font-size: 2rem; font-weight: 700; }
-        .insight-detail { color: var(--text-muted); font-size: 0.95rem; margin-top: 5px; }
+        .insight-value { font-size: 2.4rem; font-weight: 700; }
+        .insight-detail { color: var(--text-muted); font-size: 1.1rem; margin-top: 5px; }
         .trend-up { color: var(--green); }
         .trend-down { color: var(--red); }
         .trend-neutral { color: var(--text-muted); }
@@ -154,7 +155,7 @@
             align-items: center;
             gap: 5px;
             margin-top: 10px;
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--text-muted);
         }
         
@@ -171,10 +172,10 @@
             padding: 12px;
             text-align: center;
         }
-        .record-card .emoji { font-size: 1.8rem; }
-        .record-card .value { font-size: 1.5rem; font-weight: 700; color: var(--yellow); }
-        .record-card .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
-        .record-card .date { font-size: 0.8rem; color: var(--text-muted); }
+        .record-card .emoji { font-size: 2rem; }
+        .record-card .value { font-size: 1.8rem; font-weight: 700; color: var(--yellow); }
+        .record-card .label { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; }
+        .record-card .date { font-size: 0.95rem; color: var(--text-muted); }
         
         /* Day of Week Analysis */
         .dow-chart {
@@ -206,11 +207,11 @@
             transition: height 0.3s;
         }
         .dow-bar .label {
-            font-size: 0.85rem;
+            font-size: 1.05rem;
             color: var(--text-muted);
         }
         .dow-bar .value {
-            font-size: 0.8rem;
+            font-size: 1rem;
             color: var(--text);
         }
         
@@ -226,10 +227,10 @@
         .stats-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
         }
         .stats-table th, .stats-table td {
-            padding: 10px 12px;
+            padding: 12px 14px;
             text-align: right;
             border-bottom: 1px solid var(--border);
         }
@@ -237,7 +238,7 @@
         .stats-table th {
             color: var(--text-muted);
             font-weight: 500;
-            font-size: 0.85rem;
+            font-size: 1rem;
             text-transform: uppercase;
         }
         .stats-table tr:last-child td { border-bottom: none; }
@@ -250,7 +251,7 @@
         .correlation-matrix {
             display: grid;
             gap: 2px;
-            font-size: 0.8rem;
+            font-size: 1rem;
         }
         .corr-cell {
             padding: 8px 4px;
@@ -279,7 +280,7 @@
             padding: 20px;
         }
         .chart-card h2 {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 15px;
             color: var(--text-muted);
@@ -343,8 +344,8 @@
             <div class="stat-card sleep"><div class="stat-value" id="current-sleep">--</div><div class="stat-label">Sleep Score</div></div>
             <div class="stat-card steps"><div class="stat-value" id="current-steps">--</div><div class="stat-label">Steps</div></div>
             <div class="stat-card stress"><div class="stat-value" id="current-stress">--</div><div class="stat-label">Stress</div></div>
-            <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.3rem;" id="current-bedtime">--</div><div class="stat-label">Bedtime</div></div>
-            <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.3rem;" id="current-waketime">--</div><div class="stat-label">Wake</div></div>
+            <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.6rem;" id="current-bedtime">--</div><div class="stat-label">Bedtime</div></div>
+            <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.6rem;" id="current-waketime">--</div><div class="stat-label">Wake</div></div>
         </div>
         
         <!-- AI-Generated Insights -->
@@ -376,15 +377,15 @@
         <div class="section-title">📅 Averages by Day of Week</div>
         <div class="insights-grid">
             <div class="dow-chart">
-                <h3 style="font-size: 0.85rem; color: var(--text-muted);">Average Steps</h3>
+                <h3 style="font-size: 1.1rem; color: var(--text-muted);">Average Steps</h3>
                 <div class="dow-bars" id="dowSteps"></div>
             </div>
             <div class="dow-chart">
-                <h3 style="font-size: 0.85rem; color: var(--text-muted);">Average Sleep Score</h3>
+                <h3 style="font-size: 1.1rem; color: var(--text-muted);">Average Sleep Score</h3>
                 <div class="dow-bars" id="dowSleep"></div>
             </div>
             <div class="dow-chart">
-                <h3 style="font-size: 0.85rem; color: var(--text-muted);">Average Stress</h3>
+                <h3 style="font-size: 1.1rem; color: var(--text-muted);">Average Stress</h3>
                 <div class="dow-bars" id="dowStress"></div>
             </div>
         </div>
@@ -394,8 +395,8 @@
         <div class="insights-grid" id="causalInsights"></div>
         
         <div class="stats-table-container">
-            <h3 style="font-size: 0.95rem; color: var(--text); margin-bottom: 10px;">📊 Effect Sizes (Controlled Analysis)</h3>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+            <h3 style="font-size: 1.2rem; color: var(--text); margin-bottom: 10px;">📊 Effect Sizes (Controlled Analysis)</h3>
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 15px;">
                 Comparing outcomes after high vs low exposure days, controlling for confounders. 
                 Effect = difference in means; p-value approximated via permutation test.
             </p>
@@ -418,7 +419,7 @@
         <!-- Lagged Correlations (Raw) -->
         <div class="section-title">⏱️ Lagged Correlations (Raw)</div>
         <div class="stats-table-container">
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 15px;">
                 Simple correlations without controlling for confounders. Use causal analysis above for better inference.
             </p>
             <table class="stats-table">
@@ -506,8 +507,8 @@
         </div>
         
         <div class="stats-table-container">
-            <h3 style="font-size: 1.05rem; color: var(--text); margin-bottom: 10px;">⏱️ Delayed Effects (48-72 hour lag)</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
+            <h3 style="font-size: 1.3rem; color: var(--text); margin-bottom: 10px;">⏱️ Delayed Effects (48-72 hour lag)</h3>
+            <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 15px;">
                 How today's activity patterns affect health metrics 1-3 days later.
             </p>
             <table class="stats-table">
@@ -528,7 +529,7 @@
         <div class="section-title">🔗 Same-Day Correlations</div>
         <div class="stats-table-container">
             <div id="correlationMatrix"></div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px;">
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
                 Pearson correlation coefficients. Green = positive correlation, Red = negative correlation.
             </p>
         </div>
@@ -806,7 +807,7 @@
             for (const ins of insights.slice(0, 8)) {  // Max 8 insights
                 html += `<div class="insight-card">
                     <h3>${ins.emoji} ${ins.title}</h3>
-                    <div class="insight-detail" style="color: ${ins.color}; font-size: 0.9rem;">${ins.text}</div>
+                    <div class="insight-detail" style="color: ${ins.color}; font-size: 1.1rem;">${ins.text}</div>
                 </div>`;
             }
             document.getElementById('patternInsights').innerHTML = html || '<p style="color: var(--text-muted)">Not enough data for pattern detection yet.</p>';
@@ -1401,12 +1402,15 @@
                 const corr = await resp.json();
                 
                 // Calendar Insights
-                const insightsHtml = corr.insights.map(i => `
-                    <div class="insight-card">
-                        <h3>${i.type.replace('_', ' ').toUpperCase()}</h3>
-                        <p style="font-size: 1rem;">${i.text}</p>
-                    </div>
-                `).join('');
+                const insightsHtml = corr.insights.map(i => {
+                    const icon = i.impact === 'positive' ? '↑' : i.impact === 'negative' ? '↓' : '→';
+                    const color = i.impact === 'positive' ? 'var(--green)' : i.impact === 'negative' ? 'var(--red)' : 'var(--text-muted)';
+                    return `
+                    <div class="insight-card" style="border-left: 3px solid ${color};">
+                        <h3>${i.type.replace(/_/g, ' ').toUpperCase()}</h3>
+                        <p style="font-size: 1.15rem; line-height: 1.5;"><span style="color: ${color}; font-weight: 700;">${icon}</span> ${i.text}</p>
+                    </div>`;
+                }).join('');
                 document.getElementById('calendarInsights').innerHTML = insightsHtml || '<p style="color: var(--text-muted);">Collecting more data...</p>';
                 
                 // Day of Week Chart
@@ -1647,6 +1651,7 @@
         }
 
         loadData();
+        loadCorrelations();
     </script>
 </body>
 </html>
