@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Analytics | Dave Liu</title>
+    <meta name="description" content="Public site analytics dashboard showing visitor traffic, top pages, traffic sources, and device breakdowns from Google Analytics.">
+    <meta property="og:title" content="Site Analytics | Dave Liu">
+    <meta property="og:description" content="Public analytics dashboard with visitor trends, traffic sources, geographic data, and device breakdowns. Auto-updated daily.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NNGFMHGWCE');
+    </script>
+    <link rel="stylesheet" href="../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+    <script src="../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+    <script src="../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+    <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --yellow: #d29922;
+            --red: #f85149;
+            --purple: #a371f7;
+            --cyan: #39c5cf;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 17px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            padding-top: 70px;
+        }
+        .navbar { background-color: #2f2f2f; border: none; margin-bottom: 0; font-size: 16px; }
+        .navbar li a, .navbar .navbar-brand { color: #fff !important; }
+        .navbar-nav li a:hover, .navbar-nav li.active a {
+            color: #1abc9c !important; background-color: #3a3a3a !important;
+        }
+        .navbar-default .navbar-toggle { border-color: transparent; color: #fff !important; }
+        .navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
+        .navbar-default .navbar-nav > .open > a,
+        .navbar-default .navbar-nav > .open > a:hover,
+        .navbar-default .navbar-nav > .open > a:focus { background-color: #3a3a3a !important; color: #1abc9c !important; }
+        .navbar-default .navbar-nav .dropdown-menu { background-color: #2f2f2f; border: 1px solid #444; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .navbar-default .navbar-nav .dropdown-menu > li > a { color: #fff !important; padding: 8px 20px; background-color: #2f2f2f !important; }
+        .navbar-default .navbar-nav .dropdown-menu > li > a:hover,
+        .navbar-default .navbar-nav .dropdown-menu > li > a:focus { color: #1abc9c !important; background-color: #3a3a3a !important; }
+        .navbar-default .navbar-nav .dropdown-menu .divider { background-color: #444; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 { font-size: 2.4rem; font-weight: 600; }
+        .subtitle { color: var(--text-muted); font-size: 1.2rem; margin-top: 4px; }
+        .updated { color: var(--text-muted); font-size: 1.1rem; }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 35px 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .stat-value { font-size: 2.2rem; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+        .stat-label { color: var(--text-muted); font-size: 1rem; margin-top: 4px; text-transform: uppercase; }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 15px;
+        }
+        @media (max-width: 600px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .chart-card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+        .chart-container { position: relative; height: 250px; }
+        .chart-container.tall { height: 350px; }
+        canvas { max-width: 100%; }
+
+        /* Time Range Selector */
+        .time-range-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px;
+            width: fit-content;
+        }
+        .time-range-btn {
+            padding: 6px 18px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .time-range-btn:hover { background: var(--border); color: var(--text); }
+        .time-range-btn.active { background: var(--accent); color: #0d1117; }
+
+        /* Table */
+        .stats-table-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        .stats-table th, .stats-table td {
+            padding: 12px 14px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+        }
+        .stats-table th:first-child, .stats-table td:first-child { text-align: left; }
+        .stats-table th {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+        .stats-table tr:last-child td { border-bottom: none; }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state .icon { font-size: 4rem; margin-bottom: 20px; }
+        .empty-state h2 { font-size: 1.6rem; color: var(--text); margin-bottom: 10px; }
+        .empty-state p { font-size: 1.1rem; max-width: 500px; margin: 0 auto; }
+
+        /* Full-width card */
+        .full-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .full-card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../index.html">Overview</a></li>
+            <li><a href="../health/">Health Dashboard</a></li>
+            <li><a href="../analytics/">Site Analytics</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../autotrader.html">Overview</a></li>
+            <li><a href="../autotrader/daily/index.html">Daily Updates</a></li>
+          </ul>
+        </li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Site Analytics</h1>
+            <div class="subtitle">Google Analytics (GA4) visitor data &middot; Auto-updated daily</div>
+        </div>
+        <div style="text-align: right;">
+            <span class="updated" id="updated">Loading...</span>
+        </div>
+    </header>
+
+    <div id="content">
+        <div class="empty-state" id="loading-state">
+            <div class="icon">&#128202;</div>
+            <h2>Loading analytics data...</h2>
+        </div>
+    </div>
+</div>
+
+<script>
+// Chart.js defaults
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = '#30363d';
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+
+const COLORS = {
+    accent: '#58a6ff',
+    green: '#3fb950',
+    yellow: '#d29922',
+    red: '#f85149',
+    purple: '#a371f7',
+    cyan: '#39c5cf',
+    palette: ['#58a6ff','#3fb950','#d29922','#a371f7','#39c5cf','#f85149','#f0883e','#db61a2','#7ee787','#79c0ff']
+};
+
+function fmtNum(n) {
+    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+    return n.toLocaleString();
+}
+
+function fmtDuration(seconds) {
+    if (seconds < 60) return Math.round(seconds) + 's';
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    return m + 'm ' + s + 's';
+}
+
+function fmtPct(val) {
+    return (val * 100).toFixed(1) + '%';
+}
+
+function animateValue(el, target, duration, formatter) {
+    const start = 0;
+    const startTime = performance.now();
+    formatter = formatter || fmtNum;
+    function update(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = formatter(Math.round(start + (target - start) * eased));
+        if (progress < 1) requestAnimationFrame(update);
+        else el.textContent = formatter(target);
+    }
+    requestAnimationFrame(update);
+}
+
+let charts = {};
+
+function destroyChart(id) {
+    if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+async function loadData() {
+    try {
+        const resp = await fetch('data.json?t=' + Date.now());
+        const data = await resp.json();
+        render(data);
+    } catch (e) {
+        document.getElementById('loading-state').innerHTML =
+            '<div class="icon">&#9888;&#65039;</div>' +
+            '<h2>Could not load analytics data</h2>' +
+            '<p>The data file may not exist yet. Analytics collection just started.</p>';
+    }
+}
+
+function render(data) {
+    const content = document.getElementById('content');
+
+    // Check for empty data
+    if (!data.daily || data.daily.length === 0) {
+        content.innerHTML =
+            '<div class="empty-state">' +
+            '<div class="icon">&#128202;</div>' +
+            '<h2>Collecting data...</h2>' +
+            '<p>Analytics tracking started recently. Data will appear here once enough visitors have been recorded. Check back soon!</p>' +
+            '</div>';
+        document.getElementById('updated').textContent = 'Tracking since ' + (data.date_range ? data.date_range.start : 'today');
+        return;
+    }
+
+    // Update timestamp
+    const updated = new Date(data.updated);
+    document.getElementById('updated').textContent =
+        'Updated ' + updated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    // Build the full dashboard
+    let html = '';
+
+    // --- Summary Stats ---
+    html += '<div class="stats-grid">';
+    html += statCard('total-users', data.totals.total_users, 'Total Visitors', COLORS.accent);
+    html += statCard('total-pvs', data.totals.total_pageviews, 'Page Views', COLORS.green);
+    html += statCard('total-sessions', data.totals.total_sessions, 'Sessions', COLORS.cyan);
+    html += statCard('avg-duration', data.totals.avg_session_duration_seconds, 'Avg Duration', COLORS.purple, true);
+    html += statCard('bounce-rate', data.totals.bounce_rate, 'Bounce Rate', COLORS.yellow, false, true);
+    html += statCard('days-tracked', data.daily.length, 'Days Tracked', '#8b949e');
+    html += '</div>';
+
+    // --- Visitors Over Time ---
+    html += '<div class="section-title">Traffic Trends</div>';
+    html += '<div class="time-range-bar" id="trend-range">';
+    html += '<button class="time-range-btn" data-days="7">7d</button>';
+    html += '<button class="time-range-btn" data-days="14">14d</button>';
+    html += '<button class="time-range-btn active" data-days="30">30d</button>';
+    html += '<button class="time-range-btn" data-days="0">All</button>';
+    html += '</div>';
+    html += '<div class="full-card"><h2>Visitors &amp; Page Views</h2>';
+    html += '<div class="chart-container tall"><canvas id="chart-trend"></canvas></div></div>';
+
+    // --- Charts Grid ---
+    html += '<div class="section-title">Breakdown</div>';
+    html += '<div class="charts-grid">';
+
+    // Top Pages
+    html += '<div class="chart-card"><h2>Top Pages</h2>';
+    html += '<div class="chart-container tall"><canvas id="chart-pages"></canvas></div></div>';
+
+    // Traffic Sources
+    html += '<div class="chart-card"><h2>Traffic Sources</h2>';
+    html += '<div class="chart-container"><canvas id="chart-sources"></canvas></div></div>';
+
+    // Devices
+    html += '<div class="chart-card"><h2>Device Breakdown</h2>';
+    html += '<div class="chart-container"><canvas id="chart-devices"></canvas></div></div>';
+
+    // Browsers
+    html += '<div class="chart-card"><h2>Browser Breakdown</h2>';
+    html += '<div class="chart-container"><canvas id="chart-browsers"></canvas></div></div>';
+
+    // New vs Returning
+    html += '<div class="chart-card"><h2>New vs Returning</h2>';
+    html += '<div class="chart-container"><canvas id="chart-nvr"></canvas></div></div>';
+
+    // Hourly
+    html += '<div class="chart-card"><h2>Visits by Hour of Day</h2>';
+    html += '<div class="chart-container"><canvas id="chart-hourly"></canvas></div></div>';
+
+    html += '</div>'; // end charts-grid
+
+    // --- Geographic Data ---
+    if (data.countries && data.countries.length > 0) {
+        html += '<div class="section-title">Geographic Distribution</div>';
+        html += '<div class="stats-table-container"><table class="stats-table">';
+        html += '<thead><tr><th>Country</th><th>Sessions</th><th>Users</th></tr></thead><tbody>';
+        data.countries.forEach(function(c) {
+            html += '<tr><td>' + escapeHtml(c.country) + '</td><td>' + fmtNum(c.sessions) + '</td><td>' + fmtNum(c.users) + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+    }
+
+    // --- Sources Table ---
+    if (data.sources && data.sources.length > 0) {
+        html += '<div class="section-title">All Traffic Sources</div>';
+        html += '<div class="stats-table-container"><table class="stats-table">';
+        html += '<thead><tr><th>Source</th><th>Medium</th><th>Sessions</th><th>Users</th></tr></thead><tbody>';
+        data.sources.forEach(function(s) {
+            html += '<tr><td>' + escapeHtml(s.source) + '</td><td>' + escapeHtml(s.medium) + '</td><td>' + fmtNum(s.sessions) + '</td><td>' + fmtNum(s.users) + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+    }
+
+    content.innerHTML = html;
+
+    // Animate stat counters
+    animateValue(document.getElementById('stat-total-users'), data.totals.total_users, 800);
+    animateValue(document.getElementById('stat-total-pvs'), data.totals.total_pageviews, 800);
+    animateValue(document.getElementById('stat-total-sessions'), data.totals.total_sessions, 800);
+    animateValue(document.getElementById('stat-avg-duration'), data.totals.avg_session_duration_seconds, 800, fmtDuration);
+    animateValue(document.getElementById('stat-bounce-rate'), Math.round(data.totals.bounce_rate * 100), 800, function(v) { return v + '%'; });
+    animateValue(document.getElementById('stat-days-tracked'), data.daily.length, 800);
+
+    // Build charts
+    buildTrendChart(data.daily, 30);
+    buildPagesChart(data.pages);
+    buildSourcesChart(data.sources);
+    buildDevicesChart(data.devices);
+    buildBrowsersChart(data.browsers);
+    buildNvrChart(data.user_types);
+    buildHourlyChart(data.hourly);
+
+    // Time range buttons
+    document.getElementById('trend-range').addEventListener('click', function(e) {
+        if (e.target.classList.contains('time-range-btn')) {
+            this.querySelectorAll('.time-range-btn').forEach(function(b) { b.classList.remove('active'); });
+            e.target.classList.add('active');
+            var days = parseInt(e.target.dataset.days);
+            buildTrendChart(data.daily, days);
+        }
+    });
+}
+
+function statCard(id, value, label, color, isDuration, isPct) {
+    var display = '--';
+    if (isDuration) display = fmtDuration(value);
+    else if (isPct) display = fmtPct(value);
+    else display = fmtNum(value);
+    return '<div class="stat-card"><div class="stat-value" id="stat-' + id + '" style="color:' + color + '">' + display + '</div><div class="stat-label">' + label + '</div></div>';
+}
+
+function buildTrendChart(daily, days) {
+    var filtered = days > 0 ? daily.slice(-days) : daily;
+    destroyChart('trend');
+
+    var labels = filtered.map(function(d) { return d.date; });
+    var users = filtered.map(function(d) { return d.users; });
+    var pvs = filtered.map(function(d) { return d.pageviews; });
+
+    // Rolling 7-day average
+    var rollingUsers = computeRolling(users, 7);
+
+    charts['trend'] = new Chart(document.getElementById('chart-trend'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Users',
+                    data: users,
+                    borderColor: COLORS.accent,
+                    backgroundColor: COLORS.accent + '20',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: days <= 14 ? 4 : 0,
+                    pointHoverRadius: 5,
+                },
+                {
+                    label: 'Page Views',
+                    data: pvs,
+                    borderColor: COLORS.green,
+                    backgroundColor: 'transparent',
+                    borderDash: [],
+                    tension: 0.3,
+                    pointRadius: days <= 14 ? 4 : 0,
+                    pointHoverRadius: 5,
+                },
+                {
+                    label: '7-day Avg Users',
+                    data: rollingUsers,
+                    borderColor: COLORS.accent + '80',
+                    backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    tension: 0.3,
+                    pointRadius: 0,
+                    borderWidth: 2,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: { legend: { position: 'top' } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true, grid: { color: '#30363d40' } }
+            }
+        }
+    });
+}
+
+function computeRolling(arr, window) {
+    var result = [];
+    for (var i = 0; i < arr.length; i++) {
+        if (i < window - 1) { result.push(null); continue; }
+        var sum = 0;
+        for (var j = i - window + 1; j <= i; j++) sum += arr[j];
+        result.push(Math.round(sum / window * 10) / 10);
+    }
+    return result;
+}
+
+function buildPagesChart(pages) {
+    if (!pages || pages.length === 0) return;
+    var top = pages.slice(0, 10);
+    destroyChart('pages');
+
+    charts['pages'] = new Chart(document.getElementById('chart-pages'), {
+        type: 'bar',
+        data: {
+            labels: top.map(function(p) { return p.path.length > 30 ? p.path.substring(0, 30) + '...' : p.path; }),
+            datasets: [{
+                label: 'Page Views',
+                data: top.map(function(p) { return p.pageviews; }),
+                backgroundColor: COLORS.accent + 'cc',
+                borderRadius: 4,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { beginAtZero: true, grid: { color: '#30363d40' } },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+function buildSourcesChart(sources) {
+    if (!sources || sources.length === 0) return;
+    var top = sources.slice(0, 8);
+    destroyChart('sources');
+
+    charts['sources'] = new Chart(document.getElementById('chart-sources'), {
+        type: 'doughnut',
+        data: {
+            labels: top.map(function(s) { return s.source + ' / ' + s.medium; }),
+            datasets: [{
+                data: top.map(function(s) { return s.sessions; }),
+                backgroundColor: COLORS.palette.slice(0, top.length),
+                borderColor: '#161b22',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { padding: 15, usePointStyle: true } }
+            }
+        }
+    });
+}
+
+function buildDevicesChart(devices) {
+    if (!devices || devices.length === 0) return;
+    destroyChart('devices');
+
+    charts['devices'] = new Chart(document.getElementById('chart-devices'), {
+        type: 'doughnut',
+        data: {
+            labels: devices.map(function(d) { return d.category.charAt(0).toUpperCase() + d.category.slice(1); }),
+            datasets: [{
+                data: devices.map(function(d) { return d.sessions; }),
+                backgroundColor: [COLORS.accent, COLORS.green, COLORS.yellow, COLORS.purple].slice(0, devices.length),
+                borderColor: '#161b22',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { padding: 15, usePointStyle: true } },
+                tooltip: {
+                    callbacks: {
+                        label: function(ctx) {
+                            return ctx.label + ': ' + ctx.raw + ' (' + devices[ctx.dataIndex].percentage + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function buildBrowsersChart(browsers) {
+    if (!browsers || browsers.length === 0) return;
+    var top = browsers.slice(0, 8);
+    destroyChart('browsers');
+
+    charts['browsers'] = new Chart(document.getElementById('chart-browsers'), {
+        type: 'bar',
+        data: {
+            labels: top.map(function(b) { return b.browser; }),
+            datasets: [{
+                label: 'Sessions',
+                data: top.map(function(b) { return b.sessions; }),
+                backgroundColor: COLORS.purple + 'cc',
+                borderRadius: 4,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { beginAtZero: true, grid: { color: '#30363d40' } },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+function buildNvrChart(userTypes) {
+    if (!userTypes || (userTypes.new === 0 && userTypes.returning === 0)) return;
+    destroyChart('nvr');
+
+    charts['nvr'] = new Chart(document.getElementById('chart-nvr'), {
+        type: 'doughnut',
+        data: {
+            labels: ['New Visitors', 'Returning Visitors'],
+            datasets: [{
+                data: [userTypes.new, userTypes.returning],
+                backgroundColor: [COLORS.cyan, COLORS.yellow],
+                borderColor: '#161b22',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { padding: 15, usePointStyle: true } }
+            }
+        }
+    });
+}
+
+function buildHourlyChart(hourly) {
+    if (!hourly || hourly.length === 0) return;
+    destroyChart('hourly');
+
+    charts['hourly'] = new Chart(document.getElementById('chart-hourly'), {
+        type: 'bar',
+        data: {
+            labels: hourly.map(function(h) { return h.hour + ':00'; }),
+            datasets: [{
+                label: 'Page Views',
+                data: hourly.map(function(h) { return h.pageviews; }),
+                backgroundColor: hourly.map(function(h) {
+                    // Color intensity by value
+                    var max = Math.max.apply(null, hourly.map(function(x) { return x.pageviews; }));
+                    var ratio = max > 0 ? h.pageviews / max : 0;
+                    return 'rgba(88, 166, 255, ' + (0.3 + ratio * 0.7) + ')';
+                }),
+                borderRadius: 4,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true, grid: { color: '#30363d40' } }
+            }
+        }
+    });
+}
+
+function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+// Load data on page ready
+loadData();
+</script>
+
+</body>
+</html>
