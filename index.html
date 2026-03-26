@@ -10,6 +10,14 @@
   <meta property="og:image" content="images/biz_pic.jpg">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
   <link rel="stylesheet" href="Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
   <link href="Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
@@ -507,7 +515,8 @@
     <span style="flex:1;">2022</span>
     <span style="flex:1;">2023</span>
     <span style="flex:1;">2024</span>
-    <span>2025</span>
+    <span style="flex:1;">2025</span>
+    <span>2026</span>
   </div>
   <div class="timeline-bar-container" id="tech-timeline">
     <!-- Populated by JS -->
@@ -761,7 +770,7 @@ var techData = [
 ];
 
 var timelineMin = 2015;
-var timelineMax = 2026;
+var timelineMax = 2027;
 var timelineRange = timelineMax - timelineMin;
 var container = document.getElementById('tech-timeline');
 
@@ -776,7 +785,7 @@ techData.forEach(function(tech) {
     '<div class="tl-label">' + tech.name + '</div>' +
     '<div class="tl-bar-track">' +
       '<div class="tl-bar" style="left:' + leftPct + '%; width: 0%; background:' + tech.color + ';" data-width="' + widthPct + '">' +
-        '<span class="tl-bar-text">' + tech.start + '&ndash;' + (tech.end >= 2026 ? 'now' : tech.end) + '</span>' +
+        '<span class="tl-bar-text">' + tech.start + '&ndash;' + (tech.end >= 2027 ? 'now' : tech.end) + '</span>' +
       '</div>' +
     '</div>';
   container.appendChild(row);
