@@ -352,7 +352,7 @@
     <div class="col-sm-8">
       <p>AutoTrader started the way a lot of side projects do: with a question I couldn't let go of. I'd been working with recommendation systems at my day job, and it struck me that the core problem&mdash;predicting what a person will want next based on noisy, incomplete signals&mdash;isn't that different from predicting where a stock will move next based on noisy, incomplete market data.</p>
       <p>So I started small. A few tickers, a basic feature set, a model that ran on my M3 laptop. But as I dug in, the scope grew naturally. A single ticker needed multi-timeframe analysis. Multi-timeframe analysis needed richer features. Richer features needed a real data pipeline. A real data pipeline needed cloud infrastructure. And before long, I was building a system that ingests data for 600+ tickers every night, engineers 400+ features from eight distinct sources, trains over 1,800 models, and delivers ranked predictions to subscribers before the opening bell.</p>
-      <p>Every component was designed and built by me from scratch. It runs autonomously on Google Cloud for about $55 a month, and it's become the most technically satisfying project I've worked on&mdash;a place where I get to combine ML modeling, data engineering, infrastructure design, and product thinking all in one system.</p>
+      <p>Every component was designed and built by me from scratch. It runs autonomously on a multi-cloud setup (GCP + Azure) for about $235/month, and it's become the most technically satisfying project I've worked on&mdash;a place where I get to combine ML modeling, data engineering, infrastructure design, and product thinking all in one system.</p>
     </div>
     <div class="col-sm-4">
       <div class="stat-card">
@@ -368,7 +368,7 @@
         <span class="stat-label">Tickers Covered</span>
       </div>
       <div class="stat-card">
-        <span class="stat-number">~$55/mo</span>
+        <span class="stat-number">~$235/mo</span>
         <span class="stat-label">Total Infrastructure Cost</span>
       </div>
     </div>
@@ -416,44 +416,55 @@
   <!-- VM Architecture -->
   <h3 style="margin-top: 40px;">Infrastructure</h3>
   <div class="row" style="margin-top: 15px;">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <div class="arch-box primary">
-        <h4>VM2: Feature Engineering</h4>
-        <p>2 vCPU, 8 GB RAM &middot; $15/mo</p>
+        <h4>VM2: Data &amp; Execution</h4>
+        <p>2 vCPU, 8 GB RAM &middot; ~$49/mo</p>
         <hr style="margin: 10px 0;">
-        <p>EODHD API data collection<br>
-        Feature computation (400+)<br>
-        VWAP label generation<br>
-        Auxiliary data (PCR, VIX, sentiment)</p>
+        <p>Data collection &amp; features<br>
+        Inference &amp; email delivery<br>
+        Trading execution (Alpaca)<br>
+        LLM event signals (Claude)</p>
       </div>
     </div>
-    <div class="col-sm-4">
-      <div class="arch-box">
-        <h4>GCS + PostgreSQL</h4>
-        <p>Shared data layer &middot; $0.30/mo</p>
-        <hr style="margin: 10px 0;">
-        <p>Raw OHLCV data &amp; feature store<br>
-        Trained model artifacts<br>
-        Model registry &amp; predictions<br>
-        Subscriber management</p>
-      </div>
-    </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <div class="arch-box primary">
-        <h4>VM3: Training &amp; Inference</h4>
-        <p>4 vCPU, 16 GB RAM &middot; $40/mo</p>
+        <h4>VM3: Training (GCP)</h4>
+        <p>4 vCPU, 32 GB RAM &middot; ~$50-80/mo</p>
         <hr style="margin: 10px 0;">
         <p>Dual model training (XGBoost)<br>
         Optuna hyperparameter search<br>
-        Daily prediction generation<br>
-        Tiered email delivery</p>
+        Preemptible (auto-recovery)<br>
+        GCS model sync</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="arch-box">
+        <h4>PostgreSQL + GCS</h4>
+        <p>2 vCPU, 8 GB &middot; ~$52/mo</p>
+        <hr style="margin: 10px 0;">
+        <p>TimescaleDB (market data)<br>
+        Model registry &amp; predictions<br>
+        GCS model artifact storage<br>
+        PgBouncer connection pooling</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="arch-box primary">
+        <h4>Azure: Parallel Training</h4>
+        <p>Parallel training node</p>
+        <hr style="margin: 10px 0;">
+        <p>Morning/evening/night sessions<br>
+        Weekly &amp; monthly models<br>
+        Distributed lock coordination<br>
+        SSH tunnel to GCP PostgreSQL</p>
       </div>
     </div>
   </div>
   <div class="row" style="margin-top: 10px;">
     <div class="col-sm-12 text-center">
       <p style="color: #818181; font-size: 14px;">
-        <strong>Data flow:</strong> EODHD API &rarr; VM2 (collect &amp; engineer) &rarr; GCS / PostgreSQL (store) &rarr; VM3 (train &amp; predict) &rarr; Subscribers (email)
+        <strong>Data flow:</strong> EODHD API ($80/mo) &rarr; VM2 (collect &amp; engineer) &rarr; PostgreSQL (store) &rarr; VM3 + Azure (train) &rarr; GCS (models) &rarr; VM2 (predict &amp; trade) &rarr; Subscribers (email)
       </p>
     </div>
   </div>
@@ -674,7 +685,7 @@
     </div>
     <div class="col-sm-6">
       <h4>Why separate VMs?</h4>
-      <p>Feature engineering spends most of its time waiting on API responses and writing to databases (I/O-bound). Model training spends most of its time in XGBoost's gradient computations (CPU-bound). Running both on a single VM would mean paying for 16 GB of RAM during data collection when I only need 8, or paying for beefy CPUs during the data pipeline when they'd sit idle. The 2-VM split lets me right-size each workload and keeps total costs under $55/month.</p>
+      <p>Feature engineering spends most of its time waiting on API responses and writing to databases (I/O-bound). Model training spends most of its time in XGBoost's gradient computations (CPU-bound). Running both on a single VM would mean paying for 16 GB of RAM during data collection when I only need 8, or paying for beefy CPUs during the data pipeline when they'd sit idle. The multi-VM split lets me right-size each workload&mdash;GCP handles data pipelines and a dedicated PostgreSQL instance, while an Azure VM provides parallel training capacity.</p>
 
       <h4>Why filter low-movement days for the classifier?</h4>
       <p>On days when a stock barely moves (less than 0.1%), predicting "up" or "down" is basically a coin flip&mdash;and training on those coin flips adds noise without signal. Removing the bottom 20% of movement days by absolute VWAP change lets the classifier focus on days when the market is actually making a directional commitment. The regressor still sees all data, because even small-movement days carry information about magnitude distributions.</p>
