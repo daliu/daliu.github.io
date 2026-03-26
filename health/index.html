@@ -488,7 +488,11 @@
                 <div class="chart-container"><canvas id="dowBatteryChart"></canvas></div>
             </div>
             <div class="chart-card">
-                <h2>Exercise Streak Impact</h2>
+                <h2>Activity Level → Body Battery</h2>
+                <div class="chart-container"><canvas id="activityChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Active Streak Impact</h2>
                 <div class="chart-container"><canvas id="streakChart"></canvas></div>
             </div>
             <div class="chart-card">
@@ -496,7 +500,7 @@
                 <div class="chart-container"><canvas id="sleepLagChart"></canvas></div>
             </div>
             <div class="chart-card">
-                <h2>Event Category Impact</h2>
+                <h2>Calendar Event Impact</h2>
                 <div class="chart-container"><canvas id="categoryChart"></canvas></div>
             </div>
         </div>
@@ -1428,7 +1432,39 @@
                     }
                 });
                 
-                // Exercise Streak Chart
+                // Activity Level Chart
+                const activity = corr.activity_levels || {};
+                const actLevels = ['rest_day', 'light', 'moderate', 'intense'];
+                const actLabels = ['Rest (<5K)', 'Light (5-10K)', 'Moderate (10-20K)', 'Intense (20K+)'];
+                const actData = actLevels.map(k => activity[k]?.battery || 0);
+                const actSamples = actLevels.map(k => activity[k]?.sample_size || 0);
+                new Chart(document.getElementById('activityChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: actLabels,
+                        datasets: [{
+                            label: 'Avg Battery',
+                            data: actData,
+                            backgroundColor: actData.map(v => v >= 45 ? 'rgba(63, 185, 80, 0.7)' : v >= 35 ? 'rgba(210, 153, 34, 0.7)' : 'rgba(248, 81, 73, 0.7)'),
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    afterLabel: (ctx) => `(${actSamples[ctx.dataIndex]} days)`
+                                }
+                            }
+                        },
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 10 } } } }
+                    }
+                });
+
+                // Active Streak Chart
                 const streaks = corr.exercise_streaks;
                 const streakLabels = ['No streak', '1-2 days', '3-4 days', '5+ days'];
                 const streakKeys = ['no_streak', '1-2_days', '3-4_days', '5+_days'];
@@ -1486,32 +1522,44 @@
                     }
                 });
                 
-                // Category Impact Chart
+                // Category Impact Chart (one-off calendar events)
                 const cats = corr.event_categories;
                 const catLabels = Object.keys(cats);
                 const catData = catLabels.map(c => cats[c]?.battery_delta || 0);
-                new Chart(document.getElementById('categoryChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: catLabels.map(c => c.charAt(0).toUpperCase() + c.slice(1)),
-                        datasets: [{
-                            label: 'Battery Δ vs baseline',
-                            data: catData,
-                            backgroundColor: catData.map(v => v >= 0 ? 'rgba(63, 185, 80, 0.7)' : 'rgba(248, 81, 73, 0.7)'),
-                            borderRadius: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
-                    }
-                });
+                const catSamples = catLabels.map(c => cats[c]?.sample_size || 0);
+                if (catLabels.length > 0) {
+                    new Chart(document.getElementById('categoryChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: catLabels.map(c => c.charAt(0).toUpperCase() + c.slice(1)),
+                            datasets: [{
+                                label: 'Battery Δ vs baseline',
+                                data: catData,
+                                backgroundColor: catData.map(v => v >= 0 ? 'rgba(63, 185, 80, 0.7)' : 'rgba(248, 81, 73, 0.7)'),
+                                borderRadius: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        afterLabel: (ctx) => `(${catSamples[ctx.dataIndex]} days)`
+                                    }
+                                }
+                            },
+                            scales: { y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                        }
+                    });
+                } else {
+                    document.getElementById('categoryChart').parentElement.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 40px 0;">Not enough one-off calendar events yet</p>';
+                }
                 
                 // Lagged Effects Table
-                const factors = ['exercise', 'sleep_great', 'sleep_poor', 'heavy_work'];
-                const factorLabels = { 'exercise': '🏃 Exercise', 'sleep_great': '😴 Great Sleep', 'sleep_poor': '😵 Poor Sleep', 'heavy_work': '💼 Heavy Work' };
+                const factors = ['exercise', 'high_steps', 'sleep_great', 'sleep_poor'];
+                const factorLabels = { 'exercise': '🏃 Active (10K+)', 'high_steps': '🚶 High Steps (20K+)', 'sleep_great': '😴 Great Sleep', 'sleep_poor': '😵 Poor Sleep' };
                 let tableHtml = '';
                 for (const f of factors) {
                     const lag = corr.lagged_effects[f] || {};
