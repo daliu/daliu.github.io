@@ -424,6 +424,48 @@
             </div>
         </div>
         
+        <!-- Calendar-Based Correlations -->
+        <div class="section-title">📅 Calendar Correlations</div>
+        <div class="insights-grid" id="calendarInsights"></div>
+        
+        <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="chart-card">
+                <h2>Day of Week → Body Battery</h2>
+                <div class="chart-container"><canvas id="dowBatteryChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Exercise Streak Impact</h2>
+                <div class="chart-container"><canvas id="streakChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Sleep Quality → Lagged Effects</h2>
+                <div class="chart-container"><canvas id="sleepLagChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h2>Event Category Impact</h2>
+                <div class="chart-container"><canvas id="categoryChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="stats-table-container">
+            <h3 style="font-size: 0.95rem; color: var(--text); margin-bottom: 10px;">⏱️ Delayed Effects (48-72 hour lag)</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+                How today's actions affect health metrics 1-3 days later. Based on calendar events + Garmin data.
+            </p>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>+1 Day Battery</th>
+                        <th>+2 Day Battery</th>
+                        <th>+3 Day Battery</th>
+                        <th>Best Lag</th>
+                    </tr>
+                </thead>
+                <tbody id="laggedTable"></tbody>
+            </table>
+        </div>
+        
         <!-- Correlations -->
         <div class="section-title">🔗 Same-Day Correlations</div>
         <div class="stats-table-container">
@@ -1295,6 +1337,151 @@
             document.getElementById('statsBody').innerHTML = html;
         }
 
+        async function loadCorrelations() {
+            try {
+                const resp = await fetch('correlations.json?t=' + Date.now());
+                const corr = await resp.json();
+                
+                // Calendar Insights
+                const insightsHtml = corr.insights.map(i => `
+                    <div class="insight-card">
+                        <h3>${i.type.replace('_', ' ').toUpperCase()}</h3>
+                        <p style="font-size: 1rem;">${i.text}</p>
+                    </div>
+                `).join('');
+                document.getElementById('calendarInsights').innerHTML = insightsHtml || '<p style="color: var(--text-muted);">Collecting more data...</p>';
+                
+                // Day of Week Chart
+                const dow = corr.day_of_week;
+                const dowLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const dowData = dowLabels.map(d => dow[d]?.battery || 0);
+                new Chart(document.getElementById('dowBatteryChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: dowLabels,
+                        datasets: [{
+                            label: 'Avg Battery',
+                            data: dowData,
+                            backgroundColor: dowData.map(v => v >= 45 ? 'rgba(63, 185, 80, 0.7)' : v >= 35 ? 'rgba(210, 153, 34, 0.7)' : 'rgba(248, 81, 73, 0.7)'),
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                    }
+                });
+                
+                // Exercise Streak Chart
+                const streaks = corr.exercise_streaks;
+                const streakLabels = ['No streak', '1-2 days', '3-4 days', '5+ days'];
+                const streakKeys = ['no_streak', '1-2_days', '3-4_days', '5+_days'];
+                const streakData = streakKeys.map(k => streaks[k]?.battery || 0);
+                new Chart(document.getElementById('streakChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: streakLabels,
+                        datasets: [{
+                            label: 'Avg Battery',
+                            data: streakData,
+                            backgroundColor: '#3fb950',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                    }
+                });
+                
+                // Sleep Lag Chart
+                const sleepGreat = corr.lagged_effects.sleep_great || {};
+                const sleepPoor = corr.lagged_effects.sleep_poor || {};
+                new Chart(document.getElementById('sleepLagChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['+1 day', '+2 days', '+3 days'],
+                        datasets: [
+                            {
+                                label: 'Great Sleep (85+)',
+                                data: [sleepGreat['+1d']?.battery, sleepGreat['+2d']?.battery, sleepGreat['+3d']?.battery],
+                                borderColor: '#3fb950',
+                                backgroundColor: 'rgba(63, 185, 80, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            },
+                            {
+                                label: 'Poor Sleep (<50)',
+                                data: [sleepPoor['+1d']?.battery, sleepPoor['+2d']?.battery, sleepPoor['+3d']?.battery],
+                                borderColor: '#f85149',
+                                backgroundColor: 'rgba(248, 81, 73, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { color: '#8b949e' } } },
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                    }
+                });
+                
+                // Category Impact Chart
+                const cats = corr.event_categories;
+                const catLabels = Object.keys(cats);
+                const catData = catLabels.map(c => cats[c]?.battery_delta || 0);
+                new Chart(document.getElementById('categoryChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: catLabels.map(c => c.charAt(0).toUpperCase() + c.slice(1)),
+                        datasets: [{
+                            label: 'Battery Δ vs baseline',
+                            data: catData,
+                            backgroundColor: catData.map(v => v >= 0 ? 'rgba(63, 185, 80, 0.7)' : 'rgba(248, 81, 73, 0.7)'),
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                    }
+                });
+                
+                // Lagged Effects Table
+                const factors = ['exercise', 'sleep_great', 'sleep_poor', 'heavy_work'];
+                const factorLabels = { 'exercise': '🏃 Exercise', 'sleep_great': '😴 Great Sleep', 'sleep_poor': '😵 Poor Sleep', 'heavy_work': '💼 Heavy Work' };
+                let tableHtml = '';
+                for (const f of factors) {
+                    const lag = corr.lagged_effects[f] || {};
+                    const d1 = lag['+1d']?.battery;
+                    const d2 = lag['+2d']?.battery;
+                    const d3 = lag['+3d']?.battery;
+                    const vals = [d1, d2, d3].filter(v => v != null);
+                    const best = vals.length ? (d3 >= d2 && d3 >= d1 ? '+3d' : d2 >= d1 ? '+2d' : '+1d') : '-';
+                    const fmt = v => v != null ? `${v.toFixed(1)} (${v > corr.baseline.avg_body_battery ? '+' : ''}${(v - corr.baseline.avg_body_battery).toFixed(1)})` : '-';
+                    tableHtml += `<tr>
+                        <td>${factorLabels[f] || f}</td>
+                        <td>${fmt(d1)}</td>
+                        <td>${fmt(d2)}</td>
+                        <td>${fmt(d3)}</td>
+                        <td><span style="color: var(--accent)">${best}</span></td>
+                    </tr>`;
+                }
+                document.getElementById('laggedTable').innerHTML = tableHtml;
+                
+            } catch (err) {
+                console.log('Correlations not available yet:', err.message);
+            }
+        }
+        
         async function loadData() {
             try {
                 const resp = await fetch('data.json?t=' + Date.now());
