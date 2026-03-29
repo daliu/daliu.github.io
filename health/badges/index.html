@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Badges | Dave Liu</title>
+    <meta name="description" content="Privacy-first health badge system. Upload Apple Health or Garmin data — all processing happens in your browser. No data leaves your device.">
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GR5Z815VXW');
+    </script>
+    <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+    <script src="../../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+    <script src="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+    <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --yellow: #d29922;
+            --red: #f85149;
+            --purple: #a371f7;
+            --cyan: #39c5cf;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 17px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            padding-top: 70px;
+        }
+        .navbar { background-color: #2f2f2f; border: none; margin-bottom: 0; font-size: 16px; }
+        .navbar li a, .navbar .navbar-brand { color: #fff !important; }
+        .navbar-nav li a:hover, .navbar-nav li.active a {
+            color: #1abc9c !important; background-color: #3a3a3a !important;
+        }
+        .navbar-default .navbar-toggle { border-color: transparent; color: #fff !important; }
+        .navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
+        .navbar-default .navbar-nav > .open > a,
+        .navbar-default .navbar-nav > .open > a:hover,
+        .navbar-default .navbar-nav > .open > a:focus { background-color: #3a3a3a !important; color: #1abc9c !important; }
+        .navbar-default .navbar-nav .dropdown-menu { background-color: #2f2f2f; border: 1px solid #444; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .navbar-default .navbar-nav .dropdown-menu > li > a { color: #fff !important; padding: 8px 20px; background-color: #2f2f2f !important; }
+        .navbar-default .navbar-nav .dropdown-menu > li > a:hover,
+        .navbar-default .navbar-nav .dropdown-menu > li > a:focus { color: #1abc9c !important; background-color: #3a3a3a !important; }
+        .navbar-default .navbar-nav .dropdown-menu .divider { background-color: #444; }
+
+        .container-main { max-width: 1400px; margin: 0 auto; }
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+            flex-wrap: wrap; gap: 10px;
+        }
+        h1 { font-size: 2.4rem; font-weight: 600; }
+        h1 a { color: inherit; text-decoration: none; }
+        .subtitle { color: var(--text-muted); font-size: 1.2rem; margin-top: 4px; }
+        .back-link { color: var(--accent); text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; }
+        h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text-muted); }
+
+        /* Privacy Banner */
+        .privacy-banner {
+            background: linear-gradient(135deg, #1a2332 0%, #162b1e 100%);
+            border: 1px solid var(--green);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .privacy-icon {
+            font-size: 2.4rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .privacy-banner h3 { color: var(--green); margin-bottom: 6px; font-size: 1.15rem; }
+        .privacy-banner p { color: var(--text-muted); margin: 0; font-size: 0.92rem; line-height: 1.5; }
+        .privacy-banner ul { list-style: none; padding: 0; margin: 8px 0 0 0; }
+        .privacy-banner ul li { color: var(--text-muted); font-size: 0.92rem; padding: 2px 0; }
+        .privacy-banner ul li::before { content: "\2713"; color: var(--green); margin-right: 8px; font-weight: bold; }
+
+        /* Upload Area */
+        .upload-section { margin-bottom: 40px; }
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--card-bg);
+            position: relative;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--accent);
+            background: #1a2332;
+        }
+        .upload-area .upload-icon { font-size: 3rem; margin-bottom: 12px; }
+        .upload-area p { color: var(--text-muted); margin: 4px 0; }
+        .upload-area .filetypes { font-size: 0.85rem; color: var(--text-muted); }
+        .upload-area input[type="file"] {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; cursor: pointer;
+        }
+        .processing-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13,17,23,0.9); z-index: 9999;
+            justify-content: center; align-items: center; flex-direction: column;
+        }
+        .processing-overlay.active { display: flex; }
+        .spinner {
+            width: 60px; height: 60px; border: 4px solid var(--border);
+            border-top-color: var(--accent); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .processing-overlay p { color: var(--text); font-size: 1.2rem; }
+
+        /* Instructions */
+        .instructions { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 30px; }
+        .instruction-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px;
+        }
+        .instruction-card h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 12px; }
+        .instruction-card ol { padding-left: 20px; color: var(--text-muted); font-size: 0.92rem; }
+        .instruction-card ol li { margin-bottom: 6px; }
+        .instruction-card strong { color: var(--text); }
+
+        /* Stat Cards */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .stat-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; text-align: center;
+        }
+        .stat-card .stat-label { color: var(--text-muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .stat-value { font-size: 1.8rem; font-weight: 700; margin: 4px 0; }
+        .stat-card .stat-sub { color: var(--text-muted); font-size: 0.82rem; }
+
+        /* Weekly Comparison */
+        .weekly-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .weekly-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px;
+        }
+        .weekly-card .label { color: var(--text-muted); font-size: 0.82rem; text-transform: uppercase; }
+        .weekly-card .values { display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px; }
+        .weekly-card .current { font-size: 1.4rem; font-weight: 700; }
+        .weekly-card .change { font-size: 0.95rem; font-weight: 600; }
+        .weekly-card .change.positive { color: var(--green); }
+        .weekly-card .change.negative { color: var(--red); }
+        .weekly-card .change.neutral { color: var(--text-muted); }
+        .weekly-card .prev { color: var(--text-muted); font-size: 0.82rem; margin-top: 4px; }
+
+        /* Charts */
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 30px; }
+        .chart-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px;
+        }
+        .chart-card canvas { width: 100% !important; max-height: 280px; }
+
+        /* Badge Section */
+        .badge-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+        .badge-header h2 { margin-bottom: 0; }
+        .badge-score { font-size: 1.3rem; font-weight: 700; color: var(--yellow); }
+        .badge-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .badge-filters button {
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text-muted);
+            padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .badge-filters button:hover { border-color: var(--accent); color: var(--text); }
+        .badge-filters button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        .badge-category { margin-bottom: 28px; }
+        .badge-category-title {
+            font-size: 1.1rem; font-weight: 600; margin-bottom: 12px;
+            padding-bottom: 6px; border-bottom: 2px solid var(--border);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+        .badge-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; position: relative; overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .badge-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+        .badge-card.earned { border-color: var(--yellow); }
+        .badge-card.locked { opacity: 0.55; }
+        .badge-card .badge-emoji { font-size: 2rem; margin-bottom: 6px; }
+        .badge-card .badge-name { font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+        .badge-card .badge-desc { color: var(--text-muted); font-size: 0.82rem; margin-bottom: 8px; }
+        .badge-card .badge-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
+        .badge-card .badge-tier {
+            padding: 2px 8px; border-radius: 4px; font-weight: 600;
+            text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px;
+        }
+        .badge-card .badge-points { color: var(--yellow); font-weight: 600; }
+        .badge-card .badge-date { color: var(--text-muted); font-size: 0.78rem; margin-top: 6px; }
+        .badge-progress-bar {
+            height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden;
+        }
+        .badge-progress-bar .fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+        .badge-progress-pct { color: var(--text-muted); font-size: 0.75rem; margin-top: 3px; text-align: right; }
+        .earned-check {
+            position: absolute; top: 10px; right: 10px;
+            color: var(--green); font-size: 1.2rem;
+        }
+
+        /* Records & Insights */
+        .records-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 30px; }
+        .record-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; text-align: center;
+        }
+        .record-card .record-label { color: var(--text-muted); font-size: 0.82rem; }
+        .record-card .record-value { font-size: 1.6rem; font-weight: 700; color: var(--yellow); margin: 4px 0; }
+        .record-card .record-date { color: var(--text-muted); font-size: 0.78rem; }
+
+        .insights-section {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; margin-bottom: 30px;
+        }
+        .insight-item { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 0.92rem; }
+        .insight-item:last-child { border-bottom: none; }
+        .insight-item::before { content: "\1F4A1"; margin-right: 8px; }
+
+        /* Activity Levels */
+        .activity-levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 30px; }
+        .activity-level-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; text-align: center;
+        }
+        .activity-level-card .level-name { text-transform: uppercase; font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+        .activity-level-card .level-pct { font-size: 1.6rem; font-weight: 700; margin: 4px 0; }
+        .activity-level-card .level-days { font-size: 0.82rem; color: var(--text-muted); }
+        .activity-level-card .level-battery { font-size: 0.82rem; color: var(--cyan); margin-top: 4px; }
+
+        /* Compat note */
+        .compat-note {
+            background: #1c1e24; border: 1px solid var(--border); border-radius: 10px;
+            padding: 14px 18px; margin-bottom: 24px; font-size: 0.88rem; color: var(--text-muted);
+        }
+        .compat-note strong { color: var(--yellow); }
+
+        /* Dashboard content hidden by default */
+        #dashboard { display: none; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 10px; padding-top: 60px; }
+            h1 { font-size: 1.6rem; }
+            .instructions { grid-template-columns: 1fr; }
+            .chart-grid { grid-template-columns: 1fr; }
+            .activity-levels { grid-template-columns: 1fr 1fr; }
+            .stat-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .badge-grid { grid-template-columns: 1fr; }
+            .privacy-banner { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../portfolio.html">Portfolio</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../index.html">Overview</a></li>
+            <li><a href="../">Health Dashboard</a></li>
+            <li><a href="../../analytics/">Site Analytics</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../autotrader.html">Overview</a></li>
+            <li><a href="../../autotrader/daily/index.html">Daily Updates</a></li>
+          </ul>
+        </li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="processing-overlay" id="processingOverlay">
+    <div class="spinner"></div>
+    <p id="processingText">Processing your health data...</p>
+</div>
+
+<div class="container-main">
+
+<header>
+    <div>
+        <h1>Health Badges</h1>
+        <div class="subtitle">Earn badges from your health data. 100% private, 100% client-side.</div>
+    </div>
+    <a href="../" class="back-link"><span class="fa fa-arrow-left"></span> Health Dashboard</a>
+</header>
+
+<!-- UPLOAD SECTION -->
+<div id="uploadSection">
+
+    <div class="privacy-banner">
+        <div class="privacy-icon"><span class="fa fa-shield" style="color:var(--green);font-size:2.4rem;"></span></div>
+        <div>
+            <h3>Your Data Never Leaves Your Device</h3>
+            <p>This page runs entirely in your browser. There is no server, no database, no account.</p>
+            <ul>
+                <li>All processing happens locally in your browser using JavaScript</li>
+                <li>No data is uploaded to any server, ever</li>
+                <li>No cookies, no tracking, no analytics on your health data</li>
+                <li>Your file is read in memory and discarded when you close the tab</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <div class="instruction-card">
+            <h3><span class="fa fa-apple"></span> Apple Watch / iPhone</h3>
+            <ol>
+                <li>Open the <strong>Health</strong> app on your iPhone</li>
+                <li>Tap your <strong>profile picture</strong> (top right)</li>
+                <li>Scroll down and tap <strong>Export All Health Data</strong></li>
+                <li>Confirm the export (may take a few minutes)</li>
+                <li>Save the ZIP file or AirDrop it to your computer</li>
+                <li><strong>Upload the ZIP file below</strong></li>
+            </ol>
+        </div>
+        <div class="instruction-card">
+            <h3><span class="fa fa-clock-o"></span> Garmin</h3>
+            <ol>
+                <li><strong>Option A:</strong> Export from <a href="https://connect.garmin.com" target="_blank" style="color:var(--accent);">Garmin Connect</a> web &mdash; go to Health Stats or Reports and export as JSON</li>
+                <li><strong>Option B:</strong> Use a third-party Garmin export tool to get a JSON file of your daily summaries</li>
+                <li><strong>Option C:</strong> If you have the Garmin Badges Flask app running locally, use its sync feature</li>
+                <li><strong>Upload the JSON file below</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="compat-note">
+        <strong>Apple Watch users:</strong> Body battery, stress, and sleep score badges require Garmin data. Steps, heart rate, HRV, sleep duration, calories, floors, and streak badges all work with Apple Watch data.
+    </div>
+
+    <div class="upload-area" id="uploadArea">
+        <div class="upload-icon"><span class="fa fa-cloud-upload"></span></div>
+        <p style="font-size:1.1rem;color:var(--text);font-weight:600;">Drop your health data file here</p>
+        <p>or click to browse</p>
+        <p class="filetypes">.zip (Apple Health) &middot; .xml (Apple Health) &middot; .json (Garmin / generic)</p>
+        <input type="file" id="fileInput" accept=".zip,.xml,.json">
+    </div>
+
+</div>
+
+<!-- DASHBOARD SECTION (hidden until data loads) -->
+<div id="dashboard">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
+        <div>
+            <span id="dataInfo" style="color:var(--text-muted);font-size:0.9rem;"></span>
+        </div>
+        <button onclick="resetUpload()" style="background:var(--card-bg);border:1px solid var(--border);color:var(--text-muted);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.85rem;">
+            <span class="fa fa-refresh"></span> Upload Different File
+        </button>
+    </div>
+
+    <!-- Summary Stats -->
+    <h2>Today's Summary</h2>
+    <div class="stat-grid" id="summaryGrid"></div>
+
+    <!-- Weekly Comparison -->
+    <h2>This Week vs Last Week</h2>
+    <div class="weekly-grid" id="weeklyGrid"></div>
+
+    <!-- Charts -->
+    <h2>Trends</h2>
+    <div class="chart-grid" id="chartGrid">
+        <div class="chart-card"><canvas id="chartSteps"></canvas></div>
+        <div class="chart-card"><canvas id="chartSleep"></canvas></div>
+        <div class="chart-card"><canvas id="chartHR"></canvas></div>
+        <div class="chart-card"><canvas id="chartHRV"></canvas></div>
+    </div>
+
+    <!-- Badges -->
+    <div class="badge-header">
+        <h2>Badge Collection</h2>
+        <div class="badge-score" id="badgeScore"></div>
+    </div>
+    <div class="badge-filters" id="badgeFilters"></div>
+    <div id="badgeContainer"></div>
+
+    <!-- Personal Records -->
+    <h2>Personal Records</h2>
+    <div class="records-grid" id="recordsGrid"></div>
+
+    <!-- Insights -->
+    <h2>Insights</h2>
+    <div class="insights-section" id="insightsSection"></div>
+
+    <!-- Activity Levels -->
+    <h2>Activity Level Distribution</h2>
+    <div class="activity-levels" id="activityLevels"></div>
+
+</div>
+
+</div><!-- /container-main -->
+
+<script>
+// =====================================================================
+// APPLE HEALTH PARSER (ported from apple_health_parser.py)
+// =====================================================================
+
+const STEP_TYPE = 'HKQuantityTypeIdentifierStepCount';
+const RESTING_HR_TYPE = 'HKQuantityTypeIdentifierRestingHeartRate';
+const HR_TYPE = 'HKQuantityTypeIdentifierHeartRate';
+const HRV_TYPE = 'HKQuantityTypeIdentifierHeartRateVariabilitySDNN';
+const ACTIVE_ENERGY_TYPE = 'HKQuantityTypeIdentifierActiveEnergyBurned';
+const BASAL_ENERGY_TYPE = 'HKQuantityTypeIdentifierBasalEnergyBurned';
+const FLIGHTS_TYPE = 'HKQuantityTypeIdentifierFlightsClimbed';
+const EXERCISE_TYPE = 'HKQuantityTypeIdentifierAppleExerciseTime';
+const SLEEP_TYPE = 'HKCategoryTypeIdentifierSleepAnalysis';
+
+const SLEEP_ASLEEP_VALUES = new Set([
+    'HKCategoryValueSleepAnalysisAsleepCore',
+    'HKCategoryValueSleepAnalysisAsleepDeep',
+    'HKCategoryValueSleepAnalysisAsleepREM',
+    'HKCategoryValueSleepAnalysisAsleep',
+    'HKCategoryValueSleepAnalysisAsleepUnspecified',
+]);
+
+const RELEVANT_TYPES = new Set([
+    STEP_TYPE, RESTING_HR_TYPE, HR_TYPE, HRV_TYPE,
+    ACTIVE_ENERGY_TYPE, BASAL_ENERGY_TYPE, FLIGHTS_TYPE,
+    EXERCISE_TYPE, SLEEP_TYPE,
+]);
+
+function safeFloat(val, asInt = false) {
+    const f = parseFloat(val);
+    if (isNaN(f)) return 0;
+    return asInt ? Math.round(f) : f;
+}
+
+async function parseAppleHealthZip(arrayBuffer) {
+    const zip = await JSZip.loadAsync(arrayBuffer);
+    let xmlData = null;
+    for (const name of Object.keys(zip.files)) {
+        if (name.endsWith('export.xml')) {
+            xmlData = await zip.files[name].async('string');
+            break;
+        }
+    }
+    if (!xmlData) {
+        for (const name of Object.keys(zip.files)) {
+            if (name.endsWith('.xml')) {
+                xmlData = await zip.files[name].async('string');
+                break;
+            }
+        }
+    }
+    if (!xmlData) throw new Error('No XML file found in ZIP');
+    return parseAppleHealthXML(xmlData);
+}
+
+function parseAppleHealthXML(xmlString) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlString, 'text/xml');
+    const records = doc.querySelectorAll('Record');
+
+    const daily = {};
+    function getDay(dateKey) {
+        if (!daily[dateKey]) {
+            daily[dateKey] = {
+                steps: 0, hr_values: [], resting_hr: null, hrv_values: [],
+                active_calories: 0, basal_calories: 0, floors: 0,
+                exercise_minutes: 0, sleep_minutes: 0,
+                sleep_start: null, sleep_end: null,
+            };
+        }
+        return daily[dateKey];
+    }
+
+    for (const elem of records) {
+        const recordType = elem.getAttribute('type') || '';
+        if (!RELEVANT_TYPES.has(recordType)) continue;
+
+        const startStr = elem.getAttribute('startDate') || '';
+        const valueStr = elem.getAttribute('value') || '';
+        const dateKey = startStr.substring(0, 10);
+        if (!dateKey || dateKey.length < 10) continue;
+
+        const day = getDay(dateKey);
+
+        if (recordType === STEP_TYPE) {
+            day.steps += safeFloat(valueStr, true);
+        } else if (recordType === RESTING_HR_TYPE) {
+            const val = safeFloat(valueStr);
+            if (val > 30 && val < 120) day.resting_hr = val;
+        } else if (recordType === HR_TYPE) {
+            const val = safeFloat(valueStr);
+            if (val > 30 && val < 250) day.hr_values.push(val);
+        } else if (recordType === HRV_TYPE) {
+            const val = safeFloat(valueStr);
+            if (val > 0 && val < 300) day.hrv_values.push(val);
+        } else if (recordType === ACTIVE_ENERGY_TYPE) {
+            day.active_calories += safeFloat(valueStr, true);
+        } else if (recordType === BASAL_ENERGY_TYPE) {
+            day.basal_calories += safeFloat(valueStr, true);
+        } else if (recordType === FLIGHTS_TYPE) {
+            day.floors += safeFloat(valueStr, true);
+        } else if (recordType === EXERCISE_TYPE) {
+            day.exercise_minutes += safeFloat(valueStr, true);
+        } else if (recordType === SLEEP_TYPE) {
+            const sleepVal = elem.getAttribute('value') || '';
+            if (SLEEP_ASLEEP_VALUES.has(sleepVal)) {
+                const endStr = elem.getAttribute('endDate') || '';
+                const startDt = parseAppleDate(startStr);
+                const endDt = parseAppleDate(endStr);
+                if (startDt && endDt) {
+                    const minutes = (endDt - startDt) / 60000;
+                    if (minutes > 0 && minutes < 720) {
+                        const wakeDate = endDt.toISOString().substring(0, 10);
+                        const wakeDay = getDay(wakeDate);
+                        wakeDay.sleep_minutes += minutes;
+                        const startTime = startStr.substring(11, 16);
+                        const endTime = endStr.substring(11, 16);
+                        if (!wakeDay.sleep_start || startTime < wakeDay.sleep_start) {
+                            wakeDay.sleep_start = startTime;
+                        }
+                        if (!wakeDay.sleep_end || endTime > wakeDay.sleep_end) {
+                            wakeDay.sleep_end = endTime;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    const results = [];
+    for (const dateKey of Object.keys(daily).sort()) {
+        const day = daily[dateKey];
+        if (day.steps === 0 && day.hr_values.length === 0 && day.sleep_minutes === 0) continue;
+        results.push({
+            date: dateKey,
+            total_steps: day.steps > 0 ? day.steps : null,
+            calories_total: (day.active_calories + day.basal_calories) || null,
+            floors_climbed: day.floors > 0 ? day.floors : null,
+            total_active_minutes: day.exercise_minutes > 0 ? day.exercise_minutes : null,
+            resting_hr: day.resting_hr,
+            max_hr: day.hr_values.length > 0 ? Math.max(...day.hr_values) : null,
+            hrv_last_night: day.hrv_values.length > 0 ? Math.round(day.hrv_values.reduce((a, b) => a + b, 0) / day.hrv_values.length * 10) / 10 : null,
+            sleep_hours: day.sleep_minutes > 0 ? Math.round(day.sleep_minutes / 60 * 100) / 100 : null,
+            sleep_start: day.sleep_start,
+            sleep_end: day.sleep_end,
+            avg_body_battery: null,
+            min_body_battery: null,
+            max_body_battery: null,
+            avg_stress: null,
+            max_stress: null,
+            sleep_score: null,
+        });
+    }
+    return results;
+}
+
+function parseAppleDate(str) {
+    if (!str || str.length < 19) return null;
+    try { return new Date(str.replace(' ', 'T')); } catch { return null; }
+}
+
+
+// =====================================================================
+// BADGE ENGINE (ported from badge_engine.py - all 69 badges)
+// =====================================================================
+
+const CATEGORIES = {
+    sleep: { name: 'Sleep', emoji: '\uD83D\uDE34', color: '#a371f7' },
+    steps: { name: 'Steps & Activity', emoji: '\uD83D\uDC5F', color: '#58a6ff' },
+    heart: { name: 'Heart Rate', emoji: '\u2764\uFE0F', color: '#f85149' },
+    stress: { name: 'Stress', emoji: '\uD83E\uDDD8', color: '#d29922' },
+    battery: { name: 'Body Battery', emoji: '\uD83D\uDD0B', color: '#3fb950' },
+    hrv: { name: 'HRV', emoji: '\uD83D\uDCCA', color: '#39c5cf' },
+    streaks: { name: 'Streaks', emoji: '\uD83D\uDD25', color: '#f0883e' },
+    milestones: { name: 'Milestones', emoji: '\uD83C\uDFDB\uFE0F', color: '#8b949e' },
+    special: { name: 'Special', emoji: '\uD83C\uDF1F', color: '#e3b341' },
+};
+
+const TIERS = {
+    bronze: { name: 'Bronze', color: '#cd7f32' },
+    silver: { name: 'Silver', color: '#c0c0c0' },
+    gold: { name: 'Gold', color: '#ffd700' },
+    platinum: { name: 'Platinum', color: '#e5e4e2' },
+};
+
+// Helper: check N consecutive days where metric >= threshold
+function checkStreak(days, key, threshold, required) {
+    const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+    let streak = 0, bestStreak = 0, lastDate = null;
+    for (const d of sorted) {
+        const val = d[key];
+        if (val !== null && val !== undefined && val >= threshold) {
+            if (lastDate) {
+                const d1 = new Date(lastDate), d2 = new Date(d.date);
+                const diff = (d2 - d1) / 86400000;
+                streak = (diff === 1) ? streak + 1 : 1;
+            } else {
+                streak = 1;
+            }
+            lastDate = d.date;
+            bestStreak = Math.max(bestStreak, streak);
+            if (streak >= required) return [true, 1.0, d.date];
+        } else {
+            streak = 0;
+            if (val !== null && val !== undefined) lastDate = d.date; else lastDate = lastDate;
+        }
+    }
+    return [false, Math.min(bestStreak / required, 0.99), null];
+}
+
+// Helper: check N consecutive days where metric < threshold
+function checkStreakUnder(days, key, threshold, required) {
+    const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+    let streak = 0, bestStreak = 0, lastDate = null;
+    for (const d of sorted) {
+        const val = d[key];
+        if (val !== null && val !== undefined && val < threshold) {
+            if (lastDate) {
+                const d1 = new Date(lastDate), d2 = new Date(d.date);
+                const diff = (d2 - d1) / 86400000;
+                streak = (diff === 1) ? streak + 1 : 1;
+            } else {
+                streak = 1;
+            }
+            lastDate = d.date;
+            bestStreak = Math.max(bestStreak, streak);
+            if (streak >= required) return [true, 1.0, d.date];
+        } else {
+            streak = 0;
+            if (val !== null && val !== undefined) lastDate = d.date;
+        }
+    }
+    return [false, Math.min(bestStreak / required, 0.99), null];
+}
+
+// Helper: check time-based streak
+function checkTimeStreak(days, key, opts) {
+    const { maxHour, maxMin, minHour, minMin, required, after } = Object.assign({ maxHour: null, maxMin: null, minHour: null, minMin: null, required: 3, after: false }, opts);
+    const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+    let streak = 0, bestStreak = 0, lastDate = null;
+    for (const d of sorted) {
+        const t = d[key];
+        if (t) {
+            const [h, m] = t.split(':').map(Number);
+            const totalMin = h * 60 + m;
+            let meets = false;
+            if (maxHour !== null) {
+                const target = maxHour * 60 + (maxMin || 0);
+                meets = totalMin <= target;
+            } else if (minHour !== null) {
+                if (after) {
+                    meets = totalMin < 360; // before 6am = went to bed after midnight
+                } else {
+                    const target = minHour * 60 + (minMin || 0);
+                    meets = totalMin >= target;
+                }
+            }
+            if (meets) {
+                if (lastDate) {
+                    const d1 = new Date(lastDate), d2 = new Date(d.date);
+                    const diff = (d2 - d1) / 86400000;
+                    streak = (diff === 1) ? streak + 1 : 1;
+                } else {
+                    streak = 1;
+                }
+                lastDate = d.date;
+                bestStreak = Math.max(bestStreak, streak);
+                if (streak >= required) return [true, 1.0, d.date];
+            } else {
+                streak = 0;
+                lastDate = d.date;
+            }
+        }
+    }
+    return [false, Math.min(bestStreak / required, 0.99), null];
+}
+
+function mean(arr) { return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0; }
+
+// All 69 badge definitions
+const BADGES = [
+    // ===== SLEEP BADGES (11) =====
+    { id: 'sleep_first_great', name: 'Sweet Dreams', description: 'Get a sleep score of 85+', category: 'sleep', tier: 'bronze', emoji: '\uD83D\uDE34', points: 10,
+      evaluator: (days) => {
+          for (const d of days) { if ((d.sleep_score || 0) >= 85) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.sleep_score || 0)) : 0;
+          return [false, best / 85, null];
+      }},
+    { id: 'sleep_perfect', name: 'Dream Weaver', description: 'Get a sleep score of 95+', category: 'sleep', tier: 'gold', emoji: '\uD83C\uDF19', points: 50,
+      evaluator: (days) => {
+          for (const d of days) { if ((d.sleep_score || 0) >= 95) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.sleep_score || 0)) : 0;
+          return [false, best / 95, null];
+      }},
+    { id: 'sleep_8hrs_streak3', name: 'Sleepyhead', description: 'Sleep 8+ hours, 3 nights in a row', category: 'sleep', tier: 'bronze', emoji: '\uD83D\uDCA4', points: 15,
+      evaluator: (days) => checkStreak(days, 'sleep_hours', 8, 3) },
+    { id: 'sleep_8hrs_streak7', name: 'Hibernator', description: 'Sleep 8+ hours, 7 nights in a row', category: 'sleep', tier: 'silver', emoji: '\uD83D\uDC3B', points: 30,
+      evaluator: (days) => checkStreak(days, 'sleep_hours', 8, 7) },
+    { id: 'sleep_8hrs_streak14', name: 'Sleep Royalty', description: 'Sleep 8+ hours, 14 nights in a row', category: 'sleep', tier: 'gold', emoji: '\uD83D\uDC51', points: 60,
+      evaluator: (days) => checkStreak(days, 'sleep_hours', 8, 14) },
+    { id: 'sleep_8hrs_streak30', name: 'Rip Van Winkle', description: 'Sleep 8+ hours, 30 nights in a row', category: 'sleep', tier: 'platinum', emoji: '\uD83C\uDFF0', points: 150,
+      evaluator: (days) => checkStreak(days, 'sleep_hours', 8, 30) },
+    { id: 'early_bird_3', name: 'Early Bird', description: 'Wake before 6:30 AM, 3 days in a row', category: 'sleep', tier: 'bronze', emoji: '\uD83D\uDC26', points: 15,
+      evaluator: (days) => checkTimeStreak(days, 'sleep_end', { maxHour: 6, maxMin: 30, required: 3 }) },
+    { id: 'early_bird_7', name: 'Rooster', description: 'Wake before 6:30 AM, 7 days in a row', category: 'sleep', tier: 'silver', emoji: '\uD83D\uDC13', points: 30,
+      evaluator: (days) => checkTimeStreak(days, 'sleep_end', { maxHour: 6, maxMin: 30, required: 7 }) },
+    { id: 'night_owl', name: 'Night Owl', description: 'Go to bed after midnight, 5 days in a row', category: 'sleep', tier: 'bronze', emoji: '\uD83E\uDD89', points: 10,
+      evaluator: (days) => checkTimeStreak(days, 'sleep_start', { minHour: 0, minMin: 0, required: 5, after: true }) },
+    { id: 'consistent_sleeper', name: 'Clockwork', description: 'Same bedtime within 30 min for 7 days', category: 'sleep', tier: 'silver', emoji: '\u23F0', points: 30,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          for (let i = 0; i <= sorted.length - 7; i++) {
+              const window = sorted.slice(i, i + 7);
+              const times = [];
+              for (const d of window) {
+                  const t = d.sleep_start;
+                  if (t) {
+                      let [h, m] = t.split(':').map(Number);
+                      let minutes = h * 60 + m;
+                      if (minutes < 720) minutes += 1440; // before noon = after midnight
+                      times.push(minutes);
+                  }
+              }
+              if (times.length === 7) {
+                  const spread = Math.max(...times) - Math.min(...times);
+                  if (spread <= 30) return [true, 1.0, window[6].date];
+              }
+          }
+          return [false, 0, null];
+      }},
+    { id: 'sleep_score_avg_80', name: 'Well Rested', description: 'Average sleep score 80+ over 14 days', category: 'sleep', tier: 'silver', emoji: '\uD83D\uDECF\uFE0F', points: 25,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          for (let i = 0; i <= sorted.length - 14; i++) {
+              const window = sorted.slice(i, i + 14);
+              const scores = window.filter(d => d.sleep_score).map(d => d.sleep_score);
+              if (scores.length >= 12 && mean(scores) >= 80) return [true, 1.0, window[13].date];
+          }
+          const allScores = days.filter(d => d.sleep_score).map(d => d.sleep_score);
+          if (allScores.length) return [false, Math.min(mean(allScores) / 80, 0.99), null];
+          return [false, 0, null];
+      }},
+
+    // ===== STEPS & ACTIVITY BADGES (15) =====
+    { id: 'steps_first_10k', name: 'First Steps', description: 'Hit 10,000 steps in a day', category: 'steps', tier: 'bronze', emoji: '\uD83D\uDC5F', points: 10,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.total_steps || 0) >= 10000) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.total_steps || 0)) : 0;
+          return [false, best / 10000, null];
+      }},
+    { id: 'steps_15k', name: 'Trailblazer', description: 'Hit 15,000 steps in a day', category: 'steps', tier: 'silver', emoji: '\uD83E\uDD7E', points: 20,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.total_steps || 0) >= 15000) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.total_steps || 0)) : 0;
+          return [false, best / 15000, null];
+      }},
+    { id: 'steps_20k', name: 'Road Warrior', description: 'Hit 20,000 steps in a day', category: 'steps', tier: 'gold', emoji: '\uD83D\uDDFA\uFE0F', points: 40,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.total_steps || 0) >= 20000) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.total_steps || 0)) : 0;
+          return [false, best / 20000, null];
+      }},
+    { id: 'steps_30k', name: 'Ultra Walker', description: 'Hit 30,000 steps in a day', category: 'steps', tier: 'platinum', emoji: '\uD83C\uDFD4\uFE0F', points: 75,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.total_steps || 0) >= 30000) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.total_steps || 0)) : 0;
+          return [false, best / 30000, null];
+      }},
+    { id: 'steps_half_marathon', name: 'Half Marathon', description: '21,097+ steps in a single day', category: 'steps', tier: 'gold', emoji: '\uD83C\uDFC3', points: 50,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.total_steps || 0) >= 21097) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.total_steps || 0)) : 0;
+          return [false, best / 21097, null];
+      }},
+    { id: 'steps_marathon', name: 'Marathon Legend', description: '42,195+ steps in a single day', category: 'steps', tier: 'platinum', emoji: '\uD83C\uDFC5', points: 100,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.total_steps || 0) >= 42195) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.total_steps || 0)) : 0;
+          return [false, best / 42195, null];
+      }},
+    { id: 'steps_10k_streak7', name: 'Iron Feet', description: '10K+ steps every day for 7 days', category: 'steps', tier: 'silver', emoji: '\uD83E\uDDB6', points: 35,
+      evaluator: (days) => checkStreak(days, 'total_steps', 10000, 7) },
+    { id: 'steps_10k_streak14', name: 'Steel Soles', description: '10K+ steps every day for 14 days', category: 'steps', tier: 'gold', emoji: '\u26A1', points: 60,
+      evaluator: (days) => checkStreak(days, 'total_steps', 10000, 14) },
+    { id: 'steps_10k_streak30', name: 'Diamond Feet', description: '10K+ steps every day for 30 days', category: 'steps', tier: 'platinum', emoji: '\uD83D\uDC8E', points: 150,
+      evaluator: (days) => checkStreak(days, 'total_steps', 10000, 30) },
+    { id: 'steps_weekly_70k', name: 'Century Club', description: '70,000+ steps in a single week', category: 'steps', tier: 'silver', emoji: '\uD83D\uDCAF', points: 30,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          for (let i = 0; i <= sorted.length - 7; i++) {
+              const total = sorted.slice(i, i + 7).reduce((s, d) => s + (d.total_steps || 0), 0);
+              if (total >= 70000) return [true, 1.0, sorted[i + 6].date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'steps_weekly_100k', name: 'Speed Demon', description: '100,000+ steps in a single week', category: 'steps', tier: 'gold', emoji: '\uD83D\uDD25', points: 60,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          for (let i = 0; i <= sorted.length - 7; i++) {
+              const total = sorted.slice(i, i + 7).reduce((s, d) => s + (d.total_steps || 0), 0);
+              if (total >= 100000) return [true, 1.0, sorted[i + 6].date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'steps_million', name: 'Globe Trotter', description: '1,000,000 total steps tracked', category: 'steps', tier: 'platinum', emoji: '\uD83C\uDF0D', points: 200,
+      evaluator: (days) => {
+          const total = days.reduce((s, d) => s + (d.total_steps || 0), 0);
+          if (total >= 1000000) return [true, 1.0, days.length ? days[days.length - 1].date : null];
+          return [false, total / 1000000, null];
+      }},
+    { id: 'floors_first_10', name: 'Stairmaster', description: 'Climb 10+ floors in a day', category: 'steps', tier: 'bronze', emoji: '\uD83E\uDE9C', points: 10,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.floors_climbed || 0) >= 10) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.floors_climbed || 0)) : 0;
+          return [false, best / 10, null];
+      }},
+    { id: 'floors_50', name: 'Tower Climber', description: 'Climb 50+ floors in a day', category: 'steps', tier: 'gold', emoji: '\uD83C\uDFD7\uFE0F', points: 50,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.floors_climbed || 0) >= 50) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.floors_climbed || 0)) : 0;
+          return [false, best / 50, null];
+      }},
+
+    // ===== HEART RATE BADGES (5) =====
+    { id: 'hr_zen_master', name: 'Zen Master', description: 'Resting heart rate under 55 bpm', category: 'heart', tier: 'gold', emoji: '\uD83E\uDDD8', points: 40,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if (d.resting_hr && d.resting_hr < 55) return [true, 1.0, d.date]; }
+          const hrs = days.filter(d => d.resting_hr).map(d => d.resting_hr);
+          const best = hrs.length ? Math.min(...hrs) : 80;
+          return [false, Math.max(0, (80 - best) / (80 - 55)), null];
+      }},
+    { id: 'hr_ice_cold', name: 'Ice Cold', description: 'Resting heart rate under 50 bpm', category: 'heart', tier: 'platinum', emoji: '\uD83E\uDDCA', points: 75,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if (d.resting_hr && d.resting_hr < 50) return [true, 1.0, d.date]; }
+          const hrs = days.filter(d => d.resting_hr).map(d => d.resting_hr);
+          const best = hrs.length ? Math.min(...hrs) : 80;
+          return [false, Math.max(0, (80 - best) / (80 - 50)), null];
+      }},
+    { id: 'hr_steady_week', name: 'Steady Heart', description: 'Resting HR within 3 bpm range for 7 days', category: 'heart', tier: 'silver', emoji: '\uD83D\uDC97', points: 25,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          for (let i = 0; i <= sorted.length - 7; i++) {
+              const hrs = sorted.slice(i, i + 7).filter(d => d.resting_hr).map(d => d.resting_hr);
+              if (hrs.length === 7 && (Math.max(...hrs) - Math.min(...hrs)) <= 3) return [true, 1.0, sorted[i + 6].date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'hr_improvement', name: 'Cardiac Champion', description: 'RHR drops 3+ bpm over 30 days', category: 'heart', tier: 'gold', emoji: '\uD83D\uDCC9', points: 50,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          if (sorted.length < 30) return [false, 0, null];
+          const first7 = sorted.slice(0, 7).filter(d => d.resting_hr).map(d => d.resting_hr);
+          const last7 = sorted.slice(-7).filter(d => d.resting_hr).map(d => d.resting_hr);
+          if (first7.length && last7.length) {
+              const drop = mean(first7) - mean(last7);
+              if (drop >= 3) return [true, 1.0, sorted[sorted.length - 1].date];
+              return [false, Math.max(0, drop / 3), null];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'max_hr_170', name: 'Heart Racer', description: 'Max heart rate 170+ bpm in a day', category: 'heart', tier: 'silver', emoji: '\uD83D\uDC93', points: 20,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.max_hr || 0) >= 170) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.max_hr || 0)) : 0;
+          return [false, best ? best / 170 : 0, null];
+      }},
+
+    // ===== STRESS BADGES (6) =====
+    { id: 'stress_chill', name: 'Chill Pill', description: 'Average stress under 25 for a full day', category: 'stress', tier: 'bronze', emoji: '\uD83D\uDE0C', points: 15,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if (d.avg_stress && d.avg_stress < 25) return [true, 1.0, d.date]; }
+          const vals = days.filter(d => d.avg_stress).map(d => d.avg_stress);
+          const best = vals.length ? Math.min(...vals) : 50;
+          return [false, Math.max(0, (50 - best) / (50 - 25)), null];
+      }},
+    { id: 'stress_monk_3', name: 'Inner Peace', description: '3 consecutive days with avg stress under 30', category: 'stress', tier: 'bronze', emoji: '\u262E\uFE0F', points: 15,
+      evaluator: (days) => checkStreakUnder(days, 'avg_stress', 30, 3) },
+    { id: 'stress_monk_7', name: 'Monk Mode', description: '7 consecutive days with avg stress under 30', category: 'stress', tier: 'silver', emoji: '\uD83E\uDDD8\u200D\u2642\uFE0F', points: 35,
+      evaluator: (days) => checkStreakUnder(days, 'avg_stress', 30, 7) },
+    { id: 'stress_monk_14', name: 'Enlightened', description: '14 consecutive days with avg stress under 30', category: 'stress', tier: 'gold', emoji: '\u2728', points: 60,
+      evaluator: (days) => checkStreakUnder(days, 'avg_stress', 30, 14) },
+    { id: 'stress_recovery', name: 'Storm Survivor', description: 'Avg stress 50+ one day, under 25 the next', category: 'stress', tier: 'silver', emoji: '\u26C8\uFE0F', points: 25,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          for (let i = 0; i < sorted.length - 1; i++) {
+              const s1 = sorted[i].avg_stress, s2 = sorted[i + 1].avg_stress;
+              if (s1 && s2 && s1 >= 50 && s2 < 25) return [true, 1.0, sorted[i + 1].date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'stress_buster', name: 'Stress Buster', description: 'Weekly avg stress drops by 10+ points', category: 'stress', tier: 'gold', emoji: '\uD83D\uDCAA', points: 40,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          if (sorted.length < 14) return [false, 0, null];
+          for (let i = 0; i <= sorted.length - 14; i++) {
+              const w1 = sorted.slice(i, i + 7).filter(d => d.avg_stress).map(d => d.avg_stress);
+              const w2 = sorted.slice(i + 7, i + 14).filter(d => d.avg_stress).map(d => d.avg_stress);
+              if (w1.length && w2.length && mean(w1) - mean(w2) >= 10) return [true, 1.0, sorted[i + 13].date];
+          }
+          return [false, 0, null];
+      }},
+
+    // ===== BODY BATTERY BADGES (6) =====
+    { id: 'battery_full', name: 'Fully Charged', description: 'Max body battery hits 100', category: 'battery', tier: 'gold', emoji: '\uD83D\uDD0B', points: 40,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.max_body_battery || 0) >= 100) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.max_body_battery || 0)) : 0;
+          return [false, best / 100, null];
+      }},
+    { id: 'battery_power_plant', name: 'Power Plant', description: 'Average battery 60+ for 7 days', category: 'battery', tier: 'silver', emoji: '\u26A1', points: 30,
+      evaluator: (days) => checkStreak(days, 'avg_body_battery', 60, 7) },
+    { id: 'battery_energizer', name: 'Energizer Bunny', description: 'Min battery never below 30 for 3 days', category: 'battery', tier: 'silver', emoji: '\uD83D\uDC30', points: 25,
+      evaluator: (days) => checkStreak(days, 'min_body_battery', 30, 3) },
+    { id: 'battery_phoenix', name: 'Phoenix Rising', description: 'Min battery <20, max >90 same day', category: 'battery', tier: 'gold', emoji: '\uD83D\uDD25', points: 50,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) {
+              const mn = d.min_body_battery !== null && d.min_body_battery !== undefined ? d.min_body_battery : 100;
+              const mx = d.max_body_battery || 0;
+              if (mn < 20 && mx > 90) return [true, 1.0, d.date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'battery_saver', name: 'Battery Saver', description: 'Avg battery 50+ for 14 days straight', category: 'battery', tier: 'gold', emoji: '\uD83D\uDD0C', points: 60,
+      evaluator: (days) => checkStreak(days, 'avg_body_battery', 50, 14) },
+    { id: 'battery_marathon', name: 'Marathon Battery', description: 'Avg battery 50+ for 30 days straight', category: 'battery', tier: 'platinum', emoji: '\uD83C\uDFC6', points: 150,
+      evaluator: (days) => checkStreak(days, 'avg_body_battery', 50, 30) },
+
+    // ===== HRV BADGES (4) =====
+    { id: 'hrv_high', name: 'Adaptable', description: 'HRV above 50ms', category: 'hrv', tier: 'silver', emoji: '\uD83D\uDCCA', points: 20,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.hrv_last_night || 0) >= 50) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.hrv_last_night || 0)) : 0;
+          return [false, best / 50, null];
+      }},
+    { id: 'hrv_very_high', name: 'Super Adaptive', description: 'HRV above 75ms', category: 'hrv', tier: 'gold', emoji: '\uD83D\uDCC8', points: 40,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.hrv_last_night || 0) >= 75) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.hrv_last_night || 0)) : 0;
+          return [false, best / 75, null];
+      }},
+    { id: 'hrv_streak_7', name: 'Recovery Pro', description: 'HRV above 40ms for 7 days in a row', category: 'hrv', tier: 'silver', emoji: '\uD83D\uDD04', points: 30,
+      evaluator: (days) => checkStreak(days, 'hrv_last_night', 40, 7) },
+    { id: 'hrv_improvement', name: 'HRV Climber', description: 'Weekly avg HRV improves 15%+', category: 'hrv', tier: 'gold', emoji: '\uD83E\uDDD7', points: 50,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          if (sorted.length < 14) return [false, 0, null];
+          for (let i = 0; i <= sorted.length - 14; i++) {
+              const w1 = sorted.slice(i, i + 7).filter(d => d.hrv_last_night).map(d => d.hrv_last_night);
+              const w2 = sorted.slice(i + 7, i + 14).filter(d => d.hrv_last_night).map(d => d.hrv_last_night);
+              if (w1.length && w2.length) {
+                  const avg1 = mean(w1), avg2 = mean(w2);
+                  if (avg1 > 0 && (avg2 - avg1) / avg1 >= 0.15) return [true, 1.0, sorted[i + 13].date];
+              }
+          }
+          return [false, 0, null];
+      }},
+
+    // ===== STREAK BADGES (6) =====
+    { id: 'streak_3', name: 'Getting Started', description: '3-day activity streak (5K+ steps/day)', category: 'streaks', tier: 'bronze', emoji: '\uD83C\uDF31', points: 10,
+      evaluator: (days) => checkStreak(days, 'total_steps', 5000, 3) },
+    { id: 'streak_7', name: 'On Fire', description: '7-day activity streak (5K+ steps/day)', category: 'streaks', tier: 'silver', emoji: '\uD83D\uDD25', points: 25,
+      evaluator: (days) => checkStreak(days, 'total_steps', 5000, 7) },
+    { id: 'streak_14', name: 'Unstoppable', description: '14-day activity streak (5K+ steps/day)', category: 'streaks', tier: 'gold', emoji: '\uD83D\uDE80', points: 50,
+      evaluator: (days) => checkStreak(days, 'total_steps', 5000, 14) },
+    { id: 'streak_30', name: 'Legend', description: '30-day activity streak (5K+ steps/day)', category: 'streaks', tier: 'platinum', emoji: '\u2B50', points: 100,
+      evaluator: (days) => checkStreak(days, 'total_steps', 5000, 30) },
+    { id: 'streak_60', name: 'Mythical', description: '60-day activity streak (5K+ steps/day)', category: 'streaks', tier: 'platinum', emoji: '\uD83D\uDC09', points: 200,
+      evaluator: (days) => checkStreak(days, 'total_steps', 5000, 60) },
+    { id: 'streak_90', name: 'Immortal', description: '90-day activity streak (5K+ steps/day)', category: 'streaks', tier: 'platinum', emoji: '\uD83D\uDC7C', points: 300,
+      evaluator: (days) => checkStreak(days, 'total_steps', 5000, 90) },
+
+    // ===== MILESTONE BADGES (6) =====
+    { id: 'milestone_first_sync', name: 'Data Nerd', description: 'Sync your first day of health data', category: 'milestones', tier: 'bronze', emoji: '\uD83D\uDD17', points: 5,
+      evaluator: (days) => {
+          if (days.length) return [true, 1.0, [...days].sort((a, b) => a.date.localeCompare(b.date))[0].date];
+          return [false, 0, null];
+      }},
+    { id: 'milestone_week', name: 'Week One', description: 'Track 7 days of data', category: 'milestones', tier: 'bronze', emoji: '\uD83D\uDCC5', points: 10,
+      evaluator: (days) => {
+          if (days.length >= 7) { const s = [...days].sort((a, b) => a.date.localeCompare(b.date)); return [true, 1.0, s[6].date]; }
+          return [false, days.length / 7, null];
+      }},
+    { id: 'milestone_month', name: 'Month One', description: 'Track 30 days of data', category: 'milestones', tier: 'silver', emoji: '\uD83D\uDCC6', points: 25,
+      evaluator: (days) => {
+          if (days.length >= 30) { const s = [...days].sort((a, b) => a.date.localeCompare(b.date)); return [true, 1.0, s[29].date]; }
+          return [false, days.length / 30, null];
+      }},
+    { id: 'milestone_quarter', name: 'Committed', description: 'Track 90 days of data', category: 'milestones', tier: 'gold', emoji: '\uD83D\uDDD3\uFE0F', points: 50,
+      evaluator: (days) => {
+          if (days.length >= 90) { const s = [...days].sort((a, b) => a.date.localeCompare(b.date)); return [true, 1.0, s[89].date]; }
+          return [false, days.length / 90, null];
+      }},
+    { id: 'milestone_half_year', name: 'Veteran', description: 'Track 180 days of data', category: 'milestones', tier: 'gold', emoji: '\uD83C\uDF96\uFE0F', points: 75,
+      evaluator: (days) => {
+          if (days.length >= 180) { const s = [...days].sort((a, b) => a.date.localeCompare(b.date)); return [true, 1.0, s[179].date]; }
+          return [false, days.length / 180, null];
+      }},
+    { id: 'milestone_year', name: 'OG', description: 'Track 365 days of data', category: 'milestones', tier: 'platinum', emoji: '\uD83C\uDFDB\uFE0F', points: 200,
+      evaluator: (days) => {
+          if (days.length >= 365) { const s = [...days].sort((a, b) => a.date.localeCompare(b.date)); return [true, 1.0, s[364].date]; }
+          return [false, days.length / 365, null];
+      }},
+
+    // ===== SPECIAL / COMBO BADGES (10) =====
+    { id: 'perfect_day', name: 'Perfect Day', description: '10K steps + sleep 85+ + stress <30 + battery 60+', category: 'special', tier: 'gold', emoji: '\uD83C\uDF1F', points: 75,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) {
+              if ((d.total_steps || 0) >= 10000 && (d.sleep_score || 0) >= 85 && (d.avg_stress || 100) < 30 && (d.avg_body_battery || 0) >= 60)
+                  return [true, 1.0, d.date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'perfect_week', name: 'Perfect Week', description: 'Perfect Day criteria met 5 of 7 days', category: 'special', tier: 'platinum', emoji: '\uD83D\uDCAB', points: 150,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          for (let i = 0; i <= sorted.length - 7; i++) {
+              let count = 0;
+              for (const d of sorted.slice(i, i + 7)) {
+                  if ((d.total_steps || 0) >= 10000 && (d.sleep_score || 0) >= 85 && (d.avg_stress || 100) < 30 && (d.avg_body_battery || 0) >= 60)
+                      count++;
+              }
+              if (count >= 5) return [true, 1.0, sorted[i + 6].date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'night_and_day', name: 'Night & Day', description: 'Best sleep score AND most steps on the same day', category: 'special', tier: 'silver', emoji: '\uD83C\uDF13', points: 30,
+      evaluator: (days) => {
+          if (days.length < 7) return [false, 0, null];
+          const sleepDays = days.filter(d => d.sleep_score);
+          const stepDays = days.filter(d => d.total_steps);
+          if (!sleepDays.length || !stepDays.length) return [false, 0, null];
+          const bestSleep = sleepDays.reduce((a, b) => a.sleep_score > b.sleep_score ? a : b).date;
+          const bestSteps = stepDays.reduce((a, b) => a.total_steps > b.total_steps ? a : b).date;
+          if (bestSleep === bestSteps) return [true, 1.0, bestSleep];
+          return [false, 0, null];
+      }},
+    { id: 'turnaround', name: 'The Turnaround', description: 'Worst avg battery week followed by your best', category: 'special', tier: 'gold', emoji: '\uD83D\uDD04', points: 60,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          if (sorted.length < 14) return [false, 0, null];
+          const weeklyAvgs = [];
+          for (let i = 0; i <= sorted.length - 7; i++) {
+              const bats = sorted.slice(i, i + 7).filter(d => d.avg_body_battery).map(d => d.avg_body_battery);
+              if (bats.length >= 5) weeklyAvgs.push({ idx: i, avg: mean(bats) });
+          }
+          if (weeklyAvgs.length < 2) return [false, 0, null];
+          const allAvgs = weeklyAvgs.map(w => w.avg);
+          const minAvg = Math.min(...allAvgs), maxAvg = Math.max(...allAvgs);
+          for (let i = 0; i < weeklyAvgs.length - 1; i++) {
+              if (weeklyAvgs[i].avg === minAvg && weeklyAvgs[i + 1].avg === maxAvg)
+                  return [true, 1.0, sorted[weeklyAvgs[i + 1].idx + 6].date];
+          }
+          return [false, 0, null];
+      }},
+    { id: 'badge_collector_5', name: 'Badge Collector', description: 'Earn 5 different badges', category: 'special', tier: 'bronze', emoji: '\uD83C\uDFAF', points: 15,
+      evaluator: () => [false, 0, null] }, // evaluated separately
+    { id: 'badge_collector_15', name: 'Badge Hunter', description: 'Earn 15 different badges', category: 'special', tier: 'silver', emoji: '\uD83C\uDFF9', points: 40,
+      evaluator: () => [false, 0, null] },
+    { id: 'badge_collector_30', name: 'Badge Master', description: 'Earn 30 different badges', category: 'special', tier: 'gold', emoji: '\uD83C\uDFAA', points: 75,
+      evaluator: () => [false, 0, null] },
+    { id: 'badge_collector_50', name: 'Completionist', description: 'Earn 50 different badges', category: 'special', tier: 'platinum', emoji: '\uD83C\uDFC6', points: 200,
+      evaluator: () => [false, 0, null] },
+    { id: 'weekend_warrior', name: 'Weekend Warrior', description: 'Avg 15K+ steps on weekends for 4 weeks', category: 'special', tier: 'gold', emoji: '\uD83C\uDF89', points: 50,
+      evaluator: (days) => {
+          const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+          const weekendDays = sorted.filter(d => { const dt = new Date(d.date); return dt.getDay() === 0 || dt.getDay() === 6; });
+          if (weekendDays.length >= 8) {
+              for (let i = 0; i <= weekendDays.length - 8; i += 2) {
+                  const window = weekendDays.slice(i, i + 8);
+                  const avgSteps = mean(window.map(d => d.total_steps || 0));
+                  if (avgSteps >= 15000) return [true, 1.0, window[7].date];
+              }
+          }
+          return [false, 0, null];
+      }},
+    { id: 'calorie_burner', name: 'Calorie Inferno', description: 'Burn 3,000+ calories in a day', category: 'special', tier: 'silver', emoji: '\uD83D\uDD25', points: 25,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.calories_total || 0) >= 3000) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.calories_total || 0)) : 0;
+          return [false, best ? best / 3000 : 0, null];
+      }},
+    { id: 'calorie_mega', name: 'Furnace', description: 'Burn 4,000+ calories in a day', category: 'special', tier: 'gold', emoji: '\uD83C\uDF0B', points: 50,
+      evaluator: (days) => {
+          for (const d of [...days].sort((a, b) => a.date.localeCompare(b.date))) { if ((d.calories_total || 0) >= 4000) return [true, 1.0, d.date]; }
+          const best = days.length ? Math.max(...days.map(d => d.calories_total || 0)) : 0;
+          return [false, best ? best / 4000 : 0, null];
+      }},
+];
+
+function evaluateAllBadges(dailyData) {
+    const results = [];
+    let earnedCount = 0;
+
+    for (const b of BADGES) {
+        if (b.id.startsWith('badge_collector')) continue;
+        let earned, progress, earnedDate;
+        try {
+            [earned, progress, earnedDate] = b.evaluator(dailyData);
+        } catch {
+            earned = false; progress = 0; earnedDate = null;
+        }
+        if (earned) earnedCount++;
+        results.push({
+            id: b.id, name: b.name, description: b.description, category: b.category,
+            tier: b.tier, emoji: b.emoji, points: b.points,
+            earned, progress: Math.round(progress * 100) / 100, earned_date: earnedDate,
+        });
+    }
+
+    const collectorThresholds = [
+        ['badge_collector_5', 5], ['badge_collector_15', 15],
+        ['badge_collector_30', 30], ['badge_collector_50', 50],
+    ];
+    for (const [badgeId, threshold] of collectorThresholds) {
+        const def = BADGES.find(b => b.id === badgeId);
+        const earned = earnedCount >= threshold;
+        if (earned) earnedCount++;
+        results.push({
+            id: def.id, name: def.name, description: def.description, category: def.category,
+            tier: def.tier, emoji: def.emoji, points: def.points,
+            earned, progress: Math.round(Math.min(earnedCount / threshold, 1.0) * 100) / 100,
+            earned_date: null,
+        });
+    }
+    return results;
+}
+
+
+// =====================================================================
+// ANALYTICS (ported from analytics.py)
+// =====================================================================
+
+function safeMean(arr) { return arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length * 10) / 10 : null; }
+function safeStdev(arr) {
+    if (arr.length < 2) return null;
+    const m = arr.reduce((a, b) => a + b, 0) / arr.length;
+    return Math.round(Math.sqrt(arr.reduce((s, v) => s + (v - m) ** 2, 0) / (arr.length - 1)) * 10) / 10;
+}
+function safeValues(data, key) { return data.filter(d => d[key] !== null && d[key] !== undefined).map(d => d[key]); }
+function recentDays(data, n) { return data.length >= n ? data.slice(-n) : data; }
+
+function computeSummary(data) {
+    if (!data.length) return {};
+    const l = data[data.length - 1];
+    return {
+        date: l.date, steps: l.total_steps, sleep_score: l.sleep_score,
+        sleep_hours: l.sleep_hours, stress: l.avg_stress, battery: l.avg_body_battery,
+        battery_min: l.min_body_battery, battery_max: l.max_body_battery,
+        resting_hr: l.resting_hr, hrv: l.hrv_last_night,
+        active_minutes: l.total_active_minutes, calories: l.calories_total,
+        floors: l.floors_climbed,
+    };
+}
+
+function computeTrends(data) {
+    const metrics = ['total_steps', 'sleep_score', 'avg_stress', 'avg_body_battery', 'resting_hr', 'hrv_last_night'];
+    const outKeys = ['steps', 'sleep_score', 'stress', 'battery', 'resting_hr', 'hrv'];
+    const result = {};
+    for (const [pName, n] of [['7d', 7], ['30d', 30]]) {
+        const window = recentDays(data, n);
+        const period = {};
+        for (let j = 0; j < metrics.length; j++) {
+            period[outKeys[j]] = safeMean(safeValues(window, metrics[j]));
+        }
+        result[pName] = period;
+    }
+    return result;
+}
+
+function computeDayOfWeek(data) {
+    const dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const metrics = { steps: 'total_steps', sleep_score: 'sleep_score', stress: 'avg_stress', battery: 'avg_body_battery' };
+    const buckets = {};
+    for (const day of dayOrder) { buckets[day] = {}; for (const m in metrics) buckets[day][m] = []; }
+    for (const d of data) {
+        if (!d.date) continue;
+        const dt = new Date(d.date + 'T00:00:00');
+        const day = dayOrder[dt.getDay() === 0 ? 6 : dt.getDay() - 1];
+        for (const [outKey, srcKey] of Object.entries(metrics)) {
+            if (d[srcKey] !== null && d[srcKey] !== undefined) buckets[day][outKey].push(d[srcKey]);
+        }
+    }
+    const result = {};
+    for (const day of dayOrder) { result[day] = {}; for (const m in metrics) result[day][m] = safeMean(buckets[day][m]); }
+    return result;
+}
+
+function computePersonalRecords(data) {
+    const records = {};
+    function best(label, key, maximize) {
+        let bestVal = null, bestDate = null;
+        for (const d of data) {
+            const val = d[key];
+            if (val === null || val === undefined) continue;
+            if (bestVal === null || (maximize && val > bestVal) || (!maximize && val < bestVal)) {
+                bestVal = val; bestDate = d.date;
+            }
+        }
+        if (bestVal !== null) records[label] = { value: bestVal, date: bestDate };
+    }
+    best('most_steps', 'total_steps', true);
+    best('best_sleep', 'sleep_score', true);
+    best('lowest_stress', 'avg_stress', false);
+    best('highest_battery', 'max_body_battery', true);
+    best('best_hrv', 'hrv_last_night', true);
+    best('lowest_rhr', 'resting_hr', false);
+    return records;
+}
+
+function computeStreaks(data) {
+    const THRESHOLD = 5000;
+    let running = 0, longest = 0;
+    for (const d of data) {
+        if (d.total_steps !== null && d.total_steps >= THRESHOLD) { running++; longest = Math.max(longest, running); }
+        else running = 0;
+    }
+    return { current: running, longest, threshold: THRESHOLD };
+}
+
+function computeWeeklyComparison(data) {
+    if (!data.length) return {};
+    const latestDate = new Date(data[data.length - 1].date + 'T00:00:00');
+    const thisWeekStart = new Date(latestDate); thisWeekStart.setDate(thisWeekStart.getDate() - 6);
+    const lastWeekStart = new Date(thisWeekStart); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+    const lastWeekEnd = new Date(thisWeekStart); lastWeekEnd.setDate(lastWeekEnd.getDate() - 1);
+
+    const thisWeek = [], lastWeek = [];
+    for (const d of data) {
+        if (!d.date) continue;
+        const dt = new Date(d.date + 'T00:00:00');
+        if (dt >= thisWeekStart && dt <= latestDate) thisWeek.push(d);
+        else if (dt >= lastWeekStart && dt <= lastWeekEnd) lastWeek.push(d);
+    }
+
+    const metrics = { steps: 'total_steps', sleep_score: 'sleep_score', stress: 'avg_stress', battery: 'avg_body_battery', resting_hr: 'resting_hr', hrv: 'hrv_last_night' };
+    const result = {};
+    for (const [outKey, srcKey] of Object.entries(metrics)) {
+        const thisAvg = safeMean(safeValues(thisWeek, srcKey));
+        const lastAvg = safeMean(safeValues(lastWeek, srcKey));
+        let change = null;
+        if (thisAvg !== null && lastAvg !== null && lastAvg !== 0) change = Math.round(((thisAvg - lastAvg) / Math.abs(lastAvg)) * 1000) / 10;
+        result[outKey] = { this_week: thisAvg, last_week: lastAvg, change_pct: change };
+    }
+    return result;
+}
+
+function computeActivityLevels(data) {
+    const levels = { rest: { days: 0, batteries: [] }, light: { days: 0, batteries: [] }, moderate: { days: 0, batteries: [] }, intense: { days: 0, batteries: [] } };
+    for (const d of data) {
+        const steps = d.total_steps;
+        if (steps === null || steps === undefined) continue;
+        const battery = d.avg_body_battery;
+        const level = steps < 5000 ? 'rest' : steps < 10000 ? 'light' : steps < 20000 ? 'moderate' : 'intense';
+        levels[level].days++;
+        if (battery !== null && battery !== undefined) levels[level].batteries.push(battery);
+    }
+    const total = Object.values(levels).reduce((s, l) => s + l.days, 0);
+    const result = {};
+    for (const [name, lv] of Object.entries(levels)) {
+        result[name] = { days: lv.days, pct: total > 0 ? Math.round(lv.days / total * 1000) / 10 : 0, avg_battery: safeMean(lv.batteries) };
+    }
+    return result;
+}
+
+function computeSleepImpact(data) {
+    const buckets = { great: [], good: [], fair: [], poor: [] };
+    for (let i = 0; i < data.length - 1; i++) {
+        const sleep = data[i].sleep_score, nextBatt = data[i + 1].avg_body_battery;
+        if (sleep === null || sleep === undefined || nextBatt === null || nextBatt === undefined) continue;
+        const cat = sleep >= 85 ? 'great' : sleep >= 70 ? 'good' : sleep >= 50 ? 'fair' : 'poor';
+        buckets[cat].push(nextBatt);
+    }
+    const result = {};
+    for (const [cat, vals] of Object.entries(buckets)) result[cat] = { avg_battery: safeMean(vals), sample_size: vals.length };
+    return result;
+}
+
+function generateInsights(data, trends, records, streaks, weekly, activityLevels, sleepImpact) {
+    const insights = [];
+    if (!data.length) return ['No data available for analysis.'];
+    if (streaks.current >= 7) insights.push('You\'re on a ' + streaks.current + '-day activity streak! Keep it up.');
+    else if (streaks.current >= 3) insights.push('Nice ' + streaks.current + '-day activity streak going. Your record is ' + streaks.longest + ' days.');
+    const stepsChange = weekly.steps ? weekly.steps.change_pct : null;
+    if (stepsChange !== null) {
+        if (stepsChange > 10) insights.push('Steps are up ' + stepsChange + '% compared to last week.');
+        else if (stepsChange < -10) insights.push('Steps are down ' + Math.abs(stepsChange) + '% compared to last week.');
+    }
+    const stressChange = weekly.stress ? weekly.stress.change_pct : null;
+    if (stressChange !== null) {
+        if (stressChange > 10) insights.push('Stress levels have increased ' + stressChange + '% week-over-week. Consider adding recovery time.');
+        else if (stressChange < -10) insights.push('Stress is down ' + Math.abs(stressChange) + '% from last week. Great progress.');
+    }
+    const greatBatt = sleepImpact.great ? sleepImpact.great.avg_battery : null;
+    const poorBatt = sleepImpact.poor ? sleepImpact.poor.avg_battery : null;
+    if (greatBatt !== null && poorBatt !== null) {
+        const diff = Math.round((greatBatt - poorBatt) * 10) / 10;
+        if (diff > 5) insights.push('Great sleep nights give you ' + diff + ' more battery points on average than poor sleep nights.');
+    }
+    const hrv7d = trends['7d'] ? trends['7d'].hrv : null;
+    const hrv30d = trends['30d'] ? trends['30d'].hrv : null;
+    if (hrv7d !== null && hrv30d !== null) {
+        if (hrv7d > hrv30d * 1.1) insights.push('Your HRV has been trending up over the past week, suggesting improved recovery.');
+        else if (hrv7d < hrv30d * 0.9) insights.push('Your HRV has dipped below your 30-day average. You may need more rest or lighter training.');
+    }
+    const rhr7d = trends['7d'] ? trends['7d'].resting_hr : null;
+    const rhr30d = trends['30d'] ? trends['30d'].resting_hr : null;
+    if (rhr7d !== null && rhr30d !== null) {
+        if (rhr7d > rhr30d + 3) insights.push('Resting heart rate is elevated this week. Could indicate fatigue, stress, or illness.');
+        else if (rhr7d < rhr30d - 2) insights.push('Resting heart rate is lower than your monthly average. A sign of good cardiovascular fitness.');
+    }
+    const restPct = activityLevels.rest ? activityLevels.rest.pct : 0;
+    const intensePct = activityLevels.intense ? activityLevels.intense.pct : 0;
+    if (restPct > 50) insights.push(restPct + '% of your days are rest days (<5K steps). Try to add more light activity.');
+    if (intensePct > 20) insights.push(intensePct + '% of your days are intense (20K+ steps). Make sure you\'re getting adequate recovery.');
+    const recent7 = recentDays(data, 7);
+    const recentSteps = safeValues(recent7, 'total_steps');
+    const recordSteps = records.most_steps ? records.most_steps.value : null;
+    if (recentSteps.length && recordSteps) {
+        const maxRecent = Math.max(...recentSteps);
+        if (maxRecent >= recordSteps * 0.9 && maxRecent < recordSteps) {
+            insights.push('You came within ' + Math.round((1 - maxRecent / recordSteps) * 1000) / 10 + '% of your step record (' + recordSteps.toLocaleString() + ') this week!');
+        }
+    }
+    const recent30 = recentDays(data, 30);
+    const sleepVals = safeValues(recent30, 'sleep_score');
+    if (sleepVals.length >= 7) {
+        const sd = safeStdev(sleepVals);
+        if (sd !== null && sd < 8) insights.push('Your sleep scores have been very consistent. Consistency is key for long-term health.');
+        else if (sd !== null && sd > 20) insights.push('Your sleep scores are highly variable. Try to maintain a more regular sleep schedule.');
+    }
+    if (!insights.length) insights.push('Keep logging your data to unlock personalized insights.');
+    return insights;
+}
+
+function generateAnalytics(dailyData) {
+    if (!dailyData.length) return { summary: {}, trends: { '7d': {}, '30d': {} }, day_of_week: {}, personal_records: {}, streaks: { current: 0, longest: 0, threshold: 5000 }, weekly_comparison: {}, activity_levels: {}, sleep_impact: {}, insights: ['No data available for analysis.'] };
+    const data = dailyData.filter(d => d.date).sort((a, b) => a.date.localeCompare(b.date));
+    if (!data.length) return generateAnalytics([]);
+    const summary = computeSummary(data);
+    const trends = computeTrends(data);
+    const dayOfWeek = computeDayOfWeek(data);
+    const personalRecords = computePersonalRecords(data);
+    const streaks = computeStreaks(data);
+    const weeklyComparison = computeWeeklyComparison(data);
+    const activityLevels = computeActivityLevels(data);
+    const sleepImpact = computeSleepImpact(data);
+    const insights = generateInsights(data, trends, personalRecords, streaks, weeklyComparison, activityLevels, sleepImpact);
+    return { summary, trends, day_of_week: dayOfWeek, personal_records: personalRecords, streaks, weekly_comparison: weeklyComparison, activity_levels: activityLevels, sleep_impact: sleepImpact, insights };
+}
+
+
+// =====================================================================
+// UI RENDERING
+// =====================================================================
+
+let chartInstances = [];
+
+function resetUpload() {
+    document.getElementById('uploadSection').style.display = '';
+    document.getElementById('dashboard').style.display = 'none';
+    chartInstances.forEach(c => c.destroy());
+    chartInstances = [];
+}
+
+function showDashboard(dailyData) {
+    document.getElementById('uploadSection').style.display = 'none';
+    document.getElementById('dashboard').style.display = '';
+
+    const analytics = generateAnalytics(dailyData);
+    const badgeResults = evaluateAllBadges(dailyData);
+    const totalPoints = badgeResults.filter(b => b.earned).reduce((s, b) => s + b.points, 0);
+    const earnedCount = badgeResults.filter(b => b.earned).length;
+
+    document.getElementById('dataInfo').textContent = dailyData.length + ' days of data loaded (' + dailyData[0].date + ' to ' + dailyData[dailyData.length - 1].date + ')';
+
+    renderSummary(analytics.summary);
+    renderWeeklyComparison(analytics.weekly_comparison);
+    renderCharts(dailyData);
+    renderBadges(badgeResults, totalPoints, earnedCount);
+    renderRecords(analytics.personal_records);
+    renderInsights(analytics.insights);
+    renderActivityLevels(analytics.activity_levels);
+}
+
+function renderSummary(summary) {
+    const grid = document.getElementById('summaryGrid');
+    const items = [
+        { label: 'Steps', value: summary.steps ? summary.steps.toLocaleString() : '--', color: 'var(--accent)' },
+        { label: 'Sleep', value: summary.sleep_hours ? summary.sleep_hours.toFixed(1) + 'h' : '--', color: 'var(--purple)' },
+        { label: 'Sleep Score', value: summary.sleep_score || '--', color: 'var(--purple)' },
+        { label: 'Resting HR', value: summary.resting_hr ? summary.resting_hr + ' bpm' : '--', color: 'var(--red)' },
+        { label: 'HRV', value: summary.hrv ? summary.hrv + ' ms' : '--', color: 'var(--cyan)' },
+        { label: 'Stress', value: summary.stress || '--', color: 'var(--yellow)' },
+        { label: 'Battery', value: summary.battery || '--', color: 'var(--green)' },
+        { label: 'Calories', value: summary.calories ? summary.calories.toLocaleString() : '--', color: 'var(--red)' },
+        { label: 'Active Min', value: summary.active_minutes || '--', color: 'var(--accent)' },
+        { label: 'Floors', value: summary.floors || '--', color: 'var(--cyan)' },
+    ];
+    grid.innerHTML = items.map(i => '<div class="stat-card"><div class="stat-label">' + i.label + '</div><div class="stat-value" style="color:' + i.color + '">' + i.value + '</div><div class="stat-sub">' + (summary.date || '') + '</div></div>').join('');
+}
+
+function renderWeeklyComparison(weekly) {
+    const grid = document.getElementById('weeklyGrid');
+    const labels = { steps: 'Steps', sleep_score: 'Sleep Score', stress: 'Stress', battery: 'Battery', resting_hr: 'Resting HR', hrv: 'HRV' };
+    const invertedBetter = new Set(['stress', 'resting_hr']); // lower is better
+    let html = '';
+    for (const [key, label] of Object.entries(labels)) {
+        const w = weekly[key];
+        if (!w) continue;
+        const thisVal = w.this_week !== null ? w.this_week : '--';
+        const lastVal = w.last_week !== null ? w.last_week : '--';
+        const change = w.change_pct;
+        let changeClass = 'neutral', changeText = '--';
+        if (change !== null) {
+            const isGood = invertedBetter.has(key) ? change < 0 : change > 0;
+            changeClass = Math.abs(change) < 1 ? 'neutral' : isGood ? 'positive' : 'negative';
+            changeText = (change > 0 ? '+' : '') + change + '%';
+        }
+        html += '<div class="weekly-card"><div class="label">' + label + '</div><div class="values"><span class="current">' + thisVal + '</span><span class="change ' + changeClass + '">' + changeText + '</span></div><div class="prev">Last week: ' + lastVal + '</div></div>';
+    }
+    grid.innerHTML = html;
+}
+
+function renderCharts(data) {
+    chartInstances.forEach(c => c.destroy());
+    chartInstances = [];
+
+    const sorted = [...data].sort((a, b) => a.date.localeCompare(b.date));
+    const recent = sorted.slice(-30);
+    const labels = recent.map(d => d.date.substring(5)); // MM-DD
+
+    const chartOpts = {
+        responsive: true,
+        plugins: { legend: { labels: { color: '#8b949e' } } },
+        scales: {
+            x: { ticks: { color: '#8b949e', maxRotation: 45 }, grid: { color: '#30363d' } },
+            y: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
+        },
+    };
+
+    // Steps bar chart
+    chartInstances.push(new Chart(document.getElementById('chartSteps'), {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'Steps', data: recent.map(d => d.total_steps), backgroundColor: '#58a6ff88', borderColor: '#58a6ff', borderWidth: 1 }] },
+        options: { ...chartOpts, plugins: { ...chartOpts.plugins, title: { display: true, text: 'Daily Steps (Last 30 Days)', color: '#e6edf3' } } },
+    }));
+
+    // Sleep line chart
+    chartInstances.push(new Chart(document.getElementById('chartSleep'), {
+        type: 'line',
+        data: { labels, datasets: [
+            { label: 'Sleep Hours', data: recent.map(d => d.sleep_hours), borderColor: '#a371f7', backgroundColor: '#a371f733', fill: true, tension: 0.3 },
+        ]},
+        options: { ...chartOpts, plugins: { ...chartOpts.plugins, title: { display: true, text: 'Sleep Hours (Last 30 Days)', color: '#e6edf3' } } },
+    }));
+
+    // HR/HRV chart
+    chartInstances.push(new Chart(document.getElementById('chartHR'), {
+        type: 'line',
+        data: { labels, datasets: [
+            { label: 'Resting HR', data: recent.map(d => d.resting_hr), borderColor: '#f85149', tension: 0.3, yAxisID: 'y' },
+        ]},
+        options: { ...chartOpts, plugins: { ...chartOpts.plugins, title: { display: true, text: 'Resting Heart Rate (Last 30 Days)', color: '#e6edf3' } } },
+    }));
+
+    chartInstances.push(new Chart(document.getElementById('chartHRV'), {
+        type: 'line',
+        data: { labels, datasets: [
+            { label: 'HRV (ms)', data: recent.map(d => d.hrv_last_night), borderColor: '#39c5cf', backgroundColor: '#39c5cf33', fill: true, tension: 0.3 },
+        ]},
+        options: { ...chartOpts, plugins: { ...chartOpts.plugins, title: { display: true, text: 'HRV (Last 30 Days)', color: '#e6edf3' } } },
+    }));
+}
+
+function renderBadges(badgeResults, totalPoints, earnedCount) {
+    document.getElementById('badgeScore').textContent = totalPoints + ' pts | ' + earnedCount + '/' + badgeResults.length + ' badges earned';
+
+    // Filters
+    const filtersDiv = document.getElementById('badgeFilters');
+    const filterOptions = [
+        { label: 'All', filter: () => true },
+        { label: 'Earned', filter: b => b.earned },
+        { label: 'Locked', filter: b => !b.earned },
+        { label: 'Bronze', filter: b => b.tier === 'bronze' },
+        { label: 'Silver', filter: b => b.tier === 'silver' },
+        { label: 'Gold', filter: b => b.tier === 'gold' },
+        { label: 'Platinum', filter: b => b.tier === 'platinum' },
+    ];
+    filtersDiv.innerHTML = filterOptions.map((f, i) => '<button data-idx="' + i + '" class="' + (i === 0 ? 'active' : '') + '">' + f.label + '</button>').join('');
+
+    function renderFiltered(filterFn) {
+        const container = document.getElementById('badgeContainer');
+        const filtered = badgeResults.filter(filterFn);
+        const categoryOrder = ['sleep', 'steps', 'heart', 'stress', 'battery', 'hrv', 'streaks', 'milestones', 'special'];
+        let html = '';
+        for (const cat of categoryOrder) {
+            const catBadges = filtered.filter(b => b.category === cat);
+            if (!catBadges.length) continue;
+            const catInfo = CATEGORIES[cat];
+            html += '<div class="badge-category"><div class="badge-category-title" style="border-bottom-color:' + catInfo.color + '"><span>' + catInfo.emoji + '</span> ' + catInfo.name + ' <span style="color:var(--text-muted);font-weight:400;font-size:0.85rem;">(' + catBadges.filter(b => b.earned).length + '/' + catBadges.length + ')</span></div><div class="badge-grid">';
+            for (const b of catBadges) {
+                const tierColor = TIERS[b.tier].color;
+                const cardClass = b.earned ? 'earned' : 'locked';
+                html += '<div class="badge-card ' + cardClass + '">';
+                if (b.earned) html += '<div class="earned-check"><span class="fa fa-check-circle"></span></div>';
+                html += '<div class="badge-emoji">' + b.emoji + '</div>';
+                html += '<div class="badge-name">' + b.name + '</div>';
+                html += '<div class="badge-desc">' + b.description + '</div>';
+                html += '<div class="badge-meta"><span class="badge-tier" style="background:' + tierColor + '22;color:' + tierColor + ';border:1px solid ' + tierColor + '44">' + b.tier + '</span><span class="badge-points">' + b.points + ' pts</span></div>';
+                if (b.earned && b.earned_date) html += '<div class="badge-date">Earned: ' + b.earned_date + '</div>';
+                if (!b.earned && b.progress > 0) {
+                    const pct = Math.round(b.progress * 100);
+                    html += '<div class="badge-progress-bar"><div class="fill" style="width:' + pct + '%;background:' + tierColor + '"></div></div>';
+                    html += '<div class="badge-progress-pct">' + pct + '%</div>';
+                }
+                html += '</div>';
+            }
+            html += '</div></div>';
+        }
+        container.innerHTML = html;
+    }
+
+    renderFiltered(() => true);
+    filtersDiv.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'BUTTON') return;
+        filtersDiv.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        const idx = parseInt(e.target.dataset.idx);
+        renderFiltered(filterOptions[idx].filter);
+    });
+}
+
+function renderRecords(records) {
+    const grid = document.getElementById('recordsGrid');
+    const labels = {
+        most_steps: 'Most Steps', best_sleep: 'Best Sleep Score', lowest_stress: 'Lowest Stress',
+        highest_battery: 'Highest Battery', best_hrv: 'Best HRV', lowest_rhr: 'Lowest Resting HR',
+    };
+    let html = '';
+    for (const [key, label] of Object.entries(labels)) {
+        const r = records[key];
+        if (!r) continue;
+        const val = typeof r.value === 'number' ? r.value.toLocaleString() : r.value;
+        html += '<div class="record-card"><div class="record-label">' + label + '</div><div class="record-value">' + val + '</div><div class="record-date">' + (r.date || '') + '</div></div>';
+    }
+    grid.innerHTML = html;
+}
+
+function renderInsights(insights) {
+    const section = document.getElementById('insightsSection');
+    section.innerHTML = insights.map(i => '<div class="insight-item">' + i + '</div>').join('');
+}
+
+function renderActivityLevels(levels) {
+    const container = document.getElementById('activityLevels');
+    const colors = { rest: 'var(--text-muted)', light: 'var(--accent)', moderate: 'var(--green)', intense: 'var(--yellow)' };
+    const labels = { rest: 'Rest (<5K)', light: 'Light (5-10K)', moderate: 'Moderate (10-20K)', intense: 'Intense (20K+)' };
+    let html = '';
+    for (const [name, label] of Object.entries(labels)) {
+        const lv = levels[name] || { days: 0, pct: 0, avg_battery: null };
+        html += '<div class="activity-level-card"><div class="level-name">' + label + '</div><div class="level-pct" style="color:' + colors[name] + '">' + lv.pct + '%</div><div class="level-days">' + lv.days + ' days</div>';
+        if (lv.avg_battery !== null) html += '<div class="level-battery">Avg battery: ' + lv.avg_battery + '</div>';
+        html += '</div>';
+    }
+    container.innerHTML = html;
+}
+
+
+// =====================================================================
+// FILE HANDLING
+// =====================================================================
+
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+const overlay = document.getElementById('processingOverlay');
+const processingText = document.getElementById('processingText');
+
+uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+async function handleFile(file) {
+    overlay.classList.add('active');
+    processingText.textContent = 'Reading file...';
+
+    try {
+        const name = file.name.toLowerCase();
+        let dailyData;
+
+        if (name.endsWith('.zip')) {
+            processingText.textContent = 'Extracting ZIP archive...';
+            const arrayBuffer = await file.arrayBuffer();
+            processingText.textContent = 'Parsing Apple Health XML (this may take a moment for large exports)...';
+            dailyData = await parseAppleHealthZip(arrayBuffer);
+        } else if (name.endsWith('.xml')) {
+            processingText.textContent = 'Parsing Apple Health XML...';
+            const text = await file.text();
+            dailyData = parseAppleHealthXML(text);
+        } else if (name.endsWith('.json')) {
+            processingText.textContent = 'Parsing JSON data...';
+            const text = await file.text();
+            const json = JSON.parse(text);
+            dailyData = Array.isArray(json) ? json : (json.daily_summaries || json.data || json.days || []);
+        } else {
+            throw new Error('Unsupported file type. Please use .zip, .xml, or .json');
+        }
+
+        if (!dailyData.length) throw new Error('No health data found in the file.');
+
+        processingText.textContent = 'Evaluating ' + BADGES.length + ' badges across ' + dailyData.length + ' days...';
+
+        // Use setTimeout to allow the UI to update before heavy computation
+        await new Promise(r => setTimeout(r, 50));
+
+        showDashboard(dailyData);
+    } catch (err) {
+        alert('Error processing file: ' + err.message);
+        console.error(err);
+    } finally {
+        overlay.classList.remove('active');
+    }
+}
+</script>
+
+</body>
+</html>
