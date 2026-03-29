@@ -13,7 +13,7 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DAILY_DIR = os.path.join(SCRIPT_DIR, "autotrader", "daily")
@@ -38,6 +38,16 @@ def parse_args():
     )
     parser.add_argument(
         "--no-push", action="store_true", help="Skip git commit and push"
+    )
+    parser.add_argument(
+        "--placeholder",
+        action="store_true",
+        help="Generate a placeholder page for --date instead of publishing a real email",
+    )
+    parser.add_argument(
+        "--backfill-gaps",
+        action="store_true",
+        help="Scan index for trading-day gaps and generate placeholder pages for each",
     )
     return parser.parse_args()
 
@@ -264,6 +274,256 @@ document.getElementById('emailFrame').addEventListener('load', resizeIframe);
 """
 
 
+PLACEHOLDER_DESCRIPTION = "Pipeline outage &mdash; no predictions generated"
+
+PLACEHOLDER_MESSAGE = (
+    "No predictions were generated for this date due to a pipeline outage. "
+    "The automated system was restored and predictions resumed on the next trading day."
+)
+
+
+def is_trading_day(date_obj):
+    """Return True if date_obj falls on a weekday (Mon-Fri)."""
+    return date_obj.weekday() < 5  # 0=Mon ... 4=Fri
+
+
+def find_trading_day_gaps(existing_dates):
+    """Return a sorted list of YYYY-MM-DD strings for missing trading days.
+
+    Finds all weekday gaps between the earliest and latest existing entries.
+    """
+    if len(existing_dates) < 2:
+        return []
+
+    sorted_dates = sorted(existing_dates)
+    earliest = datetime.strptime(sorted_dates[0], "%Y-%m-%d")
+    latest = datetime.strptime(sorted_dates[-1], "%Y-%m-%d")
+
+    existing_set = set(existing_dates)
+    gaps = []
+    current = earliest + timedelta(days=1)
+    while current < latest:
+        if is_trading_day(current):
+            ds = current.strftime("%Y-%m-%d")
+            if ds not in existing_set:
+                gaps.append(ds)
+        current += timedelta(days=1)
+
+    return sorted(gaps)
+
+
+def find_gaps_since_last_entry(existing_dates, new_date_str):
+    """Return trading-day gap strings between the latest existing entry and new_date_str."""
+    if not existing_dates:
+        return []
+
+    latest_existing = max(existing_dates)
+    latest_dt = datetime.strptime(latest_existing, "%Y-%m-%d")
+    new_dt = datetime.strptime(new_date_str, "%Y-%m-%d")
+
+    if new_dt <= latest_dt:
+        return []
+
+    gaps = []
+    current = latest_dt + timedelta(days=1)
+    while current < new_dt:
+        if is_trading_day(current):
+            ds = current.strftime("%Y-%m-%d")
+            if ds not in existing_dates:
+                gaps.append(ds)
+        current += timedelta(days=1)
+
+    return sorted(gaps)
+
+
+def generate_placeholder_wrapper_page(date_str, date_obj):
+    """Generate a wrapper HTML page with a placeholder message instead of an iframe."""
+    month_name = date_obj.strftime("%B")
+    day = date_obj.day
+    year = date_obj.year
+    short_month = date_obj.strftime("%b")
+
+    return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Daily Update - {short_month} {day}, {year} - AutoTrader</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+  <link href="../../Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
+  <link href="../../Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
+  <script src="../../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+  <script src="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+  <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+  <style>
+  body {{
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #818181;
+  }}
+  p {{ font-size: 16px; }}
+  .bg-1 {{ background-color: #1abc9c; color: #ffffff; }}
+  .bg-2 {{ background-color: #474e5d; color: #ffffff; }}
+  .bg-3 {{ background-color: #ffffff; color: #555555; }}
+  .bg-4 {{ background-color: #2f2f2f; color: #fff; }}
+  h2 {{
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 30px;
+  }}
+  .navbar {{
+      margin-bottom: 0;
+      background-color: #2f2f2f;
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+  }}
+  .navbar li a, .navbar .navbar-brand {{ color: #fff !important; }}
+  .navbar-nav li a:hover, .navbar-nav li.active a {{
+      color: #1abc9c !important;
+      background-color: #fff !important;
+  }}
+  .navbar-default .navbar-toggle {{ border-color: transparent; color: #fff !important; }}
+  .navbar-default .navbar-nav > .open > a,
+  .navbar-default .navbar-nav > .open > a:hover,
+  .navbar-default .navbar-nav > .open > a:focus {{ background-color: #3a3a3a !important; color: #1abc9c !important; }}
+  .navbar-default .navbar-nav .dropdown-menu {{ background-color: #2f2f2f; border: 1px solid #444; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }}
+  .navbar-default .navbar-nav .dropdown-menu > li > a {{ color: #fff !important; padding: 8px 20px; background-color: #2f2f2f !important; }}
+  .navbar-default .navbar-nav .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .dropdown-menu > li > a:focus {{ color: #1abc9c !important; background-color: #3a3a3a !important; }}
+  .navbar-default .navbar-nav .dropdown-menu .divider {{ background-color: #444; }}
+  .container-fluid {{ padding: 60px 50px; }}
+  .section-divider {{
+      width: 60px;
+      height: 3px;
+      background: #1abc9c;
+      margin: 0 0 30px 0;
+  }}
+  .bg-grey {{ background-color: #f6f6f6; }}
+  .placeholder-message {{
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-left: 4px solid #ffc107;
+      border-radius: 8px;
+      padding: 40px;
+      margin: 30px 0;
+      text-align: center;
+      color: #856404;
+      font-size: 17px;
+      line-height: 1.7;
+  }}
+  .placeholder-message .icon {{
+      font-size: 48px;
+      display: block;
+      margin-bottom: 20px;
+  }}
+  .back-link {{
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #1abc9c;
+      font-family: Montserrat, sans-serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-decoration: none;
+  }}
+  .back-link:hover {{ color: #16a085; text-decoration: underline; }}
+  .date-heading {{
+      font-family: Montserrat, sans-serif;
+      font-size: 14px;
+      color: #1abc9c;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+  }}
+  @media screen and (max-width: 768px) {{
+    .container-fluid {{ padding: 40px 20px; }}
+  }}
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../portfolio.html">Portfolio</a></li>
+        <li><a href="../../index.html">Data About Me</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../autotrader.html">Overview</a></li>
+            <li><a href="index.html">Daily Updates</a></li>
+          </ul>
+        </li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div style="height: 50px;"></div>
+
+<div class="container-fluid">
+  <a href="index.html" class="back-link">&larr; All Daily Updates</a>
+  <div class="date-heading">{month_name} {day}, {year}</div>
+  <h2>Daily Market Update</h2>
+  <div class="section-divider"></div>
+
+  <div class="placeholder-message">
+    <span class="icon"><i class="fa fa-exclamation-triangle"></i></span>
+    {PLACEHOLDER_MESSAGE}
+  </div>
+</div>
+
+<footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
+  <div style="margin-bottom: 15px;">
+    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
+    <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
+  </div>
+  <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
+  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
+</footer>
+
+</body></html>
+"""
+
+
+def publish_placeholder(date_str):
+    """Publish a single placeholder page and update the index for the given date."""
+    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+
+    # Ensure daily dir exists
+    os.makedirs(DAILY_DIR, exist_ok=True)
+
+    # Generate placeholder wrapper page
+    wrapper_path = os.path.join(DAILY_DIR, f"{date_str}.html")
+    wrapper_html = generate_placeholder_wrapper_page(date_str, date_obj)
+    with open(wrapper_path, "w") as f:
+        f.write(wrapper_html)
+    print(f"  Generated placeholder: {wrapper_path}")
+
+    # Update index
+    update_index(date_str, PLACEHOLDER_DESCRIPTION)
+
+
 def parse_existing_entries(index_html):
     """Parse existing entries from index.html between markers.
 
@@ -378,8 +638,94 @@ def update_index(date_str, description):
     print(f"  Updated {INDEX_PATH} ({len(entries)} entries)")
 
 
+def git_commit_and_push(commit_msg):
+    """Stage autotrader/daily/ changes, commit, rebase, and push."""
+    os.chdir(SCRIPT_DIR)
+    subprocess.run(["git", "add", "autotrader/daily/"], check=True)
+
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--quiet"], capture_output=True
+    )
+    if result.returncode != 0:  # There are staged changes
+        subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+        # Stash any unstaged changes (e.g. .DS_Store) before rebase
+        stash_result = subprocess.run(
+            ["git", "stash"], capture_output=True, text=True
+        )
+        stashed = "No local changes" not in stash_result.stdout
+        subprocess.run(["git", "pull", "--rebase"], check=True)
+        if stashed:
+            subprocess.run(["git", "stash", "pop"], check=False)
+        subprocess.run(["git", "push"], check=True)
+        print("  Pushed to GitHub!")
+    else:
+        print("  No changes to commit (already up to date)")
+
+
 def main():
     args = parse_args()
+
+    # --- Mode: --backfill-gaps ---
+    if args.backfill_gaps:
+        print("Scanning index for trading-day gaps...")
+
+        if not os.path.exists(INDEX_PATH):
+            print(f"ERROR: Index file not found: {INDEX_PATH}")
+            sys.exit(1)
+
+        with open(INDEX_PATH, "r") as f:
+            index_html = f.read()
+
+        existing = parse_existing_entries(index_html)
+        if len(existing) < 2:
+            print("  Not enough entries to detect gaps (need at least 2).")
+            sys.exit(0)
+
+        gaps = find_trading_day_gaps(set(existing.keys()))
+        if not gaps:
+            print("  No trading-day gaps found. All good!")
+            sys.exit(0)
+
+        print(f"  Found {len(gaps)} gap(s): {', '.join(gaps)}")
+        for gap_date in gaps:
+            publish_placeholder(gap_date)
+
+        # Git commit and push
+        if not args.no_push:
+            print("  Committing and pushing...")
+            git_commit_and_push(f"daily: backfill {len(gaps)} placeholder(s) for pipeline outage")
+        else:
+            print("  Skipping git (--no-push)")
+
+        print(f"\nDone! Backfilled {len(gaps)} placeholder(s).")
+        return
+
+    # --- Mode: --placeholder ---
+    if args.placeholder:
+        # Validate date
+        try:
+            date_obj = datetime.strptime(args.date, "%Y-%m-%d")
+        except ValueError:
+            print(f"ERROR: Invalid date format '{args.date}'. Use YYYY-MM-DD.")
+            sys.exit(1)
+
+        date_str = args.date
+        print(f"Publishing placeholder for {date_str}")
+        publish_placeholder(date_str)
+
+        # Git commit and push
+        if not args.no_push:
+            print("  Committing and pushing...")
+            git_commit_and_push(f"daily: placeholder for {date_str} (pipeline outage)")
+        else:
+            print("  Skipping git (--no-push)")
+
+        print(
+            f"\nDone! View at: https://daliu.github.io/autotrader/daily/{date_str}.html"
+        )
+        return
+
+    # --- Default mode: publish real email ---
 
     # Validate date
     try:
@@ -394,6 +740,19 @@ def main():
     if not os.path.exists(args.source):
         print(f"ERROR: Source file not found: {args.source}")
         sys.exit(1)
+
+    # Auto-detect gaps: warn if there are missing trading days since the last entry
+    if os.path.exists(INDEX_PATH):
+        with open(INDEX_PATH, "r") as f:
+            index_html = f.read()
+        existing = parse_existing_entries(index_html)
+        if existing:
+            recent_gaps = find_gaps_since_last_entry(set(existing.keys()), date_str)
+            if recent_gaps:
+                print(
+                    f"Warning: Missing entries for: {', '.join(recent_gaps)}. "
+                    f"Run with --backfill-gaps to fill them."
+                )
 
     print(f"Publishing daily email for {date_str}")
     print(f"  Source: {args.source}")
@@ -425,27 +784,7 @@ def main():
     # 5. Git commit and push
     if not args.no_push:
         print("  Committing and pushing...")
-        os.chdir(SCRIPT_DIR)
-        subprocess.run(["git", "add", "autotrader/daily/"], check=True)
-
-        commit_msg = f"daily: {date_str} market update"
-        result = subprocess.run(
-            ["git", "diff", "--cached", "--quiet"], capture_output=True
-        )
-        if result.returncode != 0:  # There are staged changes
-            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-            # Stash any unstaged changes (e.g. .DS_Store) before rebase
-            stash_result = subprocess.run(
-                ["git", "stash"], capture_output=True, text=True
-            )
-            stashed = "No local changes" not in stash_result.stdout
-            subprocess.run(["git", "pull", "--rebase"], check=True)
-            if stashed:
-                subprocess.run(["git", "stash", "pop"], check=False)
-            subprocess.run(["git", "push"], check=True)
-            print("  Pushed to GitHub!")
-        else:
-            print("  No changes to commit (already up to date)")
+        git_commit_and_push(f"daily: {date_str} market update")
     else:
         print("  Skipping git (--no-push)")
 
