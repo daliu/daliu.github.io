@@ -686,6 +686,12 @@ def main():
             print("  No trading-day gaps found. All good!")
             sys.exit(0)
 
+        # Safety limit to prevent runaway backfills
+        MAX_BACKFILL = 30
+        if len(gaps) > MAX_BACKFILL:
+            print(f"  WARNING: {len(gaps)} gaps found, limiting to most recent {MAX_BACKFILL}")
+            gaps = gaps[-MAX_BACKFILL:]
+
         print(f"  Found {len(gaps)} gap(s): {', '.join(gaps)}")
         for gap_date in gaps:
             publish_placeholder(gap_date)
