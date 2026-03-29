@@ -506,21 +506,20 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
 """
 
 
-def publish_placeholder(date_str):
-    """Publish a single placeholder page and update the index for the given date."""
-    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-
-    # Ensure daily dir exists
+def generate_placeholder_html_file(date_str, date_obj):
+    """Write the placeholder wrapper HTML for date_str. Does NOT update the index."""
     os.makedirs(DAILY_DIR, exist_ok=True)
-
-    # Generate placeholder wrapper page
     wrapper_path = os.path.join(DAILY_DIR, f"{date_str}.html")
     wrapper_html = generate_placeholder_wrapper_page(date_str, date_obj)
     with open(wrapper_path, "w") as f:
         f.write(wrapper_html)
     print(f"  Generated placeholder: {wrapper_path}")
 
-    # Update index
+
+def publish_placeholder(date_str):
+    """Publish a single placeholder page and update the index for the given date."""
+    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+    generate_placeholder_html_file(date_str, date_obj)
     update_index(date_str, PLACEHOLDER_DESCRIPTION)
 
 
@@ -638,6 +637,36 @@ def update_index(date_str, description):
     print(f"  Updated {INDEX_PATH} ({len(entries)} entries)")
 
 
+def _batch_update_index(new_entries):
+    """Merge multiple new entries into index.html in a single read-write cycle.
+
+    Args:
+        new_entries: dict mapping date_str -> description for all dates to add/update.
+    """
+    with open(INDEX_PATH, "r") as f:
+        html = f.read()
+
+    if ENTRY_START not in html or ENTRY_END not in html:
+        print(f"ERROR: Markers not found in {INDEX_PATH}")
+        sys.exit(1)
+
+    entries = parse_existing_entries(html)
+    for date_str, description in new_entries.items():
+        entries[date_str] = {"description": description}
+
+    entries_html = generate_entries_html(entries)
+    start_idx = html.find(ENTRY_START)
+    end_idx = html.find(ENTRY_END)
+    new_html = (
+        html[: start_idx + len(ENTRY_START)] + entries_html + "\n  " + html[end_idx:]
+    )
+
+    with open(INDEX_PATH, "w") as f:
+        f.write(new_html)
+
+    print(f"  Updated {INDEX_PATH} ({len(entries)} entries, {len(new_entries)} new)")
+
+
 def git_commit_and_push(commit_msg):
     """Stage autotrader/daily/ changes, commit, rebase, and push."""
     os.chdir(SCRIPT_DIR)
@@ -693,8 +722,14 @@ def main():
             gaps = gaps[-MAX_BACKFILL:]
 
         print(f"  Found {len(gaps)} gap(s): {', '.join(gaps)}")
+
+        # Phase 1: Generate all placeholder HTML files (no index I/O)
         for gap_date in gaps:
-            publish_placeholder(gap_date)
+            date_obj = datetime.strptime(gap_date, "%Y-%m-%d")
+            generate_placeholder_html_file(gap_date, date_obj)
+
+        # Phase 2: Single batch index update (one read-write cycle)
+        _batch_update_index({ds: PLACEHOLDER_DESCRIPTION for ds in gaps})
 
         # Git commit and push
         if not args.no_push:
