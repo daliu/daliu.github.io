@@ -49,6 +49,11 @@ def parse_args():
         action="store_true",
         help="Scan index for trading-day gaps and generate placeholder pages for each",
     )
+    parser.add_argument(
+        "--regenerate-wrappers",
+        action="store_true",
+        help="Regenerate all wrapper HTML pages with the latest template",
+    )
     return parser.parse_args()
 
 
@@ -116,6 +121,14 @@ def generate_wrapper_page(date_str, date_obj):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-GR5Z815VXW');
+  </script>
   <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
@@ -218,7 +231,14 @@ def generate_wrapper_page(date_str, date_obj):
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="../../portfolio.html">Portfolio</a></li>
-        <li><a href="../../index.html">Data About Me</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../index.html">Overview</a></li>
+            <li><a href="../../health/">Health Dashboard</a></li>
+            <li><a href="../../analytics/">Site Analytics</a></li>
+          </ul>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -226,8 +246,8 @@ def generate_wrapper_page(date_str, date_obj):
             <li><a href="index.html">Daily Updates</a></li>
           </ul>
         </li>
-        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
-        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
       </ul>
     </div>
   </div>
@@ -253,12 +273,12 @@ def generate_wrapper_page(date_str, date_obj):
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
   <div style="margin-bottom: 15px;">
-    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
-    <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
+    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
   <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
-  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
+  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
 </footer>
 
 <script>
@@ -392,6 +412,14 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-GR5Z815VXW');
+  </script>
   <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
@@ -504,7 +532,14 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="../../portfolio.html">Portfolio</a></li>
-        <li><a href="../../index.html">Data About Me</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../index.html">Overview</a></li>
+            <li><a href="../../health/">Health Dashboard</a></li>
+            <li><a href="../../analytics/">Site Analytics</a></li>
+          </ul>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -512,8 +547,8 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
             <li><a href="index.html">Daily Updates</a></li>
           </ul>
         </li>
-        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
-        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
       </ul>
     </div>
   </div>
@@ -541,12 +576,12 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
   <div style="margin-bottom: 15px;">
-    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
-    <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
+    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
   <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
-  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
+  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
 </footer>
 
 <script>
@@ -861,6 +896,40 @@ def git_commit_and_push(commit_msg):
 def main():
     args = parse_args()
 
+    # --- Mode: --regenerate-wrappers ---
+    if args.regenerate_wrappers:
+        print("Regenerating all daily wrapper pages...")
+        import glob
+        pages = glob.glob(os.path.join(DAILY_DIR, "2*.html"))
+        count = 0
+        for page_path in sorted(pages):
+            date_str = os.path.basename(page_path).replace(".html", "")
+            try:
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+            except ValueError:
+                continue
+
+            email_path = os.path.join(EMAILS_DIR, f"{date_str}.html")
+            if os.path.exists(email_path):
+                # Real email page — regenerate wrapper with iframe
+                wrapper_html = generate_wrapper_page(date_str, date_obj)
+            else:
+                # Placeholder page
+                wrapper_html = generate_placeholder_wrapper_page(date_str, date_obj)
+
+            with open(page_path, "w") as f:
+                f.write(wrapper_html)
+            count += 1
+
+        print(f"  Regenerated {count} wrapper pages")
+
+        # Also update sitemap
+        update_sitemap()
+
+        if not args.no_push:
+            git_commit_and_push(f"daily: regenerate {count} wrapper pages with updated template")
+        return
+
     # --- Mode: --backfill-gaps ---
     if args.backfill_gaps:
         print("Scanning index for trading-day gaps...")
@@ -964,6 +1033,9 @@ def main():
                     f"Warning: Missing entries for: {', '.join(recent_gaps)}. "
                     f"Run with --backfill-gaps to fill them."
                 )
+
+    if not is_trading_day(date_obj):
+        print(f"Warning: {date_str} is not a trading day ({date_obj.strftime('%A')}). Publishing anyway.")
 
     print(f"Publishing daily email for {date_str}")
     print(f"  Source: {args.source}")

@@ -32,4 +32,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add analytics/data.json
-          git diff --cached --quiet || (git commit -m "Update analytics data $(date -u +%Y-%m-%d)" && git push)
+          git diff --cached --quiet || (git commit -m "Update analytics data $(date -u +%Y-%m-%d)" && git pull --rebase && git push)

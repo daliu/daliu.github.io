@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for March 20, 2026">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GR5Z815VXW');
+  </script>
   <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
@@ -108,7 +116,14 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="../../portfolio.html">Portfolio</a></li>
-        <li><a href="../../index.html">Data About Me</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../index.html">Overview</a></li>
+            <li><a href="../../health/">Health Dashboard</a></li>
+            <li><a href="../../analytics/">Site Analytics</a></li>
+          </ul>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -116,8 +131,8 @@
             <li><a href="index.html">Daily Updates</a></li>
           </ul>
         </li>
-        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
-        <li><a href="https://github.com/daliu" target="_blank"><span class="fa fa-github"></span></a></li>
+        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
       </ul>
     </div>
   </div>
@@ -126,7 +141,13 @@
 <div style="height: 50px;"></div>
 
 <div class="container-fluid">
-  <a href="index.html" class="back-link">&larr; All Daily Updates</a>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+    <a href="index.html" class="back-link">&larr; All Updates</a>
+    <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
+      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px;">&larr; Prev</a>
+      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none;">Next &rarr;</a>
+    </div>
+  </div>
   <div class="date-heading">March 20, 2026</div>
   <h2>Daily Market Update</h2>
   <div class="section-divider"></div>
@@ -137,12 +158,12 @@
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
   <div style="margin-bottom: 15px;">
-    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
-    <a href="https://github.com/daliu" target="_blank" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
+    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
   <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
-  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
+  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
 </footer>
 
 <script>
@@ -158,6 +179,41 @@ function resizeIframe() {
   }
 }
 document.getElementById('emailFrame').addEventListener('load', resizeIframe);
+
+// Prev/Next day navigation
+(function() {
+  var currentDate = '2026-03-20';
+  var parts = currentDate.split('-');
+  var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+
+  function addDays(date, n) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + n);
+    while (result.getDay() === 0 || result.getDay() === 6) {
+      result.setDate(result.getDate() + (n > 0 ? 1 : -1));
+    }
+    return result;
+  }
+
+  function fmt(date) {
+    return date.getFullYear() + '-' +
+      String(date.getMonth()+1).padStart(2,'0') + '-' +
+      String(date.getDate()).padStart(2,'0');
+  }
+
+  var prev = addDays(d, -1);
+  var next = addDays(d, 1);
+
+  document.getElementById('prev-day').href = fmt(prev) + '.html';
+
+  var nextLink = document.getElementById('next-day');
+  var nextUrl = fmt(next) + '.html';
+  var xhr = new XMLHttpRequest();
+  xhr.open('HEAD', nextUrl, true);
+  xhr.onload = function() { if (xhr.status === 200) { nextLink.href = nextUrl; } else { nextLink.style.display = 'none'; } };
+  xhr.onerror = function() { nextLink.style.display = 'none'; };
+  xhr.send();
+})();
 </script>
 
 </body></html>
