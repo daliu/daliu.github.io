@@ -120,6 +120,13 @@ def generate_wrapper_page(date_str, date_obj):
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
+  <meta property="og:title" content="AutoTrader - {month_name} {day}, {year} Market Update">
+  <meta property="og:description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
@@ -319,7 +326,13 @@ document.getElementById('emailFrame').addEventListener('load', resizeIframe);
   var prev = addDays(d, -1);
   var next = addDays(d, 1);
 
-  document.getElementById('prev-day').href = fmt(prev) + '.html';
+  var prevLink = document.getElementById('prev-day');
+  var prevUrl = fmt(prev) + '.html';
+  var xhrPrev = new XMLHttpRequest();
+  xhrPrev.open('HEAD', prevUrl, true);
+  xhrPrev.onload = function() {{ if (xhrPrev.status === 200) {{ prevLink.href = prevUrl; }} else {{ prevLink.style.display = 'none'; }} }};
+  xhrPrev.onerror = function() {{ prevLink.style.display = 'none'; }};
+  xhrPrev.send();
 
   var nextLink = document.getElementById('next-day');
   var nextUrl = fmt(next) + '.html';
@@ -411,6 +424,13 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
+  <meta property="og:title" content="AutoTrader - {month_name} {day}, {year} Market Update">
+  <meta property="og:description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
@@ -609,7 +629,13 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   var prev = addDays(d, -1);
   var next = addDays(d, 1);
 
-  document.getElementById('prev-day').href = fmt(prev) + '.html';
+  var prevLink = document.getElementById('prev-day');
+  var prevUrl = fmt(prev) + '.html';
+  var xhrPrev = new XMLHttpRequest();
+  xhrPrev.open('HEAD', prevUrl, true);
+  xhrPrev.onload = function() {{ if (xhrPrev.status === 200) {{ prevLink.href = prevUrl; }} else {{ prevLink.style.display = 'none'; }} }};
+  xhrPrev.onerror = function() {{ prevLink.style.display = 'none'; }};
+  xhrPrev.send();
 
   var nextLink = document.getElementById('next-day');
   var nextUrl = fmt(next) + '.html';
@@ -630,7 +656,7 @@ def generate_placeholder_html_file(date_str, date_obj):
     os.makedirs(DAILY_DIR, exist_ok=True)
     wrapper_path = os.path.join(DAILY_DIR, f"{date_str}.html")
     wrapper_html = generate_placeholder_wrapper_page(date_str, date_obj)
-    with open(wrapper_path, "w") as f:
+    with open(wrapper_path, "w", encoding="utf-8") as f:
         f.write(wrapper_html)
     print(f"  Generated placeholder: {wrapper_path}")
 
@@ -726,7 +752,7 @@ def generate_entries_html(entries):
 
 def update_index(date_str, description):
     """Update index.html with the new/updated entry."""
-    with open(INDEX_PATH, "r") as f:
+    with open(INDEX_PATH, "r", encoding="utf-8") as f:
         html = f.read()
 
     if ENTRY_START not in html or ENTRY_END not in html:
@@ -751,7 +777,7 @@ def update_index(date_str, description):
         html[: start_idx + len(ENTRY_START)] + entries_html + "\n  " + html[end_idx:]
     )
 
-    with open(INDEX_PATH, "w") as f:
+    with open(INDEX_PATH, "w", encoding="utf-8") as f:
         f.write(new_html)
 
     print(f"  Updated {INDEX_PATH} ({len(entries)} entries)")
@@ -763,7 +789,7 @@ def _batch_update_index(new_entries):
     Args:
         new_entries: dict mapping date_str -> description for all dates to add/update.
     """
-    with open(INDEX_PATH, "r") as f:
+    with open(INDEX_PATH, "r", encoding="utf-8") as f:
         html = f.read()
 
     if ENTRY_START not in html or ENTRY_END not in html:
@@ -781,7 +807,7 @@ def _batch_update_index(new_entries):
         html[: start_idx + len(ENTRY_START)] + entries_html + "\n  " + html[end_idx:]
     )
 
-    with open(INDEX_PATH, "w") as f:
+    with open(INDEX_PATH, "w", encoding="utf-8") as f:
         f.write(new_html)
 
     print(f"  Updated {INDEX_PATH} ({len(entries)} entries, {len(new_entries)} new)")
@@ -803,7 +829,7 @@ def update_sitemap():
 
     # Get all daily pages from index
     if os.path.exists(INDEX_PATH):
-        with open(INDEX_PATH, "r") as f:
+        with open(INDEX_PATH, "r", encoding="utf-8") as f:
             entries = parse_existing_entries(f.read())
     else:
         entries = {}
@@ -830,7 +856,7 @@ def update_sitemap():
 
     lines.append('</urlset>')
 
-    with open(sitemap_path, "w") as f:
+    with open(sitemap_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
     print(f"  Updated sitemap.xml ({len(entries)} daily pages)")
@@ -917,7 +943,7 @@ def main():
                 # Placeholder page
                 wrapper_html = generate_placeholder_wrapper_page(date_str, date_obj)
 
-            with open(page_path, "w") as f:
+            with open(page_path, "w", encoding="utf-8") as f:
                 f.write(wrapper_html)
             count += 1
 
@@ -938,7 +964,7 @@ def main():
             print(f"ERROR: Index file not found: {INDEX_PATH}")
             sys.exit(1)
 
-        with open(INDEX_PATH, "r") as f:
+        with open(INDEX_PATH, "r", encoding="utf-8") as f:
             index_html = f.read()
 
         existing = parse_existing_entries(index_html)
@@ -1023,7 +1049,7 @@ def main():
 
     # Auto-detect gaps: warn if there are missing trading days since the last entry
     if os.path.exists(INDEX_PATH):
-        with open(INDEX_PATH, "r") as f:
+        with open(INDEX_PATH, "r", encoding="utf-8") as f:
             index_html = f.read()
         existing = parse_existing_entries(index_html)
         if existing:
@@ -1049,7 +1075,7 @@ def main():
     print(f"  Copied email to {email_dest}")
 
     # 2. Extract description from email
-    with open(email_dest, "r") as f:
+    with open(email_dest, "r", encoding="utf-8") as f:
         email_html = f.read()
     description = extract_description(email_html)
     print(f"  Description: {description}")
@@ -1057,7 +1083,7 @@ def main():
     # 3. Generate wrapper page
     wrapper_path = os.path.join(DAILY_DIR, f"{date_str}.html")
     wrapper_html = generate_wrapper_page(date_str, date_obj)
-    with open(wrapper_path, "w") as f:
+    with open(wrapper_path, "w", encoding="utf-8") as f:
         f.write(wrapper_html)
     print(f"  Generated wrapper: {wrapper_path}")
 

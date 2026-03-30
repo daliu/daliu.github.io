@@ -5,6 +5,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for February 20, 2026">
+  <meta property="og:title" content="AutoTrader - February 20, 2026 Market Update">
+  <meta property="og:description" content="AutoTrader daily market predictions for February 20, 2026">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://daliu.github.io/autotrader/daily/2026-02-20.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/autotrader/daily/2026-02-20.html">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
@@ -203,7 +210,13 @@
   var prev = addDays(d, -1);
   var next = addDays(d, 1);
 
-  document.getElementById('prev-day').href = fmt(prev) + '.html';
+  var prevLink = document.getElementById('prev-day');
+  var prevUrl = fmt(prev) + '.html';
+  var xhrPrev = new XMLHttpRequest();
+  xhrPrev.open('HEAD', prevUrl, true);
+  xhrPrev.onload = function() { if (xhrPrev.status === 200) { prevLink.href = prevUrl; } else { prevLink.style.display = 'none'; } };
+  xhrPrev.onerror = function() { prevLink.style.display = 'none'; };
+  xhrPrev.send();
 
   var nextLink = document.getElementById('next-day');
   var nextUrl = fmt(next) + '.html';
