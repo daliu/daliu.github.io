@@ -236,7 +236,13 @@ def generate_wrapper_page(date_str, date_obj):
 <div style="height: 50px;"></div>
 
 <div class="container-fluid">
-  <a href="index.html" class="back-link">&larr; All Daily Updates</a>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+    <a href="index.html" class="back-link">&larr; All Updates</a>
+    <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
+      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px;">&larr; Prev</a>
+      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none;">Next &rarr;</a>
+    </div>
+  </div>
   <div class="date-heading">{month_name} {day}, {year}</div>
   <h2>Daily Market Update</h2>
   <div class="section-divider"></div>
@@ -268,6 +274,41 @@ function resizeIframe() {{
   }}
 }}
 document.getElementById('emailFrame').addEventListener('load', resizeIframe);
+
+// Prev/Next day navigation
+(function() {{
+  var currentDate = '{date_str}';
+  var parts = currentDate.split('-');
+  var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+
+  function addDays(date, n) {{
+    var result = new Date(date);
+    result.setDate(result.getDate() + n);
+    while (result.getDay() === 0 || result.getDay() === 6) {{
+      result.setDate(result.getDate() + (n > 0 ? 1 : -1));
+    }}
+    return result;
+  }}
+
+  function fmt(date) {{
+    return date.getFullYear() + '-' +
+      String(date.getMonth()+1).padStart(2,'0') + '-' +
+      String(date.getDate()).padStart(2,'0');
+  }}
+
+  var prev = addDays(d, -1);
+  var next = addDays(d, 1);
+
+  document.getElementById('prev-day').href = fmt(prev) + '.html';
+
+  var nextLink = document.getElementById('next-day');
+  var nextUrl = fmt(next) + '.html';
+  var xhr = new XMLHttpRequest();
+  xhr.open('HEAD', nextUrl, true);
+  xhr.onload = function() {{ if (xhr.status === 200) {{ nextLink.href = nextUrl; }} else {{ nextLink.style.display = 'none'; }} }};
+  xhr.onerror = function() {{ nextLink.style.display = 'none'; }};
+  xhr.send();
+}})();
 </script>
 
 </body></html>
@@ -481,7 +522,13 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
 <div style="height: 50px;"></div>
 
 <div class="container-fluid">
-  <a href="index.html" class="back-link">&larr; All Daily Updates</a>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+    <a href="index.html" class="back-link">&larr; All Updates</a>
+    <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
+      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px;">&larr; Prev</a>
+      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none;">Next &rarr;</a>
+    </div>
+  </div>
   <div class="date-heading">{month_name} {day}, {year}</div>
   <h2>Daily Market Update</h2>
   <div class="section-divider"></div>
@@ -502,6 +549,43 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2025</p>
 </footer>
 
+<script>
+// Prev/Next day navigation
+(function() {{
+  var currentDate = '{date_str}';
+  var parts = currentDate.split('-');
+  var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+
+  function addDays(date, n) {{
+    var result = new Date(date);
+    result.setDate(result.getDate() + n);
+    while (result.getDay() === 0 || result.getDay() === 6) {{
+      result.setDate(result.getDate() + (n > 0 ? 1 : -1));
+    }}
+    return result;
+  }}
+
+  function fmt(date) {{
+    return date.getFullYear() + '-' +
+      String(date.getMonth()+1).padStart(2,'0') + '-' +
+      String(date.getDate()).padStart(2,'0');
+  }}
+
+  var prev = addDays(d, -1);
+  var next = addDays(d, 1);
+
+  document.getElementById('prev-day').href = fmt(prev) + '.html';
+
+  var nextLink = document.getElementById('next-day');
+  var nextUrl = fmt(next) + '.html';
+  var xhr = new XMLHttpRequest();
+  xhr.open('HEAD', nextUrl, true);
+  xhr.onload = function() {{ if (xhr.status === 200) {{ nextLink.href = nextUrl; }} else {{ nextLink.style.display = 'none'; }} }};
+  xhr.onerror = function() {{ nextLink.style.display = 'none'; }};
+  xhr.send();
+}})();
+</script>
+
 </body></html>
 """
 
@@ -521,6 +605,7 @@ def publish_placeholder(date_str):
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     generate_placeholder_html_file(date_str, date_obj)
     update_index(date_str, PLACEHOLDER_DESCRIPTION)
+    update_sitemap()
 
 
 def parse_existing_entries(index_html):
@@ -667,22 +752,104 @@ def _batch_update_index(new_entries):
     print(f"  Updated {INDEX_PATH} ({len(entries)} entries, {len(new_entries)} new)")
 
 
+def update_sitemap():
+    """Regenerate sitemap.xml with all daily page URLs."""
+    sitemap_path = os.path.join(SCRIPT_DIR, "sitemap.xml")
+
+    # Static pages
+    static_pages = [
+        {"loc": "https://daliu.github.io/", "priority": "1.0"},
+        {"loc": "https://daliu.github.io/portfolio.html", "priority": "0.9"},
+        {"loc": "https://daliu.github.io/autotrader.html", "priority": "0.9"},
+        {"loc": "https://daliu.github.io/health/", "priority": "0.7", "changefreq": "daily"},
+        {"loc": "https://daliu.github.io/analytics/", "priority": "0.7", "changefreq": "daily"},
+        {"loc": "https://daliu.github.io/autotrader/daily/", "priority": "0.7", "changefreq": "daily"},
+    ]
+
+    # Get all daily pages from index
+    if os.path.exists(INDEX_PATH):
+        with open(INDEX_PATH, "r") as f:
+            entries = parse_existing_entries(f.read())
+    else:
+        entries = {}
+
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+
+    today = datetime.now().strftime("%Y-%m-%d")
+    for page in static_pages:
+        lines.append('  <url>')
+        lines.append(f'    <loc>{page["loc"]}</loc>')
+        lines.append(f'    <lastmod>{today}</lastmod>')
+        if "changefreq" in page:
+            lines.append(f'    <changefreq>{page["changefreq"]}</changefreq>')
+        lines.append(f'    <priority>{page["priority"]}</priority>')
+        lines.append('  </url>')
+
+    for date_str in sorted(entries.keys(), reverse=True):
+        lines.append('  <url>')
+        lines.append(f'    <loc>https://daliu.github.io/autotrader/daily/{date_str}.html</loc>')
+        lines.append(f'    <lastmod>{date_str}</lastmod>')
+        lines.append(f'    <priority>0.5</priority>')
+        lines.append('  </url>')
+
+    lines.append('</urlset>')
+
+    with open(sitemap_path, "w") as f:
+        f.write("\n".join(lines) + "\n")
+
+    print(f"  Updated sitemap.xml ({len(entries)} daily pages)")
+
+
 def git_commit_and_push(commit_msg):
     """Stage autotrader/daily/ changes, commit, rebase, and push."""
     os.chdir(SCRIPT_DIR)
-    subprocess.run(["git", "add", "autotrader/daily/"], check=True)
+    subprocess.run(["git", "add", "autotrader/daily/", "sitemap.xml"], check=True)
 
     result = subprocess.run(
         ["git", "diff", "--cached", "--quiet"], capture_output=True
     )
     if result.returncode != 0:  # There are staged changes
         subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-        # Stash any unstaged changes (e.g. .DS_Store) before rebase
+        # Stash any unstaged changes before rebase
         stash_result = subprocess.run(
             ["git", "stash"], capture_output=True, text=True
         )
         stashed = "No local changes" not in stash_result.stdout
-        subprocess.run(["git", "pull", "--rebase"], check=True)
+
+        # Try rebase first
+        rebase_result = subprocess.run(
+            ["git", "pull", "--rebase"], capture_output=True, text=True
+        )
+        if rebase_result.returncode != 0:
+            print(f"  Rebase failed: {rebase_result.stderr[:200]}")
+            # Abort failed rebase
+            subprocess.run(["git", "rebase", "--abort"], capture_output=True)
+            # Fallback: merge instead of rebase
+            merge_result = subprocess.run(
+                ["git", "pull", "--no-rebase"], capture_output=True, text=True
+            )
+            if merge_result.returncode != 0:
+                print(f"  Merge also failed: {merge_result.stderr[:200]}")
+                # Last resort: force-reset to remote and re-apply our commit
+                print("  Using force-reset recovery...")
+                subprocess.run(["git", "fetch", "origin"], check=True)
+                # Save our commit hash
+                our_commit = subprocess.run(
+                    ["git", "rev-parse", "HEAD"],
+                    capture_output=True, text=True
+                ).stdout.strip()
+                subprocess.run(["git", "reset", "--hard", "origin/master"], check=True)
+                # Cherry-pick our commit on top
+                cherry_result = subprocess.run(
+                    ["git", "cherry-pick", our_commit],
+                    capture_output=True, text=True
+                )
+                if cherry_result.returncode != 0:
+                    print(f"  Cherry-pick failed, skipping publish: {cherry_result.stderr[:200]}")
+                    subprocess.run(["git", "cherry-pick", "--abort"], capture_output=True)
+                    return
+
         if stashed:
             subprocess.run(["git", "stash", "pop"], check=False)
         subprocess.run(["git", "push"], check=True)
@@ -730,6 +897,9 @@ def main():
 
         # Phase 2: Single batch index update (one read-write cycle)
         _batch_update_index({ds: PLACEHOLDER_DESCRIPTION for ds in gaps})
+
+        # Phase 3: Update sitemap
+        update_sitemap()
 
         # Git commit and push
         if not args.no_push:
@@ -822,7 +992,10 @@ def main():
     # 4. Update index
     update_index(date_str, description)
 
-    # 5. Git commit and push
+    # 5. Update sitemap
+    update_sitemap()
+
+    # 6. Git commit and push
     if not args.no_push:
         print("  Committing and pushing...")
         git_commit_and_push(f"daily: {date_str} market update")
