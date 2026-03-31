@@ -9,6 +9,7 @@
   <meta property="og:description" content="A fully autonomous stock prediction system running 1,800+ daily models across the S&amp;P 500, built from scratch on two VMs.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta property="og:url" content="https://daliu.github.io/autotrader.html">
   <link rel="canonical" href="https://daliu.github.io/autotrader.html">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <!-- Google Analytics (GA4) -->
@@ -487,31 +488,30 @@
       <span class="caret-icon">&#9660;</span>
     </div>
     <div id="pipeline-data" class="collapse in pipeline-body">
-      <p>This is where the raw ingredients come from. Every night, the pipeline pulls fresh market data from the EODHD API for all S&amp;P 500 constituents plus 184 ETFs, then transforms that data into a rich set of 400+ engineered features. The features come from eight distinct sources, each capturing a different dimension of market behavior.</p>
+      <p>This is where the raw ingredients come from. Every night, the pipeline pulls fresh market data from the EODHD API for all S&amp;P 500 constituents plus 184 ETFs, then transforms that data into a rich set of 500+ engineered features spanning technical, fundamental, sentiment, behavioral, and alternative data dimensions.</p>
       <div class="row">
         <div class="col-sm-6">
           <h4>How It Works</h4>
           <ul>
-            <li>Check daily API usage against the 100K call limit (and queue any overage for backfill)</li>
-            <li>Prioritize high-signal tickers (SPY, QQQ, AAPL processed first)</li>
-            <li>Fetch OHLCV data across three timeframes (daily, weekly, monthly)</li>
-            <li>Store raw data to both PostgreSQL and GCS for redundancy</li>
-            <li>Run the <code>HybridFeatureComputationPipeline</code> to compute 400+ features per ticker</li>
-            <li>Collect auxiliary signals: CBOE Put/Call ratio, CNN Fear &amp; Greed Index, ApeWisdom social sentiment, Forex Factory economic calendar</li>
-            <li>Compute VWAP-based labels that serve as training targets for downstream models</li>
+            <li>Ingest OHLCV market data across multiple timeframes for all tracked tickers</li>
+            <li>Prioritize high-liquidity names to ensure freshest data for major positions</li>
+            <li>Store to PostgreSQL with GCS redundancy</li>
+            <li>Run the feature computation pipeline to generate 500+ features per ticker from 10+ distinct signal families</li>
+            <li>Collect multi-source sentiment and alternative data signals</li>
+            <li>Compute proprietary training labels designed to capture directional intent rather than simple close-to-close returns</li>
           </ul>
         </div>
         <div class="col-sm-6">
-          <h4>Feature Sources (8 Families)</h4>
+          <h4>Feature Sources (10+ Families, 500+ Features)</h4>
           <div class="feature-grid">
-            <div class="feature-item"><strong>TA-Lib Technical Indicators</strong> &mdash; <span>~200</span><br>Trend (EMA, MACD, ADX), momentum (RSI, Stochastic), volatility (ATR, Bollinger), volume (OBV, CMF), plus 61 candlestick patterns</div>
-            <div class="feature-item"><strong>EODHD Fundamentals</strong> &mdash; <span>~100</span><br>Valuation ratios (P/E, P/B, P/S), dividend yield, EPS estimates, and news sentiment polarity scores</div>
-            <div class="feature-item"><strong>Cross-Industry Signals</strong> &mdash; <span>~100</span><br>Sector rotation strength, defensive vs. cyclical momentum, market breadth, and capitulation detection</div>
-            <div class="feature-item"><strong>Kinematics</strong> &mdash; <span>~80</span><br>Derivatives of price movement: velocity, acceleration, jerk, turning point patterns, and momentum extremes</div>
-            <div class="feature-item"><strong>All-Time-High Analysis</strong> &mdash; <span>~45</span><br>Days since ATH, drought severity and frequency, statistical significance of proximity to highs</div>
-            <div class="feature-item"><strong>Enhanced VWAP</strong> &mdash; <span>~38</span><br>Calendar and event flags (FOMC meetings, earnings dates, options expiration), institutional activity signals</div>
-            <div class="feature-item"><strong>Auxiliary &amp; Sentiment</strong> &mdash; <span>~30</span><br>Economic calendar events, Fear &amp; Greed index, Reddit trending stocks (ApeWisdom), CBOE Put/Call ratios</div>
-            <div class="feature-item"><strong>Intraday</strong> &mdash; <span>~20</span><br>5-minute VWAP, intraday momentum profiles, hour-of-day effects</div>
+            <div class="feature-item"><strong>Technical Indicators</strong><br>Trend, momentum, volatility, volume, and pattern-based signals across multiple timeframes</div>
+            <div class="feature-item"><strong>Fundamental Data</strong><br>Valuation metrics, earnings estimates, and corporate event signals</div>
+            <div class="feature-item"><strong>Cross-Asset &amp; Sector Signals</strong><br>Inter-market relationships, sector rotation dynamics, and risk regime indicators</div>
+            <div class="feature-item"><strong>Price Microstructure</strong><br>Higher-order derivatives of price dynamics and structural pattern recognition</div>
+            <div class="feature-item"><strong>Behavioral Economics</strong><br>Cognitive bias indicators: anchoring, disposition effect, herding intensity, and loss aversion asymmetries</div>
+            <div class="feature-item"><strong>Alternative Data &amp; Sentiment</strong><br>Multi-source sentiment aggregation, social trend analysis, and event-driven signals with lagged impact modeling</div>
+            <div class="feature-item"><strong>Statistical &amp; Regime Features</strong><br>Mean reversion signals, market phase detection, and volatility regime classification</div>
+            <div class="feature-item"><strong>Proprietary Composite Signals</strong><br>Calibrated multi-factor combinations derived from ongoing research into market microstructure</div>
           </div>
         </div>
       </div>
@@ -531,25 +531,21 @@
           <h4>Dual Model Architecture</h4>
           <p>Training two models per ticker lets each be optimized for what it's best at:</p>
           <ul>
-            <li><strong>Classifier (XGBClassifier):</strong> Predicts direction (bullish or bearish). Optimized on AUC. Trained on <em>filtered</em> data with low-movement noise days removed (bottom 20% by absolute VWAP move), so it focuses on days when the market is actually making a call.</li>
-            <li><strong>Regressor (XGBRegressor):</strong> Predicts magnitude (% expected move). Optimized on directional accuracy. Trained on the <em>full</em> dataset to capture the complete range of outcomes, including quiet days.</li>
+            <li><strong>Direction Model:</strong> Predicts bullish or bearish. Optimized on classification accuracy. Trained on filtered data that removes noise days where direction is essentially random.</li>
+            <li><strong>Magnitude Model:</strong> Predicts expected move size. Optimized on directional accuracy. Trained on the full dataset to capture the complete distribution of outcomes.</li>
           </ul>
-          <p>At inference time, the two predictions are combined:<br>
-          <code>signal = (direction * 2 - 1) * magnitude</code><br>
-          <code>confidence = probability * (1 + magnitude)</code></p>
-          <p>This produces a single confidence-ranked score that captures both conviction and expected size of the move.</p>
+          <p>At inference time, the two predictions are combined into a single calibrated confidence score that captures both conviction and expected size of the move. Post-hoc calibration ensures the confidence values reflect true accuracy rates.</p>
         </div>
         <div class="col-sm-6">
           <h4>Training Process</h4>
           <ul>
-            <li><strong>Priority queue:</strong> Models are queued by strategy (worst-performing first, new tickers first, etc.) so training time is spent where it has the most impact</li>
-            <li><strong>Data loading:</strong> Features and VWAP labels pulled from PostgreSQL/GCS</li>
-            <li><strong>Noise filtering:</strong> Bottom 20th percentile of movement days removed for classifier training</li>
-            <li><strong>Walk-forward validation:</strong> 5 expanding-window folds that respect temporal ordering (no future data leakage)</li>
-            <li><strong>Hyperparameter optimization:</strong> Optuna runs 30&ndash;50 trials per model, searching across learning rate, max depth, subsample, and regularization</li>
-            <li><strong>Evaluation:</strong> AUC, directional accuracy, and separate bullish/bearish accuracy tracked per fold</li>
-            <li><strong>Model storage:</strong> Artifacts saved to GCS, metadata registered in PostgreSQL</li>
-            <li><strong>Lifecycle management:</strong> Top 3 model versions retained per ticker/timeframe; older versions pruned automatically</li>
+            <li><strong>Priority queue:</strong> Models queued by strategy (worst-performing first) so training time goes where it has the most impact</li>
+            <li><strong>Data loading:</strong> Features and labels pulled from PostgreSQL with GCS fallback</li>
+            <li><strong>Noise filtering:</strong> Low-movement days removed for direction model training to focus on meaningful signals</li>
+            <li><strong>Walk-forward validation:</strong> Expanding-window folds that respect temporal ordering (no future data leakage)</li>
+            <li><strong>Hyperparameter optimization:</strong> Automated search across model parameters using Bayesian optimization</li>
+            <li><strong>Evaluation:</strong> Multiple accuracy metrics tracked per fold including directional accuracy</li>
+            <li><strong>Lifecycle management:</strong> Top model versions retained per ticker/timeframe; older versions pruned automatically</li>
           </ul>
           <div class="callout">
             Comprehensive training (all ~1,800 models) runs every Saturday and takes 2&ndash;4 hours. Incremental training (100&ndash;200 models) runs on weekdays in 20&ndash;60 minutes, focusing on new tickers and underperformers.
@@ -684,15 +680,15 @@
       <h4>Why walk-forward validation?</h4>
       <p>Standard K-fold cross-validation would let the model see Tuesday's data while training on Thursday's. In financial data, that's cheating&mdash;any time-series pattern, regime change, or structural break gets leaked across the boundary. Walk-forward validation with expanding windows respects temporal ordering, which means the performance estimates I get are realistic rather than flattering.</p>
 
-      <h4>Why VWAP labels instead of close-to-close returns?</h4>
-      <p>A stock can gap up 2% at the open, sell off all day, and still show a positive daily return. Close-to-close labels miss the intraday story. Volume-Weighted Average Price captures where trading activity actually concentrated, giving a more honest signal about directional intent. It's noisier to compute but produces better labels for training.</p>
+      <h4>Why custom training labels instead of simple returns?</h4>
+      <p>Simple close-to-close returns miss the intraday story&mdash;a stock can gap up 2% then sell off all day. The training labels are designed to capture where actual trading conviction lies, producing better signal for the models even if they're noisier to compute.</p>
     </div>
     <div class="col-sm-6">
       <h4>Why separate VMs?</h4>
       <p>Feature engineering spends most of its time waiting on API responses and writing to databases (I/O-bound). Model training spends most of its time in XGBoost's gradient computations (CPU-bound). Running both on a single VM would mean paying for 16 GB of RAM during data collection when I only need 8, or paying for beefy CPUs during the data pipeline when they'd sit idle. The multi-VM split lets me right-size each workload&mdash;GCP handles data pipelines and a dedicated PostgreSQL instance, while an Azure VM provides parallel training capacity.</p>
 
-      <h4>Why filter low-movement days for the classifier?</h4>
-      <p>On days when a stock barely moves (less than 0.1%), predicting "up" or "down" is basically a coin flip&mdash;and training on those coin flips adds noise without signal. Removing the bottom 20% of movement days by absolute VWAP change lets the classifier focus on days when the market is actually making a directional commitment. The regressor still sees all data, because even small-movement days carry information about magnitude distributions.</p>
+      <h4>Why filter noise days for the direction model?</h4>
+      <p>On days when a stock barely moves, predicting "up" or "down" is essentially a coin flip&mdash;and training on coin flips adds noise without signal. Filtering low-movement days lets the direction model focus on days with actual directional commitment, while the magnitude model still sees the full distribution.</p>
 
       <h4>Why build everything from scratch?</h4>
       <p>Partly because I wanted to understand every piece of the system at a level that using off-the-shelf solutions wouldn't give me. But also because the constraints of a personal project&mdash;tight budget, single maintainer, zero tolerance for pager fatigue&mdash;reward simplicity. Cron jobs, PostgreSQL, and GCS are boring, well-understood technologies. That's the point. I'd rather spend my engineering time on feature research and model architecture than debugging Kubernetes manifests.</p>
