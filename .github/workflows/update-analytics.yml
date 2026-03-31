@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   update-analytics:
@@ -19,17 +20,67 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install google-analytics-data google-auth
+        if: env.GA4_PROPERTY_ID != ''
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: pip install 'google-analytics-data>=0.18,<0.19' 'google-auth>=2.29,<3'
 
       - name: Fetch GA4 data
+        if: env.GA4_PROPERTY_ID != ''
         env:
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
           GA4_CREDENTIALS_JSON: ${{ secrets.GA4_CREDENTIALS_JSON }}
         run: python scripts/fetch_analytics.py
 
+      - name: Validate data.json is not empty
+        if: env.GA4_PROPERTY_ID != ''
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: |
+          if [ ! -s analytics/data.json ]; then
+            echo "ERROR: data.json is empty or missing after fetch"
+            exit 1
+          fi
+          # Verify it's valid JSON with at least a "daily" key
+          python -c "import json; d=json.load(open('analytics/data.json')); assert 'daily' in d, 'Missing daily key'"
+
       - name: Commit and push
+        if: env.GA4_PROPERTY_ID != ''
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add analytics/data.json
           git diff --cached --quiet || (git commit -m "Update analytics data $(date -u +%Y-%m-%d)" && git pull --rebase && git push)
+
+      - name: Skip notice (secrets not configured)
+        if: env.GA4_PROPERTY_ID == ''
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: echo "Skipping analytics update — GA4_PROPERTY_ID secret is not configured."
+
+      - name: Create issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `Analytics workflow failed on ${new Date().toISOString().slice(0, 10)}`;
+            const body = `The **Update Site Analytics** workflow failed.\n\nRun: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\nPlease check the logs for details.`;
+            // Avoid duplicate issues
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'analytics-failure',
+              per_page: 1,
+            });
+            if (existing.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['analytics-failure'],
+              });
+            }

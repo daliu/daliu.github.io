@@ -9,7 +9,7 @@ Requires environment variables:
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import (
@@ -66,10 +66,10 @@ def main():
     property_id = os.environ["GA4_PROPERTY_ID"]
     client = get_client()
 
-    end_date = datetime.utcnow().strftime("%Y-%m-%d")
-    start_date = (datetime.utcnow() - timedelta(days=89)).strftime("%Y-%m-%d")
+    end_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    start_date = (datetime.now(timezone.utc) - timedelta(days=89)).strftime("%Y-%m-%d")
     date_range = (start_date, end_date)
-    date_range_30d = ((datetime.utcnow() - timedelta(days=29)).strftime("%Y-%m-%d"), end_date)
+    date_range_30d = ((datetime.now(timezone.utc) - timedelta(days=29)).strftime("%Y-%m-%d"), end_date)
 
     # 1. Daily overview
     daily_resp = run_report(
@@ -214,7 +214,7 @@ def main():
 
     # Build output
     output = {
-        "updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "date_range": {"start": start_date, "end": end_date},
         "totals": {
             "total_users": total_users,

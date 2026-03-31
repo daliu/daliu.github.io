@@ -266,8 +266,8 @@ def generate_wrapper_page(date_str, date_obj):
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <a href="index.html" class="back-link">&larr; All Updates</a>
     <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
-      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px;">&larr; Prev</a>
-      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none;">Next &rarr;</a>
+      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px; display: none;">&larr; Prev</a>
+      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none; display: none;">Next &rarr;</a>
     </div>
   </div>
   <div class="date-heading">{month_name} {day}, {year}</div>
@@ -330,16 +330,16 @@ document.getElementById('emailFrame').addEventListener('load', resizeIframe);
   var prevUrl = fmt(prev) + '.html';
   var xhrPrev = new XMLHttpRequest();
   xhrPrev.open('HEAD', prevUrl, true);
-  xhrPrev.onload = function() {{ if (xhrPrev.status === 200) {{ prevLink.href = prevUrl; }} else {{ prevLink.style.display = 'none'; }} }};
-  xhrPrev.onerror = function() {{ prevLink.style.display = 'none'; }};
+  xhrPrev.onload = function() {{ if (xhrPrev.status === 200) {{ prevLink.href = prevUrl; prevLink.style.display = ''; }} }};
+  xhrPrev.onerror = function() {{}};
   xhrPrev.send();
 
   var nextLink = document.getElementById('next-day');
   var nextUrl = fmt(next) + '.html';
   var xhr = new XMLHttpRequest();
   xhr.open('HEAD', nextUrl, true);
-  xhr.onload = function() {{ if (xhr.status === 200) {{ nextLink.href = nextUrl; }} else {{ nextLink.style.display = 'none'; }} }};
-  xhr.onerror = function() {{ nextLink.style.display = 'none'; }};
+  xhr.onload = function() {{ if (xhr.status === 200) {{ nextLink.href = nextUrl; nextLink.style.display = ''; }} }};
+  xhr.onerror = function() {{}};
   xhr.send();
 }})();
 </script>
@@ -356,9 +356,72 @@ PLACEHOLDER_MESSAGE = (
 )
 
 
+def _get_nyse_holidays():
+    """Return a set of NYSE holiday date strings (YYYY-MM-DD) for 2025-2026.
+
+    Attempts to use pandas_market_calendars if available; otherwise falls back
+    to a hardcoded list of observed NYSE holidays.
+    """
+    try:
+        import pandas_market_calendars as mcal
+
+        nyse = mcal.get_calendar("NYSE")
+        valid_days = nyse.valid_days(start_date="2025-01-01", end_date="2026-12-31")
+        all_weekdays = set()
+        current = datetime(2025, 1, 1)
+        end = datetime(2026, 12, 31)
+        while current <= end:
+            if current.weekday() < 5:
+                all_weekdays.add(current.strftime("%Y-%m-%d"))
+            current += timedelta(days=1)
+        valid_set = {d.strftime("%Y-%m-%d") for d in valid_days}
+        return all_weekdays - valid_set
+    except ImportError:
+        pass
+
+    # Hardcoded observed NYSE holidays for 2025-2026
+    return {
+        # 2025
+        "2025-01-01",  # New Year's Day
+        "2025-01-20",  # MLK Day
+        "2025-02-17",  # Presidents Day
+        "2025-04-18",  # Good Friday
+        "2025-05-26",  # Memorial Day
+        "2025-06-19",  # Juneteenth
+        "2025-07-04",  # Independence Day
+        "2025-09-01",  # Labor Day
+        "2025-11-27",  # Thanksgiving
+        "2025-12-25",  # Christmas
+        # 2026
+        "2026-01-01",  # New Year's Day
+        "2026-01-19",  # MLK Day
+        "2026-02-16",  # Presidents Day
+        "2026-04-03",  # Good Friday
+        "2026-05-25",  # Memorial Day
+        "2026-06-19",  # Juneteenth
+        "2026-07-03",  # Independence Day (observed)
+        "2026-09-07",  # Labor Day
+        "2026-11-26",  # Thanksgiving
+        "2026-12-25",  # Christmas
+    }
+
+
+# Cache holidays at module level so the set is computed once per run
+_NYSE_HOLIDAYS = None
+
+
+def _nyse_holidays():
+    global _NYSE_HOLIDAYS
+    if _NYSE_HOLIDAYS is None:
+        _NYSE_HOLIDAYS = _get_nyse_holidays()
+    return _NYSE_HOLIDAYS
+
+
 def is_trading_day(date_obj):
-    """Return True if date_obj falls on a weekday (Mon-Fri)."""
-    return date_obj.weekday() < 5  # 0=Mon ... 4=Fri
+    """Return True if date_obj is an NYSE trading day (weekday and not a holiday)."""
+    if date_obj.weekday() >= 5:  # Saturday or Sunday
+        return False
+    return date_obj.strftime("%Y-%m-%d") not in _nyse_holidays()
 
 
 def find_trading_day_gaps(existing_dates):
@@ -580,8 +643,8 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <a href="index.html" class="back-link">&larr; All Updates</a>
     <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
-      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px;">&larr; Prev</a>
-      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none;">Next &rarr;</a>
+      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px; display: none;">&larr; Prev</a>
+      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none; display: none;">Next &rarr;</a>
     </div>
   </div>
   <div class="date-heading">{month_name} {day}, {year}</div>
@@ -633,16 +696,16 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   var prevUrl = fmt(prev) + '.html';
   var xhrPrev = new XMLHttpRequest();
   xhrPrev.open('HEAD', prevUrl, true);
-  xhrPrev.onload = function() {{ if (xhrPrev.status === 200) {{ prevLink.href = prevUrl; }} else {{ prevLink.style.display = 'none'; }} }};
-  xhrPrev.onerror = function() {{ prevLink.style.display = 'none'; }};
+  xhrPrev.onload = function() {{ if (xhrPrev.status === 200) {{ prevLink.href = prevUrl; prevLink.style.display = ''; }} }};
+  xhrPrev.onerror = function() {{}};
   xhrPrev.send();
 
   var nextLink = document.getElementById('next-day');
   var nextUrl = fmt(next) + '.html';
   var xhr = new XMLHttpRequest();
   xhr.open('HEAD', nextUrl, true);
-  xhr.onload = function() {{ if (xhr.status === 200) {{ nextLink.href = nextUrl; }} else {{ nextLink.style.display = 'none'; }} }};
-  xhr.onerror = function() {{ nextLink.style.display = 'none'; }};
+  xhr.onload = function() {{ if (xhr.status === 200) {{ nextLink.href = nextUrl; nextLink.style.display = ''; }} }};
+  xhr.onerror = function() {{}};
   xhr.send();
 }})();
 </script>
@@ -752,8 +815,12 @@ def generate_entries_html(entries):
 
 def update_index(date_str, description):
     """Update index.html with the new/updated entry."""
-    with open(INDEX_PATH, "r", encoding="utf-8") as f:
-        html = f.read()
+    try:
+        with open(INDEX_PATH, "r", encoding="utf-8") as f:
+            html = f.read()
+    except FileNotFoundError:
+        print(f"  Index file not found at {INDEX_PATH}, creating new index.")
+        html = f"{ENTRY_START}\n  {ENTRY_END}"
 
     if ENTRY_START not in html or ENTRY_END not in html:
         print(f"ERROR: Markers not found in {INDEX_PATH}")
@@ -789,8 +856,12 @@ def _batch_update_index(new_entries):
     Args:
         new_entries: dict mapping date_str -> description for all dates to add/update.
     """
-    with open(INDEX_PATH, "r", encoding="utf-8") as f:
-        html = f.read()
+    try:
+        with open(INDEX_PATH, "r", encoding="utf-8") as f:
+            html = f.read()
+    except FileNotFoundError:
+        print(f"  Index file not found at {INDEX_PATH}, creating new index.")
+        html = f"{ENTRY_START}\n  {ENTRY_END}"
 
     if ENTRY_START not in html or ENTRY_END not in html:
         print(f"ERROR: Markers not found in {INDEX_PATH}")
@@ -878,43 +949,45 @@ def git_commit_and_push(commit_msg):
         )
         stashed = "No local changes" not in stash_result.stdout
 
-        # Try rebase first
-        rebase_result = subprocess.run(
-            ["git", "pull", "--rebase"], capture_output=True, text=True
-        )
-        if rebase_result.returncode != 0:
-            print(f"  Rebase failed: {rebase_result.stderr[:200]}")
-            # Abort failed rebase
-            subprocess.run(["git", "rebase", "--abort"], capture_output=True)
-            # Fallback: merge instead of rebase
-            merge_result = subprocess.run(
-                ["git", "pull", "--no-rebase"], capture_output=True, text=True
+        try:
+            # Try rebase first
+            rebase_result = subprocess.run(
+                ["git", "pull", "--rebase"], capture_output=True, text=True
             )
-            if merge_result.returncode != 0:
-                print(f"  Merge also failed: {merge_result.stderr[:200]}")
-                # Last resort: force-reset to remote and re-apply our commit
-                print("  Using force-reset recovery...")
-                subprocess.run(["git", "fetch", "origin"], check=True)
-                # Save our commit hash
-                our_commit = subprocess.run(
-                    ["git", "rev-parse", "HEAD"],
-                    capture_output=True, text=True
-                ).stdout.strip()
-                subprocess.run(["git", "reset", "--hard", "origin/master"], check=True)
-                # Cherry-pick our commit on top
-                cherry_result = subprocess.run(
-                    ["git", "cherry-pick", our_commit],
-                    capture_output=True, text=True
+            if rebase_result.returncode != 0:
+                print(f"  Rebase failed: {rebase_result.stderr[:200]}")
+                # Abort failed rebase
+                subprocess.run(["git", "rebase", "--abort"], capture_output=True)
+                # Fallback: merge instead of rebase
+                merge_result = subprocess.run(
+                    ["git", "pull", "--no-rebase"], capture_output=True, text=True
                 )
-                if cherry_result.returncode != 0:
-                    print(f"  Cherry-pick failed, skipping publish: {cherry_result.stderr[:200]}")
-                    subprocess.run(["git", "cherry-pick", "--abort"], capture_output=True)
-                    return
+                if merge_result.returncode != 0:
+                    print(f"  Merge also failed: {merge_result.stderr[:200]}")
+                    # Last resort: force-reset to remote and re-apply our commit
+                    print("  Using force-reset recovery...")
+                    subprocess.run(["git", "fetch", "origin"], check=True)
+                    # Save our commit hash
+                    our_commit = subprocess.run(
+                        ["git", "rev-parse", "HEAD"],
+                        capture_output=True, text=True
+                    ).stdout.strip()
+                    subprocess.run(["git", "reset", "--hard", "origin/master"], check=True)
+                    # Cherry-pick our commit on top
+                    cherry_result = subprocess.run(
+                        ["git", "cherry-pick", our_commit],
+                        capture_output=True, text=True
+                    )
+                    if cherry_result.returncode != 0:
+                        print(f"  Cherry-pick failed, skipping publish: {cherry_result.stderr[:200]}")
+                        subprocess.run(["git", "cherry-pick", "--abort"], capture_output=True)
+                        return
 
-        if stashed:
-            subprocess.run(["git", "stash", "pop"], check=False)
-        subprocess.run(["git", "push"], check=True)
-        print("  Pushed to GitHub!")
+            subprocess.run(["git", "push"], check=True)
+            print("  Pushed to GitHub!")
+        finally:
+            if stashed:
+                subprocess.run(["git", "stash", "pop"], check=False)
     else:
         print("  No changes to commit (already up to date)")
 
