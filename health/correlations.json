@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-01T22:00:03.332123",
+  "updated": "2026-04-02T22:00:03.988217",
   "date_range": {
     "start": "2026-02-18",
     "end": "2026-03-24",
@@ -280,28 +280,28 @@
       "impact": "negative"
     },
     {
-      "text": "Your stress has spiked 20% in the last 7 days (38.1 vs 31.6 baseline), but paradoxically your sleep quality improved\u2014suggesting you're sleeping better *despite* higher stress, possibly due to better sleep hygiene or wind-down routines.",
-      "impact": "neutral",
-      "type": "ai_pattern"
-    },
-    {
-      "text": "Tuesday is your recovery superpower: it combines the lowest stress (24.0), highest body battery (48.4), and best sleep score (83.5) of the week, yet has moderate steps\u2014indicating that lower activity paired with stress management drives your best days.",
-      "impact": "positive",
-      "type": "ai_pattern"
-    },
-    {
-      "text": "Rest days are sabotaging your recovery\u2014they drop your battery by 13.8 points and keep stress elevated (32.9), while light activity days boost battery by 7.3 and lower stress to 27.5, suggesting complete inactivity worsens your metrics more than gentle movement.",
+      "text": "You're in a stress-activity paradox: last week your stress jumped 20% (31.6\u219238.1) despite taking 33% fewer steps (14,082\u21929,499), suggesting recent stress is decoupled from physical activity and might be work/life driven rather than recovery-based.",
       "impact": "negative",
       "type": "ai_pattern"
     },
     {
-      "text": "Wednesday-Friday show a pattern of elevated stress (35.0-36.0) despite increasing steps, but your body battery stays stable\u2014this suggests your body is handling the week's demands, but midweek stress may need targeted intervention.",
-      "impact": "neutral",
+      "text": "Tuesday is your recovery sweet spot\u2014it combines the lowest stress (24.0), highest sleep score (83.5), and strong battery (48.4)\u2014likely because it follows your high-activity Sunday (26K+ steps), creating an ideal 2-day recovery window.",
+      "impact": "positive",
       "type": "ai_pattern"
     },
     {
-      "text": "The lagged effect data reveals a 2-day recovery window after good sleep or exercise: your battery peaks at +2 days (48.4 after exercise, 45.2 after great sleep), meaning consistency over single sessions is what compounds your recovery.",
+      "text": "Rest days are actively harming your recovery: they show the lowest battery (28.5), highest stress (32.9), and worst sleep (62.4), suggesting complete inactivity backfires\u2014even light activity (7.3 battery gain) outperforms doing nothing.",
+      "impact": "negative",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Your body needs 48 hours to fully process exercise benefits: battery peaks at +2 days post-exercise (48.4, +15.4 delta) rather than immediately, meaning you should schedule demanding tasks 2 days after workouts when you'll actually have the energy.",
       "impact": "positive",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Wednesday-Friday stress consistently stays elevated (35.0-36.0) even though your step counts are high, indicating mid-to-late week external stressors (work deadlines?) override the stress-relief benefit of activity\u2014worth investigating what's happening those days.",
+      "impact": "negative",
       "type": "ai_pattern"
     }
   ]
