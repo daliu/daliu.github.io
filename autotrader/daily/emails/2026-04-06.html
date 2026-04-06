@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 20px;
+    background: #f5f5f5;
+    color: #333;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h1 {
+    color: #1a1a2e;
+    border-bottom: 3px solid #4a90d9;
+    padding-bottom: 15px;
+}
+h2 { color: #16213e; }
+.summary {
+    background-color: #4f46e5;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+.summary strong, .summary b {
+    color: #ffffff;
+}
+.summary p { margin: 8px 0; }
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+}
+th {
+    background-color: #1e1b4b;
+    color: #ffffff;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+}
+th.ticker { text-align: left; }
+td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+td:nth-child(2) { text-align: left; }
+tr:hover { background: #f8f9fa; }
+.bullish { color: #10b981; font-weight: bold; }
+.bearish { color: #ef4444; font-weight: bold; }
+.neutral { color: #9ca3af; }
+.high-confidence { background: #d1fae5 !important; }
+.low-confidence { background: #fee2e2 !important; }
+.auc-cell { color: #6366f1; font-size: 0.9em; }
+.issues-section {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+.legend {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+.footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-size: 0.85em;
+}
+.info-section {
+    background: #f8f9fa;
+    border-left: 4px solid #4a90d9;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+.info-section h3 {
+    margin-top: 0;
+    color: #1a1a2e;
+}
+.info-section pre {
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+}
+.events-section {
+    background-color: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #78350f;
+}
+.events-section strong, .events-section b {
+    color: #92400e;
+}
+.calendar-section {
+    background-color: #dbeafe;
+    border-left: 4px solid #2563eb;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #1e3a8a;
+}
+.calendar-section strong, .calendar-section b {
+    color: #1e40af;
+}
+.pcr-section {
+    background-color: #ede9fe;
+    border-left: 4px solid #7c3aed;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #2e1065;
+}
+.pcr-section strong, .pcr-section b {
+    color: #4c1d95;
+}
+.content-body {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: inherit;
+}
+.content-body strong {
+    color: inherit;
+    font-weight: 700;
+}
+.content-body ul {
+    margin: 8px 0;
+    padding-left: 25px;
+}
+.content-body li {
+    margin: 4px 0;
+    color: inherit;
+}
+.news-section {
+    background-color: #e0e7ff;
+    border-left: 4px solid #4f46e5;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #1e1b4b;
+}
+.news-section strong, .news-section b {
+    color: #312e81;
+}
+.signals-section {
+    background-color: #d1fae5;
+    border-left: 4px solid #059669;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #064e3b;
+}
+.signals-section strong, .signals-section b {
+    color: #065f46;
+}
+.synthesis-section {
+    background-color: #1e1b4b;
+    border-left: 4px solid #a78bfa;
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 10px;
+    color: #e0e7ff;
+}
+.synthesis-section strong, .synthesis-section b {
+    color: #c4b5fd;
+}
+.synthesis-section .content-body {
+    font-size: 0.98em;
+    line-height: 1.7;
+}
+.fear-greed-section {
+    background-color: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #78350f;
+}
+.fear-greed-section strong, .fear-greed-section b {
+    color: #92400e;
+}
+.social-section {
+    background-color: #d1fae5;
+    border-left: 4px solid #059669;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #064e3b;
+}
+.social-section strong, .social-section b {
+    color: #065f46;
+}
+.congress-section {
+    background-color: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #78350f;
+}
+.congress-section strong, .congress-section b {
+    color: #92400e;
+}
+.yesterdays-picks-section {
+    background-color: #ecfdf5;
+    border-left: 4px solid #10b981;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #064e3b;
+}
+.yesterdays-picks-section strong, .yesterdays-picks-section b {
+    color: #065f46;
+}
+.yesterdays-picks-section td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #d1fae5;
+    text-align: center;
+}
+.yesterdays-picks-section td:first-child {
+    text-align: left;
+}
+.yesterdays-picks-section tr:last-child td {
+    border-bottom: none;
+}
+.yesterdays-picks-section tr:hover td {
+    background-color: #d1fae5;
+}
+.disclaimer {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 0.85em;
+    color: #4b5563;
+    line-height: 1.6;
+}
+.disclaimer h3 {
+    color: #dc2626;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+.disclaimer p {
+    margin: 10px 0;
+}
+.disclaimer strong {
+    color: #1f2937;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Multi-Timeframe Predictions - Top Predictions</h1>
+        <p><strong>Valid For:</strong> 2026-03-31 (Tuesday)</p>
+        <p><strong>Generated:</strong> 2026-03-30 05:45:24 EST</p>
+
+        
+    <div class="summary">
+        <h2 style="margin-top: 0; color: white;">📈 Summary</h2>
+        <p><strong>Total Tickers:</strong> 566</p>
+        <p><strong>With Predictions:</strong> 566</p>
+        <p><strong>Daily:</strong> 1121 |
+           <strong>Weekly:</strong> 0 |
+           <strong>Monthly:</strong> 0</p>
+    </div>
+    
+
+        
+        <div class="news-section">
+            <div class="content-body"><div style="margin: 3px 0;">📰 <strong>MARKET-RELEVANT NEWS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;"><strong>💼 Business & Markets:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.marketwatch.com/story/she-has-taken-my-inheritance-my-mom-bullied-my-grandmother-to-change-her-will-and-physically-abused-her-what-can-we-do-2c4ee13f?mod=mw_rss_topstories" style="color: #3498db; text-decoration: none;">‘She has taken my inheritance’: My mom bullied my grandmother to change her will and ...</a> [MarketWatch] (20h ago)</li>
+<li><a href="https://finance.yahoo.com/sectors/technology/articles/byd-reports-drop-earnings-2025-092609022.html" style="color: #3498db; text-decoration: none;">BYD reports drop in earnings in 2025 despite record sales</a> [Yahoo Finance] (20h ago)</li>
+<li><a href="https://www.marketwatch.com/story/my-brother-says-lawyers-can-get-him-into-a-medicaid-nursing-home-despite-his-many-assets-is-this-a-scam-614c2f85?mod=mw_rss_topstories" style="color: #3498db; text-decoration: none;">My brother says lawyers can get him a Medicaid nursing home in Florida for a ‘hefty f...</a> [MarketWatch] (20h ago)</li>
+<li><a href="https://finance.yahoo.com/markets/stocks/articles/former-financial-advisor-admits-years-091500288.html" style="color: #3498db; text-decoration: none;">Former financial advisor admits years of money mistakes will cost him $750K. Avoid th...</a> [Yahoo Finance] (20h ago)</li>
+<li><a href="https://www.cnbc.com/2026/03/30/oil-price-today-wti-brent-yemen-houthis-israel-iran-war.html" style="color: #3498db; text-decoration: none;">Oil prices rise with Brent heading for record monthly surge as Iran war enters fifth ...</a> [CNBC] (20h ago)</li>
+<li><a href="https://www.marketwatch.com/story/crazy-damage-aquaman-star-jason-momoa-fled-his-hawaii-home-after-historic-flooding-devastates-area-1847d0d2?mod=mw_rss_topstories" style="color: #3498db; text-decoration: none;">‘Crazy’ damage: ‘Aquaman’ star Jason Momoa fled his Hawaii home after historic floodi...</a> [MarketWatch] (20h ago)</li>
+<li><a href="https://www.marketwatch.com/story/kylie-jenner-lists-another-mansion-the-20-million-hidden-hills-starter-home-she-bought-when-she-was-19-4e1d7754?mod=mw_rss_topstories" style="color: #3498db; text-decoration: none;">Kylie Jenner lists another mansion: The $20 million Hidden Hills starter home she bou...</a> [MarketWatch] (20h ago)</li>
+<li><a href="https://www.cnbc.com/2026/03/30/cuba-crisis-trump-fuel-oil-bloackade-energy-russia-tanker-tariffs.html" style="color: #3498db; text-decoration: none;">Russian oil tanker reportedly arrives in Cuba after Trump softens approach to U.S. bl...</a> [CNBC] (21h ago)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>🏛️ Economy & Fed:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.economist.com/finance-and-economics/2026/03/29/how-iran-is-making-a-mint-from-donald-trumps-war" style="color: #3498db; text-decoration: none;">How Iran is making a mint from Donald Trump’s war</a> [Economist] (18h ago)</li>
+<li><a href="https://www.cnbc.com/2026/03/28/oil-doordash-lyft-usps-united.html" style="color: #3498db; text-decoration: none;">New fees, fewer flights: Higher fuel prices pinch consumer budgets beyond the gas pum...</a> [CNBC Economy] (1d ago)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>🇺🇸 US News:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.npr.org/2026/03/30/nx-s1-5753765/fema-trump-extreme-weather-rural-pennsylvania" style="color: #3498db; text-decoration: none;">Trump administration cuts turned rural towns into sitting ducks for disasters</a> [NPR News] (20h ago)</li>
+<li><a href="https://www.nytimes.com/2026/03/30/us/what-we-know-tsa-ice-airports.html" style="color: #3498db; text-decoration: none;">What We Know About the T.S.A. and ICE Presence at Airports</a> [NYT US] (20h ago)</li>
+<li><a href="https://www.nytimes.com/2026/03/30/us/politics/markwayne-mullin-new-era-homeland-security.html" style="color: #3498db; text-decoration: none;">A New Boss Takes Over Homeland Security With Less Flash but Same Mission</a> [NYT US] (20h ago)</li>
+<li><a href="https://www.nytimes.com/2026/03/30/us/politics/supreme-court-trump-birthright-conservatives.html" style="color: #3498db; text-decoration: none;">Trump’s Birthright Citizenship Order at Supreme Court Splits Conservative Scholars</a> [NYT US] (20h ago)</li>
+<li><a href="https://www.nytimes.com/2026/03/30/us/texas-prisons-heat-air-conditioning-trial.html" style="color: #3498db; text-decoration: none;">Federal Trial Over Deadly Heat in Texas Prisons Without Air-Conditioning Begins</a> [NYT US] (20h ago)</li>
+<li><a href="https://www.npr.org/2026/03/30/nx-s1-5735897/supreme-court-decision-education-birthright-citizenship-school-college" style="color: #3498db; text-decoration: none;">How a SCOTUS decision on birthright citizenship could impact education access</a> [NPR News] (20h ago)</li>
+<li><a href="https://www.npr.org/2026/03/30/nx-s1-5760939/china-chatbot-industry-doubao-qwen-yuanbao" style="color: #3498db; text-decoration: none;">China's chatbot industry is fiercely competing for customers. Cue the freebies</a> [NPR News] (20h ago)</li>
+<li><a href="https://www.npr.org/2026/03/30/nx-s1-5750384/protein-intake-grams-food-how-much" style="color: #3498db; text-decoration: none;">How much protein do you need? Here's how to personalize your optimal intake</a> [NPR News] (20h ago)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>🌍 World News:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.theguardian.com/environment/2026/mar/30/weather-tracker-thunderstorms-uae-united-arab-emirates-saudi-arabia" style="color: #3498db; text-decoration: none;">Weather tracker: Thunderstorms drench UAE and Saudi Arabia</a> [Guardian World] (20h ago)</li>
+<li><a href="https://www.nytimes.com/live/2026/03/30/world/iran-war-trump-oil-news" style="color: #3498db; text-decoration: none;">Iran War Live Updates: Trump Says Iran to Allow More Oil Ships Through Strait of Horm...</a> [NYT World] (20h ago)</li>
+<li><a href="https://www.aljazeera.com/video/newsfeed/2026/3/30/smoke-rise-from-beirut-suburbs-following-israeli-attack?traffic_source=rss" style="color: #3498db; text-decoration: none;">Smoke rise from Beirut suburbs following Israeli attack</a> [Al Jazeera] (20h ago)</li>
+<li><a href="https://www.nytimes.com/2026/03/30/world/middleeast/dubai-dream-war-iran.html" style="color: #3498db; text-decoration: none;">Can the ‘Dubai Dream’ Survive the War? Residents Say Life Goes On.</a> [NYT World] (20h ago)</li>
+<li><a href="https://www.aljazeera.com/news/2026/3/30/trump-wants-to-invade-iran-to-seize-oil-calls-us-objectors-stupid?traffic_source=rss" style="color: #3498db; text-decoration: none;">Trump wants to invade Iran to seize oil, calls US objectors ‘stupid people’</a> [Al Jazeera] (20h ago)</li>
+<li><a href="https://www.aljazeera.com/news/2026/3/30/un-peacekeeper-killed-as-israel-hezbollah-fighting-escalates-in-lebanon?traffic_source=rss" style="color: #3498db; text-decoration: none;">UN peacekeeper killed in southern Lebanon as Israeli invasion intensifies</a> [Al Jazeera] (20h ago)</li>
+<li><a href="https://www.nytimes.com/2026/03/30/world/asia/myanmar-min-aung-hlaing-president.html" style="color: #3498db; text-decoration: none;">Myanmar’s Military Leader Moves One Step Closer to Becoming President</a> [NYT World] (20h ago)</li>
+<li><a href="https://www.aljazeera.com/video/quotable/2026/3/30/this-is-a-nightmare-scenario-if-it-escalates-further?traffic_source=rss" style="color: #3498db; text-decoration: none;">‘This is a nightmare scenario if it escalates further.’</a> [Al Jazeera] (21h ago)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>💻 Technology:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><a href="https://www.wired.com/story/documents-reveal-palantir-irs-contract-fraud-clean-energy-credits/" style="color: #3498db; text-decoration: none;">The IRS Wants Smarter Audits. Palantir Could Help Decide Who Gets Flagged</a> [Wired] (20h ago)</li>
+<li><a href="https://dashboard.stripe.com/login" style="color: #3498db; text-decoration: none;">Stripe Is Down</a> [Hacker News] (20h ago)</li>
+<li><a href="https://blog.phuaxueyong.com/post/2026-03-23-how-to-survive-tech-in-2026/" style="color: #3498db; text-decoration: none;">How to Survive in the Tech industry in 2026</a> [Hacker News] (21h ago)</li>
+<li><a href="https://dani2442.github.io/posts/continuous-rl/" style="color: #3498db; text-decoration: none;">Hamilton-Jacobi-Bellman Equation: Reinforcement Learning and Diffusion Models</a> [Hacker News] (22h ago)</li>
+<li><a href="https://blog.lysk.tech/excalidraw-frame-export/" style="color: #3498db; text-decoration: none;">I use excalidraw to manage my diagrams for my blog</a> [Hacker News] (22h ago)</li>
+<li><a href="https://techcrunch.com/2026/03/29/why-openai-really-shut-down-sora/" style="color: #3498db; text-decoration: none;">Why OpenAI really shut down Sora</a> [TechCrunch] (2h ago)</li>
+<li><a href="https://www.theverge.com/ai-artificial-intelligence/903196/ai-music-suno-udio-art-lawsuit" style="color: #3498db; text-decoration: none;">All the latest in AI &#8216;music&#8217;</a> [The Verge] (4h ago)</li>
+<li><a href="https://www.theverge.com/ai-artificial-intelligence/903190/bluesky-attie-ai-custom-feeds" style="color: #3498db; text-decoration: none;">Bluesky’s new app is an AI for customizing your feed</a> [The Verge] (8h ago)</li>
+</ul>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 34 of 34 headlines shown</div></div>
+        </div>
+                    
+
+        <div class="info-section">
+            <div class="content-body"><div style="margin: 3px 0;">🎯 <strong>CORE ENTITY TRACKER</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;">_Key individuals and organizations driving markets today_</div>
+<br>
+<div style="margin: 3px 0;"><strong>🇺🇸 US Political:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>🔴 <strong>Donald Trump</strong> [SPY, DIA, QQQ] — 11 mentions, 7 sources</li>
+</ul>
+<div style="margin: 3px 0;">  _Trump administration cuts turned rural towns into sitting ducks for disaste..._</div>
+<br>
+<div style="margin: 3px 0;"><strong>🌍 Geopolitical:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>⚪ <strong>Mohammed bin Salman</strong> [USO, XLE, XOM, CVX] — 1 mention, 1 source</li>
+</ul>
+<div style="margin: 3px 0;">  _Weather tracker: Thunderstorms drench UAE and Saudi Arabia_</div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>⚪ <strong>Ali Khamenei</strong> [USO, XLE, GLD] — 1 mention, 1 source</li>
+</ul>
+<div style="margin: 3px 0;">  _Trump reportedly wants to 'take the oil in Iran' as Tehran targets water, p..._</div>
+<br>
+<div style="margin: 3px 0;">_Signal strength: 🔴 high (5+ mentions or corroborated) 🟡 medium (2+ mentions) ⚪ low_</div></div>
+        </div>
+                    
+
+        <div class="events-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📅 <strong>IMPORTANT EVENTS TOMORROW</strong></div>
+<div style="margin: 3px 0;">===================================</div>
+<div style="margin: 3px 0;">📆 Date: Tuesday, March 31, 2026</div>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>FINANCIAL PERIODS:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>Quarter End (Last Trading Day of Quarter)</li>
+</ul>
+<br>
+<div style="margin: 3px 0;">💡 <strong>TRADING IMPLICATIONS:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>Normal trading day with standard market conditions</li>
+<li>Monitor for any unexpected news or events</li>
+</ul></div>
+        </div>
+                
+
+        <div class="signals-section">
+            <div class="content-body"><div style="margin: 3px 0;">🎯 <strong>MARKET SIGNALS FROM NEWS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="margin: 3px 0;"><strong>📰 Key Headlines & Ticker Implications:</strong></div>
+<br>
+<div style="margin: 3px 0;"><strong>1.</strong> <a href="https://www.nytimes.com/live/2026/03/30/world/iran-war-trump-oil-news" style="color: #3498db; text-decoration: none;">Iran War Live Updates: Trump Says Iran to Allow More Oil Ships Through Strait of Horm...</a></div>
+<div style="margin: 3px 0;">     🟢 DFEN, GLD, XLE, VXX</div>
+<br>
+<div style="margin: 3px 0;"><strong>2.</strong> <a href="https://www.aljazeera.com/news/2026/3/30/trump-wants-to-invade-iran-to-seize-oil-calls-us-objectors-stupid?traffic_source=rss" style="color: #3498db; text-decoration: none;">Trump wants to invade Iran to seize oil, calls US objectors ‘stupid people’</a></div>
+<div style="margin: 3px 0;">     🟢 XLE, GLD, DFEN</div>
+<br>
+<div style="margin: 3px 0;"><strong>3.</strong> <a href="https://www.cnbc.com/2026/03/30/oil-price-today-wti-brent-yemen-houthis-israel-iran-war.html" style="color: #3498db; text-decoration: none;">Oil prices rise with Brent heading for record monthly surge as Iran war enters fifth ...</a></div>
+<div style="margin: 3px 0;">     🟢 DFEN, GLD, XLE, VXX</div>
+<br>
+<div style="margin: 3px 0;"><strong>4.</strong> <a href="https://www.economist.com/finance-and-economics/2026/03/29/how-iran-is-making-a-mint-from-donald-trumps-war" style="color: #3498db; text-decoration: none;">How Iran is making a mint from Donald Trump’s war</a></div>
+<div style="margin: 3px 0;">     🟢 DFEN, GLD, XLE, VXX</div>
+<br>
+<div style="margin: 3px 0;"><strong>5.</strong> <a href="https://www.nytimes.com/2026/03/30/world/middleeast/dubai-dream-war-iran.html" style="color: #3498db; text-decoration: none;">Can the ‘Dubai Dream’ Survive the War? Residents Say Life Goes On.</a></div>
+<div style="margin: 3px 0;">     🟢 DFEN, GLD, XLE, VXX</div>
+<br>
+<div style="margin: 3px 0;"><strong>6.</strong> <a href="https://www.theverge.com/ai-artificial-intelligence/903196/ai-music-suno-udio-art-lawsuit" style="color: #3498db; text-decoration: none;">All the latest in AI &#8216;music&#8217;</a></div>
+<div style="margin: 3px 0;">     🟢 NVDA, MSFT, GOOGL, AMD</div>
+<br>
+<div style="margin: 3px 0;"><strong>📊 Ticker Signal Summary:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>🟢 Bullish: <strong>DFEN</strong> (Related to) ×6, <strong>GLD</strong> (Related to) ×6, <strong>XLE</strong> (Related to) ×5, <strong>VXX</strong> (Related to) ×5, <strong>NVDA</strong> (Related to) ×2, <strong>MSFT</strong> (Related to) ×2</li>
+<li>⚪ Mixed: <strong>DJT</strong> (Related to) ×3, <strong>FXI</strong> (Related to) ×1, <strong>BABA</strong> (Related to) ×1, <strong>KWEB</strong> (Related to) ×1</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="synthesis-section" style="border-left: 4px solid #a78bfa; padding: 18px 22px; margin-bottom: 20px; background-color: #1e1b4b; border-radius: 10px; color: #e0e7ff;">
+            <div class="content-body" style="color: #e0e7ff;"><div style="margin: 3px 0;">🧠 <strong>MARKET SYNTHESIS & OPPORTUNITIES</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li><strong>Sector leadership</strong>: Distillers & Vintners (3.1%)</li>
+<li><strong>Sector weakness</strong>: Application Software (-3.6%)</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="calendar-section">
+            <div class="content-body">
+                <strong>📆 Economic Calendar</strong><br>
+                <span style="color: #666; font-style: italic;">No economic events scheduled. Market may be closed or holiday.</span>
+            </div>
+        </div>
+                
+
+        <div class="pcr-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>PUT/CALL RATIO ANALYSIS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<div style="margin: 3px 0;">Latest Options Activity: 2026-03-25</div>
+<br>
+<div style="margin: 3px 0;"><strong>Market Sentiment Interpretation:</strong></div>
+<div style="margin: 3px 0;">  🐻⚠️ <strong>Moderately Bearish</strong> - Elevated put activity</div>
+<br>
+<div style="margin: 3px 0;"><strong>Key Ratios:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>TOTAL PUT/CALL RATIO: 0.990</li>
+</ul>
+<div style="margin: 3px 0;">    Overall market sentiment - 🐂✅ Bullish (Call buying > Put buying - Moderate upside)</div>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>EQUITY PUT/CALL RATIO: 0.560</li>
+</ul>
+<div style="margin: 3px 0;">    Individual stock sentiment - 🐂✅ Bullish (Call buying > Put buying - Moderate upside)</div>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>INDEX PUT/CALL RATIO: 1.060</li>
+</ul>
+<div style="margin: 3px 0;">    Index options sentiment - 🐻📉 Bearish (Put buying > Call buying - Downside protection)</div>
+<br>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>CBOE VOLATILITY INDEX (VIX) PUT/CALL RATIO: 0.590</li>
+</ul>
+<div style="margin: 3px 0;">    Volatility sentiment - 🐻⚠️ Bearish (VIX Call buying > VIX Put buying - Volatility expected)</div>
+<br>
+<div style="margin: 3px 0;">💡 <strong>SECRET TIER ACCESS:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>Complete Put/Call ratio analysis</li>
+<li>All key market sentiment indicators</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="fear-greed-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>FEAR & GREED INDEX</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<div style="margin: 3px 0;">Data Collected: 2026-03-30 05:45:20</div>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">🏛️ <strong>Stock Market: 10/100 - EXTREME FEAR 🔴</strong></div>
+<div style="margin: 3px 0;">   💡 Market may be oversold</div>
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">₿ <strong>Crypto Market: 8/100 - EXTREME FEAR 🔴</strong></div>
+<br>
+<div style="margin: 3px 0;">💡 <strong>Fear & Greed Insights:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>Extreme Fear = Potential buying opportunity</li>
+<li>Extreme Greed = Potential selling opportunity</li>
+<li>Use as contrarian indicator for market timing</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="social-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>SOCIAL SENTIMENT - TRENDING STOCKS</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<div style="margin: 3px 0;">Data Collected: 2026-03-30T05:45:20.512861</div>
+<br>
+<div style="margin: 3px 0;"><strong>Top 10 Trending Stocks On Reddit (Last 24 Hours):</strong></div>
+<br>
+<div style="margin: 3px 0;">   1. SPY    -  314 mentions,  2237 upvotes</div>
+<div style="margin: 3px 0;">   2. MSFT   -  147 mentions,  4794 upvotes</div>
+<div style="margin: 3px 0;">   3. DTE    -   44 mentions,   207 upvotes</div>
+<div style="margin: 3px 0;">   4. QQQ    -   43 mentions,   179 upvotes</div>
+<div style="margin: 3px 0;">   5. NVDA   -   42 mentions,   114 upvotes</div>
+<div style="margin: 3px 0;">   6. AM     -   40 mentions,   314 upvotes</div>
+<div style="margin: 3px 0;">   7. LNG    -   39 mentions,   128 upvotes</div>
+<div style="margin: 3px 0;">   8. USO    -   39 mentions,   118 upvotes</div>
+<div style="margin: 3px 0;">   9. META   -   36 mentions,   121 upvotes</div>
+<div style="margin: 3px 0;">  10. VOO    -   30 mentions,   203 upvotes</div>
+<br>
+<div style="margin: 3px 0;"><strong>Summary:</strong> 103 stocks tracked, 774 total mentions</div>
+<div style="margin: 3px 0;">Average mentions per stock: 77.4</div></div>
+        </div>
+                    
+
+        <div class="congress-section">
+            <div class="content-body"><div style="font-size: 1.1em; margin: 10px 0 5px 0;">🏛️ <strong>CONGRESS STOCK TRADES</strong></div>
+<hr style="border: none; border-top: 1px solid #ddd; margin: 10px 0;">
+<br>
+<div style="font-size: 1.1em; margin: 10px 0 5px 0;">📊 <strong>41 trades</strong> in last 14 days</div>
+<div style="margin: 3px 0;">   🟢 19 Purchases | 🔴 22 Sales</div>
+<div style="margin: 3px 0;">   Senate: 10 | House: 31</div>
+<br>
+<div style="margin: 3px 0;"><strong>Most Active Tickers:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>🟢 Bought: <strong>LGIH</strong> ×4, <strong>RPM</strong> ×2, <strong>MSFT</strong> ×2, <strong>CBRL</strong> ×1, <strong>HOG</strong> ×1</li>
+<li>🔴 Sold: <strong>CVX</strong> ×2, <strong>MPC</strong> ×2, <strong>GEHC</strong> ×1, <strong>ADSK</strong> ×1, <strong>BX</strong> ×1</li>
+</ul>
+<br>
+<div style="margin: 3px 0;"><strong>Recent Notable Trades:</strong></div>
+<ul style="margin: 5px 0; padding-left: 20px;">
+<li>🟢 <strong>CBRL</strong> bought by Tim Moore (R-H) — $15,001 - $50,000</li>
+<li>🔴 <strong>DNUT</strong> sold by Tim Moore (R-H) — $15,001 - $50,000</li>
+<li>🟢 <strong>HOG</strong> bought by Tim Moore (R-H) — $15,001 - $50,000</li>
+<li>🟢 <strong>LGIH</strong> bought by Tim Moore (R-H) — $15,001 - $50,000</li>
+<li>🟢 <strong>LGIH</strong> bought by Tim Moore (R-H) — $50,001 - $100,000</li>
+<li>🟢 <strong>LGIH</strong> bought by Tim Moore (R-H) — $15,001 - $50,000</li>
+<li>🟢 <strong>LGIH</strong> bought by Tim Moore (R-H) — $15,001 - $50,000</li>
+<li>🔴 <strong>GOOGL</strong> sold by Thomas H. Kean, Jr. (R-H) — $15,001 - $50,000</li>
+</ul>
+<br>
+<div style="margin: 3px 0;">—</div>
+<div style="margin: 3px 0;">_Source: STOCK Act disclosures via QuiverQuant_</div></div>
+        </div>
+                    
+
+        
+
+        
+        <h2>🎯 Ticker Momentum</h2>
+        <p style="color: #666;">Ranked by composite backtest score. Direction from classifier, confidence from regressor.</p>
+
+        <table>
+            <thead>
+                
+        <tr>
+            <th>#</th>
+            <th class="ticker">Ticker</th>
+            <th title="Composite backtest score (Sharpe 40%, Win Rate 35%, IC 25%)">Score</th>
+            <th>Daily Dir</th>
+            <th>Daily Conf</th>
+            <th>Daily AUC</th>
+            <th>Weekly Dir</th>
+            <th>Weekly Conf</th>
+            <th>Weekly AUC</th>
+            <th>Monthly Dir</th>
+            <th>Monthly Conf</th>
+            <th>Monthly AUC</th>
+            <th title="Causal validity grade (A–F) — statistical confidence the model captures real signal">Val</th>
+            <th>Coverage</th>
+        </tr>
+        
+            </thead>
+            <tbody>
+                
+        <tr class="">
+            <td>1</td>
+            <td><strong>AOS</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>52.5%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>2</td>
+            <td><strong>BIO</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>38.2%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>3</td>
+            <td><strong>COO</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>57.8%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>4</td>
+            <td><strong>CPT</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>30.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>5</td>
+            <td><strong>FICO</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>37.1%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="high-confidence">
+            <td>6</td>
+            <td><strong>HUBB</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>63.5%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>7</td>
+            <td><strong>KEY</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>57.8%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>8</td>
+            <td><strong>KEYS</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>30.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="high-confidence">
+            <td>9</td>
+            <td><strong>MET</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>60.6%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>10</td>
+            <td><strong>MHK</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>57.8%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>11</td>
+            <td><strong>MSFT</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>37.1%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>12</td>
+            <td><strong>MTCH</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>30.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>13</td>
+            <td><strong>NI</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>48.3%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>14</td>
+            <td><strong>OXY</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>54.1%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>15</td>
+            <td><strong>RCL</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>57.8%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>16</td>
+            <td><strong>SWK</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>30.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>17</td>
+            <td><strong>TJX</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>30.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>18</td>
+            <td><strong>TRMB</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td>57.8%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="high-confidence">
+            <td>19</td>
+            <td><strong>TXT</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>60.6%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="high-confidence">
+            <td>20</td>
+            <td><strong>WAB</strong></td>
+            <td class="score-cell"><strong>100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td>94.4%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td class="neutral">—</td>
+            <td>0.0%</td>
+            <td class="auc-cell">—</td>
+            <td><span style="background:#6b7280;color:#fff;border-radius:3px;padding:1px 5px;font-size:0.8em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+            </tbody>
+        </table>
+
+        
+    <div class="legend">
+        <h3 style="margin-top: 0;">📖 Legend</h3>
+        <p><strong>⚡ Score:</strong> Composite backtest performance (0-100 scale)<br>
+        <span style="font-size: 0.9em; color: #666;">Weighted: Sharpe Ratio 40% + Win Rate 35% + IC 25%</span></p>
+        <p><span class="bullish">📈 ↑ BULLISH</span> - Model indicates upward momentum</p>
+        <p><span class="bearish">📉 ↓ BEARISH</span> - Model indicates downward momentum</p>
+        <p><strong>Confidence:</strong> Direction accuracy from model backtesting</p>
+        <p><strong>AUC:</strong> Area Under ROC Curve from classifier (classification quality metric)</p>
+        <p><strong>Val:</strong> Causal validity grade (A–F) — statistical confidence the model captures real signal rather than data-snooping artifacts.<br><span style="font-size:0.9em;color:#666;">A/B = confirmed signal &nbsp;|&nbsp; C = moderate &nbsp;|&nbsp; D = 25% size &nbsp;|&nbsp; F = skipped by trading engine</span></p>
+        <p><strong>Coverage:</strong> Number of timeframes with valid signals (Daily/Weekly/Monthly)</p>
+        <p style="color: #10b981;">🟢 Green rows: High confidence (≥60%)</p>
+        <p style="color: #ef4444;">🔴 Red rows: Low confidence (&lt;52%)</p>
+    </div>
+    
+        
+        
+        
+        
+
+        
+    
+    <div style="text-align: center; margin: 25px 0; padding: 18px 20px; background: linear-gradient(135deg, #0d1117, #161b22); border: 1px solid #30363d; border-radius: 10px;">
+        <p style="color: #e6edf3; font-size: 1.05em; margin: 0 0 8px 0;">🚀 <strong>Want programmatic access?</strong></p>
+        <p style="color: #8b949e; font-size: 0.95em; margin: 0 0 12px 0;">REST API for 600+ ticker predictions, statistical analytics, and real-time signals</p>
+        <a href="https://moneysignals.us" style="display: inline-block; background: #58a6ff; color: #0d1117; font-weight: bold; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em;">Explore moneysignals.us &rarr;</a>
+    </div>
+    <div class="footer">
+        <p>Generated by AutoTrader ML System</p>
+        <p>📺 YouTube: <a href="https://www.youtube.com/@investwithdave">@investwithdave</a></p>
+        <p style="margin-top: 8px;">
+            <a href="https://buy.stripe.com/9B64gA5n4gaK6nDgvd5c405" style="color: #6b7280; text-decoration: none;">Basic</a> &middot;
+            <a href="https://buy.stripe.com/eVq9AUbLse2CdQ53Ir5c404" style="color: #6b7280; text-decoration: none;">Premium</a> &middot;
+            <a href="https://buy.stripe.com/4gM00k4j0gaK27n3Ir5c403" style="color: #6b7280; text-decoration: none;">Professional</a> &middot;
+            <a href="https://buy.stripe.com/6oUcN6aHobUu7rH4Mv5c402" style="color: #6b7280; text-decoration: none;">API Starter</a> &middot;
+            <a href="https://buy.stripe.com/5kQ4gAdTA6Aa3br2En5c401" style="color: #6b7280; text-decoration: none;">API Pro</a>
+        </p>
+    </div>
+    
+
+        
+    <div class="disclaimer">
+        <h3>⚠️ IMPORTANT DISCLAIMERS</h3>
+
+        <p><strong>📊 MOMENTUM INDICATORS, NOT PREDICTIONS:</strong><br>
+        <span style="background-color: #fef3c7; padding: 2px 6px; border-radius: 3px;">
+        The signals in this report are <strong>momentum indicators</strong>, not predictive values.
+        </span>
+        They reflect current technical momentum and historical patterns, but do NOT predict future price movements with certainty. Markets are inherently unpredictable and past momentum does not guarantee future direction. Use these indicators as one input among many in your research process.</p>
+
+        <p><strong>💰 FINANCIAL DISCLAIMER:</strong><br>
+        This analysis is for informational and educational purposes only. It does not constitute investment advice, financial advice, trading advice, or any other sort of advice. The information provided is not intended to be used as the sole basis for any investment decisions. Past performance does not guarantee future results. All investments involve risk, including the potential loss of principal.</p>
+
+        <p><strong>🚫 NO INVESTMENT RECOMMENDATIONS:</strong><br>
+        We do not recommend, endorse, or suggest any specific investments, securities, or trading strategies. The analysis provided is based on historical data and statistical models that may not accurately predict future market movements. Market conditions change rapidly and unpredictably.</p>
+
+        <p><strong>🤖 AUTOMATED ANALYSIS:</strong><br>
+        This report is generated by automated systems using machine learning models. These models have limitations and may produce inaccurate results. Always conduct your own research and consult with qualified financial professionals before making investment decisions.</p>
+
+        <p><strong>📈 SCORE METHODOLOGY:</strong><br>
+        The Score column represents a composite backtest performance metric, combining Sharpe Ratio (40%), Win Rate (35%), and Information Coefficient (25%). Higher scores indicate models with better historical backtested performance, but this does NOT guarantee future results.</p>
+
+        <p><strong>📊 DATA ACCURACY:</strong><br>
+        While we strive for accuracy, we do not guarantee the accuracy, completeness, or timeliness of any information provided. Data sources may have errors, delays, or other issues that could affect the analysis.</p>
+
+        <p><strong>⚖️ LEGAL DISCLAIMER:</strong><br>
+        This service is provided 'as is' without warranties of any kind. We disclaim all warranties, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+        <p><strong>👤 INDIVIDUAL RESPONSIBILITY:</strong><br>
+        You are solely responsible for your investment decisions and their outcomes. You should conduct your own research and due diligence before making any investment decisions. Never invest more than you can afford to lose.</p>
+
+        <p style="font-size: 0.85em; margin-top: 15px;">
+        By using this service, you acknowledge that you have read, understood, and agree to these disclaimers.<br>
+        For questions or concerns, contact: 50685071@proton.me
+        </p>
+    </div>
+    
+    </div>
+</body>
+</html>
+    
