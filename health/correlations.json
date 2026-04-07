@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T22:00:03.678417",
+  "updated": "2026-04-06T22:00:04.070378",
   "date_range": {
     "start": "2026-02-18",
     "end": "2026-03-24",
@@ -280,28 +280,28 @@
       "impact": "negative"
     },
     {
-      "text": "You're in a recovery debt trap: stress has spiked 20% in the last 7 days (38.1 vs 31.6 baseline) while body battery dropped 9% (38.4 vs 42.3), suggesting accumulated fatigue despite similar sleep scores. This pattern often precedes burnout\u2014your body is running on fumes.",
+      "text": "Your stress has spiked 20% in the last 7 days (38.1 vs 31.6 baseline), yet sleep quality improved\u2014suggesting you're managing stress through better sleep timing rather than stress reduction, which may not be sustainable.",
       "impact": "negative",
       "type": "ai_pattern"
     },
     {
-      "text": "Tuesday is your golden day\u2014it's the only day where stress is genuinely low (24.0) AND sleep quality peaks (83.5), with 8.2 hours. Something about your Tuesday routine (lower steps at 8,904) is allowing real recovery; consider what you're doing differently and whether you can replicate it on other days.",
+      "text": "Rest days are your worst recovery days: battery drops to 28.5 with a -13.8 delta and poor sleep (62.4 score), while light activity days achieve your best sleep (80.7) and battery (49.6)\u2014you may actually need gentle movement to recover.",
       "impact": "positive",
       "type": "ai_pattern"
     },
     {
-      "text": "Light activity days (under 10K steps) are your secret weapon: they deliver the highest battery (49.6) with lowest stress (27.5) and best sleep (80.7), yet you only have 4 of them in 30 days. You're averaging 14K steps daily, which may be pushing you into overtraining without the recovery days needed.",
+      "text": "Tuesday's exceptional performance (48.4 battery, 24.0 stress, 83.5 sleep) combined with 8.2 hours of sleep suggests a recovery day pattern; the 2-day lag effect shows great sleep peaks at +3 days with 52.6 battery, indicating your body needs 3 days to fully capitalize on good sleep.",
       "impact": "positive",
       "type": "ai_pattern"
     },
     {
-      "text": "There's a dangerous pattern with high-step days: while 20K+ step days boost immediate battery, the next day you crash (-3.2 battery delta), then recover on day 2 (+7.6). You're yo-yoing between overdoing it and recovering, burning more energy than sustained moderate activity would.",
+      "text": "Wednesdays show a stress-activity paradox: high steps (11,306) paired with elevated stress (35.0) and low sleep (67.3), suggesting midweek activity isn't stress-relieving for you\u2014your stress reduction pattern correlates better with lower-step Tuesdays and Saturdays.",
       "impact": "negative",
       "type": "ai_pattern"
     },
     {
-      "text": "Wednesday and Friday are your stress peaks (35-36 range) despite decent sleep, yet Thursday\u2014your highest-step day (14,775)\u2014shows better stress management (35.5) and sleep quality (77.7). High-intensity activity may actually be helping manage mid-week stress rather than adding to it.",
-      "impact": "neutral",
+      "text": "Your recent battery decline (38.4 last 7 days vs 42.3 baseline) despite maintaining activity and improving sleep scores suggests accumulated stress (up to 38.1) is eroding recovery even when you're sleeping better\u2014stress management should be your next focus.",
+      "impact": "negative",
       "type": "ai_pattern"
     }
   ]
