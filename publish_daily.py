@@ -141,7 +141,7 @@ def generate_wrapper_page(date_str, date_obj):
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
   <script src="../../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
   <script src="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
-  <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
   body {{
       font: 400 15px Lato, sans-serif;
@@ -508,7 +508,7 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
   <script src="../../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
   <script src="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
-  <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
   body {{
       font: 400 15px Lato, sans-serif;
