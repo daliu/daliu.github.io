@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Graph — Dave Liu</title>
+  <meta name="description" content="Interactive knowledge graph visualization of topics, concepts, and connections.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GR5Z815VXW');
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a1a2e;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+    }
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 16px 24px;
+      background: linear-gradient(180deg, rgba(26,26,46,0.95) 0%, rgba(26,26,46,0) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #4fc1ff;
+    }
+    #header a {
+      color: #808080;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    #header a:hover { color: #4fc1ff; }
+    #legend {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 10;
+      background: rgba(26,26,46,0.9);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+    #legend h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #808080;
+      margin-bottom: 8px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin: 4px 0;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    #stats {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+      font-size: 12px;
+      color: #666;
+      text-align: right;
+    }
+    #tooltip {
+      position: fixed;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.85);
+      border: 1px solid #4fc1ff;
+      border-radius: 6px;
+      font-size: 13px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 20;
+      max-width: 250px;
+    }
+    #tooltip .title { font-weight: 600; color: #fff; }
+    #tooltip .type { color: #808080; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    #tooltip .tags { color: #4fc1ff; font-size: 11px; margin-top: 4px; }
+    #graph { width: 100vw; height: 100vh; }
+    .link { stroke-opacity: 0.3; }
+    .node { cursor: pointer; }
+    .node text {
+      font-size: 11px;
+      fill: #ccc;
+      pointer-events: none;
+    }
+    #empty-state {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #666;
+      display: none;
+    }
+    #empty-state h2 { color: #4fc1ff; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <h1>Knowledge Graph</h1>
+    <a href="../">&larr; daliu.github.io</a>
+  </div>
+
+  <div id="legend">
+    <h3>Node Types</h3>
+    <div class="legend-item"><span class="legend-dot" style="background:#4fc1ff"></span> Area</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#c586c0"></span> Entity</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#dcdcaa"></span> Concept</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#4ec9b0"></span> Learning</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#ce9178"></span> Resource / Source</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#6a9955"></span> Goal / Question</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#d16969"></span> Comparison</div>
+  </div>
+
+  <div id="stats"></div>
+  <div id="tooltip"><span class="title"></span><br><span class="type"></span><span class="tags"></span></div>
+
+  <div id="empty-state">
+    <h2>Knowledge Graph</h2>
+    <p>No public nodes yet. Add wiki pages to see them here.</p>
+  </div>
+
+  <svg id="graph"></svg>
+
+  <script src="../d3/d3.min.js"></script>
+  <script>
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+
+    var svg = d3.select('#graph')
+      .attr('width', width)
+      .attr('height', height);
+
+    // Zoom
+    var g = svg.append('g');
+    svg.call(d3.zoom()
+      .scaleExtent([0.2, 5])
+      .on('zoom', function() { g.attr('transform', d3.event.transform); }));
+
+    var tooltip = d3.select('#tooltip');
+
+    d3.json('graph-data.json', function(error, graph) {
+      if (error || !graph || !graph.nodes || graph.nodes.length === 0) {
+        d3.select('#empty-state').style('display', 'block');
+        return;
+      }
+
+      d3.select('#stats').html(
+        graph.meta.node_count + ' topics &middot; ' +
+        graph.meta.edge_count + ' connections'
+      );
+
+      var simulation = d3.forceSimulation(graph.nodes)
+        .force('link', d3.forceLink(graph.links).id(function(d) { return d.id; }).distance(120))
+        .force('charge', d3.forceManyBody().strength(-200))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(30));
+
+      var link = g.append('g')
+        .selectAll('line')
+        .data(graph.links)
+        .enter().append('line')
+        .attr('class', 'link')
+        .attr('stroke', '#444')
+        .attr('stroke-width', 1.5);
+
+      var node = g.append('g')
+        .selectAll('g')
+        .data(graph.nodes)
+        .enter().append('g')
+        .attr('class', 'node')
+        .call(d3.drag()
+          .on('start', dragstarted)
+          .on('drag', dragged)
+          .on('end', dragended));
+
+      // Size nodes by connection count
+      var linkCount = {};
+      graph.links.forEach(function(l) {
+        var s = typeof l.source === 'object' ? l.source.id : l.source;
+        var t = typeof l.target === 'object' ? l.target.id : l.target;
+        linkCount[s] = (linkCount[s] || 0) + 1;
+        linkCount[t] = (linkCount[t] || 0) + 1;
+      });
+
+      node.append('circle')
+        .attr('r', function(d) { return Math.max(6, Math.min(18, 4 + (linkCount[d.id] || 0) * 2)); })
+        .attr('fill', function(d) { return d.color; })
+        .attr('stroke', function(d) { return d3.color(d.color).darker(0.5); })
+        .attr('stroke-width', 1.5)
+        .attr('opacity', 0.9);
+
+      node.append('text')
+        .text(function(d) { return d.id; })
+        .attr('dx', function(d) { return Math.max(8, 6 + (linkCount[d.id] || 0) * 2); })
+        .attr('dy', 4);
+
+      // Tooltip
+      node.on('mouseover', function(d) {
+        tooltip.select('.title').text(d.id);
+        tooltip.select('.type').text(d.type + (d.status ? ' · ' + d.status : ''));
+        tooltip.select('.tags').text(d.tags && d.tags.length ? d.tags.join(', ') : '');
+        tooltip.style('opacity', 1);
+      })
+      .on('mousemove', function() {
+        tooltip
+          .style('left', (d3.event.pageX + 15) + 'px')
+          .style('top', (d3.event.pageY - 10) + 'px');
+      })
+      .on('mouseout', function() {
+        tooltip.style('opacity', 0);
+      });
+
+      // Highlight connections on click
+      node.on('click', function(d) {
+        var connected = new Set();
+        connected.add(d.id);
+        graph.links.forEach(function(l) {
+          var s = typeof l.source === 'object' ? l.source.id : l.source;
+          var t = typeof l.target === 'object' ? l.target.id : l.target;
+          if (s === d.id) connected.add(t);
+          if (t === d.id) connected.add(s);
+        });
+
+        node.select('circle').attr('opacity', function(n) {
+          return connected.has(n.id) ? 1 : 0.15;
+        });
+        node.select('text').attr('opacity', function(n) {
+          return connected.has(n.id) ? 1 : 0.15;
+        });
+        link.attr('stroke-opacity', function(l) {
+          var s = typeof l.source === 'object' ? l.source.id : l.source;
+          var t = typeof l.target === 'object' ? l.target.id : l.target;
+          return connected.has(s) && connected.has(t) ? 0.7 : 0.05;
+        });
+      });
+
+      // Click background to reset
+      svg.on('click', function() {
+        if (d3.event.target === svg.node()) {
+          node.select('circle').attr('opacity', 0.9);
+          node.select('text').attr('opacity', 1);
+          link.attr('stroke-opacity', 0.3);
+        }
+      });
+
+      simulation.on('tick', function() {
+        link
+          .attr('x1', function(d) { return d.source.x; })
+          .attr('y1', function(d) { return d.source.y; })
+          .attr('x2', function(d) { return d.target.x; })
+          .attr('y2', function(d) { return d.target.y; });
+        node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+      });
+
+      function dragstarted(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x; d.fy = d.y;
+      }
+      function dragged(d) { d.fx = d3.event.x; d.fy = d3.event.y; }
+      function dragended(d) {
+        if (!d3.event.active) simulation.alphaTarget(0);
+        d.fx = null; d.fy = null;
+      }
+    });
+
+    window.addEventListener('resize', function() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      svg.attr('width', width).attr('height', height);
+    });
+  </script>
+</body>
+</html>
