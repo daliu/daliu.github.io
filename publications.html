@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Publications - Dave Liu</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Research publications by Dave Liu on multi-agent AI systems, model selection, and machine learning.">
+  <meta property="og:title" content="Publications - Dave Liu">
+  <meta property="og:description" content="Research publications on multi-agent AI decision support and model selection under distribution shift.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daliu.github.io/publications.html">
+  <link rel="canonical" href="https://daliu.github.io/publications.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GR5Z815VXW');
+  </script>
+  <link rel="stylesheet" href="Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+  <link href="Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
+  <link href="Bootstrap%20Theme%20Company%20Page_files/css.css" rel="stylesheet" type="text/css">
+  <script src="Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+  <script src="Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+  <script src="https://use.fontawesome.com/7c37a02403.js"></script>
+  <style>
+  body {
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #818181;
+  }
+  p { font-size: 16px; }
+  h2 {
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 30px;
+  }
+  h3 {
+      font-size: 20px;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 10px;
+  }
+  .pub-card {
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: box-shadow 0.2s;
+  }
+  .pub-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .pub-venue {
+      color: #1abc9c;
+      font-family: Montserrat, sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+  }
+  .pub-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #303030;
+      margin-bottom: 8px;
+      line-height: 1.4;
+  }
+  .pub-authors {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 12px;
+  }
+  .pub-abstract {
+      color: #818181;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+  }
+  .pub-tags {
+      margin-bottom: 15px;
+  }
+  .pub-tag {
+      display: inline-block;
+      background: #f0f0f0;
+      color: #555;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 12px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+  }
+  .pub-links a {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: Montserrat, sans-serif;
+      font-weight: 600;
+      text-decoration: none;
+      margin-right: 8px;
+      margin-bottom: 5px;
+  }
+  .btn-pdf {
+      background: #1abc9c;
+      color: #fff;
+  }
+  .btn-pdf:hover {
+      background: #16a085;
+      color: #fff;
+      text-decoration: none;
+  }
+  .btn-code {
+      background: #474e5d;
+      color: #fff;
+  }
+  .btn-code:hover {
+      background: #3a3f4a;
+      color: #fff;
+      text-decoration: none;
+  }
+  .btn-demo {
+      border: 2px solid #1abc9c;
+      color: #1abc9c;
+      background: transparent;
+  }
+  .btn-demo:hover {
+      background: #1abc9c;
+      color: #fff;
+      text-decoration: none;
+  }
+  .key-result {
+      background: #f8f9fa;
+      border-left: 3px solid #1abc9c;
+      padding: 10px 15px;
+      margin: 10px 0;
+      font-size: 14px;
+  }
+  .key-result strong {
+      color: #303030;
+  }
+  </style>
+</head>
+<body>
+
+<!-- Navbar (same as other pages) -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li class="active"><a href="publications.html">Publications</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="autotrader.html">Overview</a></li>
+            <li><a href="autotrader/daily/index.html">Daily Updates</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Meta Council <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="https://meta-council.com" target="_blank">Try It</a></li>
+            <li><a href="research/meta-council-paper.pdf">Research Paper</a></li>
+          </ul>
+        </li>
+        <li><a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Header -->
+<div style="padding: 100px 0 40px; background: #474e5d; color: #fff; text-align: center;">
+  <h1 style="font-family: Montserrat, sans-serif; font-weight: 700; font-size: 2.2em; margin-bottom: 10px;">Publications</h1>
+  <p style="font-size: 1.1em; color: #ccc; max-width: 640px; margin: 0 auto;">Research on multi-agent AI systems, model selection, and machine learning under distribution shift.</p>
+</div>
+
+<!-- Publications -->
+<div class="container" style="padding: 50px 0;">
+
+  <!-- Paper 1: Meta Council -->
+  <div class="pub-card">
+    <div class="pub-venue">2026 &middot; Independent Research &middot; CC BY 4.0</div>
+    <div class="pub-title">Weighted Multi-Expert Synthesis for High-Stakes Decision Support: A Multi-Agent LLM Framework with Dissent Preservation</div>
+    <div class="pub-authors"><strong>David Liu</strong></div>
+    <div class="pub-abstract">
+      We present Meta Council, a multi-agent LLM framework in which N expert agents&mdash;each with a unique professional persona and analytical framework&mdash;analyze queries in parallel, then a weighted synthesis step produces structured decision documents with confidence scores, dissent preservation, and risk matrices. Evaluated across 750+ benchmark runs spanning six domains and five models (3B to frontier-class), we find that weighted synthesis outperforms single-best selection by 29&ndash;58% on freetext tasks (p&lt;0.0001, d=2.16), that synthesis amplifies model quality non-linearly, and that the optimal aggregation method is domain-dependent.
+    </div>
+    <div class="key-result">
+      <strong>Key Results:</strong> Synthesis outperforms single-best by 29&ndash;58% (p&lt;0.0001) &middot; 80% categorical accuracy vs 50% for single-best &middot; Synthesis amplification: 2.99x for mid-tier models &middot; Domain-dependent: synthesis wins in business (100%), single-best wins in legal (75%)
+    </div>
+    <div class="pub-tags">
+      <span class="pub-tag">Multi-Agent Systems</span>
+      <span class="pub-tag">LLM</span>
+      <span class="pub-tag">Decision Support</span>
+      <span class="pub-tag">Dissent Preservation</span>
+      <span class="pub-tag">Weighted Synthesis</span>
+      <span class="pub-tag">Confidence Calibration</span>
+    </div>
+    <div class="pub-links">
+      <a href="research/meta-council-paper.pdf" class="btn-pdf">PDF</a>
+      <a href="https://github.com/daliu/meta-council" class="btn-code" target="_blank">Code</a>
+      <a href="https://meta-council.com" class="btn-demo" target="_blank">Live Demo</a>
+    </div>
+  </div>
+
+  <!-- Paper 2: Stability Bonus -->
+  <div class="pub-card">
+    <div class="pub-venue">2026 &middot; Independent Research &middot; CC BY 4.0</div>
+    <div class="pub-title">Stability Bonus Regularization for Model Selection Under Positive-Class Distribution Shift</div>
+    <div class="pub-authors"><strong>David C. Liu</strong></div>
+    <div class="pub-abstract">
+      When positive-class training data is a biased subset of the true positive population&mdash;common in hiring, medical screening, and credit scoring&mdash;standard cross-validation selects models that overfit to the observed cluster. We propose Stability Bonus (SB) regularization, which rewards hyperparameter configurations with small train&ndash;validation gaps, favoring wider decision boundaries that generalize to unseen positive subgroups. On hard synthetic benchmarks with controlled distribution shift, SB improves test AUC by +6.9% (p&lt;0.0001, d=3.48) and unseen-subgroup AUC by +7.1%. Class weighting, the standard remedy, is the worst performer under shift.
+    </div>
+    <div class="key-result">
+      <strong>Key Results:</strong> +6.9% test AUC on hard benchmarks (p&lt;0.0001) &middot; +7.1% on unseen positive subgroups &middot; Class weighting is worst under distribution shift &middot; SB selects more regularized models with wider decision boundaries &middot; Does NOT help when signal is strong (honest negative result)
+    </div>
+    <div class="pub-tags">
+      <span class="pub-tag">Model Selection</span>
+      <span class="pub-tag">Distribution Shift</span>
+      <span class="pub-tag">Cross-Validation</span>
+      <span class="pub-tag">Class Imbalance</span>
+      <span class="pub-tag">Regularization</span>
+      <span class="pub-tag">Fairness</span>
+    </div>
+    <div class="pub-links">
+      <a href="research/stability-bonus-regularization.pdf" class="btn-pdf">PDF</a>
+      <a href="https://github.com/daliu/autotrader" class="btn-code" target="_blank">Code</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer style="background: #2f2f2f; color: #999; padding: 30px 0; text-align: center;">
+  <p style="margin: 0; font-size: 13px;">&copy; 2026 Dave Liu &middot; <a href="index.html" style="color: #1abc9c;">Home</a> &middot; <a href="portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="publications.html" style="color: #1abc9c;">Publications</a></p>
+</footer>
+
+</body>
+</html>
