@@ -253,7 +253,7 @@ def generate_wrapper_page(date_str, date_obj):
             <li><a href="index.html">Daily Updates</a></li>
           </ul>
         </li>
-        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
         <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
       </ul>
     </div>
@@ -280,7 +280,7 @@ def generate_wrapper_page(date_str, date_obj):
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
   <div style="margin-bottom: 15px;">
-    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
     <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
@@ -630,7 +630,7 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
             <li><a href="index.html">Daily Updates</a></li>
           </ul>
         </li>
-        <li><a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
+        <li><a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
         <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
       </ul>
     </div>
@@ -659,7 +659,7 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
   <div style="margin-bottom: 15px;">
-    <a href="https://www.linkedin.com/in/dave-liu-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
+    <a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
     <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
