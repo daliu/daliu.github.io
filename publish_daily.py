@@ -244,6 +244,7 @@ def generate_wrapper_page(date_str, date_obj):
             <li><a href="../../index.html">Overview</a></li>
             <li><a href="../../health/">Health Dashboard</a></li>
             <li><a href="../../analytics/">Site Analytics</a></li>
+            <li><a href="../../knowledge/">Knowledge Graph</a></li>
           </ul>
         </li>
         <li class="dropdown">
@@ -251,6 +252,13 @@ def generate_wrapper_page(date_str, date_obj):
           <ul class="dropdown-menu">
             <li><a href="../../autotrader.html">Overview</a></li>
             <li><a href="index.html">Daily Updates</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Meta Council <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="https://meta-council.com" target="_blank">Try It</a></li>
+            <li><a href="../../research/meta-council-paper.pdf">Research Paper</a></li>
           </ul>
         </li>
         <li><a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
@@ -621,6 +629,7 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
             <li><a href="../../index.html">Overview</a></li>
             <li><a href="../../health/">Health Dashboard</a></li>
             <li><a href="../../analytics/">Site Analytics</a></li>
+            <li><a href="../../knowledge/">Knowledge Graph</a></li>
           </ul>
         </li>
         <li class="dropdown">
@@ -628,6 +637,13 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
           <ul class="dropdown-menu">
             <li><a href="../../autotrader.html">Overview</a></li>
             <li><a href="index.html">Daily Updates</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Meta Council <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="https://meta-council.com" target="_blank">Try It</a></li>
+            <li><a href="../../research/meta-council-paper.pdf">Research Paper</a></li>
           </ul>
         </li>
         <li><a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
