@@ -816,7 +816,7 @@
             }
         };
 
-        function createChart(id, data, color, fill = true, addRollingAvg = false) {
+        function createChart(id, data, color, fill = true, addRollingAvg = false, yAxisTitle = null) {
             const datasets = [{ data, borderColor: color, backgroundColor: fill ? color + '20' : 'transparent', fill, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 }];
             if (addRollingAvg && data.length >= 7) {
                 const rollingData = computeRollingAverage(data, 7);
@@ -832,8 +832,12 @@
                     borderDash: [6, 4],
                 });
             }
+            const yScale = yAxisTitle
+                ? { ...chartDefaults.scales.y, title: { display: true, text: yAxisTitle, color: '#999', font: { size: 12 } } }
+                : chartDefaults.scales.y;
+            const baseOpts = { ...chartDefaults, scales: { ...chartDefaults.scales, y: yScale } };
             const opts = addRollingAvg && data.length >= 7
-                ? { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12, generateLabels: (chart) => {
+                ? { ...baseOpts, plugins: { ...baseOpts.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12, generateLabels: (chart) => {
                     return chart.data.datasets.map((ds, i) => ({
                         text: i === 0 ? 'Daily' : '7-day avg',
                         fillStyle: ds.borderColor,
@@ -843,7 +847,7 @@
                         datasetIndex: i,
                     }));
                 } } } } }
-                : chartDefaults;
+                : baseOpts;
             return new Chart(document.getElementById(id).getContext('2d'), {
                 type: 'line',
                 data: { datasets },
@@ -851,7 +855,7 @@
             });
         }
 
-        function createRangeChart(id, minData, maxData, addRollingAvg = false) {
+        function createRangeChart(id, minData, maxData, addRollingAvg = false, yAxisTitle = null) {
             const datasets = [
                 { label: 'Max', data: maxData, borderColor: '#3fb950', backgroundColor: '#3fb95025', fill: '+1', tension: 0.3, pointRadius: 2, borderWidth: 2 },
                 { label: 'Min', data: minData, borderColor: '#f8514980', backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 2, borderWidth: 2 }
@@ -870,10 +874,13 @@
                     borderDash: [6, 4],
                 });
             }
+            const yScale = yAxisTitle
+                ? { ...chartDefaults.scales.y, title: { display: true, text: yAxisTitle, color: '#999', font: { size: 12 } } }
+                : chartDefaults.scales.y;
             return new Chart(document.getElementById(id).getContext('2d'), {
                 type: 'line',
                 data: { datasets },
-                options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } } } }
+                options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: yScale }, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } } } }
             });
         }
 
@@ -1226,7 +1233,7 @@
                         }
                     },
                     scales: {
-                        y: { beginAtZero: true, max: 100, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } },
+                        y: { beginAtZero: true, max: 100, grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Sleep Score', color: '#999', font: { size: 12 } } },
                         x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 11 } } }
                     }
                 }
@@ -1269,12 +1276,12 @@
                 if (d.avg_stress != null) byDay[dow].stress.push(d.avg_stress);
             }
 
-            const chartOpts = (max, stepSize) => ({
+            const chartOpts = (max, stepSize, yTitle) => ({
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { beginAtZero: true, max, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize } },
+                    y: { beginAtZero: true, max, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize }, title: { display: true, text: yTitle, color: '#999', font: { size: 12 } } },
                     x: { grid: { display: false }, ticks: { color: '#8b949e' } }
                 }
             });
@@ -1286,7 +1293,7 @@
                     labels: days,
                     datasets: [{ data: stepsAvg, backgroundColor: '#58a6ff', borderRadius: 4 }]
                 },
-                options: chartOpts(Math.max(...stepsAvg) * 1.15, 5000)
+                options: chartOpts(Math.max(...stepsAvg) * 1.15, 5000, 'Avg Steps')
             });
 
             const sleepAvg = byDay.map(d => Math.round(stats.mean(d.sleep) || 0));
@@ -1296,7 +1303,7 @@
                     labels: days,
                     datasets: [{ data: sleepAvg, backgroundColor: sleepAvg.map(v => v >= 75 ? '#a371f7' : v >= 60 ? '#d29922' : '#f85149'), borderRadius: 4 }]
                 },
-                options: chartOpts(100, 25)
+                options: chartOpts(100, 25, 'Sleep Score')
             });
 
             const stressAvg = byDay.map(d => Math.round(stats.mean(d.stress) || 0));
@@ -1306,7 +1313,7 @@
                     labels: days,
                     datasets: [{ data: stressAvg, backgroundColor: stressAvg.map(v => v <= 25 ? '#3fb950' : v <= 40 ? '#d29922' : '#f85149'), borderRadius: 4 }]
                 },
-                options: chartOpts(60, 15)
+                options: chartOpts(60, 15, 'Avg Stress Level')
             });
         }
 
@@ -2013,23 +2020,24 @@
                 createRangeChart('batteryChart',
                     filtered.map(d => ({ x: d.date, y: d.min_body_battery })),
                     filtered.map(d => ({ x: d.date, y: d.max_body_battery })),
-                    true
+                    true,
+                    'Body Battery'
                 )
             );
             trendChartInstances.push(
-                createChart('hrvChart', filtered.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })), '#39c5cf', true, true)
+                createChart('hrvChart', filtered.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })), '#39c5cf', true, true, 'HRV (ms)')
             );
             trendChartInstances.push(
-                createChart('rhrChart', filtered.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })), '#f85149', false, true)
+                createChart('rhrChart', filtered.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })), '#f85149', false, true, 'Heart Rate (bpm)')
             );
             trendChartInstances.push(
-                createChart('sleepChart', filtered.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })), '#a371f7', true, true)
+                createChart('sleepChart', filtered.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })), '#a371f7', true, true, 'Sleep Score')
             );
             trendChartInstances.push(
-                createChart('stepsChart', filtered.map(d => ({ x: d.date, y: d.total_steps })), '#58a6ff', true, true)
+                createChart('stepsChart', filtered.map(d => ({ x: d.date, y: d.total_steps })), '#58a6ff', true, true, 'Steps')
             );
             trendChartInstances.push(
-                createChart('stressChart', filtered.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })), '#d29922', false, true)
+                createChart('stressChart', filtered.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })), '#d29922', false, true, 'Stress Level')
             );
         }
 
@@ -2069,7 +2077,7 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
-                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Avg Body Battery', color: '#999', font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                     }
                 });
 
@@ -2101,7 +2109,7 @@
                                 }
                             }
                         },
-                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 10 } } } }
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Avg Body Battery', color: '#999', font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 10 } } } }
                     }
                 });
 
@@ -2125,7 +2133,7 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
-                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Avg Body Battery', color: '#999', font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                     }
                 });
 
@@ -2159,7 +2167,7 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { legend: { position: 'bottom', labels: { color: '#8b949e' } } },
-                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                        scales: { y: { beginAtZero: true, max: 70, grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Avg Body Battery', color: '#999', font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                     }
                 });
 
@@ -2191,7 +2199,7 @@
                                     }
                                 }
                             },
-                            scales: { y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                            scales: { y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Battery Delta vs Baseline', color: '#999', font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                         }
                     });
                 } else {

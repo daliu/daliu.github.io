@@ -38,12 +38,29 @@
       font-weight: 600;
       color: #4fc1ff;
     }
+    #header-text p {
+      font-size: 12px;
+      color: #888;
+      margin-top: 3px;
+      font-weight: 400;
+    }
     #header a {
       color: #808080;
       text-decoration: none;
       font-size: 14px;
     }
     #header a:hover { color: #4fc1ff; }
+    #hint {
+      position: fixed;
+      top: 58px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      pointer-events: none;
+      white-space: nowrap;
+    }
     #legend {
       position: fixed;
       bottom: 20px;
@@ -121,19 +138,20 @@
 </head>
 <body>
   <div id="header">
-    <h1>Knowledge Graph</h1>
+    <div id="header-text">
+      <h1>Knowledge Graph</h1>
+      <p>Dave Liu's interconnected knowledge areas, skills, and experience — nodes are topics, edges show relationships.</p>
+    </div>
     <a href="../">&larr; daliu.github.io</a>
   </div>
 
+  <div id="hint">Drag nodes to explore &middot; Click to highlight connections &middot; Scroll to zoom</div>
+
   <div id="legend">
     <h3>Node Types</h3>
-    <div class="legend-item"><span class="legend-dot" style="background:#4fc1ff"></span> Area</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#c586c0"></span> Entity</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#dcdcaa"></span> Concept</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#4ec9b0"></span> Learning</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#ce9178"></span> Resource / Source</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#6a9955"></span> Goal / Question</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#d16969"></span> Comparison</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#4fc1ff"></span> Area — broad life domains</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#c586c0"></span> Entity — specific projects or things</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#dcdcaa"></span> Concept — ideas and disciplines</div>
   </div>
 
   <div id="stats"></div>
