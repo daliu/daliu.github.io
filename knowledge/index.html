@@ -32,18 +32,43 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
     }
     #header h1 {
       font-size: 20px;
       font-weight: 600;
       color: #4fc1ff;
     }
+    #header-text { flex: 1 1 auto; min-width: 0; }
     #header-text p {
       font-size: 12px;
       color: #888;
       margin-top: 3px;
       font-weight: 400;
     }
+    #header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    #search {
+      background: rgba(26,26,46,0.8);
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #e0e0e0;
+      padding: 6px 10px;
+      font-size: 13px;
+      width: 180px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, width 0.2s;
+    }
+    #search:focus {
+      border-color: #4fc1ff;
+      width: 220px;
+    }
+    #search::placeholder { color: #666; }
     #header a {
       color: #808080;
       text-decoration: none;
@@ -52,7 +77,7 @@
     #header a:hover { color: #4fc1ff; }
     #hint {
       position: fixed;
-      top: 58px;
+      top: 64px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
@@ -71,9 +96,10 @@
       border-radius: 8px;
       padding: 12px 16px;
       font-size: 13px;
+      max-width: calc(100vw - 40px);
     }
     #legend h3 {
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: #808080;
@@ -83,14 +109,53 @@
       display: flex;
       align-items: center;
       margin: 4px 0;
+      cursor: pointer;
+      user-select: none;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: background 0.12s, opacity 0.12s;
     }
+    .legend-item:hover { background: rgba(255,255,255,0.05); }
+    .legend-item.disabled { opacity: 0.35; }
+    .legend-item.disabled .legend-dot { background: transparent !important; border: 1.5px dashed currentColor; }
     .legend-dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
       margin-right: 8px;
       flex-shrink: 0;
+      box-sizing: border-box;
     }
+    #zoom-controls {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      background: rgba(26,26,46,0.9);
+      border: 1px solid #333;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .zoom-btn {
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: none;
+      color: #ccc;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.12s, color 0.12s;
+      font-family: inherit;
+    }
+    .zoom-btn:hover { background: rgba(79,193,255,0.15); color: #4fc1ff; }
+    .zoom-btn:active { background: rgba(79,193,255,0.25); }
+    .zoom-btn + .zoom-btn { border-top: 1px solid #333; }
+    .zoom-btn svg { display: block; }
     #stats {
       position: fixed;
       bottom: 20px;
@@ -99,7 +164,9 @@
       font-size: 12px;
       color: #666;
       text-align: right;
+      pointer-events: none;
     }
+    #stats .filtered { color: #4fc1ff; }
     #tooltip {
       position: fixed;
       padding: 8px 12px;
@@ -116,9 +183,10 @@
     #tooltip .title { font-weight: 600; color: #fff; }
     #tooltip .type { color: #808080; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
     #tooltip .tags { color: #4fc1ff; font-size: 11px; margin-top: 4px; }
-    #graph { width: 100vw; height: 100vh; }
-    .link { stroke-opacity: 0.3; }
+    #graph { width: 100vw; height: 100vh; display: block; }
+    .link { stroke-opacity: 0.3; transition: stroke-opacity 0.15s; }
     .node { cursor: pointer; }
+    .node circle, .node text { transition: opacity 0.15s; }
     .node text {
       font-size: 11px;
       fill: #ccc;
@@ -130,10 +198,31 @@
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      color: #666;
+      color: #888;
       display: none;
+      max-width: 380px;
+      padding: 0 24px;
     }
-    #empty-state h2 { color: #4fc1ff; margin-bottom: 8px; }
+    #empty-state h2 { color: #4fc1ff; margin-bottom: 12px; font-size: 22px; }
+    #empty-state p { line-height: 1.6; font-size: 14px; }
+    #empty-state .small { font-size: 12px; color: #666; margin-top: 16px; }
+    #empty-state code {
+      background: rgba(255,255,255,0.06);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+    @media (max-width: 640px) {
+      #header { padding: 12px 16px; flex-wrap: wrap; }
+      #header h1 { font-size: 17px; }
+      #header-text p { display: none; }
+      #search { width: 130px; }
+      #search:focus { width: 160px; }
+      #hint { font-size: 11px; top: 60px; }
+      #legend { font-size: 12px; padding: 8px 12px; bottom: 12px; left: 12px; }
+      #stats { bottom: 12px; right: 12px; }
+      #zoom-controls { top: 70px; right: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -142,16 +231,28 @@
       <h1>Knowledge Graph</h1>
       <p>Dave Liu's interconnected knowledge areas, skills, and experience — nodes are topics, edges show relationships.</p>
     </div>
-    <a href="../">&larr; daliu.github.io</a>
+    <div id="header-actions">
+      <input id="search" type="search" placeholder="Search topics…" autocomplete="off" spellcheck="false">
+      <a href="../">&larr; daliu.github.io</a>
+    </div>
   </div>
 
-  <div id="hint">Drag nodes to explore &middot; Click to highlight connections &middot; Scroll to zoom</div>
+  <div id="hint"></div>
 
   <div id="legend">
-    <h3>Node Types</h3>
-    <div class="legend-item"><span class="legend-dot" style="background:#4fc1ff"></span> Area — broad life domains</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#c586c0"></span> Entity — specific projects or things</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#dcdcaa"></span> Concept — ideas and disciplines</div>
+    <h3>Click to filter</h3>
+  </div>
+
+  <div id="zoom-controls">
+    <button class="zoom-btn" id="zoom-in" title="Zoom in" aria-label="Zoom in">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+    </button>
+    <button class="zoom-btn" id="zoom-out" title="Zoom out" aria-label="Zoom out">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="2" y1="7" x2="12" y2="7"/></svg>
+    </button>
+    <button class="zoom-btn" id="zoom-fit" title="Fit to screen" aria-label="Fit to screen">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5V2h3"/><path d="M12 5V2H9"/><path d="M2 9v3h3"/><path d="M12 9v3H9"/></svg>
+    </button>
   </div>
 
   <div id="stats"></div>
@@ -159,7 +260,8 @@
 
   <div id="empty-state">
     <h2>Knowledge Graph</h2>
-    <p>No public nodes yet. Add wiki pages to see them here.</p>
+    <p>No public topics published yet.</p>
+    <p class="small">Built from an Obsidian vault via <code>scripts/build_graph.py</code>. Pages tagged <code>private</code> are excluded.</p>
   </div>
 
   <svg id="graph"></svg>
@@ -168,29 +270,85 @@
   <script>
     var width = window.innerWidth;
     var height = window.innerHeight;
+    var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+    document.getElementById('hint').textContent = isTouch
+      ? 'Drag nodes to explore · Tap to highlight connections · Pinch to zoom'
+      : 'Drag nodes to explore · Click to highlight connections · Scroll to zoom';
 
     var svg = d3.select('#graph')
       .attr('width', width)
       .attr('height', height);
 
-    // Zoom
     var g = svg.append('g');
-    svg.call(d3.zoom()
+    var zoom = d3.zoom()
       .scaleExtent([0.2, 5])
-      .on('zoom', function() { g.attr('transform', d3.event.transform); }));
+      .on('zoom', function() { g.attr('transform', d3.event.transform); });
+    svg.call(zoom);
 
     var tooltip = d3.select('#tooltip');
 
     d3.json('graph-data.json', function(error, graph) {
       if (error || !graph || !graph.nodes || graph.nodes.length === 0) {
         d3.select('#empty-state').style('display', 'block');
+        d3.select('#zoom-controls').style('display', 'none');
+        d3.select('#legend').style('display', 'none');
+        d3.select('#hint').style('display', 'none');
+        d3.select('#search').attr('disabled', true);
         return;
       }
 
-      d3.select('#stats').html(
-        graph.meta.node_count + ' topics &middot; ' +
-        graph.meta.edge_count + ' connections'
-      );
+      // Build legend dynamically from the types actually present
+      var typeMeta = {};
+      graph.nodes.forEach(function(n) {
+        if (!typeMeta[n.type]) {
+          typeMeta[n.type] = { type: n.type, color: n.color, count: 0 };
+        }
+        typeMeta[n.type].count++;
+      });
+      var typeLabels = {
+        area: 'Area — broad life domains',
+        entity: 'Entity — specific projects',
+        concept: 'Concept — ideas and disciplines',
+        learning: 'Learning — things being studied',
+        resource: 'Resource — tools and references',
+        goal: 'Goal — aspirations and targets',
+        source: 'Source — references',
+        question: 'Question — open inquiries',
+        comparison: 'Comparison — trade-off analyses'
+      };
+
+      var disabledTypes = {};
+      var legendEl = d3.select('#legend');
+      var typeOrder = ['area', 'entity', 'concept', 'learning', 'resource', 'goal', 'source', 'question', 'comparison', 'other'];
+      typeOrder.forEach(function(t) {
+        if (!typeMeta[t]) return;
+        var item = legendEl.append('div')
+          .attr('class', 'legend-item')
+          .attr('data-type', t)
+          .on('click', function() {
+            disabledTypes[t] = !disabledTypes[t];
+            d3.select(this).classed('disabled', !!disabledTypes[t]);
+            applyFilters();
+          });
+        item.append('span')
+          .attr('class', 'legend-dot')
+          .style('background', typeMeta[t].color)
+          .style('color', typeMeta[t].color);
+        item.append('span').text(typeLabels[t] || t);
+      });
+
+      var totalNodes = graph.nodes.length;
+      var statsEl = d3.select('#stats');
+
+      function updateStats(visibleCount) {
+        if (visibleCount === totalNodes) {
+          statsEl.html(totalNodes + ' topics &middot; ' + graph.meta.edge_count + ' connections');
+        } else {
+          statsEl.html('<span class="filtered">' + visibleCount + ' of ' + totalNodes + '</span> visible');
+        }
+      }
+      updateStats(totalNodes);
 
       var simulation = d3.forceSimulation(graph.nodes)
         .force('link', d3.forceLink(graph.links).id(function(d) { return d.id; }).distance(120))
@@ -216,7 +374,6 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-      // Size nodes by connection count
       var linkCount = {};
       graph.links.forEach(function(l) {
         var s = typeof l.source === 'object' ? l.source.id : l.source;
@@ -237,7 +394,6 @@
         .attr('dx', function(d) { return Math.max(8, 6 + (linkCount[d.id] || 0) * 2); })
         .attr('dy', 4);
 
-      // Tooltip
       node.on('mouseover', function(d) {
         tooltip.select('.title').text(d.id);
         tooltip.select('.type').text(d.type + (d.status ? ' · ' + d.status : ''));
@@ -253,38 +409,86 @@
         tooltip.style('opacity', 0);
       });
 
-      // Highlight connections on click
+      // Click highlights node + neighbors
+      var pinnedNode = null;
       node.on('click', function(d) {
-        var connected = new Set();
-        connected.add(d.id);
-        graph.links.forEach(function(l) {
-          var s = typeof l.source === 'object' ? l.source.id : l.source;
-          var t = typeof l.target === 'object' ? l.target.id : l.target;
-          if (s === d.id) connected.add(t);
-          if (t === d.id) connected.add(s);
+        if (d3.event) d3.event.stopPropagation();
+        pinnedNode = (pinnedNode === d.id) ? null : d.id;
+        applyFilters();
+      });
+
+      svg.on('click', function() {
+        if (d3.event.target === svg.node() && pinnedNode !== null) {
+          pinnedNode = null;
+          applyFilters();
+        }
+      });
+
+      // Search
+      var searchTerm = '';
+      var searchInput = document.getElementById('search');
+      searchInput.addEventListener('input', function() {
+        searchTerm = this.value.trim().toLowerCase();
+        applyFilters();
+      });
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') { this.value = ''; searchTerm = ''; applyFilters(); this.blur(); }
+      });
+
+      function nodeMatchesSearch(d) {
+        if (!searchTerm) return true;
+        if (d.id.toLowerCase().indexOf(searchTerm) !== -1) return true;
+        if (d.tags && d.tags.some(function(t) { return t.toLowerCase().indexOf(searchTerm) !== -1; })) return true;
+        return false;
+      }
+
+      function applyFilters() {
+        // A node "matches" the filter if it passes search and type filter.
+        // Pinning is a separate axis — non-neighbors get dimmed but still count as matching.
+        var matching = {};
+        var matchCount = 0;
+        graph.nodes.forEach(function(n) {
+          var m = !disabledTypes[n.type] && nodeMatchesSearch(n);
+          matching[n.id] = m;
+          if (m) matchCount++;
         });
 
-        node.select('circle').attr('opacity', function(n) {
-          return connected.has(n.id) ? 1 : 0.15;
-        });
-        node.select('text').attr('opacity', function(n) {
-          return connected.has(n.id) ? 1 : 0.15;
-        });
+        var inPinnedNeighborhood = null;
+        if (pinnedNode !== null) {
+          inPinnedNeighborhood = {};
+          inPinnedNeighborhood[pinnedNode] = true;
+          graph.links.forEach(function(l) {
+            var s = typeof l.source === 'object' ? l.source.id : l.source;
+            var t = typeof l.target === 'object' ? l.target.id : l.target;
+            if (s === pinnedNode) inPinnedNeighborhood[t] = true;
+            if (t === pinnedNode) inPinnedNeighborhood[s] = true;
+          });
+        }
+
+        function nodeOpacity(n, base) {
+          if (!matching[n.id]) return 0.08;
+          if (inPinnedNeighborhood && !inPinnedNeighborhood[n.id]) return 0.15;
+          return base;
+        }
+        node.select('circle').attr('opacity', function(n) { return nodeOpacity(n, 0.9); });
+        node.select('text').attr('opacity', function(n) { return nodeOpacity(n, 1); });
         link.attr('stroke-opacity', function(l) {
           var s = typeof l.source === 'object' ? l.source.id : l.source;
           var t = typeof l.target === 'object' ? l.target.id : l.target;
-          return connected.has(s) && connected.has(t) ? 0.7 : 0.05;
+          if (!matching[s] || !matching[t]) return 0.04;
+          if (inPinnedNeighborhood) {
+            return (inPinnedNeighborhood[s] && inPinnedNeighborhood[t]) ? 0.7 : 0.05;
+          }
+          return 0.3;
         });
-      });
 
-      // Click background to reset
-      svg.on('click', function() {
-        if (d3.event.target === svg.node()) {
-          node.select('circle').attr('opacity', 0.9);
-          node.select('text').attr('opacity', 1);
-          link.attr('stroke-opacity', 0.3);
-        }
-      });
+        updateStats(matchCount);
+      }
+
+      // Zoom controls (synchronous; CSS transition on #graph g handles the visual smoothing)
+      d3.select('#zoom-in').on('click', function() { svg.call(zoom.scaleBy, 1.4); });
+      d3.select('#zoom-out').on('click', function() { svg.call(zoom.scaleBy, 1 / 1.4); });
+      d3.select('#zoom-fit').on('click', function() { svg.call(zoom.transform, d3.zoomIdentity); });
 
       simulation.on('tick', function() {
         link
