@@ -212,6 +212,106 @@
       border-radius: 3px;
       font-size: 12px;
     }
+    #detail-panel {
+      position: fixed;
+      top: 64px;
+      right: 0;
+      bottom: 0;
+      width: 340px;
+      max-width: 90vw;
+      background: rgba(20,20,38,0.97);
+      border-left: 1px solid #333;
+      border-top: 1px solid #2a2a3a;
+      padding: 22px 22px 24px;
+      z-index: 15;
+      transform: translateX(110%);
+      transition: transform 0.22s ease;
+      overflow-y: auto;
+      color: #ccc;
+      font-size: 13px;
+      line-height: 1.5;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.4);
+    }
+    #detail-panel[aria-hidden="false"] { transform: translateX(0); }
+    #detail-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: transparent;
+      border: none;
+      color: #888;
+      font-size: 22px;
+      line-height: 1;
+      width: 28px; height: 28px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    #detail-close:hover { background: rgba(255,255,255,0.06); color: #ccc; }
+    #detail-content .title-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+    #detail-content .title-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    #detail-content h2 { color: #fff; font-size: 18px; word-wrap: break-word; font-weight: 600; }
+    #detail-content .meta {
+      color: #888;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 18px;
+    }
+    #detail-content .section { margin-top: 18px; }
+    #detail-content .section h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #707080;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    #detail-content .tag-list { display: flex; flex-wrap: wrap; gap: 5px; }
+    #detail-content .tag {
+      background: rgba(79,193,255,0.10);
+      border: 1px solid rgba(79,193,255,0.25);
+      color: #4fc1ff;
+      padding: 2px 9px;
+      border-radius: 10px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.12s;
+      font-family: inherit;
+    }
+    #detail-content .tag:hover { background: rgba(79,193,255,0.22); }
+    #detail-content .neighbors { list-style: none; padding: 0; margin: 0; }
+    #detail-content .neighbors li {
+      padding: 8px 0 8px 18px;
+      border-bottom: 1px solid #2a2a3a;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.12s, padding-left 0.12s;
+      font-size: 13px;
+    }
+    #detail-content .neighbors li:before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      width: 8px; height: 8px;
+      margin-top: -4px;
+      border-radius: 50%;
+      background: var(--dot-color, #888);
+    }
+    #detail-content .neighbors li:hover { color: #4fc1ff; padding-left: 22px; }
+    #detail-content .neighbors li:last-child { border-bottom: none; }
+    #detail-content .neighbors li .neighbor-type {
+      color: #666;
+      font-size: 11px;
+      margin-left: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    #detail-content .empty-msg { color: #666; font-style: italic; font-size: 12px; }
     @media (max-width: 640px) {
       #header { padding: 12px 16px; flex-wrap: wrap; }
       #header h1 { font-size: 17px; }
@@ -222,6 +322,7 @@
       #legend { font-size: 12px; padding: 8px 12px; bottom: 12px; left: 12px; }
       #stats { bottom: 12px; right: 12px; }
       #zoom-controls { top: 70px; right: 12px; }
+      #detail-panel { width: 100%; max-width: 100%; padding: 56px 16px 24px; }
     }
   </style>
 </head>
@@ -263,6 +364,11 @@
     <p>No public topics published yet.</p>
     <p class="small">Built from an Obsidian vault via <code>scripts/build_graph.py</code>. Pages tagged <code>private</code> are excluded.</p>
   </div>
+
+  <aside id="detail-panel" aria-hidden="true">
+    <button id="detail-close" type="button" aria-label="Close panel" title="Close (Esc)">&times;</button>
+    <div id="detail-content"></div>
+  </aside>
 
   <svg id="graph"></svg>
 
@@ -409,18 +515,129 @@
         tooltip.style('opacity', 0);
       });
 
-      // Click highlights node + neighbors
+      // Detail panel + node selection
       var pinnedNode = null;
+      var nodeById = {};
+      graph.nodes.forEach(function(n) { nodeById[n.id] = n; });
+      var typeShort = {
+        area: 'Area', entity: 'Entity', concept: 'Concept', learning: 'Learning',
+        resource: 'Resource', goal: 'Goal', source: 'Source',
+        question: 'Question', comparison: 'Comparison', other: ''
+      };
+      var detailPanel = document.getElementById('detail-panel');
+      var detailContent = document.getElementById('detail-content');
+
+      function neighborsOf(id) {
+        var seen = {};
+        var list = [];
+        graph.links.forEach(function(l) {
+          var s = typeof l.source === 'object' ? l.source.id : l.source;
+          var t = typeof l.target === 'object' ? l.target.id : l.target;
+          var other = null;
+          if (s === id) other = t;
+          else if (t === id) other = s;
+          if (other && !seen[other]) { seen[other] = true; list.push(other); }
+        });
+        list.sort();
+        return list;
+      }
+
+      function escapeHTML(s) {
+        return String(s).replace(/[&<>"']/g, function(c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function openDetailPanel(d) {
+        var neighbors = neighborsOf(d.id);
+        var typeLabel = typeShort[d.type] || d.type;
+        var status = d.status ? ' · ' + escapeHTML(d.status) : '';
+        var tagsHTML = (d.tags && d.tags.length)
+          ? '<div class="tag-list">' + d.tags.map(function(t) {
+              return '<button type="button" class="tag" data-tag="' + escapeHTML(t) + '">' + escapeHTML(t) + '</button>';
+            }).join('') + '</div>'
+          : '<p class="empty-msg">No tags</p>';
+        var neighborsHTML = neighbors.length
+          ? '<ul class="neighbors">' + neighbors.map(function(nid) {
+              var n = nodeById[nid];
+              if (!n) return '';
+              var nType = typeShort[n.type] || n.type;
+              return '<li data-node="' + escapeHTML(nid) + '" style="--dot-color: ' + n.color + '">'
+                + escapeHTML(nid)
+                + (nType ? '<span class="neighbor-type">' + escapeHTML(nType) + '</span>' : '')
+                + '</li>';
+            }).join('') + '</ul>'
+          : '<p class="empty-msg">No connections</p>';
+
+        detailContent.innerHTML =
+          '<div class="title-row">'
+            + '<span class="title-dot" style="background:' + d.color + '"></span>'
+            + '<h2>' + escapeHTML(d.id) + '</h2>'
+          + '</div>'
+          + '<div class="meta">' + escapeHTML(typeLabel) + status + '</div>'
+          + '<div class="section"><h3>Tags</h3>' + tagsHTML + '</div>'
+          + '<div class="section"><h3>Connected to (' + neighbors.length + ')</h3>' + neighborsHTML + '</div>';
+
+        detailPanel.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeDetailPanel() {
+        detailPanel.setAttribute('aria-hidden', 'true');
+      }
+
+      function selectNode(id) {
+        if (pinnedNode === id) {
+          pinnedNode = null;
+          closeDetailPanel();
+        } else {
+          pinnedNode = id;
+          var n = nodeById[id];
+          if (n) openDetailPanel(n);
+        }
+        applyFilters();
+      }
+
       node.on('click', function(d) {
         if (d3.event) d3.event.stopPropagation();
-        pinnedNode = (pinnedNode === d.id) ? null : d.id;
-        applyFilters();
+        selectNode(d.id);
       });
 
       svg.on('click', function() {
-        if (d3.event.target === svg.node() && pinnedNode !== null) {
-          pinnedNode = null;
+        if (d3.event.target === svg.node()) {
+          if (pinnedNode !== null) {
+            pinnedNode = null;
+            closeDetailPanel();
+            applyFilters();
+          }
+        }
+      });
+
+      // Close button
+      document.getElementById('detail-close').addEventListener('click', function() {
+        pinnedNode = null;
+        closeDetailPanel();
+        applyFilters();
+      });
+
+      // Delegate clicks inside the panel for tags + neighbor list
+      detailPanel.addEventListener('click', function(e) {
+        var tagEl = e.target.closest && e.target.closest('.tag');
+        if (tagEl && detailPanel.contains(tagEl)) {
+          var tag = tagEl.getAttribute('data-tag');
+          searchInput.value = tag;
+          searchTerm = tag.toLowerCase();
           applyFilters();
+          searchInput.focus();
+          return;
+        }
+        var neighborEl = e.target.closest && e.target.closest('.neighbors li');
+        if (neighborEl && detailPanel.contains(neighborEl)) {
+          var nid = neighborEl.getAttribute('data-node');
+          if (nid && nodeById[nid]) {
+            pinnedNode = nid;
+            openDetailPanel(nodeById[nid]);
+            applyFilters();
+          }
         }
       });
 
@@ -431,8 +648,22 @@
         searchTerm = this.value.trim().toLowerCase();
         applyFilters();
       });
-      searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') { this.value = ''; searchTerm = ''; applyFilters(); this.blur(); }
+
+      // Global Esc handler — panel first, then search, then nothing
+      document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Escape') return;
+        if (detailPanel.getAttribute('aria-hidden') === 'false') {
+          pinnedNode = null;
+          closeDetailPanel();
+          applyFilters();
+          e.preventDefault();
+        } else if (searchTerm) {
+          searchInput.value = '';
+          searchTerm = '';
+          applyFilters();
+          searchInput.blur();
+          e.preventDefault();
+        }
       });
 
       function nodeMatchesSearch(d) {
