@@ -52,23 +52,75 @@
       gap: 12px;
       flex-shrink: 0;
     }
+    #search-wrap { position: relative; display: flex; align-items: center; }
     #search {
       background: rgba(26,26,46,0.8);
       border: 1px solid #333;
       border-radius: 6px;
       color: #e0e0e0;
-      padding: 6px 10px;
+      padding: 6px 32px 6px 10px;
       font-size: 13px;
-      width: 180px;
+      width: 200px;
       font-family: inherit;
       outline: none;
       transition: border-color 0.15s, width 0.2s;
     }
     #search:focus {
       border-color: #4fc1ff;
-      width: 220px;
+      width: 240px;
     }
     #search::placeholder { color: #666; }
+    #search-kbd {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 10px;
+      color: #666;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid #3a3a4a;
+      border-radius: 3px;
+      padding: 1px 5px;
+      transition: opacity 0.15s;
+    }
+    #search:focus + #search-kbd, #search:not(:placeholder-shown) + #search-kbd { opacity: 0; }
+    #share-btn {
+      background: rgba(26,26,46,0.8);
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #888;
+      width: 32px;
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
+      font-family: inherit;
+      flex-shrink: 0;
+    }
+    #share-btn:hover { color: #4fc1ff; border-color: #4fc1ff; background: rgba(79,193,255,0.08); }
+    #share-btn:active { background: rgba(79,193,255,0.18); }
+    #share-btn.copied { color: #6a9955; border-color: #6a9955; background: rgba(106,153,85,0.10); }
+    #toast {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-200%);
+      z-index: 30;
+      background: rgba(20,40,30,0.95);
+      border: 1px solid #6a9955;
+      color: #aef0c0;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      transition: transform 0.22s ease;
+      pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
     #header a {
       color: #808080;
       text-decoration: none;
@@ -333,9 +385,19 @@
       <p>Dave Liu's interconnected knowledge areas, skills, and experience — nodes are topics, edges show relationships.</p>
     </div>
     <div id="header-actions">
-      <input id="search" type="search" placeholder="Search topics…" autocomplete="off" spellcheck="false">
+      <div id="search-wrap">
+        <input id="search" type="search" placeholder="Search topics…" autocomplete="off" spellcheck="false" title="Press / or Cmd+K to focus">
+        <kbd id="search-kbd" aria-hidden="true">/</kbd>
+      </div>
+      <button id="share-btn" type="button" title="Copy link to this view" aria-label="Copy link to this view">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5.5 7.5a2 2 0 0 0 3 0l2-2a2 2 0 0 0-2.83-2.83L7 3.34"/>
+          <path d="M8.5 6.5a2 2 0 0 0-3 0l-2 2a2 2 0 0 0 2.83 2.83L7.5 10.16"/>
+        </svg>
+      </button>
       <a href="../">&larr; daliu.github.io</a>
     </div>
+    <div id="toast" aria-live="polite"></div>
   </div>
 
   <div id="hint"></div>
@@ -672,20 +734,85 @@
         applyFilters();
       });
 
-      // Global Esc handler — panel first, then search, then nothing
+      // Global keyboard handlers
+      function isTypingTarget(el) {
+        if (!el) return false;
+        var tag = el.tagName;
+        return tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable;
+      }
+
       document.addEventListener('keydown', function(e) {
-        if (e.key !== 'Escape') return;
-        if (detailPanel.getAttribute('aria-hidden') === 'false') {
-          pinnedNode = null;
-          closeDetailPanel();
-          applyFilters();
+        if (e.key === 'Escape') {
+          if (detailPanel.getAttribute('aria-hidden') === 'false') {
+            pinnedNode = null;
+            closeDetailPanel();
+            applyFilters();
+            e.preventDefault();
+          } else if (searchTerm) {
+            searchInput.value = '';
+            searchTerm = '';
+            applyFilters();
+            searchInput.blur();
+            e.preventDefault();
+          }
+          return;
+        }
+        // Focus search on '/' (when not already typing somewhere)
+        if (e.key === '/' && !isTypingTarget(document.activeElement)) {
           e.preventDefault();
-        } else if (searchTerm) {
-          searchInput.value = '';
-          searchTerm = '';
-          applyFilters();
-          searchInput.blur();
+          searchInput.focus();
+          searchInput.select();
+          return;
+        }
+        // Cmd/Ctrl+K also focuses search
+        if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
           e.preventDefault();
+          searchInput.focus();
+          searchInput.select();
+          return;
+        }
+      });
+
+      // Share / Copy link
+      var shareBtn = document.getElementById('share-btn');
+      var toast = document.getElementById('toast');
+      var toastTimer = null;
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 1600);
+      }
+      shareBtn.addEventListener('click', function() {
+        var url = window.location.href;
+        var copied = false;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function() {
+            shareBtn.classList.add('copied');
+            setTimeout(function() { shareBtn.classList.remove('copied'); }, 1400);
+            showToast('Link copied');
+          }, function() {
+            window.prompt('Copy link', url);
+          });
+          return;
+        }
+        // Fallback for older browsers
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = url;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          copied = document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (_) { copied = false; }
+        if (copied) {
+          shareBtn.classList.add('copied');
+          setTimeout(function() { shareBtn.classList.remove('copied'); }, 1400);
+          showToast('Link copied');
+        } else {
+          window.prompt('Copy link', url);
         }
       });
 
