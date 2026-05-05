@@ -924,6 +924,23 @@
         searchTerm = this.value.trim().toLowerCase();
         applyFilters();
       });
+      // Enter in the search box pins the first matching node and opens its
+      // detail panel — quick way to jump to a result without reaching for the mouse.
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        if (!searchTerm) return;
+        var first = null;
+        for (var i = 0; i < graph.nodes.length; i++) {
+          var n = graph.nodes[i];
+          if (!disabledTypes[n.type] && nodeMatchesSearch(n)) { first = n; break; }
+        }
+        if (first) {
+          e.preventDefault();
+          pinnedNode = first.id;
+          openDetailPanel(first);
+          applyFilters();
+        }
+      });
 
       // Help modal
       var helpModal = document.getElementById('help-modal');
