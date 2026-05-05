@@ -382,6 +382,29 @@
       ? 'Drag nodes to explore · Tap to highlight connections · Pinch to zoom'
       : 'Drag nodes to explore · Click to highlight connections · Scroll to zoom';
 
+    function readURLState() {
+      var params = {};
+      var qs = window.location.search.replace(/^\?/, '');
+      if (!qs) return params;
+      qs.split('&').filter(Boolean).forEach(function(p) {
+        var eq = p.indexOf('=');
+        var k = eq < 0 ? p : p.slice(0, eq);
+        var v = eq < 0 ? '' : p.slice(eq + 1);
+        try { params[decodeURIComponent(k)] = decodeURIComponent(v); }
+        catch (_) { /* ignore malformed pairs */ }
+      });
+      return params;
+    }
+
+    function writeURLState(state) {
+      var parts = [];
+      if (state.q) parts.push('q=' + encodeURIComponent(state.q));
+      if (state.hide && state.hide.length) parts.push('hide=' + encodeURIComponent(state.hide.join(',')));
+      if (state.node) parts.push('node=' + encodeURIComponent(state.node));
+      var url = window.location.pathname + (parts.length ? '?' + parts.join('&') : '');
+      try { history.replaceState(null, '', url); } catch (_) { /* file:// or sandboxed */ }
+    }
+
     var svg = d3.select('#graph')
       .attr('width', width)
       .attr('height', height);
@@ -714,6 +737,9 @@
         });
 
         updateStats(matchCount);
+
+        var hide = Object.keys(disabledTypes).filter(function(k) { return disabledTypes[k]; });
+        writeURLState({ q: searchTerm, hide: hide, node: pinnedNode });
       }
 
       // Zoom controls (synchronous; CSS transition on #graph g handles the visual smoothing)
@@ -738,6 +764,29 @@
       function dragended(d) {
         if (!d3.event.active) simulation.alphaTarget(0);
         d.fx = null; d.fy = null;
+      }
+
+      // Restore state from URL (?q=, ?hide=, ?node=)
+      var initialState = readURLState();
+      if (initialState.q) {
+        searchTerm = initialState.q.toLowerCase();
+        searchInput.value = initialState.q;
+      }
+      if (initialState.hide) {
+        initialState.hide.split(',').map(function(s) { return s.trim(); }).filter(Boolean).forEach(function(t) {
+          if (typeMeta[t]) {
+            disabledTypes[t] = true;
+            d3.select('.legend-item[data-type="' + t + '"]').classed('disabled', true);
+          }
+        });
+      }
+      if (initialState.node && nodeById[initialState.node]) {
+        pinnedNode = initialState.node;
+        openDetailPanel(nodeById[initialState.node]);
+      }
+      // Render with restored state (also re-syncs URL, which normalises any stray junk)
+      if (initialState.q || initialState.hide || initialState.node) {
+        applyFilters();
       }
     });
 
