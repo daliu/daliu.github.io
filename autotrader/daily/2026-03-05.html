@@ -138,9 +138,12 @@
           <ul class="dropdown-menu">
             <li><a href="../../index.html">Overview</a></li>
             <li><a href="../../health/">Health Dashboard</a></li>
-            <li><a href="../../genomics/">Genomics</a></li>            <li><a href="../../analytics/">Site Analytics</a></li>
-            <li><a href="../../knowledge/">Knowledge Graph</a></li>          </ul>
+            <li><a href="../../genomics/">Genomics</a></li>
+            <li><a href="../../analytics/">Site Analytics</a></li>
+            <li><a href="../../knowledge/">Knowledge Graph</a></li>
+          </ul>
         </li>
+        <li><a href="../../publications.html">Publications</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -168,8 +171,8 @@
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <a href="index.html" class="back-link">&larr; All Updates</a>
     <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
-      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px;">&larr; Prev</a>
-      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none;">Next &rarr;</a>
+      <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px; display: none;">&larr; Prev</a>
+      <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none; display: none;">Next &rarr;</a>
     </div>
   </div>
   <div class="date-heading">March 5, 2026</div>
@@ -221,16 +224,16 @@
   var prevUrl = fmt(prev) + '.html';
   var xhrPrev = new XMLHttpRequest();
   xhrPrev.open('HEAD', prevUrl, true);
-  xhrPrev.onload = function() { if (xhrPrev.status === 200) { prevLink.href = prevUrl; } else { prevLink.style.display = 'none'; } };
-  xhrPrev.onerror = function() { prevLink.style.display = 'none'; };
+  xhrPrev.onload = function() { if (xhrPrev.status === 200) { prevLink.href = prevUrl; prevLink.style.display = ''; } };
+  xhrPrev.onerror = function() {};
   xhrPrev.send();
 
   var nextLink = document.getElementById('next-day');
   var nextUrl = fmt(next) + '.html';
   var xhr = new XMLHttpRequest();
   xhr.open('HEAD', nextUrl, true);
-  xhr.onload = function() { if (xhr.status === 200) { nextLink.href = nextUrl; } else { nextLink.style.display = 'none'; } };
-  xhr.onerror = function() { nextLink.style.display = 'none'; };
+  xhr.onload = function() { if (xhr.status === 200) { nextLink.href = nextUrl; nextLink.style.display = ''; } };
+  xhr.onerror = function() {};
   xhr.send();
 })();
 </script>
