@@ -910,9 +910,12 @@ def update_sitemap():
     static_pages = [
         {"loc": "https://daliu.github.io/", "priority": "1.0"},
         {"loc": "https://daliu.github.io/portfolio.html", "priority": "0.9"},
+        {"loc": "https://daliu.github.io/publications.html", "priority": "0.8"},
         {"loc": "https://daliu.github.io/autotrader.html", "priority": "0.9"},
         {"loc": "https://daliu.github.io/health/", "priority": "0.7", "changefreq": "daily"},
+        {"loc": "https://daliu.github.io/genomics/", "priority": "0.7"},
         {"loc": "https://daliu.github.io/analytics/", "priority": "0.7", "changefreq": "daily"},
+        {"loc": "https://daliu.github.io/knowledge/", "priority": "0.7"},
         {"loc": "https://daliu.github.io/autotrader/daily/", "priority": "0.7", "changefreq": "daily"},
     ]
 
