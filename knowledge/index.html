@@ -326,6 +326,27 @@
       pointer-events: none;
     }
     #stats .filtered { color: #4fc1ff; }
+    #reset-btn {
+      position: fixed;
+      bottom: 44px;
+      right: 20px;
+      z-index: 10;
+      background: rgba(26,26,46,0.9);
+      border: 1px solid #3a3a4a;
+      color: #999;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.2px;
+      transition: color 0.12s, border-color 0.12s, background 0.12s, opacity 0.18s, transform 0.18s;
+      opacity: 0;
+      transform: translateY(4px);
+      pointer-events: none;
+    }
+    #reset-btn.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #reset-btn:hover { color: #4fc1ff; border-color: #4fc1ff; background: rgba(79,193,255,0.08); }
     #tooltip {
       position: fixed;
       padding: 8px 12px;
@@ -471,17 +492,34 @@
       letter-spacing: 0.5px;
     }
     #detail-content .empty-msg { color: #666; font-style: italic; font-size: 12px; }
-    @media (max-width: 640px) {
-      #header { padding: 12px 16px; flex-wrap: wrap; }
-      #header h1 { font-size: 17px; }
+    /* Hide the long description earlier so it doesn't crash into the hint */
+    @media (max-width: 900px) {
       #header-text p { display: none; }
-      #search { width: 130px; }
-      #search:focus { width: 160px; }
-      #hint { font-size: 11px; top: 60px; }
+    }
+    @media (max-width: 640px) {
+      #header { padding: 10px 14px; gap: 8px; }
+      #header h1 { font-size: 16px; }
+      #search { width: 110px; padding-right: 28px; }
+      #search:focus { width: 150px; }
+      #search-kbd { display: none; }
+      #share-btn, #help-btn { width: 30px; height: 30px; }
+      #header-actions a { font-size: 13px; }
+      /* Hint duplicates what the ? help modal explains; on narrow viewports it
+         tends to crowd the header and clip, so just hide it. */
+      #hint { display: none; }
       #legend { font-size: 12px; padding: 8px 12px; bottom: 12px; left: 12px; }
       #stats { bottom: 12px; right: 12px; }
-      #zoom-controls { top: 70px; right: 12px; }
-      #detail-panel { width: 100%; max-width: 100%; padding: 56px 16px 24px; }
+      #reset-btn { bottom: 36px; right: 12px; }
+      #zoom-controls { top: 56px; right: 12px; }
+      #detail-panel { top: 54px; width: 100%; max-width: 100%; padding: 22px 16px 24px; }
+      #help-modal { padding: 56px 12px 12px; }
+      #help-content { padding: 20px 18px; max-height: calc(100vh - 80px); }
+      #help-content table td:first-child { width: 130px; white-space: normal; }
+    }
+    /* Very narrow: collapse back link to just the arrow */
+    @media (max-width: 400px) {
+      #header-actions a { font-size: 0; line-height: 1; padding: 4px; }
+      #header-actions a::before { content: '←'; font-size: 16px; color: inherit; }
     }
   </style>
 </head>
@@ -565,6 +603,7 @@
     </button>
   </div>
 
+  <button id="reset-btn" type="button" title="Clear all filters and selection (resets the view)">&times; Reset view</button>
   <div id="stats"></div>
   <div id="tooltip"><span class="title"></span><br><span class="type"></span><span class="tags"></span></div>
 
@@ -1043,7 +1082,23 @@
         document.title = pinnedNode
           ? pinnedNode + ' · Knowledge Graph — Dave Liu'
           : 'Knowledge Graph — Dave Liu';
+
+        var anyActive = !!searchTerm || hide.length > 0 || !!pinnedNode;
+        resetBtn.classList.toggle('visible', anyActive);
       }
+
+      // Reset view — clears search, type filters, and pinned node
+      var resetBtn = document.getElementById('reset-btn');
+      function resetAll() {
+        searchInput.value = '';
+        searchTerm = '';
+        Object.keys(disabledTypes).forEach(function(k) { delete disabledTypes[k]; });
+        d3.selectAll('.legend-item').classed('disabled', false);
+        pinnedNode = null;
+        closeDetailPanel();
+        applyFilters();
+      }
+      resetBtn.addEventListener('click', resetAll);
 
       // Zoom controls (synchronous; CSS transition on #graph g handles the visual smoothing)
       d3.select('#zoom-in').on('click', function() { svg.call(zoom.scaleBy, 1.4); });
