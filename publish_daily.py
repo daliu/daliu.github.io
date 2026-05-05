@@ -248,6 +248,7 @@ def generate_wrapper_page(date_str, date_obj):
             <li><a href="../../knowledge/">Knowledge Graph</a></li>
           </ul>
         </li>
+        <li><a href="../../publications.html">Publications</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -634,6 +635,7 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
             <li><a href="../../knowledge/">Knowledge Graph</a></li>
           </ul>
         </li>
+        <li><a href="../../publications.html">Publications</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
           <ul class="dropdown-menu">
