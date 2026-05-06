@@ -504,6 +504,25 @@
             </div>
         </div>
 
+        <!-- Calendar Density -->
+        <div class="section-title">📆 Calendar Density (90 days)</div>
+        <p style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">Daily event count from primary calendar — counts only, no titles or details. Hover the heatmap above to see steps + meetings together.</p>
+        <div class="stats-grid" id="calendarStats" style="display: none;">
+            <div class="stat-card"><div class="stat-value" id="cal-avg">--</div><div class="stat-label">Avg events/day</div></div>
+            <div class="stat-card"><div class="stat-value" id="cal-peak" style="font-size: 1.6rem;">--</div><div class="stat-label">Busiest day</div></div>
+            <div class="stat-card"><div class="stat-value" id="cal-light" style="font-size: 1.6rem;">--</div><div class="stat-label">Lightest day</div></div>
+            <div class="stat-card"><div class="stat-value" id="cal-total">--</div><div class="stat-label">Total events (90 d)</div></div>
+        </div>
+        <div class="charts-grid" id="calendarChartWrap" style="margin-top: 15px; display: none;">
+            <div class="chart-card">
+                <h2>Events per day (last 30 days)</h2>
+                <div class="chart-container"><canvas id="calendarDensityChart"></canvas></div>
+            </div>
+        </div>
+        <div id="calendarUnavailable" style="color: var(--text-muted); font-size: 0.95rem; padding: 14px 18px; background: var(--card-bg); border: 1px dashed var(--border); border-radius: 8px;">
+            Calendar density unavailable — generate <code>health/calendar.json</code> by running <code>scripts/fetch_calendar_history.py</code> from the repo root.
+        </div>
+
         <!-- Day of Week Analysis -->
         <div class="section-title">📅 Averages by Day of Week</div>
         <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
@@ -1241,8 +1260,12 @@
             });
         }
 
-        function buildHeatmap(daily) {
+        function buildHeatmap(daily, calendarByDay) {
             const stepLevels = [0, 5000, 10000, 15000, 20000];
+            const calLookup = {};
+            if (calendarByDay) {
+                for (const x of calendarByDay) calLookup[x.date] = x.count;
+            }
             let html = '';
 
             // Fill in 90 days
@@ -1260,10 +1283,86 @@
                 else if (steps >= stepLevels[2]) level = 2;
                 else if (steps >= stepLevels[1]) level = 1;
 
-                const title = `${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${steps.toLocaleString()} steps`;
+                const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                let title = `${dateLabel}: ${steps.toLocaleString()} steps`;
+                if (dateStr in calLookup) {
+                    title += ` · ${calLookup[dateStr]} events`;
+                }
                 html += `<div class="heatmap-day" data-level="${level}" title="${title}"></div>`;
             }
             document.getElementById('heatmap').innerHTML = html;
+        }
+
+        function buildCalendarDensity(byDay) {
+            if (!byDay || !byDay.length) return;
+            document.getElementById('calendarUnavailable').style.display = 'none';
+            document.getElementById('calendarStats').style.display = '';
+            document.getElementById('calendarChartWrap').style.display = '';
+
+            const counts = byDay.map(d => d.count);
+            const total = counts.reduce((a, b) => a + b, 0);
+            const avg = (total / counts.length).toFixed(1);
+            const peakIdx = counts.indexOf(Math.max(...counts));
+            const lightIdx = counts.indexOf(Math.min(...counts));
+            const peak = byDay[peakIdx];
+            const light = byDay[lightIdx];
+            const fmtDate = iso => new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+            document.getElementById('cal-avg').textContent = avg;
+            document.getElementById('cal-peak').textContent = `${peak.count} · ${fmtDate(peak.date)}`;
+            document.getElementById('cal-light').textContent = `${light.count} · ${fmtDate(light.date)}`;
+            document.getElementById('cal-total').textContent = total.toLocaleString();
+
+            const last30 = byDay.slice(-30);
+            new Chart(document.getElementById('calendarDensityChart'), {
+                type: 'bar',
+                data: {
+                    labels: last30.map(d => fmtDate(d.date)),
+                    datasets: [{
+                        data: last30.map(d => d.count),
+                        backgroundColor: '#a371f7',
+                        borderRadius: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (items) => items[0].label,
+                                label: (item) => `${item.parsed.y} event${item.parsed.y === 1 ? '' : 's'}`,
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#30363d' },
+                            ticks: { color: '#8b949e', precision: 0 },
+                            title: { display: true, text: 'Events', color: '#999', font: { size: 12 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#8b949e', maxRotation: 60, minRotation: 60, autoSkip: true, maxTicksLimit: 15 }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function loadCalendar() {
+            try {
+                const resp = await fetch('calendar.json?t=' + Date.now());
+                if (!resp.ok) return null;
+                const data = await resp.json();
+                buildCalendarDensity(data.by_day);
+                return data;
+            } catch (err) {
+                console.log('Calendar density not available:', err.message);
+                return null;
+            }
         }
 
         function buildDayOfWeek(daily) {
@@ -2274,12 +2373,16 @@
                 // Bedtime is not animated (it's a string)
                 document.getElementById('current-bedtime').textContent = formatTime(latest?.sleep_start);
 
+                // Calendar density loads in parallel; pass its by_day list
+                // to buildHeatmap so the step-grid tooltips also show events.
+                const calendar = await loadCalendar();
+
                 // Build all sections
                 buildPatternInsights(daily30);
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
                 buildSleepArchitecture(daily30);
-                buildHeatmap(daily);
+                buildHeatmap(daily, calendar?.by_day);
                 buildDayOfWeek(daily30);
                 buildCausalInsights(daily30);
                 buildCausalTable(daily30);
@@ -2310,7 +2413,7 @@
         }
 
         setupTimeRangeSelector();
-        loadData();
+        loadData(); // also kicks off loadCalendar internally
         loadCorrelations();
     </script>
 
