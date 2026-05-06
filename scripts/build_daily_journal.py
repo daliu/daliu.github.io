@@ -29,6 +29,15 @@ DEFAULT_OUT_REL = "wiki/daily"
 DEFAULT_REPOS_ROOT = os.path.expanduser("~/Code")
 HEALTH_DATA = os.path.join(REPO, "health", "data.json")
 
+# Calendar fetch shells out to a venv that has google-api-python-client +
+# google-auth-oauthlib so we can reuse the existing pickled credentials
+# at ~/.config/gcal/token.json (same pattern as Dave's `daily-planner`
+# script). When the venv or credentials aren't there, calendar fetch
+# silently no-ops and the daily entry just shows the placeholder.
+DEFAULT_GCAL_VENV = os.path.expanduser("~/.virtualenvs/trade_predict/bin/python")
+DEFAULT_GCAL_TOKEN = os.path.expanduser("~/.config/gcal/token.json")
+DEFAULT_GCAL_TZ = "America/New_York"
+
 # Heuristic: a commit author belongs to Dave if their email contains any of
 # these substrings. Conservative — adjust as needed.
 DAVE_EMAIL_HINTS = ("daveliu", "7david12liu", "dave.liu", "dliu")
@@ -98,6 +107,145 @@ def commits_for_repo(repo_path, target_date, email_hints=DAVE_EMAIL_HINTS):
             {"sha": sha, "short": sha[:7], "date": iso_date, "email": email, "subject": subject}
         )
     return commits
+
+
+CALENDAR_FETCH_SCRIPT = r"""
+import json, os, pickle, sys
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+token_file = os.environ['GCAL_TOKEN']
+target_iso = os.environ['GCAL_DATE']  # YYYY-MM-DD
+tz_name    = os.environ['GCAL_TZ']
+
+try:
+    with open(token_file, 'rb') as f:
+        creds = pickle.load(f)
+    if creds and creds.expired and creds.refresh_token:
+        from google.auth.transport.requests import Request
+        creds.refresh(Request())
+        with open(token_file, 'wb') as f:
+            pickle.dump(creds, f)
+
+    from googleapiclient.discovery import build
+    service = build('calendar', 'v3', credentials=creds, cache_discovery=False)
+
+    tz = ZoneInfo(tz_name)
+    y, m, d = (int(p) for p in target_iso.split('-'))
+    day_start = datetime(y, m, d, tzinfo=tz)
+    day_end   = day_start + timedelta(days=1)
+
+    resp = service.events().list(
+        calendarId='primary',
+        timeMin=day_start.isoformat(),
+        timeMax=day_end.isoformat(),
+        maxResults=100,
+        singleEvents=True,
+        orderBy='startTime',
+    ).execute()
+
+    out = []
+    for e in resp.get('items', []):
+        if e.get('status') == 'cancelled':
+            continue
+        # Skip events the user declined
+        attendees = e.get('attendees') or []
+        for a in attendees:
+            if a.get('self') and a.get('responseStatus') == 'declined':
+                e = None
+                break
+        if e is None:
+            continue
+        start = e['start'].get('dateTime') or e['start'].get('date')
+        end   = e['end'].get('dateTime')   or e['end'].get('date')
+        out.append({
+            'summary': e.get('summary', '(no title)'),
+            'start': start,
+            'end': end,
+            'all_day': 'T' not in (start or ''),
+        })
+    print(json.dumps(out))
+except Exception as e:
+    print(json.dumps({'__error__': str(e)}))
+"""
+
+
+def fetch_calendar(target_date, venv_python=DEFAULT_GCAL_VENV,
+                   token_file=DEFAULT_GCAL_TOKEN, tz_name=DEFAULT_GCAL_TZ):
+    """Return (events, reason) where events is list[dict] or None.
+    `reason` is None on success, or a short string explaining why we
+    couldn't fetch (so the caller can render a helpful placeholder).
+    """
+    if not os.path.isfile(venv_python):
+        return None, f"venv missing at {venv_python}"
+    if not os.path.isfile(token_file):
+        return None, f"no token at {token_file}"
+    env = {
+        **os.environ,
+        "GCAL_TOKEN": token_file,
+        "GCAL_DATE": target_date.isoformat(),
+        "GCAL_TZ": tz_name,
+    }
+    try:
+        result = subprocess.run(
+            [venv_python, "-c", CALENDAR_FETCH_SCRIPT],
+            capture_output=True,
+            text=True,
+            env=env,
+            timeout=20,
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        return None, f"subprocess failed: {e}"
+    if result.returncode != 0:
+        return None, f"venv python exited {result.returncode}: {result.stderr[:200]}"
+    try:
+        data = json.loads(result.stdout.strip().splitlines()[-1])
+    except (json.JSONDecodeError, IndexError):
+        return None, "could not parse fetcher output"
+    if isinstance(data, dict) and "__error__" in data:
+        return None, data["__error__"][:200]
+    if not isinstance(data, list):
+        return None, "fetcher returned unexpected shape"
+    return data, None
+
+
+def fmt_calendar_section(events, reason=None, tz_name=DEFAULT_GCAL_TZ):
+    if events is None:
+        if reason and "invalid_grant" in reason:
+            return [
+                "_Calendar fetch failed: OAuth token expired or revoked. "
+                "Re-authenticate by running `scripts/reauth_gcal.py` from "
+                "this repo (one-off interactive flow). The token at "
+                "`~/.config/gcal/token.json` will be refreshed in place._"
+            ]
+        if reason:
+            return [f"_Calendar fetch unavailable: {reason}_"]
+        return ["_Calendar fetch unavailable._"]
+    if not events:
+        return ["_No calendar events for this day._"]
+
+    from zoneinfo import ZoneInfo
+    tz = ZoneInfo(tz_name)
+    rows = []
+    timed = [e for e in events if not e.get("all_day")]
+    all_day = [e for e in events if e.get("all_day")]
+
+    if all_day:
+        rows.append("**All day**")
+        for e in all_day:
+            rows.append(f"- {e.get('summary', '(no title)')}")
+        if timed:
+            rows.append("")
+
+    for e in timed:
+        start = e.get("start", "")
+        try:
+            dt = datetime.fromisoformat(start.replace("Z", "+00:00")).astimezone(tz)
+            t = dt.strftime("%I:%M %p").lstrip("0")
+        except (ValueError, AttributeError):
+            t = "?"
+        rows.append(f"- **{t}** — {e.get('summary', '(no title)')}")
+    return rows
 
 
 def health_for_date(target_date):
@@ -216,7 +364,7 @@ def build_entry(target_date, repos_root):
     return fm, health, commits_by_repo
 
 
-def render(target_date, manual_notes, health, commits_by_repo):
+def render(target_date, manual_notes, health, commits_by_repo, calendar_section):
     iso = target_date.isoformat()
     weekday = target_date.strftime("%A")
     parts = [
@@ -244,7 +392,7 @@ def render(target_date, manual_notes, health, commits_by_repo):
     parts.append("## Code")
     parts.extend(fmt_commits_section(commits_by_repo))
     parts.append("## Calendar")
-    parts.append("_Coming soon — Google Calendar OAuth not wired yet._")
+    parts.extend(calendar_section)
     parts.append("")
     return "\n".join(parts)
 
@@ -256,6 +404,11 @@ def main():
     p.add_argument("--vault", default=DEFAULT_VAULT)
     p.add_argument("--out-rel", default=DEFAULT_OUT_REL)
     p.add_argument("--repos-root", default=DEFAULT_REPOS_ROOT)
+    p.add_argument(
+        "--no-calendar",
+        action="store_true",
+        help="Skip the calendar fetch (e.g. when offline or in CI)",
+    )
     p.add_argument("--quiet", action="store_true")
     args = p.parse_args()
 
@@ -289,8 +442,13 @@ def main():
             if commits:
                 commits_by_repo[os.path.basename(repo_path)] = commits
         health = health_for_date(d)
+        if args.no_calendar:
+            events, reason = None, "skipped (--no-calendar)"
+        else:
+            events, reason = fetch_calendar(d)
+        cal_section = fmt_calendar_section(events, reason=reason)
 
-        text = render(d, manual, health, commits_by_repo)
+        text = render(d, manual, health, commits_by_repo, cal_section)
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(text)
         written += 1
