@@ -366,7 +366,7 @@
   <div class="row">
     <div class="col-sm-8">
       <p>AutoTrader started the way a lot of side projects do: with a question I couldn't let go of. I'd been working with recommendation systems at my day job, and it struck me that the core problem&mdash;predicting what a person will want next based on noisy, incomplete signals&mdash;isn't that different from predicting where a stock will move next based on noisy, incomplete market data.</p>
-      <p>So I started small. A few tickers, a basic feature set, a model that ran on my M3 laptop. But as I dug in, the scope grew naturally. A single ticker needed multi-timeframe analysis. Multi-timeframe analysis needed richer features. Richer features needed a real data pipeline. A real data pipeline needed cloud infrastructure. And before long, I was building a system that ingests data for 600+ tickers every night, engineers 400+ features from eight distinct sources, trains over 1,800 models, and delivers ranked predictions to subscribers before the opening bell.</p>
+      <p>So I started small. A few tickers, a basic feature set, a model that ran on my M3 laptop. But as I dug in, the scope grew naturally. A single ticker needed multi-timeframe analysis. Multi-timeframe analysis needed richer features. Richer features needed a real data pipeline. A real data pipeline needed cloud infrastructure. And before long, I was building a system that ingests data for 600+ tickers every night, engineers 500+ features from eight distinct sources, trains over 1,800 models, and delivers ranked predictions to subscribers before the opening bell.</p>
       <p>Every component was designed and built by me from scratch. It runs autonomously on a multi-cloud setup (GCP + Azure) for about $235/month, and it's become the most technically satisfying project I've worked on&mdash;a place where I get to combine ML modeling, data engineering, infrastructure design, and product thinking all in one system.</p>
     </div>
     <div class="col-sm-4">
@@ -375,7 +375,7 @@
         <span class="stat-label">Trained Models</span>
       </div>
       <div class="stat-card">
-        <span class="stat-number">400+</span>
+        <span class="stat-number">500+</span>
         <span class="stat-label">Engineered Features</span>
       </div>
       <div class="stat-card">
@@ -407,7 +407,7 @@
         <div class="timeline-item" style="flex: 1; min-width: 150px;">
           <div class="timeline-time">12:10 AM</div>
           <div class="timeline-title">Data Collection</div>
-          <div class="timeline-desc">VM2 pulls OHLCV data from 600+ tickers via the EODHD API, computes 400+ features per ticker, and writes everything to PostgreSQL and GCS. Takes about 45&ndash;60 minutes.</div>
+          <div class="timeline-desc">VM2 pulls OHLCV data from 600+ tickers via the EODHD API, computes 500+ features per ticker, and writes everything to PostgreSQL and GCS. Takes about 45&ndash;60 minutes.</div>
         </div>
         <div class="timeline-item" style="flex: 1; min-width: 150px;">
           <div class="timeline-time">3:00 AM (Sat)</div>
@@ -759,7 +759,7 @@
 <div id="pricing" class="container-fluid bg-grey">
   <h2>Subscribe</h2>
   <div class="section-divider"></div>
-  <p style="margin-bottom: 10px;">AutoTrader delivers ML-driven market predictions to your inbox every trading day before the opening bell. 1,800+ models, 600+ tickers, 400+ features &mdash; fully autonomous.</p>
+  <p style="margin-bottom: 10px;">AutoTrader delivers ML-driven market predictions to your inbox every trading day before the opening bell. 1,800+ models, 600+ tickers, 500+ features &mdash; fully autonomous.</p>
   <p style="margin-bottom: 40px; color: #888; font-size: 14px;">All paid tiers include a 7-day free preview of the Basic tier so you can see the system in action.</p>
 
   <h3>Email Subscriptions</h3>
@@ -799,7 +799,7 @@
         <div class="tier-price">$29<span>/mo</span></div>
         <div class="tier-desc">Active trader essentials</div>
         <ul style="flex-grow: 1;">
-          <li>Top 20 predictions (all tickers)</li>
+          <li>Top 50 predictions (all tickers)</li>
           <li>Full news coverage</li>
           <li>Put/Call ratio analysis</li>
           <li>Top 50 ticker momentum table</li>
