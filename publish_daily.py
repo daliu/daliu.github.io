@@ -916,6 +916,7 @@ def update_sitemap():
         {"loc": "https://daliu.github.io/genomics/", "priority": "0.7"},
         {"loc": "https://daliu.github.io/analytics/", "priority": "0.7", "changefreq": "daily"},
         {"loc": "https://daliu.github.io/knowledge/", "priority": "0.7"},
+        {"loc": "https://daliu.github.io/status/", "priority": "0.5"},
         {"loc": "https://daliu.github.io/autotrader/daily/", "priority": "0.7", "changefreq": "daily"},
     ]
 

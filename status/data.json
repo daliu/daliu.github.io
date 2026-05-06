@@ -1,0 +1,168 @@
+{
+  "generated_at": "2026-05-06T19:29:46.694237+00:00",
+  "deploy": {
+    "latest_commit": {
+      "hash": "679c312",
+      "date": "2026-05-06T10:00:15-04:00",
+      "message": "daily: 2026-05-06 market update"
+    },
+    "branch": "master"
+  },
+  "pipelines": {
+    "autotrader_daily": {
+      "name": "AutoTrader Daily",
+      "url": "/autotrader/daily/",
+      "schedule": "5:30 AM ET on weekdays",
+      "page_count": 57,
+      "last_commit": {
+        "hash": "679c312",
+        "date": "2026-05-06T10:00:15-04:00",
+        "message": "daily: 2026-05-06 market update"
+      }
+    },
+    "health_dashboard": {
+      "name": "Health Dashboard",
+      "url": "/health/",
+      "schedule": "~19:00 ET daily",
+      "data": {
+        "updated": "2026-05-05T19:00:06.974936",
+        "date_range": null
+      },
+      "last_commit": {
+        "hash": "0e43bbb",
+        "date": "2026-05-05T19:00:15-07:00",
+        "message": "Update health data 2026-05-05 19:00"
+      }
+    },
+    "knowledge_graph": {
+      "name": "Knowledge Graph",
+      "url": "/knowledge/",
+      "schedule": "manual (run scripts/build_graph.py)",
+      "graph": {
+        "generated": "auto",
+        "node_count": 11,
+        "edge_count": 14
+      },
+      "last_commit": {
+        "hash": "4bee647",
+        "date": "2026-05-05T08:28:55-07:00",
+        "message": "Refresh knowledge graph data from vault (11 nodes, 14 edges)"
+      }
+    },
+    "site_analytics": {
+      "name": "Site Analytics",
+      "url": "/analytics/",
+      "schedule": "manual (run scripts/fetch_analytics.py)",
+      "data": {
+        "updated": "2026-03-26T00:00:00Z"
+      },
+      "last_commit": {
+        "hash": "7e03dd0",
+        "date": "2026-03-26T14:32:13-07:00",
+        "message": "feat: Add public analytics dashboard with GA4 data pipeline"
+      }
+    }
+  },
+  "recent_commits": [
+    {
+      "hash": "679c312",
+      "date": "2026-05-06T10:00:15-04:00",
+      "message": "daily: 2026-05-06 market update"
+    },
+    {
+      "hash": "0e43bbb",
+      "date": "2026-05-05T19:00:15-07:00",
+      "message": "Update health data 2026-05-05 19:00"
+    },
+    {
+      "hash": "3a5d89f",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "knowledge: add og:* and canonical meta tags for SEO/social sharing"
+    },
+    {
+      "hash": "cf6cae3",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: Enter in search pins the first match"
+    },
+    {
+      "hash": "f6ef4d2",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: mobile polish + Reset view button"
+    },
+    {
+      "hash": "aafeeb9",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: spread out the layout so labels don't overlap"
+    },
+    {
+      "hash": "e1fdaf7",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: help overlay + dynamic page title"
+    },
+    {
+      "hash": "857b1f7",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Update health data 2026-05-04 19:00"
+    },
+    {
+      "hash": "f0694c0",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: keyboard shortcuts + share button"
+    },
+    {
+      "hash": "4748631",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: shareable URL state"
+    },
+    {
+      "hash": "eba7197",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: node detail side panel"
+    },
+    {
+      "hash": "92d0379",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Knowledge Graph: search, type filters, zoom controls, polish"
+    },
+    {
+      "hash": "4bee647",
+      "date": "2026-05-05T08:28:55-07:00",
+      "message": "Refresh knowledge graph data from vault (11 nodes, 14 edges)"
+    },
+    {
+      "hash": "f0da4b4",
+      "date": "2026-05-05T08:28:04-07:00",
+      "message": "404: add Publications link to the navbar"
+    },
+    {
+      "hash": "2c3208b",
+      "date": "2026-05-05T08:28:04-07:00",
+      "message": "sitemap: include publications, genomics, knowledge"
+    },
+    {
+      "hash": "02bb254",
+      "date": "2026-05-05T08:28:04-07:00",
+      "message": "nav: add Publications link to autotrader/health/analytics/genomics + Meta Council to genomics"
+    },
+    {
+      "hash": "03e133d",
+      "date": "2026-05-05T08:28:04-07:00",
+      "message": "publications: add the Data About Me dropdown to the navbar"
+    },
+    {
+      "hash": "582f693",
+      "date": "2026-05-05T10:00:09-04:00",
+      "message": "daily: 2026-05-05 market update"
+    },
+    {
+      "hash": "2113ff6",
+      "date": "2026-05-04T10:00:10-04:00",
+      "message": "daily: 2026-05-04 market update"
+    },
+    {
+      "hash": "3878cf4",
+      "date": "2026-05-03T20:27:02-07:00",
+      "message": "Update health data 2026-05-03 20:27"
+    }
+  ]
+}
