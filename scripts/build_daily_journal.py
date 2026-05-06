@@ -36,7 +36,6 @@ HEALTH_DATA = os.path.join(REPO, "health", "data.json")
 # silently no-ops and the daily entry just shows the placeholder.
 DEFAULT_GCAL_VENV = os.path.expanduser("~/.virtualenvs/trade_predict/bin/python")
 DEFAULT_GCAL_TOKEN = os.path.expanduser("~/.config/gcal/token.json")
-DEFAULT_GCAL_TZ = "America/New_York"
 
 # Heuristic: a commit author belongs to Dave if their email contains any of
 # these substrings. Conservative — adjust as needed.
@@ -116,7 +115,7 @@ from zoneinfo import ZoneInfo
 
 token_file = os.environ['GCAL_TOKEN']
 target_iso = os.environ['GCAL_DATE']  # YYYY-MM-DD
-tz_name    = os.environ['GCAL_TZ']
+tz_override = os.environ.get('GCAL_TZ_OVERRIDE') or ''  # empty = use user's primary calendar tz
 
 try:
     with open(token_file, 'rb') as f:
@@ -129,6 +128,17 @@ try:
 
     from googleapiclient.discovery import build
     service = build('calendar', 'v3', credentials=creds, cache_discovery=False)
+
+    # Resolve timezone once: explicit override wins, otherwise ask the API
+    # for the user's primary calendar tz. We use the same tz for the query
+    # window bounds and for display so "today" matches the user's day.
+    if tz_override:
+        tz_name = tz_override
+    else:
+        try:
+            tz_name = service.settings().get(setting='timezone').execute().get('value', 'UTC')
+        except Exception:
+            tz_name = 'UTC'
 
     tz = ZoneInfo(tz_name)
     y, m, d = (int(p) for p in target_iso.split('-'))
@@ -150,11 +160,12 @@ try:
             continue
         # Skip events the user declined
         attendees = e.get('attendees') or []
+        skip = False
         for a in attendees:
             if a.get('self') and a.get('responseStatus') == 'declined':
-                e = None
+                skip = True
                 break
-        if e is None:
+        if skip:
             continue
         start = e['start'].get('dateTime') or e['start'].get('date')
         end   = e['end'].get('dateTime')   or e['end'].get('date')
@@ -164,27 +175,30 @@ try:
             'end': end,
             'all_day': 'T' not in (start or ''),
         })
-    print(json.dumps(out))
+    print(json.dumps({'events': out, 'tz': tz_name}))
 except Exception as e:
     print(json.dumps({'__error__': str(e)}))
 """
 
 
 def fetch_calendar(target_date, venv_python=DEFAULT_GCAL_VENV,
-                   token_file=DEFAULT_GCAL_TOKEN, tz_name=DEFAULT_GCAL_TZ):
-    """Return (events, reason) where events is list[dict] or None.
-    `reason` is None on success, or a short string explaining why we
-    couldn't fetch (so the caller can render a helpful placeholder).
+                   token_file=DEFAULT_GCAL_TOKEN, tz_override=""):
+    """Return (events, reason, tz_name) — `events` is list[dict] or None.
+
+    `reason` is None on success or a short string for the placeholder.
+    `tz_name` is the timezone the fetcher used (resolved from the user's
+    primary calendar if `tz_override` is empty); the caller uses it for
+    display so the times match the day-window the API was queried with.
     """
     if not os.path.isfile(venv_python):
-        return None, f"venv missing at {venv_python}"
+        return None, f"venv missing at {venv_python}", None
     if not os.path.isfile(token_file):
-        return None, f"no token at {token_file}"
+        return None, f"no token at {token_file}", None
     env = {
         **os.environ,
         "GCAL_TOKEN": token_file,
         "GCAL_DATE": target_date.isoformat(),
-        "GCAL_TZ": tz_name,
+        "GCAL_TZ_OVERRIDE": tz_override,
     }
     try:
         result = subprocess.run(
@@ -195,21 +209,21 @@ def fetch_calendar(target_date, venv_python=DEFAULT_GCAL_VENV,
             timeout=20,
         )
     except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-        return None, f"subprocess failed: {e}"
+        return None, f"subprocess failed: {e}", None
     if result.returncode != 0:
-        return None, f"venv python exited {result.returncode}: {result.stderr[:200]}"
+        return None, f"venv python exited {result.returncode}: {result.stderr[:200]}", None
     try:
         data = json.loads(result.stdout.strip().splitlines()[-1])
     except (json.JSONDecodeError, IndexError):
-        return None, "could not parse fetcher output"
+        return None, "could not parse fetcher output", None
     if isinstance(data, dict) and "__error__" in data:
-        return None, data["__error__"][:200]
-    if not isinstance(data, list):
-        return None, "fetcher returned unexpected shape"
-    return data, None
+        return None, data["__error__"][:200], None
+    if not isinstance(data, dict) or "events" not in data:
+        return None, "fetcher returned unexpected shape", None
+    return data["events"], None, data.get("tz")
 
 
-def fmt_calendar_section(events, reason=None, tz_name=DEFAULT_GCAL_TZ):
+def fmt_calendar_section(events, reason=None, tz_name=None):
     if events is None:
         if reason and "invalid_grant" in reason:
             return [
@@ -225,7 +239,7 @@ def fmt_calendar_section(events, reason=None, tz_name=DEFAULT_GCAL_TZ):
         return ["_No calendar events for this day._"]
 
     from zoneinfo import ZoneInfo
-    tz = ZoneInfo(tz_name)
+    tz = ZoneInfo(tz_name or "UTC")
     rows = []
     timed = [e for e in events if not e.get("all_day")]
     all_day = [e for e in events if e.get("all_day")]
@@ -409,6 +423,11 @@ def main():
         action="store_true",
         help="Skip the calendar fetch (e.g. when offline or in CI)",
     )
+    p.add_argument(
+        "--tz",
+        default="",
+        help="Override timezone for calendar query bounds + display (default: user's primary calendar tz from API)",
+    )
     p.add_argument("--quiet", action="store_true")
     args = p.parse_args()
 
@@ -443,10 +462,10 @@ def main():
                 commits_by_repo[os.path.basename(repo_path)] = commits
         health = health_for_date(d)
         if args.no_calendar:
-            events, reason = None, "skipped (--no-calendar)"
+            events, reason, used_tz = None, "skipped (--no-calendar)", None
         else:
-            events, reason = fetch_calendar(d)
-        cal_section = fmt_calendar_section(events, reason=reason)
+            events, reason, used_tz = fetch_calendar(d, tz_override=args.tz)
+        cal_section = fmt_calendar_section(events, reason=reason, tz_name=used_tz)
 
         text = render(d, manual, health, commits_by_repo, cal_section)
         with open(out_path, "w", encoding="utf-8") as f:
