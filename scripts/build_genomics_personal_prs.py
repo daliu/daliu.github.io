@@ -124,13 +124,22 @@ def analyze_disorder(disorder, tophits_path, geno):
 
         beta_str = row.get("beta") or ""
         or_str = row.get("or") or ""
+        z_str = row.get("z") or ""
         beta = safe_float(beta_str)
+        beta_kind = "beta"
         if beta is None and or_str:
             oratio = safe_float(or_str)
             if oratio and oratio > 0:
-                # log(OR) ≈ beta on the same effect-allele convention
                 import math
                 beta = math.log(oratio)
+                beta_kind = "log_or"
+        if beta is None and z_str:
+            # Files that only report Z (CUD, OUD, alcdep): use Z as the
+            # effect-direction weight. Different units from beta, so
+            # PRS magnitudes won't compare across disorders — but
+            # carrier counts and direction are still valid.
+            beta = safe_float(z_str)
+            beta_kind = "z"
         if beta is None:
             continue
 
@@ -155,7 +164,11 @@ def analyze_disorder(disorder, tophits_path, geno):
         if d == 2:
             n_homo += 1
 
-        if d >= 1 and abs(beta) > 0.05:
+        # Strong-carrier threshold scales with effect-size kind:
+        # - beta/log(OR): typical GWS effects are 0.05–0.3
+        # - Z-score: typical GWS Z is 5.5+, "strong" 6.0+
+        threshold = 6.0 if beta_kind == "z" else 0.05
+        if d >= 1 and abs(beta) > threshold:
             strong_carriers.append({
                 "rsid": rsid,
                 "chr": row.get("chr"),
@@ -165,6 +178,7 @@ def analyze_disorder(disorder, tophits_path, geno):
                 "genotype": g["a1"] + g["a2"],
                 "dosage": d,
                 "beta": round(beta, 4),
+                "beta_kind": beta_kind,
                 "p": row.get("p"),
             })
 

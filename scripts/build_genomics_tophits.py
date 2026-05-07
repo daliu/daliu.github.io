@@ -40,6 +40,8 @@ DEFAULT_VAULT = os.path.expanduser("~/Documents/Remote Vault")
 DEFAULT_OUT_REL = "wiki/genomics/top_hits"
 
 # Standard output schema. Columns we always emit, in this order.
+# `z` is included so files that report only Z-scores (CUD, OUD, alcdep) can
+# still feed a PRS — sign+magnitude is what the dosage-weighted sum needs.
 STANDARD_COLS = [
     "rsid",
     "chr",
@@ -49,6 +51,7 @@ STANDARD_COLS = [
     "freq_effect",
     "beta",
     "or",
+    "z",
     "se",
     "p",
     "n_eff",
@@ -64,24 +67,44 @@ COLUMN_ALIASES = {
     "chr": "chr", "chrom": "chr", "chromosome": "chr", "#chrom": "chr",
     # base-pair position
     "pos": "pos", "bp": "pos", "position": "pos", "base_pair_location": "pos",
-    # effect allele (the allele the BETA/OR is measured against)
-    "ea": "effect_allele", "a1": "effect_allele", "effect_allele": "effect_allele", "allele1": "effect_allele", "alt": "effect_allele",
+    # effect allele (the allele the BETA/OR/Z is measured against)
+    "ea": "effect_allele", "a1": "effect_allele", "effect_allele": "effect_allele", "allele1": "effect_allele", "alt": "effect_allele", "a_1": "effect_allele",
     # other / reference allele
-    "nea": "other_allele", "a2": "other_allele", "other_allele": "other_allele", "allele2": "other_allele", "ref": "other_allele",
+    "nea": "other_allele", "a2": "other_allele", "other_allele": "other_allele", "allele2": "other_allele", "ref": "other_allele", "a_0": "other_allele",
     # effect-allele frequency
     "freq": "freq_effect", "frq": "freq_effect", "eaf": "freq_effect", "frq_a": "freq_effect", "maf": "freq_effect",
     "effect_allele_freq": "freq_effect", "effect_allele_frequency": "freq_effect", "freq_effect": "freq_effect",
+    "fcon": "freq_effect",  # PGC3 control AF — use as population EAF proxy
     # effect size
     "beta": "beta", "b": "beta", "effect": "beta", "log_odds": "beta",
     "or": "or", "odds_ratio": "or",
+    "z": "z", "zscore": "z", "z_score": "z", "z-score": "z",
     # standard error
     "se": "se", "stderr": "se", "standard_error": "se",
     # p-value
     "p": "p", "pval": "p", "pvalue": "p", "p_value": "p", "p-value": "p",
     # effective N (or per-row N if present)
     "neff": "n_eff", "n_eff": "n_eff", "n_effective": "n_eff", "n": "n_eff", "ntotal": "n_eff",
+    "weight": "n_eff", "total_n": "n_eff",
     # imputation info
     "info": "info", "impinfo": "info", "info_score": "info", "imputation_info": "info",
+}
+
+# Some files use multi-suffix column names where one suffix is the canonical
+# variant we want. AUDIT_UKB has beta_T (total), beta_C (consumption),
+# beta_P (problems) — we want T. Map filename→{std_col: source_col_name}.
+FILE_COLUMN_OVERRIDES = {
+    "AUDIT_UKB_2018_AJP.txt.gz": {
+        "rsid": "rsid",
+        "chr": "chr",
+        "effect_allele": "a_1",
+        "other_allele": "a_0",
+        "info": "info",
+        "beta": "beta_T",
+        "se": "se_T",
+        "p": "p_T",
+        "n_eff": "n",
+    },
 }
 
 
@@ -104,7 +127,25 @@ DISORDER_TARGETS = {
         "daner_OCD_full_wo23andMe_190522.gz",
     ],
     "schizophrenia": [
+        # Wave 3 (Trubetskoy 2022, 76K cases, no 23andMe) — preferred
+        "PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz",
+        # Older Ripke 2014 (SCZ52, 36K cases) — fallback
         "daner_PGC_SCZ52_0513a.hq2.gz",
+    ],
+    "schizophrenia_eas": [
+        "daner_natgen_pgc_eas.gz",  # Lam et al 2019, EAS-only SCZ
+    ],
+    "cannabis_use_disorder": [
+        "CUD_EUR_full_public_11.14.2020.gz",
+    ],
+    "alcohol_dependence": [
+        "pgc_alcdep.eur_discovery.aug2018_release.txt.gz",
+    ],
+    "alcohol_use_audit": [
+        "AUDIT_UKB_2018_AJP.txt.gz",  # UK Biobank AUDIT total score
+    ],
+    "opioid_use_disorder": [
+        "OD_cases_vs._opioid-exposed_controls_in_European-ancestry_cohorts.gz",
     ],
     "ADHD": [
         "ADHD2022_iPSYCH_deCODE_PGC.meta.gz",
@@ -159,14 +200,30 @@ def _read_metadata_and_header(fh):
     return None, metadata
 
 
-def _build_column_map(header_fields):
+def _build_column_map(header_fields, override_basename=None):
     """Map source column names to our standard schema names.
 
-    Returns (column_map: dict[std_name -> source_index], original_columns: list[str])
+    If `override_basename` matches FILE_COLUMN_OVERRIDES, the mapping for
+    that file is built explicitly from the override dict instead of
+    relying on alias auto-detection (used for AUDIT-style files where
+    multiple suffix variants of the same statistic exist).
+
+    Returns column_map: dict[std_name -> source_index]
     """
+    lower_fields = [c.strip().lower() for c in header_fields]
     cmap = {}
-    for i, col in enumerate(header_fields):
-        canon = COLUMN_ALIASES.get(col.strip().lower())
+
+    overrides = FILE_COLUMN_OVERRIDES.get(override_basename or "")
+    if overrides:
+        for std_name, src_col in overrides.items():
+            try:
+                cmap[std_name] = lower_fields.index(src_col.lower())
+            except ValueError:
+                pass
+        return cmap
+
+    for i, col in enumerate(lower_fields):
+        canon = COLUMN_ALIASES.get(col)
         # Don't overwrite a previously-found mapping (column order isn't
         # uniform across files, so first hit wins).
         if canon and canon not in cmap:
@@ -202,7 +259,7 @@ def extract_top_hits(path, p_threshold=5e-8, top_n=20000, verbose=False):
             return [], metadata, {}, 0
 
         fields = header_line.split("\t") if "\t" in header_line else header_line.split()
-        cmap = _build_column_map(fields)
+        cmap = _build_column_map(fields, override_basename=os.path.basename(path))
 
         if "p" not in cmap:
             raise RuntimeError(
