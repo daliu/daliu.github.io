@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Psychiatric Genomics Report | Dave Liu</title>
-<meta name="description" content="Cross-referencing 23andMe genotype data against 7 PGC psychiatric GWAS datasets — ADHD, anxiety, depression, bipolar, schizophrenia, and cross-disorder analyses.">
-<meta property="og:title" content="Psychiatric Genomics Report | Dave Liu">
-<meta property="og:description" content="Personal genomics analysis: 617K SNPs cross-referenced against 7 psychiatric GWAS studies covering 5M+ participants.">
+<title>Personal Pharmacogenomics — Dave Liu</title>
+<meta name="description" content="Personal pharmacogenomics report from 23andMe v5 raw genotype data, framed against East Asian baseline frequencies. Drug metabolism, alcohol pharmacology, caffeine response, APOE status.">
+<meta property="og:title" content="Personal Pharmacogenomics — Dave Liu">
+<meta property="og:description" content="What 23andMe v5 actually tells you about drug metabolism, when you're East Asian. CPIC-aligned single-variant findings, no forced PRS statistics.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://daliu.github.io/genomics/">
 <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -130,472 +130,418 @@
 
 <div class="report-container">
 
-<h1>Psychiatric GWAS Cross-Reference Report</h1>
-<p class="muted">Generated April 13, 2026 | Genome: 23andMe v5 (build 37/hg19) | 617,245 genotyped SNPs</p>
+<h1>Personal Pharmacogenomics</h1>
+<p class="muted">Single-variant pharmacogenomic findings from 23andMe v5 raw data · 100% Han Chinese ancestry · Build GRCh37/hg19 · 594,952 usable biallelic autosomal SNPs after QC</p>
 
 <div class="disclaimer">
-  <strong style="color: var(--warn);">Important Disclaimer</strong>
-  <p>This report is for <strong>research and educational purposes only</strong>. It is NOT a clinical polygenic risk score and should NOT be used for self-diagnosis or medical decisions. Individual SNP effects are tiny (OR ~1.01-1.20). Psychiatric conditions are influenced by thousands of variants plus environmental factors. This analysis does not account for LD clumping, population stratification, or validated scoring weights. Consult a genetic counselor for clinical interpretation.</p>
+  <strong style="color: var(--warn);">Important context</strong>
+  <p>This page replaces an earlier April 2026 report that performed a polygenic-risk-score (PRS) cross-reference against psychiatric GWAS using EUR-cohort summary statistics. That analysis didn't apply: the subject is 100% Chinese ancestry, and EUR-cohort GWAS weights don't transfer cleanly to East-Asian individuals (different LD patterns, different allele frequencies, sometimes flipped effect direction). The PRS magnitudes from that report were uncalibrated single-subject sums driven mostly by chr 6 MHC tag-SNP homozygosity — not interpretable as personal risk. This rewrite drops the PRS framing and reports only what's interpretable from a single 23andMe v5 chip without forced statistics: well-characterized single-variant pharmacogenomic findings with literature-backed functional reads.</p>
+  <p>This is for research / educational purposes only. Not a clinical pharmacogenomic test. Several clinically important East Asian variants — CYP2D6 *10 (rs1065852), ADH1B *2 (rs1229984), the HLA-B alleles tagged for carbamazepine and allopurinol risk — aren't covered by 23andMe v5. A proper CPIC-aligned pharmacogenomic panel would close those gaps. Don't make medical decisions from this page.</p>
 </div>
 
 <div class="toc">
-  <strong>Table of Contents</strong>
+  <strong>Table of contents</strong>
   <ol>
-    <li><a href="#overview">Grand Overview: 7 Psychiatric Conditions</a></li>
-    <li><a href="#hla">The HLA/MHC Story: Your Strongest Signal</a></li>
-    <li><a href="#drd2">The DRD2 Cluster: Transdiagnostic Dopamine</a></li>
-    <li><a href="#adhd">ADHD: The Neurodevelopmental Outlier</a></li>
-    <li><a href="#stress">Stress Axis: CRHR1 Protection</a></li>
-    <li><a href="#cacna1c">CACNA1C: Calcium Channels and Bipolar</a></li>
-    <li><a href="#fads">FADS1/FADS2: Brain Lipids and Inflammation</a></li>
-    <li><a href="#serotonin">Serotonin Pathway</a></li>
-    <li><a href="#pathways">Biological Pathway Summary</a></li>
-    <li><a href="#classic">Classic Pharmacogenomic Variants</a></li>
-    <li><a href="#protective">Your Strongest Protective Loci</a></li>
-    <li><a href="#crossdisorder">Cross-Disorder Architecture</a></li>
-    <li><a href="#chromosome">Chromosomal Risk Heatmap</a></li>
-    <li><a href="#synthesis">Grand Synthesis</a></li>
+    <li><a href="#summary">Summary table</a></li>
+    <li><a href="#cyp2c19">CYP2C19 — PPIs, clopidogrel, SSRIs</a></li>
+    <li><a href="#warfarin">Anticoagulation — VKORC1 + CYP2C9 (warfarin)</a></li>
+    <li><a href="#statins">Statins — SLCO1B1</a></li>
+    <li><a href="#other-rx">Other drug-class findings — DPYD, CYP2B6, UGT1A1, CYP3A5, IFNL3</a></li>
+    <li><a href="#alcohol">Alcohol pharmacology — ALDH2 + ADH1B caveat</a></li>
+    <li><a href="#caffeine">Caffeine — CYP1A2 + ADORA2A</a></li>
+    <li><a href="#neuro">Neurotransmitter / receptor variants</a></li>
+    <li><a href="#apoe">APOE genotype</a></li>
+    <li><a href="#untyped">Clinically important variants this chip <em>doesn't</em> type</a></li>
+    <li><a href="#methodology">Methodology &amp; limitations</a></li>
     <li><a href="#references">References</a></li>
   </ol>
 </div>
 
-<!-- ===== SECTION 1: GRAND OVERVIEW ===== -->
-<h2 id="overview">1. Grand Overview: 7 Psychiatric Conditions</h2>
-
-<table>
-  <tr>
-    <th>Condition</th>
-    <th>Study</th>
-    <th>Sample Size</th>
-    <th>GW Hits</th>
-    <th>Risk Alleles</th>
-    <th>Profile</th>
-  </tr>
-  <tr>
-    <td>ADHD</td><td>PGC 2022</td><td>38K / 187K</td><td>44</td>
-    <td>33/88 (37.5%)</td><td><span class="badge badge-protect">Protective</span></td>
-  </tr>
-  <tr>
-    <td>GAD Symptoms</td><td>PGC 2026</td><td>N=694K</td><td>149</td>
-    <td>91/298 (30.5%)</td><td><span class="badge badge-protect">Strongly Protective</span></td>
-  </tr>
-  <tr>
-    <td>P-Factor</td><td>CDG 2025</td><td>Cross-disorder</td><td>400</td>
-    <td>362/800 (45.2%)</td><td><span class="badge badge-neutral">Near Average</span></td>
-  </tr>
-  <tr>
-    <td>Major Depression</td><td>PGC 2025</td><td>412K / 1.6M</td><td>614</td>
-    <td>708/1228 (57.7%)</td><td><span class="badge badge-risk">Mild Risk</span></td>
-  </tr>
-  <tr>
-    <td>Bipolar Disorder</td><td>PGC 2024</td><td>59K / 781K</td><td>266</td>
-    <td>322/532 (60.5%)</td><td><span class="badge badge-risk">Risk Skewed</span></td>
-  </tr>
-  <tr>
-    <td>Schizophrenia</td><td>PGC3 2022</td><td>53K / 77K</td><td>1,491</td>
-    <td>2006/2982 (67.3%)</td><td><span class="badge badge-risk">Strongly Risk</span></td>
-  </tr>
-  <tr>
-    <td>Anxiety Disorder</td><td>PGC 2026</td><td>122K / 730K</td><td>127</td>
-    <td>177/254 (69.7%)</td><td><span class="badge badge-risk">Strongly Risk</span></td>
-  </tr>
-</table>
+<!-- ===== SECTION 1: SUMMARY TABLE ===== -->
+<h2 id="summary">1. Summary table</h2>
 
 <div class="card">
-  <h3>Visual Risk Profile</h3>
-  <p><strong>ADHD 2022</strong> <span class="muted">37.5% risk</span></p>
-  <div class="bar-container"><div class="bar-risk" style="width:37.5%"><span class="bar-label">37.5%</span></div><div class="bar-protect" style="width:62.5%"><span class="bar-label">62.5%</span></div></div>
+  <p>Headline pharmacogenomic profile. East-Asian (EAS) baseline frequencies in parentheses for context — they describe how typical the genotype is for someone of Han Chinese ancestry, not how rare or important the finding is.</p>
 
-  <p><strong>GAD Symptoms 2026</strong> <span class="muted">30.5% risk</span></p>
-  <div class="bar-container"><div class="bar-risk" style="width:30.5%"><span class="bar-label">30.5%</span></div><div class="bar-protect" style="width:69.5%"><span class="bar-label">69.5%</span></div></div>
-
-  <p><strong>P-Factor 2025</strong> <span class="muted">45.2% risk</span></p>
-  <div class="bar-container"><div class="bar-risk" style="width:45.2%"><span class="bar-label">45.2%</span></div><div class="bar-protect" style="width:54.8%"><span class="bar-label">54.8%</span></div></div>
-
-  <p><strong>Major Depression 2025</strong> <span class="muted">57.7% risk</span></p>
-  <div class="bar-container"><div class="bar-risk" style="width:57.7%"><span class="bar-label">57.7%</span></div><div class="bar-protect" style="width:42.3%"><span class="bar-label">42.3%</span></div></div>
-
-  <p><strong>Bipolar Disorder 2024</strong> <span class="muted">60.5% risk</span></p>
-  <div class="bar-container"><div class="bar-risk" style="width:60.5%"><span class="bar-label">60.5%</span></div><div class="bar-protect" style="width:39.5%"><span class="bar-label">39.5%</span></div></div>
-
-  <p><strong>Schizophrenia 2022</strong> <span class="muted">67.3% risk</span></p>
-  <div class="bar-container"><div class="bar-risk" style="width:67.3%"><span class="bar-label">67.3%</span></div><div class="bar-protect" style="width:32.7%"><span class="bar-label">32.7%</span></div></div>
-
-  <p><strong>Anxiety Disorder 2026</strong> <span class="muted">69.7% risk</span></p>
-  <div class="bar-container"><div class="bar-risk" style="width:69.7%"><span class="bar-label">69.7%</span></div><div class="bar-protect" style="width:30.3%"><span class="bar-label">30.3%</span></div></div>
-</div>
-
-
-<!-- ===== SECTION 2: HLA ===== -->
-<h2 id="hla">2. The HLA/MHC Story: Your Strongest Signal</h2>
-
-<div class="card">
-  <p>The <strong>chr6 HLA/MHC region</strong> (25-33 Mb) is the single most impactful region in your genome for psychiatric genetics. You carry <span class="risk">homozygous risk alleles</span> across this entire region, consistent across schizophrenia (76% risk), anxiety (85%), MDD (72%), and bipolar (68%).</p>
-
-  <h3>What's happening biologically</h3>
-  <ul>
-    <li><strong>C4A Complement (Sekar et al., 2016):</strong> Higher C4A expression drives <em>overactive synaptic pruning</em> — microglia eliminate too many synapses, especially in the prefrontal cortex during adolescence. This is the established mechanism for the MHC-schizophrenia link.</li>
-    <li><strong>Classical HLA alleles:</strong> Pro-inflammatory HLA haplotypes increase TNF-alpha and IL-6 production, crossing the blood-brain barrier and disrupting serotonergic and GABAergic circuits — directly relevant to anxiety and mood.</li>
-    <li><strong>Autoimmune overlap:</strong> The same variants confer risk for Type 1 diabetes, celiac disease, lupus, multiple sclerosis. There is established epidemiological co-occurrence between autoimmune and psychiatric conditions.</li>
-    <li><strong>Developmental timing:</strong> Complement-mediated pruning peaks during adolescence (ages 16-25), precisely when schizophrenia onset typically occurs.</li>
-  </ul>
-
-  <h3>Your top HLA risk variants</h3>
-  <p>Your 30 largest-effect risk alleles are <em>all</em> in the chr6 HLA region for schizophrenia, with effect sizes of 1.18-1.35x per allele (the largest in any GWAS). Being homozygous doubles the contribution.</p>
-</div>
-
-<!-- ===== SECTION 3: DRD2 ===== -->
-<h2 id="drd2">3. The DRD2 Cluster: Transdiagnostic Dopamine</h2>
-
-<div class="card">
-  <p>The <strong>DRD2 locus</strong> (chr11:113.2-113.5M) is your second-strongest signal, hitting genome-wide significance across MDD, schizophrenia, P-factor, and near-significant for anxiety and bipolar.</p>
-
-  <h3>Key variants you carry (homozygous risk)</h3>
   <table>
-    <tr><th>rsID</th><th>Top Disorder</th><th>P-value</th><th>Function</th></tr>
-    <tr><td>rs17602038</td><td>MDD</td><td>2.81e-27</td><td>DRD2 regulatory region</td></tr>
-    <tr><td>rs2514218</td><td>MDD/SCZ/P-Factor</td><td>4.27e-25</td><td>47kb upstream, enhancer</td></tr>
-    <tr><td>rs6277</td><td>MDD/P-Factor</td><td>GW-sig</td><td>DRD2 coding region (C957T)</td></tr>
-    <tr><td>rs1800497</td><td>--</td><td>nominal</td><td>Taq1A: A1/A2 carrier</td></tr>
-  </table>
-
-  <h3>Biological impact</h3>
-  <ul>
-    <li>These are <strong>regulatory variants reducing DRD2 expression</strong> in the striatum</li>
-    <li>Lower D2 receptor availability leads to <strong>blunted reward prediction signaling</strong>, anhedonia, and motivational deficits</li>
-    <li>DRD2 is the primary target of all antipsychotic medications</li>
-    <li>Lower baseline D2 = <strong>reward deficiency</strong> = increased addiction vulnerability</li>
-    <li>Partial agonists (aripiprazole) may be better tolerated than full D2 blockers in this genotype</li>
-  </ul>
-
-  <div class="highlight">
-    <strong>Discovery:</strong> The HTR3A serotonin receptor gene sits <em>immediately adjacent</em> to DRD2. Your "DRD2 risk" signal extends into HTR3A, meaning the same haplotype affects both dopamine AND serotonin receptor density in this region.
-  </div>
-</div>
-
-<!-- ===== SECTION 4: ADHD ===== -->
-<h2 id="adhd">4. ADHD: The Neurodevelopmental Outlier</h2>
-
-<div class="card">
-  <p>ADHD is genetically distinct from your mood/psychosis profile. You carry <span class="protect">fewer risk alleles (37.5%)</span> and the risk alleles you do have are in <em>different genes</em> on different chromosomes.</p>
-
-  <h3>Your ADHD homozygous risk loci</h3>
-  <table>
-    <tr><th>Gene</th><th>Chr</th><th>Function</th><th>Psychiatric Relevance</th></tr>
-    <tr><td><strong>FOXP2</strong></td><td>7</td><td>Speech/language transcription factor</td><td>Replicated ADHD hit; language-ADHD comorbidity. Also risk for GAD anxiety.</td></tr>
-    <tr><td><strong>CDH8</strong></td><td>16</td><td>Brain-specific cadherin</td><td>Autism candidate; thalamo-cortical circuit wiring</td></tr>
-    <tr><td><strong>KDM4A</strong></td><td>1</td><td>Histone demethylase</td><td>Epigenetic regulator of dopaminergic programs</td></tr>
-    <tr><td><strong>PTPRF</strong></td><td>1</td><td>Axon guidance / synaptogenesis</td><td>Neurodevelopmental synapse formation</td></tr>
-    <tr><td><strong>VGLL3</strong></td><td>3</td><td>Sex-biased gene regulation</td><td>Intriguing given ADHD's male preponderance</td></tr>
-    <tr><td><strong>METTL15</strong></td><td>11</td><td>Mitochondrial methyltransferase</td><td>Novel ADHD locus</td></tr>
-  </table>
-
-  <div class="highlight">
-    <strong>The ADHD-Anxiety Paradox:</strong> Only 11.4% directional concordance between ADHD and clinical anxiety risk alleles. The same alleles that protect you from ADHD tend to increase anxiety risk, and vice versa — consistent with partially antagonistic genetic architectures.
-  </div>
-</div>
-
-<!-- ===== SECTION 5: STRESS AXIS ===== -->
-<h2 id="stress">5. Stress Axis: CRHR1 Protection</h2>
-
-<div class="card">
-  <p>The <strong>17q21.31 region</strong> (CRHR1/MAPT) is your most consistently <span class="protect">protective</span> region. All 20 SNPs tested in this region show protective alleles for GAD anxiety.</p>
-
-  <h3>17q21.31 inversion status</h3>
-  <p>Tag SNP rs8070723 = <code>AA</code> → You are <strong>H1/H1</strong> (homozygous non-inverted haplotype, most common in Europeans). Within this H1 background, you carry the favorable variants at CRHR1.</p>
-
-  <h3>Why this matters</h3>
-  <ul>
-    <li><strong>CRHR1</strong> is the receptor for corticotropin-releasing hormone — the master switch of the fight-or-flight stress response</li>
-    <li>Protective variants here are associated with <strong>blunted cortisol response to stress</strong> and reduced anxiety/depression risk, particularly after childhood adversity (gene-environment interaction)</li>
-    <li><strong>MAPT</strong> (tau): H1 haplotype carries slightly elevated risk for tauopathies (late-life, small effect)</li>
-    <li>CRHR1 antagonists have been trialed for anxiety and depression — this locus is pharmacologically actionable</li>
-  </ul>
-</div>
-
-<!-- ===== SECTION 6: CACNA1C ===== -->
-<h2 id="cacna1c">6. CACNA1C: Calcium Channels and Bipolar</h2>
-
-<div class="card">
-  <p>You carry <span class="risk">heterozygous risk</span> at multiple CACNA1C variants (rs1006737, rs2159100, rs4765905, etc.) — genome-wide significant for bipolar disorder.</p>
-
-  <h3>Biology</h3>
-  <ul>
-    <li><strong>CACNA1C</strong> encodes the Cav1.2 L-type calcium channel, critical for synaptic plasticity, CREB signaling, and long-term potentiation</li>
-    <li>Risk alleles <strong>increase CACNA1C expression</strong> → elevated calcium influx → destabilized neuronal excitability</li>
-    <li>This may shift circuits between hyperexcitable (mania) and compensatory hypoactive (depression) states</li>
-    <li><strong>Lithium</strong>, the gold-standard bipolar treatment, attenuates calcium signaling</li>
-    <li>Dihydropyridines (nimodipine, isradipine) block this channel and show some antimanic/antidepressant effects in trials</li>
-    <li>Timothy syndrome (rare gain-of-function CACNA1C mutations) causes cardiac arrhythmias + autism — proof-of-concept that this pathway matters</li>
-  </ul>
-</div>
-
-<!-- ===== SECTION 7: FADS ===== -->
-<h2 id="fads">7. FADS1/FADS2: Brain Lipids and Inflammation</h2>
-
-<div class="card">
-  <p>You carry <span class="risk">heterozygous risk</span> across the FADS gene cluster (chr11:61.5M) for bipolar (***), MDD (***), and P-factor (***).</p>
-
-  <h3>What these genes do</h3>
-  <ul>
-    <li>FADS1/FADS2 encode <strong>fatty acid desaturases</strong> — enzymes that convert dietary omega-3 and omega-6 into long-chain polyunsaturated fatty acids (LC-PUFAs)</li>
-    <li>LC-PUFAs are critical for <strong>brain membrane composition</strong> and determine the ratio of pro- to anti-inflammatory lipid mediators</li>
-    <li>Risk variants alter this enzyme activity, shifting the balance toward more inflammatory lipid profiles</li>
-  </ul>
-
-  <div class="highlight">
-    <strong>Connection:</strong> This is the second independent locus (after HLA) pointing to <strong>neuroinflammation</strong> as a major axis in your risk profile. Two different chromosomes, two different mechanisms, same downstream pathway.
-  </div>
-</div>
-
-<!-- ===== SECTION 8: SEROTONIN ===== -->
-<h2 id="serotonin">8. Serotonin Pathway</h2>
-
-<div class="card">
-  <h3>Key findings across serotonin genes</h3>
-  <table>
-    <tr><th>Gene</th><th>Your Status</th><th>Top Finding</th></tr>
-    <tr><td><strong>HTR3A</strong> (5-HT3A)</td><td class="risk">Hom risk across 5 disorders</td><td>Adjacent to DRD2; MDD p=2.81e-27. Part of the DRD2/HTR3A super-locus.</td></tr>
-    <tr><td><strong>SLC6A4</strong> (SERT)</td><td class="risk">Hom risk for BIP & SCZ</td><td>The serotonin transporter / SSRI target. Risk for bipolar (p=1.9e-4) and SCZ (p=7.2e-4).</td></tr>
-    <tr><td><strong>HTR1A</strong> (5-HT1A)</td><td class="risk">Hom risk for MDD & SCZ</td><td>The primary anxiety/depression serotonin receptor. Nominal significance.</td></tr>
-    <tr><td><strong>HTR2A</strong> (5-HT2A)</td><td class="protect">Protective</td><td>The psychedelics/antipsychotic target. You carry protective alleles.</td></tr>
-    <tr><td><strong>TPH2</strong></td><td class="protect">Mostly protective</td><td>Brain serotonin synthesis enzyme. Protective for SCZ (p=1.2e-7).</td></tr>
-    <tr><td><strong>HTR1B</strong> (5-HT1B)</td><td>Mixed</td><td>Protective for bipolar (p=4.4e-5), risk for MDD (p=9.9e-5).</td></tr>
-  </table>
-</div>
-
-<!-- ===== SECTION 9: PATHWAYS ===== -->
-<h2 id="pathways">9. Biological Pathway Summary</h2>
-
-<div class="card">
-  <table>
-    <tr><th>Pathway</th><th>Status</th><th>Key Genes</th></tr>
     <tr>
-      <td>Immune / Inflammatory</td>
-      <td><span class="badge badge-risk">Risk</span></td>
-      <td>HLA/C4A (chr6), FADS1/FADS2 (chr11) — two independent loci converging on neuroinflammation</td>
+      <th>Drug class / area</th>
+      <th>Gene · variant</th>
+      <th>Genotype</th>
+      <th>Functional read</th>
+      <th>EAS context</th>
     </tr>
     <tr>
-      <td>Dopaminergic</td>
-      <td><span class="badge badge-risk">Risk</span></td>
-      <td>DRD2 (chr11), DRD2-Taq1A, COMT Val/Met — reduced D2 signaling</td>
+      <td>PPIs · clopidogrel · SSRIs</td>
+      <td>CYP2C19 *2 (rs4244285)<br>CYP2C19 *3 (rs4986893)</td>
+      <td><code>GG</code><br><code>GG</code></td>
+      <td><strong>*1/*1 — extensive (normal) metabolizer</strong></td>
+      <td>~40% of EAS (60% are PM/IM via *2 or *3)</td>
     </tr>
     <tr>
-      <td>Synaptic Wiring</td>
-      <td><span class="badge badge-risk">Risk</span></td>
-      <td>FOXP2, PCLO, CDH8, PTPRF — primarily neurodevelopmental/ADHD</td>
+      <td>Warfarin (vitamin-K antagonist)</td>
+      <td>VKORC1 −1639 (rs9923231)<br>CYP2C9 *2 (rs1799853)<br>CYP2C9 *3 (rs1057910)</td>
+      <td><code>CT</code><br><code>CC</code><br><code>AA</code></td>
+      <td><strong>Intermediate warfarin sensitivity</strong> via VKORC1 het; CYP2C9 *1/*1 normal</td>
+      <td>EAS-typical is VKORC1 hom for low-dose allele (~80%); intermediate (CT) is the more EUR-like ~20%</td>
     </tr>
     <tr>
-      <td>Serotonergic</td>
-      <td><span class="badge badge-risk">Mixed Risk</span></td>
-      <td>HTR3A (risk), SLC6A4 (risk), HTR1A (risk), but HTR2A and TPH2 protective</td>
+      <td>Statins (simvastatin)</td>
+      <td>SLCO1B1 *5 (rs4149056)</td>
+      <td><code>TT</code></td>
+      <td><strong>*1A/*1A — normal transport, no elevated myopathy risk</strong></td>
+      <td>EAS *5 freq ~13%</td>
     </tr>
     <tr>
-      <td>Calcium Signaling</td>
-      <td><span class="badge badge-risk">Risk</span></td>
-      <td>CACNA1C — L-type channel, bipolar primary mechanism</td>
+      <td>5-Fluorouracil / capecitabine</td>
+      <td>DPYD *2A (rs3918290)</td>
+      <td><code>CC</code></td>
+      <td><strong>*1/*1 — normal DPD activity</strong></td>
+      <td>Typical (EAS *2A &lt;1%)</td>
     </tr>
     <tr>
-      <td>Epigenetic Regulation</td>
-      <td><span class="badge badge-risk">Risk</span></td>
-      <td>KDM4A (histone demethylase), SATB1 (chromatin organizer)</td>
+      <td>Efavirenz / methadone / bupropion</td>
+      <td>CYP2B6 *6 (rs3745274)</td>
+      <td><code>GG</code></td>
+      <td><strong>*1/*1 — normal metabolism</strong></td>
+      <td>Typical (EAS *6 ~25%)</td>
     </tr>
     <tr>
-      <td>HPA Stress Axis</td>
-      <td><span class="badge badge-protect">Protective</span></td>
-      <td>CRHR1/MAPT (chr17) — well-regulated stress response</td>
+      <td>Irinotecan · bilirubin handling</td>
+      <td>UGT1A1 *6 (rs4148323)</td>
+      <td><code>GG</code></td>
+      <td><strong>No EAS-specific Gilbert variant from this position</strong></td>
+      <td>EAS *6 freq ~15-20%; you're hom reference</td>
     </tr>
     <tr>
-      <td>Opioid System</td>
-      <td><span class="badge badge-neutral">Altered</span></td>
-      <td>OPRM1 GG (Asp40 homozygous) — rare genotype, altered pain/reward</td>
+      <td>Tacrolimus / calcineurin inhibitors</td>
+      <td>CYP3A5 *3 (rs776746)</td>
+      <td><code>CC</code> <span class="warn">(strand-flip ambiguity)</span></td>
+      <td>Likely *3/*3 nonexpresser (typical EAS, lower tacrolimus dose required) — but verify on a clinical panel before acting</td>
+      <td>~75% of EAS are nonexpressers</td>
+    </tr>
+    <tr>
+      <td>HCV peginterferon-α + ribavirin</td>
+      <td>IFNL3 / IL28B (rs12979860)</td>
+      <td><code>CC</code></td>
+      <td><strong>Favorable HCV treatment response genotype</strong></td>
+      <td>~90% of EAS — typical</td>
+    </tr>
+    <tr>
+      <td>Alcohol</td>
+      <td>ALDH2 *504Lys (rs671)</td>
+      <td><code>AG</code></td>
+      <td><strong>Glu/Lys heterozygote — mild flush, slower acetaldehyde clearance</strong>, mildly elevated risk for upper-aerodigestive carcinogen exposure if drinking</td>
+      <td>~40% of Chinese — typical</td>
+    </tr>
+    <tr>
+      <td>Caffeine</td>
+      <td>CYP1A2 *1F (rs762551)<br>ADORA2A (rs5751876)</td>
+      <td><code>AA</code><br><code>CC</code></td>
+      <td><strong>Fast caffeine metabolizer</strong> (half-life ~3-4h) <strong>+ low caffeine-induced anxiety</strong></td>
+      <td>Combination is interpretable cross-ancestry</td>
+    </tr>
+    <tr>
+      <td>Late-onset Alzheimer&apos;s risk modifier</td>
+      <td>APOE (rs429358 + rs7412)</td>
+      <td><code>TT</code> + <code>CC</code></td>
+      <td><strong>ε3/ε3 — most common APOE form globally; neither AD-risk (ε4) nor AD-protective (ε2)</strong></td>
+      <td>Cross-ancestry interpretable</td>
     </tr>
   </table>
 </div>
 
-<!-- ===== SECTION 10: CLASSIC VARIANTS ===== -->
-<h2 id="classic">10. Classic Pharmacogenomic Variants</h2>
+<!-- ===== SECTION 2: CYP2C19 ===== -->
+<h2 id="cyp2c19">2. CYP2C19 — PPIs, clopidogrel, SSRIs</h2>
+
+<div class="card">
+  <p>CYP2C19 is one of the most clinically actionable pharmacogenes. Variants <strong>*2</strong> (rs4244285) and <strong>*3</strong> (rs4986893) are loss-of-function; <em>*3 is essentially East-Asian-specific</em>.</p>
+
+  <p><strong>Genotype: *1/*1 (extensive / normal metabolizer)</strong></p>
+
+  <p>About 60% of East Asians carry at least one loss-of-function CYP2C19 allele — substantially more than Europeans (~30%). Being *1/*1 puts the subject in the ~40% of East Asians with normal CYP2C19 metabolism.</p>
+
+  <h3>Clinical implications (CPIC guidelines)</h3>
+  <ul>
+    <li><strong>Clopidogrel (Plavix):</strong> Standard activation. CPIC recommends prasugrel or ticagrelor for CYP2C19 PM/IM patients; *1/*1 has no such recommendation — clopidogrel works as expected.</li>
+    <li><strong>PPIs (omeprazole, lansoprazole, pantoprazole):</strong> Standard clearance and standard acid suppression at standard doses. PMs would have higher AUC and more profound acid suppression at standard dose; *1/*1 does not.</li>
+    <li><strong>Voriconazole (antifungal):</strong> Standard clearance; PMs need dose reduction.</li>
+    <li><strong>SSRIs (citalopram, escitalopram, sertraline):</strong> CPIC has guidelines for some SSRIs in CYP2C19 PMs; not applicable here.</li>
+  </ul>
+</div>
+
+<!-- ===== SECTION 3: WARFARIN ===== -->
+<h2 id="warfarin">3. Anticoagulation — VKORC1 + CYP2C9 (warfarin)</h2>
+
+<div class="card">
+  <p>Warfarin dose is one of the best-validated pharmacogenomic dosing equations. The <strong>IWPC (2009) algorithm</strong> uses VKORC1 (target) + CYP2C9 (clearance) + clinical factors to predict therapeutic dose.</p>
+
+  <table>
+    <tr><th>Variant</th><th>Genotype</th><th>Functional</th><th>EAS allele freq</th></tr>
+    <tr><td>VKORC1 −1639G&gt;A (rs9923231)</td><td><code>CT</code></td><td>Intermediate warfarin sensitivity</td><td>A allele ~90% in EAS (vs ~40% in EUR)</td></tr>
+    <tr><td>CYP2C9 *2 (rs1799853)</td><td><code>CC</code></td><td>No *2 (typical EAS)</td><td>EAS *2 &lt;1%, EUR ~12%</td></tr>
+    <tr><td>CYP2C9 *3 (rs1057910)</td><td><code>AA</code></td><td>No *3</td><td>EAS *3 ~5%, EUR ~7%</td></tr>
+  </table>
+
+  <p>Most East Asians are VKORC1 A/A homozygotes and require lower warfarin doses than Europeans (~3 mg/day vs ~5+ mg/day). This subject is heterozygous, predicting an <em>intermediate</em> dose requirement — between the EAS-typical and EUR-typical patterns. CYP2C9 is wild-type *1/*1, so warfarin clearance is normal.</p>
+
+  <p class="muted">If warfarin were ever prescribed, the IWPC dose-prediction model is appropriate to use; the predicted dose for this VKORC1 + CYP2C9 combination is in the typical-EAS range, neither at the very-low-dose tail nor the EUR-typical higher end. Direct oral anticoagulants (dabigatran, apixaban, rivaroxaban) bypass both pathways and are not affected by this profile.</p>
+</div>
+
+<!-- ===== SECTION 4: STATINS ===== -->
+<h2 id="statins">4. Statins — SLCO1B1</h2>
+
+<div class="card">
+  <p>SLCO1B1 *5 (rs4149056 T&gt;C) reduces hepatic statin uptake, leading to higher systemic exposure and increased risk of statin-induced myopathy — best characterized for simvastatin, where the SEARCH trial showed *5/*5 carriers have ~7-fold increased myopathy risk.</p>
+
+  <p><strong>Genotype: SLCO1B1 *1A/*1A (rs4149056 TT) — normal transport function</strong></p>
+
+  <p>No elevated risk of statin-induced myopathy from this position. CPIC recommends standard simvastatin dosing for *1A/*1A. This is a genuinely useful negative finding — many patients are unaware they have an elevated myopathy risk variant.</p>
+</div>
+
+<!-- ===== SECTION 5: OTHER PRESCRIPTIONS ===== -->
+<h2 id="other-rx">5. Other drug-class findings — DPYD, CYP2B6, UGT1A1, CYP3A5, IFNL3</h2>
 
 <div class="card">
   <table>
-    <tr><th>Variant</th><th>Gene</th><th>Your Genotype</th><th>Interpretation</th></tr>
+    <tr><th>Gene · variant</th><th>Genotype</th><th>Drugs affected</th><th>Implication</th></tr>
     <tr>
-      <td>rs4680</td><td>COMT Val158Met</td><td><code>AG</code> (Val/Met)</td>
-      <td>Intermediate dopamine metabolism. The "balanced" genotype — neither warrior (Val/Val) nor worrier (Met/Met).</td>
+      <td>DPYD *2A (rs3918290)</td>
+      <td><code>CC</code> (*1/*1)</td>
+      <td>5-fluorouracil, capecitabine</td>
+      <td>Normal DPD activity; standard chemo dosing.</td>
     </tr>
     <tr>
-      <td>rs6265</td><td>BDNF Val66Met</td><td><code>CT</code> (Val/Met)</td>
-      <td>One Met copy: reduced activity-dependent BDNF secretion, altered hippocampal function. Nominal ADHD risk (p=4.5e-3).</td>
+      <td>CYP2B6 *6 (rs3745274)</td>
+      <td><code>GG</code> (*1/*1)</td>
+      <td>Efavirenz, methadone, bupropion, ketamine</td>
+      <td>Normal metabolism; standard dosing.</td>
     </tr>
     <tr>
-      <td>rs1800497</td><td>DRD2 Taq1A</td><td><code>AG</code> (A1/A2)</td>
-      <td>A1 carrier: reduced D2 receptor density. Associated with reward processing differences and addiction vulnerability.</td>
+      <td>UGT1A1 *6 (rs4148323)</td>
+      <td><code>GG</code></td>
+      <td>Irinotecan, atazanavir; bilirubin handling</td>
+      <td>No EAS-specific Gilbert-pattern reduction from this allele. UGT1A1 *28 (the EUR-common Gilbert variant, a TA repeat polymorphism) is not directly typed by 23andMe v5.</td>
     </tr>
     <tr>
-      <td>rs1799971</td><td>OPRM1 Asn40Asp</td><td><code>GG</code> (Asp/Asp)</td>
-      <td><span class="warn">Rare homozygous variant (~2-5% of population).</span> Altered opioid signaling, increased pain sensitivity, stronger alcohol response, better naltrexone response. CPIC pharmacogene.</td>
+      <td>CYP3A5 *3 (rs776746)</td>
+      <td><code>CC</code> <span class="warn">strand-flip note</span></td>
+      <td>Tacrolimus, cyclosporin, sirolimus</td>
+      <td>Likely *3/*3 nonexpresser → standard tacrolimus dose works fine (the typical EAS pattern; ~75% are nonexpressers). Some 23andMe v5 SNPs are reported on the reverse strand, so verify on a clinical panel before acting on this.</td>
     </tr>
     <tr>
-      <td>rs53576</td><td>OXTR</td><td><code>AA</code></td>
-      <td>Lower social sensitivity variant. Modulates stress buffering via social support.</td>
-    </tr>
-    <tr>
-      <td>rs4570625</td><td>TPH2</td><td><code>GT</code></td>
-      <td>T carrier: associated with amygdala reactivity. Not significant in any GWAS here.</td>
-    </tr>
-    <tr>
-      <td>rs6311</td><td>HTR2A</td><td><code>TT</code></td>
-      <td>Modulates serotonergic signaling. Not significant in GWAS.</td>
+      <td>IFNL3 / IL28B (rs12979860)</td>
+      <td><code>CC</code></td>
+      <td>Peginterferon-α + ribavirin (HCV)</td>
+      <td>Favorable response genotype. ~90% of East Asians are CC (vs ~70% Europeans). Less practically relevant in the era of direct-acting HCV antivirals, but historically the strongest predictor of treatment response.</td>
     </tr>
   </table>
 </div>
 
-<!-- ===== SECTION 11: PROTECTIVE ===== -->
-<h2 id="protective">11. Your Strongest Protective Loci</h2>
+<!-- ===== SECTION 6: ALCOHOL ===== -->
+<h2 id="alcohol">6. Alcohol pharmacology — ALDH2 + ADH1B caveat</h2>
 
 <div class="card">
-  <p>61 SNPs show <span class="protect">zero risk alleles</span> at genome-wide significance across 2+ disorders. These are consistently working in your favor.</p>
+  <p>Two genes dominate East-Asian alcohol pharmacology: <strong>ADH1B</strong> (ethanol → acetaldehyde) and <strong>ALDH2</strong> (acetaldehyde → acetate). The combination determines flush severity, drinking tolerance, and upper-aerodigestive carcinogen exposure.</p>
 
-  <h3>Multi-disorder protective SNPs</h3>
   <table>
-    <tr><th>rsID</th><th>Chr</th><th>Disorders Protected</th><th>Nearby Gene(s)</th></tr>
-    <tr><td>rs1977199</td><td>6</td><td>Anxiety, MDD, Bipolar, SCZ (4)</td><td>HLA region — a rare protective spot in your chr6</td></tr>
-    <tr><td>rs161645</td><td>5</td><td>ADHD, Anxiety, MDD (3)</td><td>Near NUDT12</td></tr>
-    <tr><td>rs12129573</td><td>1</td><td>Anxiety, MDD, SCZ (3)</td><td>NEGR1 — neuronal growth regulator</td></tr>
-    <tr><td>rs1475064</td><td>1</td><td>Anxiety, MDD, SCZ (3)</td><td>NEGR1 region</td></tr>
-    <tr><td>rs9420</td><td>11</td><td>Anxiety, MDD, SCZ (3)</td><td>OR cluster / CTNND1</td></tr>
+    <tr><th>Variant</th><th>Genotype</th><th>EAS context</th></tr>
+    <tr>
+      <td>ALDH2 *504Lys (rs671)</td>
+      <td><code>AG</code> — Glu/Lys heterozygote</td>
+      <td>~40% of Chinese — typical. Mild flush. ~10% of Chinese are Lys/Lys homozygous (severe flush, can drink almost zero alcohol).</td>
+    </tr>
+    <tr>
+      <td>ADH1B *2 (rs1229984)</td>
+      <td><span class="warn">not typed by 23andMe v5</span></td>
+      <td>~70% of EAS carry at least one *2 allele — fast ethanol clearance. Without this measurement we can't predict whether the flush will be mild-mild (slow ADH1B + slow ALDH2 het) or pronounced (fast ADH1B + slow ALDH2 het).</td>
+    </tr>
   </table>
 
-  <h3>Effect size pattern</h3>
-  <p>At both ADHD and GAD loci, your <strong>protective alleles have larger effect sizes</strong> than your risk alleles. Your protective alleles punch harder.</p>
+  <p>The <strong>ALDH2 het + smoking</strong> combination is a well-established carcinogen-exposure risk: acetaldehyde is a Group 1 carcinogen (IARC 2009), and ALDH2 *504Lys heterozygotes who drink and smoke have substantially elevated esophageal squamous-cell carcinoma risk (Brooks et al. 2009 PLoS Med). The mitigation is straightforward: limit alcohol, don't smoke, accept the flush as a biological warning.</p>
+
+  <p class="muted">Disulfiram (Antabuse) and similar ALDH inhibitors should not be used in ALDH2 *504Lys carriers — the flush reaction is already partially present and amplification can be dangerous.</p>
 </div>
 
-<!-- ===== SECTION 12: CROSS-DISORDER ===== -->
-<h2 id="crossdisorder">12. Cross-Disorder Architecture</h2>
+<!-- ===== SECTION 7: CAFFEINE ===== -->
+<h2 id="caffeine">7. Caffeine — CYP1A2 + ADORA2A</h2>
 
 <div class="card">
-  <h3>Pairwise GW-significant SNP overlap</h3>
+  <p>Two independent variants jointly determine caffeine response:</p>
+  <ul>
+    <li><strong>CYP1A2 *1F (rs762551 = AA):</strong> *1A/*1A — fast caffeine metabolizer (plasma half-life ~3-4h). *1F homozygotes (the slow-metabolizer phenotype) have half-lives of 6+ hours and report stronger and longer caffeine effects.</li>
+    <li><strong>ADORA2A (rs5751876 = CC):</strong> Lower caffeine-induced anxiety. The T allele has been associated with caffeine-induced anxiety, panic-like reactions, and impaired sleep after caffeine intake.</li>
+  </ul>
+
+  <p>The combination — fast CYP1A2 + low ADORA2A anxiety sensitivity — is a clean "caffeine well-tolerated" pharmacogenomic profile.</p>
+</div>
+
+<!-- ===== SECTION 8: NEUROTRANSMITTER ===== -->
+<h2 id="neuro">8. Neurotransmitter / receptor variants</h2>
+
+<div class="card">
+  <p>Single-variant findings at well-characterized neurotransmitter loci. Effect sizes for individual variants are typically small; these are descriptive, not diagnostic.</p>
+
   <table>
-    <tr><th></th><th>ADHD</th><th>Anxiety</th><th>MDD</th><th>Bipolar</th><th>SCZ</th></tr>
-    <tr><td><strong>ADHD</strong></td><td>-</td><td>2</td><td>8</td><td>0</td><td>2</td></tr>
-    <tr><td><strong>Anxiety</strong></td><td>2</td><td>-</td><td>87</td><td>51</td><td>86</td></tr>
-    <tr><td><strong>MDD</strong></td><td>8</td><td>87</td><td>-</td><td>105</td><td>175</td></tr>
-    <tr><td><strong>Bipolar</strong></td><td>0</td><td>51</td><td>105</td><td>-</td><td>183</td></tr>
-    <tr><td><strong>SCZ</strong></td><td>2</td><td>86</td><td>175</td><td>183</td><td>-</td></tr>
+    <tr><th>Variant</th><th>Genotype</th><th>EAS context</th><th>Functional read</th></tr>
+    <tr>
+      <td>COMT Val158Met (rs4680)</td>
+      <td><code>AG</code> — Val/Met</td>
+      <td>~50% globally</td>
+      <td>Heterozygous; intermediate catecholamine clearance. Population-mean phenotype on the warrior/worrier continuum.</td>
+    </tr>
+    <tr>
+      <td>BDNF Val66Met (rs6265)</td>
+      <td><code>CT</code> — Val/Met</td>
+      <td>Met allele is more common in EAS (~40%) than EUR (~20%); heterozygote is the modal EAS genotype</td>
+      <td>One Met copy. Mildly impaired activity-dependent BDNF secretion; effect sizes on memory/anxiety are small in well-powered studies.</td>
+    </tr>
+    <tr>
+      <td>DRD2 Taq1A (rs1800497)</td>
+      <td><code>AG</code> — A1/A2</td>
+      <td>A1 allele freq ~40-50% in EAS (vs ~25-30% EUR); A1 carrier is typical for Chinese</td>
+      <td>~15-20% reduced striatal D2 binding compared to A2/A2.</td>
+    </tr>
+    <tr>
+      <td>OPRM1 Asn40Asp (rs1799971)</td>
+      <td><code>GG</code> — Asp/Asp</td>
+      <td>Asp40 freq ~35-45% in EAS (vs ~10-15% EUR); ~15-20% of EAS are Asp/Asp homozygous</td>
+      <td>Reduced μ-opioid receptor signaling. Best-replicated clinical translation: <strong>better naltrexone response in alcohol use disorder</strong> (CPIC/PharmGKB level 2A).</td>
+    </tr>
+    <tr>
+      <td>OXTR (rs53576)</td>
+      <td><code>AA</code></td>
+      <td>A allele freq ~70-80% in EAS; AA is the modal EAS genotype</td>
+      <td>The "lower social sensitivity" associations in this SNP are based on EUR data (where AA is ~10% — minor allele homozygote there) and don't generalize to populations where AA is the majority.</td>
+    </tr>
+    <tr>
+      <td>HTR2A (rs6313)</td>
+      <td><code>AA</code></td>
+      <td>A allele common in both EUR and EAS</td>
+      <td>Modulates 5-HT2A signaling. Not significant in well-powered psychiatric GWAS; descriptive only.</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ===== SECTION 9: APOE ===== -->
+<h2 id="apoe">9. APOE genotype</h2>
+
+<div class="card">
+  <p>APOE is the single largest common-variant genetic risk modifier for late-onset Alzheimer's disease. Three alleles (ε2, ε3, ε4) are defined by the combination of two SNPs:</p>
+
+  <table>
+    <tr><th>SNP</th><th>Genotype</th></tr>
+    <tr><td>rs429358</td><td><code>TT</code></td></tr>
+    <tr><td>rs7412</td><td><code>CC</code></td></tr>
   </table>
 
-  <p><strong>ADHD is the genetic outlier</strong> — almost no shared GW-significant SNPs with other conditions. Anxiety, MDD, bipolar, and schizophrenia share heavily (94-100% directional concordance), primarily through the HLA region.</p>
+  <p><strong>APOE ε3/ε3 — the most common form globally (~60% of populations).</strong></p>
+
+  <p>Neither the AD-risk-elevating ε4 allele (rs429358-C) nor the AD-protective ε2 allele (rs7412-T) is present. ε3/ε3 is the population-baseline genotype — neither risk-elevating nor risk-reducing for late-onset Alzheimer's. Cross-ancestry interpretable.</p>
 </div>
 
-<!-- ===== SECTION 13: CHROMOSOME HEATMAP ===== -->
-<h2 id="chromosome">13. Chromosomal Risk Heatmap</h2>
+<!-- ===== SECTION 10: UNTYPED ===== -->
+<h2 id="untyped">10. Clinically important variants this chip <em>doesn't</em> type</h2>
 
 <div class="card">
-  <p>Risk allele percentage at GW-significant loci, by chromosome. Colors: <span class="risk">70%+ risk</span>, <span class="warn">55-70% mild risk</span>, <span class="protect">below 30% protective</span>.</p>
+  <p>23andMe v5's ~600K SNP chip wasn't designed as a pharmacogenomic panel and misses several variants that are clinically actionable for East Asian patients. The biggest gaps:</p>
+
   <table>
-    <tr><th>Chr</th><th>ADHD</th><th>Anxiety</th><th>MDD</th><th>Bipolar</th><th>SCZ</th><th>Key Genes</th></tr>
-    <tr><td>1</td><td class="protect">27%</td><td>33%</td><td style="color:var(--warn)">63%</td><td class="risk">100%</td><td>44%</td><td>KDM4A, PTPRF, NEGR1</td></tr>
-    <tr><td>3</td><td class="protect">30%</td><td style="color:var(--warn)">60%</td><td>39%</td><td style="color:var(--warn)">60%</td><td style="color:var(--warn)">58%</td><td>SATB1, VGLL3</td></tr>
-    <tr><td>6</td><td class="protect">0%</td><td class="risk">85%</td><td class="risk">72%</td><td style="color:var(--warn)">68%</td><td class="risk">76%</td><td>HLA/C4A — dominant signal</td></tr>
-    <tr><td>7</td><td class="risk">100%</td><td class="risk">75%</td><td class="risk">74%</td><td class="protect">0%</td><td>53%</td><td>FOXP2, PCLO</td></tr>
-    <tr><td>11</td><td class="risk">70%</td><td style="color:var(--warn)">67%</td><td style="color:var(--warn)">58%</td><td>48%</td><td>42%</td><td>DRD2, METTL15, FADS</td></tr>
-    <tr><td>12</td><td class="protect">0%</td><td class="protect">0%</td><td style="color:var(--warn)">61%</td><td>50%</td><td>45%</td><td>CACNA1C, TPH2</td></tr>
-    <tr><td>17</td><td>--</td><td>--</td><td>50%</td><td class="risk">75%</td><td class="risk">89%</td><td>CRHR1/MAPT, SLC6A4</td></tr>
-    <tr><td>22</td><td>--</td><td>--</td><td class="risk">90%</td><td class="protect">0%</td><td class="risk">82%</td><td>COMT region</td></tr>
+    <tr><th>Gene · variant</th><th>What it tells you</th><th>EAS frequency</th></tr>
+    <tr>
+      <td><strong>ADH1B *2</strong> (rs1229984)</td>
+      <td>Speed of ethanol → acetaldehyde conversion. Combined with ALDH2 status, determines flush severity and alcohol dependence risk profile.</td>
+      <td>~70% of EAS carry *2 (vs ~5% EUR)</td>
+    </tr>
+    <tr>
+      <td><strong>CYP2D6 *10</strong> (rs1065852)</td>
+      <td>Reduced CYP2D6 activity. Affects codeine activation, tramadol, atomoxetine, many tricyclic antidepressants, antipsychotics. CPIC has detailed dosing guidelines for *10/*10 patients.</td>
+      <td>~50% of EAS are *10 carriers (vs ~5-10% EUR)</td>
+    </tr>
+    <tr>
+      <td><strong>HLA-B*15:02</strong> (multi-SNP haplotype)</td>
+      <td>FDA black-box warning: ~10-fold increased risk of carbamazepine-induced Stevens-Johnson syndrome / toxic epidermal necrolysis. FDA recommends testing in patients of EAS ancestry before carbamazepine prescription.</td>
+      <td>~5-15% in Han Chinese, Thai, Malay, Vietnamese; rare in EUR/AFR</td>
+    </tr>
+    <tr>
+      <td><strong>HLA-B*58:01</strong> (multi-SNP haplotype)</td>
+      <td>Allopurinol severe cutaneous adverse reaction (SCAR) risk. CPIC recommends an alternative urate-lowering agent in *58:01 carriers.</td>
+      <td>~5-10% in Han Chinese, ~15% in some Southeast Asian populations</td>
+    </tr>
+    <tr>
+      <td><strong>CYP2C19 multi-allele coverage</strong></td>
+      <td>v5 covers *2 and *3 (the major loss-of-function alleles in EAS). Minor alleles like *17 (gain-of-function, increased activity) are absent. For the EAS PM/IM determination this is mostly fine, but a clinical panel would be more comprehensive.</td>
+      <td>—</td>
+    </tr>
   </table>
+
+  <p class="muted">For anyone seriously contemplating these medications (especially carbamazepine, allopurinol, or codeine), a CPIC-aligned clinical pharmacogenomic panel — not a consumer chip — is the appropriate test.</p>
 </div>
 
-<!-- ===== SECTION 14: SYNTHESIS ===== -->
-<h2 id="synthesis">14. Grand Synthesis</h2>
+<!-- ===== SECTION 11: METHODOLOGY ===== -->
+<h2 id="methodology">11. Methodology &amp; limitations</h2>
 
 <div class="card">
-  <h3>The Three Pillars of Your Genetic Risk Profile</h3>
-
-  <h3 style="color: var(--risk)">Pillar 1: Immune/Inflammatory (Strongest)</h3>
-  <p>Two independent genomic regions — <strong>HLA/C4A</strong> (chr6) and <strong>FADS1/FADS2</strong> (chr11) — both converge on neuroinflammation. The HLA signal is your single largest genetic loading, driving risk across schizophrenia, anxiety, depression, and bipolar simultaneously. This connects to the growing field of <strong>immunopsychiatry</strong> and suggests inflammatory pathways as a major axis of vulnerability.</p>
-  <p>The autoimmune-psychiatric spectrum hypothesis proposes these aren't independent conditions but share upstream immune dysregulation. Mendelian randomization studies confirm causal roles for IL-6 signaling in depression and schizophrenia.</p>
-
-  <h3 style="color: var(--risk)">Pillar 2: Dopaminergic Hypofunction</h3>
-  <p>The <strong>DRD2/HTR3A super-locus</strong> (chr11:113M) reduces D2 receptor expression in the striatum. Combined with your <strong>COMT Val/Met</strong> genotype and <strong>DRD2 Taq1A</strong> carrier status, the overall picture is reduced dopaminergic tone in reward circuits. This is transdiagnostic — spanning depression (anhedonia), bipolar, schizophrenia, and general psychopathology (P-factor).</p>
-
-  <h3 style="color: var(--risk)">Pillar 3: Neurodevelopmental Wiring</h3>
-  <p>Your ADHD-specific risk loci (<strong>FOXP2, CDH8, PTPRF, PCLO</strong>) affect how synapses form and how neural circuits are wired during development. These are distinct from the mood/psychosis signals — ADHD shares almost no genetic architecture with other conditions in your profile.</p>
-
-  <h3 style="color: var(--protect)">Counterbalancing Protection</h3>
+  <h3>What this analysis is</h3>
   <ul>
-    <li><strong>CRHR1 stress axis</strong> — consistently protective, suggesting well-regulated HPA axis stress response</li>
-    <li><strong>HTR2A / TPH2 serotonin</strong> — protective at the 5-HT2A receptor and brain serotonin synthesis</li>
-    <li><strong>Effect size asymmetry</strong> — your protective alleles have larger individual effects than your risk alleles</li>
-    <li><strong>NEGR1 (chr1)</strong> — neuronal growth regulator, protective across anxiety, MDD, and SCZ</li>
+    <li><strong>Input:</strong> single 23andMe v5 raw genotype download (build GRCh37/hg19, 631,970 typed sites, 594,952 usable biallelic autosomal SNPs after filtering indels, no-calls, and non-{A,C,G,T} entries).</li>
+    <li><strong>Method:</strong> per-variant lookup against published clinical literature and CPIC / PharmGKB guidelines. No PRS, no aggregate scoring, no probabilistic risk prediction.</li>
+    <li><strong>Frame of reference:</strong> East Asian (Han Chinese) baseline allele frequencies. Where a finding differs meaningfully from the EUR or global frequency, that's noted.</li>
   </ul>
 
-  <h3>Pharmacogenomic Highlights</h3>
+  <h3>What this analysis is <em>not</em></h3>
   <ul>
-    <li><strong>OPRM1 GG</strong> (Asp40 homozygous, rare ~2-5%): Altered opioid signaling, increased pain sensitivity, better naltrexone response. CPIC pharmacogene.</li>
-    <li><strong>DRD2 low-expression</strong>: Partial D2 agonists (aripiprazole) may be preferred over full antagonists.</li>
-    <li><strong>CACNA1C gain-of-function</strong>: Lithium targets this pathway; L-type calcium channel blockers are being studied.</li>
-    <li><strong>Immune loading</strong>: Anti-inflammatory adjuncts (celecoxib, minocycline) show benefit in trials for individuals with immune-related genetic risk.</li>
+    <li><strong>Not a clinical pharmacogenomic panel.</strong> Several CPIC-actionable EAS variants aren't on the chip (see §10).</li>
+    <li><strong>Not a polygenic risk score.</strong> A previous version of this page reported uncalibrated PRS magnitudes against EUR-cohort psychiatric GWAS for a subject of Chinese ancestry; that approach was scrapped because (a) EUR-cohort weights don't transfer cleanly to EAS, and (b) single-subject uncalibrated PRS magnitudes have no interpretation without a reference distribution.</li>
+    <li><strong>Not a diagnosis.</strong> Single variants in pharmacogenomics have functional reads with literature backing; they don't predict whether you will or won't have an adverse drug reaction.</li>
   </ul>
+
+  <h3>Strand-flip caveat</h3>
+  <p>23andMe v5 mostly reports SNPs on the dbSNP forward strand, but for some positions (notably some <em>CYP3A5</em> and <em>CYP2D6</em> variants) the reported alleles are on the reverse strand. Where a result is strand-ambiguous, this page flags it. CPIC-aligned clinical panels resolve strand explicitly and are the appropriate source for clinical decisions.</p>
 </div>
 
-<div class="disclaimer">
-  <strong style="color: var(--warn);">Final Disclaimer</strong>
-  <p>This analysis cross-referenced 617,245 SNPs against 7 major psychiatric GWAS datasets totaling over 5 million participants. While comprehensive, it is <strong>not a validated clinical tool</strong>. Key limitations:</p>
-  <ul>
-    <li>No LD clumping — correlated SNPs in the same region inflate hit counts (especially HLA)</li>
-    <li>No population-matched reference panels or proper PRS methodology</li>
-    <li>23andMe genotypes only a fraction of all variants; many signals require imputation</li>
-    <li>Environmental factors, epigenetics, gene-environment interactions, and rare variants are not captured</li>
-    <li>Individual SNP effect sizes are tiny — no single variant determines psychiatric risk</li>
-  </ul>
-  <p>For clinical interpretation, consult a <strong>genetic counselor</strong> or <strong>psychiatrist</strong> with genomics expertise.</p>
-</div>
-
-<!-- ===== SECTION 15: REFERENCES ===== -->
-<h2 id="references">15. References</h2>
+<!-- ===== SECTION 12: REFERENCES ===== -->
+<h2 id="references">12. References</h2>
 
 <div class="card">
-  <h3>GWAS Summary Statistics</h3>
-  <ol>
-    <li><strong>ADHD 2022</strong> — Demontis D, Walters RK, Rajagopal VM, et al. "Genome-wide analyses of ADHD identify 27 risk loci, refine the genetic architecture and implicate several cognitive domains." <em>Nature Genetics</em> 55, 198-208 (2023). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/36702997/" style="color: var(--accent);">36702997</a></li>
-    <li><strong>GAD Symptoms 2026</strong> — Skelton M, Mitchell BL, et al. "Genome-wide meta-analysis of quantitatively measured generalized anxiety symptoms in individuals of European ancestry." <em>Nature Human Behaviour</em> (2026). N=693,869.</li>
-    <li><strong>Anxiety Disorder 2026</strong> — PGC Anxiety Disorders Working Group. Full anxiety case-control meta-analysis. 122,083 cases / 729,602 controls, European ancestry.</li>
-    <li><strong>Panic Disorder 2019</strong> — Forstner AJ, Awasthi S, et al. "Genome-wide association study of panic disorder reveals genetic overlap with neuroticism and depression." <em>Molecular Psychiatry</em> 26, 4179-4190 (2021). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/31712720/" style="color: var(--accent);">31712720</a></li>
-    <li><strong>MDD 2025</strong> — Adams MJ, et al. "Genome-wide association study of major depression in 688,808 cases identifies 697 associations at 635 loci." <em>Cell</em> (2025). 412,305 cases / 1,588,397 controls (European, excl. 23andMe). Figshare: <a href="https://doi.org/10.6084/m9.figshare.27061255" style="color: var(--accent);">10.6084/m9.figshare.27061255</a></li>
-    <li><strong>Bipolar Disorder 2024</strong> — O'Connell KS, et al. "Genome-wide association study of bipolar disorder." <em>Nature</em> (2024). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/39843750/" style="color: var(--accent);">39843750</a>. 59,287 cases / 781,022 controls. Figshare: <a href="https://doi.org/10.6084/m9.figshare.27216117" style="color: var(--accent);">10.6084/m9.figshare.27216117</a></li>
-    <li><strong>Schizophrenia 2022</strong> — Trubetskoy V, Pardinas AF, Qi T, et al. "Mapping genomic loci implicates genes and synaptic biology in schizophrenia." <em>Nature</em> 604, 502-508 (2022). 76,755 cases / 243,649 controls. Figshare: <a href="https://doi.org/10.6084/m9.figshare.19426775" style="color: var(--accent);">10.6084/m9.figshare.19426775</a></li>
-    <li><strong>P-Factor 2025</strong> — PGC Cross-Disorder Group. "General psychopathology factor (P-factor) GWAS." Cross-disorder shared genetic liability. Figshare: <a href="https://doi.org/10.6084/m9.figshare.30359017" style="color: var(--accent);">10.6084/m9.figshare.30359017</a></li>
-  </ol>
-
-  <h3>Key Biological Studies</h3>
-  <ol start="9">
-    <li><strong>C4A / Schizophrenia</strong> — Sekar A, Bialas AR, de Rivera H, et al. "Schizophrenia risk from complex variation of complement component 4." <em>Nature</em> 530, 177-183 (2016). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/26814963/" style="color: var(--accent);">26814963</a></li>
-    <li><strong>FOXP2</strong> — Vernes SC, Spiteri E, Nicod J, et al. "High-throughput analysis of promoter occupancy reveals direct neural targets of FOXP2." <em>Genome Research</em> 17, 1835-1843 (2007). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/17989254/" style="color: var(--accent);">17989254</a></li>
-    <li><strong>CRHR1 / Stress</strong> — Binder EB, et al. "Association of CRHR1 haplotypes and HPA axis dysfunction in major depression." <em>Molecular Psychiatry</em> 13, 993-1000 (2008). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/18504432/" style="color: var(--accent);">18504432</a></li>
-    <li><strong>17q21.31 Inversion</strong> — Stefansson H, et al. "A common inversion under selection in Europeans." <em>Nature Genetics</em> 37, 129-137 (2005). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/15654335/" style="color: var(--accent);">15654335</a></li>
-    <li><strong>CACNA1C / Bipolar</strong> — Yoshimizu T, Pan JQ, Bhatt DK, et al. "Functional implications of a psychiatric risk variant within CACNA1C." <em>Molecular Psychiatry</em> 20, 162-169 (2015). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/25403839/" style="color: var(--accent);">25403839</a></li>
-    <li><strong>DRD2 Regulatory Variants</strong> — Schizophrenia Working Group of the Psychiatric Genomics Consortium. "Biological insights from 108 schizophrenia-associated genetic loci." <em>Nature</em> 511, 421-427 (2014). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/25056061/" style="color: var(--accent);">25056061</a></li>
-    <li><strong>OPRM1 Pharmacogenomics</strong> — Kranzler HR, Gelernter J, et al. "Variation in OPRM1 moderates the effect of desire to drink on subsequent drinking and its attenuation by naltrexone treatment." <em>Addiction Biology</em> 18, 193-201 (2013). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/22340009/" style="color: var(--accent);">22340009</a></li>
-    <li><strong>Autoimmune-Psychiatric Overlap</strong> — Benros ME, et al. "Autoimmune diseases and severe infections as risk factors for schizophrenia." <em>American Journal of Psychiatry</em> 168, 1303-1310 (2011). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/22193673/" style="color: var(--accent);">22193673</a></li>
-    <li><strong>IL-6 and Depression (MR)</strong> — Khandaker GM, et al. "Shared mechanisms between coronary heart disease and depression." <em>Molecular Psychiatry</em> 25, 1477-1486 (2020). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/30886334/" style="color: var(--accent);">30886334</a></li>
-    <li><strong>FADS / Brain Lipids</strong> — Ameur A, et al. "Genetic adaptation of fatty-acid metabolism: a human-specific haplotype increasing the biosynthesis of long-chain omega-3 and omega-6 fatty acids." <em>American Journal of Human Genetics</em> 90, 809-820 (2012). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/22503634/" style="color: var(--accent);">22503634</a></li>
-    <li><strong>Anti-inflammatory Adjuncts</strong> — Zheng W, et al. "Adjunctive celecoxib for schizophrenia: A meta-analysis of randomized, double-blind, placebo-controlled trials." <em>Journal of Psychiatric Research</em> 92, 139-146 (2017). PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/28412599/" style="color: var(--accent);">28412599</a></li>
-  </ol>
-
-  <h3>Data Sources &amp; Tools</h3>
+  <h3>Pharmacogenomic guidelines</h3>
   <ul>
-    <li><strong>Genotype data:</strong> 23andMe v5 chip, build GRCh37/hg19 (downloaded August 2022)</li>
-    <li><strong>PGC downloads:</strong> <a href="https://pgc.unc.edu/for-researchers/download-results/" style="color: var(--accent);">pgc.unc.edu/for-researchers/download-results/</a></li>
-    <li><strong>Figshare collections:</strong> <a href="https://figshare.com/collections/Psychiatric_Genomics_Consortium_PGC_GWAS_Summary_Statistics/7863087" style="color: var(--accent);">PGC Figshare Collection</a></li>
-    <li><strong>Analysis:</strong> Custom Python scripts performing SNP matching by rsID, allele-aligned effect direction comparison, and unweighted risk allele counting. No LD clumping or population-matched PRS methodology was applied.</li>
+    <li><strong>CPIC (Clinical Pharmacogenetics Implementation Consortium)</strong> guidelines, all current versions: <a href="https://cpicpgx.org/guidelines/" style="color: var(--accent);">cpicpgx.org/guidelines</a></li>
+    <li><strong>PharmGKB</strong> variant annotation resource: <a href="https://www.pharmgkb.org/" style="color: var(--accent);">pharmgkb.org</a></li>
+    <li>Lee CR, Luzum JA, Sangkuhl K, et al. <em>CPIC guideline for CYP2C19 and clopidogrel.</em> Clin Pharmacol Ther 2022. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/35034351/" style="color: var(--accent);">35034351</a></li>
+    <li>Lima JJ, Thomas CD, Barbarino J, et al. <em>CPIC guideline for CYP2C19 and proton pump inhibitor dosing.</em> Clin Pharmacol Ther 2021. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/32770672/" style="color: var(--accent);">32770672</a></li>
+    <li>Cooper-DeHoff RM, Niemi M, Ramsey LB, et al. <em>CPIC guideline for SLCO1B1, ABCG2, and CYP2C9 and statin-associated musculoskeletal symptoms.</em> Clin Pharmacol Ther 2022. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/35152405/" style="color: var(--accent);">35152405</a></li>
+    <li>Amstutz U, Henricks LM, Offer SM, et al. <em>CPIC guideline for DPYD and fluoropyrimidine dosing.</em> Clin Pharmacol Ther 2018. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/29152729/" style="color: var(--accent);">29152729</a></li>
+    <li>Johnson JA, Caudle KE, Gong L, et al. <em>CPIC guideline for pharmacogenetics-guided warfarin dosing.</em> Clin Pharmacol Ther 2017. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/28198005/" style="color: var(--accent);">28198005</a></li>
+    <li>Crews KR, Monte AA, Huddart R, et al. <em>CPIC guideline for OPRM1, CYP2B6, and select opioids.</em> Clin Pharmacol Ther 2021. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/33387367/" style="color: var(--accent);">33387367</a></li>
+    <li>Phillips EJ, Sukasem C, Whirl-Carrillo M, et al. <em>CPIC guideline for HLA genotype and use of carbamazepine and oxcarbazepine.</em> Clin Pharmacol Ther 2018. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/29392710/" style="color: var(--accent);">29392710</a></li>
+    <li>Saito Y, Stamp LK, Caudle KE, et al. <em>CPIC guideline for HLA-B*58:01 and allopurinol.</em> Clin Pharmacol Ther 2016. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/26094938/" style="color: var(--accent);">26094938</a></li>
+    <li>Caudle KE, Sangkuhl K, Whirl-Carrillo M, et al. <em>Standardizing CYP2D6 genotype-to-phenotype translation.</em> Clin Transl Sci 2020. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/31647186/" style="color: var(--accent);">31647186</a></li>
+  </ul>
+
+  <h3>East-Asian-specific pharmacogenomic studies</h3>
+  <ul>
+    <li>Brooks PJ, Enoch MA, Goldman D, et al. <em>The alcohol flushing response: an unrecognized risk factor for esophageal cancer from alcohol consumption.</em> PLoS Med 2009. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/19320537/" style="color: var(--accent);">19320537</a></li>
+    <li>Edenberg HJ. <em>The genetics of alcohol metabolism: role of alcohol dehydrogenase and aldehyde dehydrogenase variants.</em> Alcohol Res Health 2007. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/17718394/" style="color: var(--accent);">17718394</a></li>
+    <li>International Warfarin Pharmacogenetics Consortium. <em>Estimation of the warfarin dose with clinical and pharmacogenetic data.</em> N Engl J Med 2009. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/19228618/" style="color: var(--accent);">19228618</a> · <a href="https://www.warfarindosing.org/" style="color: var(--accent);">warfarindosing.org</a></li>
+    <li>Hung SI, Chung WH, Liou LB, et al. <em>HLA-B*5801 allele as a genetic marker for severe cutaneous adverse reactions caused by allopurinol.</em> Proc Natl Acad Sci USA 2005. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/15743917/" style="color: var(--accent);">15743917</a></li>
+    <li>Chung WH, Hung SI, Hong HS, et al. <em>Medical genetics: a marker for Stevens-Johnson syndrome.</em> Nature 2004. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/15057820/" style="color: var(--accent);">15057820</a></li>
+  </ul>
+
+  <h3>Population allele-frequency references</h3>
+  <ul>
+    <li><strong>gnomAD</strong> (genome aggregation database): <a href="https://gnomad.broadinstitute.org/" style="color: var(--accent);">gnomad.broadinstitute.org</a> — population-stratified allele frequencies.</li>
+    <li><strong>1000 Genomes Project Phase 3</strong>: <a href="https://www.internationalgenome.org/" style="color: var(--accent);">internationalgenome.org</a> — EAS, EUR, AFR, SAS, AMR superpopulation references.</li>
+    <li><strong>PharmGKB Allele Frequency Search</strong>: <a href="https://www.pharmgkb.org/page/pgxAlleleFrequencySearch" style="color: var(--accent);">pharmgkb.org</a> — gene-specific population-stratified frequencies.</li>
+  </ul>
+
+  <h3>Data sources</h3>
+  <ul>
+    <li>Genotype data: 23andMe v5 chip raw download, GRCh37/hg19, downloaded August 2022.</li>
+    <li>Analysis: per-variant lookup using <a href="https://github.com/daliu/daliu.github.io/blob/master/scripts/build_pharmacogenomics.py" style="color: var(--accent);"><code>scripts/build_pharmacogenomics.py</code></a> — reads the 23andMe TSV and matches against a curated table of well-characterized pharmacogenomic positions.</li>
   </ul>
 </div>
 
-<div class="card" style="text-align: center;">
-  <p class="muted">
-    Analysis scripts: adhd_gwas_crossref.py, anxiety_panic_gwas_crossref.py, multi_disorder_gwas.py, cross_disorder_exploration.py, detailed_locus_exploration.py, deep_exploration_2.py, final_investigation.py
-  </p>
-</div>
 
 </div><!-- /.report-container -->
 </body>
