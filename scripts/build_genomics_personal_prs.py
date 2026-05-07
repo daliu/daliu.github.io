@@ -100,17 +100,42 @@ def safe_float(s):
         return None
 
 
+# Conservative MHC/HLA region boundaries on chr 6 (GRCh37/hg19).
+# 25–34 Mb spans the extended MHC, well beyond the classical 28.5–33.4 Mb
+# class-I/II/III region. Used to flag SNPs whose contribution to the
+# centered PRS is dominated by one long-range LD block.
+MHC_CHR = "6"
+MHC_START_MB = 25
+MHC_END_MB = 34
+
+
+def _is_mhc(chrom, pos):
+    """Return True if (chrom, pos) is in the MHC region (chr 6: 25-34 Mb)."""
+    if str(chrom) != MHC_CHR:
+        return False
+    try:
+        bp = int(pos)
+    except (TypeError, ValueError):
+        return False
+    return MHC_START_MB * 1_000_000 <= bp <= MHC_END_MB * 1_000_000
+
+
 def analyze_disorder(disorder, tophits_path, geno):
-    """Return per-disorder summary dict."""
-    matched = 0
+    """Return per-disorder summary dict.
+
+    Tracks two parallel sums: full (all GWS SNPs in the disorder index)
+    and non_mhc (SNPs outside chr 6: 25-34 Mb). Reporting both lets
+    readers see how much of the centered PRS comes from the MHC long-LD
+    block — the single biggest source of LD inflation in psychiatric
+    chip-PRS computation.
+    """
     examined = 0
-    n_carrier = 0
-    n_homo = 0
-    sum_beta_dosage = 0.0
-    sum_abs_beta_dosage = 0.0
-    sum_beta = 0.0  # null reference: PRS if Dave were heterozygous everywhere
-    dosage_dist = [0, 0, 0]  # counts of dosage 0 / 1 / 2
-    strong_carriers = []  # SNPs where Dave carries the risk allele AND |beta| is large
+    # Per-bucket stats: 'all' = every matched SNP; 'non_mhc' = excludes chr6 MHC
+    buckets = {
+        "all":     {"matched": 0, "carrier": 0, "homo": 0, "sum_bd": 0.0, "sum_abs_bd": 0.0, "sum_b": 0.0, "dist": [0, 0, 0]},
+        "non_mhc": {"matched": 0, "carrier": 0, "homo": 0, "sum_bd": 0.0, "sum_abs_bd": 0.0, "sum_b": 0.0, "dist": [0, 0, 0]},
+    }
+    strong_carriers = []
 
     for row in parse_tophits_tsv(tophits_path):
         examined += 1
@@ -134,10 +159,6 @@ def analyze_disorder(disorder, tophits_path, geno):
                 beta = math.log(oratio)
                 beta_kind = "log_or"
         if beta is None and z_str:
-            # Files that only report Z (CUD, OUD, alcdep): use Z as the
-            # effect-direction weight. Different units from beta, so
-            # PRS magnitudes won't compare across disorders — but
-            # carrier counts and direction are still valid.
             beta = safe_float(z_str)
             beta_kind = "z"
         if beta is None:
@@ -146,27 +167,39 @@ def analyze_disorder(disorder, tophits_path, geno):
         g = geno.get(rsid)
         if not g:
             continue
-        matched += 1
 
-        # Sanity-check the alleles match. Some sumstats encode strand-flipped
-        # alleles; we treat unmatched-allele cases as missing.
         observed = {g["a1"], g["a2"]}
         if not observed.issubset({ea, oa}):
             continue
 
         d = dosage(g, ea)
-        dosage_dist[d] += 1
-        sum_beta_dosage += beta * d
-        sum_abs_beta_dosage += abs(beta) * d
-        sum_beta += beta  # equivalent to dosage=1 reference per SNP
-        if d >= 1:
-            n_carrier += 1
-        if d == 2:
-            n_homo += 1
+        in_mhc = _is_mhc(row.get("chr"), row.get("pos"))
 
-        # Strong-carrier threshold scales with effect-size kind:
-        # - beta/log(OR): typical GWS effects are 0.05–0.3
-        # - Z-score: typical GWS Z is 5.5+, "strong" 6.0+
+        # Always update the 'all' bucket.
+        b = buckets["all"]
+        b["matched"] += 1
+        b["dist"][d] += 1
+        b["sum_bd"] += beta * d
+        b["sum_abs_bd"] += abs(beta) * d
+        b["sum_b"] += beta
+        if d >= 1:
+            b["carrier"] += 1
+        if d == 2:
+            b["homo"] += 1
+
+        # Only update 'non_mhc' if the SNP is outside the MHC region.
+        if not in_mhc:
+            b = buckets["non_mhc"]
+            b["matched"] += 1
+            b["dist"][d] += 1
+            b["sum_bd"] += beta * d
+            b["sum_abs_bd"] += abs(beta) * d
+            b["sum_b"] += beta
+            if d >= 1:
+                b["carrier"] += 1
+            if d == 2:
+                b["homo"] += 1
+
         threshold = 6.0 if beta_kind == "z" else 0.05
         if d >= 1 and abs(beta) > threshold:
             strong_carriers.append({
@@ -179,24 +212,51 @@ def analyze_disorder(disorder, tophits_path, geno):
                 "dosage": d,
                 "beta": round(beta, 4),
                 "beta_kind": beta_kind,
+                "in_mhc": in_mhc,
                 "p": row.get("p"),
             })
 
     strong_carriers.sort(key=lambda r: -abs(r["beta"]))
+
+    def _summary(name):
+        b = buckets[name]
+        m = b["matched"]
+        return {
+            "matched": m,
+            "n_carrier": b["carrier"],
+            "n_homo": b["homo"],
+            "mean_dosage": round((b["dist"][1] + 2 * b["dist"][2]) / m, 4) if m else None,
+            "sum_beta_dosage": round(b["sum_bd"], 4),
+            "sum_abs_beta_dosage": round(b["sum_abs_bd"], 4),
+            "centered_prs": round(b["sum_bd"] - b["sum_b"], 4),
+        }
+
+    full = _summary("all")
+    non_mhc = _summary("non_mhc")
+    mhc_only = {
+        "matched": full["matched"] - non_mhc["matched"],
+        "n_carrier": full["n_carrier"] - non_mhc["n_carrier"],
+        "n_homo": full["n_homo"] - non_mhc["n_homo"],
+        "centered_prs": round(full["centered_prs"] - non_mhc["centered_prs"], 4),
+    }
+
     return {
         "disorder": disorder,
         "tophits_examined": examined,
-        "tophits_matched_in_23andMe": matched,
-        "n_carrier": n_carrier,
-        "n_homo": n_homo,
-        "dosage_distribution": {"0": dosage_dist[0], "1": dosage_dist[1], "2": dosage_dist[2]},
-        "mean_dosage": round((dosage_dist[1] + 2 * dosage_dist[2]) / matched, 4) if matched else None,
-        "sum_beta_dosage": round(sum_beta_dosage, 4),
-        "sum_abs_beta_dosage": round(sum_abs_beta_dosage, 4),
-        "ref_sum_beta_per_match": round(sum_beta, 4),
-        # PRS centered on dosage=1 (heterozygous reference): >0 means Dave's
-        # dosage is "more risk-allele than het-everywhere"
-        "centered_prs": round(sum_beta_dosage - sum_beta, 4),
+        "tophits_matched_in_23andMe": full["matched"],
+        "n_carrier": full["n_carrier"],
+        "n_homo": full["n_homo"],
+        "dosage_distribution": {"0": buckets["all"]["dist"][0], "1": buckets["all"]["dist"][1], "2": buckets["all"]["dist"][2]},
+        "mean_dosage": full["mean_dosage"],
+        "sum_beta_dosage": full["sum_beta_dosage"],
+        "sum_abs_beta_dosage": full["sum_abs_beta_dosage"],
+        "ref_sum_beta_per_match": round(buckets["all"]["sum_b"], 4),
+        "centered_prs": full["centered_prs"],
+        # NEW — MHC-stratified centered PRS for robustness.
+        "centered_prs_non_mhc": non_mhc["centered_prs"],
+        "centered_prs_mhc_only": mhc_only["centered_prs"],
+        "matched_non_mhc": non_mhc["matched"],
+        "matched_mhc": mhc_only["matched"],
         "strong_carriers_top10": strong_carriers[:10],
     }
 
@@ -286,8 +346,10 @@ def main():
         results.append(r)
         print(
             f"  {disorder}: {r['tophits_matched_in_23andMe']:>5}/{r['tophits_examined']:<5} matched, "
-            f"{r['n_carrier']:>4} carrier, mean dosage={r['mean_dosage']!s:>6}, "
-            f"centered PRS={r['centered_prs']:+.3f}"
+            f"{r['n_carrier']:>4} carrier, "
+            f"PRS_full={r['centered_prs']:+.3f}, "
+            f"PRS_no_MHC={r['centered_prs_non_mhc']:+.3f} ({r['matched_non_mhc']} SNPs), "
+            f"MHC={r['centered_prs_mhc_only']:+.3f} ({r['matched_mhc']} SNPs)"
         )
 
     print("\nScanning transdiagnostic SNPs (≥3 disorders)…")
@@ -332,31 +394,32 @@ def main():
         "",
         "## Per-disorder summary",
         "",
-        "| Disorder | Examined | Typed by 23andMe | Carrier | Homo | Mean dosage | Centered PRS |",
-        "|---|---|---|---|---|---|---|",
+        "| Disorder | Typed | Carrier | PRS (full) | PRS (no MHC) | MHC Δ | MHC SNPs |",
+        "|---|---:|---:|---:|---:|---:|---:|",
     ]
-    # Sort by centered PRS descending (most enriched for risk alleles first)
     sorted_results = sorted(results, key=lambda r: -(r["centered_prs"] or 0))
     for r in sorted_results:
         lines.append(
-            "| {d} | {e} | {m} | {c} | {h} | {md} | {cp:+.3f} |".format(
+            "| {d} | {m} | {c} | {cp:+.3f} | {cpn:+.3f} | {mhc:+.3f} | {ms} |".format(
                 d=r["disorder"],
-                e=r["tophits_examined"],
                 m=r["tophits_matched_in_23andMe"],
                 c=r["n_carrier"],
-                h=r["n_homo"],
-                md=r["mean_dosage"] if r["mean_dosage"] is not None else "—",
                 cp=r["centered_prs"],
+                cpn=r["centered_prs_non_mhc"],
+                mhc=r["centered_prs_mhc_only"],
+                ms=r["matched_mhc"],
             )
         )
     lines.extend([
         "",
         "**How to read**:",
-        "- _Examined_: GWS SNPs in that disorder's top-hits index.",
-        "- _Typed by 23andMe_: subset present in Dave's genotype file.",
-        "- _Carrier_ / _Homo_: Dave has at least one / both copies of the effect (risk) allele.",
-        "- _Mean dosage_: average effect-allele dosage over matched SNPs (0–2). Random expectation depends on allele frequencies; not 1.0 in general.",
-        "- _Centered PRS_: Σ β·d − Σ β. Positive = Dave's dosage tilts toward effect alleles relative to a heterozygous-everywhere baseline; negative = away. NOT a clinical score; uncalibrated; subject to LD inflation since hits aren't clumped.",
+        "- _Typed_: SNPs in that disorder's GWS top-hits that 23andMe types.",
+        "- _Carrier_: SNPs where Dave carries ≥1 copy of the effect (risk) allele.",
+        "- _PRS (full)_: Σ β·(d−1) over all typed GWS SNPs. Positive = Dave's dosage tilts toward effect alleles vs heterozygous-everywhere baseline.",
+        "- _PRS (no MHC)_: same, but excluding chr 6: 25–34 Mb (the extended MHC). MHC is one massive LD block; its many tag SNPs inflate any chip-PRS.",
+        "- _MHC Δ_: PRS contribution from the MHC region. Dominates schizophrenia.",
+        "- _MHC SNPs_: count of typed GWS SNPs that fell inside the MHC region.",
+        "- NOT a clinical score; uncalibrated; not directly comparable across disorders.",
         "",
     ])
 
