@@ -103,17 +103,17 @@ VARIANTS = [
 
     # === Alcohol pharmacology (EAS-specific) ===
     ("rs671",      "ALDH2 *504Lys",
-     "EAS *504Lys (G allele) freq ~30%; ~40% of EAS are AG (mild flush), ~10% AA (severe flush)",
+     "EAS *504Lys (A allele) freq ~30%; ~40% of EAS are AG (mild flush), ~10% AA (severe flush). G is wild-type Glu; A is the *504Lys variant.",
      {"GG": "Glu/Glu (*1/*1; standard ALDH2)",
       "AG": "Glu/Lys (*1/*2; mild flush, slower acetaldehyde clearance)",
       "AA": "Lys/Lys (*2/*2; severe flush)"}),
 
     # === Caffeine pharmacology ===
     ("rs762551",   "CYP1A2 *1F",
-     "Caffeine metabolism speed. *1A = fast (half-life ~3-4h); *1F = slow (half-life 6+h)",
-     {"AA": "*1A/*1A (fast caffeine metabolizer)",
+     "*1F = A allele = rapid-inducer phenotype (most evident in induced states: smoking, cruciferous veggies). Baseline differential is smaller and contested in the literature",
+     {"AA": "*1F/*1F (homozygous *1F — rapid-inducer phenotype)",
       "AC": "*1A/*1F (heterozygous)",
-      "CC": "*1F/*1F (slow metabolizer)"}),
+      "CC": "*1A/*1A (homozygous reference — slow-inducer baseline)"}),
     ("rs5751876",  "ADORA2A",
      "Caffeine-induced anxiety sensitivity",
      {"CC": "reduced caffeine anxiety sensitivity",
