@@ -197,11 +197,38 @@
 <!-- Header -->
 <div style="padding: 100px 0 40px; background: #474e5d; color: #fff; text-align: center;">
   <h1 style="font-family: Montserrat, sans-serif; font-weight: 700; font-size: 2.2em; margin-bottom: 10px;">Publications</h1>
-  <p style="font-size: 1.1em; color: #ccc; max-width: 640px; margin: 0 auto;">Research on multi-agent AI systems, model selection, and machine learning under distribution shift.</p>
+  <p style="font-size: 1.1em; color: #ccc; max-width: 640px; margin: 0 auto;">Research on multi-agent AI systems, model selection, machine learning under distribution shift, and statistical genomics methodology.</p>
 </div>
 
 <!-- Publications -->
 <div class="container" style="padding: 50px 0;">
+
+  <!-- Paper 3: Genomics MHC -->
+  <div class="pub-card">
+    <div class="pub-venue">2026 &middot; Independent Research &middot; CC BY 4.0</div>
+    <div class="pub-title">Ancestry-matched GWAS resolves the chromosome 6 MHC dominance in consumer-chip psychiatric polygenic risk scoring: a single-subject 23andMe v5 case analysis in a Han Chinese individual</div>
+    <div class="pub-authors"><strong>David Liu</strong></div>
+    <div class="pub-abstract">
+      Single-subject psychiatric polygenic risk score (PRS) computation from consumer-chip genotyping is widely practiced but methodologically fraught. We document an empirical observation with practical implications: the dominance of chromosome 6 MHC tag SNPs in chip-PRS for schizophrenia is <em>specific to European-cohort GWAS</em> and <em>absent from East-Asian-cohort GWAS</em>. In a single Han Chinese subject genotyped on 23andMe v5, cross-referencing against PGC3 wave 3 EUR-cohort schizophrenia GWAS yields 1,491 typed GWS SNPs of which 990 (66.4%) fall in the chr 6 extended MHC region, driving an uncalibrated centered PRS that collapses from +60.33 to &minus;0.67 when MHC SNPs are excluded. The same subject cross-referenced against the Lam 2019 East-Asian SCZ GWAS yields 54 typed GWS SNPs, <strong>zero</strong> of which are in the MHC region. The dominant per-locus signal lives at chr 10q24 (AS3MT/CNNM2/NT5C2), chr 12q24, chr 2p16 (VRK2/ZFP36L2), and several chr 3 loci. We complement the analysis with a CPIC-aligned per-variant pharmacogenomic profile and identify four East-Asian-clinically-actionable variants (ADH1B *2, CYP2D6 *10, HLA-B*15:02, HLA-B*58:01) absent from the 23andMe v5 chip.
+    </div>
+    <div class="key-result">
+      <strong>Key Results:</strong> chr 6 MHC contains 66.4% of EUR-cohort GWS SNPs but 0% of EAS-cohort GWS SNPs &middot; SCZ chip-PRS collapses from +60.33 to &minus;0.67 when MHC excluded (EUR cohort) &middot; chr 10q24 AS3MT/CNNM2/NT5C2 is the dominant trans-ancestry replicated locus (subject hom-risk at 8/13 typed tag SNPs) &middot; 23andMe v5 misses ADH1B *2, CYP2D6 *10, HLA-B*15:02, HLA-B*58:01 &mdash; the most clinically actionable EAS pharmacogenomic variants
+    </div>
+    <div class="pub-tags">
+      <span class="pub-tag">Pharmacogenomics</span>
+      <span class="pub-tag">Polygenic Risk Score</span>
+      <span class="pub-tag">Schizophrenia</span>
+      <span class="pub-tag">East Asian</span>
+      <span class="pub-tag">Single-Subject</span>
+      <span class="pub-tag">23andMe</span>
+      <span class="pub-tag">CPIC</span>
+    </div>
+    <div class="pub-links">
+      <a href="research/single-subject-chip-prs-mhc.pdf" class="btn-pdf">PDF</a>
+      <a href="https://github.com/daliu/daliu.github.io/tree/master/scripts" class="btn-code" target="_blank">Code</a>
+      <a href="genomics/" class="btn-demo">Live Report</a>
+    </div>
+  </div>
 
   <!-- Paper 1: Meta Council -->
   <div class="pub-card">
