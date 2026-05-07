@@ -27,9 +27,9 @@
 \maketitle
 
 \begin{abstract}
-\noindent In a Han Chinese subject's 23andMe v5 data cross-referenced against ancestry-matched schizophrenia GWAS (Lam et al.~2019, $n_{\text{cases}}=22{,}778$), \textbf{zero of the 1{,}730 East-Asian-cohort genome-wide-significant SNPs fall within the chromosome 6 MHC region} --- compared with $\sim$66\% of typed European-cohort GWS SNPs in the same subject (PGC3 wave~3, Trubetskoy et al.~2022, $n_{\text{cases}}=76{,}755$). We document the methodological consequence: the chromosome 6 MHC tag-SNP dominance that drives single-subject consumer-chip psychiatric polygenic risk scoring is \emph{specific to European-cohort GWAS at current sample sizes}, not a structural property of chip-PRS as such. The Lam authors themselves attribute the EAS MHC absence to allele-frequency differences (rs13194504 minor allele frequency $<1\%$ in EAS vs $9\%$ in EUR; the C4-BS allele rare in Han Chinese); this work documents the downstream practical consequence for single-subject chip-PRS calculations.
+\noindent In a Han Chinese subject's 23andMe v5 chip-typed genotypes cross-referenced against two ancestry-stratified schizophrenia GWAS, the chromosome 6 MHC region behaves qualitatively differently across cohorts. From PGC3 wave~3 EUR (Trubetskoy et al.~2022, $n_{\text{cases}}=76{,}755$), \textbf{990 of 1{,}491 chip-typed genome-wide-significant (GWS) SNPs (66.4\%) fall within the chromosome 6 extended MHC region (25--34 Mb).} From Lam et al.~2019 EAS ($n_{\text{cases}}=22{,}778$), \textbf{0 of 54 chip-typed GWS SNPs --- and 0 of all 1{,}730 GWS SNPs in the EAS sumstats --- fall within the MHC.} Lam et al.~note this cross-population discrepancy directly: rs13194504 has minor allele frequency $<1\%$ in EAS vs $9\%$ in EUR, and the C4-BS allele is uncommon in Han Chinese populations. We document the downstream methodological consequence for single-subject chip-PRS: the chromosome 6 MHC tag-SNP dominance that drives consumer-chip psychiatric polygenic risk scores is specific to European-cohort GWAS at current sample sizes, not a structural property of chip-PRS as such.
 
-In the EUR-cohort analysis, the subject's uncalibrated centered chip-PRS (defined as $\sum_i \beta_i (d_i - 1)$ on the GWAS-reported log-odds scale, where $d_i \in \{0,1,2\}$ is effect-allele dosage; this is a convenience centering on a heterozygous-everywhere baseline, not a population-deviation metric) collapses by approximately two orders of magnitude when MHC SNPs are excluded. In the EAS-cohort analysis, the dominant per-locus signal lives outside the MHC --- primarily at chromosome 10q24 (BORCS7/AS3MT/NT5C2 cluster; subject homozygous for the risk-direction allele at 8 of 13 typed tag SNPs), chromosome 12q24, chromosome 2p16 (VRK2/ZFP36L2), and chromosome 3 loci. The per-locus signal landscape is therefore less LD-block-dominated for East Asian subjects than for European subjects when ancestry-matched GWAS are used --- a statement about which loci dominate the weighted sum, not about predictive accuracy of either score.
+In the EUR-cohort analysis, the subject's uncalibrated centered chip-PRS (defined as $\sum_i \beta_i (d_i - 1)$ on the GWAS-reported log-odds scale, where $d_i \in \{0,1,2\}$ is effect-allele dosage; this is a convenience centering on a heterozygous-everywhere baseline, not a population-deviation metric) drops by approximately two orders of magnitude (and changes sign, from $+60.33$ to $-0.67$) when MHC SNPs are excluded. In the EAS-cohort analysis, the dominant per-locus signal lives outside the MHC --- primarily at chromosome 10q24 (BORCS7/AS3MT/NT5C2 cluster; subject homozygous for the risk-direction allele at 8 of 13 typed tag SNPs), chromosome 12q24, chromosome 2p16 (VRK2/ZFP36L2), and chromosome 3 loci. The per-locus signal landscape is therefore less LD-block-dominated for East Asian subjects than for European subjects when ancestry-matched GWAS are used --- a statement about which loci dominate the weighted sum, not about predictive accuracy of either score.
 
 We complement this analysis with a per-variant pharmacogenomic profile and a coverage audit identifying CPIC-actionable East-Asian-relevant variants not typed by 23andMe v5: \emph{ADH1B} *2, \emph{CYP2D6} *10, \emph{NUDT15} *3, \emph{HLA-B*15:02}, and \emph{HLA-B*58:01}. These omissions limit the chip's utility as a substitute for a CPIC-aligned clinical pharmacogenomic panel in East Asian patients.
 \end{abstract}
@@ -38,7 +38,7 @@ We complement this analysis with a per-variant pharmacogenomic profile and a cov
 
 The Psychiatric Genomics Consortium (PGC) and related efforts have produced increasingly powerful genome-wide association study (GWAS) summary statistics for major depressive disorder, schizophrenia (SCZ), bipolar disorder, anxiety, and other phenotypes \cite{trubetskoy2022,lam2019,bip2024,mdd2025}. A common downstream use case is the construction of a polygenic risk score (PRS) for an individual subject, often computed from consumer direct-to-consumer (DTC) genotyping data such as 23andMe v5 (Build GRCh37/hg19, $\sim$631{,}000 typed sites) for educational, research, or speculative-clinical purposes.
 
-This practice has well-documented limitations. Naïvely computed PRS from a chip's typed subset of GWS SNPs, without linkage-disequilibrium (LD) clumping or population-matched calibration, is uninterpretable as a clinical risk number. The single-subject use case compounds this with a missing-reference-distribution problem: a centered weighted sum has no meaning without a population reference. Standard PRS pipelines (PRSice-2, LDpred2, PRS-CS) address most of these concerns but require imputed dense genotypes and population-reference panels that DTC raw downloads cannot directly support \cite{ge2019,vilhjalmsson2015,choi2020}.
+This practice has well-documented limitations. Naïvely computed PRS from a chip's typed subset of GWS SNPs, without linkage-disequilibrium (LD) clumping or population-matched calibration, is uninterpretable as a clinical risk number. The single-subject use case compounds this with a missing-reference-distribution problem: a centered weighted sum has no meaning without a population reference. Standard PRS pipelines (PRSice-2 \cite{choi2020}, LDpred / LDpred2 \cite{vilhjalmsson2015,prive2020}, PRS-CS \cite{ge2019}) address most of these concerns but require imputed dense genotypes and population-reference panels that DTC raw downloads cannot directly support.
 
 A less-commonly-discussed limitation is the \emph{anatomical} bias of chip-typed GWS SNPs toward the chromosome 6 major histocompatibility complex (MHC) region. The MHC ($\sim$25--34 Mb on chromosome 6, GRCh37) is one of the strongest reproducible psychiatric-disorder loci, particularly for schizophrenia, where complement-mediated synaptic pruning via increased \emph{C4A} expression has been proposed as a downstream mechanism (Sekar et al.~2016 \cite{sekar2016}; subsequent work has reported partial replication and methodological challenges, particularly around \emph{C4} imputation in non-European populations \cite{kim2021}). It is also a region of unusually long-range linkage disequilibrium, dense gene content, and exceptional medical interest, and is therefore intensively typed on consumer chips for HLA imputation. The combination produces a chip-PRS in which a single LD block --- one set of correlated tag SNPs --- can dominate the weighted sum, an LD-inflation source noted in passing in the broader PRS-methodology literature \cite{wray2014} but rarely characterized empirically for the single-subject DTC use case.
 
@@ -164,11 +164,11 @@ The chr10q24 cluster (104--105 Mb) corresponds to the BORCS7/AS3MT/NT5C2/CNNM2 r
 
 The chr 2: 58--59 Mb cluster (VRK2/ZFP36L2 region) presents a different pattern: the subject is heterozygous at 9 of 10 typed tag SNPs, suggesting one risk-haplotype and one non-risk-haplotype inheritance configuration at the locus.
 
-The chr 12q24 cluster (123--124 Mb) is the largest single-Mb GWS hot-spot in the Lam 2019 sumstats but the underlying causal gene is less established than at 10q24. The window contains \emph{NCOR2} and adjacent regions; the most credible psychiatric mapping in this neighborhood involves the \emph{ATXN2/SH2B3/CUX2} cluster slightly upstream (chr 12: 111--112 Mb) and the \emph{NCOR2/SCARB1} region within the window itself. We do not attempt a definitive top-SNP-to-gene mapping here.
+The chr 12q24 cluster (123--124 Mb) is the largest single-Mb GWS hot-spot in the Lam 2019 sumstats but the underlying causal gene is less established than at 10q24. The window borders \emph{NCOR2} (just downstream at $\sim$124.8 Mb) and \emph{SCARB1}; the most credible psychiatric mapping in the broader 12q24 neighborhood involves the \emph{ATXN2/SH2B3/CUX2} cluster well upstream (chr 12: 111--112 Mb), which is outside this 1-Mb window. We do not attempt a definitive top-SNP-to-gene mapping for the 123--124 Mb hot-spot here.
 
 \subsection{Per-variant pharmacogenomic profile}
 
-The subject's CPIC-aligned pharmacogenomic profile from the 19-variant lookup is summarized below. We report the genotype, the inferred allele-level functional read, and the East Asian baseline frequency context:
+The subject's CPIC-aligned pharmacogenomic profile from the 19-variant lookup is summarized below. \textbf{These are research-grade single-subject genotype lookups, not clinical pharmacogenomic test results}; clinical action requires a CLIA/CAP-certified panel covering the full set of relevant alleles per gene. ``Normal'' or ``no elevated risk'' calls below are scoped to the typed variant only --- multi-allele genes (CYP2D6, CYP2C19, DPYD, UGT1A1, CYP2B6) have additional clinically-actionable variants that may not be on this chip.
 
 \begin{center}
 \small
@@ -176,26 +176,27 @@ The subject's CPIC-aligned pharmacogenomic profile from the 19-variant lookup is
 \toprule
 Gene · variant & Genotype & Functional read \\
 \midrule
-CYP2C19 *2 (rs4244285) & GG (*1/*1) & Extensive metabolizer; standard PPI / clopidogrel response. $\sim$40\% of EAS \\
-CYP2C19 *3 (rs4986893) & GG          & No *3 allele; extensive metabolizer confirmed \\
-VKORC1 -1639 (rs9923231) & CT        & Intermediate warfarin sensitivity; EAS-typical is hom-A (low dose) \\
-CYP2C9 *2 (rs1799853) & CC           & No *2; normal warfarin clearance \\
+CYP2C19 *2 (rs4244285) & GG (*1/*1) & Extensive metabolizer at *2 locus. \emph{Caveat:} *17 (increased function), *4, *6, *8 not typed; full-gene phenotype could differ \\
+CYP2C19 *3 (rs4986893) & GG          & No *3 allele; combined *2/*3-determined extensive-metabolizer status confirmed \\
+VKORC1 -1639 (rs9923231) & CT        & Intermediate warfarin sensitivity; EAS-typical is hom-T (low dose). \emph{Caveat:} dose decisions require IWPC algorithm with CYP2C9, age, BSA, concomitant medications --- single-variant interpretation insufficient \\
+CYP2C9 *2 (rs1799853) & CC           & No *2; normal warfarin / phenytoin clearance at this locus \\
 CYP2C9 *3 (rs1057910) & AA           & No *3 \\
-SLCO1B1 *5 (rs4149056) & TT (*1A/*1A) & Normal statin transport, no elevated myopathy risk \\
-DPYD *2A (rs3918290) & CC (*1/*1)    & Normal DPD activity \\
-CYP2B6 *6 (rs3745274) & GG (*1/*1)   & Normal metabolism (efavirenz/methadone/bupropion) \\
-UGT1A1 *6 (rs4148323) & GG           & No EAS-specific Gilbert variant \\
+SLCO1B1 *5 (rs4149056) & TT (*1A/*1A) & No elevated myopathy risk attributable to SLCO1B1 rs4149056. \emph{Caveat:} ABCG2 rs2231142 not assessed; CPIC 2022 statin guideline incorporates both genes \\
+DPYD *2A (rs3918290) & CC (*1/*1)    & Normal DPD activity at the *2A locus only. \emph{Caveat:} *13 (rs55886062), c.2846A$>$T (rs67376798), and HapB3 (rs56038477) not typed --- additional sources of DPD deficiency relevant for fluoropyrimidine dosing \\
+CYP2B6 *6 (rs3745274) & GG           & No *6 at this locus. \emph{Caveat:} *4, *18, and rs2279343 (the second *6 haplotype variant) not typed \\
+UGT1A1 *6 (rs4148323) & GG           & No EAS-specific Gilbert variant from this position. \emph{Caveat:} UGT1A1 *28 (TA repeat polymorphism) is the dominant Gilbert / irinotecan-toxicity variant globally and is not assessable from chip SNP data \\
 CYP3A5 *3 (rs776746)   & CC$^{\dagger}$ & Likely *3/*3 nonexpresser (typical EAS, $\sim$75\%) \\
-IFNL3 / IL28B (rs12979860) & CC      & Favorable HCV interferon response genotype \\
-ALDH2 *504Lys (rs671) & AG           & Glu/Lys het; mild flush, slower acetaldehyde clearance. $\sim$40\% of Han Chinese \\
-CYP1A2 *1F (rs762551) & AA (*1F/*1F) & Rapid-inducer phenotype (most evident in induced states) \\
+IFNL3 / IL28B (rs12979860) & CC      & Favorable HCV interferon response genotype (when applicable; less practically relevant in the era of direct-acting HCV antivirals) \\
+ALDH2 *504Lys (rs671) & AG           & Glu/Lys het; mild flush, slower acetaldehyde clearance. *504Lys allele freq $\sim$20--25\% in East Asian subpopulations; by HWE, $\sim$30--40\% of Han Chinese are AG carriers, $\sim$5--10\% AA homozygotes \\
+CYP1A2 *1F (rs762551) & AA (*1F/*1F) & Rapid-inducer phenotype (most evident in induced states; baseline differential is contested in the literature; CYP1A2 currently has no CPIC Level A guideline) \\
 ADORA2A (rs5751876) & CC             & Reduced caffeine-induced anxiety \\
-APOE rs429358 + rs7412 & TT + CC     & $\varepsilon 3 / \varepsilon 3$; neither AD-risk nor protective \\
+APOE rs429358 + rs7412 & TT + CC     & $\varepsilon 3 / \varepsilon 3$ reference genotype; neither elevated nor reduced AD risk relative to population baseline. APOE is one of many AD risk factors and is not deterministic \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-{\footnotesize $^\dagger$ Strand-flip ambiguity: 23andMe v5 reports rs776746 inconsistently across versions; clinical panel verification recommended before action.}
+{\footnotesize $^\dagger$ Strand-flip ambiguity: 23andMe v5 reports rs776746 inconsistently across versions; clinical panel verification recommended before action. \\
+Pharmacogenomic findings interact: single-variant calls do not capture compound-gene metabolizer phenotypes (e.g., CYP2D6+CYP3A4 for tamoxifen, CYP2C19+CYP3A4 for clopidogrel response).}
 
 \subsection{East Asian variants the chip does not type}
 
@@ -261,9 +262,9 @@ The chr 6 MHC tag-SNP dominance that drives single-subject consumer-chip psychia
 
 \bibitem{lam2019} Lam M, Chen CY, Li Z, et al. Comparative genetic architectures of schizophrenia in East Asian and European populations. \emph{Nature Genetics} 51, 1670--1678 (2019). PMID: 31740837.
 
-\bibitem{bip2024} O'Connell KS, Coombes BJ, Glessner JT, et al. Genome-wide association study of bipolar disorder. \emph{Nature} (2024). PMID: 39843750.
+\bibitem{bip2024} O'Connell KS, Koromina M, van der Veen T, et al. Genomics yields biological and phenotypic insights into bipolar disorder. \emph{Nature} 639, 968--975 (2025). PMID: 39843750.
 
-\bibitem{mdd2025} Adams MJ, Hill WD, Howard DM, et al. Genome-wide association study of major depression in 688{,}808 cases identifies 697 associations at 635 loci. \emph{Cell} (2025).
+\bibitem{mdd2025} Major Depressive Disorder Working Group of the Psychiatric Genomics Consortium. Trans-ancestry genome-wide study of depression identifies 697 associations implicating cell types and pharmacotherapies. \emph{Cell} (2025). PMID: 39814019.
 
 \bibitem{sekar2016} Sekar A, Bialas AR, de Rivera H, et al. Schizophrenia risk from complex variation of complement component 4. \emph{Nature} 530, 177--183 (2016). PMID: 26814963.
 
@@ -271,11 +272,13 @@ The chr 6 MHC tag-SNP dominance that drives single-subject consumer-chip psychia
 
 \bibitem{ge2019} Ge T, Chen CY, Ni Y, Feng YA, Smoller JW. Polygenic prediction via Bayesian regression and continuous shrinkage priors. \emph{Nature Communications} 10, 1776 (2019).
 
-\bibitem{vilhjalmsson2015} Vilhjálmsson BJ, Yang J, Finucane HK, et al. Modeling linkage disequilibrium increases accuracy of polygenic risk scores. \emph{Am J Hum Genet} 97, 576--592 (2015).
+\bibitem{vilhjalmsson2015} Vilhjálmsson BJ, Yang J, Finucane HK, et al. Modeling linkage disequilibrium increases accuracy of polygenic risk scores (LDpred). \emph{Am J Hum Genet} 97, 576--592 (2015). PMID: 26430803.
 
-\bibitem{choi2020} Choi SW, O'Reilly PF. PRSice-2: Polygenic Risk Score software for biobank-scale data. \emph{GigaScience} 8, giz082 (2020).
+\bibitem{prive2020} Privé F, Arbel J, Vilhjálmsson BJ. LDpred2: better, faster, stronger. \emph{Bioinformatics} 36, 5424--5431 (2021). PMID: 33326037.
 
-\bibitem{li2016} Li M, Jaffe AE, Straub RE, et al. A human-specific AS3MT isoform and BORCS7 are molecular risk factors in the 10q24.32 schizophrenia-associated locus. \emph{Nature Medicine} 22, 649--656 (2016). PMID: 27158904.
+\bibitem{choi2020} Choi SW, O'Reilly PF. PRSice-2: Polygenic Risk Score software for biobank-scale data. \emph{GigaScience} 8, giz082 (2019). PMID: 31307061.
+
+\bibitem{li2016} Li M, Jaffe AE, Straub RE, et al. A human-specific AS3MT isoform and BORCS7 are molecular risk factors in the 10q24.32 schizophrenia-associated locus. \emph{Nature Medicine} 22, 649--656 (2016). PMID: 27158905.
 
 \bibitem{duarte2016} Duarte RRR, Troakes C, Nolan M, Srivastava DP, Murray RM, Bray NJ. Genome-wide significant schizophrenia risk variation on chromosome 10q24 is associated with altered cis-regulation of BORCS7, AS3MT, and NT5C2 in the human brain. \emph{Am J Med Genet B} 171B, 806--814 (2016).
 
@@ -299,7 +302,7 @@ The chr 6 MHC tag-SNP dominance that drives single-subject consumer-chip psychia
 
 \bibitem{edenberg2007} Edenberg HJ. The genetics of alcohol metabolism: role of alcohol dehydrogenase and aldehyde dehydrogenase variants. \emph{Alcohol Res Health} 30, 5--13 (2007). PMID: 17718394.
 
-\bibitem{kim2021} Kim M, Haney JR, Zhang P, et al. Brain gene co-expression networks link complement signaling with convergent synaptic pathology in schizophrenia. \emph{Nature Neuroscience} 24, 799--809 (2021). PMID: 33958801.
+\bibitem{kim2021} Kim M, Haney JR, Zhang P, et al. Brain gene co-expression networks link complement signaling with convergent synaptic pathology in schizophrenia. \emph{Nature Neuroscience} 24, 799--809 (2021). PMID: 33958802.
 
 \bibitem{wray2014} Wray NR, Lee SH, Mehta D, Vinkhuyzen AAE, Dudbridge F, Middeldorp CM. Research review: polygenic methods and their application to psychiatric traits. \emph{Journal of Child Psychology and Psychiatry} 55, 1068--1087 (2014). PMID: 25132410.
 
