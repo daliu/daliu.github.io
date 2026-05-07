@@ -147,6 +147,36 @@ DISORDER_TARGETS = {
     "opioid_use_disorder": [
         "OD_cases_vs._opioid-exposed_controls_in_European-ancestry_cohorts.gz",
     ],
+    "borderline_personality": [
+        "daner_bpd15_2025_noUKBB_24b.gz",  # 2025 BPD15 EUR no-UKBB
+        "daner_bpd15_2025_all_24b.gz",
+        "daner_bpd14_2025_exBIP.SCZ_24b.gz",
+    ],
+    "postpartum_depression": [
+        "ppd2023_EUR_sumstats.tsv.gz",  # 2023 EUR PPD
+    ],
+    "eating_disorder_anorexia": [
+        "pgcAN2.2019-07.vcf.tsv.gz",  # Anorexia 2019 PGC-AN2
+        "pgc.ed.freeze1.summarystatistics.July2017.txt.gz",
+    ],
+    "panic_disorder": [
+        "pgc-panic2019.vcf.tsv.gz",
+    ],
+    "antidep_response_remission": [
+        "AntiDepNonRemissionEUR2021.gz",
+    ],
+    "antidep_response_improvement": [
+        "AntiDepPercImprovEUR2021.gz",
+    ],
+    "hoarding": [
+        "hoarding2022.vcf.tsv.gz",
+    ],
+    "obsessive_compulsive_symptoms": [
+        "ocs2024obsessive-compulsive_symptoms_daner_STR_NTR_SfS_TwinsUK_strometal.gz",
+    ],
+    "cross_disorder_meta": [
+        "pgc_cdg2_meta_no23andMe_oct2019_v2.txt.daner.txt.gz",  # cross-disorder gp 2019, no23andMe
+    ],
     "ADHD": [
         "ADHD2022_iPSYCH_deCODE_PGC.meta.gz",
     ],
