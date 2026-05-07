@@ -125,11 +125,11 @@ Non-MHC                             &     501 & $-0.67$ \\
 
 The non-MHC partition centered PRS ($-0.67$ over 501 SNPs) is statistically indistinguishable from the heterozygous-everywhere baseline. The full $+60.33$ score is therefore essentially a homozygosity readout of the subject's chr 6 MHC tag SNP dosage, which is in long-range LD across the entire extended MHC region. We extended the partition to three additional well-characterized long-range LD regions in EUR populations --- the chromosome 8p23 inversion, the chromosome 17q21.31 H1/H2 inversion, and the lactase region (chr 2: 134--137 Mb) --- and found that of these three, only chr 17q21.31 contributes meaningfully to the SCZ score (+0.97 over 16 SNPs, $\sim$1.6\% of the magnitude). The chr 8p23 and lactase regions are essentially silent for psychiatric chip-PRS.
 
-The MHC dominance is not unique to schizophrenia. In exploratory analyses across 28 EUR-cohort psychiatric and substance-use GWAS datasets (data not retained in the public repository following the project pivot to EAS-anchored work), the same pattern held: MHC contributed near-100\% or above-100\% of the centered-PRS magnitude for cross-disorder meta-analysis, MDD, bipolar, and anxiety. The chr 6 MHC homozygosity was the dominant driver of the chip-derived weighted sum across most EUR-cohort psychiatric disorder PRS in this subject's exploratory data, before the EAS-cohort analysis became the appropriate primary reference.
+The MHC dominance is not unique to schizophrenia. In exploratory analyses across 28 EUR-cohort psychiatric and substance-use GWAS datasets (exploratory data not publicly archived), the same pattern held: MHC contributed $\geq 95\%$ of the centered-PRS magnitude for cross-disorder meta-analysis, MDD, bipolar, and anxiety, sometimes exceeding 100\% (i.e., the non-MHC partition contributed in the opposite sign, slightly reducing the magnitude relative to MHC alone). The chr 6 MHC homozygosity was the dominant driver of the chip-derived weighted sum across most EUR-cohort psychiatric disorder PRS in this subject's exploratory data.
 
 \subsection{Chromosome 6 MHC absence in the EAS-cohort analysis}
 
-The same partition applied to the Lam 2019 East Asian schizophrenia GWAS yields a strikingly different result. Of the 1{,}730 GWS SNPs in the EAS-cohort sumstats, \textbf{zero fall within the chr 6: 25--34 Mb MHC region}. Of the 54 typed by 23andMe v5, none are in the MHC. The centered PRS for the typed EAS-SCZ SNPs is $+1.17$ in magnitude, and \emph{all} of this signal is non-MHC.
+The same partition applied to the Lam 2019 East Asian schizophrenia GWAS yields a strikingly different result. Of the 1{,}730 GWS SNPs in the EAS-cohort sumstats, \textbf{zero fall within the chr 6: 25--34 Mb MHC region}. Of the 54 typed by 23andMe v5, none are in the MHC. The centered PRS for the typed EAS-SCZ SNPs is $+1.17$, and \emph{all} of this signal is non-MHC.
 
 We considered three potential explanations for the EAS MHC absence:
 \begin{itemize}
@@ -154,7 +154,7 @@ chr10:104--105 Mb & 285 & 13 typed (8 hom-risk, 1 het, 4 hom-other) \\
 chr 2: 58--59 Mb  & 216 & 10 typed (0 hom-risk, 9 het, 1 hom-other) \\
 chr 3:161--162 Mb & 141 & 3 typed (0 hom-risk, 3 het) \\
 chr 3: 50--51 Mb  &  89 & 3 typed (1 hom-risk, 1 het, 1 hom-other) \\
-chr 3:180--181 Mb &  81 & --- \\
+chr 3:180--181 Mb &  81 & 0 typed \\
 chr 2:201--202 Mb &  70 & 5 typed (3 hom-risk, 0 het, 2 hom-other) \\
 \bottomrule
 \end{tabular}
@@ -203,7 +203,7 @@ Pharmacogenomic findings interact: single-variant calls do not capture compound-
 Several CPIC-actionable East Asian pharmacogenomic variants are absent from the 23andMe v5 chip:
 
 \begin{itemize}
-\item \textbf{ADH1B *2} (rs1229984) --- $\sim$70\% of East Asians carry at least one *2 allele (vs $\sim$5\% of Europeans). The *2 allele accelerates ethanol→acetaldehyde conversion. In combination with ALDH2 *504Lys (which dominates flush severity by reducing acetaldehyde clearance), ADH1B *2 modulates flush intensity, alcohol metabolism speed, and alcohol-dependence vulnerability \cite{edenberg2007}.
+\item \textbf{ADH1B *2} (rs1229984) --- 1000 Genomes Phase 3 EAS *2 allele frequency $\sim$30\% (HWE carrier rate $\sim$50\%; 1000G CHB 29\%, CHS 24\%, JPT 27\%, KHV 35\%); some specific Han Chinese subpopulations have been reported with carrier rates approaching 70\%. EUR *2 allele frequency $\sim$3--5\%. The *2 allele accelerates ethanol→acetaldehyde conversion. In combination with ALDH2 *504Lys (which dominates flush severity by reducing acetaldehyde clearance), ADH1B *2 modulates flush intensity, alcohol metabolism speed, and alcohol-dependence vulnerability \cite{edenberg2007}.
 \item \textbf{CYP2D6 *10} (rs1065852) --- *10 allele frequency $\sim$40--50\% in East Asians. By Hardy-Weinberg, $\sim$70--85\% of East Asians are *10 carriers. Affects codeine activation, atomoxetine clearance, and many tricyclic antidepressants and antipsychotics.
 \item \textbf{NUDT15 *3} (rs116855232) --- East Asian–enriched; allele frequency $\sim$10\% in East Asian populations vs $<1\%$ in Europeans. CPIC Level A guideline: NUDT15 *3 carriers face elevated risk of severe myelosuppression on standard thiopurine doses (azathioprine, 6-mercaptopurine, thioguanine), and CPIC recommends substantial dose reduction or alternative therapy depending on the genotype. Arguably the highest-impact untyped EAS variant after ADH1B/ALDH2 \cite{cpic2018nudt15}.
 \item \textbf{HLA-B*15:02} --- a multi-SNP haplotype, not directly typed; $\sim$5--15\% of Han Chinese, Thai, Malay, and Vietnamese carriers. FDA black-box warning. CPIC strongly recommends \emph{against} carbamazepine and oxcarbazepine in HLA-B*15:02-positive carbamazepine/oxcarbazepine-naïve patients \cite{cpic2018hlab1502}.
@@ -270,7 +270,7 @@ The chr 6 MHC tag-SNP dominance that drives single-subject consumer-chip psychia
 
 \bibitem{martin2019} Martin AR, Kanai M, Kamatani Y, et al. Clinical use of current polygenic risk scores may exacerbate health disparities. \emph{Nature Genetics} 51, 584--591 (2019). PMID: 30926966.
 
-\bibitem{ge2019} Ge T, Chen CY, Ni Y, Feng YA, Smoller JW. Polygenic prediction via Bayesian regression and continuous shrinkage priors. \emph{Nature Communications} 10, 1776 (2019).
+\bibitem{ge2019} Ge T, Chen CY, Ni Y, Feng YA, Smoller JW. Polygenic prediction via Bayesian regression and continuous shrinkage priors. \emph{Nature Communications} 10, 1776 (2019). PMID: 30992449.
 
 \bibitem{vilhjalmsson2015} Vilhjálmsson BJ, Yang J, Finucane HK, et al. Modeling linkage disequilibrium increases accuracy of polygenic risk scores (LDpred). \emph{Am J Hum Genet} 97, 576--592 (2015). PMID: 26430803.
 
