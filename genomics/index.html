@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Psychiatric Genomics Report | Dave Liu</title>
-<meta name="description" content="Cross-referencing 23andMe genotype data against 7 PGC psychiatric GWAS datasets — ADHD, anxiety, depression, bipolar, schizophrenia, and cross-disorder analyses.">
+<meta name="description" content="Cross-referencing 23andMe genotype data against 28 PGC psychiatric GWAS datasets — schizophrenia, bipolar, MDD, anxiety, ADHD, BPD, eating disorders, and 21 more — with chr 6 MHC region stratification.">
 <meta property="og:title" content="Psychiatric Genomics Report | Dave Liu">
-<meta property="og:description" content="Personal genomics analysis: 617K SNPs cross-referenced against 7 psychiatric GWAS studies covering 5M+ participants.">
+<meta property="og:description" content="Personal genomics analysis: 595K usable SNPs cross-referenced against 28 PGC psychiatric GWAS studies, stratified by chr 6 MHC region. Most headline 'risk' collapses outside the MHC.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://daliu.github.io/genomics/">
 <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -131,11 +131,43 @@
 <div class="report-container">
 
 <h1>Psychiatric GWAS Cross-Reference Report</h1>
-<p class="muted">Generated April 13, 2026 | Genome: 23andMe v5 (build 37/hg19) | 617,245 genotyped SNPs</p>
+<p class="muted">Originally generated April 13, 2026 · Methodology v2 update May 7, 2026 · Genome: 23andMe v5 (build 37/hg19) · 617,245 genotyped SNPs</p>
 
 <div class="disclaimer">
   <strong style="color: var(--warn);">Important Disclaimer</strong>
-  <p>This report is for <strong>research and educational purposes only</strong>. It is NOT a clinical polygenic risk score and should NOT be used for self-diagnosis or medical decisions. Individual SNP effects are tiny (OR ~1.01-1.20). Psychiatric conditions are influenced by thousands of variants plus environmental factors. This analysis does not account for LD clumping, population stratification, or validated scoring weights. Consult a genetic counselor for clinical interpretation.</p>
+  <p>This report is for <strong>research and educational purposes only</strong>. It is NOT a clinical polygenic risk score and should NOT be used for self-diagnosis or medical decisions. Individual SNP effects are tiny (OR ~1.01-1.20). Psychiatric conditions are influenced by thousands of variants plus environmental factors. Consult a genetic counselor for clinical interpretation.</p>
+</div>
+
+<!-- ===== METHODOLOGY UPDATE BANNER ===== -->
+<div class="card" style="border-color: var(--accent); border-width: 2px;">
+  <h3 style="color: var(--accent); margin-top: 0;">Methodology update · May 7, 2026</h3>
+  <p>The original analysis below treats every typed GWS SNP as an independent observation and reports headline numbers like &quot;67% schizophrenia risk skewed.&quot; A v2 re-analysis on 28 disorder GWAS datasets (vs the original 7), partitioning chr 6 MHC region SNPs (25–34 Mb) from non-MHC SNPs, finds that <strong>almost all of the &quot;psychiatric polygenic enrichment&quot; reported on this page collapses when the chr 6 MHC region is excluded</strong>:</p>
+
+  <table>
+    <tr>
+      <th>Disorder</th>
+      <th style="text-align:right;">Centered PRS<br><span class="muted" style="font-weight:normal;">(all typed GWS SNPs)</span></th>
+      <th style="text-align:right;">Centered PRS<br><span class="muted" style="font-weight:normal;">(non-MHC only)</span></th>
+      <th style="text-align:right;">MHC SNPs typed</th>
+    </tr>
+    <tr><td>Schizophrenia (PGC3 wave 3)</td><td style="text-align:right;"><span class="risk">+60.33</span></td><td style="text-align:right;"><span class="muted">−0.67</span></td><td style="text-align:right;">990 / 1491</td></tr>
+    <tr><td>Cross-disorder meta 2019</td><td style="text-align:right;"><span class="risk">+9.93</span></td><td style="text-align:right;"><span class="muted">+0.82</span></td><td style="text-align:right;">137 / 399</td></tr>
+    <tr><td>Bipolar disorder 2024</td><td style="text-align:right;"><span class="risk">+3.52</span></td><td style="text-align:right;"><span class="muted">−0.00</span></td><td style="text-align:right;">129 / 251</td></tr>
+    <tr><td>Major depression 2025</td><td style="text-align:right;"><span class="risk">+3.31</span></td><td style="text-align:right;"><span class="muted">−0.30</span></td><td style="text-align:right;">138 / 450</td></tr>
+    <tr><td>Anxiety disorder 2026</td><td style="text-align:right;"><span class="risk">+2.43</span></td><td style="text-align:right;"><span class="muted">+0.03</span></td><td style="text-align:right;">68 / 127</td></tr>
+    <tr><td>Borderline personality 2025</td><td style="text-align:right;">+0.58</td><td style="text-align:right;"><strong>+0.58</strong></td><td style="text-align:right;">0 / 10</td></tr>
+    <tr><td>ADHD 2022</td><td style="text-align:right;">−0.85</td><td style="text-align:right;"><strong>−0.85</strong></td><td style="text-align:right;">0 / 44</td></tr>
+    <tr><td>Anorexia (PGC-AN2 2019)</td><td style="text-align:right;"><span class="protect">−1.76</span></td><td style="text-align:right;"><strong><span class="protect">−1.76</span></strong></td><td style="text-align:right;">0 / 17</td></tr>
+    <tr><td>F2 psychosis factor 2025</td><td style="text-align:right;">−1.43</td><td style="text-align:right;"><strong>−1.54</strong></td><td style="text-align:right;">36 / 306</td></tr>
+  </table>
+
+  <p style="margin-top: 12px;"><strong>What changed:</strong> The chr 6 MHC region is one massive long-range LD block. 23andMe v5 oversamples MHC tag SNPs for HLA imputation purposes, so a chip-based PRS will mechanically inflate any disorder whose GWS hits include MHC tag SNPs. Once you remove the MHC, schizophrenia / bipolar / MDD / anxiety drop to near zero — they are essentially MHC-haplotype readouts, not polygenic accumulations. Real non-MHC signal lives in disorders that don't have GWS MHC hits in the first place: borderline personality (+0.58), ADHD (−0.85), anorexia (−1.76, protective), and the F2 psychosis factor (−1.54).</p>
+
+  <p><strong>What still stands:</strong> the section-2 narrative below — that the chr 6 HLA/MHC haplotype this individual carries is biologically unusual, and is the single most-typed psychiatric-relevant region of his genome — is still correct and arguably <em>more</em> interesting given that almost all of the headline disorder signal traces back to it. The detailed per-region narratives (DRD2, CACNA1C, FOXP2, CRHR1, etc.) describe individual GWS loci that are real findings whether or not the global PRS is interpretable.</p>
+
+  <p><strong>What was wrong:</strong> the &quot;risk skewed&quot; / &quot;strongly risk&quot; labels in section 1 below — a 67.3% schizophrenia risk-allele rate is not interpretable as &quot;Dave has high schizophrenia risk&quot; once you account for MHC LD inflation. The labels reflect tag-SNP dosage, not effective polygenic risk.</p>
+
+  <p class="muted" style="margin-top: 12px;">v2 methodology details and full 28-disorder table: see the <a href="https://github.com/daliu/daliu.github.io/pull/15" style="color: var(--accent);">genomics-personal-prs</a> branch and <code>scripts/build_genomics_personal_prs.py</code>. The pipeline is: download canonical 23andMe-excluding cohort sumstats from PGC for each disorder; extract genome-wide-significant SNPs (p &lt; 5×10⁻⁸); inner-join against this individual's 23andMe v5 file; compute centered PRS = Σ β·(d−1) where d ∈ {0,1,2} is effect-allele dosage; partition by chr 6: 25–34 Mb.</p>
 </div>
 
 <div class="toc">
@@ -161,6 +193,8 @@
 
 <!-- ===== SECTION 1: GRAND OVERVIEW ===== -->
 <h2 id="overview">1. Grand Overview: 7 Psychiatric Conditions</h2>
+
+<p class="muted"><em>The numbers in this table are unweighted risk-allele counts and percentages without LD partitioning. As the methodology update at the top of this page explains, most of the &quot;Strongly Risk&quot; signal is driven by chr 6 MHC tag SNPs in long-range linkage disequilibrium, and collapses when the MHC region is excluded. Read this table as a description of which alleles you carry at GWS-flagged sites, not as a polygenic risk estimate.</em></p>
 
 <table>
   <tr>
