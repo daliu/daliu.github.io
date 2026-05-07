@@ -100,24 +100,43 @@ def safe_float(s):
         return None
 
 
-# Conservative MHC/HLA region boundaries on chr 6 (GRCh37/hg19).
-# 25–34 Mb spans the extended MHC, well beyond the classical 28.5–33.4 Mb
-# class-I/II/III region. Used to flag SNPs whose contribution to the
-# centered PRS is dominated by one long-range LD block.
-MHC_CHR = "6"
-MHC_START_MB = 25
-MHC_END_MB = 34
+# Long-range LD regions in EUR populations (GRCh37/hg19 coordinates).
+# Each is a single haplotype block over which standard PRS pipelines should
+# clump to a single tag SNP. Coordinates are Mb-rounded conservatively wide.
+#
+# - MHC: extended class I/II/III region. Dominant in psychiatric chip-PRS.
+# - 8p23 inversion: a recurrent EUR inversion polymorphism.
+# - 17q21.31 inversion: H1/H2 haplotype block (CRHR1, MAPT). Relevant to
+#   stress-axis variants.
+# - lactase region: long EUR selection sweep on LCT/MCM6.
+LONG_LD_REGIONS = {
+    "MHC":       {"chr": "6",  "start_mb": 25.0,  "end_mb": 34.0},
+    "8p23_inv":  {"chr": "8",  "start_mb": 8.0,   "end_mb": 12.0},
+    "17q21_inv": {"chr": "17", "start_mb": 43.7,  "end_mb": 44.8},
+    "lactase":   {"chr": "2",  "start_mb": 134.0, "end_mb": 137.0},
+}
 
 
-def _is_mhc(chrom, pos):
-    """Return True if (chrom, pos) is in the MHC region (chr 6: 25-34 Mb)."""
-    if str(chrom) != MHC_CHR:
-        return False
+def _region_for(chrom, pos):
+    """Return the LONG_LD_REGIONS key containing (chrom, pos), or None."""
+    if pos is None:
+        return None
     try:
         bp = int(pos)
     except (TypeError, ValueError):
-        return False
-    return MHC_START_MB * 1_000_000 <= bp <= MHC_END_MB * 1_000_000
+        return None
+    chrom_s = str(chrom)
+    for name, r in LONG_LD_REGIONS.items():
+        if chrom_s != r["chr"]:
+            continue
+        if r["start_mb"] * 1_000_000 <= bp <= r["end_mb"] * 1_000_000:
+            return name
+    return None
+
+
+def _is_mhc(chrom, pos):
+    """Backward-compat helper. Use _region_for() for new code."""
+    return _region_for(chrom, pos) == "MHC"
 
 
 def analyze_disorder(disorder, tophits_path, geno):
@@ -130,11 +149,18 @@ def analyze_disorder(disorder, tophits_path, geno):
     chip-PRS computation.
     """
     examined = 0
-    # Per-bucket stats: 'all' = every matched SNP; 'non_mhc' = excludes chr6 MHC
-    buckets = {
-        "all":     {"matched": 0, "carrier": 0, "homo": 0, "sum_bd": 0.0, "sum_abs_bd": 0.0, "sum_b": 0.0, "dist": [0, 0, 0]},
-        "non_mhc": {"matched": 0, "carrier": 0, "homo": 0, "sum_bd": 0.0, "sum_abs_bd": 0.0, "sum_b": 0.0, "dist": [0, 0, 0]},
-    }
+    def _new_bucket():
+        return {"matched": 0, "carrier": 0, "homo": 0,
+                "sum_bd": 0.0, "sum_abs_bd": 0.0, "sum_b": 0.0,
+                "dist": [0, 0, 0]}
+    # Buckets:
+    #   all          — every matched SNP
+    #   non_mhc      — excludes only chr 6 MHC (kept for backward compat with paper v2)
+    #   non_long_ld  — excludes all four long-LD regions (paper v3)
+    #   region_<X>   — only SNPs inside long-LD region X
+    buckets = {"all": _new_bucket(), "non_mhc": _new_bucket(), "non_long_ld": _new_bucket()}
+    for region_name in LONG_LD_REGIONS:
+        buckets[f"region_{region_name}"] = _new_bucket()
     strong_carriers = []
 
     for row in parse_tophits_tsv(tophits_path):
@@ -173,23 +199,11 @@ def analyze_disorder(disorder, tophits_path, geno):
             continue
 
         d = dosage(g, ea)
-        in_mhc = _is_mhc(row.get("chr"), row.get("pos"))
+        region = _region_for(row.get("chr"), row.get("pos"))
+        in_mhc = (region == "MHC")
 
-        # Always update the 'all' bucket.
-        b = buckets["all"]
-        b["matched"] += 1
-        b["dist"][d] += 1
-        b["sum_bd"] += beta * d
-        b["sum_abs_bd"] += abs(beta) * d
-        b["sum_b"] += beta
-        if d >= 1:
-            b["carrier"] += 1
-        if d == 2:
-            b["homo"] += 1
-
-        # Only update 'non_mhc' if the SNP is outside the MHC region.
-        if not in_mhc:
-            b = buckets["non_mhc"]
+        def _update(bucket_name):
+            b = buckets[bucket_name]
             b["matched"] += 1
             b["dist"][d] += 1
             b["sum_bd"] += beta * d
@@ -199,6 +213,14 @@ def analyze_disorder(disorder, tophits_path, geno):
                 b["carrier"] += 1
             if d == 2:
                 b["homo"] += 1
+
+        _update("all")
+        if not in_mhc:
+            _update("non_mhc")
+        if region is None:
+            _update("non_long_ld")
+        else:
+            _update(f"region_{region}")
 
         threshold = 6.0 if beta_kind == "z" else 0.05
         if d >= 1 and abs(beta) > threshold:
@@ -213,6 +235,7 @@ def analyze_disorder(disorder, tophits_path, geno):
                 "beta": round(beta, 4),
                 "beta_kind": beta_kind,
                 "in_mhc": in_mhc,
+                "long_ld_region": region,
                 "p": row.get("p"),
             })
 
@@ -233,12 +256,21 @@ def analyze_disorder(disorder, tophits_path, geno):
 
     full = _summary("all")
     non_mhc = _summary("non_mhc")
+    non_long_ld = _summary("non_long_ld")
     mhc_only = {
         "matched": full["matched"] - non_mhc["matched"],
         "n_carrier": full["n_carrier"] - non_mhc["n_carrier"],
         "n_homo": full["n_homo"] - non_mhc["n_homo"],
         "centered_prs": round(full["centered_prs"] - non_mhc["centered_prs"], 4),
     }
+    by_region = {}
+    for region_name in LONG_LD_REGIONS:
+        s = _summary(f"region_{region_name}")
+        by_region[region_name] = {
+            "matched": s["matched"],
+            "n_carrier": s["n_carrier"],
+            "centered_prs": s["centered_prs"],
+        }
 
     return {
         "disorder": disorder,
@@ -252,11 +284,15 @@ def analyze_disorder(disorder, tophits_path, geno):
         "sum_abs_beta_dosage": full["sum_abs_beta_dosage"],
         "ref_sum_beta_per_match": round(buckets["all"]["sum_b"], 4),
         "centered_prs": full["centered_prs"],
-        # NEW — MHC-stratified centered PRS for robustness.
+        # MHC-only stratification (paper v2). Kept for backward compat.
         "centered_prs_non_mhc": non_mhc["centered_prs"],
         "centered_prs_mhc_only": mhc_only["centered_prs"],
         "matched_non_mhc": non_mhc["matched"],
         "matched_mhc": mhc_only["matched"],
+        # Full long-LD stratification (paper v3). Excludes MHC + 8p23 + 17q21 + lactase.
+        "centered_prs_non_long_ld": non_long_ld["centered_prs"],
+        "matched_non_long_ld": non_long_ld["matched"],
+        "by_long_ld_region": by_region,
         "strong_carriers_top10": strong_carriers[:10],
     }
 
@@ -346,10 +382,9 @@ def main():
         results.append(r)
         print(
             f"  {disorder}: {r['tophits_matched_in_23andMe']:>5}/{r['tophits_examined']:<5} matched, "
-            f"{r['n_carrier']:>4} carrier, "
             f"PRS_full={r['centered_prs']:+.3f}, "
-            f"PRS_no_MHC={r['centered_prs_non_mhc']:+.3f} ({r['matched_non_mhc']} SNPs), "
-            f"MHC={r['centered_prs_mhc_only']:+.3f} ({r['matched_mhc']} SNPs)"
+            f"PRS_no_MHC={r['centered_prs_non_mhc']:+.3f}, "
+            f"PRS_no_long_LD={r['centered_prs_non_long_ld']:+.3f} ({r['matched_non_long_ld']} SNPs)"
         )
 
     print("\nScanning transdiagnostic SNPs (≥3 disorders)…")
@@ -394,31 +429,40 @@ def main():
         "",
         "## Per-disorder summary",
         "",
-        "| Disorder | Typed | Carrier | PRS (full) | PRS (no MHC) | MHC Δ | MHC SNPs |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| Disorder | Typed | PRS (full) | PRS (no MHC) | PRS (no long-LD) | MHC | 8p23 | 17q21 | LCT |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     sorted_results = sorted(results, key=lambda r: -(r["centered_prs"] or 0))
     for r in sorted_results:
+        regions = r.get("by_long_ld_region", {})
+        def _cell(name):
+            v = regions.get(name, {}).get("centered_prs")
+            n = regions.get(name, {}).get("matched", 0)
+            if not n:
+                return "—"
+            return f"{v:+.2f} ({n})"
         lines.append(
-            "| {d} | {m} | {c} | {cp:+.3f} | {cpn:+.3f} | {mhc:+.3f} | {ms} |".format(
+            "| {d} | {m} | {cp:+.3f} | {cpn:+.3f} | {cpl:+.3f} ({nl}) | {mhc} | {p8} | {p17} | {lct} |".format(
                 d=r["disorder"],
                 m=r["tophits_matched_in_23andMe"],
-                c=r["n_carrier"],
                 cp=r["centered_prs"],
                 cpn=r["centered_prs_non_mhc"],
-                mhc=r["centered_prs_mhc_only"],
-                ms=r["matched_mhc"],
+                cpl=r["centered_prs_non_long_ld"],
+                nl=r["matched_non_long_ld"],
+                mhc=_cell("MHC"),
+                p8=_cell("8p23_inv"),
+                p17=_cell("17q21_inv"),
+                lct=_cell("lactase"),
             )
         )
     lines.extend([
         "",
         "**How to read**:",
         "- _Typed_: SNPs in that disorder's GWS top-hits that 23andMe types.",
-        "- _Carrier_: SNPs where Dave carries ≥1 copy of the effect (risk) allele.",
         "- _PRS (full)_: Σ β·(d−1) over all typed GWS SNPs. Positive = Dave's dosage tilts toward effect alleles vs heterozygous-everywhere baseline.",
-        "- _PRS (no MHC)_: same, but excluding chr 6: 25–34 Mb (the extended MHC). MHC is one massive LD block; its many tag SNPs inflate any chip-PRS.",
-        "- _MHC Δ_: PRS contribution from the MHC region. Dominates schizophrenia.",
-        "- _MHC SNPs_: count of typed GWS SNPs that fell inside the MHC region.",
+        "- _PRS (no MHC)_: same, excluding chr 6: 25–34 Mb (the extended MHC). MHC is one massive LD block; its many tag SNPs inflate any chip-PRS.",
+        "- _PRS (no long-LD)_: same, excluding **all four** long-range LD regions: MHC, chr 8p23 inversion (8–12 Mb), chr 17q21.31 inversion (43.7–44.8 Mb), and lactase region (chr 2: 134–137 Mb). The cleanest available approximation to a clumped PRS without doing actual LD clumping. Number in parens is the SNP count remaining.",
+        "- _MHC / 8p23 / 17q21 / LCT_: PRS contribution from each long-LD region individually, with SNP count in parens. `—` = no typed GWS SNPs in that region for that disorder.",
         "- NOT a clinical score; uncalibrated; not directly comparable across disorders.",
         "",
     ])
