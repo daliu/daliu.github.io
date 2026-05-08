@@ -259,7 +259,6 @@ function render(data, filterTyped) {
   CHR_ORDER.forEach((chr, i) => {
     const y = i * rowHeight + rowHeight / 2;
     const chrHits = filtered.filter(h => h.chr === chr);
-    const row = g.select(`g.chr-row:nth-child(${i + 2})`); // +2 because x-axis is the first child
     g.selectAll(null).data(chrHits).enter().append('circle')
       .attr('class', d => 'hit-dot' + (d.typed ? ' typed' : ''))
       .attr('cx', d => xScale(d.pos))
@@ -267,6 +266,8 @@ function render(data, filterTyped) {
       .attr('r', d => d.typed ? 3 : 1.8)
       .on('mouseover', function(d) {
         tooltip.style('visibility', 'visible')
+          .style('left', (d3.event.pageX + 12) + 'px')
+          .style('top', (d3.event.pageY + 12) + 'px')
           .html(
             `<strong>${d.rsid}</strong><br>` +
             `chr${d.chr}:${d.pos.toLocaleString()}<br>` +
@@ -281,6 +282,15 @@ function render(data, filterTyped) {
       .on('mouseout', function() {
         tooltip.style('visibility', 'hidden');
       });
+  });
+
+  // Touch-device support: tap anywhere outside a dot dismisses the tooltip.
+  // Without this, on mobile the tooltip stays pinned to the last-tapped dot
+  // until another dot is tapped, since touch events don't fire mouseout.
+  svg.on('click', function() {
+    if (d3.event.target.tagName !== 'circle') {
+      tooltip.style('visibility', 'hidden');
+    }
   });
 }
 
