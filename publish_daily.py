@@ -916,9 +916,12 @@ def update_sitemap():
         {"loc": "https://daliu.github.io/autotrader.html", "priority": "0.9"},
         {"loc": "https://daliu.github.io/health/", "priority": "0.7", "changefreq": "daily"},
         {"loc": "https://daliu.github.io/genomics/", "priority": "0.7"},
+        {"loc": "https://daliu.github.io/genomics/eas-scz-landscape/", "priority": "0.6"},
+        {"loc": "https://daliu.github.io/genomics/chip-prs-explorer/", "priority": "0.6"},
         {"loc": "https://daliu.github.io/analytics/", "priority": "0.7", "changefreq": "daily"},
         {"loc": "https://daliu.github.io/knowledge/", "priority": "0.7"},
         {"loc": "https://daliu.github.io/status/", "priority": "0.5"},
+        {"loc": "https://daliu.github.io/now/", "priority": "0.6"},
         {"loc": "https://daliu.github.io/autotrader/daily/", "priority": "0.7", "changefreq": "daily"},
     ]
 
