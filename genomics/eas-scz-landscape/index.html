@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>East Asian Schizophrenia GWS Landscape | Dave Liu</title>
+<meta name="description" content="Interactive genome-wide visualization of the 1,730 GWS hits from the Lam et al. 2019 East Asian schizophrenia GWAS, showing the chr 6 MHC absence that is European-cohort-specific.">
+<meta property="og:title" content="EAS-SCZ Landscape | Dave Liu">
+<meta property="og:description" content="The chr 6 MHC dominance in chip-PRS is European-cohort-specific. Interactive genome-wide visualization makes the empty MHC band immediately visible.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daliu.github.io/genomics/eas-scz-landscape/">
+<meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://daliu.github.io/genomics/eas-scz-landscape/">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GR5Z815VXW');
+</script>
+<link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+<script src="../../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+<script src="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: #30363d;
+    --text: #c9d1d9; --heading: #f0f6fc; --muted: #8b949e;
+    --accent: #58a6ff; --teal: #1abc9c;
+    --mhc: #f85149; --hit: #58a6ff; --hit-typed: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    padding: 0 20px 40px; padding-top: 70px;
+  }
+  .navbar { background-color: #2f2f2f !important; border: none; }
+  .navbar li a, .navbar .navbar-brand { color: #fff !important; }
+  .navbar-nav li a:hover, .navbar-nav li.active a { color: var(--teal) !important; background-color: #3a3a3a !important; }
+  .navbar-default .navbar-toggle { border-color: transparent; color: #fff !important; }
+  .navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
+  .navbar-default .navbar-nav .dropdown-menu { background-color: #2f2f2f; border: 1px solid #444; }
+  .navbar-default .navbar-nav .dropdown-menu > li > a { color: #fff !important; padding: 8px 20px; background-color: #2f2f2f !important; }
+  .navbar-default .navbar-nav .dropdown-menu > li > a:hover { color: var(--teal) !important; background-color: #3a3a3a !important; }
+
+  .container-narrow { max-width: 1100px; margin: 0 auto; }
+  h1 { color: var(--heading); font-size: 28px; font-weight: 600; margin: 30px 0 8px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  h2 { color: var(--accent); font-size: 16px; font-weight: 600; margin: 28px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
+  p { margin-bottom: 12px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { background: #21262d; padding: 1px 6px; border-radius: 3px; font-size: 0.9em; color: var(--accent); }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 18px 22px; margin: 14px 0;
+  }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px; margin: 16px 0;
+  }
+  .stat {
+    background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px; text-align: center;
+  }
+  .stat .num { font-size: 28px; font-weight: 700; color: var(--heading); }
+  .stat .num.zero { color: var(--mhc); }
+  .stat .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  .legend { display: flex; gap: 18px; margin: 14px 0 8px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .swatch.hit { background: var(--hit); }
+  .swatch.typed { background: var(--hit-typed); }
+  .swatch.mhc-bar { width: 18px; height: 8px; border-radius: 2px; background: rgba(248, 81, 73, 0.3); border: 1px solid var(--mhc); }
+  .legend label { color: var(--muted); cursor: pointer; user-select: none; font-weight: 400; margin: 0; }
+  .legend input[type=checkbox] { margin-right: 4px; vertical-align: middle; }
+
+  #plot { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px 16px; overflow-x: auto; }
+  .chr-row text.chr-label { fill: var(--muted); font-size: 11px; font-family: 'SF Mono', Menlo, monospace; }
+  .chr-row line.chr-axis { stroke: var(--border); stroke-width: 1; }
+  .chr-row .tick text { fill: var(--muted); font-size: 9px; }
+  .chr-row .tick line { stroke: var(--border); stroke-width: 1; }
+  .mhc-band { fill: rgba(248, 81, 73, 0.15); stroke: var(--mhc); stroke-width: 1; stroke-dasharray: 3 2; }
+  .mhc-label { fill: var(--mhc); font-size: 10px; font-family: 'SF Mono', Menlo, monospace; font-weight: 600; }
+  .hit-dot { fill: var(--hit); fill-opacity: 0.7; }
+  .hit-dot.typed { fill: var(--hit-typed); fill-opacity: 1; }
+  .hit-dot:hover { fill-opacity: 1; cursor: pointer; }
+
+  .tooltip {
+    position: absolute; pointer-events: none; visibility: hidden;
+    background: #21262d; border: 1px solid var(--border); border-radius: 4px;
+    padding: 8px 10px; font-size: 12px; line-height: 1.4; color: var(--text);
+    font-family: 'SF Mono', Menlo, monospace; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 1000;
+  }
+
+  footer { padding: 30px 0; text-align: center; color: var(--muted); font-size: 13px; margin-top: 30px; border-top: 1px solid var(--border); }
+  footer a { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../portfolio.html">Portfolio</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../index.html">Overview</a></li>
+            <li><a href="../../health/">Health Dashboard</a></li>
+            <li class="active"><a href="../">Genomics</a></li>
+            <li><a href="../../analytics/">Site Analytics</a></li>
+            <li><a href="../../knowledge/">Knowledge Graph</a></li>
+          </ul>
+        </li>
+        <li><a href="../../publications.html">Publications</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-narrow">
+
+  <p class="subtitle"><a href="../">/genomics/</a> &rsaquo; EAS-SCZ landscape</p>
+  <h1>The chr 6 MHC band that isn't there</h1>
+  <p class="subtitle">Genome-wide layout of the 1,730 GWS hits from the Lam et al.&nbsp;2019 East Asian schizophrenia GWAS. The headline finding from the <a href="../../research/single-subject-chip-prs-mhc.pdf">companion paper</a> is visible at a glance: the chr 6 MHC region, which dominates the European-cohort PGC3 wave 3 SCZ landscape, contains <strong>zero</strong> EAS-cohort GWS hits.</p>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="num">1,730</div><div class="label">GWS SNPs (p&lt;5×10⁻⁸)</div></div>
+    <div class="stat"><div class="num">54</div><div class="label">Typed by 23andMe v5</div></div>
+    <div class="stat"><div class="num zero">0</div><div class="label">In chr 6 MHC band</div></div>
+    <div class="stat"><div class="num">22,778</div><div class="label">EAS cases (Lam 2019)</div></div>
+  </div>
+
+  <div class="legend">
+    <span class="legend-item"><span class="swatch hit"></span>GWS hit</span>
+    <span class="legend-item"><span class="swatch typed"></span>typed by 23andMe v5</span>
+    <span class="legend-item"><span class="swatch mhc-bar"></span>chr 6 MHC region (25–34 Mb)</span>
+    <span class="legend-item"><label><input type="checkbox" id="typed-only"> show typed SNPs only</label></span>
+  </div>
+
+  <div id="plot"></div>
+  <div id="tooltip" class="tooltip"></div>
+
+  <h2>What you're seeing</h2>
+  <div class="card">
+    <p>Each row is a chromosome (1–22), drawn proportional to its length on GRCh37. Each dot is a SNP that reached genome-wide significance (p &lt; 5×10⁻⁸) in the Lam 2019 EAS-cohort schizophrenia GWAS. Yellow dots mark the SNPs that are also typed by the 23andMe v5 chip; blue dots are GWS in the GWAS but not on the chip. The dashed red band on chr 6 highlights the extended MHC region (25–34 Mb).</p>
+    <p>The dominant clusters are the chr 12q24 hot-spot (123–124 Mb, 510 hits in a 1-Mb window), the chr 10q24 BORCS7/AS3MT/NT5C2 region (104–105 Mb, 285 hits), and chr 2 / chr 3 multi-locus signal. The chr 6 MHC band is conspicuously empty — not because the MHC has no role in schizophrenia globally (it dominates the European cohort) but because the specific tag SNPs that reach significance in EUR have minor allele frequencies under 1% in East Asians (Lam et al. note rs13194504 EAS MAF &lt;1% vs 9% EUR; the C4-BS schizophrenia allele is uncommon in Han Chinese).</p>
+  </div>
+
+  <h2>Why this matters for chip-PRS</h2>
+  <div class="card">
+    <p>If you compute a single-subject polygenic risk score from a 23andMe export against an EUR-cohort GWAS, ~66% of the typed GWS SNPs land in the MHC, and they are in long-range LD across the entire 9-Mb extended-MHC block. The "polygenic" score is essentially a homozygosity readout of one tag haplotype. Against an ancestry-matched East Asian GWAS, that LD-inflation source is absent at current sample sizes — so the chip-PRS signal is more distributed and (in a narrow technical sense) more interpretable, even though the broader ancestry-cohort-mismatch problem remains. The companion paper (PDF, 12 pages) develops this in detail.</p>
+  </div>
+
+  <h2>Data &amp; reproducibility</h2>
+  <div class="card">
+    <p>Source data: <a href="https://figshare.com/articles/dataset/Comparative_genetic_architectures_of_schizophrenia_in_East_Asian_and_European_populations_Lam_et_al_2019_/19193084">Lam 2019 PGC EAS schizophrenia summary statistics on Figshare</a> (file: <code>daner_natgen_pgc_eas.gz</code>). Filtered to <code>p &lt; 5e-8</code>; chromosome and position fields kept verbatim. The 23andMe-typed marker is computed from the subject's chip-typed rsID set. Chromosome length scale is based on GRCh37/hg19 reference assembly.</p>
+    <p>The pre-processed <a href="data.json">data.json</a> in this directory is plain JSON with one entry per GWS SNP: <code>rsid</code>, <code>chr</code>, <code>pos</code>, <code>or</code>, <code>p</code>, and <code>typed</code>. Anyone can rerun against a different EAS GWAS by swapping the source file and re-running the same preprocessing logic.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p style="margin-bottom: 5px;"><a href="../../portfolio.html">Portfolio</a> &middot; <a href="../../index.html">Data About Me</a> &middot; <a href="../">Genomics</a> &middot; <a href="../../publications.html">Publications</a></p>
+  <p style="margin-bottom: 0;">Dave Liu &copy; 2026</p>
+</footer>
+
+<script>
+'use strict';
+
+// GRCh37/hg19 chromosome lengths (bp)
+const CHR_LENGTHS = {
+  "1":249250621, "2":243199373, "3":198022430, "4":191154276, "5":180915260,
+  "6":171115067, "7":159138663, "8":146364022, "9":141213431, "10":135534747,
+  "11":135006516, "12":133851895, "13":115169878, "14":107349540, "15":102531392,
+  "16":90354753, "17":81195210, "18":78077248, "19":59128983, "20":63025520,
+  "21":48129895, "22":51304566
+};
+const CHR_ORDER = Array.from({length: 22}, (_, i) => String(i + 1));
+
+const MHC_CHR = "6", MHC_START = 25_000_000, MHC_END = 34_000_000;
+
+const tooltip = d3.select('#tooltip');
+
+function render(data, filterTyped) {
+  const plot = document.getElementById('plot');
+  plot.innerHTML = '';
+
+  const margin = {top: 24, right: 30, bottom: 10, left: 50};
+  const width = Math.max(plot.clientWidth, 700) - margin.left - margin.right;
+  const rowHeight = 22;
+  const height = CHR_ORDER.length * rowHeight + margin.top + margin.bottom;
+
+  const maxLen = Math.max(...Object.values(CHR_LENGTHS));
+  const xScale = d3.scaleLinear().domain([0, maxLen]).range([0, width]);
+
+  const svg = d3.select(plot).append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height);
+
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+  // x-axis ticks (Mb) at the top
+  const tickValues = [0, 50_000_000, 100_000_000, 150_000_000, 200_000_000, 250_000_000];
+  const xAxis = g.append('g').attr('class', 'x-axis').attr('transform', 'translate(0, -8)');
+  tickValues.forEach(t => {
+    xAxis.append('text').attr('x', xScale(t)).attr('y', 0)
+      .attr('text-anchor', 'middle').attr('class', 'tick')
+      .attr('fill', 'var(--muted)').style('font-size', '10px')
+      .text(`${t / 1_000_000} Mb`);
+  });
+
+  // chromosome rows
+  CHR_ORDER.forEach((chr, i) => {
+    const y = i * rowHeight + rowHeight / 2;
+    const row = g.append('g').attr('class', 'chr-row');
+
+    // axis line
+    row.append('line').attr('class', 'chr-axis')
+      .attr('x1', 0).attr('x2', xScale(CHR_LENGTHS[chr]))
+      .attr('y1', y).attr('y2', y);
+
+    // chr label
+    row.append('text').attr('class', 'chr-label')
+      .attr('x', -8).attr('y', y + 3)
+      .attr('text-anchor', 'end')
+      .text(`chr${chr}`);
+
+    // MHC band on chr 6
+    if (chr === MHC_CHR) {
+      row.append('rect').attr('class', 'mhc-band')
+        .attr('x', xScale(MHC_START)).attr('y', y - 8)
+        .attr('width', xScale(MHC_END) - xScale(MHC_START))
+        .attr('height', 16);
+      row.append('text').attr('class', 'mhc-label')
+        .attr('x', xScale((MHC_START + MHC_END) / 2)).attr('y', y - 11)
+        .attr('text-anchor', 'middle')
+        .text('MHC 25–34 Mb');
+    }
+  });
+
+  // dots
+  const filtered = filterTyped ? data.hits.filter(h => h.typed) : data.hits;
+  CHR_ORDER.forEach((chr, i) => {
+    const y = i * rowHeight + rowHeight / 2;
+    const chrHits = filtered.filter(h => h.chr === chr);
+    const row = g.select(`g.chr-row:nth-child(${i + 2})`); // +2 because x-axis is the first child
+    g.selectAll(null).data(chrHits).enter().append('circle')
+      .attr('class', d => 'hit-dot' + (d.typed ? ' typed' : ''))
+      .attr('cx', d => xScale(d.pos))
+      .attr('cy', y)
+      .attr('r', d => d.typed ? 3 : 1.8)
+      .on('mouseover', function(d) {
+        tooltip.style('visibility', 'visible')
+          .html(
+            `<strong>${d.rsid}</strong><br>` +
+            `chr${d.chr}:${d.pos.toLocaleString()}<br>` +
+            `OR=${d.or.toFixed(3)}, p=${d.p.toExponential(2)}<br>` +
+            (d.typed ? '<span style="color:var(--hit-typed)">typed by 23andMe v5</span>' : '')
+          );
+      })
+      .on('mousemove', function() {
+        tooltip.style('left', (d3.event.pageX + 12) + 'px')
+               .style('top', (d3.event.pageY + 12) + 'px');
+      })
+      .on('mouseout', function() {
+        tooltip.style('visibility', 'hidden');
+      });
+  });
+}
+
+fetch('data.json').then(r => r.json()).then(data => {
+  let filterTyped = false;
+  render(data, filterTyped);
+  document.getElementById('typed-only').addEventListener('change', e => {
+    filterTyped = e.target.checked;
+    render(data, filterTyped);
+  });
+  window.addEventListener('resize', () => render(data, filterTyped));
+}).catch(err => {
+  document.getElementById('plot').innerHTML =
+    '<p style="color:var(--mhc); padding: 20px;">Could not load data.json: ' + err.message + '</p>';
+});
+</script>
+
+</body>
+</html>
