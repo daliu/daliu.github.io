@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chip-PRS Explorer | Dave Liu</title>
+<meta name="description" content="Interactive tool: paste your 23andMe v5 raw genotype file, see how many of your typed SNPs land in the chr 6 MHC region and overlap with European vs East Asian schizophrenia GWAS hits. Browser-only, no upload.">
+<meta property="og:title" content="Chip-PRS Explorer | Dave Liu">
+<meta property="og:description" content="See your own MHC dominance: how many of your 23andMe-typed SNPs land in the chr 6 MHC band, and how that compares to EUR vs EAS schizophrenia GWAS coverage. Browser-only, your file never leaves the device.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daliu.github.io/genomics/chip-prs-explorer/">
+<meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://daliu.github.io/genomics/chip-prs-explorer/">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GR5Z815VXW');
+</script>
+<link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
+<script src="../../Bootstrap%20Theme%20Company%20Page_files/jquery.js"></script>
+<script src="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: #30363d;
+    --text: #c9d1d9; --heading: #f0f6fc; --muted: #8b949e;
+    --accent: #58a6ff; --teal: #1abc9c; --green: #3fb950;
+    --mhc: #f85149; --warn: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    padding: 0 20px 40px; padding-top: 70px;
+  }
+  .navbar { background-color: #2f2f2f !important; border: none; }
+  .navbar li a, .navbar .navbar-brand { color: #fff !important; }
+  .navbar-nav li a:hover, .navbar-nav li.active a { color: var(--teal) !important; background-color: #3a3a3a !important; }
+  .navbar-default .navbar-toggle { border-color: transparent; color: #fff !important; }
+  .navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
+  .navbar-default .navbar-nav .dropdown-menu { background-color: #2f2f2f; border: 1px solid #444; }
+  .navbar-default .navbar-nav .dropdown-menu > li > a { color: #fff !important; padding: 8px 20px; background-color: #2f2f2f !important; }
+  .navbar-default .navbar-nav .dropdown-menu > li > a:hover { color: var(--teal) !important; background-color: #3a3a3a !important; }
+
+  .container-narrow { max-width: 920px; margin: 0 auto; }
+  h1 { color: var(--heading); font-size: 28px; font-weight: 600; margin: 30px 0 8px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  h2 { color: var(--accent); font-size: 16px; font-weight: 600; margin: 28px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
+  p { margin-bottom: 12px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { background: #21262d; padding: 1px 6px; border-radius: 3px; font-size: 0.9em; color: var(--accent); }
+
+  .privacy-banner {
+    background: #0d2912; border: 1px solid var(--green); border-radius: 8px;
+    padding: 14px 18px; margin: 16px 0;
+  }
+  .privacy-banner strong { color: var(--green); }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px; margin: 14px 0;
+  }
+
+  .upload-zone {
+    background: var(--card); border: 2px dashed var(--border); border-radius: 8px;
+    padding: 36px 24px; margin: 16px 0; text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--accent); background: #1c2128;
+  }
+  .upload-zone input[type=file] { display: none; }
+  .upload-zone .pick { color: var(--accent); font-weight: 600; }
+  .upload-zone .hint { color: var(--muted); font-size: 12px; margin-top: 8px; }
+
+  .status { color: var(--muted); font-size: 13px; padding: 12px 0; min-height: 18px; }
+  .status.ok { color: var(--green); }
+  .status.err { color: var(--mhc); }
+  .status.busy { color: var(--warn); }
+
+  .results { display: none; }
+  .results.visible { display: block; }
+
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px; margin: 14px 0;
+  }
+  .stat {
+    background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px; text-align: center;
+  }
+  .stat .num { font-size: 24px; font-weight: 700; color: var(--heading); }
+  .stat .num.zero { color: var(--mhc); }
+  .stat .num.zero::before { content: '('; color: var(--mhc); font-weight: 400; }
+  .stat .num.zero::after { content: ')'; color: var(--mhc); font-weight: 400; }
+  .stat .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  .compare-table {
+    width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px;
+  }
+  .compare-table th, .compare-table td {
+    padding: 10px 14px; text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table th {
+    background: #21262d; color: var(--heading); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; font-size: 12px;
+  }
+  .compare-table td:not(:first-child) { font-family: 'SF Mono', Menlo, monospace; text-align: right; }
+  .compare-table tr.mhc-row { background: rgba(248, 81, 73, 0.08); }
+  .compare-table tr.mhc-row td:first-child { color: var(--mhc); font-weight: 600; }
+
+  .pct-bar {
+    display: inline-block; width: 100px; height: 14px;
+    background: #21262d; border-radius: 3px; vertical-align: middle;
+    position: relative; margin-right: 6px;
+  }
+  .pct-bar-fill {
+    height: 100%; border-radius: 3px;
+    background: var(--accent);
+  }
+  .pct-bar-fill.mhc { background: var(--mhc); }
+  .pct-bar-fill.green { background: var(--green); }
+
+  footer { padding: 30px 0; text-align: center; color: var(--muted); font-size: 13px; margin-top: 30px; border-top: 1px solid var(--border); }
+  footer a { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../index.html">Dave Liu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../../portfolio.html">Portfolio</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../index.html">Overview</a></li>
+            <li><a href="../../health/">Health Dashboard</a></li>
+            <li class="active"><a href="../">Genomics</a></li>
+            <li><a href="../../analytics/">Site Analytics</a></li>
+            <li><a href="../../knowledge/">Knowledge Graph</a></li>
+          </ul>
+        </li>
+        <li><a href="../../publications.html">Publications</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-narrow">
+
+  <p class="subtitle"><a href="../">/genomics/</a> &rsaquo; chip-PRS explorer</p>
+  <h1>Chip-PRS Explorer</h1>
+  <p class="subtitle">Drop your 23andMe v5 raw download. See how many of your typed SNPs land in the chr 6 MHC region, and how that overlap compares against European and East Asian schizophrenia GWAS hits. Companion to the <a href="../../research/single-subject-chip-prs-mhc.pdf">methods paper</a> and the <a href="../eas-scz-landscape/">EAS landscape viz</a>.</p>
+
+  <div class="privacy-banner">
+    <p style="margin-bottom: 0;"><strong>Privacy:</strong> Your genotype file is parsed entirely in the browser. <strong>It never leaves your device</strong> &mdash; no upload, no fetch, no analytics event with file content. View source / Network tab to verify. Close the page and the data is gone.</p>
+  </div>
+
+  <h2>1. Drop your 23andMe v5 file</h2>
+  <label for="file-input" class="upload-zone" id="upload-zone">
+    <input type="file" id="file-input" accept=".txt,.tsv">
+    <p>Click to <span class="pick">choose a file</span> or drag-and-drop here</p>
+    <p class="hint">Expected format: tab-separated <code>rsid\tchromosome\tposition\tgenotype</code> (one per line, with <code>#</code> comment lines). The standard 23andMe raw download (<code>genome_*_v5_Full_*.txt</code>) works as-is.</p>
+  </label>
+
+  <div class="status" id="status"></div>
+
+  <div class="results" id="results">
+
+    <h2>2. Your chip's coverage</h2>
+    <div class="stat-grid">
+      <div class="stat"><div class="num" id="stat-total">&mdash;</div><div class="label">Biallelic SNPs typed</div></div>
+      <div class="stat"><div class="num" id="stat-mhc">&mdash;</div><div class="label">In chr 6 MHC band</div></div>
+      <div class="stat"><div class="num" id="stat-mhc-pct">&mdash;</div><div class="label">% of chip in MHC</div></div>
+    </div>
+    <p style="font-size: 13px; color: var(--muted);">The MHC band is chr 6: 25&ndash;34 Mb (GRCh37 extended-MHC). About <strong>0.3%</strong> of the genome by length sits in this band; consumer chips typically over-sample it for HLA imputation, so the chip-coverage fraction tends to run higher.</p>
+
+    <h2>3. Overlap with schizophrenia GWAS hits</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Cohort &amp; partition</th>
+          <th>GWS SNPs</th>
+          <th>Typed by your chip</th>
+          <th>Coverage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>EUR (PGC3 wave 3) &mdash; all</td><td id="eur-total">&mdash;</td><td id="eur-overlap">&mdash;</td><td id="eur-pct">&mdash;</td></tr>
+        <tr class="mhc-row"><td>&nbsp;&nbsp;in chr 6 MHC</td><td id="eur-mhc-total">&mdash;</td><td id="eur-mhc-overlap">&mdash;</td><td id="eur-mhc-pct">&mdash;</td></tr>
+        <tr><td>EAS (Lam 2019) &mdash; all</td><td id="eas-total">&mdash;</td><td id="eas-overlap">&mdash;</td><td id="eas-pct">&mdash;</td></tr>
+        <tr class="mhc-row"><td>&nbsp;&nbsp;in chr 6 MHC</td><td id="eas-mhc-total">&mdash;</td><td id="eas-mhc-overlap">&mdash;</td><td id="eas-mhc-pct">&mdash;</td></tr>
+      </tbody>
+    </table>
+    <p id="comparison-text" style="font-size: 13px; color: var(--muted);"></p>
+
+    <h2>4. Reference: Dave's chip</h2>
+    <div class="card">
+      <p>For comparison, the page author's own 23andMe v5 chip, computed against the same GWS sets this tool uses:</p>
+      <ul>
+        <li><strong>594,952</strong> biallelic SNPs typed (94.1% of 631,970 raw)</li>
+        <li><strong>9,074</strong> typed SNPs land in the chr 6 MHC band (1.53% of chip; about 5x the genome-fraction baseline of ~0.3%)</li>
+        <li><strong>1,363</strong> overlap PGC3 wave 3 EUR GWS &mdash; <strong>798 (58.5%)</strong> in MHC, 565 (41.5%) outside</li>
+        <li><strong>54</strong> overlap Lam 2019 EAS GWS &mdash; <strong>0 (0%)</strong> in MHC, 54 (100%) outside</li>
+      </ul>
+      <p style="font-size: 13px; color: var(--muted); margin-bottom: 0;">Note: the companion <a href="../../research/single-subject-chip-prs-mhc.pdf">methods paper</a> reports slightly different EUR overlap numbers (1,491 / 990) because it uses a smaller EUR-only PGC3 release variant (52,017 cases) rather than the larger primary release used here (71,554 cases). The structural finding (MHC dominance) holds across both.</p>
+    </div>
+  </div>
+
+  <h2>What this means</h2>
+  <div class="card">
+    <p>Two-thirds of the EUR-cohort schizophrenia GWS SNPs that 23andMe v5 types fall in the chr 6 MHC region &mdash; one extended LD block. Any unweighted chip-PRS computed against the EUR cohort is dominated by your tag-SNP dosage at this single block, not by polygenic accumulation across independent loci.</p>
+    <p>The same chip cross-referenced against the East Asian-cohort schizophrenia GWS at current sample sizes hits <strong>zero</strong> MHC SNPs &mdash; not because the MHC has no biological role in EAS schizophrenia, but because the specific tag SNPs that reach genome-wide significance in EUR populations have minor allele frequencies under 1% in East Asians (Lam et al. 2019: rs13194504 EAS MAF &lt;1% vs 9% EUR; the C4-BS allele uncommon in Han Chinese). The 9-Mb MHC band is empty.</p>
+    <p>Implication for chip-PRS users: report MHC and non-MHC partitions separately, especially when computing on EUR-cohort GWAS. The companion <a href="../../research/single-subject-chip-prs-mhc.pdf">methods paper</a> develops this in detail.</p>
+  </div>
+
+  <h2>Caveats</h2>
+  <div class="card">
+    <ul style="margin-bottom: 0;">
+      <li>This is <strong>not</strong> a clinical PRS. The GWS-hit overlap is a coverage statistic, not a risk score.</li>
+      <li>Chip-PRS limitations apply: no LD clumping outside the MHC partition, no population-reference calibration, no covariate adjustment. See the methods paper.</li>
+      <li>The EUR sumstats here are from PGC3 wave 3; the EAS sumstats are Lam et al. 2019. Newer / larger releases would shift the numbers.</li>
+      <li>23andMe v5 is one chip design among several. Different chips (Ancestry, MyHeritage, etc.) sample different SNPs. The MHC over-sampling pattern is broadly similar across consumer chips designed for ancestry inference.</li>
+      <li><strong>Privacy reminder:</strong> all parsing happens in your browser. You can verify by viewing source (Cmd+Opt+U / Ctrl+U) and watching the Network panel during analysis &mdash; no requests fire after the initial page load except for the two GWS JSON files.</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  <p style="margin-bottom: 5px;"><a href="../../portfolio.html">Portfolio</a> &middot; <a href="../../index.html">Data About Me</a> &middot; <a href="../">Genomics</a> &middot; <a href="../../publications.html">Publications</a></p>
+  <p style="margin-bottom: 0;">Dave Liu &copy; 2026</p>
+</footer>
+
+<script>
+'use strict';
+
+const MHC_CHR = '6', MHC_START = 25_000_000, MHC_END = 34_000_000;
+
+let eurGws = null, easGws = null;
+
+// Pre-fetch the GWS JSON sets immediately so they're cached when the user uploads.
+function loadGwsSet(url) {
+  return fetch(url).then(r => r.json()).then(data => {
+    // Index by rsid for O(1) intersection
+    const byRsid = new Map();
+    let mhcCount = 0;
+    for (const h of data.hits) {
+      byRsid.set(h.rsid, h);
+      if (h.chr === MHC_CHR && h.pos >= MHC_START && h.pos <= MHC_END) mhcCount++;
+    }
+    return {
+      total: data.hits.length,
+      mhc_total: mhcCount,
+      byRsid: byRsid,
+      source: data.source,
+    };
+  });
+}
+
+const setStatus = (cls, msg) => {
+  const el = document.getElementById('status');
+  el.className = 'status ' + cls;
+  el.textContent = msg;
+};
+
+setStatus('busy', 'Loading reference GWAS hit sets…');
+Promise.all([
+  loadGwsSet('eur_gws.json'),
+  loadGwsSet('../eas-scz-landscape/data.json'),
+]).then(([eur, eas]) => {
+  eurGws = eur; easGws = eas;
+  setStatus('ok', 'Reference data loaded. Drop your 23andMe file above to analyze.');
+}).catch(err => {
+  setStatus('err', 'Could not load reference GWAS data: ' + err.message);
+});
+
+// File input handlers
+const fileInput = document.getElementById('file-input');
+const uploadZone = document.getElementById('upload-zone');
+
+fileInput.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (f) processFile(f);
+});
+
+['dragenter', 'dragover'].forEach(type => {
+  uploadZone.addEventListener(type, e => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.add('dragover'); });
+});
+['dragleave', 'drop'].forEach(type => {
+  uploadZone.addEventListener(type, e => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.remove('dragover'); });
+});
+uploadZone.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0];
+  if (f) processFile(f);
+});
+
+function processFile(file) {
+  if (!eurGws || !easGws) {
+    setStatus('err', 'Reference data not loaded yet. Wait a moment and try again.');
+    return;
+  }
+  setStatus('busy', `Reading ${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)…`);
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      analyze(e.target.result);
+    } catch (err) {
+      setStatus('err', 'Error parsing file: ' + err.message);
+    }
+  };
+  reader.onerror = () => setStatus('err', 'Could not read file.');
+  reader.readAsText(file);
+}
+
+function analyze(text) {
+  setStatus('busy', 'Parsing genotypes…');
+  // Use setTimeout(0) to let the status update render before the heavy work.
+  setTimeout(() => {
+    const result = parseAndAnalyze(text);
+    renderResults(result);
+    setStatus('ok',
+      `Parsed ${result.totalSNPs.toLocaleString()} biallelic SNPs from your file. ` +
+      `All processing happened in your browser — nothing was uploaded.`);
+  }, 50);
+}
+
+function parseAndAnalyze(text) {
+  let totalSNPs = 0;       // biallelic ACGT SNPs in user's chip
+  let mhcSNPs = 0;         // typed SNPs that fall in chr 6: 25-34 Mb
+  const typedRsids = new Set();
+
+  // 23andMe TSV: rsid \t chrom \t pos \t genotype, with `#` comment lines
+  const lines = text.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line || line[0] === '#') continue;
+    const parts = line.split('\t');
+    if (parts.length < 4) continue;
+    const [rsid, chrom, pos, gt] = parts;
+    // Filter to biallelic ACGT SNPs (skip indels, no-calls, non-ACGT)
+    if (gt.length !== 2) continue;
+    if (gt === '--' || gt === '00') continue;
+    const a = gt[0], b = gt[1];
+    if (a !== 'A' && a !== 'C' && a !== 'G' && a !== 'T') continue;
+    if (b !== 'A' && b !== 'C' && b !== 'G' && b !== 'T') continue;
+    totalSNPs++;
+    typedRsids.add(rsid);
+    if (chrom === MHC_CHR) {
+      const p = parseInt(pos, 10);
+      if (p >= MHC_START && p <= MHC_END) mhcSNPs++;
+    }
+  }
+
+  // Intersect with EUR & EAS GWS sets
+  function intersect(gwsSet) {
+    let overlap = 0, mhcOverlap = 0;
+    for (const rsid of typedRsids) {
+      const h = gwsSet.byRsid.get(rsid);
+      if (!h) continue;
+      overlap++;
+      if (h.chr === MHC_CHR && h.pos >= MHC_START && h.pos <= MHC_END) mhcOverlap++;
+    }
+    return { overlap, mhcOverlap };
+  }
+
+  const eurX = intersect(eurGws);
+  const easX = intersect(easGws);
+
+  return {
+    totalSNPs, mhcSNPs,
+    eur: { total: eurGws.total, mhc_total: eurGws.mhc_total, overlap: eurX.overlap, mhcOverlap: eurX.mhcOverlap },
+    eas: { total: easGws.total, mhc_total: easGws.mhc_total, overlap: easX.overlap, mhcOverlap: easX.mhcOverlap },
+  };
+}
+
+function fmtPct(num, denom) {
+  if (!denom) return '0.00%';
+  return ((100 * num) / denom).toFixed(2) + '%';
+}
+
+function renderResults(r) {
+  const setText = (id, val) => document.getElementById(id).textContent = val;
+  setText('stat-total', r.totalSNPs.toLocaleString());
+  setText('stat-mhc', r.mhcSNPs.toLocaleString());
+  setText('stat-mhc-pct', fmtPct(r.mhcSNPs, r.totalSNPs));
+
+  setText('eur-total', r.eur.total.toLocaleString());
+  setText('eur-overlap', r.eur.overlap.toLocaleString());
+  setText('eur-pct', fmtPct(r.eur.overlap, r.eur.total));
+
+  setText('eur-mhc-total', r.eur.mhc_total.toLocaleString());
+  setText('eur-mhc-overlap', r.eur.mhcOverlap.toLocaleString());
+  setText('eur-mhc-pct', fmtPct(r.eur.mhcOverlap, r.eur.mhc_total));
+
+  setText('eas-total', r.eas.total.toLocaleString());
+  setText('eas-overlap', r.eas.overlap.toLocaleString());
+  setText('eas-pct', fmtPct(r.eas.overlap, r.eas.total));
+
+  setText('eas-mhc-total', r.eas.mhc_total.toLocaleString());
+  setText('eas-mhc-overlap', r.eas.mhcOverlap.toLocaleString());
+  setText('eas-mhc-pct', fmtPct(r.eas.mhcOverlap, r.eas.mhc_total));
+
+  // Comparison sentence
+  const eurMhcPct = r.eur.overlap ? (100 * r.eur.mhcOverlap / r.eur.overlap) : 0;
+  const easMhcPct = r.eas.overlap ? (100 * r.eas.mhcOverlap / r.eas.overlap) : 0;
+  const txt = document.getElementById('comparison-text');
+  txt.innerHTML = `<strong>Of your ${r.eur.overlap.toLocaleString()} typed EUR-cohort GWS SNPs, ${r.eur.mhcOverlap.toLocaleString()} (${eurMhcPct.toFixed(1)}%) fall in the chr 6 MHC band.</strong> ` +
+    `Of your ${r.eas.overlap.toLocaleString()} typed EAS-cohort GWS SNPs, ${r.eas.mhcOverlap.toLocaleString()} (${easMhcPct.toFixed(1)}%) fall in the MHC band. ` +
+    `The asymmetry is the headline finding — explained by allele-frequency differences at the MHC tag SNPs across populations.`;
+
+  document.getElementById('results').classList.add('visible');
+}
+</script>
+
+</body>
+</html>
