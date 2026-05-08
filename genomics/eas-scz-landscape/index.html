@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>East Asian Schizophrenia GWS Landscape | Dave Liu</title>
-<meta name="description" content="Interactive genome-wide visualization of the 1,730 GWS hits from the Lam et al. 2019 East Asian schizophrenia GWAS, showing the chr 6 MHC absence that is European-cohort-specific.">
-<meta property="og:title" content="EAS-SCZ Landscape | Dave Liu">
-<meta property="og:description" content="The chr 6 MHC dominance in chip-PRS is European-cohort-specific. Interactive genome-wide visualization makes the empty MHC band immediately visible.">
+<title>EUR vs EAS Schizophrenia GWS Landscape | Dave Liu</title>
+<meta name="description" content="Interactive genome-wide visualization of EUR (PGC3 wave 3, 21,723 GWS) vs EAS (Lam 2019, 1,730 GWS) schizophrenia GWAS hits, showing the chr 6 MHC dominance that is European-cohort-specific.">
+<meta property="og:title" content="EUR vs EAS SCZ Landscape | Dave Liu">
+<meta property="og:description" content="The chr 6 MHC dominance in chip-PRS is European-cohort-specific. Toggle between EUR and EAS cohorts to see the dense MHC band that is — and isn't — there.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://daliu.github.io/genomics/eas-scz-landscape/">
 <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -30,7 +30,9 @@
     --bg: #0d1117; --card: #161b22; --border: #30363d;
     --text: #c9d1d9; --heading: #f0f6fc; --muted: #8b949e;
     --accent: #58a6ff; --teal: #1abc9c;
-    --mhc: #f85149; --hit: #58a6ff; --hit-typed: #d29922;
+    --mhc: #f85149;
+    --eas-hit: #58a6ff; --eas-typed: #d29922;
+    --eur-hit: #a371f7; --eur-typed: #f0a05c;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -75,11 +77,24 @@
   .legend { display: flex; gap: 18px; margin: 14px 0 8px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-  .swatch.hit { background: var(--hit); }
-  .swatch.typed { background: var(--hit-typed); }
+  .swatch.eas { background: var(--eas-hit); }
+  .swatch.eas-typed { background: var(--eas-typed); }
+  .swatch.eur { background: var(--eur-hit); }
+  .swatch.eur-typed { background: var(--eur-typed); }
   .swatch.mhc-bar { width: 18px; height: 8px; border-radius: 2px; background: rgba(248, 81, 73, 0.3); border: 1px solid var(--mhc); }
   .legend label { color: var(--muted); cursor: pointer; user-select: none; font-weight: 400; margin: 0; }
   .legend input[type=checkbox] { margin-right: 4px; vertical-align: middle; }
+  .cohort-toggle { display: inline-flex; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 3px; margin-right: 8px; }
+  .cohort-toggle button {
+    background: transparent; border: 0; color: var(--muted); padding: 4px 12px;
+    border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; font-family: inherit;
+  }
+  .cohort-toggle button:hover { color: var(--text); }
+  .cohort-toggle button.active { color: #0d1117; }
+  #cohort-eas.active { background: var(--eas-hit); }
+  #cohort-eur.active { background: var(--eur-hit); }
+  #cohort-both.active { background: linear-gradient(90deg, var(--eas-hit) 0%, var(--eas-hit) 50%, var(--eur-hit) 50%, var(--eur-hit) 100%); }
 
   #plot { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px 16px; overflow-x: auto; }
   .chr-row text.chr-label { fill: var(--muted); font-size: 11px; font-family: 'SF Mono', Menlo, monospace; }
@@ -88,8 +103,11 @@
   .chr-row .tick line { stroke: var(--border); stroke-width: 1; }
   .mhc-band { fill: rgba(248, 81, 73, 0.15); stroke: var(--mhc); stroke-width: 1; stroke-dasharray: 3 2; }
   .mhc-label { fill: var(--mhc); font-size: 10px; font-family: 'SF Mono', Menlo, monospace; font-weight: 600; }
-  .hit-dot { fill: var(--hit); fill-opacity: 0.7; }
-  .hit-dot.typed { fill: var(--hit-typed); fill-opacity: 1; }
+  .hit-dot { fill-opacity: 0.7; }
+  .hit-dot.eas { fill: var(--eas-hit); }
+  .hit-dot.eas.typed { fill: var(--eas-typed); fill-opacity: 1; }
+  .hit-dot.eur { fill: var(--eur-hit); }
+  .hit-dot.eur.typed { fill: var(--eur-typed); fill-opacity: 1; }
   .hit-dot:hover { fill-opacity: 1; cursor: pointer; }
 
   .tooltip {
@@ -135,22 +153,29 @@
 
 <div class="container-narrow">
 
-  <p class="subtitle"><a href="../">/genomics/</a> &rsaquo; EAS-SCZ landscape</p>
-  <h1>The chr 6 MHC band that isn't there</h1>
-  <p class="subtitle">Genome-wide layout of the 1,730 GWS hits from the Lam et al.&nbsp;2019 East Asian schizophrenia GWAS. The headline finding from the <a href="../../research/single-subject-chip-prs-mhc.pdf">companion paper</a> is visible at a glance: the chr 6 MHC region, which dominates the European-cohort PGC3 wave 3 SCZ landscape, contains <strong>zero</strong> EAS-cohort GWS hits.</p>
+  <p class="subtitle"><a href="../">/genomics/</a> &rsaquo; EUR vs EAS SCZ landscape</p>
+  <h1>The chr 6 MHC band that is &mdash; and isn't &mdash; there</h1>
+  <p class="subtitle">Side-by-side genome-wide layout of GWS hits from the PGC3 wave 3 European-cohort and Lam et&nbsp;al.&nbsp;2019 East-Asian-cohort schizophrenia GWAS. The headline finding from the <a href="../../research/single-subject-chip-prs-mhc.pdf">companion paper</a> becomes visible at a glance once you toggle between cohorts: the chr 6 MHC region is dense with EUR-cohort GWS hits and conspicuously empty in the EAS-cohort hits at current sample sizes.</p>
 
   <div class="stat-grid">
-    <div class="stat"><div class="num">1,730</div><div class="label">GWS SNPs (p&lt;5×10⁻⁸)</div></div>
-    <div class="stat"><div class="num">54</div><div class="label">Typed by 23andMe v5</div></div>
-    <div class="stat"><div class="num zero">0</div><div class="label">In chr 6 MHC band</div></div>
-    <div class="stat"><div class="num">22,778</div><div class="label">EAS cases (Lam 2019)</div></div>
+    <div class="stat" style="border-color: var(--eur-hit);"><div class="num" style="color: var(--eur-hit);">21,723</div><div class="label">EUR GWS SNPs</div></div>
+    <div class="stat" style="border-color: var(--eur-hit);"><div class="num" style="color: var(--eur-hit);">4,529</div><div class="label">EUR in MHC band</div></div>
+    <div class="stat" style="border-color: var(--eas-hit);"><div class="num" style="color: var(--eas-hit);">1,730</div><div class="label">EAS GWS SNPs</div></div>
+    <div class="stat" style="border-color: var(--eas-hit);"><div class="num zero">0</div><div class="label">EAS in MHC band</div></div>
   </div>
 
   <div class="legend">
-    <span class="legend-item"><span class="swatch hit"></span>GWS hit</span>
-    <span class="legend-item"><span class="swatch typed"></span>typed by 23andMe v5</span>
-    <span class="legend-item"><span class="swatch mhc-bar"></span>chr 6 MHC region (25–34 Mb)</span>
-    <span class="legend-item"><label><input type="checkbox" id="typed-only"> show typed SNPs only</label></span>
+    <span class="cohort-toggle" role="group" aria-label="Cohort selector">
+      <button id="cohort-eas" class="active">EAS only</button>
+      <button id="cohort-eur">EUR only</button>
+      <button id="cohort-both">Both</button>
+    </span>
+    <span class="legend-item"><span class="swatch eas"></span>EAS GWS hit</span>
+    <span class="legend-item"><span class="swatch eas-typed"></span>EAS &amp; typed</span>
+    <span class="legend-item"><span class="swatch eur"></span>EUR GWS hit</span>
+    <span class="legend-item"><span class="swatch eur-typed"></span>EUR &amp; typed</span>
+    <span class="legend-item"><span class="swatch mhc-bar"></span>chr 6 MHC (25&ndash;34 Mb)</span>
+    <span class="legend-item"><label><input type="checkbox" id="typed-only"> typed SNPs only</label></span>
   </div>
 
   <div id="plot"></div>
@@ -158,8 +183,8 @@
 
   <h2>What you're seeing</h2>
   <div class="card">
-    <p>Each row is a chromosome (1–22), drawn proportional to its length on GRCh37. Each dot is a SNP that reached genome-wide significance (p &lt; 5×10⁻⁸) in the Lam 2019 EAS-cohort schizophrenia GWAS. Yellow dots mark the SNPs that are also typed by the 23andMe v5 chip; blue dots are GWS in the GWAS but not on the chip. The dashed red band on chr 6 highlights the extended MHC region (25–34 Mb).</p>
-    <p>The dominant clusters are the chr 12q24 hot-spot (123–124 Mb, 510 hits in a 1-Mb window), the chr 10q24 BORCS7/AS3MT/NT5C2 region (104–105 Mb, 285 hits), and chr 2 / chr 3 multi-locus signal. The chr 6 MHC band is conspicuously empty — not because the MHC has no role in schizophrenia globally (it dominates the European cohort) but because the specific tag SNPs that reach significance in EUR have minor allele frequencies under 1% in East Asians (Lam et al. note rs13194504 EAS MAF &lt;1% vs 9% EUR; the C4-BS schizophrenia allele is uncommon in Han Chinese).</p>
+    <p>Each row is a chromosome (1–22), drawn proportional to its length on GRCh37. Each dot is a SNP that reached genome-wide significance (p &lt; 5×10⁻⁸) in either the PGC3 wave 3 EUR-cohort schizophrenia GWAS (Trubetskoy et al. 2022, n=71,554 cases / 97,863 controls) or the Lam et al. 2019 EAS-cohort schizophrenia GWAS (n=22,778 cases / 35,362 controls). Use the cohort toggle in the legend to flip between the two. Larger filled dots mark SNPs that are also typed on the 23andMe v5 chip (the chip-PRS subset). The dashed red band on chr 6 highlights the extended MHC region (25–34 Mb).</p>
+    <p>Toggle to <strong>EUR only</strong>: the chr 6 MHC region is the densest band in the genome — 4,529 of 21,723 GWS SNPs (~21%) live in that single 9-Mb window. Toggle to <strong>EAS only</strong>: the same band is empty (0 of 1,730 GWS SNPs). Toggle to <strong>Both</strong>: the contrast is immediate. The other dominant EAS clusters — chr 12q24 (123–124 Mb), chr 10q24 BORCS7/AS3MT/NT5C2 (104–105 Mb), chr 2/3 multi-locus — are present but not MHC-scale. The MHC absence in EAS is not because the MHC has no role in schizophrenia globally; it is because the specific tag SNPs reaching significance in EUR have minor allele frequencies under 1% in East Asians (Lam et al. note rs13194504 EAS MAF &lt;1% vs 9% EUR; the C4-BS schizophrenia allele is uncommon in Han Chinese), and the EAS sample size is currently a fraction of the EUR cohort.</p>
   </div>
 
   <h2>Why this matters for chip-PRS</h2>
@@ -169,8 +194,8 @@
 
   <h2>Data &amp; reproducibility</h2>
   <div class="card">
-    <p>Source data: <a href="https://figshare.com/articles/dataset/Comparative_genetic_architectures_of_schizophrenia_in_East_Asian_and_European_populations_Lam_et_al_2019_/19193084">Lam 2019 PGC EAS schizophrenia summary statistics on Figshare</a> (file: <code>daner_natgen_pgc_eas.gz</code>). Filtered to <code>p &lt; 5e-8</code>; chromosome and position fields kept verbatim. The 23andMe-typed marker is computed from the subject's chip-typed rsID set. Chromosome length scale is based on GRCh37/hg19 reference assembly.</p>
-    <p>The pre-processed <a href="data.json">data.json</a> in this directory is plain JSON with one entry per GWS SNP: <code>rsid</code>, <code>chr</code>, <code>pos</code>, <code>or</code>, <code>p</code>, and <code>typed</code>. Anyone can rerun against a different EAS GWAS by swapping the source file and re-running the same preprocessing logic.</p>
+    <p>EAS source: <a href="https://figshare.com/articles/dataset/Comparative_genetic_architectures_of_schizophrenia_in_East_Asian_and_European_populations_Lam_et_al_2019_/19193084">Lam 2019 PGC EAS schizophrenia summary statistics on Figshare</a> (file: <code>daner_natgen_pgc_eas.gz</code>). EUR source: <a href="https://figshare.com/articles/dataset/scz2022/19426775">PGC3 wave 3 EUR-cohort summary statistics on Figshare</a> (Trubetskoy et al. 2022, <code>PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz</code>). Both filtered to <code>p &lt; 5e-8</code> with chromosome and position kept verbatim from the source files. The 23andMe-typed marker is computed by intersecting GWS rsIDs against the v5 chip's rsID set. Chromosome length scale is based on GRCh37/hg19 reference assembly.</p>
+    <p>The pre-processed <a href="data.json">data.json</a> (EAS) here and <a href="../chip-prs-explorer/eur_gws.json">eur_gws.json</a> (EUR, reused from the chip-PRS explorer) are plain JSON with one entry per GWS SNP: <code>rsid</code>, <code>chr</code>, <code>pos</code>, effect size (<code>or</code> for EAS, <code>beta</code> for EUR), <code>p</code>, and <code>typed</code>. Anyone can rerun against a different GWAS by swapping the source file and re-running the same preprocessing logic.</p>
   </div>
 
 </div>
@@ -196,8 +221,39 @@ const CHR_ORDER = Array.from({length: 22}, (_, i) => String(i + 1));
 const MHC_CHR = "6", MHC_START = 25_000_000, MHC_END = 34_000_000;
 
 const tooltip = d3.select('#tooltip');
+const state = { cohort: 'eas', filterTyped: false };
 
-function render(data, filterTyped) {
+function effectSize(d) {
+  // EAS data uses `or` (odds ratio); EUR data uses `beta` (log-OR scale).
+  if (d.or != null) return `OR=${d.or.toFixed(3)}`;
+  if (d.beta != null) return `β=${d.beta.toFixed(3)}`;
+  return '';
+}
+
+function attachHandlers(sel, cohortLabel) {
+  const typedColorVar = cohortLabel === 'EUR' ? '--eur-typed' : '--eas-typed';
+  sel
+    .on('mouseover', function(d) {
+      tooltip.style('visibility', 'visible')
+        .style('left', (d3.event.pageX + 12) + 'px')
+        .style('top', (d3.event.pageY + 12) + 'px')
+        .html(
+          `<strong>${d.rsid}</strong> <span style="color:var(--muted)">[${cohortLabel}]</span><br>` +
+          `chr${d.chr}:${d.pos.toLocaleString()}<br>` +
+          `${effectSize(d)}, p=${d.p.toExponential(2)}<br>` +
+          (d.typed ? `<span style="color:var(${typedColorVar})">typed by 23andMe v5</span>` : '')
+        );
+    })
+    .on('mousemove', function() {
+      tooltip.style('left', (d3.event.pageX + 12) + 'px')
+             .style('top', (d3.event.pageY + 12) + 'px');
+    })
+    .on('mouseout', function() {
+      tooltip.style('visibility', 'hidden');
+    });
+}
+
+function render(eas, eur) {
   const plot = document.getElementById('plot');
   plot.innerHTML = '';
 
@@ -230,18 +286,15 @@ function render(data, filterTyped) {
     const y = i * rowHeight + rowHeight / 2;
     const row = g.append('g').attr('class', 'chr-row');
 
-    // axis line
     row.append('line').attr('class', 'chr-axis')
       .attr('x1', 0).attr('x2', xScale(CHR_LENGTHS[chr]))
       .attr('y1', y).attr('y2', y);
 
-    // chr label
     row.append('text').attr('class', 'chr-label')
       .attr('x', -8).attr('y', y + 3)
       .attr('text-anchor', 'end')
       .text(`chr${chr}`);
 
-    // MHC band on chr 6
     if (chr === MHC_CHR) {
       row.append('rect').attr('class', 'mhc-band')
         .attr('x', xScale(MHC_START)).attr('y', y - 8)
@@ -254,39 +307,39 @@ function render(data, filterTyped) {
     }
   });
 
-  // dots
-  const filtered = filterTyped ? data.hits.filter(h => h.typed) : data.hits;
+  const showEUR = state.cohort === 'eur' || state.cohort === 'both';
+  const showEAS = state.cohort === 'eas' || state.cohort === 'both';
+
+  // Apply the typed-only filter once per dataset, not per chromosome.
+  const eurFiltered = state.filterTyped ? eur.hits.filter(h => h.typed) : eur.hits;
+  const easFiltered = state.filterTyped ? eas.hits.filter(h => h.typed) : eas.hits;
+
+  // Draw EUR underneath EAS so the smaller (typed) cohort dots layer cleanly on top.
   CHR_ORDER.forEach((chr, i) => {
     const y = i * rowHeight + rowHeight / 2;
-    const chrHits = filtered.filter(h => h.chr === chr);
-    g.selectAll(null).data(chrHits).enter().append('circle')
-      .attr('class', d => 'hit-dot' + (d.typed ? ' typed' : ''))
-      .attr('cx', d => xScale(d.pos))
-      .attr('cy', y)
-      .attr('r', d => d.typed ? 3 : 1.8)
-      .on('mouseover', function(d) {
-        tooltip.style('visibility', 'visible')
-          .style('left', (d3.event.pageX + 12) + 'px')
-          .style('top', (d3.event.pageY + 12) + 'px')
-          .html(
-            `<strong>${d.rsid}</strong><br>` +
-            `chr${d.chr}:${d.pos.toLocaleString()}<br>` +
-            `OR=${d.or.toFixed(3)}, p=${d.p.toExponential(2)}<br>` +
-            (d.typed ? '<span style="color:var(--hit-typed)">typed by 23andMe v5</span>' : '')
-          );
-      })
-      .on('mousemove', function() {
-        tooltip.style('left', (d3.event.pageX + 12) + 'px')
-               .style('top', (d3.event.pageY + 12) + 'px');
-      })
-      .on('mouseout', function() {
-        tooltip.style('visibility', 'hidden');
-      });
+
+    if (showEUR) {
+      const sel = g.selectAll(null).data(eurFiltered.filter(h => h.chr === chr))
+        .enter().append('circle')
+        .attr('class', d => 'hit-dot eur' + (d.typed ? ' typed' : ''))
+        .attr('cx', d => xScale(d.pos))
+        .attr('cy', y)
+        .attr('r', d => d.typed ? 3 : 1.6);
+      attachHandlers(sel, 'EUR');
+    }
+
+    if (showEAS) {
+      const sel = g.selectAll(null).data(easFiltered.filter(h => h.chr === chr))
+        .enter().append('circle')
+        .attr('class', d => 'hit-dot eas' + (d.typed ? ' typed' : ''))
+        .attr('cx', d => xScale(d.pos))
+        .attr('cy', y)
+        .attr('r', d => d.typed ? 3 : 1.8);
+      attachHandlers(sel, 'EAS');
+    }
   });
 
   // Touch-device support: tap anywhere outside a dot dismisses the tooltip.
-  // Without this, on mobile the tooltip stays pinned to the last-tapped dot
-  // until another dot is tapped, since touch events don't fire mouseout.
   svg.on('click', function() {
     if (d3.event.target.tagName !== 'circle') {
       tooltip.style('visibility', 'hidden');
@@ -294,17 +347,36 @@ function render(data, filterTyped) {
   });
 }
 
-fetch('data.json').then(r => r.json()).then(data => {
-  let filterTyped = false;
-  render(data, filterTyped);
+Promise.all([
+  fetch('data.json').then(r => r.json()),
+  fetch('../chip-prs-explorer/eur_gws.json').then(r => r.json())
+]).then(([eas, eur]) => {
+  render(eas, eur);
+
   document.getElementById('typed-only').addEventListener('change', e => {
-    filterTyped = e.target.checked;
-    render(data, filterTyped);
+    state.filterTyped = e.target.checked;
+    render(eas, eur);
   });
-  window.addEventListener('resize', () => render(data, filterTyped));
+
+  const buttons = ['eas', 'eur', 'both'];
+  buttons.forEach(c => {
+    document.getElementById('cohort-' + c).addEventListener('click', () => {
+      state.cohort = c;
+      buttons.forEach(b => {
+        document.getElementById('cohort-' + b).classList.toggle('active', b === c);
+      });
+      render(eas, eur);
+    });
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => render(eas, eur), 120);
+  });
 }).catch(err => {
   document.getElementById('plot').innerHTML =
-    '<p style="color:var(--mhc); padding: 20px;">Could not load data.json: ' + err.message + '</p>';
+    '<p style="color:var(--mhc); padding: 20px;">Could not load GWAS data: ' + err.message + '</p>';
 });
 </script>
 
