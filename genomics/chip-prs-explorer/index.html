@@ -178,7 +178,7 @@
     <p class="hint">Expected format: tab-separated <code>rsid\tchromosome\tposition\tgenotype</code> (one per line, with <code>#</code> comment lines). The standard 23andMe raw download (<code>genome_*_v5_Full_*.txt</code>) works as-is.</p>
   </label>
 
-  <div class="status" id="status"></div>
+  <div class="status" id="status" aria-live="polite"></div>
 
   <div class="results" id="results">
 
@@ -224,9 +224,9 @@
 
   <h2>What this means</h2>
   <div class="card">
-    <p>Two-thirds of the EUR-cohort schizophrenia GWS SNPs that 23andMe v5 types fall in the chr 6 MHC region &mdash; one extended LD block. Any unweighted chip-PRS computed against the EUR cohort is dominated by your tag-SNP dosage at this single block, not by polygenic accumulation across independent loci.</p>
+    <p>About <strong>60%</strong> of the EUR-cohort schizophrenia GWS SNPs that 23andMe v5 types fall in the chr 6 MHC region &mdash; one extended LD block. Any unweighted chip-PRS computed against the EUR cohort is dominated by your tag-SNP dosage at this single block, not by polygenic accumulation across independent loci.</p>
     <p>The same chip cross-referenced against the East Asian-cohort schizophrenia GWS at current sample sizes hits <strong>zero</strong> MHC SNPs &mdash; not because the MHC has no biological role in EAS schizophrenia, but because the specific tag SNPs that reach genome-wide significance in EUR populations have minor allele frequencies under 1% in East Asians (Lam et al. 2019: rs13194504 EAS MAF &lt;1% vs 9% EUR; the C4-BS allele uncommon in Han Chinese). The 9-Mb MHC band is empty.</p>
-    <p>Implication for chip-PRS users: report MHC and non-MHC partitions separately, especially when computing on EUR-cohort GWAS. The companion <a href="../../research/single-subject-chip-prs-mhc.pdf">methods paper</a> develops this in detail.</p>
+    <p>Implication for chip-PRS users: report MHC and non-MHC partitions separately, especially when computing on EUR-cohort GWAS. <strong>If your ancestry is neither EUR nor EAS</strong> (e.g., African, South Asian, Latino, or admixed), neither column above is the right reference for you &mdash; the takeaway here is that GWS-tag-SNP MHC dominance is ancestry-cohort-specific, not that one of these two cohorts applies to everyone. The companion <a href="../../research/single-subject-chip-prs-mhc.pdf">methods paper</a> develops this in detail.</p>
   </div>
 
   <h2>Caveats</h2>
@@ -297,6 +297,8 @@ const uploadZone = document.getElementById('upload-zone');
 fileInput.addEventListener('change', e => {
   const f = e.target.files[0];
   if (f) processFile(f);
+  // Reset the input so picking the same filename again refires `change`.
+  fileInput.value = '';
 });
 
 ['dragenter', 'dragover'].forEach(type => {
@@ -333,6 +335,13 @@ function analyze(text) {
   // Use setTimeout(0) to let the status update render before the heavy work.
   setTimeout(() => {
     const result = parseAndAnalyze(text);
+    if (result.totalSNPs === 0) {
+      setStatus('err',
+        'No biallelic ACGT SNPs found in this file. Is it a 23andMe v5 raw download (the ' +
+        'genome_*_v5_Full_*.txt format)? The expected format is tab-separated rsid/chrom/pos/genotype, ' +
+        'with `#` comment lines and CRLF line endings.');
+      return;
+    }
     renderResults(result);
     setStatus('ok',
       `Parsed ${result.totalSNPs.toLocaleString()} biallelic SNPs from your file. ` +
@@ -345,8 +354,11 @@ function parseAndAnalyze(text) {
   let mhcSNPs = 0;         // typed SNPs that fall in chr 6: 25-34 Mb
   const typedRsids = new Set();
 
-  // 23andMe TSV: rsid \t chrom \t pos \t genotype, with `#` comment lines
-  const lines = text.split('\n');
+  // 23andMe TSV: rsid \t chrom \t pos \t genotype, with `#` comment lines.
+  // 23andMe raw downloads ship with CRLF line endings; split on either to
+  // avoid leaving a stray \r on the genotype field (which would silently
+  // reject every line via the `gt.length !== 2` filter below).
+  const lines = text.split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     if (!line || line[0] === '#') continue;
