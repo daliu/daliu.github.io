@@ -243,6 +243,58 @@
     background: #1abc9c;
     margin: 0 0 25px 0;
   }
+  .outline-col { padding: 0 8px; }
+  .outline-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 12px;
+    row-gap: 4px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: #fff;
+    border-left: 3px solid #e0e0e0;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 2px;
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  .outline-card:hover {
+    border-left-color: #1abc9c;
+    transform: translateX(2px);
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .outline-card .outline-num {
+    grid-column: 1;
+    grid-row: 1;
+    font-family: Montserrat, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #1abc9c;
+    align-self: baseline;
+  }
+  .outline-card .outline-title {
+    grid-column: 2;
+    grid-row: 1;
+    font-weight: 600;
+    color: #303030;
+    font-size: 14px;
+    align-self: baseline;
+    text-align: left;
+  }
+  .outline-card .outline-desc {
+    grid-column: 2;
+    grid-row: 2;
+    color: #888;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: left;
+  }
+  @media (max-width: 768px) {
+    #outline { padding: 30px 16px !important; }
+    .outline-col { padding: 0 4px; }
+  }
   .exp-block {
     margin-bottom: 40px;
   }
@@ -362,6 +414,7 @@
             <li><a href="knowledge/">Knowledge Graph</a></li>
           </ul>
         </li>
+        <li><a href="resume/">Resume</a></li>
         <li><a href="publications.html">Publications</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
@@ -389,8 +442,72 @@
   <img src="images/biz_pic.jpg" class="img-responsive img-circle margin slide" style="display:inline" alt="Dave Liu" height="400" width="400">
   <p>Senior Data Scientist &middot; ML Engineer &middot; Systems Builder</p>
   <div style="margin-top: 25px;">
-    <a href="#contact" class="btn btn-lg" style="background:#1abc9c; color:#fff; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-right: 10px;">Get in Touch</a>
-    <a href="index.html" class="btn btn-lg" style="border: 2px solid #1abc9c; color:#1abc9c; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px;">Data Dashboard</a>
+    <a href="resume/resume.pdf" download class="btn btn-lg" style="background:#1abc9c; color:#fff; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin: 0 6px 10px;">Resume (PDF)</a>
+    <a href="resume/" class="btn btn-lg" style="border: 2px solid #1abc9c; color:#1abc9c; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin: 0 6px 10px;">View Resume</a>
+    <a href="#contact" class="btn btn-lg" style="border: 2px solid #fff; color:#fff; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin: 0 6px 10px;">Get in Touch</a>
+  </div>
+</div>
+
+<!-- Outline / Quick Nav -->
+<div id="outline" class="container-fluid bg-grey" style="padding: 30px 50px;">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 style="text-align: center; margin-bottom: 8px;">At a Glance</h2>
+      <p style="text-align: center; color: #888; margin-bottom: 24px; font-size: 14px;">Skim the sections — or grab the <a href="resume/resume.pdf" download style="color: #1abc9c; font-weight: 600;">resume PDF</a> / <a href="resume/" style="color: #1abc9c; font-weight: 600;">resume page</a>.</p>
+      <div class="row" style="max-width: 960px; margin: 0 auto;">
+        <div class="col-sm-4 outline-col">
+          <a class="outline-card" href="#about">
+            <span class="outline-num">01</span>
+            <span class="outline-title">About</span>
+            <span class="outline-desc">Why data, what ties the work together</span>
+          </a>
+          <a class="outline-card" href="#experience">
+            <span class="outline-num">02</span>
+            <span class="outline-title">Experience</span>
+            <span class="outline-desc">Shipt, Freenome, Change Healthcare, Riviera, Berkeley research</span>
+          </a>
+          <a class="outline-card" href="#skills">
+            <span class="outline-num">03</span>
+            <span class="outline-title">Technical Skills</span>
+            <span class="outline-desc">Languages, ML &amp; data, cloud, infrastructure</span>
+          </a>
+        </div>
+        <div class="col-sm-4 outline-col">
+          <a class="outline-card" href="#testimonials">
+            <span class="outline-num">04</span>
+            <span class="outline-title">Colleague Notes</span>
+            <span class="outline-desc">What teammates have said</span>
+          </a>
+          <a class="outline-card" href="#projects">
+            <span class="outline-num">05</span>
+            <span class="outline-title">Featured Projects</span>
+            <span class="outline-desc">Meta Council · AutoTrader</span>
+          </a>
+          <a class="outline-card" href="#projects">
+            <span class="outline-num">06</span>
+            <span class="outline-title">Other Projects</span>
+            <span class="outline-desc">XGBoost guide, depression classifier, Sentic, &amp; more</span>
+          </a>
+        </div>
+        <div class="col-sm-4 outline-col">
+          <a class="outline-card" href="#quotes">
+            <span class="outline-num">07</span>
+            <span class="outline-title">Words I Come Back To</span>
+            <span class="outline-desc">Quotes that stuck</span>
+          </a>
+          <a class="outline-card" href="publications.html">
+            <span class="outline-num">08</span>
+            <span class="outline-title">Publications</span>
+            <span class="outline-desc">Three independent research papers</span>
+          </a>
+          <a class="outline-card" href="#contact">
+            <span class="outline-num">09</span>
+            <span class="outline-title">Contact</span>
+            <span class="outline-desc">Email · LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -761,7 +878,7 @@
     <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
-  <p style="margin-bottom: 5px;"><a href="portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="autotrader.html" style="color: #1abc9c;">AutoTrader</a> &middot; <a href="health/" style="color: #1abc9c;">Health</a> &middot; <a href="analytics/" style="color: #1abc9c;">Analytics</a></p>
+  <p style="margin-bottom: 5px;"><a href="portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="resume/" style="color: #1abc9c;">Resume</a> &middot; <a href="index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="autotrader.html" style="color: #1abc9c;">AutoTrader</a> &middot; <a href="health/" style="color: #1abc9c;">Health</a> &middot; <a href="analytics/" style="color: #1abc9c;">Analytics</a></p>
   <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
 </footer>
 
