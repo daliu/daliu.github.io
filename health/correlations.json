@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-08T20:44:00.291425",
+  "updated": "2026-05-09T19:00:10.080242",
   "date_range": {
     "start": "2026-01-12",
     "end": "2026-05-08",
@@ -99,7 +99,15 @@
       "sample_size": 12
     }
   },
-  "event_categories": {},
+  "event_categories": {
+    "social": {
+      "battery": 29.0,
+      "battery_delta": -5.0,
+      "stress": 33.8,
+      "sleep": 73,
+      "sample_size": 4
+    }
+  },
   "lagged_effects": {
     "exercise": {
       "+1d": {

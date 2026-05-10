@@ -1,26 +1,6 @@
 {
-  "updated": "2026-05-08T19:14:50.203279",
+  "updated": "2026-05-09T19:00:07.268801",
   "daily": [
-    {
-      "date": "2026-02-08",
-      "avg_body_battery": 38.0,
-      "min_body_battery": 28,
-      "max_body_battery": 77,
-      "avg_stress": 25.0,
-      "total_steps": 676,
-      "sleep_score": 58,
-      "sleep_hours": 4.48,
-      "hrv_weekly": 59,
-      "hrv_last_night": 73,
-      "hrv_status": "UNBALANCED",
-      "resting_hr": 37,
-      "sleep_start": null,
-      "sleep_end": null,
-      "active_calories": 13.0,
-      "intensity_minutes": 0,
-      "vigorous_minutes": 0,
-      "distance_meters": 591.0
-    },
     {
       "date": "2026-02-09",
       "avg_body_battery": 16.0,
@@ -1080,36 +1060,49 @@
       "intensity_minutes": 0,
       "vigorous_minutes": 0,
       "distance_meters": 3838.0
+    },
+    {
+      "date": "2026-05-09",
+      "avg_body_battery": null,
+      "min_body_battery": null,
+      "max_body_battery": null,
+      "avg_stress": null,
+      "total_steps": null,
+      "sleep_score": null,
+      "sleep_hours": null,
+      "hrv_weekly": null,
+      "hrv_last_night": null,
+      "hrv_status": null,
+      "resting_hr": null,
+      "sleep_start": null,
+      "sleep_end": null,
+      "active_calories": null,
+      "intensity_minutes": null,
+      "vigorous_minutes": null,
+      "distance_meters": null
+    },
+    {
+      "date": "2026-05-10",
+      "avg_body_battery": null,
+      "min_body_battery": null,
+      "max_body_battery": null,
+      "avg_stress": -1.0,
+      "total_steps": 319,
+      "sleep_score": null,
+      "sleep_hours": null,
+      "hrv_weekly": 67,
+      "hrv_last_night": null,
+      "hrv_status": "BALANCED",
+      "resting_hr": null,
+      "sleep_start": null,
+      "sleep_end": null,
+      "active_calories": 8.0,
+      "intensity_minutes": 0,
+      "vigorous_minutes": 0,
+      "distance_meters": 269.0
     }
   ],
   "hourly": [
-    {
-      "timestamp": "2026-05-02 05:00:03",
-      "body_battery_current": 16,
-      "resting_hr": 45,
-      "stress_avg": 29,
-      "steps": 2290,
-      "sleep_score": 47,
-      "hrv_weekly_avg": 64
-    },
-    {
-      "timestamp": "2026-05-02 07:00:02",
-      "body_battery_current": null,
-      "resting_hr": null,
-      "stress_avg": null,
-      "steps": null,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-05-02 08:00:02",
-      "body_battery_current": 10,
-      "resting_hr": 48,
-      "stress_avg": 27,
-      "steps": null,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
     {
       "timestamp": "2026-05-03 17:00:03",
       "body_battery_current": 84,
@@ -1352,6 +1345,96 @@
       "steps": 663,
       "sleep_score": 70,
       "hrv_weekly_avg": 68
+    },
+    {
+      "timestamp": "2026-05-09 08:00:03",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 09:00:07",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 10:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 11:00:03",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 12:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 13:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 14:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 15:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-09 16:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-05-10 01:00:01",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": -1,
+      "steps": 319,
+      "sleep_score": null,
+      "hrv_weekly_avg": 67
     }
   ]
 }
