@@ -238,6 +238,7 @@ def generate_wrapper_page(date_str, date_obj):
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="../../portfolio.html">Portfolio</a></li>
+        <li><a href="../../resume/">Resume</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -246,6 +247,8 @@ def generate_wrapper_page(date_str, date_obj):
             <li><a href="../../genomics/">Genomics</a></li>
             <li><a href="../../analytics/">Site Analytics</a></li>
             <li><a href="../../knowledge/">Knowledge Graph</a></li>
+            <li><a href="../../status/">System Status</a></li>
+            <li><a href="../../now/">Now</a></li>
           </ul>
         </li>
         <li><a href="../../publications.html">Publications</a></li>
@@ -294,7 +297,7 @@ def generate_wrapper_page(date_str, date_obj):
     <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
-  <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
+  <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../resume/" style="color: #1abc9c;">Resume</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
   <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
 </footer>
 
@@ -625,6 +628,7 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="../../portfolio.html">Portfolio</a></li>
+        <li><a href="../../resume/">Resume</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -633,6 +637,8 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
             <li><a href="../../genomics/">Genomics</a></li>
             <li><a href="../../analytics/">Site Analytics</a></li>
             <li><a href="../../knowledge/">Knowledge Graph</a></li>
+            <li><a href="../../status/">System Status</a></li>
+            <li><a href="../../now/">Now</a></li>
           </ul>
         </li>
         <li><a href="../../publications.html">Publications</a></li>
@@ -683,7 +689,7 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
     <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
     <a href="mailto:7david12liu@gmail.com" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
-  <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
+  <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../resume/" style="color: #1abc9c;">Resume</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
   <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
 </footer>
 
