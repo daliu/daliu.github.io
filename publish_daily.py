@@ -129,12 +129,12 @@ def generate_wrapper_page(date_str, date_obj):
   <link rel="canonical" href="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <!-- Google Analytics (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){{dataLayer.push(arguments);}}
     gtag('js', new Date());
-    gtag('config', 'G-GR5Z815VXW');
+    gtag('config', 'G-NNGFMHGWCE');
   </script>
   <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
@@ -509,12 +509,12 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
   <link rel="canonical" href="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <!-- Google Analytics (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR5Z815VXW"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){{dataLayer.push(arguments);}}
     gtag('js', new Date());
-    gtag('config', 'G-GR5Z815VXW');
+    gtag('config', 'G-NNGFMHGWCE');
   </script>
   <link rel="stylesheet" href="../../Bootstrap%20Theme%20Company%20Page_files/bootstrap.css">
   <link href="../../Bootstrap%20Theme%20Company%20Page_files/css_002.css" rel="stylesheet" type="text/css">
