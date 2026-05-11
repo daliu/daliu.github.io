@@ -116,11 +116,11 @@ def generate_wrapper_page(date_str, date_obj):
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Daily Update - {short_month} {day}, {year} - AutoTrader</title>
+  <title>Daily Update — {short_month} {day}, {year} — AutoTrader</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
-  <meta property="og:title" content="AutoTrader - {month_name} {day}, {year} Market Update">
+  <meta property="og:title" content="AutoTrader — {month_name} {day}, {year} Market Update">
   <meta property="og:description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
@@ -496,11 +496,11 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Daily Update - {short_month} {day}, {year} - AutoTrader</title>
+  <title>Daily Update — {short_month} {day}, {year} — AutoTrader</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
-  <meta property="og:title" content="AutoTrader - {month_name} {day}, {year} Market Update">
+  <meta property="og:title" content="AutoTrader — {month_name} {day}, {year} Market Update">
   <meta property="og:description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
