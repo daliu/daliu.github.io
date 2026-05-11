@@ -1,9 +1,208 @@
 {
-  "nodes": [],
-  "links": [],
+  "nodes": [
+    {
+      "id": "Causal Inference",
+      "type": "concept",
+      "color": "#dcdcaa",
+      "status": "seed",
+      "tags": [
+        "concept",
+        "causal-inference",
+        "experimentation"
+      ]
+    },
+    {
+      "id": "Data Science and ML",
+      "type": "concept",
+      "color": "#dcdcaa",
+      "status": "seed",
+      "tags": [
+        "concept",
+        "data-science",
+        "ml"
+      ]
+    },
+    {
+      "id": "Search and Personalization",
+      "type": "concept",
+      "color": "#dcdcaa",
+      "status": "seed",
+      "tags": [
+        "concept",
+        "search",
+        "ranking"
+      ]
+    },
+    {
+      "id": "AI Tools and Products",
+      "type": "concept",
+      "color": "#dcdcaa",
+      "status": "seed",
+      "tags": [
+        "concept",
+        "ai",
+        "product"
+      ]
+    },
+    {
+      "id": "Meta-Council",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "seed",
+      "tags": [
+        "entity",
+        "project",
+        "ai"
+      ]
+    },
+    {
+      "id": "Personal CRM",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "seed",
+      "tags": [
+        "entity",
+        "project",
+        "crm"
+      ]
+    },
+    {
+      "id": "Autotrader",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "developing",
+      "tags": [
+        "entity",
+        "project",
+        "trading"
+      ]
+    },
+    {
+      "id": "Side Projects",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "seed",
+      "tags": [
+        "area",
+        "projects"
+      ]
+    },
+    {
+      "id": "Finance and Investing",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "seed",
+      "tags": [
+        "area",
+        "finance",
+        "investing"
+      ]
+    },
+    {
+      "id": "Health and Fitness",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "seed",
+      "tags": [
+        "area",
+        "health"
+      ]
+    },
+    {
+      "id": "Career and Work",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "seed",
+      "tags": [
+        "area",
+        "career"
+      ]
+    },
+    {
+      "id": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
+      "type": "comparison",
+      "color": "#d16969",
+      "status": "developing",
+      "tags": [
+        "comparison",
+        "embeddings",
+        "matryoshka",
+        "alloydb",
+        "scann",
+        "shipt-dfy",
+        "personifier"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": "Causal Inference",
+      "target": "Data Science and ML"
+    },
+    {
+      "source": "Causal Inference",
+      "target": "Career and Work"
+    },
+    {
+      "source": "Data Science and ML",
+      "target": "Career and Work"
+    },
+    {
+      "source": "Data Science and ML",
+      "target": "Search and Personalization"
+    },
+    {
+      "source": "Data Science and ML",
+      "target": "AI Tools and Products"
+    },
+    {
+      "source": "Search and Personalization",
+      "target": "Career and Work"
+    },
+    {
+      "source": "AI Tools and Products",
+      "target": "Side Projects"
+    },
+    {
+      "source": "Meta-Council",
+      "target": "Side Projects"
+    },
+    {
+      "source": "Meta-Council",
+      "target": "AI Tools and Products"
+    },
+    {
+      "source": "Personal CRM",
+      "target": "Side Projects"
+    },
+    {
+      "source": "Personal CRM",
+      "target": "AI Tools and Products"
+    },
+    {
+      "source": "Autotrader",
+      "target": "Side Projects"
+    },
+    {
+      "source": "Autotrader",
+      "target": "Data Science and ML"
+    },
+    {
+      "source": "Finance and Investing",
+      "target": "Autotrader"
+    },
+    {
+      "source": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
+      "target": "Search and Personalization"
+    },
+    {
+      "source": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
+      "target": "Data Science and ML"
+    }
+  ],
   "meta": {
     "generated": "auto",
-    "node_count": 0,
-    "edge_count": 0
+    "node_count": 12,
+    "edge_count": 16
   }
 }

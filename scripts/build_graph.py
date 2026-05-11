@@ -200,6 +200,27 @@ def main():
 
     graph = build_graph(args.vault)
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
+
+    # Safety guard: refuse to overwrite a non-empty graph with an empty one.
+    # This handles the cron-on-unsync'd-vault case where build_graph() returns
+    # 0 nodes because the vault folder wasn't accessible. Without this check,
+    # a stale or missing vault silently wipes /knowledge/.
+    if graph["meta"]["node_count"] == 0 and os.path.exists(args.output):
+        try:
+            with open(args.output, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+            if existing.get("meta", {}).get("node_count", 0) > 0:
+                print(
+                    f"ERROR: refusing to overwrite {args.output} with empty graph. "
+                    f"Existing file has {existing['meta']['node_count']} nodes; "
+                    f"new build has 0. Vault at {args.vault!r} may be missing or unsync'd.",
+                    file=__import__("sys").stderr,
+                )
+                raise SystemExit(2)
+        except (json.JSONDecodeError, KeyError):
+            # Existing file isn't valid JSON or lacks meta — fall through and overwrite.
+            pass
+
     with open(args.output, "w", encoding="utf-8") as f:
         json.dump(graph, f, indent=2)
 
