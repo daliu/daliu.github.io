@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patterns of Choice — Dave Liu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A longitudinal instrument for measuring revealed ethical preferences alongside stated values. Research-stage psychometric project.">
+  <meta property="og:title" content="Patterns of Choice — research-stage ethics instrument">
+  <meta property="og:description" content="Revealed vs. stated values, measured longitudinally as a daily contemplative practice. Pre-registered validation in progress.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daliu.github.io/patterns-of-choice/">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NNGFMHGWCE');
+  </script>
+  <style>
+    :root {
+      --bg: #fafaf7;
+      --fg: #1f1f1d;
+      --muted: #6b6b67;
+      --border: #d8d8d2;
+      --accent: #2a4a3a;
+      --warn: #8a4a2a;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      font-size: 17px;
+    }
+    a { color: var(--accent); }
+    a:hover { color: #1c3528; }
+    .site-nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .site-nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 16px;
+    }
+    .site-nav a:hover { color: var(--accent); }
+    .site-nav .home::before { content: "← "; }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+    h1 {
+      font-weight: 400;
+      font-size: 36px;
+      margin: 0 0 12px;
+      line-height: 1.2;
+    }
+    .subhead {
+      color: var(--muted);
+      font-size: 21px;
+      margin-bottom: 40px;
+      line-height: 1.4;
+    }
+    h2 {
+      font-weight: 500;
+      font-size: 24px;
+      margin: 48px 0 16px;
+      color: var(--accent);
+    }
+    h3 {
+      font-weight: 500;
+      font-size: 19px;
+      margin: 32px 0 12px;
+    }
+    p { margin: 0 0 16px; }
+    .lead { font-size: 18px; }
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      margin: 32px 0 8px;
+      flex-wrap: wrap;
+    }
+    .button {
+      display: inline-block;
+      font-size: 16px;
+      background: var(--card);
+      color: var(--fg);
+      border: 1.5px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 120ms, background-color 120ms;
+    }
+    .button:hover {
+      border-color: var(--accent);
+      color: var(--fg);
+    }
+    .button.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+    .button.primary:hover {
+      background: #1c3528;
+      color: white;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .card h3 { margin-top: 0; }
+    .meta {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .meta code {
+      background: var(--card);
+      padding: 1px 6px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: #ede9d6;
+      color: var(--warn);
+      font-weight: 600;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    ul { padding-left: 24px; }
+    li { margin-bottom: 8px; }
+    .domain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    @media (max-width: 600px) { .domain-grid { grid-template-columns: 1fr; } }
+    .domain {
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 4px;
+    }
+    .domain strong { color: var(--accent); }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      margin-top: 48px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="home">daliu.github.io</a>
+  <a href="/portfolio.html">portfolio</a>
+  <a href="/publications.html">publications</a>
+  <a href="/research/">research</a>
+</nav>
+
+<div class="container">
+
+  <h1>Patterns of Choice <span class="pill">research stage</span></h1>
+  <div class="subhead">A mirror for the values you live by, alongside the ones you say you live by.</div>
+
+  <p class="lead">An instrument for measuring the gap between two channels of ethical preference — the values someone <em>states</em> they hold, and the values <em>revealed</em> by their everyday choices over weeks. Pre-registered measurement validation in progress.</p>
+
+  <div class="cta-row">
+    <a class="button primary" href="demo.html">Try the demo →</a>
+    <a class="button" href="#methodology">Methodology</a>
+    <a class="button" href="#h8">The H8 hypothesis</a>
+  </div>
+
+  <div class="meta">
+    Demo simulates a single quick-fire scenario in ~90 seconds.
+    The full instrument is a 4-week daily practice (~5 min/session).
+  </div>
+
+  <h2 id="motivation">Why</h2>
+  <p>Existing ethics instruments measure one of two channels:</p>
+  <ul>
+    <li><strong>Stated values</strong> — questionnaires asking "how important is honesty to you?" — these capture aspirational identity but predict real behavior poorly.</li>
+    <li><strong>Revealed behavior</strong> — laboratory measures of cheating, cooperation, allocation — these capture stake-driven choice but are abstract and one-shot.</li>
+  </ul>
+  <p>Neither systematically <em>compares</em> the two within-person over time. The gap is where growth becomes concrete — not "be more honest," but "your aspirational layer ranks honesty third; your everyday choices reveal it operates more like sixth."</p>
+
+  <p>The instrument is positioned as a contemplative practice with research-grade measurement underneath, not a personality quiz and not a self-improvement app. Three operating constraints are load-bearing:</p>
+  <ul>
+    <li><strong>Descriptive, never prescriptive</strong> — the system never tells the user a choice was wrong</li>
+    <li><strong>No social comparison features</strong> — no leaderboards, no percentile rankings</li>
+    <li><strong>No engagement-based monetization</strong> — no ads, no data brokerage, no streaks designed to compel re-engagement</li>
+  </ul>
+
+  <h2 id="methodology">How it works</h2>
+
+  <h3>Four ethical domains</h3>
+  <p>Drawn from a synthesis of Moral Foundations Theory (Haidt), HEXACO Honesty-Humility, and behavioral-ethics literature. Each domain is probed across three scenario types: quick-fire repeated low-stakes (8-second timer), branching narratives with multi-decision arcs, and cost-of-virtue probes with stake ladders.</p>
+
+  <div class="domain-grid">
+    <div class="domain"><strong>Truth-telling under cost</strong> — what you reach for when honesty is inconvenient</div>
+    <div class="domain"><strong>Resource allocation</strong> — what you do when something is yours to divide</div>
+    <div class="domain"><strong>In-group / out-group</strong> — where your circle begins and ends</div>
+    <div class="domain"><strong>Reciprocity / cooperation</strong> — how you respond to others' moves over time</div>
+  </div>
+
+  <h3>Stated-values inventory</h3>
+  <p>Three layers: <em>current self</em>, <em>aspirational self</em>, and <em>admired other</em>. Forced-choice format throughout (no Likert scales). Bradley-Terry scoring on pairwise comparisons. Same 20-value deck used across all three layers so within-person divergence is interpretable.</p>
+
+  <h3>Validation plan</h3>
+  <p>n=10 pilot → n=200 main study. Pre-registered at OSF before data collection; published regardless of outcome (negative results included).</p>
+  <p>Eight hypotheses, three primary (gate-criterion for instrument validation), five secondary:</p>
+  <ul>
+    <li><strong>H1</strong> — 4-domain factor structure (CFA, RMSEA ≤ 0.08)</li>
+    <li><strong>H2</strong> — convergent validity vs. HEXACO honesty-humility</li>
+    <li><strong>H3</strong> — per-domain test-retest reliability r ≥ 0.60</li>
+    <li><strong>H4</strong> — informant convergent validity</li>
+    <li><strong>H5</strong> — cost-of-virtue probe test-retest</li>
+    <li><strong>H6</strong> — stated-revealed correlation falls in [0.20, 0.60]</li>
+    <li><strong>H7</strong> — discriminant validity vs. Big-5 neuroticism</li>
+    <li><strong>H8</strong> — narrative-immersion as measure-debiasing (see below)</li>
+  </ul>
+
+  <h2 id="h8">The H8 hypothesis</h2>
+  <p>A novel methodological claim being pre-registered alongside the standard validation hypotheses:</p>
+  <div class="card">
+    <p style="margin: 0;"><em>Narrative-embedding with recurring-character attachment functions as a measure-debiasing mechanism against social-desirability response — AND as a stake-grounding mechanism for high-stakes attachment-laden choices. The instrument's narrative format is therefore a load-bearing measurement choice, not an aesthetic one.</em></p>
+  </div>
+
+  <p>Standard psychometric instruments treat narrative-embedding as either cosmetic ("makes items more interesting") or a confounding source of variance to be minimized. H8 inverts this: it claims narrative-embedding-with-attachment is a feature on a specific, named, falsifiable measurement-quality dimension.</p>
+
+  <p>If a participant has interacted with a recurring character across multiple sessions and developed measurable parasocial attachment to them, their response to a high-stakes choice involving that character's welfare is grounded in something the abstract version of the same dilemma cannot replicate. <em>It's easy to say you'll save a handful of humans over a dog. When the dog is a character you've come to know across many sessions, the trade-off becomes grounded in real-feeling stakes.</em></p>
+
+  <p>Theoretical anchors: narrative transportation theory (Green &amp; Brock 2000), parasocial attachment (Horton &amp; Wohl 1956; Tukachinsky 2010 PSR-PRD scale). Tested via within-subject paired narrative-vs-abstract probes; sub-hypotheses H8a (debiasing) and H8b (attachment-grounding) both required for the combined claim.</p>
+
+  <h2 id="state">Current state</h2>
+  <ul>
+    <li>Design specifications: complete (concept, MVP-1 build spec, scoring spec, onboarding copy)</li>
+    <li>Scenario corpus: 48 scenarios (6 quick-fire + 3 narrative + 3 cost-of-virtue per domain × 4 domains), schema-validated</li>
+    <li>Pre-registration template: drafted with 8 hypotheses, falsification thresholds, analysis plan</li>
+    <li>Pilot materials kit: consent form, recruitment script, weekly + exit interview scripts, informant-recruitment, data-handling policy</li>
+    <li>Analyzer: 6 of 7 stdlib-implementable hypotheses end-to-end runnable on synthetic fixtures (H1 CFA reserved for external library)</li>
+    <li>Pre-launch checklist: 9-phase forward sequence to GO/NO-GO decision; realistic 9–15 month timeline to first results</li>
+  </ul>
+
+  <p><strong>What's missing before pilot launch:</strong> co-PI commitment, IRB approval, production runtime engineering. The research-side spec work is substantially complete; the partnership and engineering steps are the remaining critical path.</p>
+
+  <h2 id="links">Links</h2>
+  <ul>
+    <li><a href="demo.html">Interactive demo →</a> (90 seconds, simulates one quick-fire scenario)</li>
+    <li>The full research repository (specs, analyzer, scenarios) is currently private. Available on request.</li>
+    <li>Pre-registration will be filed at OSF before recruitment opens.</li>
+  </ul>
+
+</div>
+
+<footer>
+  Patterns of Choice — research project by <a href="/">Dave Liu</a>.
+  This page summarizes work in progress; statements about the instrument's validity are forward-looking and depend on the pre-registered validation completing.
+</footer>
+
+</body>
+</html>
