@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Patterns of Choice — Interactive Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="A 90-second interactive demo of the Patterns of Choice instrument. One quick-fire scenario; six items under timer.">
+  <meta name="description" content="A 90-second interactive demo of the Patterns of Choice instrument. Predict how honestly you'll answer, then see the gap between what you said and what you did.">
   <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/demo.html">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <!-- Google Analytics (GA4) -->
@@ -150,6 +150,35 @@
       font-size: 14px;
     }
     .back-link:hover { color: var(--accent); }
+    .estimate-q { font-size: 18px; margin-bottom: 8px; }
+    .slider-val {
+      text-align: center;
+      font-size: 44px;
+      font-weight: 300;
+      color: var(--accent);
+      margin-bottom: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .slider-val small { font-size: 16px; color: var(--muted); font-weight: 400; }
+    .slider-wrap { margin: 0 0 28px; }
+    .slider-wrap input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
+    .slider-ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+    .figures { display: flex; gap: 40px; margin: 8px 0 18px; }
+    .figure .n {
+      font-size: 38px; font-weight: 300; line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .figure .lab { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .figure.said .n { color: var(--muted); }
+    .figure.did .n { color: var(--accent); }
+    .dots { display: flex; gap: 10px; margin: 4px 0; }
+    .dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 1.5px solid var(--border); background: transparent;
+    }
+    .dot.honest { background: var(--accent); border-color: var(--accent); }
+    .dot.timeout { border-style: dashed; }
+    .dot-legend { font-size: 13px; color: var(--muted); margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -183,48 +212,48 @@ const SCENARIO = {
       id: "qf-truth-001-i01",
       prompt: "Your housemate asks if you ate the leftovers they were saving. You did.",
       options: [
-        { id: "a", text: "Admit it." },
-        { id: "b", text: "Say you didn't see them." },
+        { id: "a", text: "Admit it.", honest: true },
+        { id: "b", text: "Say you didn't see them.", honest: false },
       ],
     },
     {
       id: "qf-truth-001-i02",
       prompt: "A friend you don't see often asks if you liked their painting. You didn't.",
       options: [
-        { id: "a", text: "Say you loved it." },
-        { id: "b", text: "Say it wasn't quite your taste." },
+        { id: "a", text: "Say you loved it.", honest: false },
+        { id: "b", text: "Say it wasn't quite your taste.", honest: true },
       ],
     },
     {
       id: "qf-truth-001-i03",
       prompt: "A customer-service agent asks if you've already used the discount code. You have.",
       options: [
-        { id: "a", text: "Tell them yes." },
-        { id: "b", text: "Tell them no." },
+        { id: "a", text: "Tell them yes.", honest: true },
+        { id: "b", text: "Tell them no.", honest: false },
       ],
     },
     {
       id: "qf-truth-001-i04",
       prompt: "A senior colleague asks during a meeting if you've read the doc they sent. You haven't.",
       options: [
-        { id: "a", text: "Admit you haven't yet." },
-        { id: "b", text: "Imply you have." },
+        { id: "a", text: "Admit you haven't yet.", honest: true },
+        { id: "b", text: "Imply you have.", honest: false },
       ],
     },
     {
       id: "qf-truth-001-i05",
       prompt: "An online survey, anonymous and unverifiable, asks how many hours you exercised this week. You did less than half what your aspirational answer would be.",
       options: [
-        { id: "a", text: "Report it accurately." },
-        { id: "b", text: "Inflate it." },
+        { id: "a", text: "Report it accurately.", honest: true },
+        { id: "b", text: "Inflate it.", honest: false },
       ],
     },
     {
       id: "qf-truth-001-i06",
       prompt: "A direct report asks if their recent work has been good. You think it's been mediocre.",
       options: [
-        { id: "a", text: "Say it's been good." },
-        { id: "b", text: "Say there are some things you want to talk through." },
+        { id: "a", text: "Say it's been good.", honest: false },
+        { id: "b", text: "Say there are some things you want to talk through.", honest: true },
       ],
     },
   ],
@@ -255,10 +284,10 @@ function renderOpening() {
     </div>
     <button class="primary" onclick="renderCandor()">Begin</button>
     <div class="meta">
-      Demo note: this skips the inventory module (a 20-value card sort and 30 forced-choice pairs)
-      and renders only one quick-fire scenario. The full first session in the production
-      protocol takes about 10 minutes and includes the card sort, a story prompt,
-      and a session-end observation tied to the user's stated values.
+      Demo note: the full instrument measures stated values with a 20-item card sort
+      and 30 forced-choice pairs. Here that whole channel is compressed into a single
+      prediction, set against one quick-fire scenario, so the stated-vs-revealed gap
+      fits in about 90 seconds. A real first session runs ~10 minutes.
     </div>
   `);
 }
@@ -297,8 +326,35 @@ function renderQuickfireIntro() {
       <p>Rapid choices under a timer. Each one is between two options, eight seconds each.</p>
       <p>The point is to capture what you reach for first — not what you'd choose on reflection. There are no right answers and the timer is part of the data, not part of a test.</p>
     </div>
-    <button class="primary" onclick="startQuickfire()">Ready</button>
+    <button class="primary" onclick="renderEstimate()">Ready</button>
   `);
+}
+
+let predictedHonest = 3;
+
+function renderEstimate() {
+  render(`
+    <h2>One prediction first</h2>
+    <div class="body-text">
+      <p>You're about to face six small, ordinary moments — the kind where the
+      honest answer and the easy answer aren't the same. Before you start, a
+      guess about yourself.</p>
+      <p class="estimate-q">Out of the six, how many will you answer with the
+      plain, direct truth?</p>
+    </div>
+    <div class="slider-val"><span id="est-val">3</span><small> of 6</small></div>
+    <div class="slider-wrap">
+      <input type="range" min="0" max="6" step="1" value="3" id="est-slider"
+        oninput="document.getElementById('est-val').textContent = this.value">
+      <div class="slider-ends"><span>None of them</span><span>All six</span></div>
+    </div>
+    <button class="primary" onclick="commitEstimate()">Begin</button>
+  `);
+}
+
+function commitEstimate() {
+  predictedHonest = parseInt(document.getElementById("est-slider").value, 10);
+  startQuickfire();
 }
 
 let currentItemIndex = 0;
@@ -306,6 +362,7 @@ let timerInterval = null;
 
 function startQuickfire() {
   sessionLog.startTime = new Date().toISOString();
+  sessionLog.itemResponses = [];
   currentItemIndex = 0;
   renderQuickfireItem();
 }
@@ -359,38 +416,50 @@ function renderSessionEnd() {
   sessionLog.endTime = new Date().toISOString();
   console.log("Session log:", sessionLog);
 
-  const choseA = sessionLog.itemResponses.filter(r => r.optionId === "a").length;
-  const choseB = sessionLog.itemResponses.filter(r => r.optionId === "b").length;
-  const timeouts = sessionLog.itemResponses.filter(r => r.wasTimeout).length;
-  const observation = makeObservation(choseA, choseB, timeouts);
+  // Revealed honesty: did the option the user chose carry honest:true?
+  // A timeout counts as "not the honest answer" — no honest answer was given.
+  let honestCount = 0;
+  const dots = sessionLog.itemResponses.map(r => {
+    if (r.wasTimeout) return '<div class="dot timeout" title="ran out of time"></div>';
+    const item = SCENARIO.items.find(it => it.id === r.itemId);
+    const opt = item && item.options.find(o => o.id === r.optionId);
+    if (opt && opt.honest) { honestCount += 1; return '<div class="dot honest" title="honest answer"></div>'; }
+    return '<div class="dot" title="the other answer"></div>';
+  }).join("");
 
   render(`
     <h2>Done for today.</h2>
-    <div class="observation">${observation}</div>
+    <div class="figures">
+      <div class="figure said"><div class="n">${predictedHonest}</div><div class="lab">you predicted</div></div>
+      <div class="figure did"><div class="n">${honestCount}</div><div class="lab">you chose</div></div>
+    </div>
+    <div class="dots">${dots}</div>
+    <div class="dot-legend">● honest answer&nbsp;&nbsp;·&nbsp;&nbsp;○ the other answer&nbsp;&nbsp;·&nbsp;&nbsp;◌ ran out of time</div>
+    <div class="observation">${makeObservation(predictedHonest, honestCount)}</div>
     <div class="body-text">
-      <p>See you tomorrow. About the same time, if that works.</p>
+      <p>One session of six items isn't a measurement — it's a single point with no
+      error bars. The instrument earns a conclusion only by watching whether a gap
+      like this <em>holds</em>: across weeks, across situations, as the stakes rise.</p>
     </div>
     <button class="secondary" onclick="renderOpening()">Run the demo again</button>
     <a href="./" class="back-link">← Back to project page</a>
     <div class="meta">
       Session data logged to the browser console (open DevTools to inspect).
-      In production this would persist locally (IndexedDB) and optionally
-      sync end-to-end-encrypted across the user's devices.
+      Nothing left your device. In production this persists locally (IndexedDB)
+      and optionally syncs end-to-end-encrypted across the user's devices.
     </div>
   `);
 }
 
-function makeObservation(a, b, timeouts) {
-  if (timeouts >= 2) {
-    return "Two or more items timed out today. Sometimes the timer is the data.";
+function makeObservation(predicted, actual) {
+  const gap = predicted - actual;
+  if (gap >= 2) {
+    return `You expected ${predicted} of 6 and chose the honest answer ${actual}. That space — between the self you predicted and the one the timer caught — is the whole subject of this instrument.`;
   }
-  if (a > b * 2) {
-    return "You leaned consistently toward the first option in each pair today. Worth noticing whether that's a habit, a default, or something the items had in common.";
+  if (gap <= -2) {
+    return `You expected ${predicted} of 6 but chose the honest answer ${actual} — more often than you gave yourself credit for. Under-claiming is its own kind of signal worth tracking.`;
   }
-  if (b > a * 2) {
-    return "You leaned consistently toward the second option today. Worth noticing whether that's a habit, a default, or something the items had in common.";
-  }
-  return "Your choices were mixed today. That's neutral — neither a sign of inconsistency nor of considered balance, just a mid-distribution session.";
+  return `You expected ${predicted} of 6 and chose the honest answer ${actual}. Closely calibrated — today. Whether that holds, or drifts as the stakes change, is exactly what weeks of data would show.`;
 }
 
 renderOpening();
