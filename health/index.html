@@ -816,6 +816,7 @@
             // dataPoints is array of {x: date, y: value}
             const result = [];
             for (let i = 0; i < dataPoints.length; i++) {
+                if (dataPoints[i].y == null) continue;  // anchor rolling points to real observations so gaps stay gaps
                 const windowStart = Math.max(0, i - windowSize + 1);
                 const windowSlice = dataPoints.slice(windowStart, i + 1).filter(d => d.y != null);
                 if (windowSlice.length > 0) {
@@ -840,7 +841,7 @@
         };
 
         function createChart(id, data, color, fill = true, addRollingAvg = false, yAxisTitle = null) {
-            const datasets = [{ data, borderColor: color, backgroundColor: fill ? color + '20' : 'transparent', fill, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 }];
+            const datasets = [{ data, borderColor: color, backgroundColor: fill ? color + '20' : 'transparent', fill, spanGaps: false, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 }];
             if (addRollingAvg && data.length >= 7) {
                 const rollingData = computeRollingAverage(data, 7);
                 datasets.push({
@@ -880,8 +881,8 @@
 
         function createRangeChart(id, minData, maxData, addRollingAvg = false, yAxisTitle = null) {
             const datasets = [
-                { label: 'Max', data: maxData, borderColor: '#3fb950', backgroundColor: '#3fb95025', fill: '+1', tension: 0.3, pointRadius: 2, borderWidth: 2 },
-                { label: 'Min', data: minData, borderColor: '#f8514980', backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 2, borderWidth: 2 }
+                { label: 'Max', data: maxData, borderColor: '#3fb950', backgroundColor: '#3fb95025', fill: '+1', spanGaps: false, tension: 0.3, pointRadius: 2, borderWidth: 2 },
+                { label: 'Min', data: minData, borderColor: '#f8514980', backgroundColor: 'transparent', fill: false, spanGaps: false, tension: 0.3, pointRadius: 2, borderWidth: 2 }
             ];
             if (addRollingAvg && maxData.length >= 7) {
                 const rollingMax = computeRollingAverage(maxData, 7);
@@ -2127,20 +2128,23 @@
                     'Body Battery'
                 )
             );
+            // Map every day (missing values -> null) so real gaps in the feed render
+            // as breaks in the line instead of being filtered out and silently
+            // bridged with a straight segment. ?? preserves a legitimate 0.
             trendChartInstances.push(
-                createChart('hrvChart', filtered.filter(d => d.hrv_last_night).map(d => ({ x: d.date, y: d.hrv_last_night })), '#39c5cf', true, true, 'HRV (ms)')
+                createChart('hrvChart', filtered.map(d => ({ x: d.date, y: d.hrv_last_night ?? null })), '#39c5cf', true, true, 'HRV (ms)')
             );
             trendChartInstances.push(
-                createChart('rhrChart', filtered.filter(d => d.resting_hr).map(d => ({ x: d.date, y: d.resting_hr })), '#f85149', false, true, 'Heart Rate (bpm)')
+                createChart('rhrChart', filtered.map(d => ({ x: d.date, y: d.resting_hr ?? null })), '#f85149', false, true, 'Heart Rate (bpm)')
             );
             trendChartInstances.push(
-                createChart('sleepChart', filtered.filter(d => d.sleep_score).map(d => ({ x: d.date, y: d.sleep_score })), '#a371f7', true, true, 'Sleep Score')
+                createChart('sleepChart', filtered.map(d => ({ x: d.date, y: d.sleep_score ?? null })), '#a371f7', true, true, 'Sleep Score')
             );
             trendChartInstances.push(
-                createChart('stepsChart', filtered.map(d => ({ x: d.date, y: d.total_steps })), '#58a6ff', true, true, 'Steps')
+                createChart('stepsChart', filtered.map(d => ({ x: d.date, y: d.total_steps ?? null })), '#58a6ff', true, true, 'Steps')
             );
             trendChartInstances.push(
-                createChart('stressChart', filtered.filter(d => d.avg_stress).map(d => ({ x: d.date, y: d.avg_stress })), '#d29922', false, true, 'Stress Level')
+                createChart('stressChart', filtered.map(d => ({ x: d.date, y: d.avg_stress ?? null })), '#d29922', false, true, 'Stress Level')
             );
         }
 
