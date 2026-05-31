@@ -2347,6 +2347,24 @@
                 const daily30 = daily.slice(-30);
                 const latest = daily[daily.length - 1];
 
+                // Data-freshness check: data.updated advances every day even when
+                // the Garmin feed returns nothing, so judge freshness by the most
+                // recent day that actually has biometrics — not the file write time.
+                // Surfaces a silent feed outage instead of showing stale/empty stats.
+                const _hasBio = d => d && (d.resting_hr != null || d.total_steps != null || d.sleep_score != null);
+                const _lastReal = [...daily].reverse().find(_hasBio);
+                if (_lastReal) {
+                    const _ageDays = Math.floor((Date.now() - new Date(_lastReal.date + 'T23:59:59')) / 86400000);
+                    if (_ageDays >= 2) {
+                        const _u = document.getElementById('updated');
+                        if (_u) {
+                            _u.innerHTML = 'Updated: ' + new Date(data.updated).toLocaleString() +
+                                ' &middot; <span style="color: var(--yellow); font-weight: 600;">&#9888; biometrics stale &mdash; last reading ' +
+                                _lastReal.date + ' (' + _ageDays + ' days ago)</span>';
+                        }
+                    }
+                }
+
                 // Store for time range re-rendering
                 allDailyData = daily;
 
