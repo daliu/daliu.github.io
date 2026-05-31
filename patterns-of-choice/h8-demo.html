@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patterns of Choice — The Weight of a Name (H8 demo)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A 2-minute interactive illustration of the H8 hypothesis: make a choice abstractly, then make the same choice about someone you've come to know. Notice what moves.">
+  <meta property="og:title" content="Patterns of Choice — The Weight of a Name">
+  <meta property="og:description" content="Make a choice abstractly, then make the same choice about someone you've come to know. An interactive illustration of the narrative-immersion hypothesis.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daliu.github.io/patterns-of-choice/h8-demo.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/h8-demo.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NNGFMHGWCE');
+  </script>
+  <style>
+    /* Shares the aesthetic of demo.html — calm, not warm; serious, not academic. */
+    :root {
+      --bg: #fafaf7;
+      --fg: #1f1f1d;
+      --muted: #6b6b67;
+      --border: #d8d8d2;
+      --accent: #2a4a3a;
+      --warn: #8a4a2a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      font-size: 17px;
+    }
+    .site-nav {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .site-nav a { color: var(--muted); text-decoration: none; margin-right: 16px; }
+    .site-nav a:hover { color: var(--accent); }
+    .site-nav .home::before { content: "← "; }
+    .demo-banner {
+      background: #fef9e7;
+      border-bottom: 1px solid #e0c850;
+      padding: 8px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--warn);
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      min-height: 80vh;
+    }
+    h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; }
+    .subhead { color: var(--muted); font-size: 18px; margin-bottom: 32px; }
+    h2 { font-weight: 500; font-size: 22px; margin: 0 0 16px; }
+    p { margin: 0 0 16px; }
+    .body-text { margin-bottom: 24px; }
+    button {
+      font-family: inherit;
+      font-size: 17px;
+      background: white;
+      color: var(--fg);
+      border: 1.5px solid var(--border);
+      padding: 14px 20px;
+      margin: 6px 0;
+      cursor: pointer;
+      border-radius: 4px;
+      text-align: left;
+      width: 100%;
+      transition: border-color 120ms, background-color 120ms;
+    }
+    button:hover { border-color: var(--accent); }
+    button.primary {
+      background: var(--accent); color: white; border-color: var(--accent); text-align: center;
+    }
+    button.primary:hover { background: #1c3528; }
+    button.secondary {
+      background: transparent; color: var(--muted); border-color: var(--border); text-align: center;
+    }
+    .scene {
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 20px 22px;
+      margin-bottom: 24px;
+      font-size: 18px;
+    }
+    .scene p:last-child { margin-bottom: 0; }
+    .prompt-q { font-size: 18px; font-weight: 500; margin: 0 0 16px; }
+    .name-input {
+      font-family: inherit;
+      font-size: 18px;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 8px;
+      color: var(--fg);
+      background: white;
+    }
+    .name-input:focus { outline: none; border-color: var(--accent); }
+    .name-hint { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .observation {
+      background: white;
+      padding: 20px;
+      border-radius: 4px;
+      border-left: 3px solid var(--accent);
+      font-style: italic;
+      color: var(--fg);
+      margin: 24px 0;
+    }
+    .compare {
+      display: flex;
+      gap: 16px;
+      margin: 8px 0 20px;
+    }
+    .compare .col {
+      flex: 1;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+    }
+    .compare .lab { font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .compare .val { font-size: 17px; color: var(--fg); }
+    .compare .arrow { display: flex; align-items: center; color: var(--muted); font-size: 22px; }
+    .meta { font-size: 13px; color: var(--muted); margin-top: 32px; }
+    .cta-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .cta-row button { margin: 0; }
+    .back-link {
+      display: inline-block; margin-top: 32px;
+      color: var(--muted); text-decoration: none; font-size: 14px;
+    }
+    .back-link:hover { color: var(--accent); }
+    .progress { font-size: 13px; color: var(--muted); margin-top: 28px; }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="home">daliu.github.io</a>
+  <a href="./">about this project</a>
+  <a href="demo.html">the other demo</a>
+</nav>
+
+<div class="demo-banner">
+  An illustration of one hypothesis (H8), not a measurement. About two minutes.
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+// ============================================================================
+// The Weight of a Name — an interactive illustration of H8 (narrative
+// immersion as measure-debiasing / stake-grounding). It presents one choice
+// twice: once abstract, once after a short attachment-building arc with a
+// named character. The point is for the user to NOTICE any shift in
+// themselves — and then to be told, honestly, that whether that shift is
+// "truer" or merely "manipulated" is the open question the real study tests.
+//
+// Nothing is recorded or sent anywhere. Logic is local; the only state is
+// the two choices and the name the user supplies.
+// ============================================================================
+
+const app = document.getElementById("app");
+function render(html) { app.innerHTML = html; window.scrollTo(0, 0); }
+
+const state = {
+  name: "",
+  abstractChoice: null,   // "many" | "one"
+  narrativeChoice: null,  // "many" | "named"
+};
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+function theName() { return state.name && state.name.trim() ? escapeHtml(state.name.trim()) : "Biscuit"; }
+
+// ---- 1. Opening --------------------------------------------------------------
+function renderOpening() {
+  render(`
+    <h1>The Weight of a Name</h1>
+    <div class="subhead">You'll make one decision twice. Watch whether it stays the same.</div>
+    <div class="body-text">
+      <p>This is a short illustration of the idea the project calls <strong>H8</strong>: that a choice made about a stranger and the <em>same</em> choice made about someone you've come to know are not, in practice, the same choice — and that the difference is something an instrument can use.</p>
+      <p>It takes about two minutes. It isn't scoring you. The only thing it asks is that you answer honestly the first time, before you can see where it's going.</p>
+    </div>
+    <button class="primary" onclick="renderAbstract()">Begin</button>
+    <a href="./#h8" class="back-link">← Read the actual hypothesis first</a>
+  `);
+}
+
+// ---- 2. The abstract probe ---------------------------------------------------
+function renderAbstract() {
+  render(`
+    <h2>First, in the abstract</h2>
+    <div class="scene">
+      <p>An animal shelter. A wildfire is closing in, and the evacuation van has room for only one more kennel.</p>
+      <p>Kennel A holds <strong>five dogs</strong>. Kennel B holds <strong>one older dog</strong> who needs the extra space. A volunteer on the phone has thirty seconds and asks you to decide.</p>
+    </div>
+    <div class="prompt-q">Which kennel do you tell them to take?</div>
+    <button onclick="setAbstract('many')">The five dogs in kennel A.</button>
+    <button onclick="setAbstract('one')">The one dog in kennel B.</button>
+    <div class="progress">No wrong answer. Whatever you'd actually say.</div>
+  `);
+}
+function setAbstract(choice) {
+  state.abstractChoice = choice;
+  renderAttach1();
+}
+
+// ---- 3. Attachment arc (three short beats; one naming interaction) -----------
+function renderAttach1() {
+  render(`
+    <h2>Now, some time passes</h2>
+    <div class="scene">
+      <p>Forget the fire for a while. Over the next few weeks you keep coming back to a shelter — this one, as it happens.</p>
+      <p>There's one dog who always notices you first. Older. Grey around the muzzle. Kennel B. The staff mention, not unkindly, that nobody ever asks about this one.</p>
+    </div>
+    <div class="prompt-q">What will you call them?</div>
+    <input class="name-input" id="nameField" type="text" maxlength="24"
+           placeholder="Biscuit" autocomplete="off"
+           onkeydown="if(event.key==='Enter')commitName()" />
+    <div class="name-hint">A name is a small thing. Notice that you were willing to give one.</div>
+    <button class="primary" onclick="commitName()">Continue</button>
+  `);
+  const f = document.getElementById("nameField");
+  if (f) f.focus();
+}
+function commitName() {
+  const f = document.getElementById("nameField");
+  state.name = f ? f.value : "";
+  renderAttach2();
+}
+
+function renderAttach2() {
+  const n = theName();
+  render(`
+    <h2>Three weeks in</h2>
+    <div class="scene">
+      <p>${n} learns the sound of your car. By the third visit they're waiting at the gate before you're through it.</p>
+      <p>You bring a tennis ball once. ${n} doesn't really chase it — just holds it, and watches you, as though the ball was never quite the point.</p>
+    </div>
+    <button class="primary" onclick="renderAttach3()">Continue</button>
+  `);
+}
+
+function renderAttach3() {
+  const n = theName();
+  render(`
+    <h2>A month in</h2>
+    <div class="scene">
+      <p>The younger dogs in kennel A get adopted, one by one. ${n} stays.</p>
+      <p>You haven't adopted them — life is complicated, the timing is wrong. But you've started telling people about ${n}. Some part of you, the part that doesn't check with the rest, already has.</p>
+    </div>
+    <button class="primary" onclick="renderNarrative()">Continue</button>
+  `);
+}
+
+// ---- 4. The same probe, now with the named character -------------------------
+function renderNarrative() {
+  const n = theName();
+  render(`
+    <h2>And then, the same day as before</h2>
+    <div class="scene">
+      <p>The wildfire is closing in. The evacuation van has room for only one more kennel.</p>
+      <p>Kennel A holds <strong>five dogs</strong> you've never met. Kennel B holds <strong>${n}</strong>. The volunteer on the phone — the one who knows you now, who knows ${n} — has thirty seconds and asks you to decide.</p>
+    </div>
+    <div class="prompt-q">Which kennel do you tell them to take?</div>
+    <button onclick="setNarrative('many')">The five dogs in kennel A.</button>
+    <button onclick="setNarrative('named')">${n}.</button>
+    <div class="progress">Same trade. Five lives for one. Answer as honestly as the first time.</div>
+  `);
+}
+function setNarrative(choice) {
+  state.narrativeChoice = choice;
+  renderReveal();
+}
+
+// ---- 5. Reveal ---------------------------------------------------------------
+function renderReveal() {
+  const n = theName();
+  const a = state.abstractChoice;     // many | one
+  const b = state.narrativeChoice;    // many | named
+
+  const abstractLabel = a === "many" ? "The five" : "The one";
+  const narrativeLabel = b === "many" ? "The five" : n;
+
+  let observation;
+  if (a === "many" && b === "named") {
+    observation = `In the abstract, you saved the many. Once the one had a name and a history with you, you couldn't leave them — even at the same arithmetic cost. That shift, from the five to ${n}, is the entire subject of H8b.`;
+  } else if (a === "many" && b === "many") {
+    observation = `You held your ground. The attachment the story tried to build didn't move your answer — you kept the count even when it cost someone you'd come to know. Is that equanimity, or resistance to being nudged? The real study is built to tell those two apart; from one choice, neither you nor I can.`;
+  } else if (a === "one" && b === "named") {
+    observation = `You chose the single dog both times. For you the abstract framing already carried the weight that, for many people, only the story supplies. Narrative had less to add — your answer was already particular.`;
+  } else { // one -> many
+    observation = `Unusually, you moved toward the five after spending time with ${n}. Worth sitting with what changed — sometimes knowing someone clarifies, rather than complicates, what you think is right.`;
+  }
+
+  const shifted = a === "many" && b === "named";
+
+  render(`
+    <h2>${shifted ? "Something moved." : "Here's what you did."}</h2>
+    <div class="compare">
+      <div class="col">
+        <div class="lab">Abstract</div>
+        <div class="val">${abstractLabel}</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="col">
+        <div class="lab">After the story</div>
+        <div class="val">${narrativeLabel}</div>
+      </div>
+    </div>
+    <div class="observation">${observation}</div>
+
+    <div class="body-text">
+      <p><strong>Now the honest part.</strong> This demo just did to you exactly what the instrument proposes to do: it built an attachment — it even let you supply the name — and then re-asked a question you'd already answered.</p>
+      <p>If your answer shifted, there are two very different readings, and they matter enormously:</p>
+      <ul>
+        <li><strong>Debiasing.</strong> The abstract version let you give a tidy, defensible, slightly performed answer. The story stripped that away and surfaced what you actually weigh. The second answer is <em>truer</em>.</li>
+        <li><strong>Manipulation.</strong> The story simply pushed you — a cheap emotional lever, a name and a tennis ball — and the second answer is just more <em>pressured</em>, not more honest.</li>
+      </ul>
+      <p>A single choice cannot distinguish these. That is precisely why H8 is a <em>pre-registered, falsifiable hypothesis</em> rather than a claim: it is tested across many paired probes, against an independent measure of how attached each person actually became, with a threshold set in advance. If the effect is real and patterned, it's debiasing. If it's noise or it tracks gullibility, it isn't — and the design says so out loud.</p>
+    </div>
+
+    <div class="cta-row">
+      <a href="./#h8"><button class="primary">How H8 is actually tested →</button></a>
+      <button class="secondary" onclick="resetDemo()">Run it again</button>
+    </div>
+    <a href="./" class="back-link">← Back to the project</a>
+    <div class="meta">
+      Nothing here was recorded or sent anywhere. The "shift" is illustrative,
+      not a score — see <code>scoring.md §9</code> in the research repo for how the
+      divergence and attachment measures are actually defined.
+    </div>
+  `);
+}
+
+function resetDemo() {
+  state.name = "";
+  state.abstractChoice = null;
+  state.narrativeChoice = null;
+  renderOpening();
+}
+
+renderOpening();
+</script>
+
+</body>
+</html>
