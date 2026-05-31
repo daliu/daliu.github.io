@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-30T19:00:07.095522",
+  "updated": "2026-05-31T11:37:55.529595",
   "date_range": {
     "start": "2026-01-12",
     "end": "2026-05-19",
@@ -254,6 +254,31 @@
       "type": "exercise_recovery",
       "text": "Active days (10K+ steps) lower next-day battery by 5.0",
       "impact": "negative"
+    },
+    {
+      "text": "Your weekend pattern is a recovery trap: Saturdays show the lowest body battery (23.9) despite highest steps (17,858), suggesting you're burning energy faster than you can replenish it\u2014consider lighter activity or earlier rest on Saturdays to break this cycle.",
+      "impact": "negative",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Moderate exercise days (10K-15K steps) are your sweet spot for sleep quality, averaging 79.9 sleep score with only -3.2 battery drain, while intense activity days drop sleep to 71\u2014you may be over-training on your hardest days.",
+      "impact": "positive",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Monday's exceptional sleep score (81.3) after high-step Sundays suggests your body recovers well from activity with proper sleep, yet this isn't translating to Monday battery (38.9) because stress spikes to 27.2\u2014work stress may be offsetting the sleep benefit.",
+      "impact": "neutral",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Your recent trend is genuinely improving: last 7 days show body battery up 38% to 48.7 and resting heart rate down to 42.6, indicating better overall fitness and recovery\u2014this suggests recent behavior changes are working.",
+      "impact": "positive",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "The 'good sleep' nights deliver 26.3 next-day stress vs 28.8 after 'great sleep,' implying chasing perfect sleep may increase pressure; aim for consistent 'good' sleep around 6-7 hours rather than pushing for 7+ hours that correlates with higher next-day stress.",
+      "impact": "positive",
+      "type": "ai_pattern"
     }
   ]
 }
