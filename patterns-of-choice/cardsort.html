@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patterns of Choice — The Card Sort (stated-values demo)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A 2-minute interactive card sort: the stated half of the instrument. Pick the five values most like you from twenty — you can't keep them all, and that's the measurement.">
+  <meta property="og:title" content="Patterns of Choice — The Card Sort">
+  <meta property="og:description" content="The stated-values half of the instrument, as a 2-minute forced card sort. Pick five of twenty — you can't keep them all, and that's the point.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daliu.github.io/patterns-of-choice/cardsort.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/cardsort.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NNGFMHGWCE');
+  </script>
+  <style>
+    /* Shares the aesthetic of demo.html / h8-demo.html — calm, not warm. */
+    :root {
+      --bg: #fafaf7;
+      --fg: #1f1f1d;
+      --muted: #6b6b67;
+      --border: #d8d8d2;
+      --accent: #2a4a3a;
+      --warn: #8a4a2a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      font-size: 17px;
+    }
+    .site-nav {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .site-nav a { color: var(--muted); text-decoration: none; margin-right: 16px; }
+    .site-nav a:hover { color: var(--accent); }
+    .site-nav .home::before { content: "← "; }
+    .demo-banner {
+      background: #fef9e7;
+      border-bottom: 1px solid #e0c850;
+      padding: 8px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--warn);
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      min-height: 80vh;
+    }
+    h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; }
+    .subhead { color: var(--muted); font-size: 18px; margin-bottom: 32px; }
+    h2 { font-weight: 500; font-size: 22px; margin: 0 0 16px; }
+    p { margin: 0 0 16px; }
+    .body-text { margin-bottom: 24px; }
+    button {
+      font-family: inherit;
+      font-size: 17px;
+      background: white;
+      color: var(--fg);
+      border: 1.5px solid var(--border);
+      padding: 14px 20px;
+      margin: 6px 0;
+      cursor: pointer;
+      border-radius: 4px;
+      text-align: center;
+      width: 100%;
+      transition: border-color 120ms, background-color 120ms;
+    }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    button.primary:hover { background: #1c3528; }
+    button.primary:disabled { background: #c9d2cd; border-color: #c9d2cd; color: #f0f0ee; cursor: not-allowed; }
+    button.secondary { background: transparent; color: var(--muted); border-color: var(--border); }
+
+    /* Sticky counter while sorting */
+    .counter {
+      position: sticky; top: 0; z-index: 5;
+      background: var(--bg); padding: 10px 0 6px; margin: 0 0 4px;
+      border-bottom: 1px solid var(--border);
+      text-align: center; font-size: 15px; color: var(--muted);
+    }
+    .counter .n { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--accent); }
+    .counter.full .n { color: var(--accent); }
+    .nudge { min-height: 18px; font-size: 13px; color: var(--warn); margin: 2px 2px 12px; text-align: center; }
+
+    /* Value cards (tap to select; no drag — fragile on touch) */
+    .vcard {
+      background: white; border: 1.5px solid var(--border); border-radius: 4px;
+      padding: 12px 44px 12px 14px; margin-bottom: 10px; position: relative;
+      cursor: pointer; transition: border-color 120ms, background-color 120ms;
+    }
+    .vcard:hover { border-color: var(--accent); }
+    .vcard.selected { border-color: var(--accent); background: #f1f5f2; }
+    .vcard.dim { opacity: 0.55; }
+    .vcard .label { font-size: 12px; letter-spacing: 0.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .vcard .anchor { font-size: 16px; }
+    .vcard .tick {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1.5px solid var(--border); color: white; background: transparent;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .vcard.selected .tick { background: var(--accent); border-color: var(--accent); }
+
+    /* Result */
+    .result-list { list-style: none; padding: 0; margin: 0 0 24px; }
+    .result-list li {
+      background: white; border: 1px solid var(--border); border-left: 3px solid var(--accent);
+      border-radius: 4px; padding: 12px 14px; margin-bottom: 8px;
+    }
+    .result-list li .label { font-size: 12px; letter-spacing: 0.4px; text-transform: uppercase; color: var(--muted); }
+    .result-list li .anchor { font-size: 16px; }
+    .dombars { margin: 0 0 24px; }
+    .dombar { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; }
+    .dombar .name { flex: 0 0 150px; color: var(--muted); }
+    .dombar .track { flex: 1; height: 14px; background: white; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .dombar .fill { height: 100%; background: var(--accent); }
+    .dombar .cnt { flex: 0 0 36px; text-align: right; font-variant-numeric: tabular-nums; color: var(--fg); }
+    .observation {
+      background: white; padding: 20px; border-radius: 4px;
+      border-left: 3px solid var(--accent); font-style: italic; color: var(--fg); margin: 24px 0;
+    }
+    .meta { font-size: 13px; color: var(--muted); margin-top: 32px; }
+    .meta code { background: white; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border); }
+    .cta-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .cta-row a { flex: 1 1 200px; text-decoration: none; }
+    .cta-row button { margin: 0; }
+    .back-link { display: inline-block; margin-top: 32px; color: var(--muted); text-decoration: none; font-size: 14px; }
+    .back-link:hover { color: var(--accent); }
+    .progress { font-size: 13px; color: var(--muted); margin-top: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="home">daliu.github.io</a>
+  <a href="./">about this project</a>
+  <a href="demo.html">quick-fire demo</a>
+</nav>
+
+<div class="demo-banner">
+  The stated-values half of the instrument, reduced to ~2 minutes. Nothing is recorded.
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+// ============================================================================
+// The Card Sort — a mobile-friendly illustration of the stated-values
+// inventory's card-sort protocol.
+//
+// Faithful to the research repo (inventory/values-deck.json,
+// inventory/README.md, scoring.md §5.1):
+//   - The deck is the actual 20-value deck, 5 per MVP-1 domain, and each
+//     card's face is that value's real behavioral_anchor (verbatim).
+//   - The protocol is the real one: pick the TOP 5 from a randomized 20.
+//     ("Behavioral anchors over abstractions"; "forced-choice, not Likert" —
+//     you can't keep all twenty, so the picking is the measurement.)
+//   - Per-domain card-sort score follows scoring.md §5.1: a selected value
+//     scores 1, else 0; the per-domain score is the mean over that domain's
+//     five values. Here we surface the raw per-domain counts (they sum to 5).
+//
+// Reductions vs. production, stated honestly in the copy: ONE layer (the real
+// inventory runs current / aspirational / admired-other) and tap-to-select
+// instead of drag-and-drop (drag is fragile on touch). Fully client-side;
+// nothing is recorded.
+// ============================================================================
+
+const PICK_TARGET = 5;
+
+// Domain display names (keys match the repo taxonomy).
+const DOMAINS = {
+  "truth-telling": "Truth-telling",
+  "resource-allocation": "Resource allocation",
+  "in-group-out-group": "In-group / out-group",
+  "reciprocity-cooperation": "Reciprocity",
+};
+
+// The real 20-value deck — labels + behavioral anchors verbatim from
+// inventory/values-deck.json (v0.1).
+const DECK = [
+  { id: "honesty",          label: "Honesty",        domain: "truth-telling",          anchor: "Saying what's true, even when it's costly for me or uncomfortable for others." },
+  { id: "tact",             label: "Tact",           domain: "truth-telling",          anchor: "Saying true things in a way that protects others' dignity." },
+  { id: "transparency",     label: "Transparency",   domain: "truth-telling",          anchor: "Not hiding from people things they have a right to know." },
+  { id: "discretion",       label: "Discretion",     domain: "truth-telling",          anchor: "Knowing what doesn't need to be said." },
+  { id: "authenticity",     label: "Authenticity",   domain: "truth-telling",          anchor: "Keeping consistency between what I feel inside and what I show outside." },
+
+  { id: "generosity",       label: "Generosity",     domain: "resource-allocation",    anchor: "Giving from my own resources, unprompted, when I can." },
+  { id: "fairness",         label: "Fairness",       domain: "resource-allocation",    anchor: "Distributing resources by clear, defensible principle rather than mood or favor." },
+  { id: "need_sensitivity", label: "Need-sensitivity", domain: "resource-allocation",  anchor: "Letting genuine need, not who-earned-it, guide where resources go." },
+  { id: "reciprocity_pure", label: "Reciprocity",    domain: "resource-allocation",    anchor: "People get back from me what they put in." },
+  { id: "self_reliance",    label: "Self-reliance",  domain: "resource-allocation",    anchor: "Carrying my own weight; not asking others to absorb my costs." },
+
+  { id: "loyalty",          label: "Loyalty",        domain: "in-group-out-group",     anchor: "Standing with the people closest to me, especially when it costs me." },
+  { id: "universalism",     label: "Universalism",   domain: "in-group-out-group",     anchor: "Treating strangers the way I'd want to be treated; no extra weight to my own." },
+  { id: "particularism",    label: "Particularism",  domain: "in-group-out-group",     anchor: "Recognizing that close relationships carry special weight in what I owe." },
+  { id: "hospitality",      label: "Hospitality",    domain: "in-group-out-group",     anchor: "Welcoming outsiders into care, even when no one expects it of me." },
+  { id: "boundaries",       label: "Clear circle",   domain: "in-group-out-group",     anchor: "Knowing who I'm responsible to, and not letting that line slide." },
+
+  { id: "trust",            label: "Trust",          domain: "reciprocity-cooperation", anchor: "Extending the benefit of the doubt before I have to." },
+  { id: "vigilance",        label: "Vigilance",      domain: "reciprocity-cooperation", anchor: "Not letting myself be taken advantage of, especially repeatedly." },
+  { id: "cooperation",      label: "Cooperation",    domain: "reciprocity-cooperation", anchor: "Working with others toward shared ends, even when it slows me down." },
+  { id: "independence",     label: "Independence",   domain: "reciprocity-cooperation", anchor: "Acting on my own judgment; not waiting for permission or consensus." },
+  { id: "forgiveness",      label: "Forgiveness",    domain: "reciprocity-cooperation", anchor: "Re-opening cooperation after someone has let me down." },
+];
+
+const state = {
+  order: [],          // shuffled card ids — the "randomized deck"
+  selected: new Set(),
+  nudge: "",
+};
+
+const app = document.getElementById("app");
+function render(html) { app.innerHTML = html; }
+function cardById(id) { return DECK.find(c => c.id === id); }
+
+// Fisher-Yates; browser Math.random is fine here (this is page JS, not a workflow script).
+function shuffled(ids) {
+  const a = ids.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ---- 1. Opening --------------------------------------------------------------
+function renderOpening() {
+  render(`
+    <h1>The Card Sort</h1>
+    <div class="subhead">What you say you value — measured by making you choose.</div>
+    <div class="body-text">
+      <p>This is the <em>stated</em> half of the instrument: not what your choices reveal over weeks, but what you'd say you stand for if asked directly.</p>
+      <p>Most value questionnaires let you rate everything "very important" — and almost everyone does, which tells you nothing. This one won't. Twenty values, and you may keep only <strong>five</strong>. The forcing is the measurement.</p>
+    </div>
+    <button class="primary" onclick="startSort()">Start sorting</button>
+    <a href="./" class="back-link">← Back to the project</a>
+    <div class="meta">
+      A reduced version: the real deck's 20 cards, sorted once. The full
+      inventory sorts the same deck three times — as you are now, as you'd like
+      to be, and as someone you admire is — so the gaps between those framings
+      become data too. Production uses drag-and-drop; here you tap.
+    </div>
+  `);
+}
+
+// ---- 2. The sort -------------------------------------------------------------
+function startSort() {
+  state.order = shuffled(DECK.map(c => c.id));
+  state.selected = new Set();
+  state.nudge = "";
+  renderSort();
+}
+
+function toggle(id) {
+  state.nudge = "";
+  if (state.selected.has(id)) {
+    state.selected.delete(id);
+  } else if (state.selected.size >= PICK_TARGET) {
+    state.nudge = "Five is the limit. Let one go before adding another — that's the whole exercise.";
+  } else {
+    state.selected.add(id);
+  }
+  renderSort();
+}
+
+function renderSort() {
+  const n = state.selected.size;
+  const ready = n === PICK_TARGET;
+  const atCap = n >= PICK_TARGET;
+
+  const cards = state.order.map(id => {
+    const c = cardById(id);
+    const sel = state.selected.has(id);
+    const dim = atCap && !sel ? "dim" : "";
+    return `
+      <div class="vcard ${sel ? "selected" : ""} ${dim}" onclick="toggle('${id}')">
+        <div class="label">${c.label}</div>
+        <div class="anchor">${c.anchor}</div>
+        <div class="tick">${sel ? "✓" : ""}</div>
+      </div>`;
+  }).join("");
+
+  render(`
+    <div class="counter ${ready ? "full" : ""}">Most like me: <span class="n">${n} / ${PICK_TARGET}</span></div>
+    <div class="nudge">${state.nudge}</div>
+    <h2>Keep the five most like you</h2>
+    ${cards}
+    <button class="primary" onclick="renderResult()" ${ready ? "" : "disabled"}>
+      ${ready ? "See your five" : `Pick ${PICK_TARGET - n} more`}
+    </button>
+    <div class="progress">Tap to keep a value; tap again to let it go.</div>
+  `);
+}
+
+// ---- 3. Result ---------------------------------------------------------------
+function renderResult() {
+  const picked = state.order.filter(id => state.selected.has(id)).map(cardById);
+
+  const list = picked.map(c =>
+    `<li><div class="label">${c.label}</div><div class="anchor">${c.anchor}</div></li>`
+  ).join("");
+
+  // Per-domain counts among the 5 picked (scoring.md §5.1: selected=1, mean
+  // over domain — here shown as the raw count out of 5 per domain; sum = 5).
+  const counts = {};
+  Object.keys(DOMAINS).forEach(d => { counts[d] = 0; });
+  picked.forEach(c => { counts[c.domain] += 1; });
+
+  const bars = Object.keys(DOMAINS).map(d => {
+    const c = counts[d];
+    const pct = (c / PICK_TARGET) * 100;
+    return `
+      <div class="dombar">
+        <div class="name">${DOMAINS[d]}</div>
+        <div class="track"><div class="fill" style="width:${pct}%"></div></div>
+        <div class="cnt">${c}/5</div>
+      </div>`;
+  }).join("");
+
+  const maxCount = Math.max(...Object.values(counts));
+  const distinctDomains = Object.values(counts).filter(c => c > 0).length;
+  let observation;
+  if (maxCount >= 3) {
+    const lead = DOMAINS[Object.keys(counts).find(d => counts[d] === maxCount)];
+    observation = `Three or more of your five fall in one domain — ${lead}. Your stated values have a clear center of gravity there.`;
+  } else if (distinctDomains === 4) {
+    observation = `Your five spread across all four domains. Stated this way, you split your weight broadly rather than concentrating it.`;
+  } else {
+    observation = `Your five spread fairly evenly, leaning across ${distinctDomains} of the four domains — neither sharply concentrated nor perfectly broad.`;
+  }
+
+  render(`
+    <h2>The five you kept</h2>
+    <ul class="result-list">${list}</ul>
+
+    <h2>How they fall across the four domains</h2>
+    <div class="dombars">${bars}</div>
+    <div class="observation">${observation} This isn't a verdict — there's no better or worse sort. It's simply the shape of what you'd state.</div>
+
+    <div class="body-text">
+      <p><strong>But stating isn't living.</strong> This sort is only half the instrument. The other half watches what you actually <em>do</em> — across weeks of small, timed, ordinary choices — and scores it on these same four domains.</p>
+      <p>The whole point of Patterns of Choice is the <em>gap</em> between the two: not "be more honest," but "you kept honesty near the top here, yet your everyday choices land it closer to the middle." That comparison is only meaningful because both halves use one structure.</p>
+    </div>
+
+    <div class="cta-row">
+      <a href="demo.html"><button class="primary">Now try the revealed half →</button></a>
+      <a href="h8-demo.html"><button class="secondary">Or the H8 demo</button></a>
+    </div>
+    <a href="./" class="back-link">← Back to the project</a>
+    <div class="meta">
+      Nothing here was recorded or sent anywhere. Scoring is illustrative — the
+      real stated score combines this card sort with a 30-pair Bradley-Terry
+      ranking, per domain, across three self-framings; see <code>scoring.md §5</code>
+      and <code>inventory/values-deck.json</code> in the research repo.
+    </div>
+  `);
+}
+
+renderOpening();
+</script>
+
+</body>
+</html>
