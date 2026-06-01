@@ -238,6 +238,7 @@ function renderAttach1() {
     <div class="prompt-q">What will you call them?</div>
     <input class="name-input" id="nameField" type="text" maxlength="24"
            placeholder="Biscuit" autocomplete="off"
+           aria-label="A name for the dog"
            onkeydown="if(event.key==='Enter')commitName()" />
     <div class="name-hint">A name is a small thing. Notice that you were willing to give one.</div>
     <button class="primary" onclick="commitName()">Continue</button>

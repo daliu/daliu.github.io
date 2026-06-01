@@ -353,6 +353,7 @@ function renderEstimate() {
     <div class="slider-val"><span id="est-val">3</span><small> of 6</small></div>
     <div class="slider-wrap">
       <input type="range" min="0" max="6" step="1" value="3" id="est-slider"
+        aria-label="Out of six items, how many will you answer with the plain, direct truth? Zero to six."
         oninput="document.getElementById('est-val').textContent = this.value">
       <div class="slider-ends"><span>None of them</span><span>All six</span></div>
     </div>
