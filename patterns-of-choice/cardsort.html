@@ -100,13 +100,16 @@
     .counter.full .n { color: var(--accent); }
     .nudge { min-height: 18px; font-size: 13px; color: var(--warn); margin: 2px 2px 12px; text-align: center; }
 
-    /* Value cards (tap to select; no drag — fragile on touch) */
+    /* Value cards — real <button> elements for keyboard + screen-reader
+       operability; the resets below make the button render like a card. */
     .vcard {
+      display: block; width: 100%; text-align: left; font: inherit; color: inherit;
       background: white; border: 1.5px solid var(--border); border-radius: 4px;
       padding: 12px 44px 12px 14px; margin-bottom: 10px; position: relative;
       cursor: pointer; transition: border-color 120ms, background-color 120ms;
     }
     .vcard:hover { border-color: var(--accent); }
+    .vcard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .vcard.selected { border-color: var(--accent); background: #f1f5f2; }
     .vcard.dim { opacity: 0.55; }
     .vcard .label { font-size: 12px; letter-spacing: 0.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
@@ -292,11 +295,11 @@ function renderSort() {
     const sel = state.selected.has(id);
     const dim = atCap && !sel ? "dim" : "";
     return `
-      <div class="vcard ${sel ? "selected" : ""} ${dim}" onclick="toggle('${id}')">
+      <button type="button" class="vcard ${sel ? "selected" : ""} ${dim}" onclick="toggle('${id}')" aria-pressed="${sel}">
         <div class="label">${c.label}</div>
         <div class="anchor">${c.anchor}</div>
         <div class="tick">${sel ? "✓" : ""}</div>
-      </div>`;
+      </button>`;
   }).join("");
 
   render(`
