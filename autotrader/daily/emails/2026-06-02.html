@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 20px;
+    background: #0a0a0f;
+    color: #e4e4e7;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #12121a;
+    padding: 0 0 30px 0;
+    border-radius: 12px;
+    border: 1px solid #1e1e2e;
+    border-top: 3px solid #3b82f6;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.container-inner {
+    padding: 0 30px;
+}
+h1 {
+    color: #e4e4e7;
+    border-bottom: 1px solid #1e1e2e;
+    padding-bottom: 15px;
+    font-size: 1.4rem;
+}
+h2 {
+    color: #a5b4fc;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+}
+h3 {
+    color: #a5b4fc;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+}
+.summary {
+    background-color: #0f0f1a;
+    color: #e4e4e7;
+    padding: 0;
+    border-radius: 0;
+    margin-bottom: 20px;
+}
+.summary strong, .summary b {
+    color: #e4e4e7;
+}
+.summary p { margin: 8px 0; }
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+}
+th {
+    background-color: #1e1b4b;
+    color: #c4b5fd;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+}
+th.ticker { text-align: left; }
+td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #1e1e2e;
+    text-align: center;
+    color: #d4d4d8;
+}
+td:nth-child(2) { text-align: left; }
+tr:hover td { background: rgba(59,130,246,0.05); }
+.bullish { color: #22c55e; font-weight: bold; }
+.bearish { color: #ef4444; font-weight: bold; }
+.neutral { color: #71717a; }
+.neutral-direction { color: #71717a; }
+.high-confidence { background: rgba(34,197,94,0.08) !important; }
+.low-confidence { background: rgba(239,68,68,0.08) !important; }
+.auc-cell { color: #818cf8; font-size: 0.9em; }
+.issues-section {
+    background: #1a1208;
+    border-left: 4px solid #f59e0b;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #d4d4d8;
+}
+.legend {
+    font-size: 0.9em;
+    color: #a1a1aa;
+    margin-top: 20px;
+    padding: 15px;
+    background: #0f0f1a;
+    border: 1px solid #1e1e2e;
+    border-radius: 8px;
+}
+.footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #1e1e2e;
+    color: #71717a;
+    font-size: 0.85em;
+}
+.info-section {
+    background: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #3b82f6;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.info-section h3 {
+    margin-top: 0;
+    color: #a5b4fc;
+}
+.info-section pre {
+    background: #0a0a0f;
+    border: 1px solid #1e1e2e;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+    color: #d4d4d8;
+}
+.events-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.events-section strong, .events-section b {
+    color: #fbbf24;
+}
+.events-section a { color: #3b82f6; }
+.calendar-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #3b82f6;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.calendar-section strong, .calendar-section b {
+    color: #93c5fd;
+}
+.calendar-section a { color: #3b82f6; }
+.pcr-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #a78bfa;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.pcr-section strong, .pcr-section b {
+    color: #c4b5fd;
+}
+.pcr-section a { color: #3b82f6; }
+.content-body {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: inherit;
+}
+.content-body strong {
+    color: inherit;
+    font-weight: 700;
+}
+.content-body ul {
+    margin: 8px 0;
+    padding-left: 25px;
+}
+.content-body li {
+    margin: 4px 0;
+    color: inherit;
+}
+.news-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #6366f1;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.news-section strong, .news-section b {
+    color: #a5b4fc;
+}
+.news-section a { color: #3b82f6; }
+.signals-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.signals-section strong, .signals-section b {
+    color: #86efac;
+}
+.signals-section a { color: #3b82f6; }
+.synthesis-section {
+    background-color: #0f0f1a;
+    border: 1px solid #2d2a5e;
+    border-left: 3px solid #a78bfa;
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 10px;
+    color: #e0e7ff;
+}
+.synthesis-section strong, .synthesis-section b {
+    color: #c4b5fd;
+}
+.synthesis-section .content-body {
+    font-size: 0.98em;
+    line-height: 1.7;
+}
+.fear-greed-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #eab308;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.fear-greed-section strong, .fear-greed-section b {
+    color: #fde047;
+}
+.fear-greed-section a { color: #3b82f6; }
+.social-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.social-section strong, .social-section b {
+    color: #86efac;
+}
+.social-section a { color: #3b82f6; }
+.congress-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.congress-section strong, .congress-section b {
+    color: #fbbf24;
+}
+.congress-section a { color: #3b82f6; }
+.yesterdays-picks-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.yesterdays-picks-section strong, .yesterdays-picks-section b {
+    color: #86efac;
+}
+.yesterdays-picks-section td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #1e1e2e;
+    text-align: center;
+    color: #d4d4d8;
+}
+.yesterdays-picks-section td:first-child {
+    text-align: left;
+}
+.yesterdays-picks-section tr:last-child td {
+    border-bottom: none;
+}
+.yesterdays-picks-section tr:hover td {
+    background: rgba(34,197,94,0.06);
+}
+.mr-badge {
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-weight: 700;
+    font-size: 0.82em;
+    display: inline-block;
+}
+.mr-q5 { background: #15803d; color: #dcfce7; }
+.mr-q4 { background: #166534; color: #bbf7d0; }
+.mr-q3 { background: #27272a; color: #a1a1aa; }
+.mr-q2 { background: #7f1d1d; color: #fecaca; }
+.mr-q1 { background: #ef4444; color: #fff; }
+.regime-bull  { color: #22c55e; font-weight: 600; font-size: 0.85em; }
+.regime-bear  { color: #ef4444; font-weight: 600; font-size: 0.85em; }
+.regime-neutral { color: #71717a; font-size: 0.85em; }
+.mr-summary-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.mr-summary-section strong, .mr-summary-section b {
+    color: #86efac;
+}
+.disclaimer {
+    background: #0d0d14;
+    border: 1px solid #1e1e2e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 0.85em;
+    color: #71717a;
+    line-height: 1.6;
+}
+.disclaimer h3 {
+    color: #ef4444;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+.disclaimer p {
+    margin: 10px 0;
+}
+.disclaimer strong {
+    color: #a1a1aa;
+}
+
+    </style>
+</head>
+<body style="background:#0a0a0f;margin:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#e4e4e7;">
+    <div class="container">
+        <!-- Dashboard header bar -->
+        <div style="background:#0d0d1a;border-bottom:1px solid #1e1e2e;padding:16px 24px;border-radius:12px 12px 0 0;display:table;width:100%;box-sizing:border-box;">
+            <div style="display:table-cell;vertical-align:middle;">
+                <span style="font-size:18px;font-weight:700;color:#e4e4e7;">MoneySignals</span>
+                <span style="font-size:12px;color:#71717a;margin-left:8px;">Daily Predictions &middot; Top Predictions</span>
+            </div>
+            <div style="display:table-cell;vertical-align:middle;text-align:right;font-size:12px;color:#71717a;">
+                2026-06-03 (Wednesday) &middot; secret tier
+            </div>
+        </div>
+
+        <!-- Metric cards summary -->
+        
+    <div style="margin:0 30px 20px 30px;">
+        <table width="100%" cellpadding="0" cellspacing="6" border="0">
+            <tr>
+                <td style="flex:1;min-width:110px;background:#0f0f1a;border:1px solid #1e1e2e;border-radius:8px;padding:14px 12px;text-align:center;">
+                    <div style="font-size:0.68rem;color:#71717a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Tickers</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:#e4e4e7;">579</div>
+                </td>
+                <td style="flex:1;min-width:110px;background:#0f0f1a;border:1px solid #1e1e2e;border-radius:8px;padding:14px 12px;text-align:center;">
+                    <div style="font-size:0.68rem;color:#71717a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">With Signals</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:#e4e4e7;">579</div>
+                </td>
+                <td style="flex:1;min-width:110px;background:#0f0f1a;border:1px solid #1e1e2e;border-radius:8px;padding:14px 12px;text-align:center;">
+                    <div style="font-size:0.68rem;color:#71717a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Daily</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:#e4e4e7;">579</div>
+                </td>
+                <td style="flex:1;min-width:110px;background:#0f0f1a;border:1px solid #1e1e2e;border-radius:8px;padding:14px 12px;text-align:center;">
+                    <div style="font-size:0.68rem;color:#71717a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Weekly</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:#e4e4e7;">0</div>
+                </td>
+                <td style="flex:1;min-width:110px;background:#0f0f1a;border:1px solid #1e1e2e;border-radius:8px;padding:14px 12px;text-align:center;">
+                    <div style="font-size:0.68rem;color:#71717a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Monthly</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:#e4e4e7;">0</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+
+        <div style="padding:0 30px;">
+
+        <p style="color:#71717a;font-size:0.8rem;margin:0 0 4px 0;">
+            <strong style="color:#a1a1aa;">Generated:</strong> 2026-06-02 05:42:47 EST
+        </p>
+
+        
+        <div class="news-section">
+            <div style="font-size:0.7rem;color:#3b82f6;letter-spacing:0.1em;margin-bottom:4px;font-weight:600;text-transform:uppercase;">04 — NEWS &amp; EVENTS</div>
+            <div class="content-body"><div style="margin:3px 0;color:#d4d4d8;">📰 <strong>MARKET-RELEVANT NEWS</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>💼 Business & Markets:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><a href="https://finance.yahoo.com/sectors/healthcare/articles/generali-broadens-intermap-central-eastern-093542605.html" style="color:#3b82f6;text-decoration:none;">Generali broadens Intermap use in central and eastern Europe</a> [Yahoo Finance] (20h ago)</li>
+<li style="color:#d4d4d8;"><a href="https://www.bloomberg.com/news/articles/2026-06-02/military-antenna-maker-smag-is-said-to-weigh-frankfurt-ipo" style="color:#3b82f6;text-decoration:none;">Military Antenna Maker Smag Is Said to Weigh Frankfurt IPO</a> [Bloomberg] (20h ago)</li>
+<li style="color:#d4d4d8;"><a href="https://www.bloomberg.com/news/articles/2026-06-02/korean-firms-turn-to-short-term-funding-as-bond-yields-climb" style="color:#3b82f6;text-decoration:none;">Korean Firms Turn to Short-Term Funding as Bond Yields Climb</a> [Bloomberg] (20h ago)</li>
+<li style="color:#d4d4d8;"><a href="https://www.bloomberg.com/news/articles/2026-06-02/euro-zone-inflation-surpasses-3-for-first-time-since-2023" style="color:#3b82f6;text-decoration:none;">Euro-Zone Inflation Surpasses 3% for First Time Since 2023</a> [Bloomberg] (20h ago)</li>
+<li style="color:#d4d4d8;"><a href="https://finance.yahoo.com/economy/live/jobs-report-may-data-labor-market-live-updates-090000760.html" style="color:#3b82f6;text-decoration:none;">Jobs data live updates: Labor market appears to thaw as economists await new data</a> [Yahoo Finance] (20h ago)</li>
+<li style="color:#d4d4d8;"><a href="https://finance.yahoo.com/markets/stocks/articles/marvell-technology-surges-nvidias-huang-084424457.html" style="color:#3b82f6;text-decoration:none;">Marvell Technology surges after Nvidia's Huang calls it 'next trillion-dollar company...</a> [Yahoo Finance] (20h ago)</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🏛️ Economy & Fed:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><a href="https://www.cnbc.com/2026/06/02/inflation-euro-zone-iran-energy-costs.html" style="color:#3b82f6;text-decoration:none;">Inflation hits 3.2% in the euro zone as Iran war pushes energy costs higher</a> [CNBC Economy] (20h ago)</li>
+<li style="color:#d4d4d8;"><a href="https://www.economist.com/finance-and-economics/2026/06/01/can-the-stockmarket-swallow-anthropic-spacex-and-openai" style="color:#3b82f6;text-decoration:none;">Can the stockmarket swallow Anthropic, SpaceX and OpenAI?</a> [Economist] (12h ago)</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🌍 World News:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><a href="https://www.nytimes.com/2026/06/02/world/europe/ukraine-war-russia-kyiv-attack.html" style="color:#3b82f6;text-decoration:none;">Russia Launches Deadly Strikes on Ukraine</a> [NYT World] (20h ago)</li>
+<li style="color:#d4d4d8;"><a href="https://www.nytimes.com/live/2026/06/02/world/iran-war-trump-israel-lebanon" style="color:#3b82f6;text-decoration:none;">Iran War Live Updates: Israel Appears to Pull Back From Threat to Strike Beirut</a> [NYT World] (20h ago)</li>
+</ul>
+<br>
+<div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">📊 10 of 34 headlines shown</div></div>
+        </div>
+                    
+
+        <div class="info-section">
+            <div class="content-body"><div style="margin:3px 0;color:#d4d4d8;">🎯 <strong>CORE ENTITY TRACKER</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><em>Key individuals and organizations driving markets today</em></div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🇺🇸 US Political:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">🔴 <strong>Donald Trump</strong> [SPY, DIA, QQQ] — 5 mentions, 4 sources</li>
+</ul>
+<div style="margin:3px 0;color:#d4d4d8;">  <em>Stripping U.S. citizenship en masse is harder than Trump vowed</em></div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🏢 Corporate Leaders:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">🟡 <strong>Warren Buffett</strong> [BRK.B] — 1 mention, 1 source ✅ LOBBY</li>
+</ul>
+<div style="margin:3px 0;color:#d4d4d8;">  <em>Alphabet asks shareholders to foot an $80 billion bill for AI expansion</em></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">⚪ <strong>Jensen Huang</strong> [NVDA, AMD, TSM, SMCI] — 1 mention, 1 source</li>
+</ul>
+<div style="margin:3px 0;color:#d4d4d8;">  <em>Marvell Technology surges after Nvidia's Huang calls it 'next trillion-doll...</em></div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><em>Signal strength: 🔴 high (5+ mentions or corroborated) 🟡 medium (2+ mentions) ⚪ low</em></div></div>
+        </div>
+                    
+
+        <div class="events-section">
+            <div class="content-body">
+                <strong>📅 Important Events for Tomorrow</strong><br>
+                <span style="color: #666; font-style: italic;">No major events scheduled for tomorrow.</span>
+            </div>
+        </div>
+                
+
+        <div class="signals-section">
+            <div class="content-body"><div style="margin:3px 0;color:#d4d4d8;">🎯 <strong>MARKET SIGNALS FROM NEWS</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>📰 Key Headlines & Ticker Implications:</strong></div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>1.</strong> <a href="https://www.nytimes.com/2026/06/02/world/europe/ukraine-war-russia-kyiv-attack.html" style="color:#3b82f6;text-decoration:none;">Russia Launches Deadly Strikes on Ukraine</a></div>
+<div style="margin:3px 0;color:#d4d4d8;">     🟢 GLD, XLE, DFEN · 🔴 RSX</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>2.</strong> <a href="https://www.wired.com/story/the-white-house-is-at-war-with-itself-over-ai-regulation/" style="color:#3b82f6;text-decoration:none;">The Trump Administration Is at War With Itself Over AI Regulation</a></div>
+<div style="margin:3px 0;color:#d4d4d8;">     🟢 DFEN, GLD, XLE, VXX</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>3.</strong> <a href="https://www.cnbc.com/2026/06/02/inflation-euro-zone-iran-energy-costs.html" style="color:#3b82f6;text-decoration:none;">Inflation hits 3.2% in the euro zone as Iran war pushes energy costs higher</a></div>
+<div style="margin:3px 0;color:#d4d4d8;">     🟢 DFEN, GLD, XLE, VXX</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>4.</strong> <a href="https://www.nytimes.com/live/2026/06/02/world/iran-war-trump-israel-lebanon" style="color:#3b82f6;text-decoration:none;">Iran War Live Updates: Israel Appears to Pull Back From Threat to Strike Beirut</a></div>
+<div style="margin:3px 0;color:#d4d4d8;">     🟢 DFEN, GLD, XLE, VXX</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>5.</strong> <a href="https://finance.yahoo.com/markets/stocks/articles/billionaire-stanley-druckenmiller-dumped-94-092600784.html" style="color:#3b82f6;text-decoration:none;">Billionaire Stanley Druckenmiller Dumped 94% of His Fund's Amazon Stake and Piled Int...</a></div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>6.</strong> <a href="https://www.bbc.com/news/articles/c5y8nq8ljqwo?at_medium=RSS&at_campaign=rss" style="color:#3b82f6;text-decoration:none;">Massive Russian attack on cities across Ukraine kills at least 14 people</a></div>
+<div style="margin:3px 0;color:#d4d4d8;">     🟢 DFEN, XLE, WEAT</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>📊 Ticker Signal Summary:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">🟢 Bullish: <strong>DFEN</strong> (Related to) ×7, <strong>GLD</strong> (Related to) ×6, <strong>XLE</strong> (Related to) ×5, <strong>VXX</strong> (Related to) ×3, <strong>WEAT</strong> (Related to) ×2, <strong>TIP</strong> (Related to) ×2</li>
+<li style="color:#d4d4d8;">🔴 Bearish: <strong>RSX</strong> (Related to) ×1, <strong>TLT</strong> (Related to) ×1</li>
+<li style="color:#d4d4d8;">⚪ Mixed: <strong>DJT</strong> (Related to) ×1, <strong>SMH</strong> (Related to) ×1, <strong>AMD</strong> (Related to) ×1</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="synthesis-section" style="border-left: 4px solid #a78bfa; padding: 18px 22px; margin-bottom: 20px; background-color: #1e1b4b; border-radius: 10px; color: #e0e7ff;">
+            <div class="content-body" style="color: #e0e7ff;"><div style="margin:3px 0;color:#d4d4d8;">🧠 <strong>MARKET SYNTHESIS & OPPORTUNITIES</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>PART 1 - TOP STORIES SUMMARY:</strong></div>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>Defense & Energy Dominance:</strong> The strongest converging narrative today is a clear flight into hard assets and defense. <strong>DFEN</strong>, <strong>LMT</strong>, <strong>GLD</strong>, <strong>XLE</strong>, and <strong>WEAT</strong> are all registering bullish news sentiment with zero bearish mentions — a remarkably clean sweep suggesting geopolitical risk premium is being priced aggressively. This isn't noise; when commodities (gold, wheat, energy) and defense ETFs move in unison, it typically signals macro stress or active conflict escalation driving institutional repositioning.</li>
+</ul>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>Tech Selectivity — Not a Broad Rally:</strong> Systems Software (+6.6%) and IT Consulting (+6.4%) are surging, but this is not a broad risk-on tech move. The <strong>VXX</strong> bullish signal alongside crypto fear at <strong>23/100 (Extreme Fear)</strong> tells a more complex story — volatility is being bid while specific tech subsectors outperform. This suggests rotation *within* tech rather than a market-wide appetite for risk, favoring profitable, cash-generative software names over speculative growth.</li>
+</ul>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>Defensive & Rate-Sensitive Sectors Under Pressure:</strong> REITs (Health Care, Self-Storage) and Electric Utilities are the day's worst performers, suggesting rates remain a headwind or capital is actively rotating out of yield proxies into real assets and defense. This is consistent with the GLD and commodity bullish signals — investors appear to prefer inflation hedges over rate-sensitive income plays.</li>
+</ul>
+<br>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>PART 2 - SHORT-TERM OPPORTUNITIES:</strong></div>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>The Defense Convergence is the Day's Highest-Conviction Theme:</strong> <strong>DFEN</strong> (6 bullish mentions, zero bearish) combined with <strong>LMT</strong> (bullish news signal) creates a rare double confirmation in aerospace/defense. With geopolitical stress evident across commodities, defense names have fundamental and sentiment tailwinds simultaneously. <strong>DFEN</strong> as a leveraged play offers amplified exposure if you believe this narrative has legs intraday.</li>
+</ul>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>OXY stands out as the top model-predicted bullish equity (45%)</strong> with direct sector confirmation — <strong>XLE</strong> is registering 4 bullish news mentions and Energy is broadly supported by the commodity complex (WEAT, GLD also bullish). This multi-layer alignment (model + ETF sentiment + commodity backdrop) makes <strong>OXY</strong> the most actionable single-stock long today. Watch for energy sector momentum continuation.</li>
+</ul>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>GLD is the cleanest macro hedge play:</strong> 5 bullish mentions, zero bearish, extreme crypto fear (23/100), and VXX bid — all pointing to a risk-off undercurrent beneath the surface. <strong>GLD</strong> benefits whether this is a geopolitical trade or a flight-to-safety trade. Low-friction, high-conviction hedge for any portfolio with equity exposure today.</li>
+</ul>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>TXT (Textron) is the model's top bearish conviction call at 86%</strong> — notably, this is a *defense-adjacent* industrials name, which makes it a nuanced short. While defense ETFs rally, TXT may be facing company-specific headwinds (earnings, guidance, or contract risk) that the model is picking up. The divergence from the broader defense narrative is a potential alpha opportunity on the short side — but confirm with position-level news before entering.</li>
+</ul>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>Contrarian Watch — Crypto Extreme Fear (23/100):</strong> Historically, sub-25 readings on the Crypto Fear & Greed Index have preceded</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="calendar-section">
+            <div class="content-body"><div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">📅 <strong>ECONOMIC CALENDAR - SECRET TIER</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<div style="margin:3px 0;color:#d4d4d8;">All Global Events (Sorted by Impact)</div>
+<div style="margin:3px 0;color:#d4d4d8;">Data Collected: 2026-06-02 05:42:44</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>AUD EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 8:30pm - Goods Trade Balance</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 1.23B | Previous: -1.84B</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>CAD EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 7:30am - Labor Productivity q/q</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 0.3% | Previous: -0.1%</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>Currency EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>EUR EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 2:15am - Spanish Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 48.2 | Previous: 47.9</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 2:45am - Italian Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 49.2 | Previous: 49.8</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 2:50am - French Final Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 43.0 | Previous: 42.9</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 2:55am - German Final Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 47.8 | Previous: 47.8</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 3:00am - Final Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 46.4 | Previous: 46.4</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 4:00am - PPI m/m</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 0.6% | Previous: 3.4%</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>GBP EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 3:30am - Final Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 47.9 | Previous: 47.9</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>JPY EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🔴 <strong>High IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 3:30am - BOJ Gov Ueda Speaks</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast:  | Previous: </div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>NZD EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 8:00pm - ANZ Commodity Prices m/m</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast:  | Previous: -0.8%</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💱 <strong>USD EVENTS:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🔴 <strong>High IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 7:15am - ADP Non-Farm Employment Change</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 116K | Previous: 109K</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 9:00am - ISM Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 53.7 | Previous: 53.6</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">  🟡 <strong>Medium IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 9:00am - Treasury Sec Bessent Speaks</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast:  | Previous: </div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">  🟢 <strong>Low IMPACT:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 8:00am - FOMC Member Barr Speaks</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast:  | Previous: </div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 8:45am - Final Services PMI</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 51.0 | Previous: 50.9</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 9:00am - Factory Orders m/m</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast: 4.6% | Previous: 1.5%</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 9:30am - Crude Oil Inventories</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast:  | Previous: -3.3M</div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 1:00pm - Beige Book</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast:  | Previous: </div>
+<div style="margin:3px 0;color:#d4d4d8;">    🕐 2:00pm - FOMC Member Logan Speaks</div>
+<div style="margin:3px 0;color:#d4d4d8;">       Forecast:  | Previous: </div>
+<br>
+<div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">📊 <strong>DETAILED DATA:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">Complete CSV data available in attachment</li>
+<li style="color:#d4d4d8;">File: economic_calendar_20260603_054128.csv</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💡 <strong>SECRET TIER ACCESS:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">All global economic events</li>
+<li style="color:#d4d4d8;">Sorted by currency and impact level</li>
+<li style="color:#d4d4d8;">Complete CSV data included</li>
+</ul></div>
+        </div>
+                
+
+        <div class="pcr-section">
+            <div class="content-body"><div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">📊 <strong>PUT/CALL RATIO ANALYSIS</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<div style="margin:3px 0;color:#d4d4d8;">Latest Options Activity: 2026-06-01</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>Market Sentiment Interpretation:</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">  🐂✅ <strong>Bullish</strong> - More call activity than put activity</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>Key Ratios:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">TOTAL PUT/CALL RATIO: 0.770</li>
+</ul>
+<div style="margin:3px 0;color:#d4d4d8;">    Overall market sentiment - 🐂✅ Bullish (Call buying > Put buying - Moderate upside)</div>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">EQUITY PUT/CALL RATIO: 0.440</li>
+</ul>
+<div style="margin:3px 0;color:#d4d4d8;">    Individual stock sentiment - 🐂📈 Very Bullish (Call buying >> Put buying - Upside expectation)</div>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">INDEX PUT/CALL RATIO: 0.990</li>
+</ul>
+<div style="margin:3px 0;color:#d4d4d8;">    Index options sentiment - 🐂✅ Bullish (Call buying > Put buying - Moderate upside)</div>
+<br>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">CBOE VOLATILITY INDEX (VIX) PUT/CALL RATIO: 0.510</li>
+</ul>
+<div style="margin:3px 0;color:#d4d4d8;">    Volatility sentiment - 🐻⚠️ Bearish (VIX Call buying > VIX Put buying - Volatility expected)</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💡 <strong>SECRET TIER ACCESS:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">Complete Put/Call ratio analysis</li>
+<li style="color:#d4d4d8;">All key market sentiment indicators</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="fear-greed-section">
+            <div style="font-size:0.7rem;color:#3b82f6;letter-spacing:0.1em;margin-bottom:4px;font-weight:600;text-transform:uppercase;">03 — MARKET SENTIMENT</div>
+            <div style="padding:14px 18px;background:#12121a;border:1px solid #1e1e2e;border-left:3px solid #eab308;border-radius:8px;margin-bottom:16px;">
+        <div style="margin-bottom:12px;">
+            <div style="font-size:0.68rem;color:#71717a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Stock Market</div>
+            <div style="display:table;width:100%;">
+                <div style="display:table-cell;vertical-align:middle;width:52px;">
+                    <span style="font-size:1.8rem;font-weight:700;color:#22c55e;line-height:1;">57</span>
+                </div>
+                <div style="display:table-cell;vertical-align:middle;padding-left:12px;">
+                    <div style="position:relative;background:#1e1e2e;border-radius:4px;height:10px;overflow:hidden;">
+                        <div style="background:linear-gradient(90deg,#ef4444 0%%,#f97316 25%%,#eab308 50%%,#22c55e 75%%,#10b981 100%%);width:100%%;height:10px;border-radius:4px;"></div>
+                        <div style="position:absolute;top:0;left:57%%;width:3px;height:10px;background:#fff;border-radius:1px;margin-left:-1px;"></div>
+                    </div>
+                    <div style="font-size:0.8rem;color:#22c55e;font-weight:600;margin-top:3px;">Greed</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom:12px;">
+            <div style="font-size:0.68rem;color:#71717a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Crypto</div>
+            <div style="display:table;width:100%;">
+                <div style="display:table-cell;vertical-align:middle;width:52px;">
+                    <span style="font-size:1.8rem;font-weight:700;color:#ef4444;line-height:1;">23</span>
+                </div>
+                <div style="display:table-cell;vertical-align:middle;padding-left:12px;">
+                    <div style="position:relative;background:#1e1e2e;border-radius:4px;height:10px;overflow:hidden;">
+                        <div style="background:linear-gradient(90deg,#ef4444 0%%,#f97316 25%%,#eab308 50%%,#22c55e 75%%,#10b981 100%%);width:100%%;height:10px;border-radius:4px;"></div>
+                        <div style="position:absolute;top:0;left:23%%;width:3px;height:10px;background:#fff;border-radius:1px;margin-left:-1px;"></div>
+                    </div>
+                    <div style="font-size:0.8rem;color:#ef4444;font-weight:600;margin-top:3px;">Extreme Fear</div>
+                </div>
+            </div>
+        </div>
+        </div>
+            <div style="margin-top:10px;" class="content-body"><div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">📊 <strong>FEAR & GREED INDEX</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<div style="margin:3px 0;color:#d4d4d8;">Data Collected: 2026-06-02 05:42:45</div>
+<br>
+<div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">🏛️ <strong>Stock Market: 57/100 - GREED 🟡</strong></div>
+<div style="margin:3px 0;color:#d4d4d8;">   💡 Optimistic sentiment</div>
+<br>
+<div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">₿ <strong>Crypto Market: 23/100 - EXTREME FEAR 🔴</strong></div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">💡 <strong>Fear & Greed Insights:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">Extreme Fear = Potential buying opportunity</li>
+<li style="color:#d4d4d8;">Extreme Greed = Potential selling opportunity</li>
+<li style="color:#d4d4d8;">Use as contrarian indicator for market timing</li>
+</ul></div>
+        </div>
+                    
+
+        <div class="social-section">
+            <div class="content-body"><br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🟠 Reddit Trending Tickers:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>SPCE</strong>: 2770 mentions, 29,792 engagement</li>
+<li style="color:#d4d4d8;"><strong>MU</strong>: 628 mentions, 3,532 engagement</li>
+<li style="color:#d4d4d8;"><strong>NOW</strong>: 318 mentions, 1,593 engagement</li>
+<li style="color:#d4d4d8;"><strong>NVDA</strong>: 291 mentions, 2,424 engagement</li>
+<li style="color:#d4d4d8;"><strong>SPY</strong>: 291 mentions, 1,098 engagement</li>
+<li style="color:#d4d4d8;"><strong>MSFT</strong>: 243 mentions, 2,179 engagement</li>
+<li style="color:#d4d4d8;"><strong>ASTS</strong>: 230 mentions, 941 engagement</li>
+<li style="color:#d4d4d8;"><strong>RKLB</strong>: 180 mentions, 819 engagement</li>
+<li style="color:#d4d4d8;"><strong>IBM</strong>: 175 mentions, 1,534 engagement</li>
+<li style="color:#d4d4d8;"><strong>HPE</strong>: 162 mentions, 586 engagement</li>
+<li style="color:#d4d4d8;"><strong>NBIS</strong>: 145 mentions, 388 engagement</li>
+<li style="color:#d4d4d8;"><strong>QQQ</strong>: 113 mentions, 269 engagement</li>
+<li style="color:#d4d4d8;"><strong>AMD</strong>: 108 mentions, 1,609 engagement</li>
+<li style="color:#d4d4d8;"><strong>META</strong>: 108 mentions, 621 engagement</li>
+<li style="color:#d4d4d8;"><strong>OPEN</strong>: 106 mentions, 579 engagement</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🔴 YouTube Trending Finance:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>NOW</strong>: 1 views, 0 engagement — 3 Stocks To BUY NOW For June 2026</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🔥 Cross-Platform Buzz</strong> (Reddit + YouTube):</div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>NOW</strong></li>
+</ul>
+<br></div>
+        </div>
+                    
+
+        <div class="info-section">
+            <div class="content-body"><div style="margin:3px 0;color:#d4d4d8;">🌍 <strong>TRENDING TOPICS</strong> (4 sources)</div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><em>What people are searching, watching, and sharing today</em></div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🔍 Google Trending Searches:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>texas longhorns softball</strong> (2000+ searches) — 'Strong as an ox': The lore around Texas' Katie Stewart grow</li>
+<li style="color:#d4d4d8;"><strong>scott pelley</strong> (1000+ searches) — Scott Pelley Accuses CBS News Boss of ‘Murdering’ ‘60 Minute</li>
+<li style="color:#d4d4d8;"><strong>when does love island usa start 2026</strong> (1000+ searches) — ‘Love Island USA’ Has Captured America — and Plans Do It Aga</li>
+<li style="color:#d4d4d8;"><strong>browns depth chart</strong> (200+ searches) — What’s the biggest concern for the Browns heading into this</li>
+<li style="color:#d4d4d8;"><strong>puka nacua</strong> (200+ searches) — Puka Nacua says he's 'grateful' to Rams for support after la</li>
+<li style="color:#d4d4d8;"><strong>raiders</strong> (200+ searches) — Raiders 2026 OTAs | Day 6</li>
+<li style="color:#d4d4d8;"><strong>josh sweat</strong> (200+ searches) — Packers working on trade for Pro Bowl pass rusher after Myle</li>
+<li style="color:#d4d4d8;"><strong>son</strong> (200+ searches) — Goals dry up for South Korea's favourite Son ahead of World</li>
+<li style="color:#d4d4d8;"><strong>dallas cowboys</strong> (100+ searches) — Mailbag: Position that needs a good year?</li>
+<li style="color:#d4d4d8;"><strong>slope</strong> (100+ searches) — Two woman found stabbed to death in Brooklyn apartment build</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>📖 Wikipedia Most-Viewed:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;"><strong>Victor Wembanyama</strong> (429,610 page views)</li>
+<li style="color:#d4d4d8;"><strong>Backrooms (film)</strong> (418,204 page views)</li>
+<li style="color:#d4d4d8;"><strong>Clash in Italy</strong> (354,976 page views)</li>
+<li style="color:#d4d4d8;"><strong>Obsession (2025 film)</strong> (283,351 page views)</li>
+<li style="color:#d4d4d8;"><strong>Mitch Johnson</strong> (173,690 page views)</li>
+<li style="color:#d4d4d8;"><strong>.xxx</strong> (173,344 page views)</li>
+<li style="color:#d4d4d8;"><strong>Callum Turner</strong> (166,869 page views)</li>
+<li style="color:#d4d4d8;"><strong>Kelly Curtis</strong> (149,941 page views)</li>
+<li style="color:#d4d4d8;"><strong>2026 FIFA World Cup</strong> (145,394 page views)</li>
+<li style="color:#d4d4d8;"><strong>Spider-Noir</strong> (145,064 page views)</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>🔶 Hacker News Top Stories:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">Malicious npm packages detected across Red Hat Cloud Services (657 pts, 352 comments)</li>
+<li style="color:#d4d4d8;">A 10 year old Xeon is all you need (582 pts, 240 comments)</li>
+<li style="color:#d4d4d8;">The newest Instagram “exploit” is the goofiest I've seen (574 pts, 140 comments)</li>
+<li style="color:#d4d4d8;">The Pirate Bay Remains Resilient, 20 Years After the Raid (348 pts, 148 comments)</li>
+<li style="color:#d4d4d8;">CS336: Language Modeling from Scratch (207 pts, 29 comments)</li>
+<li style="color:#d4d4d8;">Nvidia RTX Spark (175 pts, 137 comments)</li>
+<li style="color:#d4d4d8;">Only 17% of all 64-bit Integers are products of two 32-bit integers (143 pts, 69 comments)</li>
+<li style="color:#d4d4d8;">AI Agent Guidelines for CS336 at Stanford (128 pts, 66 comments)</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>▶️ YouTube Viral:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">ABC World News Tonight with David Muir Full Broadcast - May 31, 2026 — ABC News (609,401 views)</li>
+<li style="color:#d4d4d8;">Tech Whistleblower: You Only Have 3 Years Left Before It Hits! - Mo Gawdat — The Diary Of A CEO (489,449 views)</li>
+<li style="color:#d4d4d8;">BREAKING: US military strikes Iranian air defenses, drone sites — Fox News (389,719 views)</li>
+<li style="color:#d4d4d8;">BREAKING: Iran&#39;s president reportedly submits RESIGNATION letter #shorts #us #news #fo — Fox News (329,974 views)</li>
+<li style="color:#d4d4d8;">DETAILS: Iran shoots down US drone, Kuwait reportedly targeted — Fox News (287,073 views)</li>
+<li style="color:#d4d4d8;">JUST IN: Trump RESPONDS after US, Iran trade strikes — Fox News (187,967 views)</li>
+</ul>
+<br></div>
+        </div>
+                    
+
+        <div class="congress-section">
+            <div class="content-body"><div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">🏛️ <strong>CONGRESS STOCK TRADES</strong></div>
+<hr style="border:none;border-top:1px solid #1e1e2e;margin:10px 0;">
+<br>
+<div style="font-size:1.1em;margin:10px 0 5px 0;color:#a5b4fc;">📊 <strong>29 trades</strong> in last 14 days</div>
+<div style="margin:3px 0;color:#d4d4d8;">   🟢 11 Purchases | 🔴 18 Sales</div>
+<div style="margin:3px 0;color:#d4d4d8;">   Senate: 1 | House: 28</div>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>Most Active Tickers:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">🟢 Bought: <strong>HD</strong> ×2, <strong>MEDP</strong> ×2, <strong>PH</strong> ×2, <strong>T</strong> ×2, <strong>AAPL</strong> ×1</li>
+<li style="color:#d4d4d8;">🔴 Sold: <strong>AAPL</strong> ×2, <strong>GOOGL</strong> ×2, <strong>THC</strong> ×2, <strong>STT</strong> ×2, <strong>QCOM</strong> ×2</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;"><strong>Recent Notable Trades:</strong></div>
+<ul style="margin:5px 0;padding-left:20px;color:#d4d4d8;">
+<li style="color:#d4d4d8;">🔴 <strong>GOOGL</strong> sold by David Taylor (R-H) — $15,001 - $50,000</li>
+<li style="color:#d4d4d8;">🟢 <strong>SPG</strong> bought by Jonathan L. Jackson (D-H) — $15,001 - $50,000</li>
+<li style="color:#d4d4d8;">🔴 <strong>THC</strong> sold by Jonathan L. Jackson (D-H) — $15,001 - $50,000</li>
+<li style="color:#d4d4d8;">🔴 <strong>V</strong> sold by Jonathan L. Jackson (D-H) — $50,001 - $100,000</li>
+<li style="color:#d4d4d8;">🔴 <strong>ETOR</strong> sold by Bernie Moreno (R-S) — $100,001 - $250,000</li>
+<li style="color:#d4d4d8;">🔴 <strong>STT</strong> sold by Jake Auchincloss (D-H) — $15,001 - $50,000</li>
+<li style="color:#d4d4d8;">🔴 <strong>STT</strong> sold by Jake Auchincloss (D-H) — $15,001 - $50,000</li>
+<li style="color:#d4d4d8;">🔴 <strong>QCOM</strong> sold by Sara Jacobs (D-H) — $500,001 - $1,000,000</li>
+</ul>
+<br>
+<div style="margin:3px 0;color:#d4d4d8;">—</div>
+<div style="margin:3px 0;color:#d4d4d8;"><em>Source: STOCK Act disclosures via QuiverQuant</em></div></div>
+        </div>
+                    
+
+        
+
+        
+        
+
+        <div style="font-size:0.7rem;color:#3b82f6;letter-spacing:0.1em;margin-bottom:4px;font-weight:600;text-transform:uppercase;">02 — TODAY'S PREDICTIONS</div>
+        <h2 style="color:#a5b4fc;text-transform:uppercase;letter-spacing:0.08em;font-size:1rem;margin-top:2px;">
+            &#127919; Ticker Momentum
+        </h2>
+        <p style="color:#71717a;font-size:0.85rem;margin-top:-8px;">Ranked by composite backtest score. Direction from classifier, confidence from regressor.</p>
+
+        <table>
+            <thead>
+                
+        <tr>
+            <th>#</th>
+            <th class="ticker">Ticker</th>
+            <th title="Composite backtest score (Sharpe 40%, Win Rate 35%, IC 25%)">Score</th>
+            <th>Daily Dir</th>
+            <th>Daily Conf</th>
+            <th>Daily AUC</th>
+            <th>Weekly Dir</th>
+            <th>Weekly Conf</th>
+            <th>Weekly AUC</th>
+            <th>Monthly Dir</th>
+            <th>Monthly Conf</th>
+            <th>Monthly AUC</th>
+            <th title="Mean-reversion quintile: Q5=most oversold (green), Q1=most overbought (red)">MR Q</th>
+            <th title="Market regime detected from the ticker's 50-day price return">Regime</th>
+            <th title="Causal validity grade (A–F) — statistical confidence the model captures real signal">Val</th>
+            <th>Coverage</th>
+        </tr>
+        
+            </thead>
+            <tbody>
+                
+        <tr class="high-confidence">
+            <td>1</td>
+            <td><strong style="color:#e4e4e7;">BIO</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>75.1%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:75%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>2</td>
+            <td><strong style="color:#e4e4e7;">CPT</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>58.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:58%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>3</td>
+            <td><strong style="color:#e4e4e7;">FICO</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>58.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:58%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="high-confidence">
+            <td>4</td>
+            <td><strong style="color:#e4e4e7;">HUBB</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>64.1%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:64%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="">
+            <td>5</td>
+            <td><strong style="color:#e4e4e7;">KEY</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>58.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:58%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="high-confidence">
+            <td>6</td>
+            <td><strong style="color:#e4e4e7;">NI</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>84.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:84%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="high-confidence">
+            <td>7</td>
+            <td><strong style="color:#e4e4e7;">TXT</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>86.4%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:86%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+            </tbody>
+        </table>
+
+        
+    <div style="text-align:center;margin:20px 0;padding:16px;background:#0f0f1a;border:1px solid #1e1e2e;border-radius:8px;">
+        <div style="font-size:13px;color:#71717a;margin-bottom:8px;">Want more detail? See all 600+ predictions with live updates.</div>
+        <a href="https://moneysignals.us/" style="color:#3b82f6;font-weight:600;text-decoration:none;font-size:14px;">
+            View Full Dashboard at MoneySignals.us &rarr;
+        </a>
+    </div>
+    
+
+        
+        <h3 style="margin-top:28px;color:#71717a;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">
+            Lower Confidence Picks
+            <span style="font-size:0.82em;font-weight:400;color:#52525b;">(calibrated confidence &lt;55% &mdash; treat with caution)</span>
+        </h3>
+        <table>
+            <thead>
+                
+        <tr>
+            <th>#</th>
+            <th class="ticker">Ticker</th>
+            <th title="Composite backtest score (Sharpe 40%, Win Rate 35%, IC 25%)">Score</th>
+            <th>Daily Dir</th>
+            <th>Daily Conf</th>
+            <th>Daily AUC</th>
+            <th>Weekly Dir</th>
+            <th>Weekly Conf</th>
+            <th>Weekly AUC</th>
+            <th>Monthly Dir</th>
+            <th>Monthly Conf</th>
+            <th>Monthly AUC</th>
+            <th title="Mean-reversion quintile: Q5=most oversold (green), Q1=most overbought (red)">MR Q</th>
+            <th title="Market regime detected from the ticker's 50-day price return">Regime</th>
+            <th title="Causal validity grade (A–F) — statistical confidence the model captures real signal">Val</th>
+            <th>Coverage</th>
+        </tr>
+        
+            </thead>
+            <tbody>
+                
+        <tr class="low-confidence">
+            <td>1</td>
+            <td><strong style="color:#e4e4e7;">AOS</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>48.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:48%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>2</td>
+            <td><strong style="color:#e4e4e7;">COO</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>33.7%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:34%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>3</td>
+            <td><strong style="color:#e4e4e7;">KEYS</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>33.7%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:34%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>4</td>
+            <td><strong style="color:#e4e4e7;">MET</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>33.7%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:34%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>5</td>
+            <td><strong style="color:#e4e4e7;">MHK</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>48.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:48%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>6</td>
+            <td><strong style="color:#e4e4e7;">MSFT</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>48.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:48%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>7</td>
+            <td><strong style="color:#e4e4e7;">MTCH</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>38.4%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:38%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>8</td>
+            <td><strong style="color:#e4e4e7;">OXY</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>45.4%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:45%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>9</td>
+            <td><strong style="color:#e4e4e7;">RCL</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>33.7%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:34%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>10</td>
+            <td><strong style="color:#e4e4e7;">SWK</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>48.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:48%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>11</td>
+            <td><strong style="color:#e4e4e7;">TJX</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bearish">📉 ↓</td>
+            <td><span>48.3%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#ef4444;width:48%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>12</td>
+            <td><strong style="color:#e4e4e7;">TRMB</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>38.4%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:38%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+        <tr class="low-confidence">
+            <td>13</td>
+            <td><strong style="color:#e4e4e7;">WAB</strong></td>
+            <td class="score-cell"><strong style="color:#a5b4fc;">100</strong></td>
+            <td class="bullish">📈 ↑</td>
+            <td><span>33.7%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#22c55e;width:34%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td class="neutral">—</td>
+            <td><span>0.0%</span><div style="background:#1e1e2e;border-radius:3px;height:4px;margin-top:3px;"><div style="background:#71717a;width:0%;height:4px;border-radius:3px;"></div></div></td>
+            <td class="auc-cell"><span style="color:#52525b;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="color:#9ca3af;">—</span></td>
+            <td><span style="background:rgba(107,114,128,0.15);color:#6b7280;border-radius:3px;padding:1px 6px;font-size:0.7rem;letter-spacing:0.03em;">N/A</span></td>
+            <td>1/3</td>
+        </tr>
+        
+            </tbody>
+        </table>
+        
+
+        
+    <div class="legend">
+        <h3 style="margin-top: 0; color: #a5b4fc;">📖 Legend</h3>
+        <p><strong style="color: #e4e4e7;">⚡ Score:</strong> <span style="color: #a1a1aa;">Composite backtest performance (0-100 scale)</span><br>
+        <span style="font-size: 0.9em; color: #71717a;">Weighted: Sharpe Ratio 40% + Win Rate 35% + IC 25%</span></p>
+        <p><span class="bullish">📈 ↑ BULLISH</span> <span style="color: #a1a1aa;">- Model indicates upward momentum</span></p>
+        <p><span class="bearish">📉 ↓ BEARISH</span> <span style="color: #a1a1aa;">- Model indicates downward momentum</span></p>
+        <p><strong style="color: #e4e4e7;">Confidence:</strong> <span style="color: #a1a1aa;">Direction accuracy from model backtesting</span></p>
+        <p><strong>AUC:</strong> Area Under ROC Curve from classifier (classification quality metric)</p>
+        <p><strong>Val:</strong> Causal validity grade (A–F) — statistical confidence the model captures real signal rather than data-snooping artifacts.<br><span style="font-size:0.9em;color:#666;">A/B = confirmed signal &nbsp;|&nbsp; C = moderate &nbsp;|&nbsp; D = 25% size &nbsp;|&nbsp; F = skipped by trading engine</span></p>
+        <p><strong style="color: #e4e4e7;">MR Q (Mean-Reversion Quintile):</strong> <span style="color: #a1a1aa;">Cross-sectional rank among all predicted tickers</span><br>
+        <span style="font-size: 0.9em; color: #71717a;">
+        <span class="mr-badge mr-q5">Q5</span> Most oversold — potential bounce candidate &nbsp;|&nbsp;
+        <span class="mr-badge mr-q4">Q4</span> Mildly oversold &nbsp;|&nbsp;
+        <span class="mr-badge mr-q3">Q3</span> Neutral &nbsp;|&nbsp;
+        <span class="mr-badge mr-q2">Q2</span> Mildly overbought &nbsp;|&nbsp;
+        <span class="mr-badge mr-q1">Q1</span> Most overbought — potential fade candidate
+        </span></p>
+        <p><strong style="color: #e4e4e7;">Regime:</strong> <span style="color: #a1a1aa;">Ticker's own 50-day price trend</span> &nbsp;
+        <span class="regime-bull">Bull</span> / <span class="regime-bear">Bear</span> / <span class="regime-neutral">Neutral</span></p>
+        <p><strong style="color: #e4e4e7;">Coverage:</strong> <span style="color: #a1a1aa;">Number of timeframes with valid signals (Daily/Weekly/Monthly)</span></p>
+        <p style="color: #22c55e;">🟢 Green rows: High confidence (≥60%)</p>
+        <p style="color: #ef4444;">🔴 Red rows: Low confidence (&lt;52%)</p>
+        <p style="color: #71717a; font-size: 0.88em; margin-top: 14px; padding-top: 10px; border-top: 1px solid #1e1e2e;">
+            <strong style="color: #a1a1aa;">Historical accuracy:</strong> BEARISH 62% | BULLISH 41%
+            (calibrated confidence reflects this)
+        </p>
+    </div>
+    
+        
+        
+        
+        
+
+        
+    
+    
+    
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 8px; padding: 24px; margin: 20px 0; text-align: center; border: 1px solid #2a2a4a;">
+        <div style="font-size: 16px; font-weight: 600; color: #e0e0e0; margin-bottom: 8px;">
+            Know someone who'd find this useful?
+        </div>
+        <div style="font-size: 13px; color: #999; margin-bottom: 16px;">
+            Share AutoTrader's daily predictions with your network
+        </div>
+        <a href="https://moneysignals.us/" style="display: inline-block; background: #3498db; color: #fff; text-decoration: none; padding: 10px 28px; border-radius: 6px; font-size: 14px; font-weight: 600; margin-bottom: 12px;">
+            Subscribe at MoneySignals.us
+        </a>
+        <div style="margin-top: 12px; font-size: 12px; color: #666;">
+            Free tier available &middot; Premium from $29/mo &middot; API access from $49/mo
+        </div>
+        <div style="margin-top: 8px; font-size: 12px; color: #777;">
+            Share this link: <a href="https://moneysignals.us/" style="color: #3498db;">moneysignals.us</a>
+        </div>
+    </div>
+    
+    
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border-radius: 8px; padding: 20px; margin: 20px 0; border: 1px solid #374151;">
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 20px; margin-right: 8px;">&#x1f4a1;</span>
+            <span style="font-size: 15px; font-weight: 600; color: #c4b5fd;">Sponsored</span>
+        </div>
+        <div style="font-size: 16px; font-weight: 600; color: #e0e0e0; margin-bottom: 6px;">
+            Meta Council &mdash; AI-Powered Decision Intelligence
+        </div>
+        <div style="font-size: 13px; color: #a0a0b0; margin-bottom: 14px; line-height: 1.5;">
+            Run any decision past a council of AI experts before you commit.
+            Meta Council assembles specialized AI agents&mdash;finance, strategy, risk,
+            contrarian&mdash;to stress-test your ideas from every angle. Think of it as
+            a boardroom you can summon on demand.
+        </div>
+        <a href="https://meta-council.com/" style="display: inline-block; background: #7c3aed; color: #fff; text-decoration: none; padding: 9px 24px; border-radius: 6px; font-size: 13px; font-weight: 600;">
+            Try Meta Council &rarr;
+        </a>
+        <div style="margin-top: 12px; background: #1e1b4b; border: 1px dashed #7c3aed; border-radius: 4px; padding: 8px 14px; display: inline-block;">
+            <span style="font-size: 11px; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.5px;">Promo Code</span>
+            <span style="font-size: 14px; font-weight: 700; color: #e0e0e0; margin-left: 8px; font-family: monospace;">INVESTOR2026</span>
+            <span style="font-size: 11px; color: #9ca3af; margin-left: 8px;">&mdash; exclusive extended trial</span>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin: 25px 0; padding: 18px 20px; background: linear-gradient(135deg, #0d1117, #161b22); border: 1px solid #30363d; border-radius: 10px;">
+        <p style="color: #e6edf3; font-size: 1.05em; margin: 0 0 8px 0;">🚀 <strong>Want programmatic access?</strong></p>
+        <p style="color: #8b949e; font-size: 0.95em; margin: 0 0 12px 0;">REST API for 600+ ticker predictions, statistical analytics, and real-time signals</p>
+        <a href="https://moneysignals.us" style="display: inline-block; background: #58a6ff; color: #0d1117; font-weight: bold; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em;">Explore moneysignals.us &rarr;</a>
+    </div>
+    <div class="footer">
+        <p><a href="https://moneysignals.us/" style="color:#71717a;text-decoration:none;">MoneySignals.us</a> &mdash; Powered by AutoTrader ML System</p>
+        <p>📺 YouTube: <a href="https://www.youtube.com/@investwithdave" style="color:#71717a;">@investwithdave</a></p>
+        <p style="margin-top:8px;">
+            <a href="https://buy.stripe.com/9B64gA5n4gaK6nDgvd5c405" style="color:#52525b;text-decoration:none;">Basic</a> &middot;
+            <a href="https://buy.stripe.com/eVq9AUbLse2CdQ53Ir5c404" style="color:#52525b;text-decoration:none;">Premium</a> &middot;
+            <a href="https://buy.stripe.com/4gM00k4j0gaK27n3Ir5c403" style="color:#52525b;text-decoration:none;">Professional</a> &middot;
+            <a href="https://buy.stripe.com/6oUcN6aHobUu7rH4Mv5c402" style="color:#52525b;text-decoration:none;">API Starter</a> &middot;
+            <a href="https://buy.stripe.com/5kQ4gAdTA6Aa3br2En5c401" style="color:#52525b;text-decoration:none;">API Pro</a>
+        </p>
+    </div>
+    
+
+        
+    <div class="disclaimer">
+        <h3>⚠️ IMPORTANT DISCLAIMERS</h3>
+
+        <p><strong>📊 MOMENTUM INDICATORS, NOT PREDICTIONS:</strong><br>
+        <span style="background-color:#1e1e2e;padding:2px 6px;border-radius:3px;color:#d4d4d8;">
+        The signals in this report are <strong>momentum indicators</strong>, not predictive values.
+        </span>
+        They reflect current technical momentum and historical patterns, but do NOT predict future price movements with certainty. Markets are inherently unpredictable and past momentum does not guarantee future direction. Use these indicators as one input among many in your research process.</p>
+
+        <p><strong>💰 FINANCIAL DISCLAIMER:</strong><br>
+        This analysis is for informational and educational purposes only. It does not constitute investment advice, financial advice, trading advice, or any other sort of advice. The information provided is not intended to be used as the sole basis for any investment decisions. Past performance does not guarantee future results. All investments involve risk, including the potential loss of principal.</p>
+
+        <p><strong>🚫 NO INVESTMENT RECOMMENDATIONS:</strong><br>
+        We do not recommend, endorse, or suggest any specific investments, securities, or trading strategies. The analysis provided is based on historical data and statistical models that may not accurately predict future market movements. Market conditions change rapidly and unpredictably.</p>
+
+        <p><strong>🤖 AUTOMATED ANALYSIS:</strong><br>
+        This report is generated by automated systems using machine learning models. These models have limitations and may produce inaccurate results. Always conduct your own research and consult with qualified financial professionals before making investment decisions.</p>
+
+        <p><strong>📈 SCORE METHODOLOGY:</strong><br>
+        The Score column represents a composite backtest performance metric, combining Sharpe Ratio (40%), Win Rate (35%), and Information Coefficient (25%). Higher scores indicate models with better historical backtested performance, but this does NOT guarantee future results.</p>
+
+        <p><strong>📊 DATA ACCURACY:</strong><br>
+        While we strive for accuracy, we do not guarantee the accuracy, completeness, or timeliness of any information provided. Data sources may have errors, delays, or other issues that could affect the analysis.</p>
+
+        <p><strong>⚖️ LEGAL DISCLAIMER:</strong><br>
+        This service is provided 'as is' without warranties of any kind. We disclaim all warranties, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+        <p><strong>👤 INDIVIDUAL RESPONSIBILITY:</strong><br>
+        You are solely responsible for your investment decisions and their outcomes. You should conduct your own research and due diligence before making any investment decisions. Never invest more than you can afford to lose.</p>
+
+        <p style="font-size: 0.85em; margin-top: 15px;">
+        By using this service, you acknowledge that you have read, understood, and agree to these disclaimers.<br>
+        For questions or concerns, contact: dave@moneysignals.us
+        </p>
+    </div>
+    
+
+        </div><!-- /padding inner -->
+    </div>
+    
+</body>
+</html>
+    
