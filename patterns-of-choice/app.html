@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patterns of Choice — the practice (local-first)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The actual Patterns of Choice instrument: a local-first daily practice that runs entirely on your own device. Your choices are stored only in this browser; nothing is sent anywhere.">
+  <meta property="og:title" content="Patterns of Choice — the practice">
+  <meta property="og:description" content="The local-first daily practice: small choices over days, then your own stated-vs-revealed profile — computed on your device, stored only here, sent nowhere.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daliu.github.io/patterns-of-choice/app.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/app.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <!-- Google Analytics (GA4) — page-view only; never the choice data -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NNGFMHGWCE');
+  </script>
+  <style>
+    :root { --bg:#fafaf7; --fg:#1f1f1d; --muted:#6b6b67; --border:#d8d8d2; --accent:#2a4a3a; --warn:#8a4a2a; --card:#ffffff; }
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--fg); line-height:1.5; font-size:17px; }
+    .site-nav { background:white; border-bottom:1px solid var(--border); padding:12px 24px; font-size:14px; color:var(--muted); }
+    .site-nav a { color:var(--muted); text-decoration:none; margin-right:16px; }
+    .site-nav a:hover { color:var(--accent); }
+    .site-nav .home::before { content:"\2190 "; }
+    .local-banner { background:#eef4ef; border-bottom:1px solid #cdddd2; padding:8px 24px; text-align:center; font-size:13px; color:var(--accent); }
+    .container { max-width:640px; margin:0 auto; padding:48px 24px 80px; min-height:80vh; }
+    h1 { font-weight:400; font-size:28px; margin:0 0 8px; }
+    h2 { font-weight:500; font-size:22px; margin:0 0 16px; }
+    .subhead { color:var(--muted); font-size:18px; margin-bottom:28px; }
+    p { margin:0 0 16px; }
+    .body-text { margin-bottom:24px; }
+    button { font-family:inherit; font-size:17px; background:white; color:var(--fg); border:1.5px solid var(--border); padding:14px 20px; margin:6px 0; cursor:pointer; border-radius:4px; text-align:left; width:100%; transition:border-color 120ms,background-color 120ms; }
+    button:hover { border-color:var(--accent); }
+    button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+    button.primary { background:var(--accent); color:white; border-color:var(--accent); text-align:center; }
+    button.primary:hover { background:#1c3528; }
+    button.secondary { background:transparent; color:var(--muted); border-color:var(--border); text-align:center; }
+    button.ghost { width:auto; display:inline-block; border:none; background:none; color:var(--muted); text-decoration:underline; padding:4px 0; font-size:14px; }
+    .timer { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--muted); font-size:14px; margin-bottom:12px; }
+    .timer.warn { color:var(--warn); }
+    .item-prompt { font-size:18px; margin-bottom:16px; min-height:60px; }
+    .meta { font-size:13px; color:var(--muted); margin-top:32px; }
+    .meta code { background:white; padding:1px 6px; border-radius:3px; border:1px solid var(--border); }
+    .statline { display:flex; gap:24px; margin:0 0 24px; }
+    .stat .n { font-size:32px; font-weight:300; color:var(--accent); font-variant-numeric:tabular-nums; line-height:1; }
+    .stat .lab { font-size:13px; color:var(--muted); margin-top:4px; }
+    .progress { font-size:13px; color:var(--muted); margin-top:8px; }
+    .observation { background:white; padding:18px 20px; border-radius:4px; border-left:3px solid var(--accent); font-style:italic; margin:16px 0; }
+    .row-prose { font-size:16px; margin:12px 0; }
+    .domyield { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:14px 16px; margin:10px 0; }
+    .domyield .name { font-weight:500; }
+    .domyield .bar { height:8px; background:#eee; border-radius:4px; overflow:hidden; margin-top:6px; }
+    .domyield .fill { height:100%; background:var(--accent); }
+    .back-link { display:inline-block; margin-top:28px; color:var(--muted); text-decoration:none; font-size:14px; }
+    .danger { color:var(--warn); }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="home">daliu.github.io</a>
+  <a href="./">about this project</a>
+  <a href="onramp.html">the on-ramp</a>
+  <a href="profile.html">sample profile</a>
+</nav>
+<div class="local-banner">
+  Local-first: your choices live only in this browser (IndexedDB) and are computed on your device. Nothing is sent anywhere. This is a working prototype of the real instrument.
+</div>
+<div class="container" id="app"></div>
+
+<script src="runtime/poc-runtime.js"></script>
+<script src="runtime/poc-projection.js"></script>
+<script>
+// ============================================================================
+// Patterns of Choice — app shell (the actual practice, local-first PWA).
+// Wires the verified engine (poc-runtime.js) + projection (poc-projection.js)
+// over an embedded content bundle into the real loop: daily session -> persisted
+// SessionLogEntry events in IndexedDB -> on-device reveal from the user's own log.
+//
+// This is a working prototype: one quick-fire per day (rotating domains), the
+// stated-channel card sort, and the §13 on-device reveal once enough sessions
+// exist. No server, no account, no cohort. Erase wipes everything locally.
+// ============================================================================
+
+const app = document.getElementById("app");
+function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
+const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let RT = null, BUNDLE = null, TAGMAP = null;
+const USER = "local-user"; // single local user; the device IS the identity
+
+async function loadJSON(path, fallbackGlobal){
+  try { const r = await fetch(path); if (r.ok) return await r.json(); } catch(_) {}
+  if (fallbackGlobal && window[fallbackGlobal]) return window[fallbackGlobal];
+  return null;
+}
+
+async function boot(){
+  RT = POCRuntime.createRuntime({ corpus_version: "mvp1-2026-06", tag_map_version: "v0.1" });
+  await RT.init();
+  BUNDLE = await loadJSON("runtime/content-bundle.v0.1.json");
+  TAGMAP = await loadJSON("runtime/tag-axis-map.v0.1.json");
+  if (!BUNDLE || !TAGMAP){
+    render(`<h1>Couldn't load the practice content</h1>
+      <p class="body-text">This prototype needs to read its content bundle, which some browsers block when opening the file directly from disk. Try it on the hosted site (<a href="https://daliu.github.io/patterns-of-choice/app.html">daliu.github.io/patterns-of-choice/app.html</a>) or serve this folder over http.</p>
+      <a href="./" class="back-link">&larr; Back to the project</a>`);
+    return;
+  }
+  renderHome();
+}
+
+// --- derive practice state from the event log (everything is a projection) ---
+async function practiceState(){
+  const evs = await RT.log();
+  const sessions = {};            // session_id -> {domain, day}
+  const daysSeen = new Set();
+  let sessionCount = 0;
+  for (const e of evs){
+    if (e.kind !== "session_log") continue;
+    const sid = e.payload.session_id;
+    if (!(sid in sessions)){ sessions[sid] = { domain: e.payload.domain }; sessionCount++; }
+    daysSeen.add(e.timestamp_iso.slice(0,10));
+  }
+  return { evs, sessionCount, dayCount: daysSeen.size,
+           lastDomain: lastDomainPlayed(evs) };
+}
+function lastDomainPlayed(evs){
+  for (let i=evs.length-1;i>=0;i--) if (evs[i].kind==="session_log") return evs[i].payload.domain;
+  return null;
+}
+// rotate domains so each day cycles through the four
+const DOMAIN_ROTATION = ["truth-telling","resource-allocation","in-group-out-group","reciprocity-cooperation"];
+function nextDomain(lastDomain){
+  const i = DOMAIN_ROTATION.indexOf(lastDomain);
+  return DOMAIN_ROTATION[(i+1) % DOMAIN_ROTATION.length];
+}
+function qfForDomain(domain){ return BUNDLE.quickfires.find(q => q.domain === domain) || BUNDLE.quickfires[0]; }
+
+// --- home ---
+async function renderHome(){
+  const st = await practiceState();
+  const ready = await canReveal(st);
+  render(`
+    <h1>Patterns of Choice</h1>
+    <div class="subhead">A daily practice, kept entirely on your device.</div>
+    <div class="statline">
+      <div class="stat"><div class="n">${st.sessionCount}</div><div class="lab">sessions</div></div>
+      <div class="stat"><div class="n">${st.dayCount}</div><div class="lab">days</div></div>
+    </div>
+    <div class="body-text">
+      <p>${st.sessionCount === 0
+        ? "Each session is a handful of small, timed choices — about a minute. Come back across several days; once there's enough, you'll see where the values you'd <em>state</em> and the ones your choices <em>reveal</em> line up, and where they don't."
+        : "Pick up where you left off. The point isn't any single day — it's the pattern that emerges across them."}</p>
+    </div>
+    <button class="primary" onclick="startSession()">${st.sessionCount === 0 ? "Begin today's session" : "Today's session"}</button>
+    ${ready.ok ? `<button class="secondary" onclick="renderReveal()">See your profile so far</button>`
+      : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.</div>`}
+    <div class="meta">
+      Stored only in this browser. <button class="ghost" onclick="renderData()">your data</button>
+    </div>
+  `);
+}
+
+// --- a daily session: one domain's quick-fire under the timer ---
+let sess = null;
+function startSession(){
+  practiceState().then(st => {
+    const domain = nextDomain(st.lastDomain);
+    const qf = qfForDomain(domain);
+    sess = { id: POCRuntime.uuid(), domain, qf, idx:0, timer:null };
+    renderItem();
+  });
+}
+function renderItem(){
+  if (!sess || sess.idx >= sess.qf.items.length){ return endSession(); }
+  const item = sess.qf.items[sess.idx];
+  const t0 = Date.now();
+  let left = sess.qf.timer_seconds_per_item || 8;
+  render(`
+    <div class="timer" id="timer">⏱  ${left} seconds</div>
+    <div class="item-prompt">${item.prompt}</div>
+    <button onclick="answer('${item.id}','a',${t0})">${item.options[0].text}</button>
+    <button onclick="answer('${item.id}','b',${t0})">${item.options[1].text}</button>
+    <div class="progress">Item ${sess.idx+1} of ${sess.qf.items.length} &middot; ${sess.domain.replace(/-/g," ")}</div>
+  `);
+  if (sess.timer) clearInterval(sess.timer);
+  if (!prefersReduced){
+    sess.timer = setInterval(() => {
+      left -= 1;
+      const el = document.getElementById("timer");
+      if (el){ el.textContent = `⏱  ${left} seconds`; if (left<=3) el.classList.add("warn"); }
+      if (left<=0){ clearInterval(sess.timer); answer(item.id, null, t0); }
+    }, 1000);
+  }
+}
+async function answer(itemId, optionId, t0){
+  if (sess.timer) clearInterval(sess.timer);
+  const item = sess.qf.items.find(i => i.id === itemId);
+  const opt = optionId ? item.options.find(o => o.id === optionId) : null;
+  // persist a real SessionLogEntry through the engine (tags denormalized now)
+  await RT.logSessionChoice({
+    user_id: USER, session_id: sess.id, timestamp_iso: new Date().toISOString(),
+    scenario_id: sess.qf.id, scenario_type: "quick-fire-round", domain: sess.domain,
+    item_id: itemId, option_id: optionId,
+    tags: opt ? opt.tags : [],
+    response_time_ms: Date.now() - t0,
+    presented_position: sess.idx + 1, was_timeout: optionId === null,
+  });
+  sess.idx += 1;
+  renderItem();
+}
+async function endSession(){
+  const st = await practiceState();
+  render(`
+    <h2>Done for today.</h2>
+    <div class="observation">${sessionObservation(st)}</div>
+    <div class="body-text"><p>That's logged — on your device, nowhere else. Come back another day; the pattern needs time.</p></div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
+}
+function sessionObservation(st){
+  if (st.sessionCount <= 1) return "One session in. Nothing to read yet — and that's the honest state. A single day is a point, not a pattern.";
+  if (st.dayCount < 3) return `${st.sessionCount} sessions across ${st.dayCount} day${st.dayCount===1?"":"s"}. Keep going — the profile waits until your choices have spread across a few areas and a few days.`;
+  return `${st.sessionCount} sessions across ${st.dayCount} days. There may be enough now to see a first shape — check your profile from the start screen.`;
+}
+
+// --- can we compute a reveal? need >=3 domains with a scoreable session ---
+async function canReveal(st){
+  const exp = await RT.exportForAnalyzer();
+  const rev = POCProjection.revealedScores(exp.session_log, TAGMAP);
+  const have = Object.keys(rev).length;
+  return { ok: have >= 3, have, rev, exp };
+}
+
+// --- the on-device reveal (revealed shape + §13 reads) ---
+async function renderReveal(){
+  const st = await practiceState();
+  const r = await canReveal(st);
+  if (!r.ok){ renderHome(); return; }
+  const stated = POCProjection.cardSortStated(r.exp.card_sort||[], BUNDLE.valuesByDomain, "aspirational_self");
+  const ordering = POCProjection.ipsativeOrdering(r.rev);
+  const concordance = POCProjection.wordDeedConcordance(r.rev, stated);
+  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
+
+  // domain yield bars (descriptive: how much you've revealed per domain, your own scale)
+  let bars = "";
+  for (const d of POCProjection.DOMAINS){
+    if (!r.rev[d]) continue;
+    const m = r.rev[d].revealed_score_mean; const pct = Math.round(((m+1)/2)*100);
+    bars += `<div class="domyield"><div class="name">${DLAB[d]}</div>
+      <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
+      <div class="progress">${m>=0?"+":""}${m.toFixed(2)} on this area's axis &middot; ${r.rev[d].n_sessions_contributing} session${r.rev[d].n_sessions_contributing===1?"":"s"}</div></div>`;
+  }
+
+  let ordHtml;
+  if (!ordering.ok) ordHtml = `<p class="row-prose">No reliable ordering yet — ${ordering.reason}.</p>`;
+  else if (ordering.level) ordHtml = `<p class="row-prose">Across the areas with enough sessions, your choices came out roughly level — you reached for them about equally, relative to your own average.</p>`;
+  else ordHtml = `<p class="row-prose">${ordering.rels.map(x => x.tie
+      ? `${DLAB[x.a]} and ${DLAB[x.b]} are <em>about the same</em> for you`
+      : `you reach for ${DLAB[x.a]} <em>more than</em> ${DLAB[x.b]}`).join("; ")}.</p>`;
+
+  let conHtml = "";
+  if (concordance.ok){
+    const bandText = {low:"closely", moderate:"only loosely", high:"barely"}[concordance.band];
+    conHtml = `<p class="row-prose">The order you'd <em>say</em> you weight these areas tracks the order your <em>choices</em> fell in <strong>${bandText}</strong>.</p>`;
+    if (concordance.flips.length){
+      const f = concordance.flips[0];
+      conHtml += `<p class="row-prose">Worth noticing: you rank <strong>${DLAB[f.said_lower]}</strong> low in what you'd say, but it's among the highest in what you did — an unclaimed strength, not a fault.</p>`;
+    }
+  } else {
+    conHtml = `<p class="row-prose" style="color:var(--muted)">Word-vs-deed comparison needs the card sort (the stated channel) plus three areas of choices. <button class="ghost" onclick="alert('The card-sort onboarding is the next prototype step.')">about that</button></p>`;
+  }
+
+  render(`
+    <h2>Your profile so far</h2>
+    <p class="body-text" style="color:var(--muted);font-size:15px;">Computed on your device from ${st.sessionCount} sessions. Held loosely — this is early, and it points inward (at you over time), never at anyone else.</p>
+    <h3 style="font-weight:500;font-size:17px;">What your choices revealed, by area</h3>
+    ${bars}
+    <h3 style="font-weight:500;font-size:17px;margin-top:20px;">Where you lean, relative to yourself</h3>
+    ${ordHtml}
+    ${conHtml}
+    <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
+}
+
+// --- data controls (export backup / erase) ---
+async function renderData(){
+  render(`
+    <h2>Your data</h2>
+    <div class="body-text">
+      <p>Everything you've done lives only in this browser's local storage. It has never been sent anywhere.</p>
+    </div>
+    <button class="secondary" onclick="downloadBackup()">Download a backup file</button>
+    <button class="secondary danger" onclick="confirmErase()">Erase everything</button>
+    <a href="#" onclick="renderHome();return false;" class="back-link">&larr; Back</a>
+  `);
+}
+async function downloadBackup(){
+  const bundle = await RT.exportBackup();
+  const blob = new Blob([JSON.stringify(bundle,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href=url; a.download="patterns-of-choice-backup.json"; a.click();
+  URL.revokeObjectURL(url);
+}
+function confirmErase(){
+  render(`
+    <h2 class="danger">Erase everything?</h2>
+    <div class="body-text"><p>This permanently deletes every session you've logged, from this browser. There's no undo and (by design) no copy anywhere else. Consider downloading a backup first.</p></div>
+    <button class="secondary danger" onclick="doErase()">Yes, erase it all</button>
+    <button class="primary" onclick="renderData()">Keep my data</button>
+  `);
+}
+async function doErase(){ await RT.eraseEverything(); renderHome(); }
+
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,834 @@
+{
+"version": "0.1",
+"_provenance": "Generated from scenarios/sample/qf-*-001.json + inventory/values-deck.json (canonical sources) for the runtime app shell. Regenerate if those change.",
+"corpus_version": "mvp1-2026-06",
+"quickfires": [
+{
+"id": "qf-truth-001",
+"domain": "truth-telling",
+"timer_seconds_per_item": 8,
+"items": [
+{
+"id": "qf-truth-001-i01",
+"prompt": "Your housemate asks if you ate the leftovers they were saving. You did.",
+"options": [
+{
+"id": "a",
+"text": "Admit it.",
+"tags": [
+"truth:commission",
+"counterparty:close",
+"stake:micro",
+"self-cost:apologize"
+]
+},
+{
+"id": "b",
+"text": "Say you didn't see them.",
+"tags": [
+"lie:omission",
+"counterparty:close",
+"stake:micro",
+"self-cost:none"
+]
+}
+]
+},
+{
+"id": "qf-truth-001-i02",
+"prompt": "A friend you don't see often asks if you liked their painting. You didn't.",
+"options": [
+{
+"id": "a",
+"text": "Say you loved it.",
+"tags": [
+"lie:white",
+"counterparty:close",
+"stake:micro",
+"social-cost:none"
+]
+},
+{
+"id": "b",
+"text": "Say it wasn't quite your taste.",
+"tags": [
+"truth:partial",
+"counterparty:close",
+"stake:micro",
+"social-cost:low"
+]
+}
+]
+},
+{
+"id": "qf-truth-001-i03",
+"prompt": "A customer-service agent asks if you've already used the discount code. You have.",
+"options": [
+{
+"id": "a",
+"text": "Tell them yes.",
+"tags": [
+"truth:commission",
+"counterparty:stranger",
+"stake:low",
+"self-cost:money"
+]
+},
+{
+"id": "b",
+"text": "Tell them no.",
+"tags": [
+"lie:commission",
+"counterparty:stranger",
+"stake:low",
+"self-cost:none"
+]
+}
+]
+},
+{
+"id": "qf-truth-001-i04",
+"prompt": "A senior colleague asks during a meeting if you've read the doc they sent. You haven't.",
+"options": [
+{
+"id": "a",
+"text": "Admit you haven't yet.",
+"tags": [
+"truth:commission",
+"counterparty:senior",
+"stake:medium-social",
+"self-cost:reputation"
+]
+},
+{
+"id": "b",
+"text": "Imply you have.",
+"tags": [
+"lie:omission",
+"counterparty:senior",
+"stake:medium-social",
+"self-cost:none"
+]
+}
+]
+},
+{
+"id": "qf-truth-001-i05",
+"prompt": "An online survey, anonymous and unverifiable, asks how many hours you exercised this week. You did less than half what your aspirational answer would be.",
+"options": [
+{
+"id": "a",
+"text": "Report it accurately.",
+"tags": [
+"truth:commission",
+"counterparty:anonymous",
+"stake:micro",
+"social-cost:none"
+]
+},
+{
+"id": "b",
+"text": "Inflate it.",
+"tags": [
+"lie:commission",
+"counterparty:anonymous",
+"stake:micro",
+"social-cost:none"
+]
+}
+]
+},
+{
+"id": "qf-truth-001-i06",
+"prompt": "A direct report asks if their recent work has been good. You think it's been mediocre.",
+"options": [
+{
+"id": "a",
+"text": "Say it's been good.",
+"tags": [
+"lie:protective",
+"counterparty:subordinate",
+"stake:medium-social",
+"self-cost:none",
+"later-cost:performance"
+]
+},
+{
+"id": "b",
+"text": "Say there are some things you want to talk through.",
+"tags": [
+"truth:soft-confront",
+"counterparty:subordinate",
+"stake:medium-social",
+"self-cost:time"
+]
+}
+]
+}
+]
+},
+{
+"id": "qf-allocation-001",
+"domain": "resource-allocation",
+"timer_seconds_per_item": 8,
+"items": [
+{
+"id": "qf-allocation-001-i01",
+"prompt": "Splitting a utility bill with your roommate. The actual split puts you $3 ahead.",
+"options": [
+{
+"id": "a",
+"text": "Note it and adjust next month.",
+"tags": [
+"fairness",
+"counterparty:close",
+"stake:micro",
+"value:fairness"
+]
+},
+{
+"id": "b",
+"text": "Let it go; it's $3.",
+"tags": [
+"generosity",
+"counterparty:close",
+"stake:micro",
+"value:generosity"
+]
+}
+]
+},
+{
+"id": "qf-allocation-001-i02",
+"prompt": "Friends are pitching in for a birthday gift. You earn substantially more than the others.",
+"options": [
+{
+"id": "a",
+"text": "Pitch in equally; that's how the group does it.",
+"tags": [
+"fairness:equal",
+"counterparty:close",
+"stake:low",
+"value:fairness"
+]
+},
+{
+"id": "b",
+"text": "Quietly cover more than your share.",
+"tags": [
+"generosity",
+"counterparty:close",
+"stake:low",
+"value:need_sensitivity"
+]
+}
+]
+},
+{
+"id": "qf-allocation-001-i03",
+"prompt": "A stranger approaches you on the street asking for spare change for food.",
+"options": [
+{
+"id": "a",
+"text": "Give cash without questioning.",
+"tags": [
+"generosity",
+"counterparty:stranger",
+"stake:low",
+"value:universalism",
+"trust:default"
+]
+},
+{
+"id": "b",
+"text": "Decline and keep walking.",
+"tags": [
+"vigilance",
+"counterparty:stranger",
+"stake:low",
+"value:self_reliance:projected",
+"trust:withhold"
+]
+}
+]
+},
+{
+"id": "qf-allocation-001-i04",
+"prompt": "Coworker forgot their wallet for the lunch order. Their share is $15.",
+"options": [
+{
+"id": "a",
+"text": "Cover it; expect to be paid back later.",
+"tags": [
+"reciprocity_pure",
+"counterparty:peer",
+"stake:low",
+"trust:default"
+]
+},
+{
+"id": "b",
+"text": "Cover it and don't mention it again.",
+"tags": [
+"generosity",
+"counterparty:peer",
+"stake:low",
+"value:generosity"
+]
+}
+]
+},
+{
+"id": "qf-allocation-001-i05",
+"prompt": "A friend asks to borrow $50. You can afford it.",
+"options": [
+{
+"id": "a",
+"text": "Lend it with an explicit timeline for return.",
+"tags": [
+"fairness:explicit",
+"counterparty:close",
+"stake:low",
+"value:reciprocity_pure",
+"vigilance:mild"
+]
+},
+{
+"id": "b",
+"text": "Give it without expectation of return.",
+"tags": [
+"generosity",
+"counterparty:close",
+"stake:low",
+"value:generosity",
+"trust:full"
+]
+}
+]
+},
+{
+"id": "qf-allocation-001-i06",
+"prompt": "An online creator who entertained you for hours has an anonymous tip jar. No one will know if you skip it.",
+"options": [
+{
+"id": "a",
+"text": "Tip something reasonable for what you got.",
+"tags": [
+"reciprocity_pure",
+"counterparty:anonymous",
+"stake:low",
+"value:reciprocity_pure",
+"observed:no"
+]
+},
+{
+"id": "b",
+"text": "Skip it; you didn't agree to pay.",
+"tags": [
+"self_reliance:projected",
+"counterparty:anonymous",
+"stake:low",
+"value:self_reliance",
+"observed:no"
+]
+}
+]
+}
+]
+},
+{
+"id": "qf-ingroup-001",
+"domain": "in-group-out-group",
+"timer_seconds_per_item": 8,
+"items": [
+{
+"id": "qf-ingroup-001-i01",
+"prompt": "A close friend and an acquaintance both ask you to help them move on Saturday. You can only do one.",
+"options": [
+{
+"id": "a",
+"text": "Help the close friend.",
+"tags": [
+"loyalty",
+"counterparty:close-vs-peer",
+"stake:time",
+"value:loyalty"
+]
+},
+{
+"id": "b",
+"text": "Help the acquaintance \u2014 they asked first, the friend has more options.",
+"tags": [
+"universalism",
+"counterparty:close-vs-peer",
+"stake:time",
+"value:universalism"
+]
+}
+]
+},
+{
+"id": "qf-ingroup-001-i02",
+"prompt": "You can volunteer 4 hours this month. Two options:",
+"options": [
+{
+"id": "a",
+"text": "A local cause where you'd see the impact firsthand.",
+"tags": [
+"particularism",
+"counterparty:near-vs-far",
+"stake:time",
+"value:particularism",
+"value:hospitality"
+]
+},
+{
+"id": "b",
+"text": "A distant cause where the same hours produce more measurable benefit.",
+"tags": [
+"universalism",
+"counterparty:near-vs-far",
+"stake:time",
+"value:universalism",
+"consequentialist-lean"
+]
+}
+]
+},
+{
+"id": "qf-ingroup-001-i03",
+"prompt": "A family member is being unfair to a stranger in public \u2014 talking down to a service worker.",
+"options": [
+{
+"id": "a",
+"text": "Stay quiet; address it privately afterward.",
+"tags": [
+"loyalty",
+"counterparty:family-vs-stranger",
+"stake:social",
+"value:loyalty",
+"value:discretion"
+]
+},
+{
+"id": "b",
+"text": "Push back in the moment, even though it's awkward.",
+"tags": [
+"universalism",
+"counterparty:family-vs-stranger",
+"stake:social",
+"value:universalism",
+"value:honesty"
+]
+}
+]
+},
+{
+"id": "qf-ingroup-001-i04",
+"prompt": "Your political/cultural group is openly mocking someone from the 'other side' at a gathering.",
+"options": [
+{
+"id": "a",
+"text": "Stay quiet; you don't need to fight this fight here.",
+"tags": [
+"loyalty:tribal",
+"counterparty:in-group-tribal",
+"stake:social",
+"value:loyalty",
+"value:discretion"
+]
+},
+{
+"id": "b",
+"text": "Push back or redirect the conversation.",
+"tags": [
+"universalism",
+"counterparty:in-group-tribal",
+"stake:social",
+"value:universalism",
+"value:honesty"
+]
+}
+]
+},
+{
+"id": "qf-ingroup-001-i05",
+"prompt": "A cousin you barely know asks to crash at your place for a week while they sort out a job.",
+"options": [
+{
+"id": "a",
+"text": "Make it work; they're family.",
+"tags": [
+"particularism",
+"counterparty:distant-family",
+"stake:medium",
+"value:particularism",
+"value:hospitality"
+]
+},
+{
+"id": "b",
+"text": "Help them find a short-term rental instead.",
+"tags": [
+"boundaries",
+"counterparty:distant-family",
+"stake:medium",
+"value:boundaries",
+"value:self_reliance:projected"
+]
+}
+]
+},
+{
+"id": "qf-ingroup-001-i06",
+"prompt": "You can give $100 to one cause. Both are well-run:",
+"options": [
+{
+"id": "a",
+"text": "A community organization in your own neighborhood.",
+"tags": [
+"particularism",
+"counterparty:local-vs-global",
+"stake:money",
+"value:particularism",
+"value:loyalty:community"
+]
+},
+{
+"id": "b",
+"text": "A global effectiveness-rated charity where the dollar buys more impact.",
+"tags": [
+"universalism",
+"counterparty:local-vs-global",
+"stake:money",
+"value:universalism",
+"consequentialist-lean"
+]
+}
+]
+}
+]
+},
+{
+"id": "qf-reciprocity-001",
+"domain": "reciprocity-cooperation",
+"timer_seconds_per_item": 8,
+"items": [
+{
+"id": "qf-reciprocity-001-i01",
+"prompt": "A new colleague who started this week asks if they can use your work laptop for an hour while theirs gets set up.",
+"options": [
+{
+"id": "a",
+"text": "Lend it; everyone needs help getting started.",
+"tags": [
+"trust",
+"counterparty:new-peer",
+"stake:medium-trust",
+"value:trust",
+"value:hospitality"
+]
+},
+{
+"id": "b",
+"text": "Politely say no; IT can sort it out.",
+"tags": [
+"vigilance",
+"counterparty:new-peer",
+"stake:medium-trust",
+"value:vigilance",
+"value:boundaries"
+]
+}
+]
+},
+{
+"id": "qf-reciprocity-001-i02",
+"prompt": "You're on a group project. The decisions would go faster if you just made them yourself.",
+"options": [
+{
+"id": "a",
+"text": "Take ownership; the group will follow your lead.",
+"tags": [
+"independence",
+"counterparty:peer-group",
+"stake:medium-social",
+"value:independence"
+]
+},
+{
+"id": "b",
+"text": "Defer to consensus; the result is better when everyone owns it.",
+"tags": [
+"cooperation",
+"counterparty:peer-group",
+"stake:medium-social",
+"value:cooperation"
+]
+}
+]
+},
+{
+"id": "qf-reciprocity-001-i03",
+"prompt": "A friend who flaked on you a few months ago asks to make plans again.",
+"options": [
+{
+"id": "a",
+"text": "Re-open the door; people have bad stretches.",
+"tags": [
+"forgiveness",
+"counterparty:close",
+"stake:low-social",
+"value:forgiveness",
+"value:trust"
+]
+},
+{
+"id": "b",
+"text": "Stay cautious; once they flake, they tend to keep flaking.",
+"tags": [
+"vigilance",
+"counterparty:close",
+"stake:low-social",
+"value:vigilance"
+]
+}
+]
+},
+{
+"id": "qf-reciprocity-001-i04",
+"prompt": "A vendor missed last month's deadline by a week. They've apologized and want to keep the contract.",
+"options": [
+{
+"id": "a",
+"text": "Give them another shot; people make mistakes.",
+"tags": [
+"forgiveness",
+"counterparty:business",
+"stake:medium-money",
+"value:forgiveness"
+]
+},
+{
+"id": "b",
+"text": "Move on; the pattern is what matters, not the apology.",
+"tags": [
+"vigilance",
+"counterparty:business",
+"stake:medium-money",
+"value:vigilance"
+]
+}
+]
+},
+{
+"id": "qf-reciprocity-001-i05",
+"prompt": "An online-community member helped you out last month. They now ask for your help on something time-consuming.",
+"options": [
+{
+"id": "a",
+"text": "Help them; that's how communities work.",
+"tags": [
+"reciprocity_pure",
+"counterparty:peer-distant",
+"stake:time",
+"value:reciprocity_pure",
+"value:cooperation"
+]
+},
+{
+"id": "b",
+"text": "Decline; you didn't sign up for a barter contract.",
+"tags": [
+"independence",
+"counterparty:peer-distant",
+"stake:time",
+"value:independence",
+"value:boundaries"
+]
+}
+]
+},
+{
+"id": "qf-reciprocity-001-i06",
+"prompt": "You owed your roommate $20 from last month. They haven't brought it up.",
+"options": [
+{
+"id": "a",
+"text": "Pay them back anyway; the debt is the debt.",
+"tags": [
+"reciprocity_pure",
+"counterparty:close",
+"stake:low-money",
+"value:reciprocity_pure",
+"value:honesty"
+]
+},
+{
+"id": "b",
+"text": "Let it be; if it mattered they'd say so.",
+"tags": [
+"trust:asymmetric",
+"counterparty:close",
+"stake:low-money",
+"self-cost:none"
+]
+}
+]
+}
+]
+}
+],
+"values": [
+{
+"id": "honesty",
+"label": "Honesty",
+"domain": "truth-telling",
+"anchor": "Saying what's true, even when it's costly for me or uncomfortable for others."
+},
+{
+"id": "tact",
+"label": "Tact",
+"domain": "truth-telling",
+"anchor": "Saying true things in a way that protects others' dignity."
+},
+{
+"id": "transparency",
+"label": "Transparency",
+"domain": "truth-telling",
+"anchor": "Not hiding from people things they have a right to know."
+},
+{
+"id": "discretion",
+"label": "Discretion",
+"domain": "truth-telling",
+"anchor": "Knowing what doesn't need to be said."
+},
+{
+"id": "authenticity",
+"label": "Authenticity",
+"domain": "truth-telling",
+"anchor": "Keeping consistency between what I feel inside and what I show outside."
+},
+{
+"id": "generosity",
+"label": "Generosity",
+"domain": "resource-allocation",
+"anchor": "Giving from my own resources, unprompted, when I can."
+},
+{
+"id": "fairness",
+"label": "Fairness",
+"domain": "resource-allocation",
+"anchor": "Distributing resources by clear, defensible principle rather than mood or favor."
+},
+{
+"id": "need_sensitivity",
+"label": "Need-sensitivity",
+"domain": "resource-allocation",
+"anchor": "Letting genuine need, not who-earned-it, guide where resources go."
+},
+{
+"id": "reciprocity_pure",
+"label": "Reciprocity",
+"domain": "resource-allocation",
+"anchor": "People get back from me what they put in."
+},
+{
+"id": "self_reliance",
+"label": "Self-reliance",
+"domain": "resource-allocation",
+"anchor": "Carrying my own weight; not asking others to absorb my costs."
+},
+{
+"id": "loyalty",
+"label": "Loyalty",
+"domain": "in-group-out-group",
+"anchor": "Standing with the people closest to me, especially when it costs me."
+},
+{
+"id": "universalism",
+"label": "Universalism",
+"domain": "in-group-out-group",
+"anchor": "Treating strangers the way I'd want to be treated; no extra weight to my own."
+},
+{
+"id": "particularism",
+"label": "Particularism",
+"domain": "in-group-out-group",
+"anchor": "Recognizing that close relationships carry special weight in what I owe."
+},
+{
+"id": "hospitality",
+"label": "Hospitality",
+"domain": "in-group-out-group",
+"anchor": "Welcoming outsiders into care, even when no one expects it of me."
+},
+{
+"id": "boundaries",
+"label": "Clear circle",
+"domain": "in-group-out-group",
+"anchor": "Knowing who I'm responsible to, and not letting that line slide."
+},
+{
+"id": "trust",
+"label": "Trust",
+"domain": "reciprocity-cooperation",
+"anchor": "Extending the benefit of the doubt before I have to."
+},
+{
+"id": "vigilance",
+"label": "Vigilance",
+"domain": "reciprocity-cooperation",
+"anchor": "Not letting myself be taken advantage of, especially repeatedly."
+},
+{
+"id": "cooperation",
+"label": "Cooperation",
+"domain": "reciprocity-cooperation",
+"anchor": "Working with others toward shared ends, even when it slows me down."
+},
+{
+"id": "independence",
+"label": "Independence",
+"domain": "reciprocity-cooperation",
+"anchor": "Acting on my own judgment; not waiting for permission or consensus."
+},
+{
+"id": "forgiveness",
+"label": "Forgiveness",
+"domain": "reciprocity-cooperation",
+"anchor": "Re-opening cooperation after someone has let me down."
+}
+],
+"valuesByDomain": {
+"truth-telling": [
+"honesty",
+"tact",
+"transparency",
+"discretion",
+"authenticity"
+],
+"resource-allocation": [
+"generosity",
+"fairness",
+"need_sensitivity",
+"reciprocity_pure",
+"self_reliance"
+],
+"in-group-out-group": [
+"loyalty",
+"universalism",
+"particularism",
+"hospitality",
+"boundaries"
+],
+"reciprocity-cooperation": [
+"trust",
+"vigilance",
+"cooperation",
+"independence",
+"forgiveness"
+]
+}
+}
