@@ -180,10 +180,15 @@
 // ============================================================================
 
 const SAMPLE = {
+  // Fictional single participant. Three domains are past the §10 session
+  // minimum (so the §13 ipsative ordering is admissible); reciprocity stays
+  // single-session to keep demonstrating the provisional/excluded case.
+  // resource-allocation sits close enough to truth-telling that the §13.1
+  // noise gate reports them as a TIE rather than a rank.
   revealed_scores: [
-    { user_id:"sample-participant", domain:"truth-telling",          revealed_score_mean:0.21, n_sessions_contributing:6, se:0.097, ci_95_low:0.02,  ci_95_high:0.40 },
-    { user_id:"sample-participant", domain:"resource-allocation",    revealed_score_mean:0.04, n_sessions_contributing:5, se:0.11,  ci_95_low:-0.18, ci_95_high:0.26 },
-    { user_id:"sample-participant", domain:"in-group-out-group",     revealed_score_mean:0.55, n_sessions_contributing:5, se:0.12,  ci_95_low:0.31,  ci_95_high:0.79 },
+    { user_id:"sample-participant", domain:"truth-telling",          revealed_score_mean:0.21, n_sessions_contributing:16, se:0.06, ci_95_low:0.09,  ci_95_high:0.33 },
+    { user_id:"sample-participant", domain:"resource-allocation",    revealed_score_mean:0.16, n_sessions_contributing:15, se:0.07, ci_95_low:0.02,  ci_95_high:0.30 },
+    { user_id:"sample-participant", domain:"in-group-out-group",     revealed_score_mean:0.55, n_sessions_contributing:15, se:0.07, ci_95_low:0.41,  ci_95_high:0.69 },
     { user_id:"sample-participant", domain:"reciprocity-cooperation", revealed_score_mean:-0.30, n_sessions_contributing:1, se:null, ci_95_low:null, ci_95_high:null }
   ],
   gaps: [
@@ -191,6 +196,16 @@ const SAMPLE = {
     { user_id:"sample-participant", domain:"resource-allocation", z_revealed:0.05, z_stated_aspirational:0.12, gap:0.07 },
     { user_id:"sample-participant", domain:"in-group-out-group",  z_revealed:0.85, z_stated_aspirational:0.20, gap:-0.65 }
     // reciprocity-cooperation: intentionally no gap row -> single-session, provisional
+  ],
+  // Aspirational-layer card-sort: fraction of each domain's 5 values kept in the
+  // user's top-5 (scoring.md §5.1). Drives the §13.4 word-vs-deed concordance —
+  // here truth-telling is said-high and acted-mid (a classic positive gap),
+  // while in-group is said-low but acted-high (an "unclaimed strength" flip).
+  card_sort_scores: [
+    { user_id:"sample-participant", domain:"truth-telling",          layer:"aspirational", frac_in_top5:0.80 },
+    { user_id:"sample-participant", domain:"resource-allocation",    layer:"aspirational", frac_in_top5:0.40 },
+    { user_id:"sample-participant", domain:"in-group-out-group",     layer:"aspirational", frac_in_top5:0.20 },
+    { user_id:"sample-participant", domain:"reciprocity-cooperation", layer:"aspirational", frac_in_top5:0.60 }
   ]
 };
 
@@ -357,6 +372,106 @@ function getCss(name){
 }
 
 // ---- screens ---------------------------------------------------------------
+// ---- §13 value-weighting layer (ipsative ordering + word/deed concordance) --
+// Both reads are reference-free (computed from this one person's own rows).
+// Faithful to scoring.md §13: ordinal relations only, noise-gated ties, the
+// >=3-informative-domain rule, single-session domains excluded, and the fixed
+// "relative to your own average" caption. No ranks, no scores, no composite.
+const WEIGHT_K = 1; // §13.1 noise-gate multiplier (k=1 for the descriptive readout)
+
+function ipsativeOrdering(){
+  // informative domains: multi-session (se computable) with a revealed mean
+  const inf = SAMPLE.revealed_scores.filter(r => r.se !== null && r.n_sessions_contributing >= 2);
+  if (inf.length < 3) return { ok:false, reason:"needs at least three areas with enough sessions" };
+  const mbar = inf.reduce((s,r)=>s+r.revealed_score_mean,0) / inf.length;
+  const devs = inf.map(r => ({ domain:r.domain, dev:r.revealed_score_mean - mbar, m:r.revealed_score_mean, se:r.se }));
+  // total spread within pooled noise? -> "roughly level"
+  const spread = Math.max(...devs.map(d=>d.dev)) - Math.min(...devs.map(d=>d.dev));
+  const pooledSE = Math.sqrt(devs.reduce((s,d)=>s+d.se*d.se,0)/devs.length);
+  if (spread < pooledSE) return { ok:true, level:true, domains:devs.map(d=>d.domain) };
+  // sort by dev desc, then build pairwise relations with noise gate
+  devs.sort((a,b)=>b.dev - a.dev);
+  const rels = [];
+  for (let i=0;i<devs.length-1;i++){
+    const a=devs[i], b=devs[i+1];
+    const gate = WEIGHT_K * Math.sqrt(a.se*a.se + b.se*b.se);
+    rels.push({ a:a.domain, b:b.domain, tie: Math.abs(a.m-b.m) <= gate });
+  }
+  return { ok:true, level:false, order:devs.map(d=>d.domain), rels };
+}
+
+function wordDeedConcordance(){
+  // domains with BOTH aspirational card-sort and a valid revealed mean
+  const cs = {}; (SAMPLE.card_sort_scores||[]).forEach(r => { if (r.layer==="aspirational") cs[r.domain]=r.frac_in_top5; });
+  const C = SAMPLE.revealed_scores
+    .filter(r => r.se !== null && r.domain in cs)
+    .map(r => ({ domain:r.domain, said:cs[r.domain], did:r.revealed_score_mean, se:r.se }));
+  if (C.length < 3) return { ok:false, reason:"needs at least three areas with both a stated and a revealed reading" };
+  // Kendall tau-b over the person's own two orderings
+  let nc=0, nd=0, ts=0, tr=0, flips=[];
+  for (let i=0;i<C.length;i++) for (let j=i+1;j<C.length;j++){
+    const ds = C[i].said - C[j].said, dr = C[i].did - C[j].did;
+    if (ds===0 && dr===0) { ts++; tr++; continue; }
+    if (ds===0){ ts++; continue; }
+    if (dr===0){ tr++; continue; }
+    if (Math.sign(ds)===Math.sign(dr)) nc++;
+    else { nd++;
+      // named flip: which pair disagrees, and is it fragile (near-equal revealed)?
+      const fragile = Math.abs(dr) < 0.12;
+      flips.push({ a:C[i].domain, b:C[j].domain, fragile,
+        // the "unclaimed strength" direction: said-lower but did-higher
+        said_lower: ds<0 ? C[i].domain : C[j].domain,
+        did_higher: dr>0 ? C[i].domain : C[j].domain });
+    }
+  }
+  const denom = Math.sqrt((nc+nd+ts)*(nc+nd+tr));
+  const tau = denom>0 ? (nc-nd)/denom : 0;
+  const band = tau >= 0.6 ? "low" : (tau >= 0.2 ? "moderate" : "high");
+  return { ok:true, band, nc, nd, flips, n:C.length };
+}
+
+function renderWeightingSection(){
+  const ord = ipsativeOrdering();
+  const con = wordDeedConcordance();
+  let inner = "";
+
+  // --- ipsative ordering ---
+  inner += `<h3 style="font-weight:500;font-size:17px;margin:0 0 8px;">What you reached for, relative to yourself</h3>`;
+  if (!ord.ok){
+    inner += `<p class="row-prose">No reliable ordering — ${ord.reason}.</p>`;
+  } else if (ord.level){
+    inner += `<p class="row-prose">Across the areas with enough sessions, your choices came out roughly level — you reached for them about equally, relative to your own average. An even shape is as real as a lopsided one.</p>`;
+  } else {
+    const phrases = ord.rels.map(r =>
+      r.tie
+        ? `${DOMAIN_LABEL[r.a].toLowerCase()} and ${DOMAIN_LABEL[r.b].toLowerCase()} are <em>about the same</em> for you`
+        : `you reach for ${DOMAIN_LABEL[r.a].toLowerCase()} <em>more than</em> ${DOMAIN_LABEL[r.b].toLowerCase()}`
+    );
+    inner += `<p class="row-prose">${phrases.join("; ")}.</p>`;
+  }
+  inner += `<p class="scale-foot" style="margin:4px 0 18px;">Relative to your own average, not to other people — and this says nothing about your absolute level. A bottom area can still be one you act on strongly; this is only internal contrast.</p>`;
+
+  // --- word vs deed concordance ---
+  inner += `<h3 style="font-weight:500;font-size:17px;margin:18px 0 8px;">Do your words and your choices rank you the same way?</h3>`;
+  if (!con.ok){
+    inner += `<p class="row-prose">Not enough to say — ${con.reason}.</p>`;
+  } else {
+    const bandText = { low:"closely", moderate:"only loosely", high:"barely" }[con.band];
+    inner += `<p class="row-prose">The order you'd <em>say</em> you weight these areas (from the card sort) tracks the order your <em>choices</em> fell in <strong>${bandText}</strong>.</p>`;
+    if (con.flips.length){
+      const f = con.flips[0];
+      inner += `<p class="row-prose">The clearest disagreement: you rank <strong>${DOMAIN_LABEL[f.said_lower].toLowerCase()}</strong> low in what you'd say, but it's among the highest in what you did — an unclaimed strength, not a fault${f.fragile ? " (though this flip is fragile — one noisy stretch could reverse it)" : ""}. Neither order is the right one; the disagreement is just somewhere to look.</p>`;
+    }
+  }
+  inner += `<p class="scale-foot" style="margin:4px 0 0;">This compares two orderings that are both yours — never you against anyone else. It assumes the behavioral axis points the way most ethical frameworks would say; a particularist would contest even that.</p>`;
+
+  return `<div class="synoptic" style="margin-top:20px;">
+    <h2 style="margin:0 0 6px;">What you weight</h2>
+    <p class="body-text" style="font-size:15px;color:var(--muted);margin:0 0 16px;">Not a score, and not a type — two readings drawn only from your own data, held as loosely as the sketch above.</p>
+    ${inner}
+  </div>`;
+}
+
 function renderPreReveal(){
   render(`
     <h1>Today is different.</h1>
@@ -418,6 +533,7 @@ function renderReadout(){
       <div id="synoptic-svg"></div>
       <div class="cap">This is the shape of where your saying and doing currently sit. There is no total here, and nothing to score.</div>
     </div>
+    <div id="weighting" style="display:none;"></div>
     <div id="closing" style="display:none;">
       <div class="observation" style="margin-top:28px;">Across these four areas, three of your distances are short and one runs longer — that longer one is where what you say and what you do diverge most right now. Where it points, and whether it matters, is yours to decide.</div>
       <div class="body-text" style="margin-top:24px;">
@@ -481,6 +597,8 @@ function finishReadout(){
   </svg>`;
   const sy = document.getElementById('synoptic-svg');
   if (sy){ sy.innerHTML = svg; document.getElementById('synoptic').style.display = 'block'; }
+  const wt = document.getElementById('weighting');
+  if (wt){ wt.innerHTML = renderWeightingSection(); wt.style.display = 'block'; }
   const cl = document.getElementById('closing'); if (cl) cl.style.display = 'block';
 }
 
