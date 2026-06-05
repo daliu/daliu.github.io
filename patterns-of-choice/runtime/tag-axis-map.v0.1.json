@@ -1,0 +1,272 @@
+{
+"version": "v0.1",
+"_provenance": "Generated from analysis/tag_axis_map_v0.1.csv (the canonical source) by the runtime build. Mirrors analyze.py load_tag_axis_map: (domain,tag)->(axis,contribution), metadata rows skipped. Regenerate if the CSV changes.",
+"primary_axis": {
+"truth-telling": "honesty",
+"resource-allocation": "generosity",
+"in-group-out-group": "loyalty",
+"reciprocity-cooperation": "trust"
+},
+"scoring": {
+"truth-telling\ttruth:commission": {
+"axis": "honesty",
+"contribution": 1.0
+},
+"truth-telling\ttruth:confront-direct": {
+"axis": "honesty",
+"contribution": 1.0
+},
+"truth-telling\ttruth:confront-mild": {
+"axis": "honesty",
+"contribution": 0.7
+},
+"truth-telling\ttruth:state": {
+"axis": "honesty",
+"contribution": 0.7
+},
+"truth-telling\ttruth:partial": {
+"axis": "honesty",
+"contribution": 0.5
+},
+"truth-telling\tvalue:tact": {
+"axis": "honesty",
+"contribution": 0.3
+},
+"truth-telling\tvalue:authenticity": {
+"axis": "honesty",
+"contribution": 0.5
+},
+"truth-telling\tvalue:discretion": {
+"axis": "honesty",
+"contribution": -0.3
+},
+"truth-telling\tdiscretion": {
+"axis": "honesty",
+"contribution": -0.3
+},
+"truth-telling\tvalue:honesty": {
+"axis": "honesty",
+"contribution": 1.0
+},
+"truth-telling\tvalue:transparency": {
+"axis": "honesty",
+"contribution": 0.7
+},
+"truth-telling\ttransparency": {
+"axis": "honesty",
+"contribution": 0.7
+},
+"truth-telling\ttact": {
+"axis": "honesty",
+"contribution": 0.3
+},
+"truth-telling\tauthenticity": {
+"axis": "honesty",
+"contribution": 0.5
+},
+"truth-telling\ttruth:acknowledge": {
+"axis": "honesty",
+"contribution": 0.5
+},
+"truth-telling\ttruth:soft-confront": {
+"axis": "honesty",
+"contribution": 0.5
+},
+"truth-telling\ttruth:deferred-confront": {
+"axis": "honesty",
+"contribution": 0.5
+},
+"truth-telling\ttruth:implicit": {
+"axis": "honesty",
+"contribution": 0.3
+},
+"truth-telling\ttruth:abandon": {
+"axis": "honesty",
+"contribution": -1.0
+},
+"truth-telling\tlie:white": {
+"axis": "honesty",
+"contribution": -0.5
+},
+"truth-telling\tlie:protective": {
+"axis": "honesty",
+"contribution": -0.5
+},
+"truth-telling\tlie:omission": {
+"axis": "honesty",
+"contribution": -0.7
+},
+"truth-telling\tlie:commission": {
+"axis": "honesty",
+"contribution": -1.0
+},
+"resource-allocation\tgenerosity": {
+"axis": "generosity",
+"contribution": 1.0
+},
+"resource-allocation\tvalue:generosity": {
+"axis": "generosity",
+"contribution": 1.0
+},
+"resource-allocation\tself_reliance": {
+"axis": "generosity",
+"contribution": -1.0
+},
+"resource-allocation\tself_reliance:projected": {
+"axis": "generosity",
+"contribution": -0.7
+},
+"resource-allocation\tvalue:self_reliance": {
+"axis": "generosity",
+"contribution": -1.0
+},
+"resource-allocation\tneed_sensitivity": {
+"axis": "generosity",
+"contribution": 0.5
+},
+"resource-allocation\tvalue:need_sensitivity": {
+"axis": "generosity",
+"contribution": 0.5
+},
+"resource-allocation\treciprocity_pure": {
+"axis": "generosity",
+"contribution": 0.0
+},
+"resource-allocation\tvalue:reciprocity_pure": {
+"axis": "generosity",
+"contribution": 0.0
+},
+"resource-allocation\tfairness:equal": {
+"axis": "generosity",
+"contribution": 0.0
+},
+"resource-allocation\tfairness:explicit": {
+"axis": "generosity",
+"contribution": 0.0
+},
+"resource-allocation\tfairness": {
+"axis": "generosity",
+"contribution": 0.0
+},
+"resource-allocation\tvalue:fairness": {
+"axis": "generosity",
+"contribution": 0.0
+},
+"in-group-out-group\tloyalty": {
+"axis": "loyalty",
+"contribution": 1.0
+},
+"in-group-out-group\tloyalty:tribal": {
+"axis": "loyalty",
+"contribution": 1.0
+},
+"in-group-out-group\tloyalty:community": {
+"axis": "loyalty",
+"contribution": 0.7
+},
+"in-group-out-group\tvalue:loyalty": {
+"axis": "loyalty",
+"contribution": 1.0
+},
+"in-group-out-group\tuniversalism": {
+"axis": "loyalty",
+"contribution": -1.0
+},
+"in-group-out-group\tvalue:universalism": {
+"axis": "loyalty",
+"contribution": -1.0
+},
+"in-group-out-group\tparticularism": {
+"axis": "loyalty",
+"contribution": 0.5
+},
+"in-group-out-group\tvalue:particularism": {
+"axis": "loyalty",
+"contribution": 0.5
+},
+"in-group-out-group\thospitality": {
+"axis": "circle_radius",
+"contribution": 1.0
+},
+"in-group-out-group\tvalue:hospitality": {
+"axis": "circle_radius",
+"contribution": 1.0
+},
+"in-group-out-group\tboundaries": {
+"axis": "circle_radius",
+"contribution": -1.0
+},
+"in-group-out-group\tvalue:boundaries": {
+"axis": "circle_radius",
+"contribution": -1.0
+},
+"reciprocity-cooperation\ttrust": {
+"axis": "trust",
+"contribution": 1.0
+},
+"reciprocity-cooperation\ttrust:default": {
+"axis": "trust",
+"contribution": 1.0
+},
+"reciprocity-cooperation\ttrust:full": {
+"axis": "trust",
+"contribution": 1.0
+},
+"reciprocity-cooperation\ttrust:institutional": {
+"axis": "trust",
+"contribution": 0.3
+},
+"reciprocity-cooperation\tvalue:trust": {
+"axis": "trust",
+"contribution": 1.0
+},
+"reciprocity-cooperation\ttrust:withhold": {
+"axis": "trust",
+"contribution": -1.0
+},
+"reciprocity-cooperation\ttrust:asymmetric": {
+"axis": "trust",
+"contribution": 0.5
+},
+"reciprocity-cooperation\tvigilance": {
+"axis": "trust",
+"contribution": -1.0
+},
+"reciprocity-cooperation\tvigilance:mild": {
+"axis": "trust",
+"contribution": -0.7
+},
+"reciprocity-cooperation\tvalue:vigilance": {
+"axis": "trust",
+"contribution": -1.0
+},
+"reciprocity-cooperation\tforgiveness": {
+"axis": "trust",
+"contribution": 0.7
+},
+"reciprocity-cooperation\tvalue:forgiveness": {
+"axis": "trust",
+"contribution": 0.7
+},
+"reciprocity-cooperation\tcooperation": {
+"axis": "cooperation_orientation",
+"contribution": 1.0
+},
+"reciprocity-cooperation\tvalue:cooperation": {
+"axis": "cooperation_orientation",
+"contribution": 1.0
+},
+"reciprocity-cooperation\tindependence": {
+"axis": "cooperation_orientation",
+"contribution": -1.0
+},
+"reciprocity-cooperation\tvalue:independence": {
+"axis": "cooperation_orientation",
+"contribution": -1.0
+},
+"reciprocity-cooperation\treciprocity_pure": {
+"axis": "cooperation_orientation",
+"contribution": 0.5
+}
+}
+}
