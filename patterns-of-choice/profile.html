@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patterns of Choice — A sample profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A sample profile reveal: after weeks of small choices, the instrument shows where what you say you value and what your choices reveal line up — and where they don't. The gap is the subject.">
+  <meta property="og:title" content="Patterns of Choice — A sample profile">
+  <meta property="og:description" content="What the instrument shows after weeks of use: the distance between the values you state and the ones your everyday choices reveal, across four domains. No score, no verdict.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daliu.github.io/patterns-of-choice/profile.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/profile.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NNGFMHGWCE');
+  </script>
+  <style>
+    /* Calm, not warm; serious, not academic. Shared aesthetic with the other demos. */
+    :root {
+      --bg: #fafaf7;
+      --fg: #1f1f1d;
+      --muted: #6b6b67;
+      --border: #d8d8d2;
+      --accent: #2a4a3a;
+      --warn: #8a4a2a;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      font-size: 17px;
+    }
+    .site-nav {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .site-nav a { color: var(--muted); text-decoration: none; margin-right: 16px; }
+    .site-nav a:hover { color: var(--accent); }
+    .site-nav .home::before { content: "\2190 "; }
+    .demo-banner {
+      background: #fef9e7;
+      border-bottom: 1px solid #e0c850;
+      padding: 8px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--warn);
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      min-height: 80vh;
+    }
+    h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; }
+    .subhead { color: var(--muted); font-size: 18px; margin-bottom: 32px; }
+    h2 { font-weight: 500; font-size: 22px; margin: 0 0 16px; }
+    p { margin: 0 0 16px; }
+    .body-text { margin-bottom: 24px; }
+    button {
+      font-family: inherit; font-size: 17px;
+      background: white; color: var(--fg);
+      border: 1.5px solid var(--border);
+      padding: 14px 20px; margin: 6px 0; cursor: pointer;
+      border-radius: 4px; text-align: center; width: 100%;
+      transition: border-color 120ms, background-color 120ms;
+    }
+    button:hover { border-color: var(--accent); }
+    button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    button.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    button.primary:hover { background: #1c3528; }
+    button.secondary { background: transparent; color: var(--muted); border-color: var(--border); }
+    .meta { font-size: 13px; color: var(--muted); margin-top: 32px; }
+    .meta code { background: white; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border); }
+    .back-link { display: inline-block; margin-top: 32px; color: var(--muted); text-decoration: none; font-size: 14px; }
+    .back-link:hover { color: var(--accent); }
+
+    /* Readout */
+    .legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: 4px 0 6px; }
+    .legend .k { display: inline-flex; align-items: center; gap: 7px; }
+    .legend .ring { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--muted); display: inline-block; }
+    .legend .dot { width: 13px; height: 13px; border-radius: 50%; background: var(--accent); display: inline-block; }
+    .legend .seg { width: 22px; height: 3px; background: var(--accent); display: inline-block; border-radius: 2px; opacity: .65; }
+    .scale-foot { font-size: 12px; color: var(--muted); margin: 0 0 28px; line-height: 1.45; }
+    .scale-foot .mid { letter-spacing: .04em; text-transform: uppercase; font-size: 11px; }
+
+    .row {
+      background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+      padding: 18px 20px 16px; margin-bottom: 16px;
+      transition: opacity 320ms ease;
+    }
+    .row.pending { opacity: .28; }
+    .row .domain-name { font-size: 15px; font-weight: 500; color: var(--fg); margin-bottom: 2px; }
+    .row .poles { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin-top: -2px; }
+    .track { width: 100%; display: block; }
+    .gap-note { font-size: 13px; color: var(--warn); margin: 6px 0 0; font-style: italic; }
+    .row-prose { font-size: 15.5px; margin: 10px 0 0; }
+    .row-prose .nums { font-variant-numeric: tabular-nums; color: var(--muted); }
+    details.disclosure { margin-top: 10px; }
+    details.disclosure > summary {
+      cursor: pointer; font-size: 13px; color: var(--muted); list-style: none;
+      padding: 4px 0; user-select: none;
+    }
+    details.disclosure > summary::-webkit-details-marker { display: none; }
+    details.disclosure > summary::before { content: "+ "; color: var(--accent); }
+    details.disclosure[open] > summary::before { content: "\2212 "; }
+    details.disclosure > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .reading { font-size: 14.5px; color: var(--fg); margin: 6px 0; padding-left: 14px; border-left: 2px solid var(--border); }
+    .reading + .reading { margin-top: 8px; }
+    .reading .or { color: var(--muted); font-style: italic; }
+    .numtable { font-size: 13.5px; color: var(--fg); margin: 8px 0 0; border-collapse: collapse; width: 100%; }
+    .numtable td { padding: 3px 8px 3px 0; font-variant-numeric: tabular-nums; }
+    .numtable td:first-child { color: var(--muted); }
+    .bring-btn { width: auto; margin: 12px 0 0; padding: 9px 16px; font-size: 14px; }
+    .synoptic {
+      background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+      padding: 18px 20px; margin: 24px 0 0;
+    }
+    .synoptic .cap { font-size: 14px; color: var(--muted); font-style: italic; margin: 12px 0 0; }
+    .cta-row { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+    .cta-row button { margin: 0; flex: 1 1 30%; }
+    .observation {
+      background: white; padding: 18px 20px; border-radius: 4px;
+      border-left: 3px solid var(--accent); font-style: italic; color: var(--fg); margin: 8px 0 0;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="home">daliu.github.io</a>
+  <a href="./">about this project</a>
+  <a href="demo.html">quick-fire demo</a>
+  <a href="cardsort.html">card sort</a>
+  <a href="h8-demo.html">the H8 demo</a>
+</nav>
+
+<div class="demo-banner">
+  A sample profile reveal — what the instrument shows after about fifteen sessions. The numbers below belong to a fictional participant, not to you.
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+// ============================================================================
+// Profile reveal — "Where saying and doing meet."
+//
+// Renders ONE relationship (stated vs. revealed) across the four domains and
+// emphasizes only the distance between them (the gap). Design synthesized from
+// three proposals (constellation dumbbell-plot spine + epistolary per-domain
+// prose + a single "bring the two marks together" reconciliation gesture).
+//
+// Data shape is EXACTLY the analyzer's --json output (scripts/analyze.py):
+// revealed_scores[], gaps[] {z_revealed, z_stated_aspirational, gap}. Reading
+// of each number follows interpretation.md. The embedded sample is a fictional
+// single participant authored to span the honest edge cases (a real gap, an
+// aligned domain, a negative gap, and a provisional single-session domain) —
+// the real 3-user fixtures only yield a truth-telling gap. Provenance copy of
+// this object is committed as profile-sample.json.
+//
+// Operating constraints honored as features: descriptive never prescriptive
+// (no "should/improve/better/worse/strong/weak"), no score/verdict/aggregate,
+// no social comparison (the only reference is the within-sample z=0 tick, and
+// the footnote says so), contemplative not gamified (the gesture reveals a
+// fact, it cannot raise a score). Fully client-side; nothing recorded.
+// ============================================================================
+
+const SAMPLE = {
+  revealed_scores: [
+    { user_id:"sample-participant", domain:"truth-telling",          revealed_score_mean:0.21, n_sessions_contributing:6, se:0.097, ci_95_low:0.02,  ci_95_high:0.40 },
+    { user_id:"sample-participant", domain:"resource-allocation",    revealed_score_mean:0.04, n_sessions_contributing:5, se:0.11,  ci_95_low:-0.18, ci_95_high:0.26 },
+    { user_id:"sample-participant", domain:"in-group-out-group",     revealed_score_mean:0.55, n_sessions_contributing:5, se:0.12,  ci_95_low:0.31,  ci_95_high:0.79 },
+    { user_id:"sample-participant", domain:"reciprocity-cooperation", revealed_score_mean:-0.30, n_sessions_contributing:1, se:null, ci_95_low:null, ci_95_high:null }
+  ],
+  gaps: [
+    { user_id:"sample-participant", domain:"truth-telling",       z_revealed:0.20, z_stated_aspirational:0.90, gap:0.70 },
+    { user_id:"sample-participant", domain:"resource-allocation", z_revealed:0.05, z_stated_aspirational:0.12, gap:0.07 },
+    { user_id:"sample-participant", domain:"in-group-out-group",  z_revealed:0.85, z_stated_aspirational:0.20, gap:-0.65 }
+    // reciprocity-cooperation: intentionally no gap row -> single-session, provisional
+  ]
+};
+
+// Fixed display order — never sorted (sorting would imply a ranking).
+const DOMAIN_ORDER = ["truth-telling","resource-allocation","in-group-out-group","reciprocity-cooperation"];
+const DOMAIN_LABEL = {
+  "truth-telling":"Truth-telling",
+  "resource-allocation":"Resource allocation",
+  "in-group-out-group":"In-group / out-group",
+  "reciprocity-cooperation":"Reciprocity & cooperation"
+};
+// Behavioral (not moral) axis poles, from interpretation.md. left = low-axis, right = high-axis.
+const POLES = {
+  "truth-telling":        { lo:"more guarded",     hi:"more candid" },
+  "resource-allocation":  { lo:"more self-keeping", hi:"more sharing" },
+  "in-group-out-group":   { lo:"more impartial",   hi:"more loyal" },
+  "reciprocity-cooperation":{ lo:"more guarded",   hi:"more trusting" }
+};
+
+const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const app = document.getElementById("app");
+function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
+function byDomain(arr, d){ return arr.find(x => x.domain === d) || null; }
+function fmt(z){ return (z>=0?"+":"") + z.toFixed(1); }
+
+// ---- SVG geometry ----------------------------------------------------------
+const VW = 600, VH = 84, INSET = 40, ZMAX = 2.2;
+function mapX(z){
+  const c = Math.max(-ZMAX, Math.min(ZMAX, z));
+  return INSET + ((c + ZMAX) / (2*ZMAX)) * (VW - 2*INSET);
+}
+
+// classify each domain's state -> drives both chart and prose (single source of truth)
+function classify(d){
+  const rev = byDomain(SAMPLE.revealed_scores, d);
+  const gap = byDomain(SAMPLE.gaps, d);
+  if (!gap) {
+    if (rev && rev.n_sessions_contributing === 1) return { kind:"provisional", rev, gap:null };
+    return { kind:"not_enough", rev, gap:null };
+  }
+  // within-margin: does the revealed CI span cover the stated mark? (only when CI present)
+  let withinMargin = false;
+  if (rev && rev.ci_95_low !== null) {
+    // map CI and stated onto z-space approximately via the gap row's own z's:
+    // the CI is in raw score units; treat the gap as within-margin if |gap| is small
+    // relative to the CI half-width expressed in the same z-frame. Conservative proxy:
+    const ciHalf = (rev.ci_95_high - rev.ci_95_low) / 2;          // raw units
+    const revRaw = rev.revealed_score_mean;
+    // express stated in raw-equivalent via ratio of z's (guard divide-by-zero)
+    if (Math.abs(gap.z_revealed) > 1e-6) {
+      const rawPerZ = Math.abs(revRaw / gap.z_revealed);
+      const gapRaw = Math.abs(gap.gap) * rawPerZ;
+      withinMargin = gapRaw <= ciHalf;
+    }
+  }
+  if (withinMargin) return { kind:"within_margin", rev, gap };
+  const g = gap.gap;
+  const sign = g > 0.15 ? "positive" : (g < -0.15 ? "negative" : "aligned");
+  return { kind:sign, rev, gap };
+}
+
+// ---- deterministic copy engine (descriptive, never prescriptive) -----------
+function magWord(a){ a=Math.abs(a); return a<0.4?"a short distance":(a<0.8?"a clear distance":(a<1.4?"a longer distance":"a long distance")); }
+function lineWord(a){ a=Math.abs(a); return a<0.4?"a short line":(a<0.8?"a longer line":"a long line"); }
+
+function makeProse(d, st){
+  const D = DOMAIN_LABEL[d].toLowerCase();
+  const P = POLES[d];
+  if (st.kind === "not_enough") {
+    return { paragraph:`In ${D}, there is what your choices revealed, but not yet enough of the sample sharing this area to place what you say beside it. So there is a “did” here, and, for now, no “said” to measure it against.`, readings:[], nums:null };
+  }
+  if (st.kind === "provisional") {
+    const z = st.rev ? st.rev.revealed_score_mean : 0;
+    const pole = z >= 0 ? P.hi : P.lo;
+    return { paragraph:`In ${D}, your choices so far lean toward ${pole} (about ${fmt(z)}), but this rests on a single session — provisional, and easily moved. The instrument holds off on naming a gap here until it has watched more than once.`, readings:[], nums:{ said:null, did:z, n: st.rev?st.rev.n_sessions_contributing:1 } };
+  }
+  const g = st.gap;
+  const pole = P.hi; // candid-side pole word used in templates
+  const nums = { said:g.z_stated_aspirational, did:g.z_revealed, gap:Math.abs(g.gap), n: st.rev?st.rev.n_sessions_contributing:null };
+  if (st.kind === "within_margin") {
+    return { paragraph:`In ${D}, the distance between what you say and what you do is smaller than the uncertainty around it — from ${nums.n} sessions, too early to call a gap. The marks are placed, but lightly; expect them to move.`, readings:[], nums };
+  }
+  if (st.kind === "aligned") {
+    return { paragraph:`In ${D}, what you say and what you do nearly meet; the two marks sit almost on top of each other. Read that as alignment, not as a grade — it is simply where this area rests right now (said ${fmt(nums.said)}, did ${fmt(nums.did)}).`,
+      readings:["Lived consistency — saying and doing rest in the same place.","Or a value so habitual you neither stress it in words nor depart from it in action."], nums };
+  }
+  if (st.kind === "positive") {
+    return { paragraph:`In ${D}, the value you say you hold sits further toward ${pole} than the one your choices have shown so far — ${magWord(nums.gap)}, drawn here as ${lineWord(nums.gap)} (said ${fmt(nums.said)}, did ${fmt(nums.did)} — about ${nums.gap.toFixed(1)} SD apart). That distance is yours to close, to widen, or to leave exactly as it is. The instrument has no preference, and from ${nums.n} sessions, no certainty either.`,
+      readings:["A growth direction — somewhere you aspire past where the weeks happened to land.","Or simply a value easier to hold in words than the particular choices these weeks offered."], nums };
+  }
+  // negative
+  return { paragraph:`In ${D}, your choices have run further toward ${pole} than the value you state (said ${fmt(nums.said)}, did ${fmt(nums.did)} — about ${nums.gap.toFixed(1)} SD apart). The instrument does not read that as better or worse; only as a distance, with the larger figure on the side of what you did.`,
+    readings:["Quiet modesty — you undersell a value you in fact act on.","Or you genuinely weight this less than you say, and act on it for other reasons."], nums };
+}
+
+// ---- SVG row ---------------------------------------------------------------
+function trackSVG(d, st){
+  const P = POLES[d];
+  const axisY = 38;
+  const zeroX = mapX(0);
+  let marks = "";
+
+  // uncertainty band / bracket (drawn first, behind marks)
+  if (st.rev && st.rev.ci_95_low !== null && st.gap) {
+    // map CI to z-frame via the same rawPerZ proxy used in classify
+    let loZ = -ZMAX, hiZ = ZMAX;
+    if (Math.abs(st.gap.z_revealed) > 1e-6) {
+      const rawPerZ = Math.abs(st.rev.revealed_score_mean / st.gap.z_revealed) || 1;
+      loZ = st.gap.z_revealed - (st.rev.revealed_score_mean - st.rev.ci_95_low)/rawPerZ;
+      hiZ = st.gap.z_revealed + (st.rev.ci_95_high - st.rev.revealed_score_mean)/rawPerZ;
+    }
+    const x1 = mapX(loZ), x2 = mapX(hiZ);
+    marks += `<rect x="${x1.toFixed(1)}" y="${axisY-9}" width="${(x2-x1).toFixed(1)}" height="18" rx="9" fill="${getCss('--accent')}" fill-opacity="0.10"></rect>`;
+  } else if (st.rev && st.rev.n_sessions_contributing === 1) {
+    // provisional: dashed open bracket around the lone revealed point
+    const x = mapX(st.gap ? st.gap.z_revealed : zToFromRaw(st.rev.revealed_score_mean));
+    marks += `<path d="M ${(x-26)} ${axisY-9} h -6 v 18 h 6 M ${(x+26)} ${axisY-9} h 6 v 18 h -6" stroke="${getCss('--accent')}" stroke-width="1.2" fill="none" stroke-dasharray="3 3" opacity="0.7"></path>`;
+  }
+
+  // gap line (the figure) — only when we have both marks
+  if (st.gap && st.kind !== "not_enough") {
+    const xs = mapX(st.gap.z_stated_aspirational);
+    const xd = mapX(st.gap.z_revealed);
+    const positive = st.gap.gap > 0;
+    const col = positive ? getCss('--accent') : getCss('--warn');
+    marks += `<line class="gapline" x1="${xs.toFixed(1)}" y1="${axisY}" x2="${(prefersReduced?xd:xs).toFixed(1)}" y2="${axisY}" stroke="${col}" stroke-width="2.5" stroke-linecap="round" opacity="0.7" data-x2="${xd.toFixed(1)}"></line>`;
+  }
+
+  // stated ring (omit in provisional / not_enough)
+  if (st.gap) {
+    const xs = mapX(st.gap.z_stated_aspirational);
+    marks += `<circle cx="${xs.toFixed(1)}" cy="${axisY}" r="6" fill="none" stroke="${getCss('--muted')}" stroke-width="1.5"></circle>`;
+    marks += `<text x="${xs.toFixed(1)}" y="${axisY-13}" text-anchor="middle" font-size="10" letter-spacing="0.06em" fill="${getCss('--muted')}">SAID</text>`;
+  }
+  // revealed dot
+  let revZ = st.gap ? st.gap.z_revealed : zToFromRaw(st.rev ? st.rev.revealed_score_mean : 0);
+  const xd = mapX(revZ);
+  const hollow = (st.rev && st.rev.n_sessions_contributing === 1);
+  marks += `<circle cx="${xd.toFixed(1)}" cy="${axisY}" r="6" fill="${hollow?'none':getCss('--accent')}" stroke="${getCss('--accent')}" stroke-width="${hollow?1.5:0}"></circle>`;
+  marks += `<text x="${xd.toFixed(1)}" y="${axisY+20}" text-anchor="middle" font-size="10" letter-spacing="0.06em" fill="${getCss('--accent')}">DID</text>`;
+
+  const ariaParts = [DOMAIN_LABEL[d] + " track."];
+  if (st.gap) ariaParts.push(`Said ${fmt(st.gap.z_stated_aspirational)}, did ${fmt(st.gap.z_revealed)}, ${Math.abs(st.gap.gap).toFixed(1)} standard deviations apart.`);
+  else ariaParts.push(`Did about ${fmt(revZ)}; provisional, one session.`);
+
+  return `<svg class="track" viewBox="0 0 ${VW} ${VH}" role="img" aria-label="${ariaParts.join(' ')}">
+    <line x1="${INSET}" y1="${axisY}" x2="${VW-INSET}" y2="${axisY}" stroke="${getCss('--border')}" stroke-width="1"></line>
+    <line x1="${zeroX}" y1="${axisY-12}" x2="${zeroX}" y2="${axisY+12}" stroke="${getCss('--border')}" stroke-width="1"></line>
+    ${marks}
+  </svg>
+  <div class="poles"><span>&larr; ${P.lo}</span><span>${P.hi} &rarr;</span></div>`;
+}
+
+// fallback: position a raw [-1,1] score onto the z-axis when no gap row exists
+function zToFromRaw(raw){ return Math.max(-ZMAX, Math.min(ZMAX, raw * 1.6)); }
+
+// read a CSS custom property value (SVG attributes can't use var())
+let _cssCache = {};
+function getCss(name){
+  if (_cssCache[name]) return _cssCache[name];
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  _cssCache[name] = v || "#000";
+  return _cssCache[name];
+}
+
+// ---- screens ---------------------------------------------------------------
+function renderPreReveal(){
+  render(`
+    <h1>Today is different.</h1>
+    <div class="body-text" style="margin-top:24px;">
+      <p>You've done about fifteen sessions. Enough that what you've shown us has settled into something measurable. We can show you the early shape of your profile.</p>
+      <p>Two cautions before you see it.</p>
+      <p>First — this is early. The numbers will move as you keep doing sessions. Treat what you see as a hypothesis about yourself, not a conclusion.</p>
+      <p>Second — there is no good or bad here. The point of the profile is not whether you scored high or low on anything. The point is the gap — the places where the version of yourself you say you want to be doesn't quite match the version your everyday choices reveal. That gap is yours to do something about, or to leave alone. We have no opinion on which.</p>
+    </div>
+    <button class="primary" onclick="renderReadout()">Show me</button>
+    <a href="./" class="back-link">&larr; Back to the project</a>
+  `);
+}
+
+function renderReadout(){
+  const states = {};
+  DOMAIN_ORDER.forEach(d => states[d] = classify(d));
+
+  let rows = "";
+  DOMAIN_ORDER.forEach((d, i) => {
+    const st = states[d];
+    const prose = makeProse(d, st);
+    let numsTable = "";
+    if (prose.nums) {
+      const rows2 = [];
+      if (prose.nums.said !== null && prose.nums.said !== undefined) rows2.push(`<tr><td>what you said</td><td>${fmt(prose.nums.said)} SD</td></tr>`);
+      if (prose.nums.did !== null && prose.nums.did !== undefined) rows2.push(`<tr><td>what you did</td><td>${fmt(prose.nums.did)} SD</td></tr>`);
+      if (prose.nums.gap !== undefined) rows2.push(`<tr><td>the distance</td><td>${prose.nums.gap.toFixed(1)} SD</td></tr>`);
+      if (prose.nums.n) rows2.push(`<tr><td>sessions seen</td><td>${prose.nums.n}</td></tr>`);
+      numsTable = `<table class="numtable">${rows2.join("")}</table>`;
+    }
+    let readingsHtml = "";
+    if (prose.readings.length) {
+      readingsHtml = `<details class="disclosure"><summary>two ways to read this</summary>
+        <div class="reading">${prose.readings[0]}</div>
+        <div class="reading"><span class="or">or</span> ${prose.readings[1]}</div></details>`;
+    }
+    rows += `<div class="row ${i>0?'pending':''}" id="row-${i}">
+      <div class="domain-name">${DOMAIN_LABEL[d]}</div>
+      ${trackSVG(d, st)}
+      <p class="row-prose">${prose.paragraph}</p>
+      ${readingsHtml}
+      ${numsTable ? `<details class="disclosure"><summary>see the numbers</summary>${numsTable}</details>` : ""}
+    </div>`;
+  });
+
+  render(`
+    <h2>Where what you say and what you do meet — and where they don't.</h2>
+    <p class="body-text">Two things were measured separately: the value you say you hold, and the value your choices revealed. Below, for each of four areas, the two are placed together so you can see the distance between them.</p>
+    <div class="legend">
+      <span class="k"><span class="ring"></span> what you said</span>
+      <span class="k"><span class="dot"></span> what you did</span>
+      <span class="k"><span class="seg"></span> the distance — the gap</span>
+    </div>
+    <div class="scale-foot"><span class="mid">the sample's middle &lowast;</span><br>
+      &lowast; Positions are relative to the small group in the study so far — not a percentile of people in general. With few people in it, the middle itself will shift.</div>
+    <div id="rows">${rows}</div>
+    <div class="synoptic" id="synoptic" style="display:none;">
+      <div id="synoptic-svg"></div>
+      <div class="cap">This is the shape of where your saying and doing currently sit. There is no total here, and nothing to score.</div>
+    </div>
+    <div id="closing" style="display:none;">
+      <div class="observation" style="margin-top:28px;">Across these four areas, three of your distances are short and one runs longer — that longer one is where what you say and what you do diverge most right now. Where it points, and whether it matters, is yours to decide.</div>
+      <div class="body-text" style="margin-top:24px;">
+        <p>You can keep going as you have been. You can pick one of the gaps to focus on. You can also do neither and just keep observing.</p>
+        <p>None of those is the right one. Tomorrow's session is the same length as today's, regardless of which you pick.</p>
+      </div>
+      <div class="cta-row">
+        <button class="secondary" onclick="reset()">Keep observing</button>
+        <button class="secondary" onclick="reset()">Focus on one gap</button>
+        <button class="secondary" onclick="reset()">Take a break</button>
+      </div>
+      <a href="./" class="back-link">&larr; Back to the project</a>
+      <div class="meta">
+        Nothing here was recorded or sent anywhere. This sample is a fictional analyzer run; see
+        <code>interpretation.md</code> and <code>scripts/analyze.py</code> in the research repo for how each number is read and produced.
+      </div>
+    </div>
+  `);
+
+  // sequential reveal of rows; animate the gap line drawing to length
+  revealSequence();
+}
+
+function revealSequence(){
+  const rows = Array.from(document.querySelectorAll('.row'));
+  function show(i){
+    if (i >= rows.length){ finishReadout(); return; }
+    rows[i].classList.remove('pending');
+    const line = rows[i].querySelector('.gapline');
+    if (line && !prefersReduced){
+      // animate x2 from stated toward revealed
+      const target = line.getAttribute('data-x2');
+      requestAnimationFrame(() => {
+        line.style.transition = 'all 520ms ease';
+        line.setAttribute('x2', target);
+      });
+    }
+    const delay = prefersReduced ? 0 : 460;
+    if (delay) setTimeout(() => show(i+1), delay); else show(i+1);
+  }
+  if (prefersReduced){ rows.forEach(r=>r.classList.remove('pending')); finishReadout(); }
+  else show(0);
+}
+
+function finishReadout(){
+  // draw synoptic twin spines once all rows are settled
+  const states = DOMAIN_ORDER.map(d => classify(d));
+  const n = DOMAIN_ORDER.length;
+  const W = 600, rowH = 26, H = n*rowH + 16;
+  let saidPts = [], didPts = [];
+  states.forEach((st, i) => {
+    const y = 14 + i*rowH;
+    if (st.gap) saidPts.push(`${mapX(st.gap.z_stated_aspirational).toFixed(1)},${y}`);
+    const revZ = st.gap ? st.gap.z_revealed : zToFromRaw(st.rev?st.rev.revealed_score_mean:0);
+    didPts.push(`${mapX(revZ).toFixed(1)},${y}`);
+  });
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="The overall shape of where your stated and revealed values currently sit across the four areas." style="width:100%;display:block;">
+    <polyline points="${saidPts.join(' ')}" fill="none" stroke="${getCss('--muted')}" stroke-width="1" opacity="0.5" stroke-dasharray="2 3"></polyline>
+    <polyline points="${didPts.join(' ')}" fill="none" stroke="${getCss('--accent')}" stroke-width="1.25" opacity="0.6"></polyline>
+    ${didPts.map(p=>{const [x,y]=p.split(',');return `<circle cx="${x}" cy="${y}" r="3" fill="${getCss('--accent')}" opacity="0.7"></circle>`;}).join('')}
+  </svg>`;
+  const sy = document.getElementById('synoptic-svg');
+  if (sy){ sy.innerHTML = svg; document.getElementById('synoptic').style.display = 'block'; }
+  const cl = document.getElementById('closing'); if (cl) cl.style.display = 'block';
+}
+
+function reset(){ renderPreReveal(); }
+
+renderPreReveal();
+</script>
+
+</body>
+</html>

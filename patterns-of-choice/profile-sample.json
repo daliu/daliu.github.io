@@ -1,0 +1,64 @@
+{
+  "_provenance": "Hand-authored sample in scripts/analyze.py --json shape for the profile-reveal demo. Fictional participant 'sample-participant'. Shape + reading per scripts/analyze.py and interpretation.md. NOT a real analyzer run; the real 3-user fixtures only yield a truth-telling gap, so a complete single-user 4-domain sample was authored to show the full honest range (normal gap, aligned, negative, provisional single-session).",
+  "revealed_scores": [
+    {
+      "user_id": "sample-participant",
+      "domain": "truth-telling",
+      "revealed_score_mean": 0.21,
+      "n_sessions_contributing": 6,
+      "se": 0.097,
+      "ci_95_low": 0.02,
+      "ci_95_high": 0.4
+    },
+    {
+      "user_id": "sample-participant",
+      "domain": "resource-allocation",
+      "revealed_score_mean": 0.04,
+      "n_sessions_contributing": 5,
+      "se": 0.11,
+      "ci_95_low": -0.18,
+      "ci_95_high": 0.26
+    },
+    {
+      "user_id": "sample-participant",
+      "domain": "in-group-out-group",
+      "revealed_score_mean": 0.55,
+      "n_sessions_contributing": 5,
+      "se": 0.12,
+      "ci_95_low": 0.31,
+      "ci_95_high": 0.79
+    },
+    {
+      "user_id": "sample-participant",
+      "domain": "reciprocity-cooperation",
+      "revealed_score_mean": -0.3,
+      "n_sessions_contributing": 1,
+      "se": null,
+      "ci_95_low": null,
+      "ci_95_high": null
+    }
+  ],
+  "gaps": [
+    {
+      "user_id": "sample-participant",
+      "domain": "truth-telling",
+      "z_revealed": 0.2,
+      "z_stated_aspirational": 0.9,
+      "gap": 0.7
+    },
+    {
+      "user_id": "sample-participant",
+      "domain": "resource-allocation",
+      "z_revealed": 0.05,
+      "z_stated_aspirational": 0.12,
+      "gap": 0.07
+    },
+    {
+      "user_id": "sample-participant",
+      "domain": "in-group-out-group",
+      "z_revealed": 0.85,
+      "z_stated_aspirational": 0.2,
+      "gap": -0.65
+    }
+  ]
+}
