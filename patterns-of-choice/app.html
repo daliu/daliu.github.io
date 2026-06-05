@@ -13,6 +13,8 @@
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/app.html">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2a4a3a">
   <!-- Google Analytics (GA4) — page-view only; never the choice data -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
   <script>
@@ -366,6 +368,14 @@ function confirmErase(){
 async function doErase(){ await RT.eraseEverything(); renderHome(); }
 
 boot();
+
+// Register the service worker for offline / installable use. Best-effort:
+// failure here must never break the practice (the app works without it).
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => { /* offline-install unavailable; app still works online */ });
+  });
+}
 </script>
 </body>
 </html>
