@@ -28,6 +28,8 @@ ok(!P.revealedScores([entry("s1", "truth-telling", ["truth:commission"], 500), e
 const vbd = { "truth-telling": ["honesty", "tact", "transparency", "discretion", "authenticity"] };
 const cs = [{ layer: "aspirational_self", selected: true, value_id: "honesty" }, { layer: "aspirational_self", selected: true, value_id: "tact" }, { layer: "current_self", selected: true, value_id: "transparency" }];
 ok(P.cardSortStated(cs, vbd, "aspirational_self")["truth-telling"] === 0.4, "2 of 5 in aspirational -> 0.4");
+ok(Object.keys(P.cardSortStated([], vbd, "aspirational_self")).length === 0, "empty card-sort -> {} (stated channel absent, not all-zeros)");
+ok(Object.keys(P.cardSortStated(cs, vbd, "admired_other")).length === 0, "no responses for layer -> {} (not all-zeros)");
 
 // §13 ordering + concordance
 const revealed = {

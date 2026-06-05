@@ -93,7 +93,9 @@
   // --- card-sort stated fraction per domain×layer (§5.1) ---
   // cardSort: array of CardSortResponse; valuesByDomain: {domain:[value_id,...]}
   function cardSortStated(cardSort, valuesByDomain, layer) {
-    const sel = new Set(cardSort.filter(r => r.layer === layer && r.selected).map(r => r.value_id));
+    const forLayer = cardSort.filter(r => r.layer === layer);
+    if (!forLayer.length) return {}; // the stated channel doesn't exist yet — NOT all-zeros
+    const sel = new Set(forLayer.filter(r => r.selected).map(r => r.value_id));
     const out = {};
     for (const d of DOMAINS) {
       const vals = valuesByDomain[d] || [];

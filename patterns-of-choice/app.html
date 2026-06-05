@@ -122,13 +122,15 @@ async function practiceState(){
   const sessions = {};            // session_id -> {domain, day}
   const daysSeen = new Set();
   let sessionCount = 0;
+  let hasCardSort = false;
   for (const e of evs){
+    if (e.kind === "card_sort") { hasCardSort = true; continue; }
     if (e.kind !== "session_log") continue;
     const sid = e.payload.session_id;
     if (!(sid in sessions)){ sessions[sid] = { domain: e.payload.domain }; sessionCount++; }
     daysSeen.add(e.timestamp_iso.slice(0,10));
   }
-  return { evs, sessionCount, dayCount: daysSeen.size,
+  return { evs, sessionCount, dayCount: daysSeen.size, hasCardSort,
            lastDomain: lastDomainPlayed(evs) };
 }
 function lastDomainPlayed(evs){
@@ -160,8 +162,9 @@ async function renderHome(){
         : "Pick up where you left off. The point isn't any single day — it's the pattern that emerges across them."}</p>
     </div>
     <button class="primary" onclick="startSession()">${st.sessionCount === 0 ? "Begin today's session" : "Today's session"}</button>
+    ${!st.hasCardSort ? `<button class="secondary" onclick="startCardSort()">${st.sessionCount === 0 ? "First, say what you value (2 min)" : "Add the card sort — what you'd say you value"}</button>` : ""}
     ${ready.ok ? `<button class="secondary" onclick="renderReveal()">See your profile so far</button>`
-      : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.</div>`}
+      : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.${!st.hasCardSort ? " The card sort adds the 'what you'd say' half." : ""}</div>`}
     <div class="meta">
       Stored only in this browser. <button class="ghost" onclick="renderData()">your data</button>
     </div>
@@ -229,6 +232,48 @@ function sessionObservation(st){
   if (st.sessionCount <= 1) return "One session in. Nothing to read yet — and that's the honest state. A single day is a point, not a pattern.";
   if (st.dayCount < 3) return `${st.sessionCount} sessions across ${st.dayCount} day${st.dayCount===1?"":"s"}. Keep going — the profile waits until your choices have spread across a few areas and a few days.`;
   return `${st.sessionCount} sessions across ${st.dayCount} days. There may be enough now to see a first shape — check your profile from the start screen.`;
+}
+
+// --- card-sort onboarding: the STATED channel (keep 5 of 20) ---
+let cardSel = new Set();
+const CS_CAP = 5;
+function startCardSort(){ cardSel = new Set(); renderCardSort(); }
+function renderCardSort(){
+  const n = cardSel.size, ready = n === CS_CAP;
+  const cards = BUNDLE.values.map(v => {
+    const sel = cardSel.has(v.id), dim = (n>=CS_CAP && !sel) ? "opacity:.5;" : "";
+    return `<button type="button" style="display:block;text-align:left;${dim}${sel?"border-color:var(--accent);background:#f1f5f2;":""}" onclick="toggleValue('${v.id}')">
+      <span style="font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);">${v.label}${sel?" ✓":""}</span><br>${v.anchor}</button>`;
+  }).join("");
+  render(`
+    <div class="progress" style="position:sticky;top:0;background:var(--bg);padding:8px 0;text-align:center;">Most like you: <strong style="color:var(--accent);">${n} / ${CS_CAP}</strong></div>
+    <h2>What you'd say you value</h2>
+    <p class="body-text" style="color:var(--muted);font-size:15px;">Keep the five values most like you. You can't keep them all — the choosing is the point. This is the half you can put into words; your sessions capture the other half.</p>
+    ${cards}
+    <button class="primary" onclick="commitCardSort()" ${ready?"":"disabled style=\"opacity:.5;cursor:not-allowed;\""}>${ready?"Save these five":`Pick ${CS_CAP-n} more`}</button>
+    <a href="#" onclick="renderHome();return false;" class="back-link">&larr; Maybe later</a>
+  `);
+}
+function toggleValue(id){
+  if (cardSel.has(id)) cardSel.delete(id);
+  else if (cardSel.size < CS_CAP) cardSel.add(id);
+  renderCardSort();
+}
+async function commitCardSort(){
+  if (cardSel.size !== CS_CAP) return;
+  // one CardSortResponse per value: selected=true for kept, false for the rest,
+  // so the projection's frac_in_top5 is well-defined over the whole deck.
+  const ts = new Date().toISOString();
+  for (const v of BUNDLE.values){
+    await RT.logCardSort({ user_id: USER, layer: "aspirational_self", value_id: v.id,
+                           selected: cardSel.has(v.id), timestamp_iso: ts });
+  }
+  const kept = BUNDLE.values.filter(v => cardSel.has(v.id)).map(v => v.label);
+  render(`
+    <h2>Saved.</h2>
+    <div class="observation">You said you value: ${kept.join(", ")}. Held loosely — it's what you'd state today. Whether your everyday choices bear it out is what the sessions are for.</div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
 }
 
 // --- can we compute a reveal? need >=3 domains with a scoreable session ---
