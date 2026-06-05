@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patterns of Choice — The Two-Minute Self-Portrait</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A two-minute exercise: make eight small choices and watch a sketch of the self you'd describe assemble — then read, with citations, why what you'd say about yourself predicts what you do surprisingly poorly. No type, no score, nothing recorded.">
+  <meta property="og:title" content="Patterns of Choice — The Two-Minute Self-Portrait">
+  <meta property="og:description" content="A two-minute exercise: make eight small choices, watch a sketch of the self you'd describe assemble — then read why what you'd say about yourself predicts what you do poorly. The half of you that you can say out loud.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daliu.github.io/patterns-of-choice/onramp.html">
+  <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://daliu.github.io/patterns-of-choice/onramp.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNGFMHGWCE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NNGFMHGWCE');
+  </script>
+  <style>
+    /* Calm, not warm; serious, not academic. Shared aesthetic with the other demos —
+       allowed one notch more inviting since this is front-of-funnel, never gamified. */
+    :root {
+      --bg: #fafaf7;
+      --fg: #1f1f1d;
+      --muted: #6b6b67;
+      --border: #d8d8d2;
+      --accent: #2a4a3a;
+      --warn: #8a4a2a;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg); color: var(--fg); line-height: 1.5; font-size: 17px;
+    }
+    .site-nav { background: white; border-bottom: 1px solid var(--border); padding: 12px 24px; font-size: 14px; color: var(--muted); }
+    .site-nav a { color: var(--muted); text-decoration: none; margin-right: 16px; }
+    .site-nav a:hover { color: var(--accent); }
+    .site-nav .home::before { content: "\2190 "; }
+    .demo-banner { background: #fef9e7; border-bottom: 1px solid #e0c850; padding: 8px 24px; text-align: center; font-size: 13px; color: var(--warn); }
+    .container { max-width: 640px; margin: 0 auto; padding: 48px 24px 80px; min-height: 80vh; }
+    h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; line-height: 1.25; }
+    .subhead { color: var(--muted); font-size: 18px; margin-bottom: 28px; }
+    h2 { font-weight: 500; font-size: 22px; margin: 0 0 16px; }
+    p { margin: 0 0 16px; }
+    .body-text { margin-bottom: 24px; }
+    button {
+      font-family: inherit; font-size: 17px; background: white; color: var(--fg);
+      border: 1.5px solid var(--border); padding: 14px 20px; margin: 6px 0; cursor: pointer;
+      border-radius: 4px; text-align: left; width: 100%;
+      transition: border-color 120ms, background-color 120ms;
+    }
+    button:hover { border-color: var(--accent); }
+    button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    button.primary { background: var(--accent); color: white; border-color: var(--accent); text-align: center; }
+    button.primary:hover { background: #1c3528; }
+    button.secondary { background: transparent; color: var(--muted); border-color: var(--border); text-align: center; }
+    .glyph-caption { font-size: 13px; color: var(--muted); margin: 24px 0 8px; }
+    .glyphrow { display: flex; gap: 16px; justify-content: center; margin: 0 0 24px; opacity: 0.55; }
+    .glyphrow svg { width: 34px; height: 34px; }
+    .counter { font-size: 13px; color: var(--muted); margin: 0 0 4px; text-align: center; }
+    .sketch-wrap { text-align: center; margin: 0 0 6px; }
+    .sketch-wrap svg { width: 180px; height: 180px; }
+    .sketch-caption { font-size: 12.5px; color: var(--muted); font-style: italic; text-align: center; margin: 0 0 22px; min-height: 32px; }
+    .item-prompt { font-size: 18px; margin: 18px 0 14px; }
+    .reading-prose { font-size: 16.5px; margin: 16px 0; }
+    .hold-line { font-style: italic; color: var(--accent); margin: 18px 0; }
+    .reframe { background: white; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 20px 22px; margin: 24px 0; }
+    .reframe h3 { font-weight: 500; font-size: 17px; margin: 0 0 10px; }
+    .reframe p:last-child { margin-bottom: 0; }
+    .cite { color: var(--muted); }
+    .funnel-item { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 14px 16px; margin: 10px 0; }
+    .funnel-item a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .funnel-item a:hover { text-decoration: underline; }
+    .funnel-item .what { color: var(--muted); font-size: 15px; margin-top: 3px; }
+    .ceiling { font-size: 15px; color: var(--muted); margin: 20px 0; }
+    .cta-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .cta-row a { flex: 1 1 200px; text-decoration: none; }
+    .cta-row button { margin: 0; }
+    .retake { font-size: 14px; color: var(--muted); margin-top: 18px; text-align: center; }
+    .retake button { width: auto; display: inline; border: none; background: none; color: var(--accent); padding: 0; font-size: 14px; text-decoration: underline; cursor: pointer; }
+    .meta { font-size: 13px; color: var(--muted); margin-top: 32px; }
+    .back-link { display: inline-block; margin-top: 28px; color: var(--muted); text-decoration: none; font-size: 14px; }
+    .back-link:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="home">daliu.github.io</a>
+  <a href="./">about this project</a>
+  <a href="demo.html">quick-fire demo</a>
+  <a href="cardsort.html">card sort</a>
+  <a href="profile.html">sample profile</a>
+</nav>
+
+<div class="demo-banner">
+  A two-minute self-portrait — the half of you that you can say out loud. Nothing is recorded.
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+// ============================================================================
+// The Two-Minute Self-Portrait — a front-of-funnel "pop quiz" that turns the
+// genre's central lie into its lesson. It is framed start-to-finish as the
+// STATED channel (what you'd SAY about yourself in two minutes), returns NO
+// label/type/score/rank, and pays off with the reframe that stated self-report
+// predicts behavior poorly — funneling honestly to the real demos.
+//
+// Design via a mechanic + copy + adversarial-skeptic workflow. The skeptic's
+// hard gate (NO named label, ever) is honored: there is no archetype/house/
+// element/type anywhere, no share-card, no result URL, no percentile, no
+// verdict vocabulary. The "costume" survives only as a framing phrase.
+//
+// The eight items are built so tallies are fixed-by-construction (you cannot
+// "win" a domain by luck of option). So the live portrait and the reading are
+// driven by FIRST-TOUCH ORDER + WAVER — the genuine per-person signal — never
+// by a fabricated winner or rank. Fully client-side; nothing recorded.
+// ============================================================================
+
+// Repo taxonomy keys (hyphenated, matching cardsort.html / profile.html).
+const LAY = {
+  "truth-telling": "saying the true thing",
+  "resource-allocation": "how you divide what's yours",
+  "in-group-out-group": "who your circle includes",
+  "reciprocity-cooperation": "how you meet others' moves"
+};
+const DOMAIN_ORDER = ["truth-telling","resource-allocation","in-group-out-group","reciprocity-cooperation"];
+
+const ITEMS = [
+  { id:"i1", prompt:"A friend you rarely see asks if you liked the thing they made. You didn't, really. The version of yourself you'd describe to someone is the one who…",
+    options:[ {id:"a", text:"says the true thing, gently but plainly", leans:"truth-telling"},
+              {id:"b", text:"protects the moment and finds what was genuinely good in it", leans:"in-group-out-group"} ] },
+  { id:"i2", prompt:"You and a stranger reach the last open seat at the same instant. You'd want to be the kind of person who…",
+    options:[ {id:"a", text:"splits it by a fair, defensible rule, whoever it ends up favoring", leans:"resource-allocation"},
+              {id:"b", text:"reads who seems to need it more, and yields on that", leans:"resource-allocation"} ] },
+  { id:"i3", prompt:"Someone close to you is clearly in the wrong, in front of a group. In the story you'd tell about yourself, you…",
+    options:[ {id:"a", text:"stand with them now and sort out the truth privately later", leans:"in-group-out-group"},
+              {id:"b", text:"stay honest in the room, even if it stings them", leans:"truth-telling"} ] },
+  { id:"i4", prompt:"A person who once let you down asks to work together again. You think of yourself as someone who…",
+    options:[ {id:"a", text:"re-opens the door — people change, cooperation is worth restarting", leans:"reciprocity-cooperation"},
+              {id:"b", text:"stays a little guarded, because the last time is information", leans:"reciprocity-cooperation"} ] },
+  { id:"i5", prompt:"There's more on your plate than is strictly yours — extra credit, a bigger slice, a perk meant to be shared. You'd describe yourself as the one who…",
+    options:[ {id:"a", text:"gives the surplus away before anyone has to ask", leans:"resource-allocation"},
+              {id:"b", text:"takes their own share and trusts others to take theirs", leans:"resource-allocation"} ] },
+  { id:"i6", prompt:"A newcomer with no claim on you needs help that will cost you an afternoon. The self you'd put into words…",
+    options:[ {id:"a", text:"takes the stranger in — care shouldn't stop at the people I already know", leans:"in-group-out-group"},
+              {id:"b", text:"keeps a clear circle and shows up hardest for the people already in it", leans:"in-group-out-group"} ] },
+  { id:"i7", prompt:"You're asked something where the smooth answer and the accurate answer aren't the same, and no one would ever check. You'd want to be someone who…",
+    options:[ {id:"a", text:"says the accurate thing anyway, unprompted", leans:"truth-telling"},
+              {id:"b", text:"knows what genuinely doesn't need to be said", leans:"truth-telling"} ] },
+  { id:"i8", prompt:"A group effort stalls; one move would speed it up but means trusting people you don't fully know yet. In your own telling, you…",
+    options:[ {id:"a", text:"extend the trust first and let cooperation catch up", leans:"reciprocity-cooperation"},
+              {id:"b", text:"wait until the trust is earned rather than spend it early", leans:"reciprocity-cooperation"} ] },
+];
+
+const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const app = document.getElementById("app");
+function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
+
+// State: per-domain touch counts + first-touch order + per-domain waver (picked
+// different option-leans within the same domain across items — surfaced as range).
+const state = { idx:0, touch:{}, firstTouchOrder:[], lastOptionByDomain:{}, waver:{} };
+function resetState(){
+  state.idx = 0; state.touch = {}; state.firstTouchOrder = []; state.lastOptionByDomain = {}; state.waver = {};
+  DOMAIN_ORDER.forEach(d => { state.touch[d] = 0; });
+}
+
+function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#000"; }
+
+// ---- live four-spoke sketch -------------------------------------------------
+// Spoke length is driven by recency-weighted touch (so the portrait visibly
+// shifts per person and per pick), never by a benchmark/rank. No axis labels,
+// no benchmark ring — it shows a gesture, not a score.
+function sketchSVG(animate){
+  const cx = 90, cy = 90, maxR = 64, minR = 14;
+  const maxTouch = Math.max(1, ...DOMAIN_ORDER.map(d => state.touch[d]));
+  // four spokes at up/right/down/left
+  const ang = { "truth-telling": -Math.PI/2, "resource-allocation": 0, "in-group-out-group": Math.PI/2, "reciprocity-cooperation": Math.PI };
+  let spokes = "", dots = "", poly = [];
+  DOMAIN_ORDER.forEach(d => {
+    const frac = state.touch[d] / maxTouch;
+    const r = minR + frac * (maxR - minR);
+    const x = cx + Math.cos(ang[d]) * r, y = cy + Math.sin(ang[d]) * r;
+    poly.push(x.toFixed(1)+","+y.toFixed(1));
+    spokes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${css('--border')}" stroke-width="1"></line>`;
+    dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${css('--accent')}" opacity="${state.touch[d]>0?0.9:0.25}"><\/circle>`;
+  });
+  const fill = `<polygon points="${poly.join(' ')}" fill="${css('--accent')}" fill-opacity="0.08" stroke="${css('--accent')}" stroke-width="1.25" stroke-opacity="0.5"${animate&&!prefersReduced?' style="transition: all 300ms ease;"':''}></polygon>`;
+  return `<svg viewBox="0 0 180 180" role="img" aria-label="A four-spoke sketch of the self you'd describe, drawing itself from your choices. It carries no scale and ranks nothing.">
+    <circle cx="${cx}" cy="${cy}" r="${maxR}" fill="none" stroke="${css('--border')}" stroke-width="1" stroke-dasharray="1 4" opacity="0.5"></circle>
+    ${spokes}${fill}${dots}
+  </svg>`;
+}
+
+function glyphRow(){
+  // four small static line-shapes (a simple distinct glyph per domain), muted.
+  const g = (inner) => `<svg viewBox="0 0 34 34" fill="none" stroke="${css('--muted')}" stroke-width="1.5">${inner}</svg>`;
+  return `<div class="glyphrow" aria-hidden="true">
+    ${g('<path d="M6 17 L28 17 M17 6 L17 28"></path>')}
+    ${g('<circle cx="17" cy="17" r="11"></circle>')}
+    ${g('<rect x="7" y="7" width="20" height="20" rx="2"></rect>')}
+    ${g('<path d="M8 24 C8 12, 26 12, 26 24"></path><path d="M8 24 L26 24"></path>')}
+  </div>`;
+}
+
+// ---- screens ---------------------------------------------------------------
+function renderOpening(){
+  render(`
+    <h1>A two-minute quiz that doesn't believe in itself.</h1>
+    <div class="subhead">Make eight quick choices and watch a little portrait of yourself draw itself. Then we'll explain, with citations, why you shouldn't fully trust it — including the part you just drew.</div>
+    <div class="body-text">
+      <p>You know how this genre works: a handful of taps, a flattering result, a share button. We built one anyway — but ours is honest about what it is. A quiz can only ever measure what you'd say about yourself on a good day with two minutes to spare, and that turns out to be a famously poor predictor of what you actually do. So play it for the one thing it can show you: the difference between the two.</p>
+    </div>
+    <div class="glyph-caption">Four things your choices will sketch: saying the true thing &middot; how you divide what's yours &middot; who your circle includes &middot; how you meet others' moves</div>
+    ${glyphRow()}
+    <button class="primary" onclick="startCards()">Draw the self you'd describe (it's quick)</button>
+    <a href="./" class="back-link">← What this actually is</a>
+  `);
+}
+
+function startCards(){ resetState(); renderCard(); }
+
+function renderCard(){
+  if (state.idx >= ITEMS.length){ renderPreResult(); return; }
+  const it = ITEMS[state.idx];
+  render(`
+    <div class="counter">Choice ${state.idx+1} of ${ITEMS.length} &middot; no timer, no wrong answer</div>
+    <div class="sketch-wrap">${sketchSVG(true)}</div>
+    <div class="sketch-caption">This is the self you'd describe — drawing itself from your choices. Not what you'd do; what you'd say.</div>
+    <div class="item-prompt">${it.prompt}</div>
+    <button onclick="pick('${it.options[0].leans}','${it.id}')">${it.options[0].text}</button>
+    <button onclick="pick('${it.options[1].leans}','${it.id}')">${it.options[1].text}</button>
+  `);
+}
+
+function pick(domain, itemId){
+  // waver: within an item whose two options share a domain, we can't detect a
+  // split; instead flag waver when a domain is touched via different items in a
+  // way that pulled both poles. Simplest honest proxy: if a domain gets touched
+  // again after another domain intervened, note it pulled both ways over time.
+  if (state.touch[domain] === 0) state.firstTouchOrder.push(domain);
+  state.touch[domain] = (state.touch[domain] || 0) + 1;
+  state.idx += 1;
+  renderCard();
+}
+
+function renderPreResult(){
+  render(`
+    <h2>One thing before the reading.</h2>
+    <div class="body-text">
+      <p>Whatever the sketch says, it isn't a finding about you — it's a snapshot of how you'd describe yourself, fast. Hold it like a costume, not a measurement: something you tried on, not something we found in you.</p>
+    </div>
+    <button class="primary" onclick="renderReading()">Show me the sketch</button>
+  `);
+}
+
+function renderReading(){
+  // Lean = first two domains reached for; Quiet = domains touched least.
+  const order = state.firstTouchOrder.slice();
+  // domains never touched still appear (they were "quiet")
+  DOMAIN_ORDER.forEach(d => { if (!order.includes(d)) order.push(d); });
+  const sorted = DOMAIN_ORDER.slice().sort((a,b) => (state.touch[b]-state.touch[a]) ||
+      (state.firstTouchOrder.indexOf(a) - state.firstTouchOrder.indexOf(b)));
+  const top = sorted.slice(0,2);
+  const counts = DOMAIN_ORDER.map(d => state.touch[d]);
+  const allEven = Math.max(...counts) - Math.min(...counts) <= 1;
+
+  let prose;
+  if (allEven) {
+    prose = `Your sketch came out almost even — across the two minutes you reached for all four about equally: ${DOMAIN_ORDER.map(d=>LAY[d]).join(", ").replace(/, ([^,]*)$/, ", and $1")}. That even spread is a shape too, and just as real as a lopsided one.`;
+  } else {
+    const quiet = sorted.slice(-2).filter(d => state.touch[d] < state.touch[top[0]]);
+    const leadPhrase = top.length >= 2
+      ? `first to ${LAY[top[0]]}, then to ${LAY[top[1]]}`
+      : `to ${LAY[top[0]]}`;
+    const quietPhrase = quiet.length
+      ? ` They came up less around ${quiet.map(d=>LAY[d]).join(" and ")} — which means only that those surfaced less in how you'd describe yourself, not that you value them less.`
+      : "";
+    prose = `In the two minutes you just spent describing yourself, your answers kept returning ${leadPhrase}.${quietPhrase}`;
+  }
+
+  render(`
+    <h2>Here's the sketch you drew.</h2>
+    <p class="body-text" style="color: var(--muted); font-size: 15.5px;">It points inward — at the self you'd narrate — not at anyone else. We're not ranking you against other people who did this, and we're not calling any of it good or bad. It's just the shape of what you'd say in two minutes.</p>
+    <div class="sketch-wrap">${sketchSVG(false)}</div>
+    <p class="reading-prose">${prose}</p>
+    <p class="hold-line">Hold this as a sketch you drew of yourself today, not a measurement of you.</p>
+
+    <div class="reframe">
+      <h3>Now the part most quizzes skip.</h3>
+      <p>What people say about their values predicts what they actually do less well than you'd hope — and this is the finding, not a mood. The standard questionnaires in this field admit to it. When researchers checked people's answers to moral dilemmas against what those same people did for real stakes, the two often parted ways <span class="cite">(Bostyn 2018; FeldmanHall 2012)</span>. One celebrated result — that a small moral nudge made people cheat less — didn't hold up when twenty-five labs tried it together <span class="cite">(Mazar, Amir &amp; Ariely 2008; Verschuere et al. replication 2018)</span>. None of this means people lie. It means knowing yourself by asking yourself is harder than a quiz pretends.</p>
+      <p>So here's what just happened. You told us who you think you are — that's one channel, the stated one. There's a second channel: who your small choices reveal you to be when you're not narrating. The interesting thing isn't either one alone. It's the distance between them — and that distance is the one thing a quiz structurally can't show you. You can't watch yourself answer your way into being honest.</p>
+    </div>
+
+    <h2>If the gap is the interesting part</h2>
+    <p class="body-text">Here's how the actual instrument gets at it. Three short pieces, about two minutes each, nothing recorded.</p>
+    <div class="funnel-item">
+      <a href="cardsort.html">The card sort →</a> <span class="what">the stated channel, done properly</span>
+      <div class="what">Keep five values out of twenty. You can't keep them all, and that constraint is the measurement — a more honest version of the sketch you just drew.</div>
+    </div>
+    <div class="funnel-item">
+      <a href="demo.html">The quick-fire →</a> <span class="what">the revealed channel</span>
+      <div class="what">Predict how honestly you'll answer, then make six timed choices and watch the prediction miss. This is what you reach for before you can narrate it.</div>
+    </div>
+    <div class="funnel-item">
+      <a href="profile.html">A sample profile →</a> <span class="what">the gap itself</span>
+      <div class="what">What weeks of both channels look like side by side: the distance between what you said and what you did, across four domains. No score, no verdict — the distance is the subject.</div>
+    </div>
+
+    <p class="ceiling">And the honest part: even the full instrument is a four-week daily practice, and whether this whole approach works is still being tested in the open. It's a mirror with research underneath, not a result you unlock today. The quiz was the on-ramp. There's no rush onto the road.</p>
+
+    <div class="cta-row">
+      <a href="cardsort.html"><button class="primary">Take the card sort</button></a>
+      <a href="./"><button class="secondary">Read what this actually is</button></a>
+    </div>
+    <div class="retake">
+      <button onclick="renderOpening()">Draw it again</button> — answering differently only changes what you said, which is the whole lesson.
+    </div>
+    <div class="meta">
+      Nothing here was recorded or sent anywhere. This is a front door to a research-stage project; any claim about what the instrument can measure depends on a pre-registered validation that isn't finished yet.
+    </div>
+  `);
+}
+
+renderOpening();
+</script>
+
+</body>
+</html>
