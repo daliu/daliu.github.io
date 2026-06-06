@@ -264,9 +264,8 @@
   <p>Three layers: <em>current self</em>, <em>aspirational self</em>, and <em>admired other</em>. Forced-choice format throughout (no Likert scales). Bradley-Terry scoring on pairwise comparisons. Same 20-value deck used across all three layers so within-person divergence is interpretable.</p>
   <p style="margin-top: 12px;"><a href="cardsort.html">Try the card sort →</a> — a 2-minute reduction of the stated channel: keep five of twenty values, then see how they fall across the four domains.</p>
 
-  <h3>Validation plan</h3>
-  <p>n=10 pilot → n=200 main study. Pre-registered at OSF before data collection; published regardless of outcome (negative results included).</p>
-  <p>Eight hypotheses, three primary (gate-criterion for instrument validation), five secondary:</p>
+  <h3>Does it actually measure anything? (the optional research layer)</h3>
+  <p>You don't need this part to use the instrument — the practice is built for your own reflection, and runs whether or not any of the below ever happens. But the honest question "does a daily-puzzle format really capture how someone lives?" deserves a real answer, so the design is laid out to be testable: a cohort study (pre-registerable at OSF, publishable including negative results) could check it against eight hypotheses, three primary, five secondary. This is a possibility the open design supports, not a gate you're waiting on:</p>
   <ul>
     <li><strong>H1</strong> — 4-domain factor structure (CFA, RMSEA ≤ 0.08)</li>
     <li><strong>H2</strong> — convergent validity vs. HEXACO honesty-humility</li>
@@ -297,15 +296,14 @@
 
   <h2 id="state">Current state</h2>
   <ul>
-    <li>Design specifications: complete (concept, MVP-1 build spec, scoring spec, onboarding copy)</li>
-    <li>Scenario corpus: 48 scenarios (6 quick-fire + 3 narrative + 3 cost-of-virtue per domain × 4 domains), schema-validated</li>
-    <li>Pre-registration template: drafted with 8 hypotheses, falsification thresholds, analysis plan</li>
-    <li>Pilot materials kit: consent form, recruitment script, weekly + exit interview scripts, informant-recruitment, data-handling policy</li>
-    <li>Analyzer: 6 of 7 stdlib-implementable hypotheses end-to-end runnable on synthetic fixtures (H1 CFA reserved for external library)</li>
-    <li>Pre-launch checklist: 9-phase forward sequence to GO/NO-GO decision; realistic 9–15 month timeline to first results</li>
+    <li><strong>Runnable instrument:</strong> a local-first PWA (<a href="app.html">app.html</a>) — card sort + daily sessions + on-device profile, installable and fully offline, your data stored only in your browser. Built on an event-sourced runtime (engine + projection + app), each layer unit-tested.</li>
+    <li>Scenario corpus: 61 scenarios — the 48-scenario MVP-1 base (6 quick-fire + 3 narrative + 3 cost-of-virtue per domain × 4) + 9 H8 paired narrative-vs-abstract probes, all schema-validated</li>
+    <li>Scoring: a pure-Python analyzer (6 of 8 hypotheses runnable) <em>and</em> a client-side projection that computes the reference-free reads on-device — both generated from one canonical tag-axis map so they can't drift</li>
+    <li>Design specifications: complete (concept, build spec, scoring spec incl. the §13 value-weighting layer, onboarding copy, runtime architecture)</li>
+    <li>Optional research track: pre-registration template (8 hypotheses, falsification thresholds), pilot materials, pre-launch checklist — there if a validation study is ever run, not required to use the tool</li>
   </ul>
 
-  <p><strong>What's next:</strong> the production runtime — a local-first, client-side app that runs the full multi-week practice on your own device, with nothing sent anywhere (architecture designed; see the repo's <code>runtime-architecture.md</code>). This is built first as an instrument for the individual's own reflection; the research-validation track (pre-registered cohort studies) is a separate, optional layer, not a prerequisite for using it.</p>
+  <p><strong>What's next:</strong> iterative polish on the working runtime — the three-layer card sort (current / aspirational / admired self), the narrative and cost-of-virtue session types in the daily loop, and richer reveal visuals. The core instrument runs today; everything from here is refinement, all of it in the <a href="https://github.com/daliu/patterns-of-choice">open repo</a>.</p>
 
   <h2 id="links">Links</h2>
   <ul>
