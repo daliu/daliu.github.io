@@ -42,6 +42,9 @@
     button { font-family:inherit; font-size:17px; background:white; color:var(--fg); border:1.5px solid var(--border); padding:14px 20px; margin:6px 0; cursor:pointer; border-radius:4px; text-align:left; width:100%; transition:border-color 120ms,background-color 120ms; }
     button:hover { border-color:var(--accent); }
     button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+    /* a11y: programmatic focus on a swapped-in screen (heading/prompt/container) should
+       announce to screen readers without showing a focus ring meant for keyboard nav. */
+    [tabindex="-1"]:focus { outline: none; }
     button.primary { background:var(--accent); color:white; border-color:var(--accent); text-align:center; }
     button.primary:hover { background:#1c3528; }
     button.secondary { background:transparent; color:var(--muted); border-color:var(--border); text-align:center; }
@@ -75,7 +78,7 @@
 <div class="local-banner">
   Local-first: your choices live only in this browser (IndexedDB) and are computed on your device. Nothing is sent anywhere. This is a working prototype of the real instrument.
 </div>
-<div class="container" id="app"></div>
+<main class="container" id="app"></main>
 
 <script src="runtime/poc-runtime.js"></script>
 <script src="runtime/poc-projection.js"></script>
@@ -92,7 +95,17 @@
 // ============================================================================
 
 const app = document.getElementById("app");
-function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
+function render(html){
+  app.innerHTML = html;
+  window.scrollTo(0,0);
+  // a11y: this is a single-page view that swaps content in place, so move focus to
+  // the new screen's lead element — keyboard users land on it and screen readers
+  // announce it (otherwise focus sticks to the just-clicked button and the change
+  // goes unannounced). Falls back through heading -> prompt -> the main container.
+  const lead = app.querySelector("h1, h2, .item-prompt") || app;
+  lead.setAttribute("tabindex", "-1");
+  try { lead.focus({ preventScroll: true }); } catch(_) { lead.focus(); }
+}
 const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let RT = null, BUNDLE = null, TAGMAP = null;
@@ -217,7 +230,7 @@ async function startH8Probe(){
   h8sess = { id: POCRuntime.uuid(), probe: info.probe, item, t0: Date.now(), timer: null };
   let left = 8;
   render(`
-    <div class="timer" id="h8timer">⏱  ${left} seconds</div>
+    <div class="timer" id="h8timer" aria-hidden="true">⏱  ${left} seconds</div>
     <div class="item-prompt">${item.prompt}</div>
     ${item.options.map(o => `<button onclick="answerH8Probe('${o.id}')">${o.text}</button>`).join("")}
     <div class="progress">a quick hypothetical &middot; no wrong answer</div>
@@ -489,7 +502,7 @@ function renderArcNaming(){
     <div class="progress">a thread that will continue across your sessions</div>
     <h2>${esc(a.beat.title)}</h2>
     <p class="body-text">You only meant to visit the shelter off the county road. You're driving home with a dog. It will need something to call it — for the vet, for the door, for the dark.</p>
-    <input id="dogname" type="text" maxlength="24" autocomplete="off" placeholder="${def}"
+    <input id="dogname" type="text" maxlength="24" autocomplete="off" placeholder="${def}" aria-label="A name for your companion"
       style="font-family:inherit;font-size:17px;padding:12px;width:100%;border:1.5px solid var(--border);border-radius:4px;margin:0 0 10px;"
       onkeydown="if(event.key==='Enter')commitName(false)" />
     <button class="primary" onclick="commitName(false)">Name it</button>
@@ -613,7 +626,7 @@ function renderItem(){
   const t0 = Date.now();
   let left = sess.qf.timer_seconds_per_item || 8;
   render(`
-    <div class="timer" id="timer">⏱  ${left} seconds</div>
+    <div class="timer" id="timer" aria-hidden="true">⏱  ${left} seconds</div>
     <div class="item-prompt">${item.prompt}</div>
     <button onclick="answer('${item.id}','a',${t0})">${item.options[0].text}</button>
     <button onclick="answer('${item.id}','b',${t0})">${item.options[1].text}</button>
