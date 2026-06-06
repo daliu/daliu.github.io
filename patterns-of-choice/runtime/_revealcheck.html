@@ -1,0 +1,92 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+:root { --bg:#fafaf7; --fg:#1f1f1d; --muted:#6b6b67; --border:#d8d8d2; --accent:#2a4a3a; --card:#ffffff; }
+body { font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--fg); margin:0; line-height:1.5; }
+.container { max-width:640px; margin:0 auto; padding:28px 24px 60px; }
+h2{font-weight:400;font-size:24px;margin:0 0 6px} h3{font-weight:500;font-size:17px;margin:20px 0 6px}
+.row-prose{font-size:16px;margin:8px 0} .body-text{margin:0 0 16px}
+.synoptic{width:100%;height:auto;display:block;margin:10px 0 6px}
+.synoptic .row-track{stroke:var(--border);stroke-width:1.5} .synoptic .mid{stroke:#bcd0c2;stroke-width:1.5;stroke-dasharray:2 5}
+.synoptic .conn{stroke:var(--accent);stroke-width:3;stroke-opacity:.45;stroke-linecap:round;stroke-dasharray:1}
+.synoptic .said{fill:var(--card);stroke:var(--muted);stroke-width:1.5} .synoptic .did{fill:var(--accent)}
+.synoptic .lab{fill:var(--fg);font-size:14px;font-weight:500} .synoptic .sub{fill:var(--muted);font-size:12px}
+.synoptic .axis{fill:var(--muted);font-size:10px;letter-spacing:.4px;text-transform:uppercase}
+.viz{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:10px 0}
+.viz svg{display:block;width:100%;height:auto} .viz-cap{font-size:14px;margin-top:8px;line-height:1.45}
+</style></head><body><div class="container" id="app"></div>
+<script>
+// REAL-shaped projection outputs (matching poc-projection.js return objects exactly)
+const r = { rev: {
+  "truth-telling":{revealed_score_mean:0.62,n_sessions_contributing:3,se:0.05},
+  "resource-allocation":{revealed_score_mean:-0.18,n_sessions_contributing:2,se:0.06},
+  "in-group-out-group":{revealed_score_mean:0.40,n_sessions_contributing:4,se:0.04},
+  "reciprocity-cooperation":{revealed_score_mean:0.05,n_sessions_contributing:2,se:0.07} } };
+const stated = { "truth-telling":0.8, "resource-allocation":0.2, "in-group-out-group":0.6, "reciprocity-cooperation":0.4 };
+const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
+const POCProjection = { DOMAINS: Object.keys(DLAB) };
+const divB = { ok:true, abstractPole:"far", narrativePole:"near", concordant:false, shift:1.5 };
+const covB = { ok:true, byValue:[ {value_slot:"honesty",stake:1000,no_break_point:false,unit:"USD"}, {value_slot:"loyalty",stake:null,no_break_point:true,unit:"USD"}, {value_slot:"generosity",stake:100,no_break_point:false,unit:"USD"} ] };
+const covDomain = { honesty:"truth-telling", loyalty:"in-group-out-group", generosity:"resource-allocation" };
+const alignB = { ok:true, closest:"admired_other", byLayer:[ {layer:"admired_other",tau:0.55,band:"low"}, {layer:"aspirational_self",tau:0.20,band:"moderate"}, {layer:"current_self",tau:-0.10,band:"high"} ] };
+const CARD_LAYERS = [ {id:"aspirational_self",short:"who you want to be"}, {id:"current_self",short:"who you are now"}, {id:"admired_other",short:"who you admire"} ];
+const h8aCole = { ok:true, kind:"candor", trajectory:{scores:[-1,0.5,1],direction:"rising"}, pairs:[], lean:"consistent" };
+
+// ===== verbatim copies of the app's reveal viz functions =====
+const DCOLOR = { "truth-telling":"#2b6cb0", "resource-allocation":"#c0732e", "in-group-out-group":"#2f8f6b", "reciprocity-cooperation":"#9c4f96" };
+function dcol(d){ return DCOLOR[d] || "var(--accent)"; }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
+function divergenceViz(name, domain, div){
+  const col = dcol(domain), cool = "#8aa0b8", nm = esc(name);
+  const X = p => p === "near" ? 470 : 130, y = 56;
+  const aX = X(div.abstractPole), nX = X(div.narrativePole);
+  let arrow = "";
+  if (div.abstractPole !== div.narrativePole){ const dir = nX>aX?1:-1;
+    arrow = `<line x1="${aX+12*dir}" y1="${y}" x2="${nX-14*dir}" y2="${y}" stroke="${col}" stroke-width="2.5"/>`+`<path d="M ${nX-14*dir} ${y-6} L ${nX-2*dir} ${y} L ${nX-14*dir} ${y+6} Z" fill="${col}"/>`; }
+  const moved = div.abstractPole !== div.narrativePole;
+  const cap = moved ? `In the abstract you leaned toward <span style="color:${cool}">the wider claim</span>; asked about ${nm}, you chose ${nm}. <span style="color:var(--muted)">That shift is what attachment does to a settled judgment — neither answer is the right one.</span>` : `You weighed it the same in the abstract and about ${nm}.`;
+  return `<div class="viz"><svg viewBox="0 0 600 110"><text x="300" y="20" text-anchor="middle" style="fill:${col};font-size:15px;font-weight:600">${nm}</text><text x="58" y="${y+4}" text-anchor="middle" style="fill:${cool};font-size:12px">the wider claim</text><text x="542" y="${y+4}" text-anchor="middle" style="fill:${col};font-size:12px">${nm}</text><line x1="110" y1="${y}" x2="490" y2="${y}" stroke="var(--border)" stroke-width="2"/>${arrow}<circle cx="${aX}" cy="${y}" r="9" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/><text x="${aX}" y="${y+28}" text-anchor="middle" style="fill:var(--muted);font-size:11px">in the abstract</text><circle cx="${nX}" cy="${y}" r="10" fill="${col}"/><text x="${nX}" y="${y-16}" text-anchor="middle" style="fill:${col};font-size:11px">with ${nm}</text></svg><div class="viz-cap">${cap}</div></div>`;
+}
+function covLadderViz(items){
+  const ladder=[10,100,1000,10000,100000], rowH=52, top=6, H=top+items.length*rowH+8;
+  const lx=i=>150+(i/(ladder.length-1))*(560-150); let rows="";
+  items.forEach((it,r)=>{ const rt=top+r*rowH,yL=rt+18,yT=rt+34,col=dcol(it.domain);
+    rows+=`<text x="0" y="${yL+5}" style="fill:${col};font-size:14px;font-weight:600">${esc(it.value)}</text><line x1="150" y1="${yT}" x2="560" y2="${yT}" stroke="var(--border)" stroke-width="2"/>`;
+    ladder.forEach((s,i)=>{ rows+=`<line x1="${lx(i)}" y1="${yT-4}" x2="${lx(i)}" y2="${yT+4}" stroke="var(--border)" stroke-width="1.5"/><text x="${lx(i)}" y="${yT+16}" text-anchor="middle" style="fill:var(--muted);font-size:9px">$${s>=1000?(s/1000)+'k':s}</text>`; });
+    if(it.no_break) rows+=`<circle cx="572" cy="${yT}" r="7" fill="${col}"/><text x="572" y="${yT-11}" text-anchor="end" style="fill:${col};font-size:10px">wouldn't</text>`;
+    else { const idx=ladder.indexOf(it.stake),cx=idx>=0?lx(idx):150; rows+=`<circle cx="${cx}" cy="${yT}" r="7" fill="${col}"/>`; } });
+  return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">The smallest amount at which you'd set each aside. A price isn't a verdict — most people have one; the signal is whether it drifts.</div></div>`;
+}
+function alignViz(byLayer){
+  const rowH=44, top=6, H=top+byLayer.length*rowH+6; const bx=t=>180+((Math.max(-1,Math.min(1,t))+1)/2)*(560-180); let rows="";
+  byLayer.forEach((x,i)=>{ const rt=top+i*rowH,y=rt+20,closest=i===0,c=closest?"var(--accent)":"#b9c2bb";
+    rows+=`<text x="0" y="${y+5}" style="fill:${closest?'var(--accent)':'var(--muted)'};font-size:14px;font-weight:${closest?700:400}">${esc(x.label)}</text><line x1="180" y1="${y}" x2="560" y2="${y}" stroke="#eee" stroke-width="8" stroke-linecap="round"/><line x1="180" y1="${y}" x2="${bx(x.tau).toFixed(1)}" y2="${y}" stroke="${c}" stroke-width="8" stroke-linecap="round"/>`+(closest?`<text x="565" y="${y+4}" style="fill:var(--accent);font-size:11px">closest</text>`:""); });
+  return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">How closely your everyday choices track each version of yourself you described.</div></div>`;
+}
+function trajViz(name, domain, scores, lo, hi){
+  const col=dcol(domain),n=scores.length,X=i=>60+(i/(n-1))*(540-60),Y=v=>96-((Math.max(-1,Math.min(1,v))+1)/2)*76; let path="",dots="";
+  scores.forEach((v,i)=>{ path+=(i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" "; dots+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="6" fill="${col}"/>`; });
+  return `<div class="viz"><svg viewBox="0 0 600 120"><text x="60" y="18" style="fill:${col};font-size:15px;font-weight:600">${esc(name)}</text><line x1="60" y1="${Y(0)}" x2="540" y2="${Y(0)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 4"/><text x="545" y="${Y(1)+4}" style="fill:var(--muted);font-size:10px">${esc(hi)}</text><text x="545" y="${Y(-1)+4}" style="fill:var(--muted);font-size:10px">${esc(lo)}</text><path d="${path}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round"/>${dots}<text x="60" y="114" style="fill:var(--muted);font-size:10px">first</text><text x="540" y="114" text-anchor="end" style="fill:var(--muted);font-size:10px">latest</text></svg></div>`;
+}
+// synoptic mirrors the app's inline builder (real field names)
+function synopticBars(){
+  const hasStated=Object.keys(stated).length>0, statedToAxis=f=>f*2-1;
+  const sdoms=POCProjection.DOMAINS.filter(d=>r.rev[d]); const SW=600,rowH=52,sTop=12,sBot=36,SH=sTop+sdoms.length*rowH+sBot;
+  const SX=v=>24+((Math.max(-1,Math.min(1,v))+1)/2)*(576-24); let srows="";
+  sdoms.forEach((d,i)=>{ const rt=sTop+i*rowH,yL=rt+16,yT=rt+38,col=dcol(d); const m=r.rev[d].revealed_score_mean,didX=SX(m).toFixed(1);
+    const hasS=hasStated&&(d in stated); const saidX=hasS?SX(statedToAxis(stated[d])):null; const ns=r.rev[d].n_sessions_contributing;
+    srows+=`<text class="lab" x="24" y="${yL}" style="fill:${col}">${DLAB[d]}</text><text class="sub" x="576" y="${yL}" text-anchor="end">${m>=0?"+":""}${m.toFixed(2)} · ${ns} session${ns===1?"":"s"}</text><line class="row-track" x1="24" y1="${yT}" x2="576" y2="${yT}"/>`;
+    if(saidX!==null){ const lo=Math.min(+didX,saidX).toFixed(1),hi=Math.max(+didX,saidX).toFixed(1);
+      srows+=`<line class="conn" x1="${lo}" y1="${yT}" x2="${hi}" y2="${yT}" pathLength="1" style="stroke:${col}"/><circle class="said" cx="${saidX.toFixed(1)}" cy="${yT}" r="6.5" style="stroke:${col}"/>`; }
+    srows+=`<circle class="did" cx="${didX}" cy="${yT}" r="7.5" style="fill:${col}"/>`; });
+  const yT0=sTop+38,yTn=sTop+(sdoms.length-1)*rowH+38; const mid=`<line class="mid" x1="300" y1="${yT0-14}" x2="300" y2="${yTn+14}"/>`;
+  const foot=`<text class="axis" x="24" y="${SH-12}">away from it</text><text class="axis" x="300" y="${SH-12}" text-anchor="middle">neutral</text><text class="axis" x="576" y="${SH-12}" text-anchor="end">leaned into it</text>`;
+  return `<svg class="synoptic" viewBox="0 0 ${SW} ${SH}">${mid}${srows}${foot}</svg>`;
+}
+const lab=id=>(CARD_LAYERS.find(l=>l.id===id)||{}).short||id;
+document.getElementById("app").innerHTML =
+  `<h2>Your profile so far</h2><p class="body-text" style="color:var(--muted);font-size:15px">Computed on your device. Held loosely — it points inward, never at anyone else.</p>`
+  + `<h3>What your choices revealed, by area</h3>${synopticBars()}`
+  + `<h3>When it stopped being hypothetical</h3>${divergenceViz("Biscuit","resource-allocation",divB)}`
+  + `<h3>What you'd set aside, and for how much</h3>${covLadderViz(covB.byValue.map(x=>({value:x.value_slot.replace(/_/g," "),domain:covDomain[x.value_slot]||"truth-telling",stake:x.stake,no_break:x.no_break_point})))}`
+  + `<h3>Which "you" your choices track</h3>${alignViz(alignB.byLayer.map(x=>({label:lab(x.layer),tau:x.tau})))}`
+  + `<h3>Known, vs. in the abstract</h3>${trajViz("Cole","reciprocity-cooperation",h8aCole.trajectory.scores,"guard","trust")}`;
+</script></body></html>

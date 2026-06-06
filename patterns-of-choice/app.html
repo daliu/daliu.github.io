@@ -82,6 +82,10 @@
       .synoptic .did, .synoptic .said { transform-box:fill-box; transform-origin:center; animation:poc-pop 480ms cubic-bezier(.2,.7,.3,1) both; }
       .synoptic .conn { animation:poc-draw 520ms ease both; }
     }
+    /* reveal read-visuals (each analysis as a colorful, intuitive figure) */
+    .viz { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:10px 0; }
+    .viz svg { display:block; width:100%; height:auto; }
+    .viz-cap { font-size:14px; margin-top:8px; line-height:1.45; }
   </style>
 </head>
 <body>
@@ -871,6 +875,86 @@ async function canReveal(st){
   return { ok: have >= 3, have, rev, exp };
 }
 
+// --- reveal visual language: a color per domain + SVG read-visuals (descriptive,
+//     no verdict). Verified via screenshot preview before porting. ---
+const DCOLOR = { "truth-telling":"#2b6cb0", "resource-allocation":"#c0732e", "in-group-out-group":"#2f8f6b", "reciprocity-cooperation":"#9c4f96" };
+function dcol(d){ return DCOLOR[d] || "var(--accent)"; }
+
+// H8b divergence: abstract choice vs the choice about a named figure, with a shift arrow.
+function divergenceViz(name, domain, div){
+  const col = dcol(domain), cool = "#8aa0b8", nm = esc(name);
+  const X = p => p === "near" ? 470 : 130, y = 56;
+  const aX = X(div.abstractPole), nX = X(div.narrativePole);
+  let arrow = "";
+  if (div.abstractPole !== div.narrativePole){
+    const dir = nX > aX ? 1 : -1;
+    arrow = `<line x1="${aX + 12*dir}" y1="${y}" x2="${nX - 14*dir}" y2="${y}" stroke="${col}" stroke-width="2.5"/>`
+      + `<path d="M ${nX-14*dir} ${y-6} L ${nX-2*dir} ${y} L ${nX-14*dir} ${y+6} Z" fill="${col}"/>`;
+  }
+  const moved = div.abstractPole !== div.narrativePole;
+  const cap = moved
+    ? `In the abstract you leaned toward <span style="color:${cool}">the wider claim</span>; asked about ${nm}, you chose ${nm}. <span style="color:var(--muted)">That shift is what attachment does to a settled judgment — neither answer is the right one.</span>`
+    : `You weighed it the same in the abstract and about ${nm}. <span style="color:var(--muted)">Knowing ${nm} didn't move the call — that's already where you stand.</span>`;
+  return `<div class="viz"><svg viewBox="0 0 600 110" role="img" aria-label="${nm}: abstract choice ${div.abstractPole}, with ${nm} ${div.narrativePole}">
+    <text x="300" y="20" text-anchor="middle" style="fill:${col};font-size:15px;font-weight:600">${nm}</text>
+    <text x="58" y="${y+4}" text-anchor="middle" style="fill:${cool};font-size:12px">the wider claim</text>
+    <text x="542" y="${y+4}" text-anchor="middle" style="fill:${col};font-size:12px">${nm}</text>
+    <line x1="110" y1="${y}" x2="490" y2="${y}" stroke="var(--border)" stroke-width="2"/>${arrow}
+    <circle cx="${aX}" cy="${y}" r="9" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/>
+    <text x="${aX}" y="${y+28}" text-anchor="middle" style="fill:var(--muted);font-size:11px">in the abstract</text>
+    <circle cx="${nX}" cy="${y}" r="10" fill="${col}"/>
+    <text x="${nX}" y="${y-16}" text-anchor="middle" style="fill:${col};font-size:11px">with ${nm}</text>
+  </svg><div class="viz-cap">${cap}</div></div>`;
+}
+
+// cost-of-virtue: a stake ladder per value with the break-point marked.
+function covLadderViz(items){
+  const ladder = [10,100,1000,10000,100000], rowH = 52, top = 6, H = top + items.length*rowH + 8;
+  const lx = i => 150 + (i/(ladder.length-1))*(560-150);
+  let rows = "";
+  items.forEach((it,r) => {
+    const rt = top+r*rowH, yL = rt+18, yT = rt+34, col = dcol(it.domain);
+    rows += `<text x="0" y="${yL+5}" style="fill:${col};font-size:14px;font-weight:600">${esc(it.value)}</text>`
+      + `<line x1="150" y1="${yT}" x2="560" y2="${yT}" stroke="var(--border)" stroke-width="2"/>`;
+    ladder.forEach((s,i) => { rows += `<line x1="${lx(i)}" y1="${yT-4}" x2="${lx(i)}" y2="${yT+4}" stroke="var(--border)" stroke-width="1.5"/>`
+      + `<text x="${lx(i)}" y="${yT+16}" text-anchor="middle" style="fill:var(--muted);font-size:9px">$${s>=1000?(s/1000)+'k':s}</text>`; });
+    if (it.no_break) rows += `<circle cx="572" cy="${yT}" r="7" fill="${col}"/><text x="572" y="${yT-11}" text-anchor="end" style="fill:${col};font-size:10px">wouldn't</text>`;
+    else { const idx = ladder.indexOf(it.stake), cx = idx>=0 ? lx(idx) : 150; rows += `<circle cx="${cx}" cy="${yT}" r="7" fill="${col}"/>`; }
+  });
+  return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">The smallest amount at which you'd set each aside. A price isn't a verdict — most people have one; the signal is whether it drifts.</div></div>`;
+}
+
+// self-alignment: which stated "you" your choices track (longer bar = closer).
+function alignViz(byLayer){
+  const rowH = 44, top = 6, H = top + byLayer.length*rowH + 6;
+  const bx = t => 180 + ((Math.max(-1,Math.min(1,t))+1)/2)*(560-180);
+  let rows = "";
+  byLayer.forEach((x,i) => {
+    const rt = top+i*rowH, y = rt+20, closest = i===0, c = closest ? "var(--accent)" : "#b9c2bb";
+    rows += `<text x="0" y="${y+5}" style="fill:${closest?'var(--accent)':'var(--muted)'};font-size:14px;font-weight:${closest?700:400}">${esc(x.label)}</text>`
+      + `<line x1="180" y1="${y}" x2="560" y2="${y}" stroke="#eee" stroke-width="8" stroke-linecap="round"/>`
+      + `<line x1="180" y1="${y}" x2="${bx(x.tau).toFixed(1)}" y2="${y}" stroke="${c}" stroke-width="8" stroke-linecap="round"/>`
+      + (closest ? `<text x="565" y="${y+4}" style="fill:var(--accent);font-size:11px">closest</text>` : "");
+  });
+  return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">How closely your everyday choices track each version of yourself you described.</div></div>`;
+}
+
+// evolves trajectory: the value (trust / inclusion) across the ordered beats.
+function trajViz(name, domain, scores, lo, hi){
+  const col = dcol(domain), n = scores.length, X = i => 60 + (i/(n-1))*(540-60), Y = v => 96 - ((Math.max(-1,Math.min(1,v))+1)/2)*76;
+  let path = "", dots = "";
+  scores.forEach((v,i) => { path += (i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" "; dots += `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="6" fill="${col}"/>`; });
+  return `<div class="viz"><svg viewBox="0 0 600 120" role="img" aria-label="${esc(name)} trajectory across ${n} beats">
+    <text x="60" y="18" style="fill:${col};font-size:15px;font-weight:600">${esc(name)}</text>
+    <line x1="60" y1="${Y(0)}" x2="540" y2="${Y(0)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 4"/>
+    <text x="545" y="${Y(1)+4}" style="fill:var(--muted);font-size:10px">${esc(hi)}</text>
+    <text x="545" y="${Y(-1)+4}" style="fill:var(--muted);font-size:10px">${esc(lo)}</text>
+    <path d="${path}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round"/>${dots}
+    <text x="60" y="114" style="fill:var(--muted);font-size:10px">first</text>
+    <text x="540" y="114" text-anchor="end" style="fill:var(--muted);font-size:10px">latest</text>
+  </svg></div>`;
+}
+
 // --- the on-device reveal (revealed shape + §13 reads) ---
 async function renderReveal(){
   const st = await practiceState();
@@ -888,14 +972,15 @@ async function renderReveal(){
     const nm = (await RT.getSetting(nameKey(arc))) || arc.npc_default_name;
     if ((arc.mode || "h8b") === "h8a"){
       const h = POCProjection.h8aDebiasing(r.exp.session_log, arc, TAGMAP);
-      if (h.ok) h8aReads.push({ nm, h });
+      if (h.ok) h8aReads.push({ nm, domain: arc.primary_domain, h });
       continue;
     }
     const probe = probeForArc(arc);
     const div = probe ? POCProjection.h8Divergence(r.exp.session_log, probe) : { ok: false };
     if (!div.ok) continue;
-    arcReads.push({ nm, div, att: POCProjection.attachmentReport(instrs, arc) });
+    arcReads.push({ nm, domain: arc.primary_domain, div, att: POCProjection.attachmentReport(instrs, arc) });
   }
+  const covDomain = {}; (BUNDLE.covProbes || []).forEach(c => { covDomain[c.value_slot] = c.domain; });
   const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
 
   // per-domain dumbbell: filled dot = what you DID (revealed mean), and when the
@@ -914,20 +999,20 @@ async function renderReveal(){
   const SX = v => 24 + ((Math.max(-1, Math.min(1, v)) + 1) / 2) * (576 - 24);
   let srows = "";
   sdoms.forEach((d, i) => {
-    const rt = sTop + i * rowH, yL = rt + 16, yT = rt + 38;
+    const rt = sTop + i * rowH, yL = rt + 16, yT = rt + 38, col = dcol(d);
     const m = r.rev[d].revealed_score_mean, didX = SX(m).toFixed(1);
     const hasS = hasStated && (d in stated);
     const saidX = hasS ? SX(statedToAxis(stated[d])) : null;
     const ns = r.rev[d].n_sessions_contributing;
-    srows += `<text class="lab" x="24" y="${yL}">${DLAB[d]}</text>`
+    srows += `<text class="lab" x="24" y="${yL}" style="fill:${col}">${DLAB[d]}</text>`
       + `<text class="sub" x="576" y="${yL}" text-anchor="end">${m >= 0 ? "+" : ""}${m.toFixed(2)} · ${ns} session${ns === 1 ? "" : "s"}</text>`
       + `<line class="row-track" x1="24" y1="${yT}" x2="576" y2="${yT}"/>`;
     if (saidX !== null) {
       const lo = Math.min(+didX, saidX).toFixed(1), hi = Math.max(+didX, saidX).toFixed(1);
-      srows += `<line class="conn" x1="${lo}" y1="${yT}" x2="${hi}" y2="${yT}" pathLength="1" style="animation-delay:${i * 90 + 140}ms"/>`
-        + `<circle class="said" cx="${saidX.toFixed(1)}" cy="${yT}" r="6.5" style="animation-delay:${i * 90 + 70}ms"/>`;
+      srows += `<line class="conn" x1="${lo}" y1="${yT}" x2="${hi}" y2="${yT}" pathLength="1" style="animation-delay:${i * 90 + 140}ms;stroke:${col}"/>`
+        + `<circle class="said" cx="${saidX.toFixed(1)}" cy="${yT}" r="6.5" style="animation-delay:${i * 90 + 70}ms;stroke:${col}"/>`;
     }
-    srows += `<circle class="did" cx="${didX}" cy="${yT}" r="7.5" style="animation-delay:${i * 90}ms"/>`;
+    srows += `<circle class="did" cx="${didX}" cy="${yT}" r="7.5" style="animation-delay:${i * 90}ms;fill:${col}"/>`;
   });
   const yT0 = sTop + 38, yTn = sTop + (sdoms.length - 1) * rowH + 38;
   const midline = `<line class="mid" x1="300" y1="${yT0 - 14}" x2="300" y2="${yTn + 14}"/>`;
@@ -962,23 +1047,16 @@ async function renderReveal(){
   let alignHtml = "";
   if (align.ok && align.byLayer.length >= 2){
     const lab = id => (CARD_LAYERS.find(l => l.id === id) || {}).short || id;
-    const bandWord = { low:"closely", moderate:"loosely", high:"barely" };
-    const worst = align.byLayer[align.byLayer.length - 1];
-    alignHtml = `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Which “you” your choices track</h3>
-      <p class="row-prose">You described yourself through more than one lens. Set against each, the order of your <em>choices</em> lines up:</p>
-      <ul class="row-prose" style="margin:8px 0;padding-left:22px;">${align.byLayer.map(x => `<li>with <strong>${lab(x.layer)}</strong> — ${bandWord[x.band]}</li>`).join("")}</ul>
-      <p class="row-prose">Your everyday choices track <strong>${lab(align.closest)}</strong> most closely${align.byLayer.length >= 2 && worst.layer !== align.closest ? `, more than ${lab(worst.layer)}` : ""}. Not a verdict — just where the words and the deeds meet.</p>`;
+    alignHtml = `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Which “you” your choices track</h3>`
+      + alignViz(align.byLayer.map(x => ({ label: lab(x.layer), tau: x.tau })))
+      + `<p class="row-prose">Your everyday choices track <strong>${lab(align.closest)}</strong> most closely. Not a verdict — just where the words and the deeds meet.</p>`;
   }
 
-  // cost-of-virtue: the break-point on a stated value (a price, not a verdict)
+  // cost-of-virtue: the break-point on a stated value, drawn on a stake ladder
   let covHtml = "";
   if (cov.ok){
-    const fmt = x => x.no_break_point ? "wouldn't, at any amount asked" : `around ${x.unit === "USD" ? "$" : ""}${x.stake.toLocaleString()}`;
-    const trendWord = { down:" — lower than before", up:" — higher than before", flat:" — unchanged" };
-    covHtml = `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">What you'd set aside, and for how much</h3>
-      <p class="row-prose">On values you said matter, the break-points you named:</p>
-      <ul class="row-prose" style="margin:8px 0;padding-left:22px;">${cov.byValue.map(x => `<li><strong>${x.value_slot.replace(/_/g, " ")}</strong> — ${fmt(x)}${x.trend ? trendWord[x.trend] : ""}</li>`).join("")}</ul>
-      <p class="row-prose" style="color:var(--muted)">A price isn't a verdict — most people have one. The signal worth watching is whether it drifts over time.</p>`;
+    covHtml = `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">What you'd set aside, and for how much</h3>`
+      + covLadderViz(cov.byValue.map(x => ({ value: x.value_slot.replace(/_/g, " "), domain: covDomain[x.value_slot] || "truth-telling", stake: x.stake, no_break: x.no_break_point })));
   }
 
   render(`
@@ -991,8 +1069,8 @@ async function renderReveal(){
     ${conHtml}
     ${alignHtml}
     ${covHtml}
-    ${arcReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>` + arcReads.map(x => `${attachmentLine(x.att, x.nm)}${h8ReadHtml(x.div, x.nm)}${h8ConnectorLine(x.att, x.div, x.nm)}`).join('<hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">') : ""}
-    ${h8aReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Known, vs. in the abstract</h3>` + h8aReads.map(x => h8aReadHtml(x.h, x.nm)).join("") : ""}
+    ${arcReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>` + arcReads.map(x => divergenceViz(x.nm, x.domain, x.div) + attachmentLine(x.att, x.nm)).join("") : ""}
+    ${h8aReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Known, vs. in the abstract</h3>` + h8aReads.map(x => (x.h.trajectory ? trajViz(x.nm, x.domain, x.h.trajectory.scores, x.h.kind === "inclusion" ? "outside" : "guard", x.h.kind === "inclusion" ? "inside" : "trust") : "") + h8aReadHtml(x.h, x.nm)).join("") : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);
