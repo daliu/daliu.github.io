@@ -217,7 +217,12 @@ async function renderHome(){
     })()}
     ${ready.ok ? `<button class="secondary" onclick="renderReveal()">See your profile so far</button>`
       : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.${!st.hasCardSort ? " The card sort adds the 'what you'd say' half." : ""}</div>`}
-    ${arcInfos.map(arcCardHtml).join("")}
+    ${arcInfos.length ? `
+      <h3 style="font-weight:500;font-size:17px;margin-top:24px;">Threads</h3>
+      <p class="progress" style="margin:2px 0 4px;">People — and one dog — you come back to across your sessions. Each is a relationship that builds; what it turns out to be worth is the point.</p>
+      ${arcInfos.filter(ai => ai.prog.completedCount > 0).map(arcCardHtml).join("")}
+      ${arcInfos.filter(ai => ai.prog.completedCount === 0).map(ai => `<button class="secondary" style="text-align:left;margin:4px 0;" onclick="startArc('${ai.arc.arc_id}')">${esc(arcHook(ai.arc))} <span style="color:var(--muted)">· begin</span></button>`).join("")}
+    ` : ""}
     ${cs && cs.fresh && cs.fresh.length ? `
       <div class="domyield" style="margin-top:14px;">
         <div class="name">A harder question</div>
