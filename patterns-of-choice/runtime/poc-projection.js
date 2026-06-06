@@ -312,17 +312,28 @@
     for (const e of sessionLog || []) if (e && e.option_id != null && pred(e)) hit = e;
     return hit;
   }
+  // score a choice for the H8a read: normally on the domain's value axis (itemScore),
+  // but an "inclusion" arc (e.g. marisol — widen vs hold the circle, which lives on
+  // universalism/particularism, NOT the loyalty axis) scores its circle-widened/held poles.
+  function h8aScore(arc, tags, tagMap) {
+    if (arc && arc.scoring === "inclusion") {
+      const t = tags || [];
+      if (t.includes("resolution:circle-widened")) return 1;
+      if (t.includes("resolution:circle-held")) return -1;
+      return 0;
+    }
+    return itemScore(arc.primary_domain, tags, tagMap).score;
+  }
   function h8aDebiasing(sessionLog, arc, tagMap) {
     if (!arc || arc.mode !== "h8a") return { ok: false };
-    const domain = arc.primary_domain;
     const pairs = [];
     for (const beat of arc.beats || []) {
       if (!beat.signal || !beat.abstract_twin) continue;
       const narr = h8aLast(sessionLog, e => e.scenario_type === "arc-beat" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id && e.item_id === beat.signal);
       const abs = h8aLast(sessionLog, e => e.scenario_type === "h8a-abstract" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id);
       if (!narr || !abs) continue;
-      const nS = itemScore(domain, narr.tags, tagMap).score;
-      const aS = itemScore(domain, abs.tags, tagMap).score;
+      const nS = h8aScore(arc, narr.tags, tagMap);
+      const aS = h8aScore(arc, abs.tags, tagMap);
       const shift = nS - aS;
       pairs.push({
         beat_id: beat.beat_id, narrative: nS, abstract: aS, shift,
@@ -337,7 +348,7 @@
       for (const beat of arc.beats || []) {
         if (!beat.signal) continue;
         const narr = h8aLast(sessionLog, e => e.scenario_type === "arc-beat" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id && e.item_id === beat.signal);
-        if (narr) seq.push(itemScore(domain, narr.tags, tagMap).score);
+        if (narr) seq.push(h8aScore(arc, narr.tags, tagMap));
       }
       if (seq.length >= 2) {
         const d = seq[seq.length - 1] - seq[0];
@@ -350,7 +361,7 @@
     const candid = shifts.filter(p => p.direction === "more-candid-with-friend").length;
     const lean = !shifts.length ? "consistent"
       : (perf > candid ? "performed-in-abstract" : (candid > perf ? "candid-with-friend" : "mixed"));
-    return { ok: true, pairs, n: pairs.length, nShifts: shifts.length, lean, trajectory };
+    return { ok: true, kind: arc.scoring === "inclusion" ? "inclusion" : "candor", pairs, n: pairs.length, nShifts: shifts.length, lean, trajectory };
   }
 
   // --- top-level: full individual profile from an analyzer-export bundle ---

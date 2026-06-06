@@ -263,6 +263,40 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
   ok(cd.trajectory.direction === "rising", "cole h8a evolves end-to-end: guard@b1 -> trust@b2,b3 -> trajectory rising", cd.trajectory);
   ok(cd.trajectory.scores.length === 3, "cole trajectory: one narrative score per beat");
 
+  // ===== H8a inclusion arc: Marisol (in-group, circle widen/hold poles, evolves) =====
+  const marisol = bundle.arcs.find(a => a.arc_id === "arc-marisol");
+  ok(!!marisol && marisol.mode === "h8a" && marisol.scoring === "inclusion" && marisol.evolves === true, "bundle carries arc-marisol (h8a inclusion evolves)");
+  const RTm = createRuntime({ store: MemoryStore(), corpus_version: "test" });
+  await RTm.init();
+  const hasWiden = c => (c.tags || []).includes("resolution:circle-widened");
+  const hasHold = c => (c.tags || []).includes("resolution:circle-held");
+  const wantWidenAt = { "arc-marisol-b1": false, "arc-marisol-b2": true, "arc-marisol-b3": true }; // rising inclusion
+  for (const beat of marisol.beats){
+    const scenes = beatNode(marisol, beat).scenes;
+    let sid = startScene(scenes), step = 0, guard = 0, term = null, sessionId = uuid();
+    while (true){
+      const sc = scenes.find(x => x.id === sid);
+      if (!sc || sc.terminal){ term = sc || null; break; }
+      let c = sc.choices[0];
+      if (sc.id === beat.signal){ const want = wantWidenAt[beat.beat_id] ? hasWiden : hasHold; c = sc.choices.find(want) || sc.choices[0]; }
+      await RTm.logSessionChoice({ user_id: USER, session_id: sessionId, timestamp_iso: new Date().toISOString(),
+        scenario_id: beat.beat_id, scenario_type: "arc-beat", domain: marisol.primary_domain, arc_id: marisol.arc_id,
+        beat_id: beat.beat_id, item_id: sc.id, option_id: c.id, tags: c.tags, response_time_ms: 4000,
+        presented_position: step + 1, was_timeout: false });
+      ok(hasWiden(c) || hasHold(c) || sc.id !== beat.signal, `marisol ${beat.beat_id} signal choice carries an inclusion pole`);
+      sid = c.next; step++; if (++guard > 30){ ok(false, "marisol walk runaway"); break; }
+    }
+    await logComplete(RTm, marisol, beat, term, step);
+    const tw = beat.abstract_twin;
+    const held = tw.options.find(o => (o.tags || []).includes("resolution:circle-held")) || tw.options[tw.options.length - 1];
+    await RTm.logSessionChoice({ user_id: USER, session_id: uuid(), timestamp_iso: new Date().toISOString(),
+      scenario_id: tw.item_id, scenario_type: "h8a-abstract", domain: marisol.primary_domain, arc_id: marisol.arc_id,
+      beat_id: beat.beat_id, item_id: tw.item_id, option_id: held.id, tags: held.tags, response_time_ms: 5000, presented_position: 1, was_timeout: false });
+  }
+  const mdg = P.h8aDebiasing((await RTm.exportForAnalyzer()).session_log, marisol, tagMap);
+  ok(mdg.ok && mdg.kind === "inclusion", "marisol h8a: read via inclusion pole scoring (kind=inclusion)");
+  ok(mdg.trajectory && mdg.trajectory.direction === "rising", "marisol h8a evolves end-to-end: hold@b1 -> widen@b2,b3 -> circle widening (trajectory rising)", mdg.trajectory);
+
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
 })();

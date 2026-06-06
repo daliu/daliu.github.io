@@ -358,30 +358,44 @@ function h8ReadHtml(div, name){
   return `<div class="observation" style="font-style:normal;"><strong>What knowing ${nm} did to the choice</strong><br>${body}</div>`;
 }
 // the H8a read, rendered descriptively (no verdict): a debiasing gap (known vs.
-// abstract) and, for evolves arcs, the trajectory of the choice over the history.
+// abstract) and, for evolves arcs, the trajectory over the history. Text adapts to
+// the arc's kind — "candor" (honesty/trust) vs "inclusion" (widening the circle).
 function h8aReadHtml(h8a, name){
   if (!h8a || !h8a.ok) return "";
-  const nm = esc(name);
+  const nm = esc(name), inclusion = h8a.kind === "inclusion";
   const parts = [];
   if (h8a.pairs && h8a.pairs.length){
-    const leanText = {
+    const candor = {
       "performed-in-abstract": `On the whole you answered more tidily about strangers than about ${nm} — being known by someone pulled your answer toward something more candid, or more careful, than the performed version. That pull is exactly what this notices.`,
       "candid-with-friend": `You were more candid with ${nm} than in the abstract — being known moved you toward the harder truth, not away from it.`,
       "mixed": `It went both ways — on some moments more open with ${nm} than about a stranger, on others less. Knowing someone doesn't bend every call the same direction.`,
       "consistent": `You answered about ${nm} the same way you answered about strangers — knowing them didn't move the call either way.`,
-    }[h8a.lean];
-    if (leanText) parts.push(leanText);
+    };
+    const incl = {
+      "performed-in-abstract": `In the abstract you'd widen your circle for a newcomer — but you held ${nm}, a specific person, a little further out. The generic question invites the generous answer; where you actually drew the line is the other thing.`,
+      "candid-with-friend": `You brought ${nm} inside faster than you'd say you would for a stranger in the abstract — knowing her moved her in.`,
+      "mixed": `It went both ways — sometimes you included ${nm} more than you'd include a stranger in principle, sometimes less.`,
+      "consistent": `You treated ${nm} about the same as a stranger in the abstract — being around her didn't move where your circle's edge sits.`,
+    };
+    const t = (inclusion ? incl : candor)[h8a.lean];
+    if (t) parts.push(t);
   }
   if (h8a.trajectory && h8a.trajectory.scores.length >= 2){
-    parts.push({
+    const candorTraj = {
       rising: `And over your history with ${nm}, your trust returned — you met the later, repaired version of him more openly than the first. The accumulated history moved you.`,
       falling: `Over your history with ${nm}, you grew warier, not warmer — the repair didn't win you back.`,
       flat: `Over your history with ${nm}, your stance held steady — the repair neither won you back nor hardened you further.`,
-    }[h8a.trajectory.direction] || "");
+    };
+    const inclTraj = {
+      rising: `And over your time around ${nm}, your circle widened to take her in — she went from stranger to someone you'd count as one of yours.`,
+      falling: `Over your time around ${nm}, you kept the edge of your circle where it was, or drew it tighter — she stayed outside it.`,
+      flat: `Over your time around ${nm}, where you draw your circle held steady — she neither moved decisively in nor out.`,
+    };
+    parts.push((inclusion ? inclTraj : candorTraj)[h8a.trajectory.direction] || "");
   }
   const body = parts.filter(Boolean).join(" ");
   if (!body) return "";
-  const title = h8a.trajectory ? "Trust, over a history" : "Candor — with a friend vs. in the abstract";
+  const title = inclusion ? "Your circle — who's inside" : (h8a.trajectory ? "Trust, over a history" : "Candor — with a friend vs. in the abstract");
   return `<div class="observation" style="font-style:normal;"><strong>${title}</strong><br>${body} <span style="color:var(--muted)">Neither is a verdict; just where it bends.</span></div>`;
 }
 function arcCardH8a(ainfo){

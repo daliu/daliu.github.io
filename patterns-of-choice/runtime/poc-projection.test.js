@@ -184,5 +184,25 @@ ok(coleRising.trajectory.scores.length === 3, "h8a trajectory: one score per pla
 const coleHeld = P.h8aDebiasing([cA("arc-cole-b1", "s1", ["vigilance"]), cA("arc-cole-b2", "s2", ["vigilance:mild"]), cA("arc-cole-b3", "s3", ["trust:withhold"])], coleArc, tagMap);
 ok(coleHeld.trajectory.direction === "falling" || coleHeld.trajectory.direction === "flat", "h8a evolves: sustained guard -> trajectory not rising", coleHeld.trajectory);
 
+// h8aDebiasing inclusion scoring (marisol-style: circle-widened/held poles, NOT the loyalty axis)
+const marisolArc = { arc_id: "arc-marisol", mode: "h8a", scoring: "inclusion", evolves: true, primary_domain: "in-group-out-group", beats: [
+  { beat_id: "arc-marisol-b1", signal: "s1", abstract_twin: { item_id: "arc-marisol-b1-twin" } },
+  { beat_id: "arc-marisol-b2", signal: "s2", abstract_twin: { item_id: "arc-marisol-b2-twin" } },
+]};
+const mA = (type, beat, item, tags) => ({ scenario_type: type, arc_id: "arc-marisol", beat_id: beat, item_id: item, option_id: "x", tags });
+const WIDEN = ["resolution:circle-widened"], HELD = ["resolution:circle-held"];
+const mLog = [
+  mA("arc-beat", "arc-marisol-b1", "s1", ["resolution:circle-held", "recurring_npc:marisol"]),
+  mA("h8a-abstract", "arc-marisol-b1", "arc-marisol-b1-twin", ["resolution:circle-widened", "counterparty:stranger"]),
+  mA("arc-beat", "arc-marisol-b2", "s2", ["resolution:circle-widened", "recurring_npc:marisol"]),
+  mA("h8a-abstract", "arc-marisol-b2", "arc-marisol-b2-twin", ["resolution:circle-held", "counterparty:stranger"]),
+];
+const md = P.h8aDebiasing(mLog, marisolArc, tagMap);
+ok(md.ok && md.kind === "inclusion" && md.n === 2, "h8a inclusion: two pairs read via circle-widened/held pole scoring", md && md.kind);
+ok(md.pairs.find(p => p.beat_id === "arc-marisol-b1").direction === "more-candid-in-abstract", "inclusion b1: held with Marisol but widened for a stranger in the abstract");
+ok(md.pairs.find(p => p.beat_id === "arc-marisol-b2").direction === "more-candid-with-friend", "inclusion b2: widened for Marisol, held for a stranger -> more inclusive with the known person");
+ok(md.trajectory && md.trajectory.direction === "rising", "h8a inclusion evolves: held(-1) -> widened(+1) -> trajectory rising (circle widening)", md.trajectory);
+ok(P.h8aDebiasing([mA("arc-beat", "arc-marisol-b1", "s1", ["loyalty", "recurring_npc:marisol"]), mA("h8a-abstract", "arc-marisol-b1", "arc-marisol-b1-twin", ["loyalty", "counterparty:stranger"])], marisolArc, tagMap).pairs[0].narrative === 0, "inclusion scoring ignores non-pole tags (loyalty doesn't score as inclusion)");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
