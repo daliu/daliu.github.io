@@ -52,6 +52,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   ok(n === backup.events.length, "importBackup imported all events");
   ok((await rt2.log()).length === effNow.length, "restored effective length matches");
 
+  // settings round-trip: getSetting returns the VALUE, not the internal {value,ts} wrapper
+  ok((await rt.getSetting("npc_name:arc-biscuit")) === undefined, "unset setting -> undefined");
+  await rt.setSetting("npc_name:arc-biscuit", "Rufus");
+  ok((await rt.getSetting("npc_name:arc-biscuit")) === "Rufus", "setSetting/getSetting round-trips the raw value");
+
   await rt.eraseEverything();
   ok((await rt.log()).length === 0, "eraseEverything clears the log");
 

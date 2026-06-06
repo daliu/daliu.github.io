@@ -151,6 +151,7 @@ function qfForDomain(domain){ return BUNDLE.quickfires.find(q => q.domain === do
 async function renderHome(){
   const st = await practiceState();
   const ready = await canReveal(st);
+  const ainfo = await arcInfo();
   render(`
     <h1>Patterns of Choice</h1>
     <div class="subhead">A daily practice, kept entirely on your device.</div>
@@ -167,10 +168,52 @@ async function renderHome(){
     ${!st.hasCardSort ? `<button class="secondary" onclick="startCardSort()">${st.sessionCount === 0 ? "First, say what you value (2 min)" : "Add the card sort — what you'd say you value"}</button>` : ""}
     ${ready.ok ? `<button class="secondary" onclick="renderReveal()">See your profile so far</button>`
       : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.${!st.hasCardSort ? " The card sort adds the 'what you'd say' half." : ""}</div>`}
+    ${ainfo ? arcCardHtml(ainfo) : ""}
     <div class="meta">
       Stored only in this browser. <button class="ghost" onclick="renderData()">your data</button>
     </div>
   `);
+}
+
+// --- the recurring-character thread (the H8 mechanism: attachment you actually
+//     accrue across sessions, so the gated high-stakes beat lands on a relationship
+//     you have, not one the setup asserts). One arc for now: arc-biscuit. ---
+function getArc(){ return (BUNDLE.arcs && BUNDLE.arcs[0]) || null; }
+function nameKey(arc){ return "npc_name:" + arc.arc_id; }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
+// substitute the participant's chosen companion name for both the {token} and the
+// canonical default (the reused climax copy literally says the default name).
+function subst(text, name){
+  const a = getArc(); if (!a) return text || "";
+  const safe = esc(name);
+  return (text || "").split(a.name_token).join(safe).split(a.npc_default_name).join(safe);
+}
+async function arcInfo(){
+  const arc = getArc(); if (!arc) return null;
+  const exp = await RT.exportForAnalyzer();
+  const prog = POCProjection.arcProgress(exp.session_log, arc);
+  const stored = await RT.getSetting(nameKey(arc));
+  return { arc, prog, name: stored || arc.npc_default_name, named: !!stored };
+}
+function arcCardHtml(ainfo){
+  const { prog, name } = ainfo, nm = esc(name);
+  let inner;
+  if (prog.completedCount === 0){
+    inner = `<div class="name">A thread that continues</div>
+      <p class="row-prose" style="margin:6px 0 12px;">Most of this practice is one-off moments. This one isn't — you'll meet someone, and come back to them across your sessions. What that turns out to be worth is the point.</p>
+      <button class="primary" onclick="startArc()">Begin the thread</button>`;
+  } else if (prog.done){
+    inner = `<div class="name">${nm}</div>
+      <p class="row-prose" style="margin:6px 0 0;">Your thread with ${nm} is complete — ${prog.encounters} ordinary time${prog.encounters===1?"":"s"} together, then the one that wasn't ordinary. What you chose, and what you'd choose for a stranger's animal, are both in your log: the difference is the whole point.</p>`;
+  } else if (prog.locked){
+    inner = `<div class="name">${nm}</div>
+      <p class="row-prose" style="margin:6px 0 0;">You and ${nm} could use a little more ordinary time together before what comes next.</p>`;
+  } else {
+    inner = `<div class="name">${nm}</div>
+      <p class="row-prose" style="margin:6px 0 12px;">${prog.encounters === 0 ? "You've only just met." : `${prog.encounters} time${prog.encounters===1?"":"s"} together so far.`}</p>
+      <button class="primary" onclick="startArc()">Continue with ${nm}</button>`;
+  }
+  return `<div class="domyield" style="margin-top:20px;border-left:3px solid var(--accent);">${inner}</div>`;
 }
 
 // --- a daily session: alternate quick-fire (System 1) and narrative (richer) ---
@@ -230,6 +273,109 @@ function endNarrative(terminal){
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);
 }
+// --- arc beat player: plays the next unlocked beat, captures the name at the
+//     naming beat, accrues encounters, logs a completion marker that advances the
+//     gate, and substitutes the participant's name throughout (incl. the climax). ---
+let arcSess = null;
+async function startArc(){
+  const info = await arcInfo();
+  if (!info || info.prog.done || info.prog.locked){ return renderHome(); }
+  const beat = info.prog.next;
+  let setup, scenes, reflection, scenarioId;
+  if (beat.scenario_ref){                                   // high_stakes beat -> referenced climax
+    const sc = (BUNDLE.arcScenarios || {})[beat.scenario_ref];
+    if (!sc){ return renderHome(); }
+    ({ setup, scenes, reflection_prompt: reflection } = sc); scenarioId = beat.scenario_ref;
+  } else {                                                  // inline build-up beat
+    setup = beat.setup; scenes = beat.scenes; reflection = beat.reflection_prompt; scenarioId = beat.beat_id;
+  }
+  const start = (scenes.find(s => s.id === "scene-1") || scenes.find(s => !s.terminal) || scenes[0]).id;
+  arcSess = { id: POCRuntime.uuid(), arc: info.arc, beat, name: info.name,
+              setup, scenes, reflection, scenarioId, sceneId: start, step: 0, t0: 0 };
+  if (beat.captures_name && !info.named) renderArcNaming();
+  else renderArcScene();
+}
+function renderArcNaming(){
+  const a = arcSess, def = esc(a.arc.npc_default_name);
+  render(`
+    <div class="progress">a thread that will continue across your sessions</div>
+    <h2>${esc(a.beat.title)}</h2>
+    <p class="body-text">You only meant to visit the shelter off the county road. You're driving home with a dog. It will need something to call it — for the vet, for the door, for the dark.</p>
+    <input id="dogname" type="text" maxlength="24" autocomplete="off" placeholder="${def}"
+      style="font-family:inherit;font-size:17px;padding:12px;width:100%;border:1.5px solid var(--border);border-radius:4px;margin:0 0 10px;"
+      onkeydown="if(event.key==='Enter')commitName(false)" />
+    <button class="primary" onclick="commitName(false)">Name it</button>
+    <button class="secondary" onclick="commitName(true)">Let it be ${def}</button>
+  `);
+  setTimeout(() => { const el = document.getElementById("dogname"); if (el) el.focus(); }, 40);
+}
+async function commitName(useDefault){
+  const a = arcSess;
+  let name = a.arc.npc_default_name;
+  if (!useDefault){
+    const el = document.getElementById("dogname");
+    const v = (el && el.value || "").trim();
+    if (v) name = v;
+  }
+  await RT.setSetting(nameKey(a.arc), name);
+  a.name = name;
+  renderArcScene();
+}
+function arcSceneById(id){ return arcSess.scenes.find(s => s.id === id); }
+function renderArcScene(){
+  const a = arcSess;
+  const sc = arcSceneById(a.sceneId);
+  if (!sc) return endArcBeat(null);
+  if (sc.terminal) return endArcBeat(sc);
+  a.t0 = Date.now();
+  const head = a.step === 0 ? `
+    <div class="progress">a thread that continues &middot; ${esc(a.name)}</div>
+    <h2>${esc(a.beat.title)}</h2>
+    ${a.beat.intro ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${subst(a.beat.intro, a.name)}</p>` : ""}
+    <p class="body-text">${subst(a.setup, a.name)}</p>` : "";
+  render(`
+    ${head}
+    <div class="item-prompt">${subst(sc.text, a.name)}</div>
+    ${sc.choices.map((c, i) => `<button onclick="chooseArcScene(${i})">${subst(c.text, a.name)}</button>`).join("")}
+    <div class="progress">a moment with ${esc(a.name)} &middot; take your time</div>
+  `);
+}
+async function chooseArcScene(i){
+  const a = arcSess;
+  const sc = arcSceneById(a.sceneId);
+  const c = sc.choices[i];
+  await RT.logSessionChoice({
+    user_id: USER, session_id: a.id, timestamp_iso: new Date().toISOString(),
+    scenario_id: a.scenarioId, scenario_type: "arc-beat", domain: a.arc.primary_domain,
+    arc_id: a.arc.arc_id, beat_id: a.beat.beat_id,
+    item_id: sc.id, option_id: c.id, tags: c.tags,
+    response_time_ms: a.t0 ? (Date.now() - a.t0) : 0, presented_position: a.step + 1, was_timeout: false,
+  });
+  a.step += 1; a.sceneId = c.next; renderArcScene();
+}
+async function endArcBeat(terminal){
+  const a = arcSess;
+  // completion marker: empty tags (not scored) but advances the encounter gate
+  await RT.logSessionChoice({
+    user_id: USER, session_id: a.id, timestamp_iso: new Date().toISOString(),
+    scenario_id: a.scenarioId, scenario_type: "arc-beat-complete", domain: a.arc.primary_domain,
+    arc_id: a.arc.arc_id, beat_id: a.beat.beat_id,
+    item_id: terminal ? terminal.id : null, option_id: null, tags: [],
+    response_time_ms: 0, presented_position: a.step + 1, was_timeout: false,
+  });
+  const isClimax = a.beat.kind === "high_stakes";
+  const refl = a.reflection ? subst(a.reflection, a.name).split("{chosen_path}").join("the path you took") : "";
+  render(`
+    <h2>${isClimax ? "After." : "Until next time."}</h2>
+    ${terminal ? `<div class="observation">${subst(terminal.text, a.name)}</div>` : ""}
+    ${refl ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${refl}</p>` : ""}
+    <div class="body-text"><p>${isClimax
+      ? `What you chose for ${esc(a.name)} — and what you'd choose for an animal you'd never met — are both in your own log now. The distance between them is the whole point.`
+      : `A small thing, logged only on your device. ${esc(a.name)} will be here next time.`}</p></div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
+}
+
 function renderItem(){
   if (!sess || sess.idx >= sess.qf.items.length){ return endSession(); }
   const item = sess.qf.items[sess.idx];

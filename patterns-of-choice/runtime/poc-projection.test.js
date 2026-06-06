@@ -47,5 +47,36 @@ const con = P.wordDeedConcordance(revealed, { "truth-telling": 0.80, "resource-a
 ok(con.ok && con.band === "high", "concordance band high", { band: con.band, tau: con.tau });
 ok(con.flips.some(f => f.said_lower === "in-group-out-group"), "in-group unclaimed-strength flip");
 
+// --- arcProgress: completion-gated recurring-character beats ---
+const arc = { arc_id: "arc-biscuit", beats: [
+  { beat_id: "arc-biscuit-b1", order: 1, kind: "naming",      min_prior_encounters: 0 },
+  { beat_id: "arc-biscuit-b2", order: 2, kind: "encounter",   min_prior_encounters: 1 },
+  { beat_id: "arc-biscuit-b3", order: 3, kind: "encounter",   min_prior_encounters: 2 },
+  { beat_id: "arc-biscuit-b4", order: 4, kind: "high_stakes", min_prior_encounters: 3 },
+]};
+const cx = (aid, bid) => ({ scenario_type: "arc-beat-complete", arc_id: aid, beat_id: bid });
+const dx = (aid, bid) => ({ scenario_type: "arc-beat", arc_id: aid, beat_id: bid, tags: ["recurring_npc:biscuit"] });
+const C = bid => cx("arc-biscuit", bid);
+
+const a0 = P.arcProgress([], arc);
+ok(a0.next.beat_id === "arc-biscuit-b1" && !a0.locked && a0.encounters === 0 && !a0.done, "fresh arc -> b1 next, unlocked, 0 encounters");
+ok(P.arcProgress([dx("arc-biscuit", "arc-biscuit-b1")], arc).next.beat_id === "arc-biscuit-b1", "a decision without a completion marker does NOT advance the arc");
+const a1 = P.arcProgress([C("arc-biscuit-b1")], arc);
+ok(a1.next.beat_id === "arc-biscuit-b2" && a1.encounters === 1, "b1 complete -> b2 next, 1 encounter accrued");
+const a2 = P.arcProgress([C("arc-biscuit-b1"), C("arc-biscuit-b2")], arc);
+ok(a2.next.beat_id === "arc-biscuit-b3" && a2.encounters === 2 && !a2.locked, "b1+b2 -> b3 next, unlocked (gate 2 <= 2)");
+const a3 = P.arcProgress([C("arc-biscuit-b1"), C("arc-biscuit-b2"), C("arc-biscuit-b3")], arc);
+ok(a3.next.beat_id === "arc-biscuit-b4" && a3.encounters === 3 && !a3.locked, "build-up done -> climax is next AND unlocked (3 encounters >= gate 3)");
+const a4 = P.arcProgress([C("arc-biscuit-b1"), C("arc-biscuit-b2"), C("arc-biscuit-b3"), C("arc-biscuit-b4")], arc);
+ok(a4.done && a4.next === null, "all beats complete -> done, no next");
+ok(P.arcProgress([cx("other-arc", "arc-biscuit-b1")], arc).encounters === 0, "a different arc's completion marker is ignored");
+// the gate has teeth: a beat whose min_prior_encounters exceeds accrued encounters is locked
+const lockArc = { arc_id: "x", beats: [
+  { beat_id: "x1", order: 1, kind: "encounter", min_prior_encounters: 0 },
+  { beat_id: "x2", order: 2, kind: "high_stakes", min_prior_encounters: 5 },
+]};
+const al = P.arcProgress([cx("x", "x1")], lockArc);
+ok(al.next.beat_id === "x2" && al.locked && al.needed === 5 && al.encounters === 1, "next beat gated behind more encounters -> locked, needed reported");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

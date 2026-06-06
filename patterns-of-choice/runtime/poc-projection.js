@@ -150,6 +150,44 @@
     return { ok: true, band, tau, nc, nd, flips, n: C.length };
   }
 
+  // --- recurring-character arc progress (the H8 attachment-accrual substrate) ---
+  // Pure projection over the event log: which beats are done, how much attachment
+  // has accrued (completed naming/encounter beats), and the next *playable* beat
+  // given each beat's min_prior_encounters gate. A beat counts as completed only
+  // when its "arc-beat-complete" marker is in the log (reaching a terminal scene),
+  // so a half-played beat doesn't unlock the gated climax.
+  //   sessionLog: SessionLogEntry payloads; arc: a content-bundle arc entry.
+  const ARC_ENCOUNTER_KINDS = new Set(["naming", "encounter"]);
+  function arcProgress(sessionLog, arc) {
+    const completed = new Set();
+    for (const e of sessionLog || []) {
+      if (e && e.scenario_type === "arc-beat-complete" && e.arc_id === arc.arc_id && e.beat_id)
+        completed.add(e.beat_id);
+    }
+    const beats = (arc.beats || []).slice().sort((a, b) => (a.order || 0) - (b.order || 0));
+    let encounters = 0;
+    for (const b of beats) if (ARC_ENCOUNTER_KINDS.has(b.kind) && completed.has(b.beat_id)) encounters++;
+    let next = null, locked = false, needed = 0;
+    for (const b of beats) {
+      if (completed.has(b.beat_id)) continue;
+      next = b;
+      const gate = b.min_prior_encounters || 0;
+      if (gate > encounters) { locked = true; needed = gate; }
+      break;
+    }
+    return {
+      arc_id: arc.arc_id,
+      completed: [...completed],
+      completedCount: completed.size,
+      totalBeats: beats.length,
+      encounters,
+      next,                 // next beat object, or null when the arc is done
+      locked,               // next beat exists but is gated behind more encounters
+      needed,               // encounters required to unlock `next`
+      done: next === null && beats.length > 0,
+    };
+  }
+
   // --- top-level: full individual profile from an analyzer-export bundle ---
   // bundle: runtime.exportForAnalyzer() output; valuesByDomain from values-deck
   function profile(bundle, tagMap, valuesByDomain, layer) {
@@ -165,5 +203,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
+           arcProgress,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K } };
 });

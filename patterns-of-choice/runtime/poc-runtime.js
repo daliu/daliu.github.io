@@ -260,7 +260,7 @@
     }
 
     // --- mutable settings (LWW-by-timestamp) — the one non-event-sourced surface ---
-    async function getSetting(k) { await init(); const s = (await store.getMeta("settings")) || {}; return s[k]; }
+    async function getSetting(k) { await init(); const s = (await store.getMeta("settings")) || {}; return k in s ? s[k].value : undefined; } // unwrap the LWW {value,ts} envelope
     async function setSetting(k, v) {
       await init();
       const s = (await store.getMeta("settings")) || {};
