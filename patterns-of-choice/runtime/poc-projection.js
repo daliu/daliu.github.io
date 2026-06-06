@@ -188,6 +188,24 @@
     };
   }
 
+  // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
+  // Given the revealed order and a card sort done in multiple layers (who you ARE /
+  // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
+  // actual choices track most closely. Reuses the per-layer word/deed concordance;
+  // descriptive, single-subject (the comparison is among the person's own selves).
+  function selfAlignment(revealed, cardSort, valuesByDomain, layers) {
+    const out = [];
+    for (const layer of layers || []) {
+      const stated = cardSortStated(cardSort, valuesByDomain, layer);
+      if (!Object.keys(stated).length) continue;
+      const con = wordDeedConcordance(revealed, stated);
+      if (con.ok) out.push({ layer, tau: con.tau, band: con.band });
+    }
+    if (!out.length) return { ok: false };
+    out.sort((a, b) => b.tau - a.tau);           // highest tau = best aligned
+    return { ok: true, byLayer: out, closest: out[0].layer, n: out.length };
+  }
+
   // --- attachment self-report (the SELF-REPORTED half of the H8b convergent measure) ---
   // instrumentEvents: payloads of kind "instrument" (the app reads these straight from
   // the raw log; they are intentionally outside the analyzer export contract). A single
@@ -260,6 +278,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
-           arcProgress, h8Divergence, attachmentReport,
+           arcProgress, h8Divergence, attachmentReport, selfAlignment,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K } };
 });

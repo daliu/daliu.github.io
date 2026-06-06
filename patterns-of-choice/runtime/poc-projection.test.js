@@ -111,5 +111,16 @@ ok(P.attachmentReport([instr("arc-biscuit", "psr-prd-v0.1", [3, 3, 4, 2])], arcB
 const latest = P.attachmentReport([instr("arc-biscuit", "psr", [1, 1, 1, 1]), instr("arc-biscuit", "psr", [5, 5, 5, 5])], arcB);
 ok(latest.mean === 5, "most recent administration is the one used");
 
+// --- selfAlignment: which stated reference-self the choices track best ---
+const vbd3 = { "truth-telling": ["honesty", "tact"], "resource-allocation": ["generosity", "thrift"], "in-group-out-group": ["loyalty", "fairness"] };
+const csMulti = [];
+const mk = (layer, ids) => Object.values(vbd3).flat().forEach(v => csMulti.push({ layer, selected: ids.includes(v), value_id: v }));
+mk("aspirational_self", ["honesty", "generosity", "loyalty", "fairness"]);  // spreads across domains
+mk("current_self", ["honesty", "tact"]);                                     // truth-heavy only
+const sa = P.selfAlignment(revealed, csMulti, vbd3, ["aspirational_self", "current_self", "admired_other"]);
+ok(sa.ok && sa.n === 2, "selfAlignment: reads the two completed layers (skips the unsorted third)", sa);
+ok(sa.byLayer[0].tau >= sa.byLayer[1].tau && sa.closest === sa.byLayer[0].layer, "selfAlignment: closest = highest-concordance layer");
+ok(!P.selfAlignment(revealed, csMulti, vbd3, ["admired_other"]).ok, "selfAlignment: only-unsorted layer -> not ok");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

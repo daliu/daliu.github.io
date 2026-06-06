@@ -125,20 +125,33 @@ async function practiceState(){
   const daysSeen = new Set();
   let sessionCount = 0;
   let hasCardSort = false;
+  const cardLayers = new Set();
   for (const e of evs){
-    if (e.kind === "card_sort") { hasCardSort = true; continue; }
+    if (e.kind === "card_sort") { hasCardSort = true; if (e.payload.layer) cardLayers.add(e.payload.layer); continue; }
     if (e.kind !== "session_log") continue;
     const sid = e.payload.session_id;
     if (!(sid in sessions)){ sessions[sid] = { domain: e.payload.domain }; sessionCount++; }
     daysSeen.add(e.timestamp_iso.slice(0,10));
   }
-  return { evs, sessionCount, dayCount: daysSeen.size, hasCardSort,
+  return { evs, sessionCount, dayCount: daysSeen.size, hasCardSort, cardLayers,
            lastDomain: lastDomainPlayed(evs) };
 }
 function lastDomainPlayed(evs){
   for (let i=evs.length-1;i>=0;i--) if (evs[i].kind==="session_log") return evs[i].payload.domain;
   return null;
 }
+// the three stated reference-selves (self-discrepancy: actual / ideal / admired).
+// aspirational is the default first sort; the others are optional, opt-in lenses.
+const CARD_LAYERS = [
+  { id:"aspirational_self", short:"who you want to be", title:"What you'd say you value",
+    blurb:"Keep the five values most like the person you're trying to be. You can't keep them all — the choosing is the point. This is the half you can put into words; your sessions capture the other half." },
+  { id:"current_self", short:"who you are now", title:"Who you are now",
+    blurb:"Not aspirations — the real present. Keep the five values most true of how you actually are these days, for better or worse." },
+  { id:"admired_other", short:"who you admire", title:"Who you admire",
+    blurb:"Keep the five values you most admire in the people you look up to — the qualities you notice and respect in others." },
+];
+function cardLayer(id){ return CARD_LAYERS.find(l => l.id === id) || CARD_LAYERS[0]; }
+
 // rotate domains so each day cycles through the four
 const DOMAIN_ROTATION = ["truth-telling","resource-allocation","in-group-out-group","reciprocity-cooperation"];
 function nextDomain(lastDomain){
@@ -165,7 +178,13 @@ async function renderHome(){
         : "Pick up where you left off. The point isn't any single day — it's the pattern that emerges across them."}</p>
     </div>
     <button class="primary" onclick="startSession()">${st.sessionCount === 0 ? "Begin today's session" : "Today's session"}</button>
-    ${!st.hasCardSort ? `<button class="secondary" onclick="startCardSort()">${st.sessionCount === 0 ? "First, say what you value (2 min)" : "Add the card sort — what you'd say you value"}</button>` : ""}
+    ${(() => {
+      const done = st.cardLayers || new Set();
+      if (!done.has("aspirational_self"))
+        return `<button class="secondary" onclick="startCardSort('aspirational_self')">${st.sessionCount === 0 ? "First, say what you value (2 min)" : "Add the card sort — what you'd say you value"}</button>`;
+      const next = CARD_LAYERS.find(l => !done.has(l.id));
+      return next ? `<button class="secondary" onclick="startCardSort('${next.id}')">Deepen what you'd say — also sort &ldquo;${next.short}&rdquo; (optional)</button>` : "";
+    })()}
     ${ready.ok ? `<button class="secondary" onclick="renderReveal()">See your profile so far</button>`
       : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.${!st.hasCardSort ? " The card sort adds the 'what you'd say' half." : ""}</div>`}
     ${ainfo ? arcCardHtml(ainfo) : ""}
@@ -579,9 +598,11 @@ function sessionObservation(st){
 
 // --- card-sort onboarding: the STATED channel (keep 5 of 20) ---
 let cardSel = new Set();
+let csLayer = "aspirational_self";
 const CS_CAP = 5;
-function startCardSort(){ cardSel = new Set(); renderCardSort(); }
+function startCardSort(layer){ csLayer = layer || "aspirational_self"; cardSel = new Set(); renderCardSort(); }
 function renderCardSort(){
+  const L = cardLayer(csLayer);
   const n = cardSel.size, ready = n === CS_CAP;
   const cards = BUNDLE.values.map(v => {
     const sel = cardSel.has(v.id), dim = (n>=CS_CAP && !sel) ? "opacity:.5;" : "";
@@ -589,9 +610,9 @@ function renderCardSort(){
       <span style="font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);">${v.label}${sel?" ✓":""}</span><br>${v.anchor}</button>`;
   }).join("");
   render(`
-    <div class="progress" style="position:sticky;top:0;background:var(--bg);padding:8px 0;text-align:center;">Most like you: <strong style="color:var(--accent);">${n} / ${CS_CAP}</strong></div>
-    <h2>What you'd say you value</h2>
-    <p class="body-text" style="color:var(--muted);font-size:15px;">Keep the five values most like you. You can't keep them all — the choosing is the point. This is the half you can put into words; your sessions capture the other half.</p>
+    <div class="progress" style="position:sticky;top:0;background:var(--bg);padding:8px 0;text-align:center;">${esc(L.short)} &middot; <strong style="color:var(--accent);">${n} / ${CS_CAP}</strong></div>
+    <h2>${esc(L.title)}</h2>
+    <p class="body-text" style="color:var(--muted);font-size:15px;">${L.blurb}</p>
     ${cards}
     <button class="primary" onclick="commitCardSort()" ${ready?"":"disabled style=\"opacity:.5;cursor:not-allowed;\""}>${ready?"Save these five":`Pick ${CS_CAP-n} more`}</button>
     <a href="#" onclick="renderHome();return false;" class="back-link">&larr; Maybe later</a>
@@ -608,13 +629,19 @@ async function commitCardSort(){
   // so the projection's frac_in_top5 is well-defined over the whole deck.
   const ts = new Date().toISOString();
   for (const v of BUNDLE.values){
-    await RT.logCardSort({ user_id: USER, layer: "aspirational_self", value_id: v.id,
+    await RT.logCardSort({ user_id: USER, layer: csLayer, value_id: v.id,
                            selected: cardSel.has(v.id), timestamp_iso: ts });
   }
   const kept = BUNDLE.values.filter(v => cardSel.has(v.id)).map(v => v.label);
+  const st = await practiceState();
+  const remaining = CARD_LAYERS.filter(l => !st.cardLayers.has(l.id));
   render(`
     <h2>Saved.</h2>
-    <div class="observation">You said you value: ${kept.join(", ")}. Held loosely — it's what you'd state today. Whether your everyday choices bear it out is what the sessions are for.</div>
+    <div class="observation">For &ldquo;${esc(cardLayer(csLayer).short)}&rdquo;, you kept: ${kept.join(", ")}. Held loosely — it's what you'd state today. Whether your everyday choices bear it out is what the sessions are for.</div>
+    ${remaining.length
+      ? `<p class="body-text" style="color:var(--muted);font-size:15px;">There are other lenses on what you'd say — optional, but together they show which version of you your choices actually track:</p>
+         ${remaining.map(l => `<button class="secondary" onclick="startCardSort('${l.id}')">Also sort: ${esc(l.short)}</button>`).join("")}`
+      : `<p class="body-text" style="color:var(--muted);font-size:15px;">All three lenses captured — who you are, who you want to be, who you admire. Your sessions are the other half.</p>`}
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);
 }
@@ -635,6 +662,7 @@ async function renderReveal(){
   const stated = POCProjection.cardSortStated(r.exp.card_sort||[], BUNDLE.valuesByDomain, "aspirational_self");
   const ordering = POCProjection.ipsativeOrdering(r.rev);
   const concordance = POCProjection.wordDeedConcordance(r.rev, stated);
+  const align = POCProjection.selfAlignment(r.rev, r.exp.card_sort||[], BUNDLE.valuesByDomain, CARD_LAYERS.map(l => l.id));
   const arc0 = getArc();
   const aname = arc0 ? (await RT.getSetting(nameKey(arc0)) || arc0.npc_default_name) : "";
   const h8div = (BUNDLE.h8Probes && BUNDLE.h8Probes[0]) ? POCProjection.h8Divergence(r.exp.session_log, BUNDLE.h8Probes[0]) : { ok: false };
@@ -686,7 +714,20 @@ async function renderReveal(){
       conHtml += `<p class="row-prose">Worth noticing: you rank <strong>${DLAB[f.said_lower]}</strong> low in what you'd say, but it's among the highest in what you did — an unclaimed strength, not a fault.</p>`;
     }
   } else {
-    conHtml = `<p class="row-prose" style="color:var(--muted)">Word-vs-deed comparison needs the card sort (the stated channel) alongside your choices in three areas. <button class="ghost" onclick="startCardSort()">do the card sort</button></p>`;
+    conHtml = `<p class="row-prose" style="color:var(--muted)">Word-vs-deed comparison needs the card sort (the stated channel) alongside your choices in three areas. <button class="ghost" onclick="startCardSort('aspirational_self')">do the card sort</button></p>`;
+  }
+
+  // self-discrepancy: when 2+ stated reference-selves exist, show which one the
+  // person's actual choices track most closely (descriptive, single-subject).
+  let alignHtml = "";
+  if (align.ok && align.byLayer.length >= 2){
+    const lab = id => (CARD_LAYERS.find(l => l.id === id) || {}).short || id;
+    const bandWord = { low:"closely", moderate:"loosely", high:"barely" };
+    const worst = align.byLayer[align.byLayer.length - 1];
+    alignHtml = `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Which “you” your choices track</h3>
+      <p class="row-prose">You described yourself through more than one lens. Set against each, the order of your <em>choices</em> lines up:</p>
+      <ul class="row-prose" style="margin:8px 0;padding-left:22px;">${align.byLayer.map(x => `<li>with <strong>${lab(x.layer)}</strong> — ${bandWord[x.band]}</li>`).join("")}</ul>
+      <p class="row-prose">Your everyday choices track <strong>${lab(align.closest)}</strong> most closely${align.byLayer.length >= 2 && worst.layer !== align.closest ? `, more than ${lab(worst.layer)}` : ""}. Not a verdict — just where the words and the deeds meet.</p>`;
   }
 
   render(`
@@ -697,6 +738,7 @@ async function renderReveal(){
     <h3 style="font-weight:500;font-size:17px;margin-top:20px;">Where you lean, relative to yourself</h3>
     ${ordHtml}
     ${conHtml}
+    ${alignHtml}
     ${h8div.ok ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>${attachmentLine(h8att, aname)}${h8ReadHtml(h8div, aname)}${h8ConnectorLine(h8att, h8div, aname)}` : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
