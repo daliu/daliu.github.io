@@ -830,5 +830,1206 @@
 "independence",
 "forgiveness"
 ]
+},
+"narratives": [
+{
+"id": "narr-truth-002",
+"domain": "truth-telling",
+"setup": "You're at the office happy hour on a Friday evening. You've been at this company for two years. Your team is at a corner table; you've stepped over to the bar to get a refill. A senior colleague \u2014 someone you generally like, who's been at the company longer than you \u2014 is at the bar with their close friend from another team. As you wait for your drink you overhear them: your colleague is doing a sharp, mocking imitation of a client's accent and mannerisms. It lands several jokes about the client looking foolish. The friend is laughing. Neither has noticed you yet.",
+"scenes": [
+{
+"id": "scene-1",
+"text": "The bartender hands you your drink. What do you do?",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Walk away and return to your table.",
+"next": "scene-2-walked",
+"tags": [
+"avoid",
+"social-cost:none",
+"counterparty:peer"
+]
+},
+{
+"id": "c2",
+"text": "Quietly say: 'Hey, that's the client. Maybe not.'",
+"next": "scene-2-confronted",
+"tags": [
+"truth:confront-mild",
+"social-cost:medium",
+"counterparty:peer"
+]
+},
+{
+"id": "c3",
+"text": "Stay at the bar but don't say anything; let them know you heard.",
+"next": "scene-2-silent",
+"tags": [
+"truth:implicit",
+"social-cost:low",
+"counterparty:peer"
+]
 }
+]
+},
+{
+"id": "scene-2-walked",
+"text": "At your table, the rest of your team is laughing about something else. You sit down. Your colleague glances over once and catches your eye \u2014 you can't tell if they saw you at the bar. The conversation moves on. Later, alone at home, you find yourself thinking about it. The client has a meeting with you and your colleague on Monday morning.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Saturday: send a low-key text. 'Hey, I heard you at the bar Friday. Just \u2014 that's a real person.'",
+"next": "scene-end-followup-text",
+"tags": [
+"truth:deferred-confront",
+"stake:laddered-up",
+"social-cost:medium"
+]
+},
+{
+"id": "c2",
+"text": "Mention it to a trusted peer on the team for advice.",
+"next": "scene-end-consult",
+"tags": [
+"truth:partial",
+"counterparty:peer-other",
+"social-cost:low"
+]
+},
+{
+"id": "c3",
+"text": "Let it go.",
+"next": "scene-end-let-go",
+"tags": [
+"avoid",
+"self-cost:residual",
+"social-cost:none"
+]
+}
+]
+},
+{
+"id": "scene-2-confronted",
+"text": "Your colleague's face shifts \u2014 momentarily caught \u2014 then they laugh it off: 'Oh shit, you're right, sorry.' Their friend looks awkward. You take your drink and walk back to your table. The atmosphere at the bar behind you is briefly subdued.\n\nMonday morning, before the client meeting, your colleague catches you in the hallway. 'Hey, about Friday \u2014 that was a stupid moment. I know you'd say something to me. I want to know it stops with you, right?'",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "'Yeah. We're good.'",
+"next": "scene-end-promise",
+"tags": [
+"resolution:loyalty-over-honesty",
+"counterparty:peer",
+"social-cost:none"
+]
+},
+{
+"id": "c2",
+"text": "'I'm not going to bring it up. But I want you to know it bothered me.'",
+"next": "scene-end-honest-discomfort",
+"tags": [
+"resolution:honest-discomfort",
+"boundary-setting"
+]
+},
+{
+"id": "c3",
+"text": "Pause. 'I have to think about that.'",
+"next": "scene-end-no-commitment",
+"tags": [
+"resolution:honest-costly",
+"social-cost:high"
+]
+}
+]
+},
+{
+"id": "scene-2-silent",
+"text": "Your colleague notices you. They stop mid-sentence. There's an awkward beat. You take your drink and walk back to your table. Nothing is said.\n\nLater that evening you get a text: 'You looked like you heard that. I was being dumb. Sorry \u2014 to the client too, I mean.' Then a follow-up: 'Can we pretend this didn't happen?'",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "'Yeah, no big deal.'",
+"next": "scene-end-pretend",
+"tags": [
+"resolution:pretend",
+"truth:abandon",
+"social-cost:none"
+]
+},
+{
+"id": "c2",
+"text": "'I appreciate the apology. I don't think we need to pretend, but I'm not going to bring it up either.'",
+"next": "scene-end-acknowledge",
+"tags": [
+"resolution:acknowledge",
+"balance"
+]
+},
+{
+"id": "c3",
+"text": "'It was uncomfortable. I'm glad you saw it that way.'",
+"next": "scene-end-acknowledge",
+"tags": [
+"resolution:acknowledge",
+"truth:state"
+]
+}
+]
+},
+{
+"id": "scene-end-followup-text",
+"text": "Saturday afternoon, your colleague replies: 'Thanks \u2014 I know. I shouldn't have. Won't happen again.' That's it. Monday's meeting happens; your colleague is professional and warm with the client. Walking back to your desks, your colleague says quietly: 'I appreciated the text. Genuinely. Most people wouldn't.'",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-end-consult",
+"text": "Your peer's advice: 'I don't know. They're senior. It's their call to make right. Maybe stay out of it.' Monday's meeting happens, professionally. The friction stays with you for a few weeks. Some part of you wonders if you should have done more.",
+"terminal": true,
+"tags": [
+"resolution:ambivalent",
+"tracked-discomfort"
+],
+"choices": []
+},
+{
+"id": "scene-end-let-go",
+"text": "Monday's meeting happens. Your colleague is professional with the client. Nothing more is said about Friday. Months later you can't quite remember it as either a clear moment of failure or a clear moment of doing the right thing. It just becomes something that happened.",
+"terminal": true,
+"tags": [
+"resolution:avoidance",
+"self-cost:residual"
+],
+"choices": []
+},
+{
+"id": "scene-end-promise",
+"text": "You and your colleague get through the client meeting. The arrangement holds. Some part of you knows you traded honesty for peer loyalty in that hallway exchange.",
+"terminal": true,
+"tags": [
+"resolution:loyalty-over-honesty"
+],
+"choices": []
+},
+{
+"id": "scene-end-honest-discomfort",
+"text": "Your colleague nods slowly. 'Yeah. Okay. Fair.' The meeting goes fine. They are slightly more guarded with you for a few weeks but the working relationship continues \u2014 perhaps with more respect.",
+"terminal": true,
+"tags": [
+"resolution:honest-discomfort"
+],
+"choices": []
+},
+{
+"id": "scene-end-no-commitment",
+"text": "Your colleague's face hardens. 'Okay.' They walk away. The meeting goes through, professionally. The friendship cools noticeably over the following weeks. You wonder if you handled it well. You also wonder what you'd have lost by saying yes.",
+"terminal": true,
+"tags": [
+"resolution:honest-costly",
+"social-cost:high"
+],
+"choices": []
+},
+{
+"id": "scene-end-pretend",
+"text": "Things go back to normal between you and your colleague. The client meeting happens; nothing about it is noticeable. The pretending becomes its own quiet thing.",
+"terminal": true,
+"tags": [
+"resolution:pretend"
+],
+"choices": []
+},
+{
+"id": "scene-end-acknowledge",
+"text": "Your colleague replies: 'Fair. Thanks.' The Monday meeting goes through, professionally. There's a small new acknowledgment in your working relationship \u2014 not always comfortable, but not strained.",
+"terminal": true,
+"tags": [
+"resolution:acknowledge"
+],
+"choices": []
+}
+],
+"reflection_prompt": "Earlier you chose to {chosen_path}. Looking back \u2014 was that the choice that fit who you want to be?"
+},
+{
+"id": "narr-allocation-002",
+"domain": "resource-allocation",
+"setup": "You worked closely with a junior colleague \u2014 call them M. \u2014 on a complex project over the past six months. M. did substantive analytical work; you handled stakeholder management and led the synthesis. The project shipped and is being held up by leadership as a model.\n\nIt's Monday morning. You're in an all-hands. Your VP brings it up: 'You all might have heard about the project \u2014 that was a huge win. [Your name] led this; [Your name], can you tell us how you approached it?'\n\nM. is in the room, sitting two rows behind you, visible in your peripheral vision.",
+"scenes": [
+{
+"id": "scene-1",
+"text": "What do you say?",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "\"Thanks \u2014 yeah, here's the approach we took\u2026\" (give the answer, take the framing as given)",
+"next": "scene-2-took",
+"tags": [
+"self_reliance",
+"counterparty:subordinate",
+"stake:medium-social",
+"value:self_reliance",
+"credit:take"
+]
+},
+{
+"id": "c2",
+"text": "\"Before I answer \u2014 M. did a huge amount of this. M., come up here, we can do this together.\"",
+"next": "scene-2-shared",
+"tags": [
+"generosity",
+"counterparty:subordinate",
+"stake:medium-social",
+"value:generosity",
+"credit:share-active"
+]
+},
+{
+"id": "c3",
+"text": "\"Sure. Let me set up the answer \u2014 M. actually built the analytical core; I'll cover the synthesis side.\"",
+"next": "scene-2-acknowledged",
+"tags": [
+"fairness",
+"counterparty:subordinate",
+"stake:medium-social",
+"value:fairness",
+"credit:share-passive"
+]
+},
+{
+"id": "c4",
+"text": "\"Happy to \u2014 quick overview\u2026\" (answer the question without naming M. or the team)",
+"next": "scene-2-skipped",
+"tags": [
+"self_reliance",
+"counterparty:subordinate",
+"stake:medium-social",
+"value:self_reliance",
+"credit:take",
+"credit:silent"
+]
+}
+]
+},
+{
+"id": "scene-2-took",
+"text": "You give a clean answer. The VP nods. Walking back to your desk afterward, you pass M.'s row. They make brief eye contact and look away. Throughout the rest of the day, two senior colleagues stop by to congratulate you specifically; the VP mentions you by name in a 1:1 with someone else.\n\nLater that afternoon you have a private moment near the kitchen with M.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "\"Hey \u2014 I should have brought you up in the meeting. You did the core analysis. I'm going to make sure leadership knows.\"",
+"next": "scene-3-corrected",
+"tags": [
+"truth:commission",
+"fairness",
+"stake:medium-social",
+"self-cost:reputation",
+"value:honesty",
+"value:fairness",
+"credit:redirect"
+]
+},
+{
+"id": "c2",
+"text": "\"Nice work on the project, by the way \u2014 that analysis was strong.\" (don't address the all-hands moment)",
+"next": "scene-3-soft-skip",
+"tags": [
+"lie:omission",
+"credit:keep",
+"stake:medium-social",
+"value:self_reliance"
+]
+},
+{
+"id": "c3",
+"text": "Walk past, friendly nod, no conversation.",
+"next": "scene-3-let-pass",
+"tags": [
+"avoid",
+"credit:keep",
+"stake:medium-social"
+]
+}
+]
+},
+{
+"id": "scene-2-shared",
+"text": "M. comes up. They're flustered but they speak well \u2014 they explain the analytical approach for about a minute. The VP is visibly pleased: 'Great \u2014 that's a partnership we want to see more of.' Afterward M. catches you alone: 'Thank you. I really didn't expect that.' The VP later messages you privately: 'Nice move bringing M. up. The leadership team noticed.'\n\nLater that week, when promotions come up in a planning meeting, you can advocate for M. directly or let the moment carry.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Explicitly advocate for M.'s promotion based on the project's outcome.",
+"next": "scene-end-aligned-advocated",
+"tags": [
+"generosity",
+"fairness",
+"counterparty:subordinate",
+"stake:medium-financial",
+"value:generosity",
+"value:fairness",
+"credit:redirect"
+]
+},
+{
+"id": "c2",
+"text": "Let the moment do its work; leadership now sees M. \u2014 no need to push.",
+"next": "scene-end-aligned-passive",
+"tags": [
+"fairness",
+"counterparty:subordinate",
+"stake:low",
+"value:trust",
+"credit:share-passive"
+]
+}
+]
+},
+{
+"id": "scene-2-acknowledged",
+"text": "You explain the project, naming M. as the analytical lead. M. stays in their seat but you can feel the room's awareness shift toward them. After the meeting, three people compliment you on your framing; one of them goes over to M. directly. The VP catches you afterward: 'Curious about your role structure \u2014 how do you decide what to delegate?'",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Use the moment to advocate for M.'s recognition and promotability.",
+"next": "scene-end-acknowledged-advocated",
+"tags": [
+"fairness",
+"generosity",
+"counterparty:senior",
+"stake:medium-social",
+"value:fairness",
+"value:generosity",
+"credit:redirect"
+]
+},
+{
+"id": "c2",
+"text": "Answer the role-structure question generally \u2014 don't push the specifics about M.",
+"next": "scene-end-acknowledged-passive",
+"tags": [
+"fairness",
+"counterparty:senior",
+"stake:low",
+"value:fairness",
+"value:discretion"
+]
+}
+]
+},
+{
+"id": "scene-2-skipped",
+"text": "You give a clean answer. M. is not mentioned. Afterward, walking back, you don't pass M.'s row. You don't speak about it for a few days. The project keeps coming up in conversations and you keep getting credit for it. M. seems quieter than usual in team meetings.\n\nA week later you have a 1:1 with M. on the calendar \u2014 a routine check-in.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Bring it up: \"I want to acknowledge that the all-hands didn't represent your role accurately. I'm going to correct that with the VP.\"",
+"next": "scene-end-mistake-named",
+"tags": [
+"truth:deferred-confront",
+"fairness",
+"counterparty:subordinate",
+"stake:medium-social",
+"self-cost:reputation",
+"value:honesty",
+"value:fairness",
+"credit:redirect"
+]
+},
+{
+"id": "c2",
+"text": "Don't bring it up. Keep the 1:1 routine. The project will come up again later and you can correct then.",
+"next": "scene-end-self-doubt",
+"tags": [
+"avoid",
+"credit:keep",
+"stake:medium-social",
+"self-cost:residual"
+]
+},
+{
+"id": "c3",
+"text": "Bring it up softly: \"By the way \u2014 nice work on that project. I should have been clearer in the all-hands about your role.\" (mild acknowledgment without action)",
+"next": "scene-end-acknowledged-soft",
+"tags": [
+"truth:partial",
+"stake:low-social",
+"value:tact",
+"credit:acknowledge-only"
+]
+}
+]
+},
+{
+"id": "scene-3-corrected",
+"text": "M.'s face changes when you say it \u2014 relief that's been waiting to come out. You set up a brief follow-up with the VP that week and re-frame the project's credit, with specifics. The VP listens, doesn't push back, and adjusts M.'s name forward in subsequent references. Some weeks later M. is up for a promotion that the project work supports.",
+"terminal": true,
+"tags": [
+"resolution:credit-realigned",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-3-soft-skip",
+"text": "M. says \"thanks\" but doesn't engage further. The conversation in the kitchen ends quickly. The project keeps being credited to you; M. is treated as a strong contributor but not specifically recognized for this work. Quarterly review season comes; M. is promoted on the strength of other work, not this one. You and M. continue to work together; something has shifted slightly in the working relationship.",
+"terminal": true,
+"tags": [
+"resolution:quiet-burn",
+"self-cost:residual"
+],
+"choices": []
+},
+{
+"id": "scene-3-let-pass",
+"text": "The moment passes. The week goes on. The project continues to be credited to you. M. doesn't bring it up; you don't bring it up. A few months later, in the team retrospective, the project comes up again and you find yourself uncertain about how to frame it \u2014 knowing what you didn't say lives in the gap.",
+"terminal": true,
+"tags": [
+"resolution:avoidance",
+"self-cost:residual",
+"moral-residue"
+],
+"choices": []
+},
+{
+"id": "scene-end-aligned-advocated",
+"text": "M. is recognized in the planning round. The promotion goes through partly on the strength of this project. M. later tells you it was the first time they'd had a senior person actually advocate for them by name in a leadership conversation. The working relationship deepens; you start collaborating more naturally with M. on subsequent work.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-end-aligned-passive",
+"text": "M. is noticed and considered. They get the project on their record cleanly. The promotion conversation happens organically without your push; you trust the system, and the system mostly works. M. thanks you again, more briefly this time, before moving on to the next thing.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"trust:institutional"
+],
+"choices": []
+},
+{
+"id": "scene-end-acknowledged-advocated",
+"text": "The VP files away the role-structure conversation. Three weeks later you see it surface: M.'s name comes up in a promotion discussion you're not even in, and the VP supports them based on what they remember from your framing plus the conversation. You learn about it secondhand. M. doesn't know exactly how it happened.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"credit:propagated"
+],
+"choices": []
+},
+{
+"id": "scene-end-acknowledged-passive",
+"text": "You explain how the role-structure tends to work in general terms. The VP nods. The conversation ends without specifics. M. is on the radar, but vaguely; the promotion-cycle a few months later goes to someone else who advocated more directly for themselves. You're not sure whether you should have said more.",
+"terminal": true,
+"tags": [
+"resolution:ambivalent",
+"self-cost:residual"
+],
+"choices": []
+},
+{
+"id": "scene-end-mistake-named",
+"text": "M. is quiet for a moment when you say it. They nod, slowly. \"I appreciate that.\" The conversation with the VP happens that week; the correction is awkward but lands. M. gets cleaner recognition in subsequent discussions. The working relationship doesn't immediately heal \u2014 there's a stiffness for a few weeks \u2014 but you keep collaborating, and over months it settles into something more direct than what you had before.",
+"terminal": true,
+"tags": [
+"resolution:honest-discomfort",
+"stated-revealed-aligned-late"
+],
+"choices": []
+},
+{
+"id": "scene-end-self-doubt",
+"text": "The 1:1 goes by without it being raised. The next month the project comes up again at a different all-hands and gets credited to you again. M. is in the room. You notice yourself watching for their reaction. Some part of you is now keeping track of something \u2014 a debt, or maybe a wound \u2014 that the routine 1:1 framing isn't equipped to address.",
+"terminal": true,
+"tags": [
+"resolution:avoidance",
+"self-cost:residual",
+"moral-residue",
+"tracked-discomfort"
+],
+"choices": []
+},
+{
+"id": "scene-end-acknowledged-soft",
+"text": "M. says \"thanks for saying that\" and the 1:1 moves on. Things continue. The project's framing is not corrected upstream; M.'s contribution stays mostly invisible to leadership. The acknowledgment between you and M. is real, but contained.",
+"terminal": true,
+"tags": [
+"resolution:acknowledge",
+"credit:contained"
+],
+"choices": []
+}
+],
+"reflection_prompt": "Earlier you chose to {chosen_path}. Looking back \u2014 was that the choice that fit who you want to be?"
+},
+{
+"id": "narr-ingroup-002",
+"domain": "in-group-out-group",
+"setup": "You moved into a tight residential block \u2014 small street, ten or so households \u2014 a few years ago. The community runs on a group chat: organizing events, sharing news, asking for favors. Most members are roughly similar in background: similar life stages, similar incomes, similar in the ways that go unremarked.\n\nRecently, a new family moved into one of the houses. They're visibly different from the rest of the block in some way \u2014 pick whatever way that lands for you: language, cultural background, family structure, life stage. The group-chat reactions have been mostly polite, but there's been a thread of comments from one or two prominent voices \u2014 your neighbor R., for instance, whom you've otherwise gotten along with for years \u2014 that range from gently exclusionary (\"hope they read the parking signs\") to more actively dismissive (\"hard to predict whether they'll fit in here\").\n\nYou've been part of the chat the whole time. You haven't been one of the louder voices either way.",
+"scenes": [
+{
+"id": "scene-1",
+"text": "This morning R. posts something in the chat that's a clear step further \u2014 a half-joke about the new family's customs that lands as exclusionary. The chat has three reactions already, two affirming. The new family is in the chat. What do you do?",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Stay quiet. Not your fight; you don't need to be the one who fights it.",
+"next": "scene-2-quiet",
+"tags": [
+"loyalty",
+"counterparty:in-group-community",
+"stake:medium-social",
+"value:loyalty",
+"value:discretion"
+]
+},
+{
+"id": "c2",
+"text": "Drop a brief positive note about the new family without referencing R.'s post (\"Saw their kid in the courtyard yesterday \u2014 really sweet.\")",
+"next": "scene-2-redirect",
+"tags": [
+"hospitality",
+"counterparty:in-group-community",
+"stake:low-social",
+"value:hospitality",
+"credit:share-passive"
+]
+},
+{
+"id": "c3",
+"text": "Push back on R. directly in the chat (\"I'm uncomfortable with how this is being framed.\")",
+"next": "scene-2-pushback",
+"tags": [
+"universalism",
+"truth:confront-direct",
+"counterparty:in-group-community",
+"stake:high-social",
+"value:universalism",
+"value:honesty"
+]
+},
+{
+"id": "c4",
+"text": "DM R. privately: \"Hey \u2014 I think that post landed harder than you meant. Take a look at the family's faces in the chat.\"",
+"next": "scene-2-dm",
+"tags": [
+"universalism",
+"truth:soft-confront",
+"counterparty:in-group-peer",
+"stake:medium-social",
+"value:universalism",
+"value:tact"
+]
+}
+]
+},
+{
+"id": "scene-2-quiet",
+"text": "You stay silent. The thread peters out over the next hour with no one objecting. A week later the block organizes a casual Saturday-morning coffee gathering in the courtyard. The chat goes back and forth about logistics. The new family is in the chat the whole time, but no one explicitly invites them; the invite is just \"come by\" in the general thread.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Stop by the new family's door on Friday evening and invite them personally.",
+"next": "scene-end-quiet-then-private",
+"tags": [
+"hospitality",
+"counterparty:out-group-new",
+"stake:low-social",
+"value:hospitality",
+"credit:share-active"
+]
+},
+{
+"id": "c2",
+"text": "Reply to the chat: \"Hope everyone on the block makes it \u2014 would love to meet our new neighbors.\"",
+"next": "scene-end-quiet-then-public",
+"tags": [
+"universalism",
+"counterparty:in-group-community",
+"stake:medium-social",
+"value:universalism",
+"value:hospitality"
+]
+},
+{
+"id": "c3",
+"text": "Plan to go to the coffee yourself but take no action either way on the new family.",
+"next": "scene-end-quiet-throughout",
+"tags": [
+"avoid",
+"counterparty:in-group-community",
+"stake:low-social",
+"self-cost:residual"
+]
+}
+]
+},
+{
+"id": "scene-2-redirect",
+"text": "Your message lands as friendly. R. doesn't follow up; the thread shifts. The next week, when the block organizes a Saturday-morning coffee, you notice that no one's specifically invited the new family \u2014 they're in the chat but the invite is just \"come by.\" R. is going to be there.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Privately invite the new family on Friday evening; mention you'll be there.",
+"next": "scene-end-redirect-then-private",
+"tags": [
+"hospitality",
+"counterparty:out-group-new",
+"stake:low-social",
+"value:hospitality"
+]
+},
+{
+"id": "c2",
+"text": "Wait for R. or someone else to invite them; the redirect was enough for now.",
+"next": "scene-end-redirect-wait",
+"tags": [
+"trust:institutional",
+"counterparty:in-group-community",
+"stake:low",
+"value:trust"
+]
+}
+]
+},
+{
+"id": "scene-2-pushback",
+"text": "Your message reads as direct. Several reactions; some support, some are silent, R. doesn't reply right away. The thread quiets. R. DMs you that evening: \"Hey, just so you know \u2014 I wasn't being malicious. I think you read me harder than I meant.\" Whether or not you think that's true, R. has been a friend on the block for years.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "\"Okay \u2014 sorry if I came in too hot. Can we talk about it in person sometime?\" (open the door to a private conversation)",
+"next": "scene-end-pushback-talk",
+"tags": [
+"truth:partial",
+"counterparty:in-group-peer",
+"stake:medium-social",
+"value:tact",
+"value:loyalty"
+]
+},
+{
+"id": "c2",
+"text": "\"I'll take that on board. I do think the post landed badly though.\" (hold the position without escalating)",
+"next": "scene-end-pushback-hold",
+"tags": [
+"truth:state",
+"counterparty:in-group-peer",
+"stake:medium-social",
+"value:honesty",
+"value:authenticity"
+]
+},
+{
+"id": "c3",
+"text": "\"Yeah \u2014 happy to put it behind us.\" (back off; preserve the friendship)",
+"next": "scene-end-pushback-retreat",
+"tags": [
+"lie:protective",
+"counterparty:in-group-peer",
+"stake:low-social",
+"value:loyalty",
+"credit:contained"
+]
+}
+]
+},
+{
+"id": "scene-2-dm",
+"text": "R. replies a few hours later: \"You know what \u2014 fair point. Hadn't thought about it from their side.\" R. posts a follow-up in the chat: a light walk-back, not an apology, but a clear shift in tone. The chat's mood resettles. A week later the block plans a Saturday coffee.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Invite the new family personally on Friday evening.",
+"next": "scene-end-dm-then-private",
+"tags": [
+"hospitality",
+"counterparty:out-group-new",
+"stake:low-social",
+"value:hospitality"
+]
+},
+{
+"id": "c2",
+"text": "Let R.'s shift do the work; the block invites everyone organically now.",
+"next": "scene-end-dm-trust",
+"tags": [
+"trust",
+"counterparty:in-group-community",
+"stake:low",
+"value:trust"
+]
+}
+]
+},
+{
+"id": "scene-end-quiet-then-private",
+"text": "The new family answers the door and is surprised \u2014 and clearly glad. They show up Saturday morning. They sit a bit apart at first; you bring them into the conversations you're in. R. is polite but distant with them. By the end of the morning the new family has had three real conversations on the block, and you have a new neighbor relationship that didn't exist before.",
+"terminal": true,
+"tags": [
+"resolution:hospitality-private",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-end-quiet-then-public",
+"text": "Two people reply with thumbs-up. The new family doesn't reply in the chat but shows up Saturday. They sit somewhat to the side; the conversations don't quite include them. R. is polite to them but doesn't initiate. You spend most of the morning talking to your usual block friends, looking over occasionally and not quite finding the moment.",
+"terminal": true,
+"tags": [
+"resolution:ambivalent",
+"tracked-discomfort"
+],
+"choices": []
+},
+{
+"id": "scene-end-quiet-throughout",
+"text": "The Saturday morning happens. The new family doesn't come; they were in the chat but never specifically invited. R.'s jokes continue periodically in the chat over the following weeks. The new family stays on the block but stays quiet in the chat. Some part of you is now aware that you've stayed quiet too.",
+"terminal": true,
+"tags": [
+"resolution:avoidance",
+"self-cost:residual",
+"moral-residue"
+],
+"choices": []
+},
+{
+"id": "scene-end-redirect-then-private",
+"text": "The new family comes. The Saturday morning is friendly; the redirect-plus-invite combination shifted the block's mood a degree. R. is mildly cool with them but not hostile; the new family connects with two other neighbors who hadn't pushed back but were waiting for someone to break the ice. You don't make a thing of it; you just keep being friendly going forward.",
+"terminal": true,
+"tags": [
+"resolution:hospitality-quiet",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-end-redirect-wait",
+"text": "Saturday morning comes. The new family doesn't show. No one specifically invited them, and the redirect message you sent earlier wasn't an invitation either. You realize this watching the courtyard fill with the usual faces.",
+"terminal": true,
+"tags": [
+"resolution:ambivalent",
+"self-cost:residual"
+],
+"choices": []
+},
+{
+"id": "scene-end-pushback-talk",
+"text": "You and R. talk over coffee a few days later. R. is defensive but listens; you don't entirely settle the issue, but you say what you needed to say, and R. drops the jokes in the chat going forward. The block's mood softens. The friendship with R. is slightly different now \u2014 a little more careful \u2014 but it survives.",
+"terminal": true,
+"tags": [
+"resolution:honest-discomfort",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-end-pushback-hold",
+"text": "R. doesn't reply for a few days. The chat is quieter than usual for a week. R. eventually thaws and the block's rhythms resume, but you notice R. doesn't include you in some logistical threads they used to. The new family seems to have read the public moment though; they reach out to you to introduce themselves directly.",
+"terminal": true,
+"tags": [
+"resolution:honest-costly",
+"social-cost:high"
+],
+"choices": []
+},
+{
+"id": "scene-end-pushback-retreat",
+"text": "R. responds warmly to your retreat: \"Thanks. Means a lot.\" The friendship with R. is preserved. The chat continues mostly as before, with slightly fewer overt jokes \u2014 but the underlying mood didn't shift. The new family hasn't reached out to you and you haven't reached out to them. Some part of you knows you traded honesty for peer loyalty in that exchange.",
+"terminal": true,
+"tags": [
+"resolution:loyalty-over-honesty",
+"self-cost:residual"
+],
+"choices": []
+},
+{
+"id": "scene-end-dm-then-private",
+"text": "The new family comes. Saturday morning goes well \u2014 R. is warmer than expected, partly because the public walk-back gave them an out to be welcoming. By the end of the morning the new family has been invited to two other things on the block. Things settle into something better than they were before R.'s post.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-end-dm-trust",
+"text": "Saturday morning comes. The new family shows up; the chat-level shift carried, and one of the other neighbors specifically welcomed them when sending the day-of message. The block's tone has settled into something a little more inclusive. R. doesn't seem to hold the DM against you; you and R. are still friends, with one shared private moment that no one else knows about.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"trust:institutional",
+"stated-revealed-aligned"
+],
+"choices": []
+}
+],
+"reflection_prompt": "Earlier you chose to {chosen_path}. Looking back \u2014 was that the choice that fit who you want to be?"
+},
+{
+"id": "narr-reciprocity-002",
+"domain": "reciprocity-cooperation",
+"setup": "You and your friend J. started a podcast together about a year ago. Originally a project for fun; it's gotten unexpected traction. The work split was meant to be roughly even \u2014 research, recording, editing, social, scheduling guests.\n\nFor the past four months J. has been doing maybe a fifth of what they used to. The reason isn't a mystery \u2014 J. has been going through a serious personal stretch (a long illness in their family, plus the breakup of a long relationship). They've apologized a few times and said it'll get better.\n\nIt's not getting better. You're now doing roughly 90% of the work. The podcast has just been offered something real: a sponsor wants to fund a six-episode season, with creative input expected from both of you.",
+"scenes": [
+{
+"id": "scene-1",
+"text": "The sponsor wants an answer in a week. How do you approach J. about the offer?",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Tell J. about the offer and propose taking it, with the implicit assumption that the split stays as it has been.",
+"next": "scene-2-implicit",
+"tags": [
+"cooperation",
+"counterparty:close",
+"stake:medium-financial",
+"value:cooperation",
+"value:loyalty",
+"trust:default"
+]
+},
+{
+"id": "c2",
+"text": "Tell J. about the offer and have a direct conversation about whether the split needs to change.",
+"next": "scene-2-confront",
+"tags": [
+"truth:confront-mild",
+"counterparty:close",
+"stake:medium-social",
+"value:honesty",
+"value:cooperation"
+]
+},
+{
+"id": "c3",
+"text": "Sit on the offer for a few days; decide first whether you want to keep doing this with J. at all.",
+"next": "scene-2-reflect",
+"tags": [
+"independence",
+"counterparty:close",
+"stake:medium-financial",
+"value:independence",
+"vigilance"
+]
+},
+{
+"id": "c4",
+"text": "Tell J. you want to take the offer but propose doing it solo for this season, with J. on hiatus.",
+"next": "scene-2-soloexit",
+"tags": [
+"independence",
+"truth:state",
+"counterparty:close",
+"stake:high-social",
+"value:independence",
+"value:honesty"
+]
+}
+]
+},
+{
+"id": "scene-2-implicit",
+"text": "J. is grateful \u2014 relieved, even. They thank you for being so steady and say they'll \"try to do more\" for the new season. Two weeks in, the workload has not changed; if anything, the new season's demands have made the gap larger. J. is doing maybe 10% of the season's work and apologizing in earnest each time. The sponsor messages directly asking for J.'s input on episode four.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Draft J.'s input yourself in their voice and run it past them; it's faster.",
+"next": "scene-3-ghostwrite",
+"tags": [
+"lie:omission",
+"cooperation",
+"counterparty:close",
+"stake:medium-social",
+"value:loyalty",
+"self-cost:time"
+]
+},
+{
+"id": "c2",
+"text": "Press J.: \"This isn't sustainable. I love you. Can we actually have the conversation now?\"",
+"next": "scene-3-press",
+"tags": [
+"truth:confront-mild",
+"counterparty:close",
+"stake:high-social",
+"value:honesty",
+"value:cooperation"
+]
+},
+{
+"id": "c3",
+"text": "Quietly accept that you're doing this alone now and re-frame your expectations internally.",
+"next": "scene-3-accept",
+"tags": [
+"forgiveness",
+"self_reliance",
+"counterparty:close",
+"stake:medium-social",
+"value:forgiveness",
+"self-cost:residual"
+]
+}
+]
+},
+{
+"id": "scene-2-confront",
+"text": "J. takes it harder than you expected. They thank you for raising it directly. They say they want to keep doing this and propose a new split \u2014 they'll handle a specific narrower slice (one segment per episode) reliably, and you take the rest with explicit credit. They also offer to drop their financial share of the sponsor money proportionally.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "Accept the new split as proposed.",
+"next": "scene-3-renegotiated",
+"tags": [
+"fairness",
+"trust",
+"counterparty:close",
+"stake:medium-financial",
+"value:fairness",
+"value:cooperation"
+]
+},
+{
+"id": "c2",
+"text": "Accept but say you want the financial split to stay even \u2014 they're going through enough.",
+"next": "scene-3-renegotiated-generous",
+"tags": [
+"generosity",
+"counterparty:close",
+"stake:medium-financial",
+"value:generosity",
+"value:loyalty"
+]
+},
+{
+"id": "c3",
+"text": "Express appreciation but say you need to think about whether this is the right structure for you long-term.",
+"next": "scene-3-renegotiated-pause",
+"tags": [
+"truth:state",
+"vigilance",
+"counterparty:close",
+"stake:medium-social",
+"value:vigilance",
+"value:authenticity"
+]
+}
+]
+},
+{
+"id": "scene-2-reflect",
+"text": "You sit on it for three days. Two things become clear to you: first, you want to take the offer; second, you're not sure whether you want to keep doing this with J., or alone, or with someone else. You haven't told J. about the offer yet. J. messages: \"Hey \u2014 anything new on the pod?\"",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "\"Yes \u2014 sponsor offer. Want to grab coffee tomorrow? There's a lot to talk through.\"",
+"next": "scene-3-honest-late",
+"tags": [
+"truth:deferred-confront",
+"counterparty:close",
+"stake:medium-social",
+"value:honesty"
+]
+},
+{
+"id": "c2",
+"text": "\"Not much yet, still working through some stuff.\" (buy more time)",
+"next": "scene-3-buy-time",
+"tags": [
+"lie:commission",
+"counterparty:close",
+"stake:low-social",
+"self-cost:reputation",
+"vigilance"
+]
+}
+]
+},
+{
+"id": "scene-2-soloexit",
+"text": "J. is quiet for a long beat. They say: \"Okay. I think that's fair. I'm sad, but it's fair. Can we leave the door open?\" The conversation is honest. J. seems relieved that you didn't pretend everything was fine.",
+"terminal": false,
+"tags": [],
+"choices": [
+{
+"id": "c1",
+"text": "\"Of course. This isn't permanent \u2014 it's just for this season. We can revisit when things settle for you.\"",
+"next": "scene-end-clean-pause",
+"tags": [
+"forgiveness",
+"trust",
+"counterparty:close",
+"stake:medium-social",
+"value:forgiveness",
+"value:loyalty"
+]
+},
+{
+"id": "c2",
+"text": "\"I want to be honest \u2014 I don't know yet. Let me see how the season goes and we can talk then.\"",
+"next": "scene-end-honest-uncertain",
+"tags": [
+"truth:commission",
+"vigilance",
+"counterparty:close",
+"stake:medium-social",
+"value:honesty",
+"value:authenticity"
+]
+}
+]
+},
+{
+"id": "scene-3-ghostwrite",
+"text": "The episode goes well; J. is publicly part of it. The sponsor doesn't notice. By the end of the season you've ghostwritten three of J.'s contributions. J. has thanked you but you can feel the pattern setting. Something inside you has shifted \u2014 a tally is keeping itself.",
+"terminal": true,
+"tags": [
+"resolution:quiet-burn",
+"self-cost:residual",
+"moral-residue",
+"tracked-discomfort"
+],
+"choices": []
+},
+{
+"id": "scene-3-press",
+"text": "J. takes the pressing harder than the first conversation. They get tearful; they say they've felt awful about the workload and didn't know how to bring it up themselves. You and J. spend two hours working out a new arrangement \u2014 smaller slice, explicit credit, financial split adjusted. The next two episodes feel more like a partnership again. J. isn't fully back, but the relationship is honest.",
+"terminal": true,
+"tags": [
+"resolution:honest-discomfort",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-3-accept",
+"text": "You finish the season doing 90% of it. The sponsor extends the contract. J. is grateful, contrite, and largely absent. You and J. are still friends but there's a private accounting now \u2014 you doing this work, them taking the visible credit. You're not sure whether you'll do another season this way.",
+"terminal": true,
+"tags": [
+"resolution:avoidance",
+"self-cost:residual",
+"moral-residue"
+],
+"choices": []
+},
+{
+"id": "scene-3-renegotiated",
+"text": "The new split holds. J. delivers their narrower slice reliably; you do the rest with explicit credit. The season goes well; the financial split feels fair to both of you. J. thanks you in real terms for raising it. The friendship is better than before \u2014 you both know what the agreement actually is.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-3-renegotiated-generous",
+"text": "J. is moved by your offer to keep the financial split even and resists for a moment before accepting. The season goes well. The financial gesture meant a lot to J. during their stretch; you've reinforced something about who you are to each other. The arrangement is generous, and you're aware you can sustain that without resentment because you're choosing it openly.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"stated-revealed-aligned",
+"value:generosity"
+],
+"choices": []
+},
+{
+"id": "scene-3-renegotiated-pause",
+"text": "J. respects the pause. The season happens with the existing structure; you take the time to figure out what you actually want. By the end of the season you've decided \u2014 you want to keep going, but with the new split as J. proposed. You tell them. The conversation is calmer than the first one.",
+"terminal": true,
+"tags": [
+"resolution:honest-discomfort",
+"stated-revealed-aligned-late"
+],
+"choices": []
+},
+{
+"id": "scene-3-honest-late",
+"text": "You meet J. for coffee. You tell them about the offer, the workload, and the question. The conversation is hard \u2014 J. is hurt that you sat on it for three days, but they hear you. You work out a path together. The season happens with a renegotiated split; the friendship survives but it's now something the two of you have to maintain rather than coast on.",
+"terminal": true,
+"tags": [
+"resolution:honest-discomfort",
+"stated-revealed-aligned-late"
+],
+"choices": []
+},
+{
+"id": "scene-3-buy-time",
+"text": "J. accepts the deflection for now. You take another week and finally tell them. The conversation is much harder than it would have been \u2014 J. has noticed you being weird and concluded that you've been planning behind their back. You spend the conversation managing what you said as well as what you decided. The renegotiation eventually happens but the friendship has a new fault line that takes months to recover from.",
+"terminal": true,
+"tags": [
+"resolution:honest-costly",
+"social-cost:high",
+"moral-residue"
+],
+"choices": []
+},
+{
+"id": "scene-end-clean-pause",
+"text": "J. is moved. The pause is real \u2014 three months later you're doing the season solo, and J. messages now and then to say what they're hearing in episodes. When their personal stretch eases, the two of you talk about coming back to it together. By then the project has changed and J. coming back is a real decision rather than a default. You make it together, openly.",
+"terminal": true,
+"tags": [
+"resolution:positive",
+"stated-revealed-aligned"
+],
+"choices": []
+},
+{
+"id": "scene-end-honest-uncertain",
+"text": "J. nods slowly. The season happens solo. J. listens but doesn't push; they respect that you didn't make false promises. Six months later you message J. \u2014 you've decided, and you tell them honestly what the decision is. The friendship survives the honesty better than it would have survived a managed-around fiction.",
+"terminal": true,
+"tags": [
+"resolution:honest-discomfort",
+"stated-revealed-aligned"
+],
+"choices": []
+}
+],
+"reflection_prompt": "Earlier you chose to {chosen_path}. Looking back \u2014 was that the choice that fit who you want to be?"
+}
+]
 }
