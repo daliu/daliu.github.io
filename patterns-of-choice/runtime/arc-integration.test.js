@@ -148,6 +148,52 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
   ok(dv.ok && dv.narrativePole === "near", "narrative climax (carried the dog) read as 'near'", dv);
   ok(dv.abstractPole === "far" && dv.shift === "toward-near", "abstract=anonymous + narrative=near -> shift toward-near (the H8 prediction), end-to-end", dv);
 
+  // ===== multi-arc: the Gran arc (human character, NO naming beat, family-of-origin pole) =====
+  const gran = bundle.arcs.find(a => a.arc_id === "arc-gran");
+  ok(!!gran && gran.name_is_participant_supplied === false, "bundle carries arc-gran (human, no participant naming)");
+  ok(!gran.beats.some(b => b.kind === "naming"), "gran arc has no naming beat");
+  const RTg = createRuntime({ store: MemoryStore(), corpus_version: "test" });
+  await RTg.init();
+  const logComplete = async (RTx, a, beat, term, step) => RTx.logSessionChoice({
+    user_id: USER, session_id: uuid(), timestamp_iso: new Date().toISOString(),
+    scenario_id: beat.scenario_ref || beat.beat_id, scenario_type: "arc-beat-complete",
+    domain: a.primary_domain, arc_id: a.arc_id, beat_id: beat.beat_id, item_id: term ? term.id : null,
+    option_id: null, tags: [], response_time_ms: 0, presented_position: step + 1, was_timeout: false });
+  for (const beat of gran.beats){
+    if (beat.kind === "attachment_probe"){
+      await RTg.logInstrument({ user_id: USER, instrument: beat.instrument, arc_id: gran.arc_id, beat_id: beat.beat_id,
+        timestamp_iso: new Date().toISOString(), scale_min: beat.scale.min, scale_max: beat.scale.max,
+        responses: beat.items.map(it => ({ item_id: it.id, value: beat.scale.max })) });
+      await logComplete(RTg, gran, beat, null, 1);
+      continue;
+    }
+    const scenes = beatNode(gran, beat).scenes;
+    let sid = startScene(scenes), step = 0, guard = 0, term = null, sessionId = uuid();
+    while (true){
+      const sc = scenes.find(x => x.id === sid);
+      if (!sc || sc.terminal){ term = sc || null; break; }
+      const c = sc.choices[0];
+      await RTg.logSessionChoice({ user_id: USER, session_id: sessionId, timestamp_iso: new Date().toISOString(),
+        scenario_id: beat.scenario_ref || beat.beat_id, scenario_type: "arc-beat", domain: gran.primary_domain,
+        arc_id: gran.arc_id, beat_id: beat.beat_id, item_id: sc.id, option_id: c.id, tags: c.tags,
+        response_time_ms: 4000, presented_position: step + 1, was_timeout: false });
+      ok(c.tags.includes("recurring_npc:gran"), `gran ${beat.beat_id}/${sc.id}/${c.id} carries recurring_npc:gran`);
+      sid = c.next; step++; if (++guard > 30){ ok(false, "gran walk runaway"); break; }
+    }
+    await logComplete(RTg, gran, beat, term, step);
+  }
+  const gp = P.arcProgress((await RTg.exportForAnalyzer()).session_log, gran);
+  ok(gp.done && gp.encounters === 3, "gran arc completes; 3 encounters (probe + climax not counted)", gp);
+  const granProbe = bundle.h8Probes.find(h => h.pair_id === "pp-ingroup-002");
+  ok(granProbe && granProbe.near_tag === "counterparty:family-of-origin", "gran probe carries the family-of-origin near pole");
+  const gfar = granProbe.abstract.options.find(o => (o.tags || []).includes("counterparty:anonymous"));
+  await RTg.logSessionChoice({ user_id: USER, session_id: uuid(), timestamp_iso: new Date().toISOString(),
+    scenario_id: granProbe.abstract.scenario_id, scenario_type: "h8-abstract-probe", domain: "in-group-out-group",
+    item_id: granProbe.abstract.item_id, option_id: gfar.id, tags: gfar.tags, response_time_ms: 5000, presented_position: 1, was_timeout: false });
+  const gdiv = P.h8Divergence((await RTg.exportForAnalyzer()).session_log, granProbe);
+  ok(gdiv.ok && gdiv.narrativePole === "near" && gdiv.shift === "toward-near",
+     "gran H8b end-to-end: family-of-origin climax + anonymous abstract -> shift toward-near (per-probe poles)", gdiv);
+
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
 })();

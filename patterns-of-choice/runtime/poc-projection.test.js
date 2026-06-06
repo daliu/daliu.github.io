@@ -97,6 +97,13 @@ ok(shiftFar.ok && shiftFar.shift === "toward-far", "near abstract + far narrativ
 // most-recent answer wins (a correction/re-answer supersedes an earlier one)
 const recency = P.h8Divergence([ans("qf-allocation-013", "qf-allocation-013-i01", NEAR), ans("qf-allocation-013", "qf-allocation-013-i01", FAR), ans("narr-allocation-008", "scene-the-choice", FAR)], probe);
 ok(recency.ok && recency.abstractPole === "far" && recency.concordant, "latest abstract answer is the one used");
+// per-probe poles: a different pair (Gran) uses counterparty:family-of-origin as 'near'
+const granProbe = { pair_id: "pp-ingroup-002", near_tag: "counterparty:family-of-origin", far_tag: "counterparty:anonymous",
+  abstract: { scenario_id: "qf-ingroup-013", item_id: "qf-ingroup-013-i02" }, narrative: { scenario_id: "narr-ingroup-010", signal: "scene-the-only-bed" } };
+const FAM = ["counterparty:family-of-origin"];
+const granDiv = P.h8Divergence([ans("qf-ingroup-013", "qf-ingroup-013-i02", FAR), ans("narr-ingroup-010", "scene-the-only-bed", FAM)], granProbe);
+ok(granDiv.ok && granDiv.shift === "toward-near", "per-probe poles: Gran family-of-origin near-pole read works (not the hardcoded animal tag)", granDiv);
+ok(!P.h8Divergence([ans("qf-ingroup-013", "qf-ingroup-013-i02", ["counterparty:animal-dependent"]), ans("narr-ingroup-010", "scene-the-only-bed", FAM)], granProbe).ok, "gran probe: an animal-tag answer doesn't register (poles are per-probe, not hardcoded)");
 
 // --- attachmentReport: self-report read (descriptive, single-subject) ---
 const arcB = { arc_id: "arc-biscuit" };

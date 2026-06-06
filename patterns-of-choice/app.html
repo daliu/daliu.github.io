@@ -193,7 +193,7 @@ function qfForDomain(domain){ return BUNDLE.quickfires.find(q => q.domain === do
 async function renderHome(){
   const st = await practiceState();
   const ready = await canReveal(st);
-  const ainfo = await arcInfo();
+  const arcInfos = (await Promise.all(getArcs().map(a => arcInfo(a)))).filter(Boolean);
   const cs = await covState();
   render(`
     <h1>Patterns of Choice</h1>
@@ -217,13 +217,7 @@ async function renderHome(){
     })()}
     ${ready.ok ? `<button class="secondary" onclick="renderReveal()">See your profile so far</button>`
       : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.${!st.hasCardSort ? " The card sort adds the 'what you'd say' half." : ""}</div>`}
-    ${ainfo ? arcCardHtml(ainfo) : ""}
-    ${ainfo && ainfo.probe && !ainfo.abstractAnswered && st.sessionCount >= 1 && !ainfo.prog.done ? `
-      <div class="domyield" style="margin-top:14px;">
-        <div class="name">A quick hypothetical</div>
-        <p class="row-prose" style="margin:6px 0 12px;">One short question — about fifteen seconds. It'll make more sense later.</p>
-        <button class="secondary" onclick="startH8Probe()">Answer it</button>
-      </div>` : ""}
+    ${arcInfos.map(arcCardHtml).join("")}
     ${cs && cs.fresh && cs.fresh.length ? `
       <div class="domyield" style="margin-top:14px;">
         <div class="name">A harder question</div>
@@ -239,11 +233,13 @@ async function renderHome(){
 //     animal you've never met. Presented as a quick (timed) hypothetical, separated
 //     in time from the narrative form — the two together are the divergence read. ---
 let h8sess = null;
-async function startH8Probe(){
-  const info = await arcInfo();
-  if (!info || !info.probe || info.abstractAnswered){ return renderHome(); }
-  const item = info.probe.abstract;             // {scenario_id, item_id, prompt, options}
-  h8sess = { id: POCRuntime.uuid(), probe: info.probe, item, t0: Date.now(), timer: null };
+async function startH8Probe(pairId){
+  const probe = (BUNDLE.h8Probes || []).find(p => p.pair_id === pairId) || (BUNDLE.h8Probes || [])[0];
+  if (!probe){ return renderHome(); }
+  const exp = await RT.exportForAnalyzer();     // skip if already answered
+  if (exp.session_log.find(e => e.scenario_id === probe.abstract.scenario_id && e.item_id === probe.abstract.item_id && e.option_id != null)){ return renderHome(); }
+  const item = probe.abstract;                  // {scenario_id, item_id, prompt, options}
+  h8sess = { id: POCRuntime.uuid(), probe, item, t0: Date.now(), timer: null };
   let left = 8;
   render(`
     <div class="timer" id="h8timer" aria-hidden="true">⏱  ${left} seconds</div>
@@ -284,22 +280,30 @@ async function answerH8Probe(optionId){
 // --- the recurring-character thread (the H8 mechanism: attachment you actually
 //     accrue across sessions, so the gated high-stakes beat lands on a relationship
 //     you have, not one the setup asserts). One arc for now: arc-biscuit. ---
-function getArc(){ return (BUNDLE.arcs && BUNDLE.arcs[0]) || null; }
+function getArcs(){ return BUNDLE.arcs || []; }
+function getArc(id){ const a = getArcs(); return id ? (a.find(x => x.arc_id === id) || null) : (a[0] || null); }
 function nameKey(arc){ return "npc_name:" + arc.arc_id; }
+function arcClimaxPair(arc){ const b = (arc.beats || []).find(x => x.kind === "high_stakes"); return b && b.pairs_with; }
+function probeForArc(arc){ const pid = arcClimaxPair(arc); return (BUNDLE.h8Probes || []).find(p => p.pair_id === pid) || null; }
+const ARC_HOOKS = { "npc-biscuit": "An animal who comes to depend on you.", "npc-gran": "Someone in your family who counts on you." };
+function arcHook(arc){ return ARC_HOOKS[arc.npc_ref] || "Someone you'll come to know, across your sessions."; }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
-// substitute the participant's chosen companion name for both the {token} and the
-// canonical default (the reused climax copy literally says the default name).
-function subst(text, name){
-  const a = getArc(); if (!a) return text || "";
+// substitute the participant's name for the {token} and the canonical default (the
+// reused climax copy literally says the default name). arc-specific (a Gran has no
+// token; a Biscuit does) — pass the arc so multi-arc names don't cross-substitute.
+function subst(text, name, arc){
+  const a = arc || getArc(); if (!a) return text || "";
   const safe = esc(name);
-  return (text || "").split(a.name_token).join(safe).split(a.npc_default_name).join(safe);
+  let out = (text || "");
+  if (a.name_token) out = out.split(a.name_token).join(safe);
+  return out.split(a.npc_default_name).join(safe);
 }
-async function arcInfo(){
-  const arc = getArc(); if (!arc) return null;
+async function arcInfo(arc){
+  if (!arc) return null;
   const exp = await RT.exportForAnalyzer();
   const prog = POCProjection.arcProgress(exp.session_log, arc);
   const stored = await RT.getSetting(nameKey(arc));
-  const probe = (BUNDLE.h8Probes || [])[0] || null;
+  const probe = probeForArc(arc);
   const div = probe ? POCProjection.h8Divergence(exp.session_log, probe) : { ok: false };
   const abstractAnswered = !!(probe && exp.session_log.find(e =>
     e.scenario_id === probe.abstract.scenario_id && e.item_id === probe.abstract.item_id && e.option_id != null));
@@ -347,19 +351,21 @@ function h8ReadHtml(div, name){
   return `<div class="observation" style="font-style:normal;"><strong>What knowing ${nm} did to the choice</strong><br>${body}</div>`;
 }
 function arcCardHtml(ainfo){
-  const { prog, name, div, abstractAnswered, att } = ainfo, nm = esc(name);
+  const { arc, prog, name, div, abstractAnswered, att, probe } = ainfo, nm = esc(name);
+  const id = arc.arc_id;
+  const hypo = probe && !abstractAnswered;
   let inner;
   if (prog.completedCount === 0){
-    inner = `<div class="name">A thread that continues</div>
-      <p class="row-prose" style="margin:6px 0 12px;">Most of this practice is one-off moments. This one isn't — you'll meet someone, and come back to them across your sessions. What that turns out to be worth is the point.</p>
-      <button class="primary" onclick="startArc()">Begin the thread</button>`;
+    inner = `<div class="name">${esc(arcHook(arc))}</div>
+      <p class="row-prose" style="margin:6px 0 12px;">A thread that continues — you'll come back to them across your sessions. What that turns out to be worth is the point.</p>
+      <button class="primary" onclick="startArc('${id}')">Begin</button>`;
   } else if (prog.done){
     inner = `<div class="name">${nm}</div>
       <p class="row-prose" style="margin:6px 0 12px;">Your thread with ${nm} is complete — ${prog.encounters} ordinary time${prog.encounters===1?"":"s"} together, then the one that wasn't ordinary.</p>
       ${attachmentLine(att, name)}
       ${div && div.ok ? h8ReadHtml(div, name) + h8ConnectorLine(att, div, name)
-        : (!abstractAnswered
-          ? `<p class="row-prose" style="color:var(--muted)">One more thing completes the picture: <button class="ghost" onclick="startH8Probe()">a quick hypothetical</button> — the same trade, but about an animal you've never met. The difference between the two answers is the whole point.</p>`
+        : (hypo
+          ? `<p class="row-prose" style="color:var(--muted)">One more thing completes the picture: <button class="ghost" onclick="startH8Probe('${probe.pair_id}')">a quick hypothetical</button> — the same trade, but about a stranger. The difference between the two answers is the whole point.</p>`
           : "")}`;
   } else if (prog.locked){
     inner = `<div class="name">${nm}</div>
@@ -367,7 +373,8 @@ function arcCardHtml(ainfo){
   } else {
     inner = `<div class="name">${nm}</div>
       <p class="row-prose" style="margin:6px 0 12px;">${prog.encounters === 0 ? "You've only just met." : `${prog.encounters} time${prog.encounters===1?"":"s"} together so far.`}</p>
-      <button class="primary" onclick="startArc()">Continue with ${nm}</button>`;
+      <button class="primary" onclick="startArc('${id}')">Continue with ${nm}</button>
+      ${hypo ? `<button class="secondary" onclick="startH8Probe('${probe.pair_id}')">A quick hypothetical (15s)</button>` : ""}`;
   }
   return `<div class="domyield" style="margin-top:20px;border-left:3px solid var(--accent);">${inner}</div>`;
 }
@@ -490,8 +497,8 @@ function endNarrative(terminal){
 //     naming beat, accrues encounters, logs a completion marker that advances the
 //     gate, and substitutes the participant's name throughout (incl. the climax). ---
 let arcSess = null;
-async function startArc(){
-  const info = await arcInfo();
+async function startArc(arcId){
+  const info = await arcInfo(getArc(arcId));
   if (!info || info.prog.done || info.prog.locked){ return renderHome(); }
   const beat = info.prog.next;
   if (beat.kind === "attachment_probe"){
@@ -548,12 +555,12 @@ function renderArcScene(){
   const head = a.step === 0 ? `
     <div class="progress">a thread that continues &middot; ${esc(a.name)}</div>
     <h2>${esc(a.beat.title)}</h2>
-    ${a.beat.intro ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${subst(a.beat.intro, a.name)}</p>` : ""}
-    <p class="body-text">${subst(a.setup, a.name)}</p>` : "";
+    ${a.beat.intro ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${subst(a.beat.intro, a.name, a.arc)}</p>` : ""}
+    <p class="body-text">${subst(a.setup, a.name, a.arc)}</p>` : "";
   render(`
     ${head}
-    <div class="item-prompt">${subst(sc.text, a.name)}</div>
-    ${sc.choices.map((c, i) => `<button onclick="chooseArcScene(${i})">${subst(c.text, a.name)}</button>`).join("")}
+    <div class="item-prompt">${subst(sc.text, a.name, a.arc)}</div>
+    ${sc.choices.map((c, i) => `<button onclick="chooseArcScene(${i})">${subst(c.text, a.name, a.arc)}</button>`).join("")}
     <div class="progress">a moment with ${esc(a.name)} &middot; take your time</div>
   `);
 }
@@ -586,9 +593,9 @@ function renderAttachmentProbe(){
   render(`
     <div class="progress">a thread that continues &middot; ${esc(a.name)}</div>
     <h2>${esc(b.title)}</h2>
-    ${b.intro ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${subst(b.intro, a.name)}</p>` : ""}
+    ${b.intro ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${subst(b.intro, a.name, a.arc)}</p>` : ""}
     <p class="body-text" style="font-size:15px;color:var(--muted);">For each, how true is it for you? <strong>${sc.min}</strong> = ${esc(sc.min_label)}, <strong>${sc.max}</strong> = ${esc(sc.max_label)}. No right answers — and this stays on your device.</p>
-    ${b.items.map(it => `<div class="domyield"><div class="row-prose" style="margin:0 0 8px;">${subst(it.text, a.name)}</div>${scaleBtns(it.id)}</div>`).join("")}
+    ${b.items.map(it => `<div class="domyield"><div class="row-prose" style="margin:0 0 8px;">${subst(it.text, a.name, a.arc)}</div>${scaleBtns(it.id)}</div>`).join("")}
     <button class="primary" onclick="commitAttachment()" ${answered ? "" : 'disabled style="opacity:.5;cursor:not-allowed;"'}>${answered ? "Done" : "Answer each one"}</button>
   `);
 }
@@ -624,10 +631,10 @@ async function endArcBeat(terminal){
     response_time_ms: 0, presented_position: a.step + 1, was_timeout: false,
   });
   const isClimax = a.beat.kind === "high_stakes";
-  const refl = a.reflection ? subst(a.reflection, a.name).split("{chosen_path}").join("the path you took") : "";
+  const refl = a.reflection ? subst(a.reflection, a.name, a.arc).split("{chosen_path}").join("the path you took") : "";
   render(`
     <h2>${isClimax ? "After." : "Until next time."}</h2>
-    ${terminal ? `<div class="observation">${subst(terminal.text, a.name)}</div>` : ""}
+    ${terminal ? `<div class="observation">${subst(terminal.text, a.name, a.arc)}</div>` : ""}
     ${refl ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${refl}</p>` : ""}
     <div class="body-text"><p>${isClimax
       ? `What you chose for ${esc(a.name)} — and what you'd choose for an animal you'd never met — are both in your own log now. The distance between them is the whole point.`
@@ -757,11 +764,16 @@ async function renderReveal(){
   const concordance = POCProjection.wordDeedConcordance(r.rev, stated);
   const align = POCProjection.selfAlignment(r.rev, r.exp.card_sort||[], BUNDLE.valuesByDomain, CARD_LAYERS.map(l => l.id));
   const cov = POCProjection.costOfVirtue(r.exp.probes || []);
-  const arc0 = getArc();
-  const aname = arc0 ? (await RT.getSetting(nameKey(arc0)) || arc0.npc_default_name) : "";
-  const h8div = (BUNDLE.h8Probes && BUNDLE.h8Probes[0]) ? POCProjection.h8Divergence(r.exp.session_log, BUNDLE.h8Probes[0]) : { ok: false };
-  const rawAll = await RT.log();
-  const h8att = arc0 ? POCProjection.attachmentReport(rawAll.filter(e => e.kind === "instrument").map(e => e.payload), arc0) : { ok: false };
+  // per-arc H8b reads (each arc that reached its climax): attachment + divergence
+  const instrs = (await RT.log()).filter(e => e.kind === "instrument").map(e => e.payload);
+  const arcReads = [];
+  for (const arc of getArcs()){
+    const probe = probeForArc(arc);
+    const div = probe ? POCProjection.h8Divergence(r.exp.session_log, probe) : { ok: false };
+    if (!div.ok) continue;
+    const nm = (await RT.getSetting(nameKey(arc))) || arc.npc_default_name;
+    arcReads.push({ nm, div, att: POCProjection.attachmentReport(instrs, arc) });
+  }
   const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
 
   // per-domain dumbbell: filled dot = what you DID (revealed mean), and when the
@@ -857,7 +869,7 @@ async function renderReveal(){
     ${conHtml}
     ${alignHtml}
     ${covHtml}
-    ${h8div.ok ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>${attachmentLine(h8att, aname)}${h8ReadHtml(h8div, aname)}${h8ConnectorLine(h8att, h8div, aname)}` : ""}
+    ${arcReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>` + arcReads.map(x => `${attachmentLine(x.att, x.nm)}${h8ReadHtml(x.div, x.nm)}${h8ConnectorLine(x.att, x.div, x.nm)}`).join('<hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">') : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);

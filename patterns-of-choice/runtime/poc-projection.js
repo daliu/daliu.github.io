@@ -267,14 +267,15 @@
   // twin)? Classifies each choice by the counterparty pole its CHOSEN option carries
   // (near = the identified/attached dependent; far = the anonymous many) and reports
   // whether attachment shifted the judgment. Reference-free, descriptive, no verdict.
-  // For the H8b animal-welfare pair the poles are these two counterparty tags; a
-  // future pair would carry its own pole tags.
+  // Each H8 pair carries its own near/far pole tags (e.g. counterparty:animal-dependent
+  // for the dog, counterparty:family-of-origin for the grandmother; far is anonymous).
+  // The probe supplies near_tag/far_tag; we fall back to the animal pair for safety.
   const H8_NEAR_TAG = "counterparty:animal-dependent";
   const H8_FAR_TAG = "counterparty:anonymous";
-  function h8PoleOf(tags) {
+  function h8PoleOf(tags, nearTag, farTag) {
     const t = tags || [];
-    if (t.includes(H8_NEAR_TAG)) return "near";
-    if (t.includes(H8_FAR_TAG)) return "far";
+    if (t.includes(nearTag)) return "near";
+    if (t.includes(farTag)) return "far";
     return null;
   }
   function h8LastChoice(sessionLog, scenarioId, itemId) {
@@ -285,10 +286,12 @@
   }
   function h8Divergence(sessionLog, probe) {
     if (!probe) return { ok: false, reason: "no probe" };
+    const nearTag = probe.near_tag || H8_NEAR_TAG;
+    const farTag = probe.far_tag || H8_FAR_TAG;
     const a = h8LastChoice(sessionLog, probe.abstract.scenario_id, probe.abstract.item_id);
     const n = h8LastChoice(sessionLog, probe.narrative.scenario_id, probe.narrative.signal);
-    const abstractPole = a ? h8PoleOf(a.tags) : null;
-    const narrativePole = n ? h8PoleOf(n.tags) : null;
+    const abstractPole = a ? h8PoleOf(a.tags, nearTag, farTag) : null;
+    const narrativePole = n ? h8PoleOf(n.tags, nearTag, farTag) : null;
     if (!abstractPole || !narrativePole)
       return { ok: false, hasAbstract: !!abstractPole, hasNarrative: !!narrativePole, pair_id: probe.pair_id };
     const concordant = abstractPole === narrativePole;
