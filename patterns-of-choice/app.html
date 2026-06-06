@@ -248,7 +248,33 @@ async function arcInfo(){
   const div = probe ? POCProjection.h8Divergence(exp.session_log, probe) : { ok: false };
   const abstractAnswered = !!(probe && exp.session_log.find(e =>
     e.scenario_id === probe.abstract.scenario_id && e.item_id === probe.abstract.item_id && e.option_id != null));
-  return { arc, prog, name: stored || arc.npc_default_name, named: !!stored, probe, div, abstractAnswered };
+  // instrument events live in the raw log (outside the analyzer export contract)
+  const raw = await RT.log();
+  const att = POCProjection.attachmentReport(raw.filter(e => e.kind === "instrument").map(e => e.payload), arc);
+  return { arc, prog, name: stored || arc.npc_default_name, named: !!stored, probe, div, abstractAnswered, att };
+}
+// the attachment self-report, said plainly (descriptive, no score-as-verdict)
+function attachmentLine(att, name){
+  if (!att || !att.ok) return "";
+  const nm = esc(name);
+  const desc = att.tone === "high" ? `you mostly agreed that ${nm} had become real company — not just an animal you look after`
+    : att.tone === "low" ? `you mostly didn't endorse feeling deeply attached to ${nm}`
+    : `you were of two minds about how attached you'd grown to ${nm}`;
+  return `<p class="row-prose" style="margin:6px 0;">In your own words, before it was tested: ${desc}.</p>`;
+}
+// one honest sentence relating the felt attachment to the choice that followed
+function h8ConnectorLine(att, div, name){
+  if (!att || !att.ok || !div || !div.ok) return "";
+  const nm = esc(name);
+  if (div.shift === "toward-near")
+    return att.tone === "high"
+      ? `<p class="row-prose" style="margin:6px 0;">The attachment you reported and the way your choice moved point the same direction — which is exactly what this was built to notice.</p>`
+      : `<p class="row-prose" style="margin:6px 0;">Your choice moved toward ${nm} even though you hadn't reported strong attachment — the deed ran ahead of the word.</p>`;
+  if (div.concordant)
+    return att.tone === "high"
+      ? `<p class="row-prose" style="margin:6px 0;">The attachment was real, by your own account — but it didn't change how you'd already weigh the trade.</p>`
+      : `<p class="row-prose" style="margin:6px 0;">You didn't report strong attachment, and your choice held steady between the abstract and ${nm} alike.</p>`;
+  return "";
 }
 // the H8b divergence, rendered descriptively (reference-free, no verdict)
 function h8ReadHtml(div, name){
@@ -266,7 +292,7 @@ function h8ReadHtml(div, name){
   return `<div class="observation" style="font-style:normal;"><strong>What knowing ${nm} did to the choice</strong><br>${body}</div>`;
 }
 function arcCardHtml(ainfo){
-  const { prog, name, div, abstractAnswered } = ainfo, nm = esc(name);
+  const { prog, name, div, abstractAnswered, att } = ainfo, nm = esc(name);
   let inner;
   if (prog.completedCount === 0){
     inner = `<div class="name">A thread that continues</div>
@@ -275,7 +301,8 @@ function arcCardHtml(ainfo){
   } else if (prog.done){
     inner = `<div class="name">${nm}</div>
       <p class="row-prose" style="margin:6px 0 12px;">Your thread with ${nm} is complete — ${prog.encounters} ordinary time${prog.encounters===1?"":"s"} together, then the one that wasn't ordinary.</p>
-      ${div && div.ok ? h8ReadHtml(div, name)
+      ${attachmentLine(att, name)}
+      ${div && div.ok ? h8ReadHtml(div, name) + h8ConnectorLine(att, div, name)
         : (!abstractAnswered
           ? `<p class="row-prose" style="color:var(--muted)">One more thing completes the picture: <button class="ghost" onclick="startH8Probe()">a quick hypothetical</button> — the same trade, but about an animal you've never met. The difference between the two answers is the whole point.</p>`
           : "")}`;
@@ -355,6 +382,10 @@ async function startArc(){
   const info = await arcInfo();
   if (!info || info.prog.done || info.prog.locked){ return renderHome(); }
   const beat = info.prog.next;
+  if (beat.kind === "attachment_probe"){
+    arcSess = { id: POCRuntime.uuid(), arc: info.arc, beat, name: info.name, responses: {} };
+    return renderAttachmentProbe();
+  }
   let setup, scenes, reflection, scenarioId;
   if (beat.scenario_ref){                                   // high_stakes beat -> referenced climax
     const sc = (BUNDLE.arcScenarios || {})[beat.scenario_ref];
@@ -426,6 +457,49 @@ async function chooseArcScene(i){
     response_time_ms: a.t0 ? (Date.now() - a.t0) : 0, presented_position: a.step + 1, was_timeout: false,
   });
   a.step += 1; a.sceneId = c.next; renderArcScene();
+}
+// --- attachment_probe beat: a short self-report Likert; logs an instrument event +
+//     a completion marker so the arc advances to the gated climax ---
+function renderAttachmentProbe(){
+  const a = arcSess, b = a.beat, sc = b.scale;
+  const answered = b.items.every(it => a.responses[it.id] != null);
+  const scaleBtns = (itemId) => {
+    let out = "";
+    for (let v = sc.min; v <= sc.max; v++){
+      const on = a.responses[itemId] === v;
+      out += `<button type="button" onclick="setAttachment('${itemId}',${v})" style="width:auto;display:inline-block;min-width:46px;text-align:center;margin:2px 6px 2px 0;${on?'border-color:var(--accent);background:#f1f5f2;font-weight:600;':''}">${v}</button>`;
+    }
+    return out;
+  };
+  render(`
+    <div class="progress">a thread that continues &middot; ${esc(a.name)}</div>
+    <h2>${esc(b.title)}</h2>
+    ${b.intro ? `<p class="body-text" style="color:var(--muted);font-style:italic;">${subst(b.intro, a.name)}</p>` : ""}
+    <p class="body-text" style="font-size:15px;color:var(--muted);">For each, how true is it for you? <strong>${sc.min}</strong> = ${esc(sc.min_label)}, <strong>${sc.max}</strong> = ${esc(sc.max_label)}. No right answers — and this stays on your device.</p>
+    ${b.items.map(it => `<div class="domyield"><div class="row-prose" style="margin:0 0 8px;">${subst(it.text, a.name)}</div>${scaleBtns(it.id)}</div>`).join("")}
+    <button class="primary" onclick="commitAttachment()" ${answered ? "" : 'disabled style="opacity:.5;cursor:not-allowed;"'}>${answered ? "Done" : "Answer each one"}</button>
+  `);
+}
+function setAttachment(itemId, value){ arcSess.responses[itemId] = value; renderAttachmentProbe(); }
+async function commitAttachment(){
+  const a = arcSess, b = a.beat;
+  if (!b.items.every(it => a.responses[it.id] != null)) return;
+  await RT.logInstrument({
+    user_id: USER, instrument: b.instrument || "psr-prd-v0.1", arc_id: a.arc.arc_id, beat_id: b.beat_id,
+    timestamp_iso: new Date().toISOString(), scale_min: b.scale.min, scale_max: b.scale.max,
+    responses: b.items.map(it => ({ item_id: it.id, value: a.responses[it.id] })),
+  });
+  await RT.logSessionChoice({                       // completion marker -> advances the arc to the climax
+    user_id: USER, session_id: a.id, timestamp_iso: new Date().toISOString(),
+    scenario_id: b.beat_id, scenario_type: "arc-beat-complete", domain: a.arc.primary_domain,
+    arc_id: a.arc.arc_id, beat_id: b.beat_id, item_id: null, option_id: null, tags: [],
+    response_time_ms: 0, presented_position: 1, was_timeout: false,
+  });
+  render(`
+    <h2>Thank you — that's just for you.</h2>
+    <div class="body-text"><p>Held on your device. Later, it'll sit beside what you actually do when it counts — the said next to the done.</p></div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
 }
 async function endArcBeat(terminal){
   const a = arcSess;
@@ -564,6 +638,8 @@ async function renderReveal(){
   const arc0 = getArc();
   const aname = arc0 ? (await RT.getSetting(nameKey(arc0)) || arc0.npc_default_name) : "";
   const h8div = (BUNDLE.h8Probes && BUNDLE.h8Probes[0]) ? POCProjection.h8Divergence(r.exp.session_log, BUNDLE.h8Probes[0]) : { ok: false };
+  const rawAll = await RT.log();
+  const h8att = arc0 ? POCProjection.attachmentReport(rawAll.filter(e => e.kind === "instrument").map(e => e.payload), arc0) : { ok: false };
   const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
 
   // per-domain dumbbell: filled dot = what you DID (revealed mean), and when the
@@ -621,7 +697,7 @@ async function renderReveal(){
     <h3 style="font-weight:500;font-size:17px;margin-top:20px;">Where you lean, relative to yourself</h3>
     ${ordHtml}
     ${conHtml}
-    ${h8div.ok ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>${h8ReadHtml(h8div, aname)}` : ""}
+    ${h8div.ok ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>${attachmentLine(h8att, aname)}${h8ReadHtml(h8div, aname)}${h8ConnectorLine(h8att, h8div, aname)}` : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);

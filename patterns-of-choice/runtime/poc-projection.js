@@ -188,6 +188,27 @@
     };
   }
 
+  // --- attachment self-report (the SELF-REPORTED half of the H8b convergent measure) ---
+  // instrumentEvents: payloads of kind "instrument" (the app reads these straight from
+  // the raw log; they are intentionally outside the analyzer export contract). A single
+  // person's own mean over a short single-construct self-report is directly
+  // interpretable — like the card-sort fraction — so this is descriptive, not an
+  // inferential statistic needing a reference distribution.
+  function attachmentReport(instrumentEvents, arc) {
+    const arcId = arc && arc.arc_id;
+    const rs = (instrumentEvents || []).filter(e => e && e.arc_id === arcId && /psr/i.test(e.instrument || ""));
+    if (!rs.length) return { ok: false };
+    const latest = rs[rs.length - 1];                 // most recent administration wins
+    const vals = (latest.responses || []).map(r => r.value).filter(v => typeof v === "number");
+    if (!vals.length) return { ok: false };
+    const m = mean(vals);
+    const lo = latest.scale_min != null ? latest.scale_min : 1;
+    const hi = latest.scale_max != null ? latest.scale_max : 5;
+    const mid = (lo + hi) / 2;
+    const tone = m >= mid + (hi - mid) * 0.5 ? "high" : (m <= lo + (mid - lo) * 0.5 ? "low" : "mixed");
+    return { ok: true, mean: m, n: vals.length, scaleMin: lo, scaleMax: hi, tone };
+  }
+
   // --- H8b: abstract-vs-narrative divergence — the core narrative-immersion read ---
   // Does the participant judge the SAME indivisible trade differently when it is
   // their attached companion (narrative climax) vs. a faceless animal (abstract
@@ -239,6 +260,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
-           arcProgress, h8Divergence,
+           arcProgress, h8Divergence, attachmentReport,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K } };
 });

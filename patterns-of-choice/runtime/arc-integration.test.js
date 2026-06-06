@@ -59,6 +59,23 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
 
     if (beat.captures_name) await RT.setSetting(NAMEKEY, NAME);
 
+    if (beat.kind === "attachment_probe"){          // self-report beat: instrument + completion, no scene walk
+      ok(Array.isArray(beat.items) && beat.items.length >= 3, "attachment_probe carries items");
+      const sessionId = uuid();
+      await RT.logInstrument({
+        user_id: USER, instrument: beat.instrument, arc_id: arc.arc_id, beat_id: beat.beat_id,
+        timestamp_iso: new Date().toISOString(), scale_min: beat.scale.min, scale_max: beat.scale.max,
+        responses: beat.items.map(it => ({ item_id: it.id, value: beat.scale.max })),
+      });
+      await RT.logSessionChoice({
+        user_id: USER, session_id: sessionId, timestamp_iso: new Date().toISOString(),
+        scenario_id: beat.beat_id, scenario_type: "arc-beat-complete", domain: arc.primary_domain,
+        arc_id: arc.arc_id, beat_id: beat.beat_id, item_id: null, option_id: null, tags: [],
+        response_time_ms: 0, presented_position: 1, was_timeout: false,
+      });
+      continue;
+    }
+
     const node = beatNode(arc, beat);
     const scenes = node.scenes;
     const sessionId = uuid();
@@ -88,11 +105,16 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
     });
   }
 
-  ok(JSON.stringify(encounterTrace) === JSON.stringify([0, 1, 2, 3]), "encounters accrue 0->1->2->3 across the beats", encounterTrace);
+  ok(JSON.stringify(encounterTrace) === JSON.stringify([0, 1, 2, 3, 3]), "encounters accrue 0->1->2->3, then hold across the (non-encounter) probe", encounterTrace);
 
   const finalProg = P.arcProgress((await RT.exportForAnalyzer()).session_log, arc);
   ok(finalProg.done && finalProg.next === null, "arc is done after the climax");
-  ok(finalProg.completedCount === 4 && finalProg.encounters === 3, "4 beats complete, 3 of them encounters", { c: finalProg.completedCount, e: finalProg.encounters });
+  ok(finalProg.completedCount === 5 && finalProg.encounters === 3, "5 beats complete, 3 of them encounters (probe + climax aren't)", { c: finalProg.completedCount, e: finalProg.encounters });
+
+  // the attachment self-report was logged + reads back (the SELF-REPORTED H8b half)
+  const instrPayloads = (await RT.log()).filter(e => e.kind === "instrument").map(e => e.payload);
+  const att = P.attachmentReport(instrPayloads, arc);
+  ok(att.ok && att.tone === "high" && att.n === 4, "attachment self-report reads back: high tone, 4 items", att);
 
   // the name persisted as a setting (survives reload via the meta store)
   ok((await RT.getSetting(NAMEKEY)) === NAME, "chosen name persisted as a runtime setting");

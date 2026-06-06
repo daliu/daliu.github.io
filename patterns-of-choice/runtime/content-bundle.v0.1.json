@@ -2361,8 +2361,42 @@
           "reflection_prompt": "When my own plans and {dog_name}'s needs don't fit in the same evening, what do I usually do — and how do I tend to feel about it the next morning?"
         },
         {
-          "beat_id": "arc-biscuit-b4",
+          "beat_id": "arc-biscuit-bp",
           "order": 4,
+          "kind": "attachment_probe",
+          "min_prior_encounters": 3,
+          "title": "A few honest questions",
+          "intro": "Some months in. Before the days ask anything hard of you and {dog_name}, a quiet moment to put words to what this has become.",
+          "instrument": "psr-prd-v0.1",
+          "instrument_note": "Parasocial-relationship / attachment self-report adapted from Rubin & Perse PSI and Tukachinsky PSR-PRD; the SELF-REPORTED half of the H8b convergent measure (the behavioral half is the pp-allocation-001 abstract-vs-narrative divergence).",
+          "scale": {
+            "min": 1,
+            "max": 5,
+            "min_label": "Not at all true",
+            "max_label": "Completely true"
+          },
+          "items": [
+            {
+              "id": "psr-1",
+              "text": "I find myself thinking about {dog_name} even when we are not together."
+            },
+            {
+              "id": "psr-2",
+              "text": "If something happened to {dog_name}, I would feel a real loss."
+            },
+            {
+              "id": "psr-3",
+              "text": "{dog_name} feels like genuine company, not just an animal I look after."
+            },
+            {
+              "id": "psr-4",
+              "text": "I would rearrange my own plans around what {dog_name} needs."
+            }
+          ]
+        },
+        {
+          "beat_id": "arc-biscuit-b4",
+          "order": 5,
           "kind": "high_stakes",
           "min_prior_encounters": 3,
           "title": "High water",

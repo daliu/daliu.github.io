@@ -98,5 +98,18 @@ ok(shiftFar.ok && shiftFar.shift === "toward-far", "near abstract + far narrativ
 const recency = P.h8Divergence([ans("qf-allocation-013", "qf-allocation-013-i01", NEAR), ans("qf-allocation-013", "qf-allocation-013-i01", FAR), ans("narr-allocation-008", "scene-the-choice", FAR)], probe);
 ok(recency.ok && recency.abstractPole === "far" && recency.concordant, "latest abstract answer is the one used");
 
+// --- attachmentReport: self-report read (descriptive, single-subject) ---
+const arcB = { arc_id: "arc-biscuit" };
+const instr = (arcId, instrument, values) => ({ arc_id: arcId, instrument,
+  responses: values.map((v, i) => ({ item_id: "psr-" + (i + 1), value: v })), scale_min: 1, scale_max: 5 });
+ok(!P.attachmentReport([], arcB).ok, "no instrument events -> not ok");
+ok(!P.attachmentReport([instr("other-arc", "psr-prd-v0.1", [5, 5, 5, 5])], arcB).ok, "other arc's report ignored");
+const hi = P.attachmentReport([instr("arc-biscuit", "psr-prd-v0.1", [5, 5, 4, 5])], arcB);
+ok(hi.ok && Math.abs(hi.mean - 4.75) < 1e-9 && hi.tone === "high", "high self-report -> tone high", hi);
+ok(P.attachmentReport([instr("arc-biscuit", "psr-prd-v0.1", [1, 2, 1, 2])], arcB).tone === "low", "low self-report -> tone low");
+ok(P.attachmentReport([instr("arc-biscuit", "psr-prd-v0.1", [3, 3, 4, 2])], arcB).tone === "mixed", "mid self-report -> tone mixed");
+const latest = P.attachmentReport([instr("arc-biscuit", "psr", [1, 1, 1, 1]), instr("arc-biscuit", "psr", [5, 5, 5, 5])], arcB);
+ok(latest.mean === 5, "most recent administration is the one used");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
