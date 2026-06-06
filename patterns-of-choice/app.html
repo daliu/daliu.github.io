@@ -169,9 +169,60 @@ async function renderHome(){
     ${ready.ok ? `<button class="secondary" onclick="renderReveal()">See your profile so far</button>`
       : `<div class="progress">Your profile unlocks once you've completed sessions in at least three areas (${ready.have}/3 so far). It's computed here, on your device.${!st.hasCardSort ? " The card sort adds the 'what you'd say' half." : ""}</div>`}
     ${ainfo ? arcCardHtml(ainfo) : ""}
+    ${ainfo && ainfo.probe && !ainfo.abstractAnswered && st.sessionCount >= 1 && !ainfo.prog.done ? `
+      <div class="domyield" style="margin-top:14px;">
+        <div class="name">A quick hypothetical</div>
+        <p class="row-prose" style="margin:6px 0 12px;">One short question — about fifteen seconds. It'll make more sense later.</p>
+        <button class="secondary" onclick="startH8Probe()">Answer it</button>
+      </div>` : ""}
     <div class="meta">
       Stored only in this browser. <button class="ghost" onclick="renderData()">your data</button>
     </div>
+  `);
+}
+// --- the H8b abstract twin: the same indivisible trade as the climax, but about an
+//     animal you've never met. Presented as a quick (timed) hypothetical, separated
+//     in time from the narrative form — the two together are the divergence read. ---
+let h8sess = null;
+async function startH8Probe(){
+  const info = await arcInfo();
+  if (!info || !info.probe || info.abstractAnswered){ return renderHome(); }
+  const item = info.probe.abstract;             // {scenario_id, item_id, prompt, options}
+  h8sess = { id: POCRuntime.uuid(), probe: info.probe, item, t0: Date.now(), timer: null };
+  let left = 8;
+  render(`
+    <div class="timer" id="h8timer">⏱  ${left} seconds</div>
+    <div class="item-prompt">${item.prompt}</div>
+    ${item.options.map(o => `<button onclick="answerH8Probe('${o.id}')">${o.text}</button>`).join("")}
+    <div class="progress">a quick hypothetical &middot; no wrong answer</div>
+  `);
+  if (!prefersReduced){
+    h8sess.timer = setInterval(() => {
+      left -= 1;
+      const el = document.getElementById("h8timer");
+      if (el){ el.textContent = `⏱  ${left} seconds`; if (left <= 3) el.classList.add("warn"); }
+      if (left <= 0){ clearInterval(h8sess.timer); answerH8Probe(null); }
+    }, 1000);
+  }
+}
+async function answerH8Probe(optionId){
+  if (h8sess.timer) clearInterval(h8sess.timer);
+  const item = h8sess.item;
+  const opt = optionId ? item.options.find(o => o.id === optionId) : null;
+  await RT.logSessionChoice({
+    user_id: USER, session_id: h8sess.id, timestamp_iso: new Date().toISOString(),
+    scenario_id: h8sess.probe.abstract.scenario_id, scenario_type: "h8-abstract-probe",
+    domain: h8sess.probe.domain || "resource-allocation",
+    item_id: h8sess.probe.abstract.item_id, option_id: optionId,
+    tags: opt ? opt.tags : [], response_time_ms: Date.now() - h8sess.t0,
+    presented_position: 1, was_timeout: optionId === null,
+  });
+  render(`
+    <h2>Noted.</h2>
+    <div class="body-text"><p>${optionId === null
+      ? "Time ran out — no answer logged. You can try it again from the start screen."
+      : "Logged on your device. You'll see why it was asked once a certain thread has run its course."}</p></div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
   `);
 }
 
@@ -193,10 +244,29 @@ async function arcInfo(){
   const exp = await RT.exportForAnalyzer();
   const prog = POCProjection.arcProgress(exp.session_log, arc);
   const stored = await RT.getSetting(nameKey(arc));
-  return { arc, prog, name: stored || arc.npc_default_name, named: !!stored };
+  const probe = (BUNDLE.h8Probes || [])[0] || null;
+  const div = probe ? POCProjection.h8Divergence(exp.session_log, probe) : { ok: false };
+  const abstractAnswered = !!(probe && exp.session_log.find(e =>
+    e.scenario_id === probe.abstract.scenario_id && e.item_id === probe.abstract.item_id && e.option_id != null));
+  return { arc, prog, name: stored || arc.npc_default_name, named: !!stored, probe, div, abstractAnswered };
+}
+// the H8b divergence, rendered descriptively (reference-free, no verdict)
+function h8ReadHtml(div, name){
+  if (!div || !div.ok) return "";
+  const nm = esc(name);
+  let body;
+  if (div.concordant && div.narrativePole === "near")
+    body = `Twice you faced the same impossible trade — one animal against a faceless many. Once it was a stranger's animal; once it was ${nm}, after your time together. Both times you chose the one. Knowing ${nm} didn't change it — that's already how you weigh it.`;
+  else if (div.concordant && div.narrativePole === "far")
+    body = `Twice you faced the same impossible trade — one animal against a faceless many. Once it was a stranger's animal; once it was ${nm}, after your time together. Both times you chose the many. Even knowing ${nm}, you weighed the wider claim the same — the attachment didn't move the judgment.`;
+  else if (div.shift === "toward-near")
+    body = `In the abstract — a stranger's animal against a faceless many — you chose the many. Asked about ${nm}, after your weeks together, you chose ${nm}. That gap is the whole point of this: what attachment does to a judgment that felt settled when it was hypothetical. Neither answer is the right one.`;
+  else
+    body = `In the abstract — a stranger's animal against a faceless many — you chose the animal. Asked about ${nm}, you chose the wider claim. An unusual direction: the hypothetical pulled you toward the dependent more than the personal did.`;
+  return `<div class="observation" style="font-style:normal;"><strong>What knowing ${nm} did to the choice</strong><br>${body}</div>`;
 }
 function arcCardHtml(ainfo){
-  const { prog, name } = ainfo, nm = esc(name);
+  const { prog, name, div, abstractAnswered } = ainfo, nm = esc(name);
   let inner;
   if (prog.completedCount === 0){
     inner = `<div class="name">A thread that continues</div>
@@ -204,7 +274,11 @@ function arcCardHtml(ainfo){
       <button class="primary" onclick="startArc()">Begin the thread</button>`;
   } else if (prog.done){
     inner = `<div class="name">${nm}</div>
-      <p class="row-prose" style="margin:6px 0 0;">Your thread with ${nm} is complete — ${prog.encounters} ordinary time${prog.encounters===1?"":"s"} together, then the one that wasn't ordinary. What you chose, and what you'd choose for a stranger's animal, are both in your log: the difference is the whole point.</p>`;
+      <p class="row-prose" style="margin:6px 0 12px;">Your thread with ${nm} is complete — ${prog.encounters} ordinary time${prog.encounters===1?"":"s"} together, then the one that wasn't ordinary.</p>
+      ${div && div.ok ? h8ReadHtml(div, name)
+        : (!abstractAnswered
+          ? `<p class="row-prose" style="color:var(--muted)">One more thing completes the picture: <button class="ghost" onclick="startH8Probe()">a quick hypothetical</button> — the same trade, but about an animal you've never met. The difference between the two answers is the whole point.</p>`
+          : "")}`;
   } else if (prog.locked){
     inner = `<div class="name">${nm}</div>
       <p class="row-prose" style="margin:6px 0 0;">You and ${nm} could use a little more ordinary time together before what comes next.</p>`;
@@ -487,6 +561,9 @@ async function renderReveal(){
   const stated = POCProjection.cardSortStated(r.exp.card_sort||[], BUNDLE.valuesByDomain, "aspirational_self");
   const ordering = POCProjection.ipsativeOrdering(r.rev);
   const concordance = POCProjection.wordDeedConcordance(r.rev, stated);
+  const arc0 = getArc();
+  const aname = arc0 ? (await RT.getSetting(nameKey(arc0)) || arc0.npc_default_name) : "";
+  const h8div = (BUNDLE.h8Probes && BUNDLE.h8Probes[0]) ? POCProjection.h8Divergence(r.exp.session_log, BUNDLE.h8Probes[0]) : { ok: false };
   const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
 
   // per-domain dumbbell: filled dot = what you DID (revealed mean), and when the
@@ -544,6 +621,7 @@ async function renderReveal(){
     <h3 style="font-weight:500;font-size:17px;margin-top:20px;">Where you lean, relative to yourself</h3>
     ${ordHtml}
     ${conHtml}
+    ${h8div.ok ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>${h8ReadHtml(h8div, aname)}` : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);

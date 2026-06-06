@@ -78,5 +78,25 @@ const lockArc = { arc_id: "x", beats: [
 const al = P.arcProgress([cx("x", "x1")], lockArc);
 ok(al.next.beat_id === "x2" && al.locked && al.needed === 5 && al.encounters === 1, "next beat gated behind more encounters -> locked, needed reported");
 
+// --- h8Divergence: abstract-vs-narrative (does attachment shift the judgment?) ---
+const probe = {
+  pair_id: "pp-allocation-001",
+  abstract: { scenario_id: "qf-allocation-013", item_id: "qf-allocation-013-i01" },
+  narrative: { scenario_id: "narr-allocation-008", signal: "scene-the-choice" },
+};
+const ans = (scn, item, tags) => ({ scenario_id: scn, item_id: item, option_id: "x", tags });
+const NEAR = ["counterparty:animal-dependent"], FAR = ["counterparty:anonymous"];
+ok(!P.h8Divergence([], probe).ok && !P.h8Divergence([], probe).hasAbstract, "no answers -> not ok");
+ok(!P.h8Divergence([ans("qf-allocation-013", "qf-allocation-013-i01", FAR)], probe).ok, "abstract only -> not ok (need both)");
+const conc = P.h8Divergence([ans("qf-allocation-013", "qf-allocation-013-i01", NEAR), ans("narr-allocation-008", "scene-the-choice", NEAR)], probe);
+ok(conc.ok && conc.concordant && conc.shift === "none", "both 'near' -> concordant, no shift");
+const shiftNear = P.h8Divergence([ans("qf-allocation-013", "qf-allocation-013-i01", FAR), ans("narr-allocation-008", "scene-the-choice", NEAR)], probe);
+ok(shiftNear.ok && !shiftNear.concordant && shiftNear.shift === "toward-near", "far abstract + near narrative -> shift toward-near (the H8 prediction)", shiftNear);
+const shiftFar = P.h8Divergence([ans("qf-allocation-013", "qf-allocation-013-i01", NEAR), ans("narr-allocation-008", "scene-the-choice", FAR)], probe);
+ok(shiftFar.ok && shiftFar.shift === "toward-far", "near abstract + far narrative -> shift toward-far");
+// most-recent answer wins (a correction/re-answer supersedes an earlier one)
+const recency = P.h8Divergence([ans("qf-allocation-013", "qf-allocation-013-i01", NEAR), ans("qf-allocation-013", "qf-allocation-013-i01", FAR), ans("narr-allocation-008", "scene-the-choice", FAR)], probe);
+ok(recency.ok && recency.abstractPole === "far" && recency.concordant, "latest abstract answer is the one used");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

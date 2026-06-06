@@ -101,6 +101,21 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
   const full = await RT.log();
   ok(full.length > 4, "arc produced a real event stream", full.length);
 
+  // --- H8b divergence end-to-end: the climax was carried at choice[0] (carry the
+  //     dog = near); now log the abstract twin's 'anonymous'/far answer and read it ---
+  const farOpt = probe.abstract.options.find(o => o.tags.includes("counterparty:anonymous"));
+  ok(!!farOpt, "abstract twin has an 'anonymous' (far) option");
+  await RT.logSessionChoice({
+    user_id: USER, session_id: uuid(), timestamp_iso: new Date().toISOString(),
+    scenario_id: probe.abstract.scenario_id, scenario_type: "h8-abstract-probe",
+    domain: "resource-allocation", item_id: probe.abstract.item_id,
+    option_id: farOpt.id, tags: farOpt.tags, response_time_ms: 5000, presented_position: 1, was_timeout: false,
+  });
+  const slog = (await RT.exportForAnalyzer()).session_log;
+  const dv = P.h8Divergence(slog, probe);
+  ok(dv.ok && dv.narrativePole === "near", "narrative climax (carried the dog) read as 'near'", dv);
+  ok(dv.abstractPole === "far" && dv.shift === "toward-near", "abstract=anonymous + narrative=near -> shift toward-near (the H8 prediction), end-to-end", dv);
+
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
 })();

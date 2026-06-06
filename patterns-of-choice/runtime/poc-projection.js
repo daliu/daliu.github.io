@@ -188,6 +188,42 @@
     };
   }
 
+  // --- H8b: abstract-vs-narrative divergence — the core narrative-immersion read ---
+  // Does the participant judge the SAME indivisible trade differently when it is
+  // their attached companion (narrative climax) vs. a faceless animal (abstract
+  // twin)? Classifies each choice by the counterparty pole its CHOSEN option carries
+  // (near = the identified/attached dependent; far = the anonymous many) and reports
+  // whether attachment shifted the judgment. Reference-free, descriptive, no verdict.
+  // For the H8b animal-welfare pair the poles are these two counterparty tags; a
+  // future pair would carry its own pole tags.
+  const H8_NEAR_TAG = "counterparty:animal-dependent";
+  const H8_FAR_TAG = "counterparty:anonymous";
+  function h8PoleOf(tags) {
+    const t = tags || [];
+    if (t.includes(H8_NEAR_TAG)) return "near";
+    if (t.includes(H8_FAR_TAG)) return "far";
+    return null;
+  }
+  function h8LastChoice(sessionLog, scenarioId, itemId) {
+    let hit = null; // most-recent answered entry for this (scenario,item) wins
+    for (const e of sessionLog || [])
+      if (e && e.scenario_id === scenarioId && e.item_id === itemId && e.option_id != null) hit = e;
+    return hit;
+  }
+  function h8Divergence(sessionLog, probe) {
+    if (!probe) return { ok: false, reason: "no probe" };
+    const a = h8LastChoice(sessionLog, probe.abstract.scenario_id, probe.abstract.item_id);
+    const n = h8LastChoice(sessionLog, probe.narrative.scenario_id, probe.narrative.signal);
+    const abstractPole = a ? h8PoleOf(a.tags) : null;
+    const narrativePole = n ? h8PoleOf(n.tags) : null;
+    if (!abstractPole || !narrativePole)
+      return { ok: false, hasAbstract: !!abstractPole, hasNarrative: !!narrativePole, pair_id: probe.pair_id };
+    const concordant = abstractPole === narrativePole;
+    const shift = concordant ? "none"
+      : (abstractPole === "far" && narrativePole === "near") ? "toward-near" : "toward-far";
+    return { ok: true, pair_id: probe.pair_id, abstractPole, narrativePole, concordant, shift };
+  }
+
   // --- top-level: full individual profile from an analyzer-export bundle ---
   // bundle: runtime.exportForAnalyzer() output; valuesByDomain from values-deck
   function profile(bundle, tagMap, valuesByDomain, layer) {
@@ -203,6 +239,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
-           arcProgress,
+           arcProgress, h8Divergence,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K } };
 });
