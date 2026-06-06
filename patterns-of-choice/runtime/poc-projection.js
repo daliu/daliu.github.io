@@ -300,6 +300,44 @@
     return { ok: true, pair_id: probe.pair_id, abstractPole, narrativePole, concordant, shift };
   }
 
+  // --- H8a debiasing: narrative-about-the-figure vs the abstract twin, per beat ---
+  // For each H8a beat: the participant's SIGNAL choice (made about the known figure)
+  // vs their answer to the abstract TWIN (the same value choice posed generically),
+  // each scored on the arc's value axis via itemScore. The gap is the debiasing
+  // signal — typically a tidier/more-virtuous abstract answer vs a more candid one
+  // about the friend (the social-desirability pull the design predicts), or vice
+  // versa. Descriptive, per-pair, NO aggregate score.
+  function h8aLast(sessionLog, pred) {
+    let hit = null;
+    for (const e of sessionLog || []) if (e && e.option_id != null && pred(e)) hit = e;
+    return hit;
+  }
+  function h8aDebiasing(sessionLog, arc, tagMap) {
+    if (!arc || arc.mode !== "h8a") return { ok: false };
+    const domain = arc.primary_domain;
+    const pairs = [];
+    for (const beat of arc.beats || []) {
+      if (!beat.signal || !beat.abstract_twin) continue;
+      const narr = h8aLast(sessionLog, e => e.scenario_type === "arc-beat" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id && e.item_id === beat.signal);
+      const abs = h8aLast(sessionLog, e => e.scenario_type === "h8a-abstract" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id);
+      if (!narr || !abs) continue;
+      const nS = itemScore(domain, narr.tags, tagMap).score;
+      const aS = itemScore(domain, abs.tags, tagMap).score;
+      const shift = nS - aS;
+      pairs.push({
+        beat_id: beat.beat_id, narrative: nS, abstract: aS, shift,
+        direction: Math.abs(shift) < 1e-9 ? "same" : (shift > 0 ? "more-candid-with-friend" : "more-candid-in-abstract"),
+      });
+    }
+    if (!pairs.length) return { ok: false, pairs: [] };
+    const shifts = pairs.filter(p => p.direction !== "same");
+    const perf = shifts.filter(p => p.direction === "more-candid-in-abstract").length;
+    const candid = shifts.filter(p => p.direction === "more-candid-with-friend").length;
+    const lean = !shifts.length ? "consistent"
+      : (perf > candid ? "performed-in-abstract" : (candid > perf ? "candid-with-friend" : "mixed"));
+    return { ok: true, pairs, n: pairs.length, nShifts: shifts.length, lean };
+  }
+
   // --- top-level: full individual profile from an analyzer-export bundle ---
   // bundle: runtime.exportForAnalyzer() output; valuesByDomain from values-deck
   function profile(bundle, tagMap, valuesByDomain, layer) {
@@ -315,6 +353,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
-           arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue,
+           arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K } };
 });

@@ -10,6 +10,7 @@
 const { createRuntime, MemoryStore, uuid } = require("./poc-runtime.js");
 const P = require("./poc-projection.js");
 const bundle = require("./content-bundle.v0.1.json");
+const tagMap = require("./tag-axis-map.v0.1.json");
 
 let pass = 0, fail = 0;
 const ok = (c, m, extra) => { c ? pass++ : (fail++, console.log("  FAIL:", m, extra !== undefined ? JSON.stringify(extra) : "")); };
@@ -193,6 +194,40 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
   const gdiv = P.h8Divergence((await RTg.exportForAnalyzer()).session_log, granProbe);
   ok(gdiv.ok && gdiv.narrativePole === "near" && gdiv.shift === "toward-near",
      "gran H8b end-to-end: family-of-origin climax + anonymous abstract -> shift toward-near (per-probe poles)", gdiv);
+
+  // ===== H8a arc: Nadia (debiasing-companion — no climax; per-beat narrative-vs-twin) =====
+  const nadia = bundle.arcs.find(a => a.arc_id === "arc-nadia");
+  ok(!!nadia && nadia.mode === "h8a", "bundle carries arc-nadia (mode h8a)");
+  ok(nadia.beats.every(b => b.signal && b.abstract_twin), "every nadia beat has signal + abstract_twin");
+  const RTn = createRuntime({ store: MemoryStore(), corpus_version: "test" });
+  await RTn.init();
+  for (const beat of nadia.beats){
+    const scenes = beatNode(nadia, beat).scenes;
+    let sid = startScene(scenes), step = 0, guard = 0, term = null, sessionId = uuid();
+    while (true){
+      const sc = scenes.find(x => x.id === sid);
+      if (!sc || sc.terminal){ term = sc || null; break; }
+      const c = sc.choices[0];
+      await RTn.logSessionChoice({ user_id: USER, session_id: sessionId, timestamp_iso: new Date().toISOString(),
+        scenario_id: beat.beat_id, scenario_type: "arc-beat", domain: nadia.primary_domain, arc_id: nadia.arc_id,
+        beat_id: beat.beat_id, item_id: sc.id, option_id: c.id, tags: c.tags, response_time_ms: 4000,
+        presented_position: step + 1, was_timeout: false });
+      sid = c.next; step++; if (++guard > 30){ ok(false, "nadia walk runaway"); break; }
+    }
+    await logComplete(RTn, nadia, beat, term, step);
+    // answer the abstract twin with the SOFTENING option (lie:white), to contrast with the candid signal[0]
+    const tw = beat.abstract_twin;
+    const soft = tw.options.find(o => (o.tags || []).includes("lie:white")) || tw.options[tw.options.length - 1];
+    await RTn.logSessionChoice({ user_id: USER, session_id: uuid(), timestamp_iso: new Date().toISOString(),
+      scenario_id: tw.item_id, scenario_type: "h8a-abstract", domain: nadia.primary_domain, arc_id: nadia.arc_id,
+      beat_id: beat.beat_id, item_id: tw.item_id, option_id: soft.id, tags: soft.tags, response_time_ms: 5000,
+      presented_position: 1, was_timeout: false });
+  }
+  const np = P.arcProgress((await RTn.exportForAnalyzer()).session_log, nadia);
+  ok(np.done && np.encounters === 3, "nadia h8a arc completes (3 encounters, no climax gate)", np);
+  const nd = P.h8aDebiasing((await RTn.exportForAnalyzer()).session_log, nadia, tagMap);
+  ok(nd.ok && nd.n === 3, "nadia h8a: all 3 narrative-vs-twin pairs read", nd && nd.n);
+  ok(nd.lean === "candid-with-friend", "nadia h8a end-to-end: candid signal[0] vs softened twin -> candid-with-friend", nd && nd.lean);
 
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);

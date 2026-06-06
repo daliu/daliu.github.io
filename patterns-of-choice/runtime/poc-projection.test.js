@@ -143,5 +143,31 @@ ok(covTrend.byValue[0].stake === 100 && covTrend.byValue[0].n === 2 && covTrend.
 const covUp = P.costOfVirtue([cv("honesty", 100, false, "2026-06-01"), cv("honesty", null, true, "2026-06-08")]);
 ok(covUp.byValue[0].trend === "up" && covUp.byValue[0].no_break_point, "trajectory: finite -> never reads as trend 'up' (held firmer)");
 
+// --- h8aDebiasing: narrative-about-figure vs abstract twin, on the value axis ---
+const nadiaArc = { arc_id: "arc-nadia", mode: "h8a", primary_domain: "truth-telling", beats: [
+  { beat_id: "arc-nadia-b1", signal: "scene-the-ask", abstract_twin: { item_id: "arc-nadia-b1-twin" } },
+  { beat_id: "arc-nadia-b2", signal: "scene-the-news", abstract_twin: { item_id: "arc-nadia-b2-twin" } },
+]};
+const arcAns = (type, beat, item, tags) => ({ scenario_type: type, arc_id: "arc-nadia", beat_id: beat, item_id: item, option_id: "x", tags });
+ok(!P.h8aDebiasing([], nadiaArc, tagMap).ok, "h8a: no answers -> not ok");
+ok(!P.h8aDebiasing([], { mode: "h8b" }, tagMap).ok, "h8a: non-h8a arc -> not ok");
+// b1: candid with friend (truth:state +0.7) but performed-tidier abstract is LESS candid (lie:white -0.5) -> more-candid-with-friend
+const h8aLog = [
+  arcAns("arc-beat", "arc-nadia-b1", "scene-the-ask", ["truth:state", "recurring_npc:nadia"]),
+  arcAns("h8a-abstract", "arc-nadia-b1", "arc-nadia-b1-twin", ["lie:white", "counterparty:peer"]),
+  // b2: softened with friend (lie:white) but candid in the abstract (truth:state) -> performed-in-abstract
+  arcAns("arc-beat", "arc-nadia-b2", "scene-the-news", ["lie:white", "recurring_npc:nadia"]),
+  arcAns("h8a-abstract", "arc-nadia-b2", "arc-nadia-b2-twin", ["truth:state", "counterparty:peer"]),
+];
+const h8a = P.h8aDebiasing(h8aLog, nadiaArc, tagMap);
+ok(h8a.ok && h8a.n === 2, "h8a: two pairs read", h8a && h8a.n);
+const b1 = h8a.pairs.find(p => p.beat_id === "arc-nadia-b1");
+ok(b1 && b1.direction === "more-candid-with-friend" && b1.shift > 0, "h8a b1: candid with friend, tidier in abstract", b1);
+const b2 = h8a.pairs.find(p => p.beat_id === "arc-nadia-b2");
+ok(b2 && b2.direction === "more-candid-in-abstract" && b2.shift < 0, "h8a b2: softened with friend, performed candor in abstract", b2);
+ok(h8a.lean === "mixed", "h8a: one each way -> mixed lean", h8a.lean);
+// narrative without its twin (or vice versa) -> that beat is not paired
+ok(P.h8aDebiasing([arcAns("arc-beat", "arc-nadia-b1", "scene-the-ask", ["truth:state"])], nadiaArc, tagMap).ok === false, "h8a: narrative without twin -> not paired");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

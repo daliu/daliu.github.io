@@ -285,7 +285,7 @@ function getArc(id){ const a = getArcs(); return id ? (a.find(x => x.arc_id === 
 function nameKey(arc){ return "npc_name:" + arc.arc_id; }
 function arcClimaxPair(arc){ const b = (arc.beats || []).find(x => x.kind === "high_stakes"); return b && b.pairs_with; }
 function probeForArc(arc){ const pid = arcClimaxPair(arc); return (BUNDLE.h8Probes || []).find(p => p.pair_id === pid) || null; }
-const ARC_HOOKS = { "npc-biscuit": "An animal who comes to depend on you.", "npc-gran": "Someone in your family who counts on you." };
+const ARC_HOOKS = { "npc-biscuit": "An animal who comes to depend on you.", "npc-gran": "Someone in your family who counts on you.", "npc-nadia": "A close friend you'll get honest with." };
 function arcHook(arc){ return ARC_HOOKS[arc.npc_ref] || "Someone you'll come to know, across your sessions."; }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
 // substitute the participant's name for the {token} and the canonical default (the
@@ -310,7 +310,14 @@ async function arcInfo(arc){
   // instrument events live in the raw log (outside the analyzer export contract)
   const raw = await RT.log();
   const att = POCProjection.attachmentReport(raw.filter(e => e.kind === "instrument").map(e => e.payload), arc);
-  return { arc, prog, name: stored || arc.npc_default_name, named: !!stored, probe, div, abstractAnswered, att };
+  const mode = arc.mode || "h8b";
+  let h8a = null, twinsTotal = 0, twinsAnswered = 0;
+  if (mode === "h8a"){
+    h8a = POCProjection.h8aDebiasing(exp.session_log, arc, TAGMAP);
+    twinsTotal = (arc.beats || []).filter(b => b.abstract_twin).length;
+    twinsAnswered = new Set(exp.session_log.filter(e => e.scenario_type === "h8a-abstract" && e.arc_id === arc.arc_id && e.option_id != null).map(e => e.beat_id)).size;
+  }
+  return { arc, mode, prog, name: stored || arc.npc_default_name, named: !!stored, probe, div, abstractAnswered, att, h8a, twinsTotal, twinsAnswered };
 }
 // the attachment self-report, said plainly (descriptive, no score-as-verdict)
 function attachmentLine(att, name){
@@ -350,7 +357,42 @@ function h8ReadHtml(div, name){
     body = `In the abstract — a stranger's animal against a faceless many — you chose the animal. Asked about ${nm}, you chose the wider claim. An unusual direction: the hypothetical pulled you toward the dependent more than the personal did.`;
   return `<div class="observation" style="font-style:normal;"><strong>What knowing ${nm} did to the choice</strong><br>${body}</div>`;
 }
+// the H8a debiasing read, rendered descriptively (no verdict)
+function h8aReadHtml(h8a, name){
+  if (!h8a || !h8a.ok) return "";
+  const nm = esc(name);
+  const leanText = {
+    "performed-in-abstract": `On the whole you answered more tidily about strangers than about ${nm} — being known by someone pulled your answer toward something more candid, or more careful, than the performed version. That pull is exactly what this notices.`,
+    "candid-with-friend": `You were more candid with ${nm} than in the abstract — being known moved you toward the harder truth, not away from it.`,
+    "mixed": `It went both ways — on some moments more candid with ${nm} than about a stranger, on others less. Knowing someone doesn't bend every honest call the same direction.`,
+    "consistent": `You answered about ${nm} the same way you answered about strangers — the friendship didn't move the honest call either way.`,
+  }[h8a.lean] || "";
+  return `<div class="observation" style="font-style:normal;"><strong>Candor — with a friend vs. in the abstract</strong><br>${leanText} <span style="color:var(--muted)">Neither is a verdict; just where your honesty bends.</span></div>`;
+}
+function arcCardH8a(ainfo){
+  const { arc, prog, name, h8a, twinsTotal, twinsAnswered } = ainfo, nm = esc(name);
+  const id = arc.arc_id;
+  const moreTwins = prog.completedCount > 0 && twinsAnswered < twinsTotal;
+  let inner;
+  if (prog.completedCount === 0){
+    inner = `<div class="name">${esc(arcHook(arc))}</div>
+      <p class="row-prose" style="margin:6px 0 12px;">A friendship that accrues — small honest moments, across your sessions. No big drama; the point is how candor and closeness sit together.</p>
+      <button class="primary" onclick="startArc('${id}')">Begin</button>`;
+  } else if (prog.done){
+    inner = `<div class="name">${nm}</div>
+      <p class="row-prose" style="margin:6px 0 12px;">Your thread with ${nm} has run its course — ${prog.encounters} honest moment${prog.encounters===1?"":"s"} between you.</p>
+      ${h8a && h8a.ok ? h8aReadHtml(h8a, name)
+        : (moreTwins ? `<p class="row-prose" style="color:var(--muted)">To complete the picture, answer <button class="ghost" onclick="startH8aTwins('${id}')">the same questions about strangers</button> — the difference is the whole point.</p>` : "")}`;
+  } else {
+    inner = `<div class="name">${nm}</div>
+      <p class="row-prose" style="margin:6px 0 12px;">${prog.encounters === 0 ? "You've only just met." : `${prog.encounters} honest moment${prog.encounters===1?"":"s"} so far.`}</p>
+      <button class="primary" onclick="startArc('${id}')">Continue with ${nm}</button>
+      ${moreTwins ? `<button class="secondary" onclick="startH8aTwins('${id}')">A few quick questions</button>` : ""}`;
+  }
+  return `<div class="domyield" style="margin-top:20px;border-left:3px solid var(--accent);">${inner}</div>`;
+}
 function arcCardHtml(ainfo){
+  if ((ainfo.mode || "h8b") === "h8a") return arcCardH8a(ainfo);
   const { arc, prog, name, div, abstractAnswered, att, probe } = ainfo, nm = esc(name);
   const id = arc.arc_id;
   const hypo = probe && !abstractAnswered;
@@ -496,6 +538,47 @@ function endNarrative(terminal){
 // --- arc beat player: plays the next unlocked beat, captures the name at the
 //     naming beat, accrues encounters, logs a completion marker that advances the
 //     gate, and substitutes the participant's name throughout (incl. the climax). ---
+// --- H8a abstract twins: the same honesty choices posed about strangers (the
+//     bloodless, performed-answer channel), presented separately from the
+//     narrative encounters about the friend; the gap between them is the read. ---
+let twinSess = null;
+async function startH8aTwins(arcId){
+  const arc = getArc(arcId); if (!arc) return renderHome();
+  const exp = await RT.exportForAnalyzer();
+  const answered = new Set(exp.session_log.filter(e => e.scenario_type === "h8a-abstract" && e.arc_id === arc.arc_id && e.option_id != null).map(e => e.beat_id));
+  const queue = (arc.beats || []).filter(b => b.abstract_twin && !answered.has(b.beat_id));
+  if (!queue.length) return renderHome();
+  twinSess = { arc, queue, idx: 0, t0: Date.now() };
+  renderTwin();
+}
+function renderTwin(){
+  const t = twinSess, tw = t.queue[t.idx].abstract_twin;
+  t.t0 = Date.now();
+  render(`
+    <div class="progress">a quick question &middot; ${t.idx + 1} of ${t.queue.length}</div>
+    <div class="item-prompt">${tw.prompt}</div>
+    ${tw.options.map(o => `<button onclick="answerTwin('${o.id}')">${o.text}</button>`).join("")}
+    <div class="progress">about someone you don't know well &middot; no wrong answer</div>
+  `);
+}
+async function answerTwin(optionId){
+  const t = twinSess, beat = t.queue[t.idx], tw = beat.abstract_twin;
+  const opt = tw.options.find(o => o.id === optionId);
+  await RT.logSessionChoice({
+    user_id: USER, session_id: POCRuntime.uuid(), timestamp_iso: new Date().toISOString(),
+    scenario_id: tw.item_id, scenario_type: "h8a-abstract", domain: t.arc.primary_domain,
+    arc_id: t.arc.arc_id, beat_id: beat.beat_id, item_id: tw.item_id, option_id: optionId,
+    tags: opt ? opt.tags : [], response_time_ms: Date.now() - t.t0, presented_position: t.idx + 1, was_timeout: false,
+  });
+  t.idx += 1;
+  if (t.idx < t.queue.length) renderTwin();
+  else render(`
+    <h2>Noted.</h2>
+    <div class="body-text"><p>Logged on your device. Set beside how you answered about ${esc(t.arc.npc_default_name)}, the difference is the point — you'll see it in your profile.</p></div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
+}
+
 let arcSess = null;
 async function startArc(arcId){
   const info = await arcInfo(getArc(arcId));
@@ -766,12 +849,17 @@ async function renderReveal(){
   const cov = POCProjection.costOfVirtue(r.exp.probes || []);
   // per-arc H8b reads (each arc that reached its climax): attachment + divergence
   const instrs = (await RT.log()).filter(e => e.kind === "instrument").map(e => e.payload);
-  const arcReads = [];
+  const arcReads = [], h8aReads = [];
   for (const arc of getArcs()){
+    const nm = (await RT.getSetting(nameKey(arc))) || arc.npc_default_name;
+    if ((arc.mode || "h8b") === "h8a"){
+      const h = POCProjection.h8aDebiasing(r.exp.session_log, arc, TAGMAP);
+      if (h.ok) h8aReads.push({ nm, h });
+      continue;
+    }
     const probe = probeForArc(arc);
     const div = probe ? POCProjection.h8Divergence(r.exp.session_log, probe) : { ok: false };
     if (!div.ok) continue;
-    const nm = (await RT.getSetting(nameKey(arc))) || arc.npc_default_name;
     arcReads.push({ nm, div, att: POCProjection.attachmentReport(instrs, arc) });
   }
   const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
@@ -870,6 +958,7 @@ async function renderReveal(){
     ${alignHtml}
     ${covHtml}
     ${arcReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>` + arcReads.map(x => `${attachmentLine(x.att, x.nm)}${h8ReadHtml(x.div, x.nm)}${h8ConnectorLine(x.att, x.div, x.nm)}`).join('<hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">') : ""}
+    ${h8aReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Honesty, known vs. abstract</h3>` + h8aReads.map(x => h8aReadHtml(x.h, x.nm)).join("") : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);
