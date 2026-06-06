@@ -116,6 +116,16 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
   const att = P.attachmentReport(instrPayloads, arc);
   ok(att.ok && att.tone === "high" && att.n === 4, "attachment self-report reads back: high tone, 4 items", att);
 
+  // --- cost-of-virtue end-to-end: a probe logs + reads back through the analyzer export ---
+  await RT.logProbe({
+    user_id: USER, scenario_id: "cov-truth-001", scenario_type: "cost-of-virtue-probe",
+    domain: "truth-telling", value_slot: "honesty", first_accept_stake: 1000, break_point_rung: 3,
+    no_break_point: false, unit: "USD", timestamp_iso: new Date().toISOString(),
+  });
+  const covRead = P.costOfVirtue((await RT.exportForAnalyzer()).probes);
+  const honesty = covRead.ok && covRead.byValue.find(v => v.value_slot === "honesty");
+  ok(honesty && honesty.stake === 1000 && !honesty.no_break_point, "cost-of-virtue probe logs + reads back via the export", honesty);
+
   // the name persisted as a setting (survives reload via the meta store)
   ok((await RT.getSetting(NAMEKEY)) === NAME, "chosen name persisted as a runtime setting");
 

@@ -122,5 +122,19 @@ ok(sa.ok && sa.n === 2, "selfAlignment: reads the two completed layers (skips th
 ok(sa.byLayer[0].tau >= sa.byLayer[1].tau && sa.closest === sa.byLayer[0].layer, "selfAlignment: closest = highest-concordance layer");
 ok(!P.selfAlignment(revealed, csMulti, vbd3, ["admired_other"]).ok, "selfAlignment: only-unsorted layer -> not ok");
 
+// --- costOfVirtue: break-point + within-person trajectory ---
+const cv = (slot, stake, no_bp, ts) => ({ scenario_type: "cost-of-virtue-probe", value_slot: slot,
+  first_accept_stake: stake, no_break_point: !!no_bp, unit: "USD", timestamp_iso: ts });
+ok(!P.costOfVirtue([]).ok, "no cov probes -> not ok");
+ok(!P.costOfVirtue([{ scenario_type: "probe", value_slot: "x" }]).ok, "non-cov probes ignored");
+const cov1 = P.costOfVirtue([cv("honesty", 1000, false, "2026-06-01")]);
+ok(cov1.ok && cov1.byValue[0].stake === 1000 && cov1.byValue[0].trend === null, "single cov: stake captured, no trend yet");
+const covNever = P.costOfVirtue([cv("loyalty", null, true, "2026-06-01")]);
+ok(covNever.byValue[0].no_break_point === true && covNever.byValue[0].stake === null, "'never' -> no_break_point, null stake (ceiling above range)");
+const covTrend = P.costOfVirtue([cv("honesty", 1000, false, "2026-06-01"), cv("honesty", 100, false, "2026-06-08")]);
+ok(covTrend.byValue[0].stake === 100 && covTrend.byValue[0].n === 2 && covTrend.byValue[0].trend === "down", "trajectory: latest wins, trend 'down' (cheaper to set aside)", covTrend.byValue[0]);
+const covUp = P.costOfVirtue([cv("honesty", 100, false, "2026-06-01"), cv("honesty", null, true, "2026-06-08")]);
+ok(covUp.byValue[0].trend === "up" && covUp.byValue[0].no_break_point, "trajectory: finite -> never reads as trend 'up' (held firmer)");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -188,6 +188,40 @@
     };
   }
 
+  // --- cost-of-virtue: the break-point on a stated value, and its trajectory ---
+  // probeEvents: kind "probe" payloads. Per value, the latest break-point (the
+  // smallest stake at which the person would set the value aside; null = wouldn't
+  // at any stake in range = "ceiling above probe range") and, across repeated
+  // administrations, the within-person trajectory — the primary longitudinal
+  // signal per concept.md. A concrete revealed price, not an inferential statistic.
+  function costOfVirtue(probeEvents) {
+    const cov = (probeEvents || []).filter(e => e && e.scenario_type === "cost-of-virtue-probe" && e.value_slot);
+    if (!cov.length) return { ok: false };
+    const byValue = {};
+    for (const e of cov) (byValue[e.value_slot] || (byValue[e.value_slot] = [])).push(e);
+    const out = [];
+    for (const slot in byValue) {
+      const seq = byValue[slot].slice().sort((a, b) => (a.timestamp_iso < b.timestamp_iso ? -1 : 1));
+      const latest = seq[seq.length - 1];
+      const val = e => (e.no_break_point ? Infinity : e.first_accept_stake);
+      let trend = null;
+      if (seq.length >= 2) {
+        const f = val(seq[0]), l = val(latest);
+        trend = l < f ? "down" : (l > f ? "up" : "flat");   // down = cheaper to set aside now
+      }
+      out.push({
+        value_slot: slot,
+        stake: latest.no_break_point ? null : latest.first_accept_stake,
+        no_break_point: !!latest.no_break_point,
+        unit: latest.unit || "USD",
+        n: seq.length,
+        trend,
+      });
+    }
+    out.sort((a, b) => a.value_slot < b.value_slot ? -1 : 1);
+    return { ok: true, byValue: out };
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -278,6 +312,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
-           arcProgress, h8Divergence, attachmentReport, selfAlignment,
+           arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K } };
 });

@@ -165,6 +165,7 @@ async function renderHome(){
   const st = await practiceState();
   const ready = await canReveal(st);
   const ainfo = await arcInfo();
+  const cs = await covState();
   render(`
     <h1>Patterns of Choice</h1>
     <div class="subhead">A daily practice, kept entirely on your device.</div>
@@ -193,6 +194,12 @@ async function renderHome(){
         <div class="name">A quick hypothetical</div>
         <p class="row-prose" style="margin:6px 0 12px;">One short question — about fifteen seconds. It'll make more sense later.</p>
         <button class="secondary" onclick="startH8Probe()">Answer it</button>
+      </div>` : ""}
+    ${cs && cs.fresh && cs.fresh.length ? `
+      <div class="domyield" style="margin-top:14px;">
+        <div class="name">A harder question</div>
+        <p class="row-prose" style="margin:6px 0 12px;">About something you said you value — what would it take to set it aside? About 90 seconds, and the answer is only for you.</p>
+        <button class="secondary" onclick="startCov()">Take it</button>
       </div>` : ""}
     <div class="meta">
       Stored only in this browser. <button class="ghost" onclick="renderData()">your data</button>
@@ -334,6 +341,63 @@ function arcCardHtml(ainfo){
       <button class="primary" onclick="startArc()">Continue with ${nm}</button>`;
   }
   return `<div class="domyield" style="margin-top:20px;border-left:3px solid var(--accent);">${inner}</div>`;
+}
+
+// --- cost-of-virtue: the break-point ladder on a value you SAID you hold ---
+//     (tied to the stated channel: only offered for values you kept in the sort,
+//      so the "earlier you said X matters" framing is honest). ~90s; the
+//      within-person trajectory of the break-point is the longitudinal signal.
+async function covState(){
+  if (!BUNDLE.covProbes || !BUNDLE.covProbes.length) return { matching: [], fresh: [], doneIds: new Set() };
+  const evs = await RT.log();
+  const keptAsp = new Set(), doneIds = new Set();
+  for (const e of evs){
+    if (e.kind === "card_sort" && e.payload.layer === "aspirational_self" && e.payload.selected) keptAsp.add(e.payload.value_id);
+    if (e.kind === "probe" && e.payload.scenario_type === "cost-of-virtue-probe" && e.payload.scenario_id) doneIds.add(e.payload.scenario_id);
+  }
+  const matching = BUNDLE.covProbes.filter(c => keptAsp.has(c.value_slot));
+  const fresh = matching.filter(c => !doneIds.has(c.id));
+  return { matching, fresh, doneIds };
+}
+let covSess = null;
+async function startCov(){
+  const cs = await covState();
+  const probe = cs.fresh[0] || cs.matching[0];
+  if (!probe){ return renderHome(); }
+  covSess = { probe, t0: Date.now() };
+  renderCov();
+}
+function renderCov(){
+  const c = covSess.probe;
+  const rungs = c.ladder.map((r, i) => `<button onclick="answerCov(${i})">${r.label}</button>`).join("");
+  render(`
+    <div class="progress">a harder question &middot; ${c.domain.replace(/-/g," ")}</div>
+    <div class="item-prompt">${c.framing_prompt}</div>
+    <p class="body-text"><strong>${c.framing_question}</strong></p>
+    ${rungs}
+    <button class="secondary" onclick="answerCov('no')">${c.no_option.text}</button>
+    <div class="progress">No right answer — most people have a price somewhere; noticing yours is the point.</div>
+  `);
+}
+async function answerCov(choice){
+  const c = covSess.probe;
+  const isNo = choice === "no";
+  const rung = isNo ? null : c.ladder[choice];
+  await RT.logProbe({
+    user_id: USER, scenario_id: c.id, scenario_type: "cost-of-virtue-probe", domain: c.domain,
+    value_slot: c.value_slot, layer: "aspirational_self",
+    first_accept_stake: isNo ? null : rung.stake, break_point_rung: isNo ? null : rung.rung,
+    no_break_point: isNo, unit: isNo ? (c.ladder[0] && c.ladder[0].unit) : rung.unit,
+    timestamp_iso: new Date().toISOString(), response_time_ms: Date.now() - covSess.t0,
+  });
+  const valLabel = c.value_slot.replace(/_/g, " ");
+  render(`
+    <h2>Logged.</h2>
+    <div class="observation">${isNo
+      ? `On ${valLabel}, you wouldn't — not at any amount asked. That's a real datum: your ceiling sits above the range. Held without judgment.`
+      : `On ${valLabel}, your break-point landed at <strong>${rung.label}</strong>. Not a verdict — a price, and most people have one. What matters is whether it moves over time.`}</div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
 }
 
 // --- a daily session: alternate quick-fire (System 1) and narrative (richer) ---
@@ -663,6 +727,7 @@ async function renderReveal(){
   const ordering = POCProjection.ipsativeOrdering(r.rev);
   const concordance = POCProjection.wordDeedConcordance(r.rev, stated);
   const align = POCProjection.selfAlignment(r.rev, r.exp.card_sort||[], BUNDLE.valuesByDomain, CARD_LAYERS.map(l => l.id));
+  const cov = POCProjection.costOfVirtue(r.exp.probes || []);
   const arc0 = getArc();
   const aname = arc0 ? (await RT.getSetting(nameKey(arc0)) || arc0.npc_default_name) : "";
   const h8div = (BUNDLE.h8Probes && BUNDLE.h8Probes[0]) ? POCProjection.h8Divergence(r.exp.session_log, BUNDLE.h8Probes[0]) : { ok: false };
@@ -730,6 +795,17 @@ async function renderReveal(){
       <p class="row-prose">Your everyday choices track <strong>${lab(align.closest)}</strong> most closely${align.byLayer.length >= 2 && worst.layer !== align.closest ? `, more than ${lab(worst.layer)}` : ""}. Not a verdict — just where the words and the deeds meet.</p>`;
   }
 
+  // cost-of-virtue: the break-point on a stated value (a price, not a verdict)
+  let covHtml = "";
+  if (cov.ok){
+    const fmt = x => x.no_break_point ? "wouldn't, at any amount asked" : `around ${x.unit === "USD" ? "$" : ""}${x.stake.toLocaleString()}`;
+    const trendWord = { down:" — lower than before", up:" — higher than before", flat:" — unchanged" };
+    covHtml = `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">What you'd set aside, and for how much</h3>
+      <p class="row-prose">On values you said matter, the break-points you named:</p>
+      <ul class="row-prose" style="margin:8px 0;padding-left:22px;">${cov.byValue.map(x => `<li><strong>${x.value_slot.replace(/_/g, " ")}</strong> — ${fmt(x)}${x.trend ? trendWord[x.trend] : ""}</li>`).join("")}</ul>
+      <p class="row-prose" style="color:var(--muted)">A price isn't a verdict — most people have one. The signal worth watching is whether it drifts over time.</p>`;
+  }
+
   render(`
     <h2>Your profile so far</h2>
     <p class="body-text" style="color:var(--muted);font-size:15px;">Computed on your device from ${st.sessionCount} sessions. Held loosely — this is early, and it points inward (at you over time), never at anyone else.</p>
@@ -739,6 +815,7 @@ async function renderReveal(){
     ${ordHtml}
     ${conHtml}
     ${alignHtml}
+    ${covHtml}
     ${h8div.ok ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>${attachmentLine(h8att, aname)}${h8ReadHtml(h8div, aname)}${h8ConnectorLine(h8att, h8div, aname)}` : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
