@@ -296,14 +296,32 @@ async function renderReveal(){
   const concordance = POCProjection.wordDeedConcordance(r.rev, stated);
   const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
 
-  // domain yield bars (descriptive: how much you've revealed per domain, your own scale)
+  // per-domain dumbbell: filled dot = what you DID (revealed mean), and when the
+  // card sort exists, a hollow ring = what you SAID (stated frac mapped onto the
+  // same axis) with the connecting line as the distance. Honestly scoped: this
+  // is your own said-vs-did on your own axis — NOT a cohort-standardized gap
+  // (that needs a comparison group; see profile.html / the analyzer).
+  const hasStated = Object.keys(stated).length > 0;
+  // map a [0,1] stated fraction onto the [-1,+1] revealed axis for visual comparison
+  const statedToAxis = f => (f * 2) - 1;
   let bars = "";
   for (const d of POCProjection.DOMAINS){
     if (!r.rev[d]) continue;
-    const m = r.rev[d].revealed_score_mean; const pct = Math.round(((m+1)/2)*100);
+    const m = r.rev[d].revealed_score_mean;
+    const didX = ((m + 1) / 2) * 100;                    // % across a -1..+1 track
+    const saidX = hasStated && (d in stated) ? ((statedToAxis(stated[d]) + 1) / 2) * 100 : null;
+    let svg = `<svg viewBox="0 0 100 24" preserveAspectRatio="none" style="width:100%;height:24px;display:block;margin:6px 0 2px;" role="img" aria-label="${DLAB[d]}: did ${m.toFixed(2)}${saidX!==null?", said "+statedToAxis(stated[d]).toFixed(2):""}">
+      <line x1="2" y1="12" x2="98" y2="12" stroke="var(--border)" stroke-width="1"></line>
+      <line x1="50" y1="6" x2="50" y2="18" stroke="var(--border)" stroke-width="1"></line>`;
+    if (saidX !== null) {
+      const lo = Math.min(didX, saidX), hi = Math.max(didX, saidX);
+      svg += `<line x1="${lo}" y1="12" x2="${hi}" y2="12" stroke="var(--accent)" stroke-width="2.5" stroke-opacity="0.55" stroke-linecap="round"></line>`;
+      svg += `<circle cx="${saidX}" cy="12" r="4" fill="none" stroke="var(--muted)" stroke-width="1.5"></circle>`;
+    }
+    svg += `<circle cx="${didX}" cy="12" r="4.5" fill="var(--accent)"></circle></svg>`;
     bars += `<div class="domyield"><div class="name">${DLAB[d]}</div>
-      <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
-      <div class="progress">${m>=0?"+":""}${m.toFixed(2)} on this area's axis &middot; ${r.rev[d].n_sessions_contributing} session${r.rev[d].n_sessions_contributing===1?"":"s"}</div></div>`;
+      ${svg}
+      <div class="progress">${hasStated && (d in stated) ? "○ said &middot; ● did &middot; " : "● "}${m>=0?"+":""}${m.toFixed(2)} on this area's axis &middot; ${r.rev[d].n_sessions_contributing} session${r.rev[d].n_sessions_contributing===1?"":"s"}</div></div>`;
   }
 
   let ordHtml;
@@ -322,7 +340,7 @@ async function renderReveal(){
       conHtml += `<p class="row-prose">Worth noticing: you rank <strong>${DLAB[f.said_lower]}</strong> low in what you'd say, but it's among the highest in what you did — an unclaimed strength, not a fault.</p>`;
     }
   } else {
-    conHtml = `<p class="row-prose" style="color:var(--muted)">Word-vs-deed comparison needs the card sort (the stated channel) plus three areas of choices. <button class="ghost" onclick="alert('The card-sort onboarding is the next prototype step.')">about that</button></p>`;
+    conHtml = `<p class="row-prose" style="color:var(--muted)">Word-vs-deed comparison needs the card sort (the stated channel) alongside your choices in three areas. <button class="ghost" onclick="startCardSort()">do the card sort</button></p>`;
   }
 
   render(`
