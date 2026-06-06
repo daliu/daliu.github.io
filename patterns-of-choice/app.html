@@ -66,6 +66,22 @@
     .domyield .fill { height:100%; background:var(--accent); }
     .back-link { display:inline-block; margin-top:28px; color:var(--muted); text-decoration:none; font-size:14px; }
     .danger { color:var(--warn); }
+    /* synoptic reveal chart: all areas on one shared axis, a unifying centerline */
+    .synoptic { width:100%; height:auto; display:block; margin:10px 0 6px; }
+    .synoptic .row-track { stroke:var(--border); stroke-width:1.5; }
+    .synoptic .mid { stroke:#bcd0c2; stroke-width:1.5; stroke-dasharray:2 5; }
+    .synoptic .conn { stroke:var(--accent); stroke-width:3; stroke-opacity:.45; stroke-linecap:round; stroke-dasharray:1; }
+    .synoptic .said { fill:var(--card); stroke:var(--muted); stroke-width:1.5; }
+    .synoptic .did { fill:var(--accent); }
+    .synoptic .lab { fill:var(--fg); font-size:14px; font-weight:500; }
+    .synoptic .sub { fill:var(--muted); font-size:12px; font-variant-numeric:tabular-nums; }
+    .synoptic .axis { fill:var(--muted); font-size:10px; letter-spacing:.4px; text-transform:uppercase; }
+    @keyframes poc-pop  { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
+    @keyframes poc-draw { from { stroke-dashoffset:1; }          to { stroke-dashoffset:0; } }
+    @media (prefers-reduced-motion: no-preference) {
+      .synoptic .did, .synoptic .said { transform-box:fill-box; transform-origin:center; animation:poc-pop 480ms cubic-bezier(.2,.7,.3,1) both; }
+      .synoptic .conn { animation:poc-draw 520ms ease both; }
+    }
   </style>
 </head>
 <body>
@@ -754,27 +770,39 @@ async function renderReveal(){
   // is your own said-vs-did on your own axis — NOT a cohort-standardized gap
   // (that needs a comparison group; see profile.html / the analyzer).
   const hasStated = Object.keys(stated).length > 0;
-  // map a [0,1] stated fraction onto the [-1,+1] revealed axis for visual comparison
-  const statedToAxis = f => (f * 2) - 1;
-  let bars = "";
-  for (const d of POCProjection.DOMAINS){
-    if (!r.rev[d]) continue;
-    const m = r.rev[d].revealed_score_mean;
-    const didX = ((m + 1) / 2) * 100;                    // % across a -1..+1 track
-    const saidX = hasStated && (d in stated) ? ((statedToAxis(stated[d]) + 1) / 2) * 100 : null;
-    let svg = `<svg viewBox="0 0 100 24" preserveAspectRatio="none" style="width:100%;height:24px;display:block;margin:6px 0 2px;" role="img" aria-label="${DLAB[d]}: did ${m.toFixed(2)}${saidX!==null?", said "+statedToAxis(stated[d]).toFixed(2):""}">
-      <line x1="2" y1="12" x2="98" y2="12" stroke="var(--border)" stroke-width="1"></line>
-      <line x1="50" y1="6" x2="50" y2="18" stroke="var(--border)" stroke-width="1"></line>`;
+  const statedToAxis = f => (f * 2) - 1; // map a [0,1] stated fraction onto the [-1,+1] axis
+  // Synoptic chart: every scored area on ONE shared axis with a unifying centerline.
+  // filled dot = what you DID (revealed mean); open ring = what you'd SAY (when the
+  // card sort exists); the segment is the distance. Center is the axis NEUTRAL — this
+  // is your own said-vs-did per area, NOT a score and NOT a cohort-standardized gap.
+  const sdoms = POCProjection.DOMAINS.filter(d => r.rev[d]);
+  const SW = 600, rowH = 52, sTop = 12, sBot = 36, SH = sTop + sdoms.length * rowH + sBot;
+  const SX = v => 24 + ((Math.max(-1, Math.min(1, v)) + 1) / 2) * (576 - 24);
+  let srows = "";
+  sdoms.forEach((d, i) => {
+    const rt = sTop + i * rowH, yL = rt + 16, yT = rt + 38;
+    const m = r.rev[d].revealed_score_mean, didX = SX(m).toFixed(1);
+    const hasS = hasStated && (d in stated);
+    const saidX = hasS ? SX(statedToAxis(stated[d])) : null;
+    const ns = r.rev[d].n_sessions_contributing;
+    srows += `<text class="lab" x="24" y="${yL}">${DLAB[d]}</text>`
+      + `<text class="sub" x="576" y="${yL}" text-anchor="end">${m >= 0 ? "+" : ""}${m.toFixed(2)} · ${ns} session${ns === 1 ? "" : "s"}</text>`
+      + `<line class="row-track" x1="24" y1="${yT}" x2="576" y2="${yT}"/>`;
     if (saidX !== null) {
-      const lo = Math.min(didX, saidX), hi = Math.max(didX, saidX);
-      svg += `<line x1="${lo}" y1="12" x2="${hi}" y2="12" stroke="var(--accent)" stroke-width="2.5" stroke-opacity="0.55" stroke-linecap="round"></line>`;
-      svg += `<circle cx="${saidX}" cy="12" r="4" fill="none" stroke="var(--muted)" stroke-width="1.5"></circle>`;
+      const lo = Math.min(+didX, saidX).toFixed(1), hi = Math.max(+didX, saidX).toFixed(1);
+      srows += `<line class="conn" x1="${lo}" y1="${yT}" x2="${hi}" y2="${yT}" pathLength="1" style="animation-delay:${i * 90 + 140}ms"/>`
+        + `<circle class="said" cx="${saidX.toFixed(1)}" cy="${yT}" r="6.5" style="animation-delay:${i * 90 + 70}ms"/>`;
     }
-    svg += `<circle cx="${didX}" cy="12" r="4.5" fill="var(--accent)"></circle></svg>`;
-    bars += `<div class="domyield"><div class="name">${DLAB[d]}</div>
-      ${svg}
-      <div class="progress">${hasStated && (d in stated) ? "○ said &middot; ● did &middot; " : "● "}${m>=0?"+":""}${m.toFixed(2)} on this area's axis &middot; ${r.rev[d].n_sessions_contributing} session${r.rev[d].n_sessions_contributing===1?"":"s"}</div></div>`;
-  }
+    srows += `<circle class="did" cx="${didX}" cy="${yT}" r="7.5" style="animation-delay:${i * 90}ms"/>`;
+  });
+  const yT0 = sTop + 38, yTn = sTop + (sdoms.length - 1) * rowH + 38;
+  const midline = `<line class="mid" x1="300" y1="${yT0 - 14}" x2="300" y2="${yTn + 14}"/>`;
+  const foot = `<text class="axis" x="24" y="${SH - 12}">away from it</text>`
+    + `<text class="axis" x="300" y="${SH - 12}" text-anchor="middle">neutral</text>`
+    + `<text class="axis" x="576" y="${SH - 12}" text-anchor="end">leaned into it</text>`;
+  const ariaSummary = sdoms.map(d => `${DLAB[d]}: did ${r.rev[d].revealed_score_mean.toFixed(2)}${(hasStated && d in stated) ? ", said " + statedToAxis(stated[d]).toFixed(2) : ""}`).join("; ");
+  const bars = `<svg class="synoptic" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Per-area chart, each on its own neutral-centered axis. ${ariaSummary}.">${midline}${srows}${foot}</svg>
+    <div class="progress" style="margin-top:2px;">${hasStated ? "○ what you'd say &middot; ● what you did &middot; " : "● what you did &middot; "}each area on its own axis; center is neutral, not a score.</div>`;
 
   let ordHtml;
   if (!ordering.ok) ordHtml = `<p class="row-prose">No reliable ordering yet — ${ordering.reason}.</p>`;
