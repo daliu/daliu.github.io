@@ -329,13 +329,28 @@
         direction: Math.abs(shift) < 1e-9 ? "same" : (shift > 0 ? "more-candid-with-friend" : "more-candid-in-abstract"),
       });
     }
-    if (!pairs.length) return { ok: false, pairs: [] };
+    // evolves arcs (e.g. cole): the trajectory of the narrative choice across the
+    // ordered beats — does trust/candor return as the relationship's history accrues?
+    let trajectory = null;
+    if (arc.evolves) {
+      const seq = [];
+      for (const beat of arc.beats || []) {
+        if (!beat.signal) continue;
+        const narr = h8aLast(sessionLog, e => e.scenario_type === "arc-beat" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id && e.item_id === beat.signal);
+        if (narr) seq.push(itemScore(domain, narr.tags, tagMap).score);
+      }
+      if (seq.length >= 2) {
+        const d = seq[seq.length - 1] - seq[0];
+        trajectory = { scores: seq, direction: d > 0.15 ? "rising" : (d < -0.15 ? "falling" : "flat") };
+      }
+    }
+    if (!pairs.length && !trajectory) return { ok: false, pairs: [] };
     const shifts = pairs.filter(p => p.direction !== "same");
     const perf = shifts.filter(p => p.direction === "more-candid-in-abstract").length;
     const candid = shifts.filter(p => p.direction === "more-candid-with-friend").length;
     const lean = !shifts.length ? "consistent"
       : (perf > candid ? "performed-in-abstract" : (candid > perf ? "candid-with-friend" : "mixed"));
-    return { ok: true, pairs, n: pairs.length, nShifts: shifts.length, lean };
+    return { ok: true, pairs, n: pairs.length, nShifts: shifts.length, lean, trajectory };
   }
 
   // --- top-level: full individual profile from an analyzer-export bundle ---

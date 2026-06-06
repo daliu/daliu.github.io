@@ -285,7 +285,7 @@ function getArc(id){ const a = getArcs(); return id ? (a.find(x => x.arc_id === 
 function nameKey(arc){ return "npc_name:" + arc.arc_id; }
 function arcClimaxPair(arc){ const b = (arc.beats || []).find(x => x.kind === "high_stakes"); return b && b.pairs_with; }
 function probeForArc(arc){ const pid = arcClimaxPair(arc); return (BUNDLE.h8Probes || []).find(p => p.pair_id === pid) || null; }
-const ARC_HOOKS = { "npc-biscuit": "An animal who comes to depend on you.", "npc-gran": "Someone in your family who counts on you.", "npc-nadia": "A close friend you'll get honest with." };
+const ARC_HOOKS = { "npc-biscuit": "An animal who comes to depend on you.", "npc-gran": "Someone in your family who counts on you.", "npc-nadia": "A close friend you'll get honest with.", "npc-cole": "Someone who let you down — and starts trying to make it right." };
 function arcHook(arc){ return ARC_HOOKS[arc.npc_ref] || "Someone you'll come to know, across your sessions."; }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
 // substitute the participant's name for the {token} and the canonical default (the
@@ -357,17 +357,32 @@ function h8ReadHtml(div, name){
     body = `In the abstract — a stranger's animal against a faceless many — you chose the animal. Asked about ${nm}, you chose the wider claim. An unusual direction: the hypothetical pulled you toward the dependent more than the personal did.`;
   return `<div class="observation" style="font-style:normal;"><strong>What knowing ${nm} did to the choice</strong><br>${body}</div>`;
 }
-// the H8a debiasing read, rendered descriptively (no verdict)
+// the H8a read, rendered descriptively (no verdict): a debiasing gap (known vs.
+// abstract) and, for evolves arcs, the trajectory of the choice over the history.
 function h8aReadHtml(h8a, name){
   if (!h8a || !h8a.ok) return "";
   const nm = esc(name);
-  const leanText = {
-    "performed-in-abstract": `On the whole you answered more tidily about strangers than about ${nm} — being known by someone pulled your answer toward something more candid, or more careful, than the performed version. That pull is exactly what this notices.`,
-    "candid-with-friend": `You were more candid with ${nm} than in the abstract — being known moved you toward the harder truth, not away from it.`,
-    "mixed": `It went both ways — on some moments more candid with ${nm} than about a stranger, on others less. Knowing someone doesn't bend every honest call the same direction.`,
-    "consistent": `You answered about ${nm} the same way you answered about strangers — the friendship didn't move the honest call either way.`,
-  }[h8a.lean] || "";
-  return `<div class="observation" style="font-style:normal;"><strong>Candor — with a friend vs. in the abstract</strong><br>${leanText} <span style="color:var(--muted)">Neither is a verdict; just where your honesty bends.</span></div>`;
+  const parts = [];
+  if (h8a.pairs && h8a.pairs.length){
+    const leanText = {
+      "performed-in-abstract": `On the whole you answered more tidily about strangers than about ${nm} — being known by someone pulled your answer toward something more candid, or more careful, than the performed version. That pull is exactly what this notices.`,
+      "candid-with-friend": `You were more candid with ${nm} than in the abstract — being known moved you toward the harder truth, not away from it.`,
+      "mixed": `It went both ways — on some moments more open with ${nm} than about a stranger, on others less. Knowing someone doesn't bend every call the same direction.`,
+      "consistent": `You answered about ${nm} the same way you answered about strangers — knowing them didn't move the call either way.`,
+    }[h8a.lean];
+    if (leanText) parts.push(leanText);
+  }
+  if (h8a.trajectory && h8a.trajectory.scores.length >= 2){
+    parts.push({
+      rising: `And over your history with ${nm}, your trust returned — you met the later, repaired version of him more openly than the first. The accumulated history moved you.`,
+      falling: `Over your history with ${nm}, you grew warier, not warmer — the repair didn't win you back.`,
+      flat: `Over your history with ${nm}, your stance held steady — the repair neither won you back nor hardened you further.`,
+    }[h8a.trajectory.direction] || "");
+  }
+  const body = parts.filter(Boolean).join(" ");
+  if (!body) return "";
+  const title = h8a.trajectory ? "Trust, over a history" : "Candor — with a friend vs. in the abstract";
+  return `<div class="observation" style="font-style:normal;"><strong>${title}</strong><br>${body} <span style="color:var(--muted)">Neither is a verdict; just where it bends.</span></div>`;
 }
 function arcCardH8a(ainfo){
   const { arc, prog, name, h8a, twinsTotal, twinsAnswered } = ainfo, nm = esc(name);
@@ -958,7 +973,7 @@ async function renderReveal(){
     ${alignHtml}
     ${covHtml}
     ${arcReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">When it stopped being hypothetical</h3>` + arcReads.map(x => `${attachmentLine(x.att, x.nm)}${h8ReadHtml(x.div, x.nm)}${h8ConnectorLine(x.att, x.div, x.nm)}`).join('<hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">') : ""}
-    ${h8aReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Honesty, known vs. abstract</h3>` + h8aReads.map(x => h8aReadHtml(x.h, x.nm)).join("") : ""}
+    ${h8aReads.length ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">Known, vs. in the abstract</h3>` + h8aReads.map(x => h8aReadHtml(x.h, x.nm)).join("") : ""}
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="primary" onclick="renderHome()">Back to start</button>
   `);

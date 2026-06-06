@@ -168,6 +168,21 @@ ok(b2 && b2.direction === "more-candid-in-abstract" && b2.shift < 0, "h8a b2: so
 ok(h8a.lean === "mixed", "h8a: one each way -> mixed lean", h8a.lean);
 // narrative without its twin (or vice versa) -> that beat is not paired
 ok(P.h8aDebiasing([arcAns("arc-beat", "arc-nadia-b1", "scene-the-ask", ["truth:state"])], nadiaArc, tagMap).ok === false, "h8a: narrative without twin -> not paired");
+ok(h8a.trajectory == null, "h8a: non-evolves arc has no trajectory");
+
+// h8aDebiasing trajectory (evolves arcs, e.g. cole): trust returning across ordered beats
+const coleArc = { arc_id: "arc-cole", mode: "h8a", evolves: true, primary_domain: "reciprocity-cooperation", beats: [
+  { beat_id: "arc-cole-b1", signal: "s1", abstract_twin: { item_id: "arc-cole-b1-twin" } },
+  { beat_id: "arc-cole-b2", signal: "s2", abstract_twin: { item_id: "arc-cole-b2-twin" } },
+  { beat_id: "arc-cole-b3", signal: "s3", abstract_twin: { item_id: "arc-cole-b3-twin" } },
+]};
+const cA = (beat, item, tags) => ({ scenario_type: "arc-beat", arc_id: "arc-cole", beat_id: beat, item_id: item, option_id: "x", tags });
+// narrative trust: vigilance (-1) -> trust:asymmetric (0.5) -> trust (1.0) = rising
+const coleRising = P.h8aDebiasing([cA("arc-cole-b1", "s1", ["vigilance"]), cA("arc-cole-b2", "s2", ["trust:asymmetric"]), cA("arc-cole-b3", "s3", ["trust"])], coleArc, tagMap);
+ok(coleRising.ok && coleRising.trajectory && coleRising.trajectory.direction === "rising", "h8a evolves: trust returning across beats -> trajectory rising", coleRising.trajectory);
+ok(coleRising.trajectory.scores.length === 3, "h8a trajectory: one score per played beat (works even with no twins answered)");
+const coleHeld = P.h8aDebiasing([cA("arc-cole-b1", "s1", ["vigilance"]), cA("arc-cole-b2", "s2", ["vigilance:mild"]), cA("arc-cole-b3", "s3", ["trust:withhold"])], coleArc, tagMap);
+ok(coleHeld.trajectory.direction === "falling" || coleHeld.trajectory.direction === "flat", "h8a evolves: sustained guard -> trajectory not rising", coleHeld.trajectory);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

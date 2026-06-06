@@ -229,6 +229,40 @@ function startScene(scenes){ return (scenes.find(s => s.id === "scene-1") || sce
   ok(nd.ok && nd.n === 3, "nadia h8a: all 3 narrative-vs-twin pairs read", nd && nd.n);
   ok(nd.lean === "candid-with-friend", "nadia h8a end-to-end: candid signal[0] vs softened twin -> candid-with-friend", nd && nd.lean);
 
+  // ===== H8a evolves arc: Cole (reciprocity, betrayal->repair, trust-trajectory signal) =====
+  const cole = bundle.arcs.find(a => a.arc_id === "arc-cole");
+  ok(!!cole && cole.mode === "h8a" && cole.evolves === true, "bundle carries arc-cole (h8a, evolves)");
+  const RTc = createRuntime({ store: MemoryStore(), corpus_version: "test" });
+  await RTc.init();
+  const hasGuard = c => (c.tags || []).some(t => t === "vigilance" || t === "vigilance:mild" || t === "trust:withhold");
+  const hasTrust = c => (c.tags || []).some(t => (t.indexOf("trust") === 0 && t !== "trust:withhold") || t === "forgiveness");
+  const wantGuardAt = { "arc-cole-b1": true, "arc-cole-b2": false, "arc-cole-b3": false }; // a RISING path
+  for (const beat of cole.beats){
+    const scenes = beatNode(cole, beat).scenes;
+    let sid = startScene(scenes), step = 0, guard = 0, term = null, sessionId = uuid();
+    while (true){
+      const sc = scenes.find(x => x.id === sid);
+      if (!sc || sc.terminal){ term = sc || null; break; }
+      let c = sc.choices[0];
+      if (sc.id === beat.signal){ const want = wantGuardAt[beat.beat_id] ? hasGuard : hasTrust; c = sc.choices.find(want) || sc.choices[0]; }
+      await RTc.logSessionChoice({ user_id: USER, session_id: sessionId, timestamp_iso: new Date().toISOString(),
+        scenario_id: beat.beat_id, scenario_type: "arc-beat", domain: cole.primary_domain, arc_id: cole.arc_id,
+        beat_id: beat.beat_id, item_id: sc.id, option_id: c.id, tags: c.tags, response_time_ms: 4000,
+        presented_position: step + 1, was_timeout: false });
+      sid = c.next; step++; if (++guard > 30){ ok(false, "cole walk runaway"); break; }
+    }
+    await logComplete(RTc, cole, beat, term, step);
+    const tw = beat.abstract_twin;
+    const g = tw.options.find(o => (o.tags || []).some(t => t.indexOf("vigilance") === 0 || t === "trust:withhold")) || tw.options[tw.options.length - 1];
+    await RTc.logSessionChoice({ user_id: USER, session_id: uuid(), timestamp_iso: new Date().toISOString(),
+      scenario_id: tw.item_id, scenario_type: "h8a-abstract", domain: cole.primary_domain, arc_id: cole.arc_id,
+      beat_id: beat.beat_id, item_id: tw.item_id, option_id: g.id, tags: g.tags, response_time_ms: 5000, presented_position: 1, was_timeout: false });
+  }
+  const cd = P.h8aDebiasing((await RTc.exportForAnalyzer()).session_log, cole, tagMap);
+  ok(cd.ok && cd.trajectory, "cole h8a: debiasing read + trajectory available");
+  ok(cd.trajectory.direction === "rising", "cole h8a evolves end-to-end: guard@b1 -> trust@b2,b3 -> trajectory rising", cd.trajectory);
+  ok(cd.trajectory.scores.length === 3, "cole trajectory: one narrative score per beat");
+
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
 })();
