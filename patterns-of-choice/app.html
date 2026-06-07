@@ -148,8 +148,35 @@ async function boot(){
       <a href="./" class="back-link">&larr; Back to the project</a>`);
     return;
   }
-  renderHome();
+  // first run: a short, skippable intro before the (now rich) home — shown once,
+  // and only to a genuinely new user (no choices logged yet).
+  const onboarded = await RT.getSetting("onboarded");
+  const st = await practiceState();
+  if (!onboarded && st.sessionCount === 0 && !st.hasCardSort) renderOnboarding(0);
+  else renderHome();
 }
+
+// --- first-run onboarding (orient before the home; skippable; shown once) ---
+const ONBOARD = [
+  { title: "A mirror, not a test", body: "Most of us could say what we value. This is a quiet way to notice something harder — where the values you'd <em>state</em> and the ones your <em>choices</em> reveal line up, and where they quietly don't. There are no right answers here, and nothing to pass or fail." },
+  { title: "Two halves, a little at a time", body: "You'll say what you value once (a short card sort), then make small, ordinary choices across a few short sessions — some timed and quick, some short stories with room to think. A few people, and one dog, recur: you come to know them, and a choice about someone you know lands differently than the same choice in the abstract. That difference is much of the point." },
+  { title: "Yours alone", body: "Everything runs on this device. Your choices live only in this browser and are computed right here — nothing is ever sent anywhere. What comes back is held loosely: never a score, a type, or a verdict, and never a comparison to anyone else. It points inward, at you over time." },
+];
+function renderOnboarding(step){
+  const o = ONBOARD[step], last = step === ONBOARD.length - 1;
+  const dots = ONBOARD.map((_, i) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 3px;background:${i === step ? "var(--accent)" : "var(--border)"};"></span>`).join("");
+  render(`
+    <div style="min-height:56vh;display:flex;flex-direction:column;justify-content:center;">
+      <div class="progress" style="margin-bottom:6px;">Patterns of Choice</div>
+      <h1 style="font-size:30px;margin-bottom:14px;">${o.title}</h1>
+      <p class="body-text" style="font-size:18px;line-height:1.55;">${o.body}</p>
+      <button class="primary" onclick="${last ? "finishOnboarding()" : `renderOnboarding(${step + 1})`}">${last ? "Begin" : "Next"}</button>
+      ${last ? "" : `<button class="ghost" style="display:block;margin:6px auto 0;" onclick="finishOnboarding()">Skip the intro</button>`}
+      <div style="text-align:center;margin-top:26px;">${dots}</div>
+    </div>
+  `);
+}
+async function finishOnboarding(){ await RT.setSetting("onboarded", true); renderHome(); }
 
 // --- derive practice state from the event log (everything is a projection) ---
 async function practiceState(){
