@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-06T19:00:06.966256",
+  "updated": "2026-06-07T19:32:42.962507",
   "date_range": {
     "start": "2026-01-12",
     "end": "2026-06-07",
@@ -8,16 +8,16 @@
   "baseline": {
     "avg_body_battery": 35.9,
     "avg_stress": 27.2,
-    "sleep_score": 74.8,
+    "sleep_score": 75.3,
     "sleep_hours": 6.5
   },
   "day_of_week": {
     "Sun": {
-      "battery": 41.3,
-      "stress": 24.0,
-      "sleep_score": 69.7,
-      "sleep_hours": 6.1,
-      "steps": 11695.7,
+      "battery": 41.5,
+      "stress": 23.8,
+      "sleep_score": 72.8,
+      "sleep_hours": 6.4,
+      "steps": 12182.1,
       "sample_size": 13
     },
     "Mon": {
@@ -78,18 +78,18 @@
       "sample_size": 36
     },
     "light": {
-      "battery": 40.1,
-      "battery_delta": 4.2,
-      "stress": 24.5,
-      "sleep": 76.3,
-      "sample_size": 16
+      "battery": 40.6,
+      "battery_delta": 4.7,
+      "stress": 24.7,
+      "sleep": 78.5,
+      "sample_size": 15
     },
     "moderate": {
-      "battery": 32.1,
-      "battery_delta": -3.8,
-      "stress": 28.2,
-      "sleep": 79.9,
-      "sample_size": 21
+      "battery": 32.3,
+      "battery_delta": -3.6,
+      "stress": 27.8,
+      "sleep": 80.0,
+      "sample_size": 22
     },
     "intense": {
       "battery": 25.0,
@@ -132,13 +132,13 @@
     "high_steps": {
       "+1d": {
         "battery": 35.4,
-        "battery_delta": -0.7,
+        "battery_delta": -0.8,
         "stress": 25.4,
         "sample_size": 14
       },
       "+2d": {
         "battery": 38.3,
-        "battery_delta": 2.9,
+        "battery_delta": 2.8,
         "stress": 27.9,
         "sample_size": 14
       },
@@ -152,13 +152,13 @@
     "sleep_great": {
       "+1d": {
         "battery": 37.9,
-        "battery_delta": 2.6,
+        "battery_delta": 2.5,
         "stress": 28.8,
         "sample_size": 22
       },
       "+2d": {
         "battery": 36.4,
-        "battery_delta": 0.7,
+        "battery_delta": 0.6,
         "stress": 26.9,
         "sample_size": 22
       },
@@ -178,13 +178,13 @@
       },
       "+2d": {
         "battery": 41.0,
-        "battery_delta": 5.3,
+        "battery_delta": 5.2,
         "stress": 31.0,
         "sample_size": 3
       },
       "+3d": {
         "battery": 33.7,
-        "battery_delta": -2.3,
+        "battery_delta": -2.4,
         "stress": 29.3,
         "sample_size": 3
       }
@@ -192,7 +192,7 @@
   },
   "exercise_streaks": {
     "no_streak": {
-      "battery": 38.1,
+      "battery": 38.2,
       "stress": 27.2,
       "sample_size": 52
     },
@@ -219,8 +219,8 @@
       "sample_size": 22
     },
     "good": {
-      "next_day_battery": 39.1,
-      "next_day_stress": 25.6,
+      "next_day_battery": 39.2,
+      "next_day_stress": 25.5,
       "sample_size": 34
     },
     "fair": {
@@ -237,7 +237,7 @@
   "insights": [
     {
       "type": "day_of_week",
-      "text": "Suns have 14 more body battery than Sats on average",
+      "text": "Suns have 15 more body battery than Sats on average",
       "impact": "positive"
     },
     {
