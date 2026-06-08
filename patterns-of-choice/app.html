@@ -79,8 +79,8 @@
     @keyframes poc-pop  { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
     @keyframes poc-draw { from { stroke-dashoffset:1; }          to { stroke-dashoffset:0; } }
     @media (prefers-reduced-motion: no-preference) {
-      .synoptic .did, .synoptic .said { transform-box:fill-box; transform-origin:center; animation:poc-pop 480ms cubic-bezier(.2,.7,.3,1) both; }
-      .synoptic .conn { animation:poc-draw 520ms ease both; }
+      .synoptic .did, .synoptic .said { transform-box:fill-box; transform-origin:center; animation:poc-pop 680ms cubic-bezier(.22,1.15,.36,1) both; }
+      .synoptic .conn { animation:poc-draw 820ms 140ms cubic-bezier(.4,0,.2,1) both; }
     }
     /* reveal read-visuals (each analysis as a colorful, intuitive figure) */
     .viz { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:10px 0; }
@@ -91,11 +91,13 @@
        is the static figure, so reduced-motion users see the correct result at rest. */
     @keyframes poc-slide { from { transform:translateX(var(--shift,0)); opacity:.35; } to { transform:none; opacity:1; } }
     @keyframes poc-fade  { from { opacity:0; } to { opacity:1; } }
+    @keyframes poc-grow  { from { transform:scaleX(0); opacity:.4; }    to { transform:scaleX(1); opacity:1; } }
     @media (prefers-reduced-motion: no-preference) {
-      .viz .slidein { transform-box:fill-box; transform-origin:center; animation:poc-slide 720ms cubic-bezier(.3,.7,.3,1) both; }
-      .viz .drawin  { stroke-dasharray:1; animation:poc-draw 620ms 120ms ease both; }
-      .viz .arrowin { animation:poc-fade 280ms 640ms both; }
-      .viz .dotin   { transform-box:fill-box; transform-origin:center; animation:poc-pop 420ms both; }
+      .viz .slidein { transform-box:fill-box; transform-origin:center; animation:poc-slide 1080ms 80ms cubic-bezier(.32,.86,.32,1) both; }
+      .viz .drawin  { stroke-dasharray:1; animation:poc-draw 940ms 220ms cubic-bezier(.4,0,.2,1) both; }
+      .viz .arrowin { animation:poc-fade 460ms 980ms both; }
+      .viz .dotin   { transform-box:fill-box; transform-origin:center; animation:poc-pop 700ms cubic-bezier(.22,1.15,.36,1) both; }
+      .viz .growin  { transform-box:fill-box; transform-origin:left center; animation:poc-grow 900ms cubic-bezier(.32,.86,.32,1) both; }
     }
   </style>
 </head>
@@ -956,8 +958,9 @@ function covLadderViz(items){
       + `<line x1="150" y1="${yT}" x2="560" y2="${yT}" stroke="var(--border)" stroke-width="2"/>`;
     ladder.forEach((s,i) => { rows += `<line x1="${lx(i)}" y1="${yT-4}" x2="${lx(i)}" y2="${yT+4}" stroke="var(--border)" stroke-width="1.5"/>`
       + `<text x="${lx(i)}" y="${yT+16}" text-anchor="middle" style="fill:var(--muted);font-size:9px">$${s>=1000?(s/1000)+'k':s}</text>`; });
-    if (it.no_break) rows += `<circle cx="572" cy="${yT}" r="7" fill="${col}"/><text x="572" y="${yT-11}" text-anchor="end" style="fill:${col};font-size:10px">wouldn't</text>`;
-    else { const idx = ladder.indexOf(it.stake), cx = idx>=0 ? lx(idx) : 150; rows += `<circle cx="${cx}" cy="${yT}" r="7" fill="${col}"/>`; }
+    const dly = `style="animation-delay:${r*150+220}ms"`;
+    if (it.no_break) rows += `<circle class="dotin" ${dly} cx="572" cy="${yT}" r="7" fill="${col}"/><text x="572" y="${yT-11}" text-anchor="end" style="fill:${col};font-size:10px">wouldn't</text>`;
+    else { const idx = ladder.indexOf(it.stake), cx = idx>=0 ? lx(idx) : 150; rows += `<circle class="dotin" ${dly} cx="${cx}" cy="${yT}" r="7" fill="${col}"/>`; }
   });
   return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">The smallest amount at which you'd set each aside. A price isn't a verdict — most people have one; the signal is whether it drifts.</div></div>`;
 }
@@ -971,7 +974,7 @@ function alignViz(byLayer){
     const rt = top+i*rowH, y = rt+20, closest = i===0, c = closest ? "var(--accent)" : "#b9c2bb";
     rows += `<text x="0" y="${y+5}" style="fill:${closest?'var(--accent)':'var(--muted)'};font-size:14px;font-weight:${closest?700:400}">${esc(x.label)}</text>`
       + `<line x1="180" y1="${y}" x2="560" y2="${y}" stroke="#eee" stroke-width="8" stroke-linecap="round"/>`
-      + `<line x1="180" y1="${y}" x2="${bx(x.tau).toFixed(1)}" y2="${y}" stroke="${c}" stroke-width="8" stroke-linecap="round"/>`
+      + `<line class="growin" style="animation-delay:${i*140+200}ms" x1="180" y1="${y}" x2="${bx(x.tau).toFixed(1)}" y2="${y}" stroke="${c}" stroke-width="8" stroke-linecap="round"/>`
       + (closest ? `<text x="565" y="${y+4}" style="fill:var(--accent);font-size:11px">closest</text>` : "");
   });
   return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">How closely your everyday choices track each version of yourself you described.</div></div>`;
