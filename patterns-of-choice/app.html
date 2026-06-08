@@ -86,6 +86,17 @@
     .viz { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:10px 0; }
     .viz svg { display:block; width:100%; height:auto; }
     .viz-cap { font-size:14px; margin-top:8px; line-height:1.45; }
+    /* one-shot, meaning-bearing motion (the divergence shift drawing in, the
+       trajectory drawing first->latest). Gated behind reduced-motion; final state
+       is the static figure, so reduced-motion users see the correct result at rest. */
+    @keyframes poc-slide { from { transform:translateX(var(--shift,0)); opacity:.35; } to { transform:none; opacity:1; } }
+    @keyframes poc-fade  { from { opacity:0; } to { opacity:1; } }
+    @media (prefers-reduced-motion: no-preference) {
+      .viz .slidein { transform-box:fill-box; transform-origin:center; animation:poc-slide 720ms cubic-bezier(.3,.7,.3,1) both; }
+      .viz .drawin  { stroke-dasharray:1; animation:poc-draw 620ms 120ms ease both; }
+      .viz .arrowin { animation:poc-fade 280ms 640ms both; }
+      .viz .dotin   { transform-box:fill-box; transform-origin:center; animation:poc-pop 420ms both; }
+    }
   </style>
 </head>
 <body>
@@ -915,8 +926,8 @@ function divergenceViz(name, domain, div){
   let arrow = "";
   if (div.abstractPole !== div.narrativePole){
     const dir = nX > aX ? 1 : -1;
-    arrow = `<line x1="${aX + 12*dir}" y1="${y}" x2="${nX - 14*dir}" y2="${y}" stroke="${col}" stroke-width="2.5"/>`
-      + `<path d="M ${nX-14*dir} ${y-6} L ${nX-2*dir} ${y} L ${nX-14*dir} ${y+6} Z" fill="${col}"/>`;
+    arrow = `<line class="drawin" pathLength="1" x1="${aX + 12*dir}" y1="${y}" x2="${nX - 14*dir}" y2="${y}" stroke="${col}" stroke-width="2.5"/>`
+      + `<path class="arrowin" d="M ${nX-14*dir} ${y-6} L ${nX-2*dir} ${y} L ${nX-14*dir} ${y+6} Z" fill="${col}"/>`;
   }
   const moved = div.abstractPole !== div.narrativePole;
   const cap = moved
@@ -929,7 +940,7 @@ function divergenceViz(name, domain, div){
     <line x1="110" y1="${y}" x2="490" y2="${y}" stroke="var(--border)" stroke-width="2"/>${arrow}
     <circle cx="${aX}" cy="${y}" r="9" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/>
     <text x="${aX}" y="${y+28}" text-anchor="middle" style="fill:var(--muted);font-size:11px">in the abstract</text>
-    <circle cx="${nX}" cy="${y}" r="10" fill="${col}"/>
+    <circle class="slidein" style="--shift:${(aX-nX).toFixed(1)}px" cx="${nX}" cy="${y}" r="10" fill="${col}"/>
     <text x="${nX}" y="${y-16}" text-anchor="middle" style="fill:${col};font-size:11px">with ${nm}</text>
   </svg><div class="viz-cap">${cap}</div></div>`;
 }
@@ -970,13 +981,13 @@ function alignViz(byLayer){
 function trajViz(name, domain, scores, lo, hi){
   const col = dcol(domain), n = scores.length, X = i => 60 + (i/(n-1))*(540-60), Y = v => 96 - ((Math.max(-1,Math.min(1,v))+1)/2)*76;
   let path = "", dots = "";
-  scores.forEach((v,i) => { path += (i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" "; dots += `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="6" fill="${col}"/>`; });
+  scores.forEach((v,i) => { path += (i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" "; dots += `<circle class="dotin" style="animation-delay:${Math.round(120+(i/Math.max(1,n-1))*600)}ms" cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="6" fill="${col}"/>`; });
   return `<div class="viz"><svg viewBox="0 0 600 120" role="img" aria-label="${esc(name)} trajectory across ${n} beats">
     <text x="60" y="18" style="fill:${col};font-size:15px;font-weight:600">${esc(name)}</text>
     <line x1="60" y1="${Y(0)}" x2="540" y2="${Y(0)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 4"/>
     <text x="545" y="${Y(1)+4}" style="fill:var(--muted);font-size:10px">${esc(hi)}</text>
     <text x="545" y="${Y(-1)+4}" style="fill:var(--muted);font-size:10px">${esc(lo)}</text>
-    <path d="${path}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round"/>${dots}
+    <path class="drawin" pathLength="1" d="${path}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round"/>${dots}
     <text x="60" y="114" style="fill:var(--muted);font-size:10px">first</text>
     <text x="540" y="114" text-anchor="end" style="fill:var(--muted);font-size:10px">latest</text>
   </svg></div>`;
