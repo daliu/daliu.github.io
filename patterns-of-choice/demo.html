@@ -425,7 +425,6 @@ function answer(itemId, optionId, itemStartTime) {
 
 function renderSessionEnd() {
   sessionLog.endTime = new Date().toISOString();
-  console.log("Session log:", sessionLog);
 
   // Revealed honesty: did the option the user chose carry honest:true?
   // A timeout counts as "not the honest answer" — no honest answer was given.

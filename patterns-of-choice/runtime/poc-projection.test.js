@@ -204,5 +204,20 @@ ok(md.pairs.find(p => p.beat_id === "arc-marisol-b2").direction === "more-candid
 ok(md.trajectory && md.trajectory.direction === "rising", "h8a inclusion evolves: held(-1) -> widened(+1) -> trajectory rising (circle widening)", md.trajectory);
 ok(P.h8aDebiasing([mA("arc-beat", "arc-marisol-b1", "s1", ["loyalty", "recurring_npc:marisol"]), mA("h8a-abstract", "arc-marisol-b1", "arc-marisol-b1-twin", ["loyalty", "counterparty:stranger"])], marisolArc, tagMap).pairs[0].narrative === 0, "inclusion scoring ignores non-pole tags (loyalty doesn't score as inclusion)");
 
+// --- determinism / consistency regressions (review 2026-06) ---
+// cov tie-break: when two administrations share a timestamp, the later-logged one
+// is "latest" (total + stable comparator; the old `?-1:1` was non-antisymmetric).
+const covTie = P.costOfVirtue([cv("honesty", 500, false, "2026-06-01"), cv("honesty", 200, false, "2026-06-01")]);
+ok(covTie.byValue[0].stake === 200 && covTie.byValue[0].n === 2, "cov tied timestamps: last-logged wins (deterministic tie-break)", covTie.byValue[0]);
+// h8a trajectory follows logical beat.order, not array order: beats listed out of
+// order (b3,b2,b1) with a rising narrative must still read as rising.
+const coleArcShuffled = { arc_id: "arc-cole", mode: "h8a", evolves: true, primary_domain: "reciprocity-cooperation", beats: [
+  { beat_id: "arc-cole-b3", order: 3, signal: "s3", abstract_twin: { item_id: "t3" } },
+  { beat_id: "arc-cole-b1", order: 1, signal: "s1", abstract_twin: { item_id: "t1" } },
+  { beat_id: "arc-cole-b2", order: 2, signal: "s2", abstract_twin: { item_id: "t2" } },
+]};
+const coleShuf = P.h8aDebiasing([cA("arc-cole-b1", "s1", ["vigilance"]), cA("arc-cole-b2", "s2", ["trust:asymmetric"]), cA("arc-cole-b3", "s3", ["trust"])], coleArcShuffled, tagMap);
+ok(coleShuf.trajectory && coleShuf.trajectory.direction === "rising", "h8a trajectory follows beat.order even when the beats array is shuffled", coleShuf.trajectory);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

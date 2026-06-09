@@ -201,7 +201,7 @@
     for (const e of cov) (byValue[e.value_slot] || (byValue[e.value_slot] = [])).push(e);
     const out = [];
     for (const slot in byValue) {
-      const seq = byValue[slot].slice().sort((a, b) => (a.timestamp_iso < b.timestamp_iso ? -1 : 1));
+      const seq = byValue[slot].slice().sort((a, b) => a.timestamp_iso < b.timestamp_iso ? -1 : a.timestamp_iso > b.timestamp_iso ? 1 : 0);
       const latest = seq[seq.length - 1];
       const val = e => (e.no_break_point ? Infinity : e.first_accept_stake);
       let trend = null;
@@ -218,7 +218,7 @@
         trend,
       });
     }
-    out.sort((a, b) => a.value_slot < b.value_slot ? -1 : 1);
+    out.sort((a, b) => a.value_slot < b.value_slot ? -1 : a.value_slot > b.value_slot ? 1 : 0);
     return { ok: true, byValue: out };
   }
 
@@ -326,8 +326,10 @@
   }
   function h8aDebiasing(sessionLog, arc, tagMap) {
     if (!arc || arc.mode !== "h8a") return { ok: false };
+    // Iterate beats in logical order (matches arcProgress), not array order.
+    const beats = (arc.beats || []).slice().sort((a, b) => (a.order || 0) - (b.order || 0));
     const pairs = [];
-    for (const beat of arc.beats || []) {
+    for (const beat of beats) {
       if (!beat.signal || !beat.abstract_twin) continue;
       const narr = h8aLast(sessionLog, e => e.scenario_type === "arc-beat" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id && e.item_id === beat.signal);
       const abs = h8aLast(sessionLog, e => e.scenario_type === "h8a-abstract" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id);
@@ -345,7 +347,7 @@
     let trajectory = null;
     if (arc.evolves) {
       const seq = [];
-      for (const beat of arc.beats || []) {
+      for (const beat of beats) {
         if (!beat.signal) continue;
         const narr = h8aLast(sessionLog, e => e.scenario_type === "arc-beat" && e.arc_id === arc.arc_id && e.beat_id === beat.beat_id && e.item_id === beat.signal);
         if (narr) seq.push(h8aScore(arc, narr.tags, tagMap));

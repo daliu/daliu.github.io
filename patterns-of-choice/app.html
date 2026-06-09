@@ -334,7 +334,7 @@ function getArc(id){ const a = getArcs(); return id ? (a.find(x => x.arc_id === 
 function nameKey(arc){ return "npc_name:" + arc.arc_id; }
 function arcClimaxPair(arc){ const b = (arc.beats || []).find(x => x.kind === "high_stakes"); return b && b.pairs_with; }
 function probeForArc(arc){ const pid = arcClimaxPair(arc); return (BUNDLE.h8Probes || []).find(p => p.pair_id === pid) || null; }
-const ARC_HOOKS = { "npc-biscuit": "An animal who comes to depend on you.", "npc-gran": "Someone in your family who counts on you.", "npc-nadia": "A close friend you'll get honest with.", "npc-cole": "Someone who let you down — and starts trying to make it right." };
+const ARC_HOOKS = { "npc-biscuit": "An animal who comes to depend on you.", "npc-gran": "Someone in your family who counts on you.", "npc-nadia": "A close friend you'll get honest with.", "npc-cole": "Someone who let you down — and starts trying to make it right.", "npc-marisol": "A newcomer on the edge of your circle." };
 function arcHook(arc){ return ARC_HOOKS[arc.npc_ref] || "Someone you'll come to know, across your sessions."; }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
 // substitute the participant's name for the {token} and the canonical default (the
