@@ -71,6 +71,46 @@
       ]
     },
     {
+      "id": "Hierarchical Signal Architecture",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "trading",
+        "architecture",
+        "signals"
+      ]
+    },
+    {
+      "id": "Metis \u2014 Self-Improving Legal Judgment Prediction",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "machine-learning",
+        "legal-nlp",
+        "self-improving-systems",
+        "new-project"
+      ]
+    },
+    {
+      "id": "Kreia, Moral Systems, and Quantifying Trust",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "stable",
+      "tags": [
+        "conversation",
+        "philosophy",
+        "ethics",
+        "political-philosophy",
+        "decision-science",
+        "mechanism-design",
+        "social-choice"
+      ]
+    },
+    {
       "id": "Patterns of Choice design",
       "type": "conversation",
       "color": "#569cd6",
@@ -81,6 +121,32 @@
         "psychology",
         "product-design",
         "research"
+      ]
+    },
+    {
+      "id": "Macro Shock Detector",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "trading",
+        "signals",
+        "macroeconomics"
+      ]
+    },
+    {
+      "id": "Meta-Council Self-Improving Evaluation Harness (idea)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "self-improving-systems",
+        "evaluation",
+        "idea"
       ]
     },
     {
@@ -215,8 +281,32 @@
       "target": "Causal Inference"
     },
     {
+      "source": "Hierarchical Signal Architecture",
+      "target": "Autotrader"
+    },
+    {
+      "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
+      "target": "AI Tools and Products"
+    },
+    {
+      "source": "Kreia, Moral Systems, and Quantifying Trust",
+      "target": "Patterns of Choice design"
+    },
+    {
+      "source": "Kreia, Moral Systems, and Quantifying Trust",
+      "target": "AI Tools and Products"
+    },
+    {
       "source": "Patterns of Choice design",
       "target": "Side Projects"
+    },
+    {
+      "source": "Macro Shock Detector",
+      "target": "Autotrader"
+    },
+    {
+      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
+      "target": "AI Tools and Products"
     },
     {
       "source": "Genomics Interactive Companions",
@@ -249,7 +339,7 @@
   ],
   "meta": {
     "generated": "auto",
-    "node_count": 15,
-    "edge_count": 18
+    "node_count": 20,
+    "edge_count": 24
   }
 }
