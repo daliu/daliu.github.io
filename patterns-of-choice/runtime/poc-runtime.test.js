@@ -46,11 +46,18 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   const effNow = await rt.log();
   const backup = await rt.exportBackup();
-  ok(backup.events.length === effNow.length, "backup length == current effective length");
+  // backup is the RAW history (incl. the superseded event), so rewind survives a restore
+  ok(backup.events.some(e => e.event_id === e2.event_id), "backup includes the superseded event (raw history)");
+  ok(backup.events.length === effNow.length + 1, "backup = effective + 1 superseded event");
   const rt2 = R.createRuntime({ store: R.MemoryStore() });
   const n = await rt2.importBackup(backup);
-  ok(n === backup.events.length, "importBackup imported all events");
+  ok(n === backup.events.length, "importBackup imported all raw events");
   ok((await rt2.log()).length === effNow.length, "restored effective length matches");
+  // the critical round-trip: replay-to-timestamp works AFTER restore (was broken
+  // when exportBackup serialized the post-supersede fold and dropped e2).
+  const rewound2 = await rt2.log({ asOf: tsBeforeCorrection });
+  ok(!!rewound2.find(e => e.event_id === e2.event_id), "restored log rewinds to pre-correction state");
+  ok(!rewound2.find(e => e.event_id === e2b.event_id), "restored rewind excludes the later correction");
 
   // settings round-trip: getSetting returns the VALUE, not the internal {value,ts} wrapper
   ok((await rt.getSetting("npc_name:arc-biscuit")) === undefined, "unset setting -> undefined");

@@ -232,9 +232,12 @@
       return out;
     }
 
-    // --- encrypted-free local backup: the raw envelope log (restore = re-append) ---
+    // --- encrypted-free local backup: the RAW envelope log incl. superseded
+    // events (NOT the post-supersede fold), so a restore preserves full rewind/
+    // replay-to-timestamp history. restore = re-append. ---
     async function exportBackup() {
-      const evs = await log(); // full, ordered, post-supersede
+      await init();
+      const evs = (await store.allEvents()).slice().sort(order); // raw history
       return { format: "poc-backup", schema_version: SCHEMA_VERSION, device_id: deviceId,
                exported_iso: nowIso(), events: evs };
     }

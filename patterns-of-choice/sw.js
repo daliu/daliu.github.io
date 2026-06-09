@@ -8,7 +8,9 @@
  *
  * Cache strategy: cache-first for the precached app shell + runtime + content
  * bundle (so a session works with zero network and never blocks); everything
- * else falls through to the network. The cache name is VERSIONED — bumping
+ * else in scope — notably the standalone HTML pages — is network-first with a
+ * cache fallback, so edits reach returning users without a version bump while
+ * they stay available offline. The cache name is VERSIONED — bumping
  * CACHE_VERSION on a content/corpus change forces a fresh precache, so a
  * mid-practice user's scenarios never silently change underneath them (the
  * versioning discipline runtime-architecture.md calls for).
@@ -17,7 +19,7 @@
  * This SW only caches static app assets; it touches no personal data.
  * ============================================================================ */
 
-const CACHE_VERSION = "poc-app-v19-2026-06";
+const CACHE_VERSION = "poc-app-v20-2026-06";
 const SCOPE_PREFIX = "/patterns-of-choice/";
 
 // Exact assets the app needs to run offline (relative to scope).
@@ -47,6 +49,25 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Cache-first for the precached core (app shell + runtime + content bundle):
+// stable offline, never blocks, and changes only on a deliberate CACHE_VERSION
+// bump so a mid-practice user's scenarios never shift underneath them.
+function cacheFirst(req) {
+  return caches.match(req).then(hit => hit || fetch(req).then(resp => {
+    if (resp && resp.ok && resp.type === "basic") caches.open(CACHE_VERSION).then(c => c.put(req, resp.clone()));
+    return resp;
+  }));
+}
+// Network-first for everything else in scope — notably the standalone HTML pages
+// (landing, profile, onramp, the demos). Edits reach returning users immediately
+// when online; the last-cached copy still serves them offline.
+function networkFirst(req) {
+  return fetch(req).then(resp => {
+    if (resp && resp.ok && resp.type === "basic") caches.open(CACHE_VERSION).then(c => c.put(req, resp.clone()));
+    return resp;
+  }).catch(() => caches.match(req));
+}
+
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
@@ -54,19 +75,8 @@ self.addEventListener("fetch", (event) => {
   // Only handle in-scope, same-origin requests; let everything else (e.g. the
   // GA beacon) go straight to the network untouched.
   if (url.origin !== self.location.origin) return;
-  if (!url.pathname.startsWith(SCOPE_PREFIX) && url.pathname !== new URL("../favicon.svg", self.registration.scope).pathname) return;
+  const faviconPath = new URL("../favicon.svg", self.registration.scope).pathname;
+  if (!url.pathname.startsWith(SCOPE_PREFIX) && url.pathname !== faviconPath) return;
 
-  event.respondWith(
-    caches.match(req).then(hit => {
-      if (hit) return hit;
-      return fetch(req).then(resp => {
-        // opportunistically cache successful in-scope GETs for next time
-        if (resp && resp.ok && resp.type === "basic") {
-          const copy = resp.clone();
-          caches.open(CACHE_VERSION).then(c => c.put(req, copy));
-        }
-        return resp;
-      }).catch(() => hit); // offline + uncached -> undefined (browser shows its offline UI)
-    })
-  );
+  event.respondWith(PRECACHE.includes(url.pathname) ? cacheFirst(req) : networkFirst(req));
 });
