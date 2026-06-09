@@ -1362,6 +1362,21 @@
                 if (!resp.ok) return null;
                 const data = await resp.json();
                 buildCalendarDensity(data.by_day);
+                // Staleness check: the feed can keep serving old data (e.g. expired
+                // Google OAuth token) — surface that instead of showing frozen
+                // density as if current. Mirrors the biometrics stale badge.
+                if (data.generated_at) {
+                    const ageDays = Math.floor((Date.now() - new Date(data.generated_at)) / 86400000);
+                    if (ageDays >= 2) {
+                        const box = document.getElementById('calendarUnavailable');
+                        if (box) {
+                            box.style.display = '';
+                            box.innerHTML = '<span style="color: var(--yellow); font-weight: 600;">&#9888; Calendar feed stale</span> ' +
+                                '&mdash; last refreshed ' + ageDays + ' days ago (' +
+                                new Date(data.generated_at).toLocaleDateString() + '). Density below may be out of date.';
+                        }
+                    }
+                }
                 return data;
             } catch (err) {
                 console.log('Calendar density not available:', err.message);
