@@ -1202,6 +1202,7 @@ async function renderReveal(){
     <p class="meta">Relative to your own average, not to other people — and nothing here is a score out of anything, or a verdict. The full reckoning (the stated-vs-revealed <em>gap</em>) needs a comparison group; see the <a href="profile.html">sample profile</a> and the open analyzer for how that's done.</p>
     <button class="secondary" onclick="saveReveal()">Save your portrait — a shareable image</button>
     <button class="primary" onclick="renderHome()">Back to start</button>
+    <button class="ghost danger" style="display:block;margin:12px auto 0;" onclick="confirmErase()">Wipe my profile…</button>
   `);
 }
 
@@ -1213,7 +1214,7 @@ async function renderData(){
       <p>Everything you've done lives only in this browser's local storage. It has never been sent anywhere.</p>
     </div>
     <button class="secondary" onclick="downloadBackup()">Download a backup file</button>
-    <button class="secondary danger" onclick="confirmErase()">Erase everything</button>
+    <button class="secondary danger" onclick="confirmErase()">Wipe my profile…</button>
     <a href="#" onclick="renderHome();return false;" class="back-link">&larr; Back</a>
   `);
 }
@@ -1224,15 +1225,38 @@ async function downloadBackup(){
   const a = document.createElement("a"); a.href=url; a.download="patterns-of-choice-backup.json"; a.click();
   URL.revokeObjectURL(url);
 }
+function eraseGate(input){
+  const ok = input.value.trim().toUpperCase() === "ERASE";
+  const b = document.getElementById("erasebtn");
+  if (b){ b.disabled = !ok; b.style.opacity = ok ? "1" : ".5"; b.style.cursor = ok ? "pointer" : "not-allowed"; }
+}
 function confirmErase(){
   render(`
-    <h2 class="danger">Erase everything?</h2>
-    <div class="body-text"><p>This permanently deletes every session you've logged, from this browser. There's no undo and (by design) no copy anywhere else. Consider downloading a backup first.</p></div>
-    <button class="secondary danger" onclick="doErase()">Yes, erase it all</button>
+    <h2 class="danger">Wipe your profile?</h2>
+    <div class="body-text">
+      <p>This permanently erases <strong>everything</strong> on this device — every choice you've logged, your threads, your card sort, your reveal. There's no undo, and by design no copy anywhere else.</p>
+      <p style="color:var(--muted);">If you might want it back, download a backup first.</p>
+    </div>
+    <button class="secondary" onclick="downloadBackup()">Download a backup first</button>
+    <p class="body-text" style="margin:18px 0 8px;">To confirm, type <strong>ERASE</strong>:</p>
+    <input id="erasephrase" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ERASE" aria-label="Type ERASE to confirm"
+      oninput="eraseGate(this)" onkeydown="if(event.key==='Enter')doErase()"
+      style="font-family:inherit;font-size:17px;padding:12px;width:100%;border:1.5px solid var(--border);border-radius:4px;margin:0 0 10px;" />
+    <button id="erasebtn" class="secondary danger" disabled style="opacity:.5;cursor:not-allowed;" onclick="doErase()">Erase everything, permanently</button>
     <button class="primary" onclick="renderData()">Keep my data</button>
   `);
+  setTimeout(() => { const el = document.getElementById("erasephrase"); if (el) el.focus(); }, 40);
 }
-async function doErase(){ await RT.eraseEverything(); renderHome(); }
+async function doErase(){
+  const el = document.getElementById("erasephrase");
+  if (!el || el.value.trim().toUpperCase() !== "ERASE") return; // gate (defense in depth)
+  await RT.eraseEverything();
+  render(`
+    <h2>Erased — a clean slate.</h2>
+    <div class="body-text"><p>Your profile is gone from this browser. Nothing was ever stored anywhere else, so there's nothing left to delete. Begin again whenever you like.</p></div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
+}
 
 boot();
 

@@ -50,7 +50,30 @@ FOLDER_TYPES = {
     "sources": {"type": "source", "color": "#ce9178"},
     "questions": {"type": "question", "color": "#6a9955"},
     "comparisons": {"type": "comparison", "color": "#d16969"},
+    # Types for notes that opt in via `public: true` from otherwise-private folders.
+    "conversations": {"type": "conversation", "color": "#569cd6"},
+    "genomics": {"type": "concept", "color": "#dcdcaa"},
+    "daily": {"type": "note", "color": "#808080"},
+    "claude": {"type": "note", "color": "#808080"},
+    "claude-sessions": {"type": "note", "color": "#808080"},
 }
+
+# Set of public folder names (last path component) for quick membership tests.
+PUBLIC_FOLDER_NAMES = {f.split("/")[-1] for f in PUBLIC_FOLDERS}
+
+
+def is_public_optin(fm):
+    """True if a note explicitly opts into the public graph via `public: true`.
+
+    The frontmatter parser stores scalars as strings, so accept the common
+    truthy spellings case-insensitively.
+    """
+    v = fm.get("public")
+    if isinstance(v, bool):
+        return v
+    if isinstance(v, str):
+        return v.strip().lower() in ("true", "yes", "1")
+    return False
 
 
 def parse_frontmatter(content):
@@ -103,54 +126,70 @@ def get_folder_type(filepath, vault_path):
 
 
 def build_graph(vault_path):
-    """Scan the vault and build a graph of nodes and edges."""
+    """Scan the vault and build a graph of nodes and edges.
+
+    A note is included if EITHER:
+      - it lives in one of PUBLIC_FOLDERS (the always-public category folders), OR
+      - it carries `public: true` in frontmatter (opt-in from any wiki/ folder).
+    A `private` tag is an absolute override and always excludes the note.
+
+    The walk is confined to wiki/ so top-level private trees (Personal/, Daily/)
+    are never even read.
+    """
     nodes = {}  # title -> node dict
     edges = []  # list of {source, target}
 
-    for folder in PUBLIC_FOLDERS:
-        folder_path = os.path.join(vault_path, folder)
-        if not os.path.isdir(folder_path):
-            continue
+    wiki_root = os.path.join(vault_path, "wiki")
+    if not os.path.isdir(wiki_root):
+        return {"nodes": [], "links": [],
+                "meta": {"generated": "auto", "node_count": 0, "edge_count": 0}}
 
-        for root, _, files in os.walk(folder_path):
-            for fname in files:
-                if not fname.endswith(".md") or fname in SKIP_FILES:
-                    continue
+    for root, _, files in os.walk(wiki_root):
+        rel = os.path.relpath(root, wiki_root)
+        folder = rel.split(os.sep)[0] if rel != "." else ""
 
-                filepath = os.path.join(root, fname)
-                with open(filepath, "r", encoding="utf-8") as f:
-                    content = f.read()
+        for fname in files:
+            if not fname.endswith(".md") or fname in SKIP_FILES:
+                continue
 
-                fm, body = parse_frontmatter(content)
+            filepath = os.path.join(root, fname)
+            with open(filepath, "r", encoding="utf-8") as f:
+                content = f.read()
 
-                # Skip private or draft notes
-                tags = fm.get("tags", []) or []
-                if "private" in tags:
-                    continue
+            fm, body = parse_frontmatter(content)
 
-                title = fm.get("title", fname.replace(".md", ""))
-                status = fm.get("status", "seed")
-                type_info = get_folder_type(filepath, vault_path)
+            tags = fm.get("tags", []) or []
+            # Hard kill-switch: a private tag always excludes, regardless of folder/opt-in.
+            if "private" in tags:
+                continue
 
-                nodes[title] = {
-                    "id": title,
-                    "type": type_info["type"],
-                    "color": type_info["color"],
-                    "status": status,
-                    "tags": [t for t in tags if t != "private"],
-                }
+            # Inclusion rule: always-public folder OR explicit opt-in.
+            in_public_folder = folder in PUBLIC_FOLDER_NAMES
+            if not (in_public_folder or is_public_optin(fm)):
+                continue
 
-                # Extract links to other pages
-                for link_target in extract_wikilinks(body):
-                    # Also check frontmatter related field
-                    edges.append({"source": title, "target": link_target})
+            title = fm.get("title", fname.replace(".md", ""))
+            status = fm.get("status", "seed")
+            type_info = get_folder_type(filepath, vault_path)
 
-                # Extract links from frontmatter 'related' field
-                related = fm.get("related", []) or []
-                for rel in related:
-                    match = re.search(r"\[\[(.+?)\]\]", str(rel))
-                    if match:
-                        edges.append({"source": title, "target": match.group(1)})
+            nodes[title] = {
+                "id": title,
+                "type": type_info["type"],
+                "color": type_info["color"],
+                "status": status,
+                "tags": [t for t in tags if t != "private"],
+            }
+
+            # Extract links to other pages (body wikilinks)
+            for link_target in extract_wikilinks(body):
+                edges.append({"source": title, "target": link_target})
+
+            # Extract links from frontmatter 'related' field
+            related = fm.get("related", []) or []
+            for rel in related:
+                match = re.search(r"\[\[(.+?)\]\]", str(rel))
+                if match:
+                    edges.append({"source": title, "target": match.group(1)})
 
     # Filter edges to only include nodes that exist in the graph
     node_titles = set(nodes.keys())
