@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-08T19:00:05.149903",
+  "updated": "2026-06-09T19:00:05.878297",
   "daily": [
     {
       "date": "2026-03-24",
@@ -1320,6 +1320,26 @@
       "intensity_minutes": 25,
       "vigorous_minutes": 43,
       "distance_meters": 11163.0
+    },
+    {
+      "date": "2026-06-09",
+      "avg_body_battery": 59.0,
+      "min_body_battery": 13,
+      "max_body_battery": 88,
+      "avg_stress": 21.0,
+      "total_steps": 5171,
+      "sleep_score": 79,
+      "sleep_hours": 6.62,
+      "hrv_weekly": 73,
+      "hrv_last_night": 94,
+      "hrv_status": "BALANCED",
+      "resting_hr": 40,
+      "sleep_start": null,
+      "sleep_end": null,
+      "active_calories": 179.0,
+      "intensity_minutes": 0,
+      "vigorous_minutes": 0,
+      "distance_meters": 4366.0
     }
   ],
   "hourly": [
@@ -1637,6 +1657,51 @@
       "steps": 912,
       "sleep_score": null,
       "hrv_weekly_avg": 72
+    },
+    {
+      "timestamp": "2026-06-09 07:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-09 08:00:02",
+      "body_battery_current": 13,
+      "resting_hr": 46,
+      "stress_avg": 33,
+      "steps": 9,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-09 16:00:05",
+      "body_battery_current": 88,
+      "resting_hr": 40,
+      "stress_avg": 12,
+      "steps": 337,
+      "sleep_score": 79,
+      "hrv_weekly_avg": 73
+    },
+    {
+      "timestamp": "2026-06-09 18:00:02",
+      "body_battery_current": 79,
+      "resting_hr": 40,
+      "stress_avg": 15,
+      "steps": 940,
+      "sleep_score": 79,
+      "hrv_weekly_avg": 73
+    },
+    {
+      "timestamp": "2026-06-09 21:00:02",
+      "body_battery_current": 55,
+      "resting_hr": 40,
+      "stress_avg": 22,
+      "steps": 5171,
+      "sleep_score": 79,
+      "hrv_weekly_avg": 73
     }
   ]
 }
