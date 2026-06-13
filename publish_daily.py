@@ -288,6 +288,29 @@ def generate_wrapper_page(date_str, date_obj):
   <div class="section-divider"></div>
   <p>AutoTrader's daily predictions and market analysis for the upcoming trading day. This report includes top bullish and bearish picks, market sentiment indicators, economic calendar events, and social sentiment data.</p>
 
+  <!-- Day's 60-second YouTube Short — populated client-side from
+       social/{date_str}/short.json (the social pipeline writes it after posting,
+       ~10am ET). Stays hidden until/unless a Short exists for this date, so the
+       page never shows a broken player. -->
+  <div id="short-embed" style="display:none; margin: 24px 0 8px;">
+    <h2 style="margin-bottom: 4px;">&#128250; Today's 60-Second Recap</h2>
+    <p id="short-meta" style="color:#95a5a6; font-size:13px; margin:0 0 14px;"></p>
+    <div style="max-width:330px;">
+      <div style="position:relative; width:100%; padding-bottom:177.78%; border-radius:14px; overflow:hidden; background:#000;">
+        <iframe id="short-iframe" src="" title="MoneySignals daily market recap"
+                frameborder="0" loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+      </div>
+      <a id="short-yt-link" href="#" target="_blank" rel="noopener"
+         style="display:inline-block; margin-top:10px; color:#1abc9c; text-decoration:none; font-size:13px; font-weight:600;">
+        &#9654; Watch &amp; subscribe on YouTube
+      </a>
+    </div>
+    <div class="section-divider" style="margin-top: 24px;"></div>
+  </div>
+
   <iframe src="emails/{date_str}.html" class="email-iframe" id="emailFrame"></iframe>
 </div>
 
@@ -314,6 +337,23 @@ function resizeIframe() {{
   }}
 }}
 document.getElementById('emailFrame').addEventListener('load', resizeIframe);
+
+// Embed this date's YouTube Short if the social pipeline has published one.
+(function() {{
+  fetch('social/{date_str}/short.json?_=' + Date.now())
+    .then(function(r) {{ return r.ok ? r.json() : null; }})
+    .then(function(s) {{
+      if (!s || !s.video_id) return;
+      document.getElementById('short-iframe').src =
+        'https://www.youtube.com/embed/' + s.video_id + '?rel=0';
+      var link = document.getElementById('short-yt-link');
+      link.href = s.youtube_url || ('https://youtu.be/' + s.video_id);
+      document.getElementById('short-meta').textContent =
+        'Our 60-second market recap' + (s.date ? ' · ' + s.date : '');
+      document.getElementById('short-embed').style.display = 'block';
+    }})
+    .catch(function() {{ /* no Short for this date — leave hidden */ }});
+}})();
 
 // Prev/Next day navigation
 (function() {{
