@@ -195,6 +195,7 @@
     <a class="button primary" href="#try">Try it yourself →</a>
     <a class="button" href="#methodology">Methodology</a>
     <a class="button" href="#h8">The H8 hypothesis</a>
+    <a class="button" href="#program">The research program</a>
   </div>
 
   <div class="meta">
@@ -205,7 +206,7 @@
 
   <h2 id="try">Try it yourself</h2>
   <div class="card" style="border-left: 3px solid var(--accent);">
-    <p style="margin: 0 0 12px;"><strong>The real instrument is now runnable.</strong> <a href="app.html">Open the practice →</a> — a working local-first prototype that runs the daily sessions on your own device, stores your choices only in your browser (nothing sent anywhere), and computes your profile locally once you've practiced across a few areas. Built on an event-sourced runtime you can read in the <a href="https://github.com/daliu/patterns-of-choice/tree/master">open repo</a>.</p>
+    <p style="margin: 0 0 12px;"><strong>The real instrument is now runnable.</strong> <a href="app.html">Open the practice →</a> — a working local-first prototype that runs the daily sessions on your own device, stores your choices only in your browser (nothing sent anywhere), and computes your profile locally once you've practiced across a few areas. Built on an event-sourced runtime you can read in the <a href="https://github.com/daliu/patterns-of-choice/tree/main">open repo</a>.</p>
     <p style="margin: 0; color: var(--muted); font-size: 15px;">It's an early prototype — one quick-fire per day so far, with the card-sort onboarding and richer reveal landing next.</p>
   </div>
   <p style="margin-top: 24px;">New here, or want the bite-sized pieces first? Start with <a href="onramp.html">The Two-Minute Self-Portrait</a> — a quick pop-quiz that's honest about why you shouldn't trust it, and the gentlest way in.</p>
@@ -265,7 +266,7 @@
   <p style="margin-top: 12px;"><a href="cardsort.html">Try the card sort →</a> — a 2-minute reduction of the stated channel: keep five of twenty values, then see how they fall across the four domains.</p>
 
   <h3>Does it actually measure anything? (the optional research layer)</h3>
-  <p>You don't need this part to use the instrument — the practice is built for your own reflection, and runs whether or not any of the below ever happens. But the honest question "does a daily-puzzle format really capture how someone lives?" deserves a real answer, so the design is laid out to be testable: a cohort study (pre-registerable at OSF, publishable including negative results) could check it against eight hypotheses, three primary, five secondary. This is a possibility the open design supports, not a gate you're waiting on:</p>
+  <p>You don't need this part to use the instrument — the practice is built for your own reflection, and runs whether or not any of the below ever happens. But the honest question "does a daily-puzzle format really capture how someone lives?" deserves a real answer, so the design is laid out to be testable: a cohort study (pre-registerable at OSF, publishable including negative results) could check it against nine pre-registered hypotheses (three primary, six secondary), plus a wider research program of further measurement ideas (below). This is a possibility the open design supports, not a gate you're waiting on:</p>
   <ul>
     <li><strong>H1</strong> — 4-domain factor structure (CFA, RMSEA ≤ 0.08)</li>
     <li><strong>H2</strong> — convergent validity vs. HEXACO honesty-humility</li>
@@ -275,10 +276,11 @@
     <li><strong>H6</strong> — stated-revealed correlation falls in [0.20, 0.60]</li>
     <li><strong>H7</strong> — discriminant validity vs. Big-5 neuroticism</li>
     <li><strong>H8</strong> — narrative-immersion as measure-debiasing (see below)</li>
+    <li><strong>H9</strong> — self-prediction calibration: do you know your own gap? <span style="color: var(--muted);">(expanded in the research program below)</span></li>
   </ul>
 
   <h2 id="h8">The H8 hypothesis</h2>
-  <p>A novel methodological claim being pre-registered alongside the standard validation hypotheses:</p>
+  <p>The first — and so far the only one with an interactive demo — of a family of novel methodological claims the project is developing (the others are in <a href="#program">the research program</a> below). H8 is pre-registered alongside the standard validation hypotheses:</p>
   <div class="card">
     <p style="margin: 0;"><em>Narrative-embedding with recurring-character attachment functions as a measure-debiasing mechanism against social-desirability response — AND as a stake-grounding mechanism for high-stakes attachment-laden choices. The instrument's narrative format is therefore a load-bearing measurement choice, not an aesthetic one.</em></p>
   </div>
@@ -294,16 +296,43 @@
     <a class="button primary" href="h8-demo.html">The Weight of a Name — try the H8 demo →</a>
   </div>
 
+  <h2 id="program">The research program — beyond H8</h2>
+  <p>H8 is the first of a family of novel measurement ideas, each asking a different question about the distance between who you are and who you take yourself to be. Two are pre-registered; the rest are <strong>design-stage</strong> — fully specified in the open repo, not yet locked into the validation. The honest label is on each.</p>
+
+  <div class="domain-grid">
+    <div class="domain">
+      <strong>H9 · Do you know your own gap?</strong> <span style="color: var(--muted); font-weight: 400;">— pre-registered</span>
+      <p>Before you choose, you predict what you'll do; the instrument scores how well you forecast yourself. Two people with the same stated–revealed gap are different if one saw the slip coming and the other was blindsided — self-knowledge vs. self-deception. <a href="https://github.com/daliu/patterns-of-choice/blob/main/h9-self-calibration.md">The spec →</a></p>
+    </div>
+    <div class="domain">
+      <strong>H10 · Are you the same person across rooms?</strong> <span style="color: var(--muted); font-weight: 400;">— design-stage</span>
+      <p>How much your choices swing across settings — work, family, public, anonymous — treated as a stable trait in its own right. Steady or context-driven; neither is graded as better. <a href="https://github.com/daliu/patterns-of-choice/blob/main/h10-cross-situational-consistency.md">The spec →</a></p>
+    </div>
+    <div class="domain">
+      <strong>H12 · Do you hold yourself to your own standard?</strong> <span style="color: var(--muted); font-weight: 400;">— design-stage</span>
+      <p>The gap between what you demand of others and what you demand of yourself — the self–other double standard, cleanly separated from ordinary weakness of will. <a href="https://github.com/daliu/patterns-of-choice/blob/main/h12-moral-hypocrisy.md">The spec →</a></p>
+    </div>
+    <div class="domain">
+      <strong>The "moral 360" · Do others read you better than you read yourself?</strong> <span style="color: var(--muted); font-weight: 400;">— design-stage, later phase</span>
+      <p>Someone who knows you makes blind predictions of your choices; the gap between their accuracy and your own measures how legible your character is to others vs. to yourself. <a href="https://github.com/daliu/patterns-of-choice/blob/main/h-a1-informant-prediction.md">The spec →</a></p>
+    </div>
+  </div>
+
+  <p>Together these are five views of the same choices — what you <em>do</em>, what you expect of <em>yourself</em> and of <em>others</em>, what you <em>predict</em> about yourself, and what others predict about you. Beyond them, a <a href="https://github.com/daliu/patterns-of-choice/blob/main/measurement-avenues.md">research-directions map</a> sketches further channels — real-stakes micro-decisions, moral-language analysis, multi-method convergence — each chosen so its blind spots differ from the daily-choice instrument's.</p>
+
+  <h3 id="validity">Why the guardrails are the science</h3>
+  <p>The operating constraints — the instrument never tells you a choice was wrong, has no leaderboards or scores, is never sold for screening or hiring, and keeps your data on your own device — are usually read as ethics. They are also <strong>validity conditions</strong>. The moment a measure of your values is used to <em>judge or select</em> you, people optimize the measure instead of revealing themselves (Goodhart's law), and the number stops meaning anything — the most polished profile then comes from the best performer, not the most honest person. So the same rules that keep the instrument trustworthy keep it <em>valid</em>: misuse-resistance and measurement validity turn out to be the same property. (A related caution the design builds in: how you act under real pressure can be a different thing from how you choose in a calm daily puzzle, so the instrument is careful about how far it extrapolates.) <a href="https://github.com/daliu/patterns-of-choice/blob/main/validity-threats.md">The validity audit →</a></p>
+
   <h2 id="state">Current state</h2>
   <ul>
     <li><strong>Runnable instrument:</strong> a local-first PWA (<a href="app.html">app.html</a>) — card sort + daily sessions + on-device profile, installable and fully offline, your data stored only in your browser. Built on an event-sourced runtime (engine + projection + app), each layer unit-tested.</li>
     <li>Scenario corpus: 61 scenarios — the 48-scenario MVP-1 base (6 quick-fire + 3 narrative + 3 cost-of-virtue per domain × 4) + 9 H8 paired narrative-vs-abstract probes, all schema-validated</li>
-    <li>Scoring: a pure-Python analyzer (6 of 8 hypotheses runnable) <em>and</em> a client-side projection that computes the reference-free reads on-device — both generated from one canonical tag-axis map so they can't drift</li>
-    <li>Design specifications: complete (concept, build spec, scoring spec incl. the §13 value-weighting layer, onboarding copy, runtime architecture)</li>
-    <li>Optional research track: pre-registration template (8 hypotheses, falsification thresholds), pilot materials, pre-launch checklist — there if a validation study is ever run, not required to use the tool</li>
+    <li>Scoring: a pure-Python analyzer (6 of 9 hypotheses runnable) <em>and</em> a client-side projection that computes the reference-free reads on-device — both generated from one canonical tag-axis map so they can't drift</li>
+    <li>Design specifications: complete (concept, build spec, scoring spec incl. the §13 value-weighting layer, onboarding copy, runtime architecture) — plus standalone design docs for H9–H12, the informant &ldquo;moral 360,&rdquo; the measurement-avenues research map, and the validity audit</li>
+    <li>Optional research track: pre-registration template (9 hypotheses, falsification thresholds), pilot materials, pre-launch checklist — there if a validation study is ever run, not required to use the tool</li>
   </ul>
 
-  <p><strong>What's next:</strong> iterative polish on the working runtime — the three-layer card sort (current / aspirational / admired self), the narrative and cost-of-virtue session types in the daily loop, and richer reveal visuals. The core instrument runs today; everything from here is refinement, all of it in the <a href="https://github.com/daliu/patterns-of-choice">open repo</a>.</p>
+  <p><strong>What's next:</strong> iterative polish on the working runtime — the three-layer card sort (current / aspirational / admired self), the narrative and cost-of-virtue session types in the daily loop, and richer reveal visuals. The core instrument runs today; from here it's refinement of the runtime plus specifying the research program above (H10, H12, and the moral 360 are design-stage, not yet locked into the validation) — all of it in the <a href="https://github.com/daliu/patterns-of-choice">open repo</a>.</p>
 
   <h2 id="links">Links</h2>
   <ul>
