@@ -128,13 +128,18 @@ def get_folder_type(filepath, vault_path):
 def build_graph(vault_path):
     """Scan the vault and build a graph of nodes and edges.
 
-    A note is included if EITHER:
-      - it lives in one of PUBLIC_FOLDERS (the always-public category folders), OR
-      - it carries `public: true` in frontmatter (opt-in from any wiki/ folder).
-    A `private` tag is an absolute override and always excludes the note.
+    INCLUSION IS OPT-IN ONLY: a note appears in the public graph if and only if
+    it carries `public: true` in frontmatter. Folder membership is NOT sufficient.
 
-    The walk is confined to wiki/ so top-level private trees (Personal/, Daily/)
-    are never even read.
+    Rationale (2026-06-09 security fix): folder-based inclusion failed OPEN —
+    employer-confidential notes (Shipt: Deals For You V2, Seasonality,
+    personifier-*) were later added to public category folders (entities/, areas/,
+    concepts/) and would have been published on the next sync. Opt-in fails CLOSED:
+    any new/unflagged note is private by default, regardless of where it lives.
+
+    A `private` tag is still an absolute override (redundant belt-and-suspenders).
+    The walk is confined to wiki/ so top-level private trees (Personal/, Daily/,
+    Shipt/, Agent Journal/) are never even read.
     """
     nodes = {}  # title -> node dict
     edges = []  # list of {source, target}
@@ -159,13 +164,15 @@ def build_graph(vault_path):
             fm, body = parse_frontmatter(content)
 
             tags = fm.get("tags", []) or []
-            # Hard kill-switch: a private tag always excludes, regardless of folder/opt-in.
+            # Hard kill-switch: a private tag always excludes (redundant with opt-in).
             if "private" in tags:
                 continue
 
-            # Inclusion rule: always-public folder OR explicit opt-in.
-            in_public_folder = folder in PUBLIC_FOLDER_NAMES
-            if not (in_public_folder or is_public_optin(fm)):
+            # Inclusion rule: OPT-IN ONLY. `public: true` is the sole gate.
+            # Folder membership is deliberately NOT sufficient (see docstring) —
+            # this fails closed so confidential notes dropped into public folders
+            # are never published unless explicitly flagged.
+            if not is_public_optin(fm):
                 continue
 
             title = fm.get("title", fname.replace(".md", ""))
