@@ -62,18 +62,62 @@ FOLDER_TYPES = {
 PUBLIC_FOLDER_NAMES = {f.split("/")[-1] for f in PUBLIC_FOLDERS}
 
 
-def is_public_optin(fm):
-    """True if a note explicitly opts into the public graph via `public: true`.
-
-    The frontmatter parser stores scalars as strings, so accept the common
-    truthy spellings case-insensitively.
-    """
-    v = fm.get("public")
+def _truthy(v):
     if isinstance(v, bool):
         return v
     if isinstance(v, str):
         return v.strip().lower() in ("true", "yes", "1")
     return False
+
+
+def _is_false(v):
+    if isinstance(v, bool):
+        return v is False
+    if isinstance(v, str):
+        return v.strip().lower() in ("false", "no", "0")
+    return False
+
+
+def is_public_optin(fm):
+    """True if a note explicitly opts into the public graph via `public: true`."""
+    return _truthy(fm.get("public"))
+
+
+def is_public_optout(fm):
+    """True if a note explicitly opts OUT via `public: false`."""
+    return _is_false(fm.get("public"))
+
+
+# Titles matching this are DETAIL notes (implementation internals) — excluded
+# from folder-level inclusion even in a public folder, because the graph
+# publishes titles. A per-note `public: true` still overrides this (explicit
+# wins over heuristic). Keeps "aggregated, no details": project/component hubs
+# pass (Architecture Hub, Embeddings & Models, Reranking Engine), but
+# schema/DDL/DAG/spec/eval/monitoring/endpoint titles are dropped.
+DETAIL_TITLE_RE = re.compile(
+    r"\b(schema|ddl|data dictionary|airflow|dags?|build & deploy|eval|metrics|"
+    r"monitoring|observability|online request path|integration spec|"
+    r"legacy ddfy|indexes|endpoint)\b",
+    re.I,
+)
+
+
+def public_folder_names(vault_path):
+    """Folders whose _index.md carries `public: true` — bulk-include their notes."""
+    out = set()
+    wiki = os.path.join(vault_path, "wiki")
+    if not os.path.isdir(wiki):
+        return out
+    for entry in os.listdir(wiki):
+        idx = os.path.join(wiki, entry, "_index.md")
+        if os.path.isfile(idx):
+            try:
+                fm, _ = parse_frontmatter(open(idx, encoding="utf-8", errors="replace").read())
+                if _truthy(fm.get("public")):
+                    out.add(entry)
+            except Exception:
+                pass
+    return out
 
 
 def parse_frontmatter(content):
@@ -149,6 +193,8 @@ def build_graph(vault_path):
         return {"nodes": [], "links": [],
                 "meta": {"generated": "auto", "node_count": 0, "edge_count": 0}}
 
+    pub_folders = public_folder_names(vault_path)
+
     for root, _, files in os.walk(wiki_root):
         rel = os.path.relpath(root, wiki_root)
         folder = rel.split(os.sep)[0] if rel != "." else ""
@@ -164,18 +210,23 @@ def build_graph(vault_path):
             fm, body = parse_frontmatter(content)
 
             tags = fm.get("tags", []) or []
-            # Hard kill-switch: a private tag always excludes (redundant with opt-in).
-            if "private" in tags:
-                continue
-
-            # Inclusion rule: OPT-IN ONLY. `public: true` is the sole gate.
-            # Folder membership is deliberately NOT sufficient (see docstring) —
-            # this fails closed so confidential notes dropped into public folders
-            # are never published unless explicitly flagged.
-            if not is_public_optin(fm):
-                continue
-
             title = fm.get("title", fname.replace(".md", ""))
+
+            # --- Inclusion policy (fails CLOSED) ---
+            # Hard excludes first, in priority order:
+            if "private" in tags or is_public_optout(fm):
+                continue  # explicit per-note opt-out always wins
+
+            if is_public_optin(fm):
+                pass       # explicit per-note opt-in always wins (overrides heuristics)
+            elif folder in pub_folders:
+                # Folder bulk-opt-in, BUT skip detail/internal titles (graph
+                # publishes titles, so a schema/spec title would leak specifics).
+                if DETAIL_TITLE_RE.search(title):
+                    continue
+            else:
+                continue   # not opted in by note or folder → private by default
+
             status = fm.get("status", "seed")
             type_info = get_folder_type(filepath, vault_path)
 
