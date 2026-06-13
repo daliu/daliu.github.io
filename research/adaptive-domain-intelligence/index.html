@@ -118,9 +118,8 @@
     <strong>Working paper.</strong> This is a public write-up of an ongoing research system. The
     empirical results below are each re-derived from scratch by an automated verifier (8/8 headline
     numbers reproduce with zero drift), but the work has not been peer-reviewed: a human audit of a
-    sample of machine extractions and a final pass on a few citations are still pending. Treat it as a
-    preprint shared for public knowledge, not a finished publication. Reference implementation
-    (&ldquo;metis&rdquo;) available on request.
+    sample of machine extractions is still pending. Treat it as a preprint shared for public knowledge,
+    not a finished publication. Reference implementation (&ldquo;metis&rdquo;) available on request.
   </div>
 
   <div class="abstract">
@@ -268,6 +267,52 @@
       <tr><td>Appellate panel composition &rarr; direction <span style="color:var(--muted)">(Songer)</span></td><td>lead-judge-grouped</td><td><span class="null">+0.001</span>, p=0.37</td><td class="verdict-null">null</td></tr>
     </tbody>
   </table>
+
+  <figure class="diagram" style="padding:18px 14px 8px;">
+    <svg viewBox="0 0 760 348" width="100%" role="img" aria-label="Forest plot of paired change in AUC with 95% confidence intervals: three signals with intervals above zero, three nulls with intervals touching zero.">
+      <!-- zero reference line -->
+      <line x1="340" y1="44" x2="340" y2="300" stroke="#8b949e" stroke-width="1" stroke-dasharray="4 4"/>
+      <text x="340" y="38" fill="#8b949e" font-size="11" text-anchor="middle" font-family="monospace">&Delta;AUC = 0</text>
+      <!-- x ticks -->
+      <g fill="#8b949e" font-size="11" font-family="monospace" text-anchor="middle">
+        <text x="210" y="320">&minus;0.02</text><text x="340" y="320">0.00</text>
+        <text x="470" y="320">+0.02</text><text x="600" y="320">+0.04</text><text x="730" y="320">+0.06</text>
+      </g>
+      <line x1="210" y1="300" x2="730" y2="300" stroke="#30363d" stroke-width="1"/>
+      <!-- signals (green): label, CI whisker, point -->
+      <g font-size="12.5" font-family="-apple-system,Segoe UI,sans-serif">
+        <g fill="#3fb950" stroke="#3fb950">
+          <text x="198" y="68" text-anchor="end" stroke="none">Judge party &rarr; direction</text>
+          <line x1="438" y1="64" x2="683" y2="64" stroke-width="2"/><line x1="438" y1="59" x2="438" y2="69" stroke-width="2"/><line x1="683" y1="59" x2="683" y2="69" stroke-width="2"/><circle cx="558" cy="64" r="5"/>
+          <text x="198" y="112" text-anchor="end" stroke="none">Court ideology &rarr; SCOTUS</text>
+          <line x1="404" y1="108" x2="606" y2="108" stroke-width="2"/><line x1="404" y1="103" x2="404" y2="113" stroke-width="2"/><line x1="606" y1="103" x2="606" y2="113" stroke-width="2"/><circle cx="506" cy="108" r="5"/>
+          <text x="198" y="156" text-anchor="end" stroke="none">Repeat-player &rarr; settlement</text>
+          <line x1="384" y1="152" x2="503" y2="152" stroke-width="2"/><line x1="384" y1="147" x2="384" y2="157" stroke-width="2"/><line x1="503" y1="147" x2="503" y2="157" stroke-width="2"/><circle cx="442" cy="152" r="5"/>
+        </g>
+        <!-- nulls (amber) -->
+        <g fill="#d29922" stroke="#d29922">
+          <text x="198" y="200" text-anchor="end" stroke="none">Judge attrs &rarr; settlement</text>
+          <line x1="282" y1="196" x2="352" y2="196" stroke-width="2"/><line x1="282" y1="191" x2="282" y2="201" stroke-width="2"/><line x1="352" y1="191" x2="352" y2="201" stroke-width="2"/><circle cx="317" cy="196" r="5"/>
+          <text x="198" y="244" text-anchor="end" stroke="none">Panel comp. &rarr; reversal</text>
+          <line x1="302" y1="240" x2="338" y2="240" stroke-width="2"/><line x1="302" y1="235" x2="302" y2="245" stroke-width="2"/><line x1="338" y1="235" x2="338" y2="245" stroke-width="2"/><circle cx="320" cy="240" r="5"/>
+          <text x="198" y="288" text-anchor="end" stroke="none">Panel comp. &rarr; direction</text>
+          <line x1="320" y1="284" x2="375" y2="284" stroke-width="2"/><line x1="320" y1="279" x2="320" y2="289" stroke-width="2"/><line x1="375" y1="279" x2="375" y2="289" stroke-width="2"/><circle cx="348" cy="284" r="5"/>
+        </g>
+      </g>
+      <!-- legend -->
+      <g font-size="11.5" font-family="-apple-system,Segoe UI,sans-serif">
+        <circle cx="470" cy="340" r="5" fill="#3fb950"/><text x="482" y="344" fill="#3fb950">recovered signal</text>
+        <circle cx="600" cy="340" r="5" fill="#d29922"/><text x="612" y="344" fill="#d29922">reported null</text>
+      </g>
+    </svg>
+    <figcaption style="color:var(--muted);font-size:12.5px;margin-top:6px;text-align:left;">
+      <strong style="color:var(--heading)">Figure 1.</strong> Paired &Delta;AUC with 95% confidence
+      intervals, every estimate under a leakage-safe split. The three signals sit cleanly above zero;
+      the three nulls straddle it. A trustworthy adaptive agent must produce <em>both</em> columns &mdash;
+      recover the real effects and decline the absent ones. (Stakes&times;type&rarr;duration is omitted
+      here as it is measured in error rather than AUC; see Table 1.)
+    </figcaption>
+  </figure>
 
   <p>The pattern is coherent judicial politics: ideology shows up where an individual judge decides
   alone, attenuates on three-judge panels (the panel-moderation effect; the nulls match Sunstein et
