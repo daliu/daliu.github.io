@@ -288,6 +288,20 @@ def generate_wrapper_page(date_str, date_obj):
   <div class="section-divider"></div>
   <p>AutoTrader's daily predictions and market analysis for the upcoming trading day. This report includes top bullish and bearish picks, market sentiment indicators, economic calendar events, and social sentiment data.</p>
 
+  <!-- Live event-signal track record — fetched client-side from the public API.
+       Hidden on fetch failure or a small sample, so it never shows a broken claim. -->
+  <a id="tr-badge" href="https://moneysignals.us/track-record" target="_blank" rel="noopener"
+     style="display:none; text-decoration:none; margin: 4px 0 22px; padding: 12px 18px;
+            border:1px solid rgba(26,188,156,0.35); border-radius:10px;
+            background: rgba(26,188,156,0.06); align-items:center; gap:12px;">
+    <span style="font-size:20px;">&#128202;</span>
+    <span style="color:#34495e; font-size:14px; line-height:1.4;">
+      <strong style="color:#16a085;" id="tr-badge-rate"></strong> win rate on our event signals
+      <span style="color:#95a5a6;" id="tr-badge-n"></span>
+      &nbsp;<span style="color:#1abc9c; font-weight:600;">see the live ledger &rarr;</span>
+    </span>
+  </a>
+
   <!-- Day's 60-second YouTube Short — populated client-side from
        social/{date_str}/short.json (the social pipeline writes it after posting,
        ~10am ET). Stays hidden until/unless a Short exists for this date, so the
@@ -337,6 +351,21 @@ function resizeIframe() {{
   }}
 }}
 document.getElementById('emailFrame').addEventListener('load', resizeIframe);
+
+// Live event-signal track record badge (public API; hidden on failure or small n).
+(function() {{
+  fetch('https://api.moneysignals.us/track-record')
+    .then(function(r) {{ return r.ok ? r.json() : null; }})
+    .then(function(d) {{
+      var so = d && d.second_order;
+      if (!so || !so.n || so.n < 30) return;
+      document.getElementById('tr-badge-rate').textContent = Math.round(so.win_rate * 100) + '%';
+      document.getElementById('tr-badge-n').textContent =
+        '(' + so.n + ' resolved calls' + (so.since ? ' since ' + so.since : '') + ')';
+      document.getElementById('tr-badge').style.display = 'inline-flex';
+    }})
+    .catch(function() {{ /* no badge if unavailable */ }});
+}})();
 
 // Embed this date's YouTube Short if the social pipeline has published one.
 (function() {{
