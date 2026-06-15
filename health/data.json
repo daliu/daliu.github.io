@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-13T19:00:07.539311",
+  "updated": "2026-06-14T19:00:06.331137",
   "daily": [
     {
       "date": "2026-03-24",
@@ -1420,72 +1420,29 @@
       "intensity_minutes": 3,
       "vigorous_minutes": 61,
       "distance_meters": 12240.0
+    },
+    {
+      "date": "2026-06-14",
+      "avg_body_battery": 33.0,
+      "min_body_battery": 5,
+      "max_body_battery": 71,
+      "avg_stress": 25.0,
+      "total_steps": 14707,
+      "sleep_score": 66,
+      "sleep_hours": 5.1,
+      "hrv_weekly": 86,
+      "hrv_last_night": 70,
+      "hrv_status": "UNBALANCED",
+      "resting_hr": 39,
+      "sleep_start": null,
+      "sleep_end": null,
+      "active_calories": 894.0,
+      "intensity_minutes": 3,
+      "vigorous_minutes": 61,
+      "distance_meters": 14595.0
     }
   ],
   "hourly": [
-    {
-      "timestamp": "2026-06-07 05:00:03",
-      "body_battery_current": 19,
-      "resting_hr": 40,
-      "stress_avg": 24,
-      "steps": 13003,
-      "sleep_score": 44,
-      "hrv_weekly_avg": 73
-    },
-    {
-      "timestamp": "2026-06-07 06:00:02",
-      "body_battery_current": 13,
-      "resting_hr": 40,
-      "stress_avg": 25,
-      "steps": 16118,
-      "sleep_score": 44,
-      "hrv_weekly_avg": 73
-    },
-    {
-      "timestamp": "2026-06-07 07:00:02",
-      "body_battery_current": null,
-      "resting_hr": null,
-      "stress_avg": null,
-      "steps": null,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-06-07 08:00:02",
-      "body_battery_current": null,
-      "resting_hr": null,
-      "stress_avg": null,
-      "steps": null,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-06-07 09:00:02",
-      "body_battery_current": null,
-      "resting_hr": null,
-      "stress_avg": null,
-      "steps": null,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-06-07 10:00:02",
-      "body_battery_current": 27,
-      "resting_hr": 41,
-      "stress_avg": 15,
-      "steps": 511,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-06-07 15:00:03",
-      "body_battery_current": 85,
-      "resting_hr": 40,
-      "stress_avg": 11,
-      "steps": 587,
-      "sleep_score": 81,
-      "hrv_weekly_avg": 74
-    },
     {
       "timestamp": "2026-06-08 04:00:04",
       "body_battery_current": 60,
@@ -1773,6 +1730,69 @@
       "steps": 11909,
       "sleep_score": 64,
       "hrv_weekly_avg": 86
+    },
+    {
+      "timestamp": "2026-06-14 03:00:01",
+      "body_battery_current": 19,
+      "resting_hr": 39,
+      "stress_avg": 34,
+      "steps": 14707,
+      "sleep_score": 64,
+      "hrv_weekly_avg": 86
+    },
+    {
+      "timestamp": "2026-06-14 07:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-14 08:00:01",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-14 09:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-14 10:00:02",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": null,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-14 11:00:01",
+      "body_battery_current": 15,
+      "resting_hr": 47,
+      "stress_avg": 25,
+      "steps": 244,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-14 15:00:01",
+      "body_battery_current": 64,
+      "resting_hr": 44,
+      "stress_avg": 17,
+      "steps": 600,
+      "sleep_score": 66,
+      "hrv_weekly_avg": 83
     }
   ]
 }
