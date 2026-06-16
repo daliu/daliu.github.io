@@ -116,12 +116,12 @@ def generate_wrapper_page(date_str, date_obj):
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Daily Update — {short_month} {day}, {year} — AutoTrader</title>
+  <title>Daily Update — {short_month} {day}, {year} — MoneySignals</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
-  <meta property="og:title" content="AutoTrader — {month_name} {day}, {year} Market Update">
-  <meta property="og:description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
+  <meta name="description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
+  <meta property="og:title" content="MoneySignals — {month_name} {day}, {year} Market Update">
+  <meta property="og:description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -286,7 +286,7 @@ def generate_wrapper_page(date_str, date_obj):
   <div class="date-heading">{month_name} {day}, {year}</div>
   <h2>Daily Market Update</h2>
   <div class="section-divider"></div>
-  <p>AutoTrader's daily predictions and market analysis for the upcoming trading day. This report includes top bullish and bearish picks, market sentiment indicators, economic calendar events, and social sentiment data.</p>
+  <p>MoneySignals' daily predictions and market analysis for the upcoming trading day. This report includes top bullish and bearish picks, market sentiment indicators, economic calendar events, and social sentiment data.</p>
 
   <!-- Live event-signal track record — fetched client-side from the public API.
        Hidden on fetch failure or a small sample, so it never shows a broken claim. -->
@@ -565,12 +565,12 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Daily Update — {short_month} {day}, {year} — AutoTrader</title>
+  <title>Daily Update — {short_month} {day}, {year} — MoneySignals</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
-  <meta property="og:title" content="AutoTrader — {month_name} {day}, {year} Market Update">
-  <meta property="og:description" content="AutoTrader daily market predictions for {month_name} {day}, {year}">
+  <meta name="description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
+  <meta property="og:title" content="MoneySignals — {month_name} {day}, {year} Market Update">
+  <meta property="og:description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
