@@ -330,12 +330,12 @@ def generate_wrapper_page(date_str, date_obj):
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
   <div style="margin-bottom: 15px;">
-    <a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
-    <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
-    <a href="mailto:50685071@proton.me" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
+    <a href="https://www.youtube.com/@investwithdave" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-youtube-play"></span></a>
+    <a href="mailto:dave@moneysignals.us" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
-  <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../resume/" style="color: #1abc9c;">Resume</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
-  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
+  <p style="margin-bottom: 5px;"><a href="https://moneysignals.us" style="color: #1abc9c;">MoneySignals.us</a> &middot; <a href="https://moneysignals.us/#pricing" style="color: #1abc9c;">Subscribe</a> &middot; <a href="https://moneysignals.us/terms" style="color: #1abc9c;">Terms</a> &middot; <a href="https://moneysignals.us/privacy" style="color: #1abc9c;">Privacy</a></p>
+  <p style="font-size: 12px; margin-bottom: 4px;">Educational information only. Not financial advice.</p>
+  <p style="font-size: 12px; margin-bottom: 0;">MoneySignals &copy; {year}</p>
 </footer>
 
 <script>
@@ -754,12 +754,12 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
   <div style="margin-bottom: 15px;">
-    <a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-linkedin"></span></a>
-    <a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-github"></span></a>
-    <a href="mailto:50685071@proton.me" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
+    <a href="https://www.youtube.com/@investwithdave" target="_blank" rel="noopener noreferrer" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-youtube-play"></span></a>
+    <a href="mailto:dave@moneysignals.us" style="color: #fff; margin: 0 12px; font-size: 20px;"><span class="fa fa-envelope-o"></span></a>
   </div>
-  <p style="margin-bottom: 5px;"><a href="../../portfolio.html" style="color: #1abc9c;">Portfolio</a> &middot; <a href="../../resume/" style="color: #1abc9c;">Resume</a> &middot; <a href="../../index.html" style="color: #1abc9c;">Data About Me</a> &middot; <a href="../../autotrader.html" style="color: #1abc9c;">AutoTrader</a></p>
-  <p style="font-size: 12px; margin-bottom: 0;">Dave Liu &copy; 2026</p>
+  <p style="margin-bottom: 5px;"><a href="https://moneysignals.us" style="color: #1abc9c;">MoneySignals.us</a> &middot; <a href="https://moneysignals.us/#pricing" style="color: #1abc9c;">Subscribe</a> &middot; <a href="https://moneysignals.us/terms" style="color: #1abc9c;">Terms</a> &middot; <a href="https://moneysignals.us/privacy" style="color: #1abc9c;">Privacy</a></p>
+  <p style="font-size: 12px; margin-bottom: 4px;">Educational information only. Not financial advice.</p>
+  <p style="font-size: 12px; margin-bottom: 0;">MoneySignals &copy; {year}</p>
 </footer>
 
 <script>
