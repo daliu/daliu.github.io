@@ -233,41 +233,14 @@ def generate_wrapper_page(date_str, date_obj):
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../../index.html">Dave Liu</a>
+      <a class="navbar-brand" href="https://moneysignals.us">MoneySignals</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="../../portfolio.html">Portfolio</a></li>
-        <li><a href="../../resume/">Resume</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="../../index.html">Overview</a></li>
-            <li><a href="../../health/">Health Dashboard</a></li>
-            <li><a href="../../genomics/">Genomics</a></li>
-            <li><a href="../../analytics/">Site Analytics</a></li>
-            <li><a href="../../knowledge/">Knowledge Graph</a></li>
-            <li><a href="../../status/">System Status</a></li>
-            <li><a href="../../now/">Now</a></li>
-          </ul>
-        </li>
-        <li><a href="../../publications.html">Publications</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="../../autotrader.html">Overview</a></li>
-            <li><a href="index.html">Daily Updates</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Meta Council <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="https://meta-council.com" target="_blank">Try It</a></li>
-            <li><a href="../../research/meta-council-paper.pdf">Research Paper</a></li>
-          </ul>
-        </li>
-        <li><a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
-        <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
+        <li><a href="index.html">Daily Reports</a></li>
+        <li><a href="https://moneysignals.us/#pricing">Pricing</a></li>
+        <li><a href="https://moneysignals.us/#track-record">Track Record</a></li>
+        <li><a href="https://www.youtube.com/@investwithdave" target="_blank" rel="noopener noreferrer"><span class="fa fa-youtube-play"></span></a></li>
       </ul>
     </div>
   </div>
@@ -692,41 +665,14 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../../index.html">Dave Liu</a>
+      <a class="navbar-brand" href="https://moneysignals.us">MoneySignals</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="../../portfolio.html">Portfolio</a></li>
-        <li><a href="../../resume/">Resume</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data About Me <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="../../index.html">Overview</a></li>
-            <li><a href="../../health/">Health Dashboard</a></li>
-            <li><a href="../../genomics/">Genomics</a></li>
-            <li><a href="../../analytics/">Site Analytics</a></li>
-            <li><a href="../../knowledge/">Knowledge Graph</a></li>
-            <li><a href="../../status/">System Status</a></li>
-            <li><a href="../../now/">Now</a></li>
-          </ul>
-        </li>
-        <li><a href="../../publications.html">Publications</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">AutoTrader <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="../../autotrader.html">Overview</a></li>
-            <li><a href="index.html">Daily Updates</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Meta Council <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="https://meta-council.com" target="_blank">Try It</a></li>
-            <li><a href="../../research/meta-council-paper.pdf">Research Paper</a></li>
-          </ul>
-        </li>
-        <li><a href="https://www.linkedin.com/in/dave-l-a3139775/" target="_blank" rel="noopener noreferrer"><span class="fa fa-linkedin"></span></a></li>
-        <li><a href="https://github.com/daliu" target="_blank" rel="noopener noreferrer"><span class="fa fa-github"></span></a></li>
+        <li><a href="index.html">Daily Reports</a></li>
+        <li><a href="https://moneysignals.us/#pricing">Pricing</a></li>
+        <li><a href="https://moneysignals.us/#track-record">Track Record</a></li>
+        <li><a href="https://www.youtube.com/@investwithdave" target="_blank" rel="noopener noreferrer"><span class="fa fa-youtube-play"></span></a></li>
       </ul>
     </div>
   </div>
