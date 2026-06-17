@@ -297,7 +297,7 @@
   </div>
 
   <h2 id="program">The research program — beyond H8</h2>
-  <p>H8 is the first of a family of novel measurement ideas, each asking a different question about the distance between who you are and who you take yourself to be. Two are pre-registered; the rest are <strong>design-stage</strong> — fully specified in the open repo, not yet locked into the validation. The honest label is on each.</p>
+  <p>H8 is the first of a family of novel measurement ideas, each asking a different question about the distance between who you are and who you take yourself to be. H8 and H9 are pre-registered; the rest are <strong>design-stage</strong> — fully specified in the open repo, not yet locked into the validation. The honest label is on each.</p>
 
   <div class="domain-grid">
     <div class="domain">
@@ -316,23 +316,33 @@
       <strong>The "moral 360" · Do others read you better than you read yourself?</strong> <span style="color: var(--muted); font-weight: 400;">— design-stage, later phase</span>
       <p>Someone who knows you makes blind predictions of your choices; the gap between their accuracy and your own measures how legible your character is to others vs. to yourself. <a href="https://github.com/daliu/patterns-of-choice/blob/main/h-a1-informant-prediction.md">The spec →</a></p>
     </div>
+    <div class="domain">
+      <strong>H11 · How far does your concern reach?</strong> <span style="color: var(--muted); font-weight: 400;">— design-stage</span>
+      <p>The radius of your moral circle, read from real choices — how concern falls off from kin to friends to strangers to out-groups to animals. A break point on the distance axis, the way the cost-of-virtue probe is one on the stakes axis. Wide or narrow; neither graded as better. <a href="https://github.com/daliu/patterns-of-choice/blob/main/h11-moral-circle-radius.md">The spec →</a></p>
+    </div>
+    <div class="domain">
+      <strong>The moral-language channel · Do you walk what you talk?</strong> <span style="color: var(--muted); font-weight: 400;">— design-stage</span>
+      <p>What you spontaneously moralize about in your own words, vs. what you actually do — the talk–walk gap. A third channel beside stated values and behavior (and what makes multi-method cross-checking possible). <a href="https://github.com/daliu/patterns-of-choice/blob/main/h-a3-moral-language.md">The spec →</a></p>
+    </div>
   </div>
 
-  <p>Together these are five views of the same choices — what you <em>do</em>, what you expect of <em>yourself</em> and of <em>others</em>, what you <em>predict</em> about yourself, and what others predict about you. Beyond them, a <a href="https://github.com/daliu/patterns-of-choice/blob/main/measurement-avenues.md">research-directions map</a> sketches further channels — real-stakes micro-decisions, moral-language analysis, multi-method convergence — each chosen so its blind spots differ from the daily-choice instrument's.</p>
+  <p>Together these are many views of the same choices — what you <em>do</em>, how steady it is across rooms, how far your concern reaches, what you expect of <em>yourself</em> and of <em>others</em>, what you <em>predict</em> about yourself, and what others predict about you. And a <a href="https://github.com/daliu/patterns-of-choice/blob/main/measurement-avenues.md">research-directions map</a> sketches the channels still ahead — multi-method convergence, process and moral-emotion signals — each chosen so its blind spots differ from the daily-choice instrument's.</p>
 
   <h3 id="validity">Why the guardrails are the science</h3>
   <p>The operating constraints — the instrument never tells you a choice was wrong, has no leaderboards or scores, is never sold for screening or hiring, and keeps your data on your own device — are usually read as ethics. They are also <strong>validity conditions</strong>. The moment a measure of your values is used to <em>judge or select</em> you, people optimize the measure instead of revealing themselves (Goodhart's law), and the number stops meaning anything — the most polished profile then comes from the best performer, not the most honest person. So the same rules that keep the instrument trustworthy keep it <em>valid</em>: misuse-resistance and measurement validity turn out to be the same property. (A related caution the design builds in: how you act under real pressure can be a different thing from how you choose in a calm daily puzzle, so the instrument is careful about how far it extrapolates.) <a href="https://github.com/daliu/patterns-of-choice/blob/main/validity-threats.md">The validity audit →</a></p>
+
+  <p>And the sharpest test of all is one the project is committed to running even though it could sink the whole thing: a <strong>real-stakes channel</strong> — occasional decisions with actual consequences (real money, a real charity donation) — checked against what the hypothetical instrument predicted. If daily-puzzle choices turn out not to predict real behavior, that is a result the design is built to report, not bury. It's the keystone: the empirical answer to "does any of this measure real character?" <a href="https://github.com/daliu/patterns-of-choice/blob/main/h-a2-real-stakes.md">The real-stakes design →</a></p>
 
   <h2 id="state">Current state</h2>
   <ul>
     <li><strong>Runnable instrument:</strong> a local-first PWA (<a href="app.html">app.html</a>) — card sort + daily sessions + on-device profile, installable and fully offline, your data stored only in your browser. Built on an event-sourced runtime (engine + projection + app), each layer unit-tested.</li>
     <li>Scenario corpus: 61 scenarios — the 48-scenario MVP-1 base (6 quick-fire + 3 narrative + 3 cost-of-virtue per domain × 4) + 9 H8 paired narrative-vs-abstract probes, all schema-validated</li>
     <li>Scoring: a pure-Python analyzer (6 of 9 hypotheses runnable) <em>and</em> a client-side projection that computes the reference-free reads on-device — both generated from one canonical tag-axis map so they can't drift</li>
-    <li>Design specifications: complete (concept, build spec, scoring spec incl. the §13 value-weighting layer, onboarding copy, runtime architecture) — plus standalone design docs for H9–H12, the informant &ldquo;moral 360,&rdquo; the measurement-avenues research map, and the validity audit</li>
+    <li>Design specifications: complete (concept, build spec, scoring spec incl. the §13 value-weighting layer, onboarding copy, runtime architecture) — plus standalone design docs for H9–H12, the informant &ldquo;moral 360,&rdquo; the real-stakes validity channel, the moral-language channel, the measurement-avenues research map, and the validity audit</li>
     <li>Optional research track: pre-registration template (9 hypotheses, falsification thresholds), pilot materials, pre-launch checklist — there if a validation study is ever run, not required to use the tool</li>
   </ul>
 
-  <p><strong>What's next:</strong> iterative polish on the working runtime — the three-layer card sort (current / aspirational / admired self), the narrative and cost-of-virtue session types in the daily loop, and richer reveal visuals. The core instrument runs today; from here it's refinement of the runtime plus specifying the research program above (H10, H12, and the moral 360 are design-stage, not yet locked into the validation) — all of it in the <a href="https://github.com/daliu/patterns-of-choice">open repo</a>.</p>
+  <p><strong>What's next:</strong> iterative polish on the working runtime — the three-layer card sort (current / aspirational / admired self), the narrative and cost-of-virtue session types in the daily loop, and richer reveal visuals. The core instrument runs today; from here it's refinement of the runtime plus specifying the research program above (H10–H12, the moral circle, the moral 360, and the real-stakes and moral-language channels are design-stage, not yet locked into the validation) — all of it in the <a href="https://github.com/daliu/patterns-of-choice">open repo</a>.</p>
 
   <h2 id="links">Links</h2>
   <ul>
