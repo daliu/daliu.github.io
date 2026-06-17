@@ -349,6 +349,47 @@
   headline numbers reproduced with zero drift, and it caught two of our own secondary-number slips
   during drafting.</p>
 
+  <h2>3b. Statistical evaluation in detail</h2>
+  <p>Two estimators are reported per experiment and should not be conflated. <strong>Model AUC</strong>
+  is the mean of per-fold ROC-AUCs, with a 95% interval from the 2.5/97.5 percentiles <em>across folds</em>
+  (how well the full model ranks). <strong>Paired &Delta;AUC</strong> is the incremental value of a
+  feature group, computed per-case on pooled out-of-fold predictions (AUC-with minus AUC-without), with a
+  95% CI from a <strong>2,000-resample paired bootstrap</strong> and a <em>p</em> from a
+  <strong>500-permutation paired test</strong> (does the feature group help). The paired statistic is the
+  hypothesis test; because it cancels per-case variance the fold-mean cannot, it can be significantly
+  positive even when the fold-averaged AUC barely moves (the SCDB and FJC-settlement rows). Inside the
+  self-improvement loop, the acceptance permutation test's &alpha; is <strong>Bonferroni-corrected over
+  the round's candidate revisions</strong> &mdash; the multiple-comparisons guard.</p>
+  <p>Cross-validation is leakage-safe by construction, chosen per corpus, never naively random (random
+  k-fold leaks entity/temporal correlation and can inflate AUC by an estimated 0.05&ndash;0.30; an
+  entity-overlap diagnostic flags &gt;30% recurrence): <strong>entity-grouped</strong> 5-fold GroupKFold
+  where a judge/district/court never straddles a fold (Carp-Manning, FJC, Songer); <strong>chronological
+  forward-chaining</strong> (TimeSeriesSplit, 5 folds) where every evaluation fold is strictly later than
+  its training data (SCDB, by term); and <strong>repeated stratified</strong> 5&times;2 where cases are
+  exchangeable with no recurring entity (ECtHR).</p>
+
+  <table class="results">
+    <caption><strong>Table 3.</strong> Per-experiment N, grouping entities, CV scheme, fold structure,
+    and both estimators. Wide model-AUC fold intervals on the grouped 5-fold rows (e.g. FJC settlement)
+    reflect genuine between-entity variance on a hard task, not instability of the effect &mdash; the
+    paired &Delta;AUC, the tested quantity, is tight. The two nulls (N=1,916 and 6,017) are
+    <em>powered</em> nulls, not silence from too little data.</caption>
+    <thead><tr><th>Experiment</th><th>N</th><th>entities</th><th>CV scheme (folds)</th><th>test fold (min/med/max)</th><th>model AUC [fold 95% CI]</th><th>paired &Delta;AUC [95% CI], p</th></tr></thead>
+    <tbody>
+      <tr><td>Judge party &rarr; direction <span class="muted">(Carp-Manning, civ. lib.)</span></td><td>3,292</td><td>1,109 judges</td><td>entity-grouped (5)</td><td>658/658/659</td><td>0.565 [0.541, 0.587]</td><td><span class="num">+0.034</span> [.015,.053], .002</td></tr>
+      <tr><td>Court ideology &rarr; SCOTUS <span class="muted">(SCDB+Martin-Quinn)</span></td><td>9,032</td><td>78 terms</td><td>chronological (5)</td><td>1,505/1,505/1,505</td><td>0.520 [0.463, 0.597]</td><td><span class="num">+0.026</span> [.010,.041], .002</td></tr>
+      <tr><td>Repeat-player &rarr; settlement <span class="muted">(FJC)</span></td><td>4,000</td><td>92 districts</td><td>entity-grouped (5)</td><td>739/739/1,043</td><td>0.771 [0.605, 0.948]</td><td><span class="num">+0.016</span> [.007,.025], .002</td></tr>
+      <tr><td>Judge attrs &rarr; settlement <span class="muted">(FJC)</span></td><td>1,916</td><td>730 judges</td><td>entity-grouped (5)</td><td>383/383/384</td><td>0.770 [0.754, 0.792]</td><td><span class="null">+0.000</span> [&minus;.005,.005], .45</td></tr>
+      <tr><td>Panel composition &rarr; reversal <span class="muted">(Songer)</span></td><td>6,017</td><td>607 judges</td><td>entity-grouped (5)</td><td>1,203/1,203/1,204</td><td>0.597 [0.563, 0.636]</td><td><span class="null">&minus;0.003</span> [&minus;.006,.000], .84</td></tr>
+      <tr><td>ECtHR outcome <span class="muted">(session-LLM, at chance)</span></td><td>150</td><td>&mdash;</td><td>repeated stratified (5&times;2)</td><td>30/30/30</td><td>0.508 [0.353, 0.669]</td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+  <p>On the regression side, prediction intervals are <strong>split-conformal</strong> (a per-fold
+  calibration slice sets the residual quantile, giving finite-sample coverage under exchangeability):
+  on the sealed FJC duration test (n&asymp;1,000 held out) measured coverage was <strong>80.7%</strong>
+  against an 80% target, with error beating the predict-the-mean baseline (MAE 0.879 vs 1.115 in log1p
+  space). Numbers re-derived by <code>stats_detail.py</code> (deterministic, seed 13).</p>
+
   <h2>4. Why this is new</h2>
   <p>The pieces exist separately. LLM-as-feature-engineer for a small interpretable model (CHiLL,
   FeatLLM); verbatim-quote grounding as &ldquo;verifiable by design&rdquo; (Quote-Tuning) and
