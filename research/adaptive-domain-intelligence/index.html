@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adaptive Domain Intelligence — Dave Liu</title>
-<meta name="description" content="A working paper on an honest LLM-as-feature-engineer architecture that compresses qualitative records (court opinions, clinical notes) into calibrated empirical predictions — validated as a known-answer test against six decades of empirical judicial politics.">
-<meta property="og:title" content="Adaptive Domain Intelligence: an honest LLM-as-feature-engineer architecture">
+<meta name="description" content="A working paper on an LLM-as-feature-engineer architecture that compresses qualitative records (court opinions, clinical notes) into calibrated empirical predictions — validated as a known-answer test against six decades of empirical judicial politics.">
+<meta property="og:title" content="Adaptive Domain Intelligence: an LLM-as-feature-engineer architecture">
 <meta property="og:description" content="An LLM proposes a schema and extracts quote-grounded features; a small calibrated model decides; self-improvement is gated by a domain expert AND a frozen gold set. Validated where the answers are already known — it recovers the real signals and reports the real nulls.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://daliu.github.io/research/adaptive-domain-intelligence/">
@@ -111,7 +111,7 @@
 
 <div class="paper">
 
-  <h1>Adaptive Domain Intelligence: An Honest LLM-as-Feature-Engineer Architecture for Compressing Qualitative Records into Calibrated Empirical Predictions</h1>
+  <h1>Adaptive Domain Intelligence: An LLM-as-Feature-Engineer Architecture for Compressing Qualitative Records into Calibrated Empirical Predictions</h1>
   <p class="byline">Dave Liu · working paper · June 2026 · <a href="../adaptive-domain-intelligence.pdf">PDF</a></p>
 
   <div class="status">
@@ -252,6 +252,31 @@
   are four real legal datasets &mdash; the FJC Integrated Database (federal civil terminations), the
   Carp-Manning U.S. District Court Database (~111k coded decisions), the Supreme Court Database joined
   to Martin-Quinn ideology, and the Songer Courts of Appeals Database &mdash; plus real ECtHR texts.</p>
+
+  <h3>Data and how much of each</h3>
+  <p>Every corpus is free and public; experiments use fixed-seed deterministic samples so the exact
+  rows are reproducible. <strong>ECtHR</strong> = European Court of Human Rights (Strasbourg); its
+  &ldquo;texts&rdquo; are the <em>Facts</em> sections of published judgments, with a label for whether
+  any Article of the European Convention on Human Rights was found violated &mdash; via the public
+  lex_glue corpus.</p>
+  <table class="results">
+    <caption><strong>Table 0.</strong> The four real prediction corpora (plus the ECtHR
+    extraction-faithfulness set) and the deterministic sample used from each.</caption>
+    <thead><tr><th>Corpus (free / public)</th><th>scale available</th><th>N used</th><th>powers</th></tr></thead>
+    <tbody>
+      <tr><td>FJC Integrated Database <span class="muted">(federal civil terminations, FY2021&ndash;26)</span></td><td>full 5-year bundle</td><td>4,000 <span class="muted">(1,916 w/ judge)</span></td><td>settlement, duration, amount; repeat-player; pacing</td></tr>
+      <tr><td>Carp-Manning U.S. District Court DB <span class="muted">(1927&ndash;2012)</span></td><td>110,977</td><td>8,000 <span class="muted">(civ. lib. 3,292)</span></td><td>judge party &rarr; decision direction</td></tr>
+      <tr><td>Supreme Court Database 2025 <span class="muted">(+ Martin-Quinn)</span></td><td>9,092 usable</td><td>9,032</td><td>court ideology &rarr; SCOTUS outcome</td></tr>
+      <tr><td>Songer Courts of Appeals DB <span class="muted">(1925&ndash;1996)</span></td><td>18,195 &rarr; 16,710 merits</td><td>6,017</td><td>panel composition &rarr; reversal/direction</td></tr>
+      <tr><td>ECtHR facts <span class="muted">(lex_glue ecthr_a)</span></td><td>~11k</td><td>160 / 150 extracted</td><td>grounded-extraction faithfulness</td></tr>
+    </tbody>
+  </table>
+  <p>Five <strong>auxiliary joins</strong> enrich these rather than standing alone: the FJC
+  Biographical Directory (4,059 judges &rarr; appointer party, tenure); CourtListener bulk dockets +
+  people-db (judge assignment + party fallback); Martin-Quinn court medians (1937&ndash;2022); the AO's
+  Federal Court Management Statistics Table C-5 (94 districts &rarr; congestion prior); and SEC EDGAR
+  (10,400 filers + CY2020 revenue), the financial join <em>rejected</em> at 3.6% name-match. Three
+  synthetic corpora carry the planted pathologies and back no real-world claim.</p>
 
   <table class="results">
     <caption><strong>Table 1.</strong> Known-answer results. All under leakage-safe cross-validation
@@ -410,8 +435,11 @@
   immigration enforcement) regardless of confidence. The real-data samples are in the thousands, not
   the full corpora; some party names in the source data are truncated, capping one financial join; the
   expert gate is only as good as the expert, and authoring the frozen gold set is the binding human
-  cost &mdash; not eliminated, but bounded and made auditable. As noted at the top, a human audit of a
-  sample of machine extractions and a final citation pass are still pending; this is a working paper.</p>
+  cost &mdash; not eliminated, but bounded and made auditable. Per-feature extraction confidences are
+  <em>model self-reported</em> (the prompt asks for 0.9+ only on explicit statements, 0.5&ndash;0.7 on
+  inferences) and gate abstention/escalation, but they are not externally calibrated &mdash; the
+  downstream model calibrates its own probabilities separately and does not consume them. As noted at
+  the top, a human audit of a sample of machine extractions is still pending; this is a working paper.</p>
 
   <h2>6. Generalization</h2>
   <p>The recipe is domain-agnostic. Any setting that compresses a qualitative record into a

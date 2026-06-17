@@ -49,6 +49,11 @@
  your verdicts autosave in this browser and never leave your machine; use <em>Export</em> to download them
  as a JSON record (and <em>Import</em> to resume on another device). This is a static page: there is no
  server, by design.
+ <br><br><strong>Note on &ldquo;conf&rdquo;:</strong> the confidence shown per item is the extracting
+ model's <em>self-reported</em> score, following the extraction prompt's rubric (0.9+ only for explicit
+ statements, 0.5&ndash;0.7 for inferences). It is not an externally calibrated probability and the
+ downstream classifier does not consume it as one &mdash; treat it as the model's own hedge, useful
+ context for your judgment, not ground truth.
 </div>
 <div id="bar"><div class="row">
   <span id="count">0 / 0 reviewed</span>
