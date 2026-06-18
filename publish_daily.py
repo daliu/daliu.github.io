@@ -982,10 +982,35 @@ def update_sitemap():
     print(f"  Updated sitemap.xml ({len(entries)} daily pages)")
 
 
+def refresh_patterns_program():
+    """Regenerate the Patterns of Choice "research program" grid from the
+    canonical manifest in the patterns-of-choice repo, so the public writeup
+    can't drift as the research loop ships branches. Best-effort: a failure
+    here never aborts the daily publish. Returns True only if index.html
+    actually changed (so we don't sweep unrelated working-tree edits)."""
+    script = os.path.join(SCRIPT_DIR, "scripts", "build_patterns_program.py")
+    if not os.path.exists(script):
+        return False
+    try:
+        result = subprocess.run(
+            [sys.executable, script, "--remote"],
+            capture_output=True, text=True, timeout=30,
+        )
+    except Exception as exc:  # network/timeout/anything — never break the daily run
+        print(f"  patterns-of-choice grid: skipped ({exc})")
+        return False
+    out = (result.stdout or result.stderr).strip()
+    print(f"  patterns-of-choice grid: {out or 'no output'}")
+    return result.returncode == 0 and out.startswith("wrote ")
+
+
 def git_commit_and_push(commit_msg):
     """Stage autotrader/daily/ changes, commit, rebase, and push."""
     os.chdir(SCRIPT_DIR)
-    subprocess.run(["git", "add", "autotrader/daily/", "sitemap.xml"], check=True)
+    add_paths = ["autotrader/daily/", "sitemap.xml"]
+    if refresh_patterns_program():  # keep the public PoC writeup in sync, zero-touch
+        add_paths.append("patterns-of-choice/index.html")
+    subprocess.run(["git", "add"] + add_paths, check=True)
 
     result = subprocess.run(
         ["git", "diff", "--cached", "--quiet"], capture_output=True

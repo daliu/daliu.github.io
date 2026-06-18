@@ -49,17 +49,18 @@ END_LINE = "  " + END_MARK
 REQUIRED_KEYS = ("id", "question", "status", "spec", "blurb")
 
 
-def load_manifest():
-    candidates = []
-    if os.environ.get("POC_REPO"):
-        candidates.append(os.path.join(os.environ["POC_REPO"], "research-program.json"))
-    candidates.append(
-        os.path.join(os.path.dirname(REPO), "patterns-of-choice", "research-program.json")
-    )
-    for path in candidates:
-        if os.path.exists(path):
-            with open(path, encoding="utf-8") as fh:
-                return json.load(fh), path
+def load_manifest(remote=False):
+    if not remote:
+        candidates = []
+        if os.environ.get("POC_REPO"):
+            candidates.append(os.path.join(os.environ["POC_REPO"], "research-program.json"))
+        candidates.append(
+            os.path.join(os.path.dirname(REPO), "patterns-of-choice", "research-program.json")
+        )
+        for path in candidates:
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as fh:
+                    return json.load(fh), path
     with urllib.request.urlopen(RAW_MANIFEST, timeout=15) as resp:  # noqa: S310 (trusted own repo)
         return json.loads(resp.read().decode("utf-8")), RAW_MANIFEST
 
@@ -116,9 +117,13 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true",
                     help="verify the site is in sync with the manifest; exit 1 if drifted")
+    ap.add_argument("--remote", action="store_true",
+                    help="force-load the manifest from raw.githubusercontent.com/main "
+                         "(ignore any local checkout) — used by the daily run so the site "
+                         "reflects the authoritative published manifest")
     args = ap.parse_args()
 
-    manifest, src = load_manifest()
+    manifest, src = load_manifest(remote=args.remote)
     block = build_block(manifest)
     with open(TARGET, encoding="utf-8") as fh:
         html = fh.read()
