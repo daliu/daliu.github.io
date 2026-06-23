@@ -148,13 +148,8 @@ TAG_CANON = {
     "code-review": "testing", "data-viz": "data-viz",
     "research-instrument": "patterns-of-choice", "research": "patterns-of-choice",
     "workflows": "claude-harness", "multi-agent": "claude-harness",
-    # Shipt work → ONE aggregate "Shipt" hub (no tech-stack / codename detail hubs).
-    "deals-for-you": "shipt", "dfy": "shipt", "ddfy": "shipt", "personifier": "shipt",
-    "personalization": "shipt", "seasonality": "shipt", "trending-items": "shipt",
-    "embeddings": "shipt", "recsys": "shipt", "reranking": "shipt", "two-tower": "shipt",
-    "matryoshka": "shipt", "alloydb": "shipt", "tag-platform": "shipt",
-    "customer-segmentation": "shipt", "habituation": "shipt", "holiday-shopping": "shipt",
-    "shipt-marketing": "shipt",
+    # Work projects are organized by company → project → notes (see WORK_* below),
+    # NOT as tag hubs, so no Shipt/Onos tag-canon entries here.
     # Misc connectors so standalone conversations aren't orphans.
     "nlp": "machine-learning", "senticnet": "machine-learning", "python-package": "machine-learning",
     "interview": "career", "thomson-reuters": "career", "freenome": "career",
@@ -180,11 +175,67 @@ HUB_TITLE = {
     "automation": "Automation",
     "testing": "Testing & Review",
     "data-viz": "Data Visualization",
-    "shipt": "Shipt",       # aggregate employer hub (no detail sub-hubs)
     "career": "Career",
 }
 
 HUB_NODE = {"type": "topic", "color": "#f0a500"}
+
+# --- Work organization: company → project → notes ------------------------- #
+# Dave's org request: group the employer work by COMPANY. Onos Health (current
+# day job — LOCUS, the Argus PR-review agent on OnosHealth/onos) and Shipt
+# (Deals For You / Seasonality / personifier personalization work). The work
+# notes carry no tags, so they're mapped by folder (project folders) or by title
+# (the loose entity notes). Each note → its project hub → its company hub.
+COMPANY_NODE = {"type": "company", "color": "#f778ba"}
+PROJECT_NODE = {"type": "project", "color": "#ffa657"}
+
+# Project folders that should be published even though they're nested under a
+# public folder (the depth-1 rule otherwise skips nested dirs). rel-path under wiki/.
+WORK_FOLDERS = {"areas/seasonality", "areas/deals-for-you-v2"}
+
+WORK_FOLDER_PROJECT = {            # folder rel-path → (project hub, company hub)
+    "areas/seasonality": ("Seasonality", "Shipt"),
+    "areas/deals-for-you-v2": ("Deals For You V2", "Shipt"),
+}
+WORK_TITLE_PROJECT = {             # specific note title → (project hub, company hub)
+    "personifier-vector-serve": ("Personifier", "Shipt"),
+    "personifier-reranking": ("Personifier", "Shipt"),
+    "personifier-features-gen": ("Personifier", "Shipt"),
+    "personifier-features-publisher": ("Personifier", "Shipt"),
+    "serendipity": ("Deals For You V2", "Shipt"),        # DFY request coordinator
+    "discovery-trend-items": ("Seasonality", "Shipt"),   # Seasonality source repo
+    "Deals For You": ("Deals For You V2", "Shipt"),
+    "Habituation Tier vs Holiday-Shopper as Customer-Segmentation Axes (Shipt Tag Platform)":
+        ("Tag Platform", "Shipt"),
+    "Argus — Portable, Configurable PR Reviewer": ("PR Reviews", "Onos Health"),
+}
+
+
+def add_work_hubs(nodes, edges, note_folder):
+    """Build the company → project → notes hierarchy (mutates nodes/edges).
+
+    Each work note links to its project hub; each project hub links to its
+    company hub. Project/company hubs are synthesized as their own node types.
+    """
+    def ensure(title, spec):
+        if title not in nodes:
+            nodes[title] = {"id": title, "type": spec["type"], "color": spec["color"],
+                            "status": "hub", "tags": []}
+
+    project_to_company = {}
+    for title in list(nodes):
+        pc = WORK_TITLE_PROJECT.get(title) or WORK_FOLDER_PROJECT.get(note_folder.get(title, ""))
+        if not pc:
+            continue
+        project, company = pc
+        ensure(project, PROJECT_NODE)
+        ensure(company, COMPANY_NODE)
+        if title != project:
+            edges.append({"source": title, "target": project})
+        project_to_company[project] = company
+    for project, company in project_to_company.items():
+        if project != company:
+            edges.append({"source": project, "target": company})
 CURATED_HUB_MIN = 2     # a curated topic hubs once >=2 notes share it
 # Only curated (vetted-name) hubs are created — never auto-name a hub from a raw
 # tag. This keeps the graph legible and avoids elevating confidential detail tags
@@ -231,17 +282,12 @@ def add_topic_hubs(nodes, edges):
 
 
 # Hard confidential block-list. A title containing any of these is NEVER published,
-# regardless of folder opt-in OR an explicit per-note `public: true`. These are
-# employer-confidential project / service / model names that keep getting swept in
-# via folder bulk-opt-in (personifier-*, Deals For You, Seasonality, etc.). The
-# opt-in model says "no details"; this enforces it. Add a term here to redact one.
-CONFIDENTIAL_TERMS = [
-    "personifier", "deals for you", "deals-for-you", "dfy", "ddfy",
-    "matryoshka", "serendipity", "seasonality", "two-tower", "two tower",
-    "alloydb", "habituation", "holiday-shopper", "holiday shopper",
-    "tag platform", "tag-platform", "discovery-trend", "trend-items",
-    "mxbai", "minilm",
-]
+# regardless of folder opt-in OR an explicit per-note `public: true`.
+# EMPTIED 2026-06-22 per Dave: the graph only publishes titles + tags (never note
+# bodies), so the work-project titles aren't an actual leak — and he wants them
+# shown, organized by company (see WORK_* hubs). The mechanism stays: re-add a
+# term here to redact a title in the future.
+CONFIDENTIAL_TERMS = []
 
 
 def is_confidential_title(title):
@@ -334,6 +380,7 @@ def build_graph(vault_path):
     """
     nodes = {}  # title -> node dict
     edges = []  # list of {source, target}
+    note_folder = {}  # title -> rel folder path (for company/project mapping)
 
     wiki_root = os.path.join(vault_path, "wiki")
     if not os.path.isdir(wiki_root):
@@ -366,25 +413,22 @@ def build_graph(vault_path):
             if is_confidential_title(title):
                 continue  # employer-confidential term — never publish, no override
 
-            # A note is "directly" in the public folder only when the walked dir
-            # IS that folder (rel == folder, no nested path). Nested subfolders are
-            # NOT covered by the parent's bulk opt-in.
+            # Bulk-opt-in covers notes DIRECTLY in a public folder (rel == folder).
+            # Nested subfolders are NOT auto-covered EXCEPT the explicitly listed
+            # work project folders (WORK_FOLDERS), which Dave wants organized by
+            # company. Everything else nested must opt in per-note (fails closed).
             directly_in_folder = (rel == folder)
+            in_work_folder = rel in WORK_FOLDERS
 
             if is_public_optin(fm):
                 pass       # explicit per-note opt-in always wins (overrides heuristics)
-            elif folder in pub_folders and directly_in_folder:
+            elif folder in pub_folders and (directly_in_folder or in_work_folder):
                 # Folder bulk-opt-in, BUT skip detail/internal titles (graph
                 # publishes titles, so a schema/spec title would leak specifics).
                 if DETAIL_TITLE_RE.search(title):
                     continue
             else:
-                # Not opted in by note, OR sits in a NESTED subfolder of a public
-                # folder. Nested project folders (e.g. confidential Shipt projects
-                # dropped under areas/) must opt in per-note — folder bulk-opt-in
-                # does NOT recurse. Fails CLOSED. (2026-06-22: this was leaking
-                # wiki/areas/seasonality/ and wiki/areas/deals-for-you-v2/.)
-                continue
+                continue   # not opted in by note or folder → private by default
 
             status = fm.get("status", "seed")
             type_info = get_folder_type(filepath, vault_path)
@@ -396,6 +440,7 @@ def build_graph(vault_path):
                 "status": status,
                 "tags": [t for t in tags if t != "private"],
             }
+            note_folder[title] = rel
 
             # Extract links to other pages (body wikilinks)
             for link_target in extract_wikilinks(body):
@@ -411,7 +456,9 @@ def build_graph(vault_path):
                 if match:
                     edges.append({"source": title, "target": match.group(1)})
 
-    # Connect related-but-unlinked notes via shared-tag topic hubs.
+    # Organize employer work as company → project → notes, then connect the
+    # remaining notes via shared-tag topic hubs.
+    add_work_hubs(nodes, edges, note_folder)
     add_topic_hubs(nodes, edges)
 
     # Filter edges to only include nodes that exist in the graph

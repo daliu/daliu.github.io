@@ -1,6 +1,35 @@
 {
   "nodes": [
     {
+      "id": "Habituation Tier vs Holiday-Shopper as Customer-Segmentation Axes (Shipt Tag Platform)",
+      "type": "comparison",
+      "color": "#d16969",
+      "status": "stable",
+      "tags": [
+        "comparison",
+        "tag-platform",
+        "customer-segmentation",
+        "habituation",
+        "holiday-shopping",
+        "shipt-marketing"
+      ]
+    },
+    {
+      "id": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
+      "type": "comparison",
+      "color": "#d16969",
+      "status": "developing",
+      "tags": [
+        "comparison",
+        "embeddings",
+        "matryoshka",
+        "alloydb",
+        "scann",
+        "shipt-dfy",
+        "personifier"
+      ]
+    },
+    {
       "id": "Side Projects",
       "type": "area",
       "color": "#4fc1ff",
@@ -39,6 +68,142 @@
       "tags": [
         "area",
         "career"
+      ]
+    },
+    {
+      "id": "Seasonality \u2014 A/B Experiment Proposal",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "draft",
+      "tags": [
+        "shipt",
+        "seasonality",
+        "trending-items",
+        "ab-test",
+        "experimentation"
+      ]
+    },
+    {
+      "id": "Seasonality \u2014 Eligibility Design (Phase 1)",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "seasonality",
+        "trending-items",
+        "eligibility",
+        "design",
+        "recsys"
+      ]
+    },
+    {
+      "id": "Seasonality \u2014 Current Trending Items Pipeline",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "seasonality",
+        "trending-items",
+        "recsys",
+        "architecture"
+      ]
+    },
+    {
+      "id": "Seasonality \u2014 PR Review Panel",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "seasonality",
+        "trending-items",
+        "code-review",
+        "pr-review"
+      ]
+    },
+    {
+      "id": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "complete",
+      "tags": [
+        "shipt",
+        "seasonality",
+        "trending-items",
+        "serendipity",
+        "code-review",
+        "multi-agent"
+      ]
+    },
+    {
+      "id": "Seasonality \u2014 Project Hub",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "seasonality",
+        "trending-items",
+        "two-tower",
+        "recsys"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Risks & Open Questions",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "risks",
+        "tech-debt"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Architecture Hub",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "architecture",
+        "two-tower",
+        "recsys"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Embeddings & Models",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "embeddings",
+        "two-tower",
+        "models"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Reranking Engine",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "reranking",
+        "diversification"
       ]
     },
     {
@@ -373,6 +538,22 @@
       ]
     },
     {
+      "id": "Matryoshka Embedding Experiments (4-iteration /loop)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "embeddings",
+        "matryoshka",
+        "alloydb",
+        "scann",
+        "shipt-dfy",
+        "personifier",
+        "autonomous-loop"
+      ]
+    },
+    {
       "id": "Black Screen Video and WhatsApp Uplift Automation",
       "type": "conversation",
       "color": "#569cd6",
@@ -395,6 +576,19 @@
         "infrastructure",
         "obsidian",
         "knowledge-management"
+      ]
+    },
+    {
+      "id": "Health Dashboard Context & Typical-Day Overhaul",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "daliu-github-io",
+        "health-dashboard",
+        "garmin",
+        "automation"
       ]
     },
     {
@@ -447,6 +641,20 @@
         "psychology",
         "product-design",
         "research"
+      ]
+    },
+    {
+      "id": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "daliu-github-io",
+        "health-dashboard",
+        "knowledge-graph",
+        "security",
+        "privacy"
       ]
     },
     {
@@ -710,6 +918,33 @@
       ]
     },
     {
+      "id": "personifier-vector-serve",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "active",
+      "tags": [
+        "entity",
+        "repo",
+        "shipt",
+        "personalization",
+        "dfy",
+        "ann"
+      ]
+    },
+    {
+      "id": "Deals For You",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "developing",
+      "tags": [
+        "entity",
+        "product",
+        "shipt",
+        "personalization",
+        "recommendations"
+      ]
+    },
+    {
       "id": "Meta-Council",
       "type": "entity",
       "color": "#c586c0",
@@ -732,6 +967,61 @@
       ]
     },
     {
+      "id": "discovery-trend-items",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "active",
+      "tags": [
+        "entity",
+        "repo",
+        "shipt",
+        "personalization",
+        "seasonality"
+      ]
+    },
+    {
+      "id": "personifier-features-publisher",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "active",
+      "tags": [
+        "entity",
+        "repo",
+        "shipt",
+        "personalization",
+        "dfy",
+        "alloydb"
+      ]
+    },
+    {
+      "id": "personifier-reranking",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "active",
+      "tags": [
+        "entity",
+        "repo",
+        "shipt",
+        "personalization",
+        "dfy",
+        "reranking"
+      ]
+    },
+    {
+      "id": "personifier-features-gen",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "active",
+      "tags": [
+        "entity",
+        "repo",
+        "shipt",
+        "personalization",
+        "dfy",
+        "embeddings"
+      ]
+    },
+    {
       "id": "Autotrader",
       "type": "entity",
       "color": "#c586c0",
@@ -741,6 +1031,68 @@
         "project",
         "trading"
       ]
+    },
+    {
+      "id": "serendipity",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "active",
+      "tags": [
+        "entity",
+        "repo",
+        "shipt",
+        "personalization",
+        "dfy"
+      ]
+    },
+    {
+      "id": "Tag Platform",
+      "type": "project",
+      "color": "#ffa657",
+      "status": "hub",
+      "tags": []
+    },
+    {
+      "id": "Shipt",
+      "type": "company",
+      "color": "#f778ba",
+      "status": "hub",
+      "tags": []
+    },
+    {
+      "id": "Seasonality",
+      "type": "project",
+      "color": "#ffa657",
+      "status": "hub",
+      "tags": []
+    },
+    {
+      "id": "Deals For You V2",
+      "type": "project",
+      "color": "#ffa657",
+      "status": "hub",
+      "tags": []
+    },
+    {
+      "id": "PR Reviews",
+      "type": "project",
+      "color": "#ffa657",
+      "status": "hub",
+      "tags": []
+    },
+    {
+      "id": "Onos Health",
+      "type": "company",
+      "color": "#f778ba",
+      "status": "hub",
+      "tags": []
+    },
+    {
+      "id": "Personifier",
+      "type": "project",
+      "color": "#ffa657",
+      "status": "hub",
+      "tags": []
     },
     {
       "id": "Automation",
@@ -871,6 +1223,14 @@
   ],
   "links": [
     {
+      "source": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
+      "target": "Search and Personalization"
+    },
+    {
+      "source": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
+      "target": "Data Science and ML"
+    },
+    {
       "source": "Side Projects",
       "target": "Autotrader"
     },
@@ -892,6 +1252,10 @@
     },
     {
       "source": "Career and Work",
+      "target": "Onos Health"
+    },
+    {
+      "source": "Career and Work",
       "target": "Search and Personalization"
     },
     {
@@ -901,6 +1265,158 @@
     {
       "source": "Career and Work",
       "target": "Causal Inference"
+    },
+    {
+      "source": "Seasonality \u2014 A/B Experiment Proposal",
+      "target": "Seasonality \u2014 Current Trending Items Pipeline"
+    },
+    {
+      "source": "Seasonality \u2014 A/B Experiment Proposal",
+      "target": "Seasonality \u2014 Eligibility Design (Phase 1)"
+    },
+    {
+      "source": "Seasonality \u2014 A/B Experiment Proposal",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Seasonality \u2014 Eligibility Design (Phase 1)",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Seasonality \u2014 Eligibility Design (Phase 1)",
+      "target": "Seasonality \u2014 Current Trending Items Pipeline"
+    },
+    {
+      "source": "Seasonality \u2014 Current Trending Items Pipeline",
+      "target": "Deals For You V2 \u2014 Architecture Hub"
+    },
+    {
+      "source": "Seasonality \u2014 Current Trending Items Pipeline",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Seasonality \u2014 Current Trending Items Pipeline",
+      "target": "discovery-trend-items"
+    },
+    {
+      "source": "Seasonality \u2014 PR Review Panel",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Seasonality \u2014 PR Review Panel",
+      "target": "Seasonality \u2014 Eligibility Design (Phase 1)"
+    },
+    {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "target": "Seasonality \u2014 PR Review Panel"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "Deals For You V2 \u2014 Architecture Hub"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "discovery-trend-items"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "Deals For You"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "personifier-features-gen"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "personifier-features-publisher"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "personifier-vector-serve"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "personifier-reranking"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "serendipity"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "Search and Personalization"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "Data Science and ML"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "Career and Work"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Risks & Open Questions",
+      "target": "Deals For You V2 \u2014 Reranking Engine"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Risks & Open Questions",
+      "target": "Deals For You V2 \u2014 Architecture Hub"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Risks & Open Questions",
+      "target": "Deals For You V2 \u2014 Embeddings & Models"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "personifier-features-gen"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "personifier-features-publisher"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "personifier-vector-serve"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "personifier-reranking"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "serendipity"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You V2 \u2014 Embeddings & Models"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You V2 \u2014 Reranking Engine"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Career and Work"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Embeddings & Models",
+      "target": "personifier-features-gen"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Reranking Engine",
+      "target": "personifier-reranking"
+    },
+    {
+      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
+      "target": "PR Reviews"
     },
     {
       "source": "Copilot Training \u2014 Tips on working with LLMs",
@@ -929,6 +1445,18 @@
     {
       "source": "Kreia, Moral Systems, and Quantifying Trust",
       "target": "AI Tools and Products"
+    },
+    {
+      "source": "Matryoshka Embedding Experiments (4-iteration /loop)",
+      "target": "Personifier"
+    },
+    {
+      "source": "Matryoshka Embedding Experiments (4-iteration /loop)",
+      "target": "Search and Personalization"
+    },
+    {
+      "source": "Matryoshka Embedding Experiments (4-iteration /loop)",
+      "target": "Data Science and ML"
     },
     {
       "source": "Patterns of Choice design",
@@ -999,6 +1527,50 @@
       "target": "Automated ML Pipeline"
     },
     {
+      "source": "personifier-vector-serve",
+      "target": "Deals For You"
+    },
+    {
+      "source": "personifier-vector-serve",
+      "target": "serendipity"
+    },
+    {
+      "source": "personifier-vector-serve",
+      "target": "personifier-features-publisher"
+    },
+    {
+      "source": "personifier-vector-serve",
+      "target": "personifier-reranking"
+    },
+    {
+      "source": "Deals For You",
+      "target": "serendipity"
+    },
+    {
+      "source": "Deals For You",
+      "target": "personifier-reranking"
+    },
+    {
+      "source": "Deals For You",
+      "target": "personifier-features-gen"
+    },
+    {
+      "source": "Deals For You",
+      "target": "personifier-features-publisher"
+    },
+    {
+      "source": "Deals For You",
+      "target": "Search and Personalization"
+    },
+    {
+      "source": "Deals For You",
+      "target": "Data Science and ML"
+    },
+    {
+      "source": "Deals For You",
+      "target": "Career and Work"
+    },
+    {
       "source": "Meta-Council",
       "target": "AI Tools and Products"
     },
@@ -1007,15 +1579,139 @@
       "target": "AI Tools and Products"
     },
     {
+      "source": "discovery-trend-items",
+      "target": "Deals For You"
+    },
+    {
+      "source": "discovery-trend-items",
+      "target": "personifier-features-publisher"
+    },
+    {
+      "source": "personifier-features-publisher",
+      "target": "personifier-features-gen"
+    },
+    {
+      "source": "personifier-reranking",
+      "target": "serendipity"
+    },
+    {
+      "source": "personifier-features-gen",
+      "target": "Data Science and ML"
+    },
+    {
       "source": "Autotrader",
       "target": "Data Science and ML"
+    },
+    {
+      "source": "serendipity",
+      "target": "Search and Personalization"
+    },
+    {
+      "source": "Habituation Tier vs Holiday-Shopper as Customer-Segmentation Axes (Shipt Tag Platform)",
+      "target": "Tag Platform"
+    },
+    {
+      "source": "Seasonality \u2014 A/B Experiment Proposal",
+      "target": "Seasonality"
+    },
+    {
+      "source": "Seasonality \u2014 Eligibility Design (Phase 1)",
+      "target": "Seasonality"
+    },
+    {
+      "source": "Seasonality \u2014 Current Trending Items Pipeline",
+      "target": "Seasonality"
+    },
+    {
+      "source": "Seasonality \u2014 PR Review Panel",
+      "target": "Seasonality"
+    },
+    {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "target": "Seasonality"
+    },
+    {
+      "source": "Seasonality \u2014 Project Hub",
+      "target": "Seasonality"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Risks & Open Questions",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Embeddings & Models",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Reranking Engine",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "personifier-vector-serve",
+      "target": "Personifier"
+    },
+    {
+      "source": "Deals For You",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "discovery-trend-items",
+      "target": "Seasonality"
+    },
+    {
+      "source": "personifier-features-publisher",
+      "target": "Personifier"
+    },
+    {
+      "source": "personifier-reranking",
+      "target": "Personifier"
+    },
+    {
+      "source": "personifier-features-gen",
+      "target": "Personifier"
+    },
+    {
+      "source": "serendipity",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Tag Platform",
+      "target": "Shipt"
+    },
+    {
+      "source": "Seasonality",
+      "target": "Shipt"
+    },
+    {
+      "source": "Deals For You V2",
+      "target": "Shipt"
+    },
+    {
+      "source": "PR Reviews",
+      "target": "Onos Health"
+    },
+    {
+      "source": "Personifier",
+      "target": "Shipt"
     },
     {
       "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
       "target": "Automation"
     },
     {
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "target": "Automation"
+    },
+    {
       "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
+      "target": "Automation"
+    },
+    {
+      "source": "Black Screen Video and WhatsApp Uplift Automation",
       "target": "Automation"
     },
     {
@@ -1027,15 +1723,7 @@
       "target": "Automation"
     },
     {
-      "source": "Black Screen Video and WhatsApp Uplift Automation",
-      "target": "Automation"
-    },
-    {
       "source": "EODHD Cost Cuts, EOD-Only Pipeline, and Robinhood MCP Spike",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Model Training Pipeline",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -1043,7 +1731,19 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
+      "source": "Autotrader",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Hierarchical Signal Tests and Adversarial Review",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
       "source": "Social Digest and X Auth",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Model Training Pipeline",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -1051,7 +1751,11 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Hierarchical Signal Tests and Adversarial Review",
+      "source": "Macro Shock Detector",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "CSP Blocked MoneySignals Email Signup",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -1063,18 +1767,6 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Macro Shock Detector",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Autotrader",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "CSP Blocked MoneySignals Email Signup",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
       "source": "Career and Work",
       "target": "Career"
     },
@@ -1083,23 +1775,7 @@
       "target": "Career"
     },
     {
-      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
-      "target": "Claude Harness & Agents"
-    },
-    {
-      "source": "Claude Agent Harness",
-      "target": "Claude Harness & Agents"
-    },
-    {
-      "source": "Patterns of Choice Max-Effort Build",
-      "target": "Claude Harness & Agents"
-    },
-    {
       "source": "Arbor Paper and Metis Integration",
-      "target": "Claude Harness & Agents"
-    },
-    {
-      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
       "target": "Claude Harness & Agents"
     },
     {
@@ -1107,11 +1783,27 @@
       "target": "Claude Harness & Agents"
     },
     {
-      "source": "Knowledge Graph Polish (autonomous /loop)",
-      "target": "daliu.github.io"
+      "source": "Patterns of Choice Max-Effort Build",
+      "target": "Claude Harness & Agents"
     },
     {
-      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
+      "source": "Claude Agent Harness",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Knowledge Graph Polish (autonomous /loop)",
       "target": "daliu.github.io"
     },
     {
@@ -1119,7 +1811,7 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
+      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
       "target": "daliu.github.io"
     },
     {
@@ -1127,12 +1819,20 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
       "target": "daliu.github.io"
     },
     {
-      "source": "Genomics Pivot to EAS Pharmacogenomics",
-      "target": "Genomics"
+      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
+      "target": "daliu.github.io"
     },
     {
       "source": "Personal Genomics Paper Draft",
@@ -1143,11 +1843,23 @@
       "target": "Genomics"
     },
     {
-      "source": "Exercise-Sleep Tracking and Activity-Sync Fix",
-      "target": "Health and Fitness"
+      "source": "Genomics Pivot to EAS Pharmacogenomics",
+      "target": "Genomics"
     },
     {
       "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
+      "target": "Health and Fitness"
+    },
+    {
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "target": "Health and Fitness"
+    },
+    {
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "target": "Health and Fitness"
+    },
+    {
+      "source": "Exercise-Sleep Tracking and Activity-Sync Fix",
       "target": "Health and Fitness"
     },
     {
@@ -1155,11 +1867,15 @@
       "target": "Health and Fitness"
     },
     {
-      "source": "Knowledge Graph Polish (autonomous /loop)",
+      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
       "target": "Knowledge Management"
     },
     {
-      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "target": "Knowledge Management"
+    },
+    {
+      "source": "Knowledge Graph Polish (autonomous /loop)",
       "target": "Knowledge Management"
     },
     {
@@ -1167,11 +1883,15 @@
       "target": "Knowledge Management"
     },
     {
+      "source": "Metis Resolution Estimation \u2014 Settlements, Timelines, Amounts",
+      "target": "Machine Learning"
+    },
+    {
       "source": "Model Training Pipeline",
       "target": "Machine Learning"
     },
     {
-      "source": "SenticNet 9 Package Update",
+      "source": "Automated ML Pipeline",
       "target": "Machine Learning"
     },
     {
@@ -1179,19 +1899,15 @@
       "target": "Machine Learning"
     },
     {
-      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
-      "target": "Machine Learning"
-    },
-    {
       "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
       "target": "Machine Learning"
     },
     {
-      "source": "Metis Resolution Estimation \u2014 Settlements, Timelines, Amounts",
+      "source": "SenticNet 9 Package Update",
       "target": "Machine Learning"
     },
     {
-      "source": "Automated ML Pipeline",
+      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
       "target": "Machine Learning"
     },
     {
@@ -1207,20 +1923,24 @@
       "target": "Metis (Legal ML)"
     },
     {
+      "source": "Arbor Paper and Metis Integration",
+      "target": "Metis (Legal ML)"
+    },
+    {
       "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
       "target": "Metis (Legal ML)"
     },
     {
-      "source": "Arbor Paper and Metis Integration",
-      "target": "Metis (Legal ML)"
+      "source": "Run-MPRC Event Registration with Stripe",
+      "target": "Run-MPRC"
     },
     {
       "source": "MPRC Firestore Rules Tests and Security Hardening",
       "target": "Run-MPRC"
     },
     {
-      "source": "Run-MPRC Event Registration with Stripe",
-      "target": "Run-MPRC"
+      "source": "Patterns of Choice \u2014 Extension Loop",
+      "target": "Patterns of Choice"
     },
     {
       "source": "daliu.github.io \u2014 Expose the Full Patterns of Choice Experiment",
@@ -1228,6 +1948,10 @@
     },
     {
       "source": "Patterns of Choice \u2014 Review and Hardening",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice Max-Effort Build",
       "target": "Patterns of Choice"
     },
     {
@@ -1239,20 +1963,8 @@
       "target": "Patterns of Choice"
     },
     {
-      "source": "Patterns of Choice Max-Effort Build",
-      "target": "Patterns of Choice"
-    },
-    {
-      "source": "Patterns of Choice \u2014 Extension Loop",
-      "target": "Patterns of Choice"
-    },
-    {
       "source": "Patterns of Choice design",
       "target": "Patterns of Choice"
-    },
-    {
-      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
-      "target": "Philosophy & Ethics"
     },
     {
       "source": "Jared \u2014 Incentives, Inequality, and the Golden Mean",
@@ -1263,11 +1975,19 @@
       "target": "Philosophy & Ethics"
     },
     {
+      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
+      "target": "Philosophy & Ethics"
+    },
+    {
+      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
+      "target": "Security"
+    },
+    {
       "source": "Meta Council Public Leak Audit",
       "target": "Security"
     },
     {
-      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
       "target": "Security"
     },
     {
@@ -1285,11 +2005,19 @@
     {
       "source": "Patterns of Choice \u2014 Review and Hardening",
       "target": "Testing & Review"
+    },
+    {
+      "source": "Seasonality \u2014 PR Review Panel",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "target": "Testing & Review"
     }
   ],
   "meta": {
     "generated": "auto",
-    "node_count": 74,
-    "edge_count": 104
+    "node_count": 103,
+    "edge_count": 198
   }
 }
