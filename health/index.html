@@ -753,6 +753,7 @@
             <button class="time-range-btn" data-range="7">7d</button>
             <button class="time-range-btn" data-range="14">14d</button>
             <button class="time-range-btn active" data-range="30">30d</button>
+            <button class="time-range-btn" data-range="90">90d</button>
             <button class="time-range-btn" data-range="all">All</button>
         </div>
         <div class="charts-grid" id="trendChartsGrid">
@@ -767,13 +768,19 @@
         <!-- Your Typical Day: intraday series averaged by hour-of-day -->
         <div class="section-title">🕐 Your Typical Day</div>
         <p style="font-size: 1.05rem; color: var(--text-muted); margin: -6px 0 14px;">
-            The average shape of your day — each metric averaged by hour-of-day across the selected window,
-            so the daily rhythm shows through instead of one day's noise. Shaded band = the hour's min–max range.
-            Uses the time range above. <span id="hourlyCaption" style="color: var(--text);"></span>
+            The average shape of your day — each metric averaged by hour-of-day across the window set above
+            (widen to <strong>90d / All</strong> for stable patterns), so the daily rhythm shows through instead of one day's noise.
+            Combined view shades the hour's min–max range; <strong>Weekday vs Weekend</strong> overlays the two day types.
+            <span id="hourlyCaption" style="color: var(--text);"></span>
         </p>
+        <div class="time-range-bar" id="dayTypeBar" style="margin-bottom: 14px;">
+            <button class="time-range-btn active" data-daytype="all">All days combined</button>
+            <button class="time-range-btn" data-daytype="split">Weekday vs Weekend</button>
+        </div>
+        <div id="stressTypicalInsight" style="display: none; font-size: 1.02rem; line-height: 1.5; margin: 0 0 16px; padding: 12px 16px; background: var(--card-bg); border-left: 3px solid #d29922; border-radius: 6px; color: var(--text);"></div>
         <div class="charts-grid" id="hourlyChartsGrid">
-            <div class="chart-card"><h2>🔋 Body Battery · by hour</h2><div class="chart-container"><canvas id="hourlyBatteryChart"></canvas></div></div>
             <div class="chart-card"><h2>😌 Stress · by hour</h2><div class="chart-container"><canvas id="hourlyStressChart"></canvas></div></div>
+            <div class="chart-card"><h2>🔋 Body Battery · by hour</h2><div class="chart-container"><canvas id="hourlyBatteryChart"></canvas></div></div>
             <div class="chart-card"><h2>❤️ Heart Rate · by hour</h2><div class="chart-container"><canvas id="hourlyHrChart"></canvas></div></div>
         </div>
         <div id="hourlyUnavailable" style="display: none; color: var(--text-muted); font-size: 0.95rem; padding: 14px 18px; background: var(--card-bg); border: 1px dashed var(--border); border-radius: 8px;">
@@ -2250,13 +2257,15 @@
 
         // ---- Time Range Selector (NEW) ----
         let selectedRange = 30;
+        let selectedDayType = 'all';  // 'all' | 'split' (weekday vs weekend) — Your Typical Day
         let allDailyData = null;
         let trendChartInstances = [];
         let allHourlyData = null;
         let hourlyChartInstances = [];
 
         function setupTimeRangeSelector() {
-            const buttons = document.querySelectorAll('.time-range-btn');
+            // Scope to the trends bar so the separate day-type toggle isn't swept up.
+            const buttons = document.querySelectorAll('#timeRangeBar .time-range-btn');
             buttons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     buttons.forEach(b => b.classList.remove('active'));
@@ -2266,6 +2275,19 @@
                     if (allDailyData) {
                         renderTrendCharts(allDailyData);
                     }
+                    renderHourlyCharts();
+                });
+            });
+        }
+
+        // Day-type toggle for "Your Typical Day" (all days vs weekday/weekend split).
+        function setupDayTypeSelector() {
+            const buttons = document.querySelectorAll('#dayTypeBar .time-range-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedDayType = this.dataset.daytype;
                     renderHourlyCharts();
                 });
             });
@@ -2329,12 +2351,18 @@
         // per-hour spread so a "typical day" curve emerges from many noisy days.
         const HOURS = Array.from({ length: 24 }, (_, h) => h);
         const formatHour = h => h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 ? '12p' : `${h - 12}p`;
+        const isWeekend = dateStr => { const d = new Date(dateStr + 'T12:00:00').getDay(); return d === 0 || d === 6; };
+        // Shared blue=weekday / orange=weekend so all three split charts read the same.
+        const WEEKDAY_COLOR = '#58a6ff', WEEKEND_COLOR = '#f0883e';
 
-        function aggregateByHour(points, key) {
+        // dayFilter(dateStr)->bool optionally restricts which calendar days feed the
+        // buckets (used for the weekday-vs-weekend split). Omit for all days.
+        function aggregateByHour(points, key, dayFilter) {
             const buckets = Array.from({ length: 24 }, () => []);
             for (const p of points) {
                 const v = p[key];
                 if (v == null) continue;
+                if (dayFilter && !dayFilter(p.t.slice(0, 10))) continue;
                 buckets[new Date(p.t).getHours()].push(v);  // t is naive local ISO
             }
             return buckets.map(vals => vals.length
@@ -2342,33 +2370,45 @@
                 : { mean: null, min: null, max: null, n: 0 });
         }
 
-        function createTypicalDayChart(id, agg, color, label, yMax) {
+        // Combined: one mean line + min–max band, metric-colored.
+        function combinedDatasets(agg, color) {
+            return [
+                { data: agg.map(a => a.min), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: false, spanGaps: true },
+                { data: agg.map(a => a.max), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, backgroundColor: color + '22', fill: '-1', spanGaps: true },
+                { label: 'Average', data: agg.map(a => a.mean), borderColor: color, backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, tension: 0.35, fill: false, spanGaps: true },
+            ];
+        }
+
+        // Split: two clean mean lines (no bands, which would clutter), weekday solid
+        // / weekend dashed.
+        function splitDatasets(wAgg, eAgg) {
+            return [
+                { label: 'Weekday', data: wAgg.map(a => a.mean), borderColor: WEEKDAY_COLOR, backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, tension: 0.35, fill: false, spanGaps: true },
+                { label: 'Weekend', data: eAgg.map(a => a.mean), borderColor: WEEKEND_COLOR, backgroundColor: 'transparent', borderWidth: 2.5, borderDash: [6, 4], pointRadius: 0, pointHoverRadius: 4, tension: 0.35, fill: false, spanGaps: true },
+            ];
+        }
+
+        function createTypicalDayChart(id, datasets, label, yMax, afterLabel) {
             const yScale = { ...chartDefaults.scales.y, title: { display: true, text: label, color: '#999', font: { size: 12 } } };
             if (yMax != null) { yScale.min = 0; yScale.max = yMax; }
+            const split = datasets.length === 2;  // combined has 3 (min/max/mean)
+            const meanIdx = split ? null : 2;
             return new Chart(document.getElementById(id).getContext('2d'), {
                 type: 'line',
-                data: {
-                    labels: HOURS,
-                    datasets: [
-                        // datasets 0+1 draw an invisible-bordered min/max band; dataset 2 is the mean on top.
-                        { data: agg.map(a => a.min), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: false, spanGaps: true },
-                        { data: agg.map(a => a.max), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, backgroundColor: color + '22', fill: '-1', spanGaps: true },
-                        { label: 'Average', data: agg.map(a => a.mean), borderColor: color, backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, tension: 0.35, fill: false, spanGaps: true },
-                    ]
-                },
+                data: { labels: HOURS, datasets },
                 options: {
                     ...chartDefaults,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         ...chartDefaults.plugins,
-                        legend: { display: false },
+                        legend: split ? { display: true, labels: { color: '#8b949e', boxWidth: 24, usePointStyle: false } } : { display: false },
                         tooltip: {
                             ...chartDefaults.plugins.tooltip,
-                            filter: item => item.datasetIndex === 2,  // only the mean line
+                            filter: item => split ? true : item.datasetIndex === meanIdx,
                             callbacks: {
-                                title: items => `${formatHour(items[0].dataIndex)} (average)`,
-                                label: item => `Avg: ${Math.round(item.parsed.y)}`,
-                                afterLabel: item => { const a = agg[item.dataIndex]; return a.n ? `Range ${Math.round(a.min)}–${Math.round(a.max)} · n=${a.n}` : ''; },
+                                title: items => `${formatHour(items[0].dataIndex)}${split ? '' : ' (average)'}`,
+                                label: item => `${split ? item.dataset.label + ': ' : 'Avg: '}${Math.round(item.parsed.y)}`,
+                                afterLabel: afterLabel || undefined,
                             }
                         }
                     },
@@ -2380,6 +2420,13 @@
             });
         }
 
+        // The three Typical-Day metrics; Stress first (Dave's main curiosity).
+        const TYPICAL_METRICS = [
+            { id: 'hourlyStressChart', key: 'stress', color: '#d29922', label: 'Stress', yMax: 100 },
+            { id: 'hourlyBatteryChart', key: 'body_battery', color: '#3fb950', label: 'Body Battery', yMax: 100 },
+            { id: 'hourlyHrChart', key: 'hr', color: '#f85149', label: 'Heart Rate (bpm)', yMax: null },
+        ];
+
         function renderHourlyCharts() {
             if (!allHourlyData) return;
             hourlyChartInstances.forEach(c => c.destroy());
@@ -2388,19 +2435,70 @@
             const cap = document.getElementById('hourlyCaption');
             const grid = document.getElementById('hourlyChartsGrid');
             const none = document.getElementById('hourlyUnavailable');
+            const stressBox = document.getElementById('stressTypicalInsight');
             if (!f.length) {
                 grid.style.display = 'none';
                 none.style.display = 'block';
                 if (cap) cap.textContent = '';
+                if (stressBox) stressBox.style.display = 'none';
                 return;
             }
             grid.style.display = '';
             none.style.display = 'none';
-            const days = new Set(f.map(r => r.t.slice(0, 10))).size;
-            if (cap) cap.textContent = `Averaged ${f.length} readings across ${days} day${days === 1 ? '' : 's'} (${f[0].t.slice(0, 10)} → ${f[f.length - 1].t.slice(0, 10)}).`;
-            hourlyChartInstances.push(createTypicalDayChart('hourlyBatteryChart', aggregateByHour(f, 'body_battery'), '#3fb950', 'Body Battery', 100));
-            hourlyChartInstances.push(createTypicalDayChart('hourlyStressChart', aggregateByHour(f, 'stress'), '#d29922', 'Stress', 100));
-            hourlyChartInstances.push(createTypicalDayChart('hourlyHrChart', aggregateByHour(f, 'hr'), '#f85149', 'Heart Rate (bpm)', null));
+
+            const split = selectedDayType === 'split';
+            const wd = d => !isWeekend(d), we = isWeekend;
+            const span = `${f[0].t.slice(0, 10)} → ${f[f.length - 1].t.slice(0, 10)}`;
+            const dayCount = pred => new Set(f.filter(r => !pred || pred(r.t.slice(0, 10))).map(r => r.t.slice(0, 10))).size;
+
+            if (cap) {
+                cap.textContent = split
+                    ? `${dayCount(wd)} weekdays vs ${dayCount(we)} weekend days (${span}).`
+                    : `Averaged ${f.length} readings across ${dayCount(null)} day${dayCount(null) === 1 ? '' : 's'} (${span}).`;
+            }
+
+            for (const m of TYPICAL_METRICS) {
+                if (split) {
+                    const wAgg = aggregateByHour(f, m.key, wd);
+                    const eAgg = aggregateByHour(f, m.key, we);
+                    const after = item => { const a = (item.datasetIndex === 0 ? wAgg : eAgg)[item.dataIndex]; return a && a.n ? `n=${a.n}` : ''; };
+                    hourlyChartInstances.push(createTypicalDayChart(m.id, splitDatasets(wAgg, eAgg), m.label, m.yMax, after));
+                } else {
+                    const agg = aggregateByHour(f, m.key);
+                    const after = item => { const a = agg[item.dataIndex]; return a.n ? `Range ${Math.round(a.min)}–${Math.round(a.max)} · n=${a.n}` : ''; };
+                    hourlyChartInstances.push(createTypicalDayChart(m.id, combinedDatasets(agg, m.color), m.label, m.yMax, after));
+                }
+            }
+
+            renderStressInsight(f, split);
+        }
+
+        // Headline stress takeaway (Dave's main curiosity), recomputed per window/mode.
+        function renderStressInsight(points, split) {
+            const box = document.getElementById('stressTypicalInsight');
+            if (!box) return;
+            const dayMean = agg => { const xs = agg.filter(a => a.mean != null).map(a => a.mean); return xs.length ? xs.reduce((p, c) => p + c, 0) / xs.length : null; };
+            const peak = agg => { let bi = -1, bv = -Infinity; agg.forEach((a, i) => { if (a.mean != null && a.mean > bv) { bv = a.mean; bi = i; } }); return bi < 0 ? null : { hour: bi, val: bv }; };
+            const low = agg => { let bi = -1, bv = Infinity; agg.forEach((a, i) => { if (a.mean != null && a.mean < bv) { bv = a.mean; bi = i; } }); return bi < 0 ? null : { hour: bi, val: bv }; };
+
+            if (split) {
+                const wAgg = aggregateByHour(points, 'stress', d => !isWeekend(d));
+                const eAgg = aggregateByHour(points, 'stress', isWeekend);
+                const wm = dayMean(wAgg), em = dayMean(eAgg), wp = peak(wAgg), ep = peak(eAgg);
+                if (wm == null || em == null || !wp || !ep) { box.style.display = 'none'; return; }
+                const pct = Math.abs((wm - em) / em * 100).toFixed(0);
+                const dir = wm > em ? `<strong style="color:#f85149">${pct}% higher</strong>` : `<strong style="color:#3fb950">${pct}% lower</strong>`;
+                box.style.display = '';
+                box.innerHTML = `😌 <strong>Stress — weekday vs weekend:</strong> weekdays average <strong>${Math.round(wm)}</strong>, weekends <strong>${Math.round(em)}</strong> — weekday stress runs ${dir}. ` +
+                    `Weekday peak ~<strong>${formatHour(wp.hour)}</strong> (${Math.round(wp.val)}); weekend peak ~<strong>${formatHour(ep.hour)}</strong> (${Math.round(ep.val)}).`;
+            } else {
+                const agg = aggregateByHour(points, 'stress');
+                const dm = dayMean(agg), pk = peak(agg), lo = low(agg);
+                if (dm == null || !pk || !lo) { box.style.display = 'none'; return; }
+                box.style.display = '';
+                box.innerHTML = `😌 <strong>Stress rhythm:</strong> averages <strong>${Math.round(dm)}</strong> across the day — peaks ~<strong>${formatHour(pk.hour)}</strong> (${Math.round(pk.val)}), calmest ~<strong>${formatHour(lo.hour)}</strong> (${Math.round(lo.val)}). ` +
+                    `Switch to <em>Weekday vs Weekend</em> to compare work days against days off.`;
+            }
         }
 
         async function loadHourly() {
@@ -2677,7 +2775,7 @@
                 buildRecords(daily30);
                 buildSleepArchitecture(daily30);
                 buildHeatmap(daily, calendar?.by_day);
-                buildDayOfWeek(daily30);
+                buildDayOfWeek(daily);  // full window (~90d) — weekday/weekend patterns over a long frame
                 buildCausalInsights(daily30);
                 buildCausalTable(daily30);
                 buildRecoveryForecast(daily30);
@@ -2812,6 +2910,7 @@
         }
 
         setupTimeRangeSelector();
+        setupDayTypeSelector();
         loadData(); // also kicks off loadCalendar internally
         loadCorrelations();
         loadSleepCarryover();
