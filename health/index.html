@@ -761,6 +761,21 @@
             <div class="chart-card"><h2>👟 Daily Steps</h2><div class="chart-container"><canvas id="stepsChart"></canvas></div></div>
             <div class="chart-card"><h2>😌 Stress Level</h2><div class="chart-container"><canvas id="stressChart"></canvas></div></div>
         </div>
+
+        <!-- Hourly / Intraday Detail (NEW) -->
+        <div class="section-title">⏱️ Hourly Detail (intraday)</div>
+        <p style="font-size: 1.05rem; color: var(--text-muted); margin: -6px 0 14px;">
+            Within-day curves at hourly resolution, pulled from Garmin's intraday series (every 2–3 min, bucketed by hour).
+            Uses the time range above. <span id="hourlyCaption" style="color: var(--text);"></span>
+        </p>
+        <div class="charts-grid" id="hourlyChartsGrid">
+            <div class="chart-card"><h2>🔋 Body Battery (hourly)</h2><div class="chart-container"><canvas id="hourlyBatteryChart"></canvas></div></div>
+            <div class="chart-card"><h2>😌 Stress (hourly)</h2><div class="chart-container"><canvas id="hourlyStressChart"></canvas></div></div>
+            <div class="chart-card"><h2>❤️ Heart Rate (hourly)</h2><div class="chart-container"><canvas id="hourlyHrChart"></canvas></div></div>
+        </div>
+        <div id="hourlyUnavailable" style="display: none; color: var(--text-muted); font-size: 0.95rem; padding: 14px 18px; background: var(--card-bg); border: 1px dashed var(--border); border-radius: 8px;">
+            No intraday data in this range. It appears for days the watch synced to Garmin (latest synced day shown by default).
+        </div>
     </div>
 
     <script>
@@ -2148,6 +2163,8 @@
         let selectedRange = 30;
         let allDailyData = null;
         let trendChartInstances = [];
+        let allHourlyData = null;
+        let hourlyChartInstances = [];
 
         function setupTimeRangeSelector() {
             const buttons = document.querySelectorAll('.time-range-btn');
@@ -2160,6 +2177,7 @@
                     if (allDailyData) {
                         renderTrendCharts(allDailyData);
                     }
+                    renderHourlyCharts();
                 });
             });
         }
@@ -2202,6 +2220,57 @@
             trendChartInstances.push(
                 createChart('stressChart', filtered.map(d => ({ x: d.date, y: d.avg_stress ?? null })), '#d29922', false, true, 'Stress Level')
             );
+        }
+
+        // ---- Hourly / Intraday charts (share the time-range selector) ----
+        function getFilteredHourly() {
+            const s = allHourlyData || [];
+            if (!s.length || selectedRange === 'all') return s;
+            // Anchor the window to the latest AVAILABLE hour (not today), so a recent
+            // sync gap doesn't leave the view empty.
+            const last = s[s.length - 1].t.slice(0, 10);
+            const d = new Date(last + 'T12:00:00');
+            d.setDate(d.getDate() - (selectedRange - 1));
+            const pad = n => String(n).padStart(2, '0');
+            const cutoff = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T00:00:00`;
+            return s.filter(r => r.t >= cutoff);
+        }
+
+        function renderHourlyCharts() {
+            if (!allHourlyData) return;
+            hourlyChartInstances.forEach(c => c.destroy());
+            hourlyChartInstances = [];
+            const f = getFilteredHourly();
+            const cap = document.getElementById('hourlyCaption');
+            const grid = document.getElementById('hourlyChartsGrid');
+            const none = document.getElementById('hourlyUnavailable');
+            if (!f.length) {
+                grid.style.display = 'none';
+                none.style.display = 'block';
+                if (cap) cap.textContent = '';
+                return;
+            }
+            grid.style.display = '';
+            none.style.display = 'none';
+            if (cap) cap.textContent = `${f.length} hourly points · ${f[0].t.slice(0, 10)} → ${f[f.length - 1].t.slice(0, 10)}`;
+            const mk = key => f.map(r => ({ x: r.t, y: r[key] ?? null }));
+            hourlyChartInstances.push(createChart('hourlyBatteryChart', mk('body_battery'), '#3fb950', true, false, 'Body Battery'));
+            hourlyChartInstances.push(createChart('hourlyStressChart', mk('stress'), '#d29922', false, false, 'Stress'));
+            hourlyChartInstances.push(createChart('hourlyHrChart', mk('hr'), '#f85149', false, false, 'Heart Rate (bpm)'));
+        }
+
+        async function loadHourly() {
+            try {
+                const resp = await fetch('hourly.json?t=' + Date.now());
+                if (!resp.ok) throw new Error('no file');
+                const d = await resp.json();
+                allHourlyData = d.series || [];
+                renderHourlyCharts();
+            } catch (e) {
+                console.warn('hourly data unavailable', e);
+                document.getElementById('hourlyChartsGrid').style.display = 'none';
+                document.getElementById('hourlyUnavailable').style.display = 'block';
+            }
         }
 
         async function loadCorrelations() {
@@ -2602,6 +2671,7 @@
         loadData(); // also kicks off loadCalendar internally
         loadCorrelations();
         loadSleepCarryover();
+        loadHourly();
     </script>
 
 <footer style="background: #161b22; border-top: 1px solid #30363d; padding: 30px 20px; text-align: center; margin-top: 40px;">
