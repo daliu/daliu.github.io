@@ -31,7 +31,7 @@
   const MIN_ITEMS_PER_SESSION = 3;       // §3.1
   const INATTENTIVE_RT_MS = 2000;        // §10: quick-fire median RT < 2s -> drop session
   const NOISE_K = 1;                     // §13.1 noise-gate multiplier
-  const SE_FLOOR = 0.05;                 // §13.1: floor on within-person SE (added in
+  const SE_FLOOR = 0.07;                 // §13.1: floor on within-person SE (added in
                                          //   quadrature) so n=2 identical-answer sessions
                                          //   (se=0) can't fake a confident ordering
   const MIN_SESSIONS_FOR_ORDER = 2;      // need >=2 sessions/domain for an SE
