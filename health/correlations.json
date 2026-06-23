@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-21T19:00:08.307244",
+  "updated": "2026-06-22T16:54:20.532848",
   "date_range": {
     "start": "2026-01-12",
     "end": "2026-06-19",
@@ -254,6 +254,31 @@
       "type": "high_steps",
       "text": "High step days (20K+) lower next-day battery by 2.2",
       "impact": "negative"
+    },
+    {
+      "text": "Your weekend activity pattern is sabotaging recovery: Saturdays show the lowest body battery (28.2) despite highest steps (16.5K), and this crashes into Sunday with depleted reserves\u2014suggesting you're trading weekend activity for week-ahead energy.",
+      "impact": "negative",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "There's a paradoxical 3-4 day exercise streak sweet spot where body battery spikes to 56.3 and stress plummets to 20.3, but this disappears at 5+ days, indicating you have an optimal training frequency window being missed in your current patterns.",
+      "impact": "positive",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Monday is your sleep quality anomaly: despite high stress (27.8), you're getting your best sleep scores (81.3) and longest hours (6.8), suggesting you may be using structured activity or routine on Mondays to counteract the weekend recovery deficit.",
+      "impact": "positive",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Your light activity days (41.8 battery, +4.6 delta, 78.5 sleep) outperform rest days (40.9 battery, 72.3 sleep) across all metrics, indicating that strategic light movement is your actual recovery tool, not sedentary rest.",
+      "impact": "positive",
+      "type": "ai_pattern"
+    },
+    {
+      "text": "Poor sleep nights show a delayed stress rebound: stress actually increases to 31.0 by day 2 post-poor-sleep before normalizing, suggesting poor sleep doesn't just affect the next day but creates a 48-hour stress vulnerability window you're not currently addressing.",
+      "impact": "negative",
+      "type": "ai_pattern"
     }
   ]
 }

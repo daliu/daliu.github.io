@@ -494,6 +494,47 @@
             </div>
         </div>
 
+        <!-- Sleep Carryover (NEW): night -> next night -->
+        <div class="section-title">🔁 Sleep Carryover — does last night shape tonight?</div>
+        <div id="carryoverSection">
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin: -6px 0 14px;">
+                For each sleep metric, how one night relates to the <em>next</em> night (calendar-adjacent nights only).
+                <span id="carryoverCaption" style="color: var(--text);"></span>
+                <br><span style="font-size: 0.95rem;">Single-subject &amp; observational — Spearman correlations, descriptive not causal.</span>
+            </p>
+            <div class="insights-grid" id="carryoverInsights"></div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h2>Carry over, or rebound?</h2>
+                    <div class="chart-container"><canvas id="autocorrChart"></canvas></div>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
+                        Each metric vs itself the next night.
+                        <span style="color: var(--green)">Positive</span> = a high night tends to repeat (persistence);
+                        <span style="color: var(--red)">negative</span> = a high night is followed by a low one (rebound). ✱ = p&lt;0.05.
+                    </p>
+                </div>
+                <div class="chart-card">
+                    <h2>Next night after a high vs low night</h2>
+                    <div class="chart-container"><canvas id="reboundChart"></canvas></div>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
+                        % change in the next night's metric after a top-third night vs a bottom-third night.
+                        Negative = rebound (body corrects downward). ✱ = p&lt;0.05.
+                    </p>
+                </div>
+            </div>
+
+            <div class="stats-table-container" style="margin-top: 15px;">
+                <h3 style="font-size: 1.2rem; color: var(--text); margin-bottom: 8px;">Cross-lag matrix: last night (row) → tonight (column)</h3>
+                <p style="font-size: 1rem; color: var(--text-muted); margin-bottom: 14px;">
+                    Spearman rho. <span style="color: var(--green)">Green</span> = the two move together,
+                    <span style="color: var(--red)">red</span> = they move oppositely. Bold + outline = survives
+                    multiple-comparison (FDR) correction; dim = not significant (p≥0.05). Hover a cell for details.
+                </p>
+                <div class="correlation-matrix" id="crossLagMatrix"></div>
+            </div>
+        </div>
+
         <!-- Activity Heatmap -->
         <div class="section-title">🗓️ Daily Steps (90 days)</div>
         <div class="heatmap-container">
@@ -2452,9 +2493,115 @@
             }
         }
 
+        // ===== Sleep Carryover (night -> next night) =====
+        const SC_SHORT = { sleep_score: 'Score', sleep_hours: 'Total', deep_mins: 'Deep', rem_mins: 'REM', light_mins: 'Light', awake_count: 'Wakes', bedtime: 'Bed' };
+        let scLabelFull = {};
+
+        function scColor(rho) {
+            if (rho == null || isNaN(rho)) return 'transparent';
+            const a = Math.min(Math.abs(rho) / 0.4, 1) * 0.8;
+            return rho >= 0 ? `rgba(63,185,80,${a})` : `rgba(248,81,73,${a})`;
+        }
+
+        function scBarChart(id, labels, values, axisLabel) {
+            const colors = values.map(v => v >= 0 ? '#3fb950' : '#f85149');
+            return new Chart(document.getElementById(id).getContext('2d'), {
+                type: 'bar',
+                data: { labels, datasets: [{ data: values, backgroundColor: colors, borderRadius: 4 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e', padding: 10, cornerRadius: 6,
+                            callbacks: { label: (c) => `${c.parsed.y >= 0 ? '+' : ''}${c.parsed.y.toFixed(2)}` } }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#8b949e' } },
+                        y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: !!axisLabel, text: axisLabel, color: '#8b949e', font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        function renderCarryoverInsights(insights) {
+            const colorByImpact = { positive: 'var(--green)', negative: 'var(--yellow)', neutral: 'var(--cyan)' };
+            const iconByImpact = { positive: '🛡️', negative: '⚠️', neutral: '🔁' };
+            let html = '';
+            for (const ins of insights) {
+                const col = colorByImpact[ins.impact] || 'var(--cyan)';
+                html += `<div class="insight-card" style="border-left: 3px solid ${col};">
+                    <div class="insight-detail" style="font-size: 1.1rem; color: var(--text);">${iconByImpact[ins.impact] || '🔁'} ${ins.text}</div>
+                </div>`;
+            }
+            document.getElementById('carryoverInsights').innerHTML = html;
+        }
+
+        function renderAutocorr(d) {
+            const keys = d.variables.map(v => v.key).filter(k => d.autocorr[k]);
+            const labels = keys.map(k => SC_SHORT[k] + (d.autocorr[k].p < 0.05 ? ' ✱' : ''));
+            const values = keys.map(k => d.autocorr[k].rho);
+            scBarChart('autocorrChart', labels, values, 'rho vs self, next night');
+        }
+
+        function renderRebound(d) {
+            const keys = Object.keys(d.rebound).filter(k => k !== 'bedtime');
+            const labels = keys.map(k => SC_SHORT[k] + (d.rebound[k].p < 0.05 ? ' ✱' : ''));
+            const values = keys.map(k => {
+                const r = d.rebound[k];
+                const base = Math.abs(r.baseline) || Math.abs((r.after_high.mean + r.after_low.mean) / 2);
+                return base ? ((r.after_high.mean - r.after_low.mean) / base) * 100 : 0;
+            });
+            scBarChart('reboundChart', labels, values, '% change next night');
+        }
+
+        function renderCrossLag(d) {
+            const keys = d.variables.map(v => v.key);
+            const byPair = {};
+            d.cross_lag.forEach(c => { byPair[c.from + '|' + c.to] = c; });
+            let html = `<div class="corr-cell corr-header" style="text-align:left;">last ↓ / next →</div>`;
+            keys.forEach(k => html += `<div class="corr-cell corr-header">${SC_SHORT[k]}</div>`);
+            keys.forEach(fk => {
+                html += `<div class="corr-cell corr-header" style="text-align:left;">${SC_SHORT[fk]}</div>`;
+                keys.forEach(tk => {
+                    const c = byPair[fk + '|' + tk];
+                    if (!c) { html += `<div class="corr-cell" style="color:var(--text-muted)">·</div>`; return; }
+                    const dim = c.p >= 0.05;
+                    let style = `background:${scColor(c.rho)};color:var(--text);`;
+                    if (c.fdr_sig) style += 'outline:2px solid var(--text);font-weight:700;';
+                    if (dim) style += 'opacity:0.4;';
+                    const val = (c.rho >= 0 ? '+' : '') + c.rho.toFixed(2);
+                    const tip = `${scLabelFull[fk]} → ${scLabelFull[tk]}: rho=${val}, p=${c.p}, n=${c.n}`;
+                    html += `<div class="corr-cell" style="${style}" title="${tip}">${val}</div>`;
+                });
+            });
+            const m = document.getElementById('crossLagMatrix');
+            m.style.gridTemplateColumns = `120px repeat(${keys.length}, minmax(48px, 1fr))`;
+            m.innerHTML = html;
+        }
+
+        async function loadSleepCarryover() {
+            try {
+                const resp = await fetch('sleep-analysis.json?t=' + Date.now());
+                if (!resp.ok) throw new Error('not found');
+                const d = await resp.json();
+                d.variables.forEach(v => { scLabelFull[v.key] = v.label; });
+                document.getElementById('carryoverCaption').textContent =
+                    `${d.date_range.nights} nights · ${d.date_range.consecutive_pairs} back-to-back pairs · ${d.date_range.start} → ${d.date_range.end}`;
+                renderCarryoverInsights(d.insights);
+                renderAutocorr(d);
+                renderRebound(d);
+                renderCrossLag(d);
+            } catch (e) {
+                console.warn('sleep carryover unavailable', e);
+                document.getElementById('carryoverSection').innerHTML =
+                    '<p style="color: var(--text-muted)">Sleep carryover analysis will appear once enough consecutive nights are recorded.</p>';
+            }
+        }
+
         setupTimeRangeSelector();
         loadData(); // also kicks off loadCalendar internally
         loadCorrelations();
+        loadSleepCarryover();
     </script>
 
 <footer style="background: #161b22; border-top: 1px solid #30363d; padding: 30px 20px; text-align: center; margin-top: 40px;">

@@ -1,0 +1,1605 @@
+{
+  "updated": "2026-06-22T16:54:26.490967",
+  "date_range": {
+    "start": "2026-01-12",
+    "end": "2026-06-19",
+    "nights": 88,
+    "consecutive_pairs": 69
+  },
+  "variables": [
+    {
+      "key": "sleep_score",
+      "label": "Sleep score",
+      "unit": "",
+      "good": 1
+    },
+    {
+      "key": "sleep_hours",
+      "label": "Total sleep",
+      "unit": "h",
+      "good": 1
+    },
+    {
+      "key": "deep_mins",
+      "label": "Deep sleep",
+      "unit": "min",
+      "good": 1
+    },
+    {
+      "key": "rem_mins",
+      "label": "REM sleep",
+      "unit": "min",
+      "good": 1
+    },
+    {
+      "key": "light_mins",
+      "label": "Light sleep",
+      "unit": "min",
+      "good": 0
+    },
+    {
+      "key": "awake_count",
+      "label": "Interruptions",
+      "unit": "",
+      "good": -1
+    },
+    {
+      "key": "bedtime",
+      "label": "Bedtime",
+      "unit": "h",
+      "good": -1
+    }
+  ],
+  "autocorr": {
+    "sleep_score": {
+      "rho": -0.273,
+      "p": 0.0231,
+      "n": 69
+    },
+    "sleep_hours": {
+      "rho": -0.176,
+      "p": 0.1488,
+      "n": 69
+    },
+    "deep_mins": {
+      "rho": 0.074,
+      "p": 0.5441,
+      "n": 69
+    },
+    "rem_mins": {
+      "rho": -0.221,
+      "p": 0.0686,
+      "n": 69
+    },
+    "light_mins": {
+      "rho": 0.018,
+      "p": 0.8855,
+      "n": 69
+    },
+    "awake_count": {
+      "rho": -0.147,
+      "p": 0.2265,
+      "n": 69
+    },
+    "bedtime": {
+      "rho": 0.079,
+      "p": 0.5207,
+      "n": 69
+    }
+  },
+  "cross_lag": [
+    {
+      "from": "sleep_score",
+      "to": "sleep_score",
+      "rho": -0.273,
+      "p": 0.0231,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_score",
+      "to": "sleep_hours",
+      "rho": -0.202,
+      "p": 0.0967,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_score",
+      "to": "deep_mins",
+      "rho": -0.053,
+      "p": 0.665,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_score",
+      "to": "rem_mins",
+      "rho": -0.246,
+      "p": 0.0416,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_score",
+      "to": "light_mins",
+      "rho": -0.135,
+      "p": 0.267,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_score",
+      "to": "awake_count",
+      "rho": 0.173,
+      "p": 0.1555,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_score",
+      "to": "bedtime",
+      "rho": 0.128,
+      "p": 0.2957,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "sleep_score",
+      "rho": -0.29,
+      "p": 0.0157,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "sleep_hours",
+      "rho": -0.176,
+      "p": 0.1488,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "deep_mins",
+      "rho": -0.089,
+      "p": 0.4673,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "rem_mins",
+      "rho": -0.247,
+      "p": 0.0408,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "light_mins",
+      "rho": -0.068,
+      "p": 0.5773,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "awake_count",
+      "rho": 0.174,
+      "p": 0.1523,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "bedtime",
+      "rho": 0.142,
+      "p": 0.2452,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "sleep_score",
+      "rho": -0.102,
+      "p": 0.405,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "sleep_hours",
+      "rho": -0.177,
+      "p": 0.1464,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "deep_mins",
+      "rho": 0.074,
+      "p": 0.5441,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "rem_mins",
+      "rho": 0.011,
+      "p": 0.9287,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "light_mins",
+      "rho": -0.268,
+      "p": 0.0262,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "awake_count",
+      "rho": -0.216,
+      "p": 0.0743,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "bedtime",
+      "rho": 0.205,
+      "p": 0.0918,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "rem_mins",
+      "to": "sleep_score",
+      "rho": -0.259,
+      "p": 0.0315,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "rem_mins",
+      "to": "sleep_hours",
+      "rho": -0.223,
+      "p": 0.065,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "rem_mins",
+      "to": "deep_mins",
+      "rho": -0.167,
+      "p": 0.1695,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "rem_mins",
+      "to": "rem_mins",
+      "rho": -0.221,
+      "p": 0.0686,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "rem_mins",
+      "to": "light_mins",
+      "rho": -0.127,
+      "p": 0.2987,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "rem_mins",
+      "to": "awake_count",
+      "rho": 0.089,
+      "p": 0.4666,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "rem_mins",
+      "to": "bedtime",
+      "rho": 0.079,
+      "p": 0.5161,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "light_mins",
+      "to": "sleep_score",
+      "rho": -0.144,
+      "p": 0.2371,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "light_mins",
+      "to": "sleep_hours",
+      "rho": -0.067,
+      "p": 0.5831,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "light_mins",
+      "to": "deep_mins",
+      "rho": -0.02,
+      "p": 0.8702,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "light_mins",
+      "to": "rem_mins",
+      "rho": -0.158,
+      "p": 0.1959,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "light_mins",
+      "to": "light_mins",
+      "rho": 0.018,
+      "p": 0.8855,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "light_mins",
+      "to": "awake_count",
+      "rho": 0.122,
+      "p": 0.3195,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "light_mins",
+      "to": "bedtime",
+      "rho": 0.058,
+      "p": 0.6348,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "awake_count",
+      "to": "sleep_score",
+      "rho": -0.066,
+      "p": 0.5908,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "awake_count",
+      "to": "sleep_hours",
+      "rho": -0.124,
+      "p": 0.3099,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "awake_count",
+      "to": "deep_mins",
+      "rho": -0.068,
+      "p": 0.5778,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "awake_count",
+      "to": "rem_mins",
+      "rho": -0.092,
+      "p": 0.4499,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "awake_count",
+      "to": "light_mins",
+      "rho": -0.063,
+      "p": 0.6088,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "awake_count",
+      "to": "awake_count",
+      "rho": -0.147,
+      "p": 0.2265,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "awake_count",
+      "to": "bedtime",
+      "rho": 0.127,
+      "p": 0.2998,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "bedtime",
+      "to": "sleep_score",
+      "rho": 0.159,
+      "p": 0.1915,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "bedtime",
+      "to": "sleep_hours",
+      "rho": 0.068,
+      "p": 0.5775,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "bedtime",
+      "to": "deep_mins",
+      "rho": 0.102,
+      "p": 0.403,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "bedtime",
+      "to": "rem_mins",
+      "rho": 0.122,
+      "p": 0.3192,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "bedtime",
+      "to": "light_mins",
+      "rho": -0.007,
+      "p": 0.9526,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "bedtime",
+      "to": "awake_count",
+      "rho": -0.079,
+      "p": 0.52,
+      "n": 69,
+      "fdr_sig": false
+    },
+    {
+      "from": "bedtime",
+      "to": "bedtime",
+      "rho": 0.079,
+      "p": 0.5207,
+      "n": 69,
+      "fdr_sig": false
+    }
+  ],
+  "rebound": {
+    "sleep_score": {
+      "after_high": {
+        "mean": 66.4,
+        "n": 24
+      },
+      "after_low": {
+        "mean": 74.6,
+        "n": 23
+      },
+      "baseline": 70.8,
+      "delta": -8.2,
+      "p": 0.0369,
+      "direction": "rebound"
+    },
+    "sleep_hours": {
+      "after_high": {
+        "mean": 5.8,
+        "n": 23
+      },
+      "after_low": {
+        "mean": 6.6,
+        "n": 23
+      },
+      "baseline": 6.1,
+      "delta": -0.8,
+      "p": 0.0788,
+      "direction": "rebound"
+    },
+    "deep_mins": {
+      "after_high": {
+        "mean": 101.0,
+        "n": 24
+      },
+      "after_low": {
+        "mean": 97.7,
+        "n": 23
+      },
+      "baseline": 100.3,
+      "delta": 3.3,
+      "p": 0.5231,
+      "direction": "persistence"
+    },
+    "rem_mins": {
+      "after_high": {
+        "mean": 63.0,
+        "n": 23
+      },
+      "after_low": {
+        "mean": 82.0,
+        "n": 23
+      },
+      "baseline": 75.9,
+      "delta": -19.0,
+      "p": 0.0716,
+      "direction": "rebound"
+    },
+    "light_mins": {
+      "after_high": {
+        "mean": 199.5,
+        "n": 23
+      },
+      "after_low": {
+        "mean": 192.0,
+        "n": 23
+      },
+      "baseline": 187.0,
+      "delta": 7.5,
+      "p": 0.4684,
+      "direction": "persistence"
+    },
+    "awake_count": {
+      "after_high": {
+        "mean": 0.6,
+        "n": 30
+      },
+      "after_low": {
+        "mean": 1.1,
+        "n": 39
+      },
+      "baseline": 0.8,
+      "delta": -0.5,
+      "p": 0.2027,
+      "direction": "rebound"
+    },
+    "bedtime": {
+      "after_high": {
+        "mean": 25.9,
+        "n": 23
+      },
+      "after_low": {
+        "mean": 25.9,
+        "n": 24
+      },
+      "baseline": 25.9,
+      "delta": 0.0,
+      "p": 0.4065,
+      "direction": "persistence"
+    }
+  },
+  "bedtime_effect": {
+    "median_bedtime": 25.6,
+    "n_late": 34,
+    "n_early": 35,
+    "sleep_score": {
+      "late_mean": 72.3,
+      "early_mean": 69.3,
+      "p": 0.3307
+    },
+    "sleep_hours": {
+      "late_mean": 6.2,
+      "early_mean": 5.9,
+      "p": 0.7054
+    },
+    "deep_mins": {
+      "late_mean": 103.8,
+      "early_mean": 97.0,
+      "p": 0.1886
+    },
+    "awake_count": {
+      "late_mean": 0.7,
+      "early_mean": 0.9,
+      "p": 0.5929
+    }
+  },
+  "series": [
+    {
+      "date": "2026-01-12",
+      "sleep_score": 97,
+      "sleep_hours": 7.88,
+      "deep_mins": 101,
+      "light_mins": 236,
+      "rem_mins": 136,
+      "awake_mins": null,
+      "awake_count": 0,
+      "bedtime": 22.9
+    },
+    {
+      "date": "2026-01-13",
+      "sleep_score": 78,
+      "sleep_hours": 7.0,
+      "deep_mins": 121,
+      "light_mins": 203,
+      "rem_mins": 96,
+      "awake_mins": 34,
+      "awake_count": 3,
+      "bedtime": 24.23
+    },
+    {
+      "date": "2026-01-14",
+      "sleep_score": 83,
+      "sleep_hours": 7.3,
+      "deep_mins": 70,
+      "light_mins": 282,
+      "rem_mins": 86,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 23.27
+    },
+    {
+      "date": "2026-01-15",
+      "sleep_score": 87,
+      "sleep_hours": 7.25,
+      "deep_mins": 92,
+      "light_mins": 255,
+      "rem_mins": 88,
+      "awake_mins": null,
+      "awake_count": 0,
+      "bedtime": 23.58
+    },
+    {
+      "date": "2026-01-16",
+      "sleep_score": 61,
+      "sleep_hours": 4.82,
+      "deep_mins": 117,
+      "light_mins": 123,
+      "rem_mins": 49,
+      "awake_mins": 19,
+      "awake_count": 2,
+      "bedtime": 26.6
+    },
+    {
+      "date": "2026-01-17",
+      "sleep_score": 74,
+      "sleep_hours": 5.7,
+      "deep_mins": 121,
+      "light_mins": 132,
+      "rem_mins": 89,
+      "awake_mins": 4,
+      "awake_count": 0,
+      "bedtime": 25.98
+    },
+    {
+      "date": "2026-01-18",
+      "sleep_score": 84,
+      "sleep_hours": 6.88,
+      "deep_mins": 95,
+      "light_mins": 175,
+      "rem_mins": 143,
+      "awake_mins": null,
+      "awake_count": 0,
+      "bedtime": 25.6
+    },
+    {
+      "date": "2026-01-19",
+      "sleep_score": 68,
+      "sleep_hours": 5.68,
+      "deep_mins": 65,
+      "light_mins": 205,
+      "rem_mins": 71,
+      "awake_mins": 29,
+      "awake_count": 3,
+      "bedtime": 26.35
+    },
+    {
+      "date": "2026-01-20",
+      "sleep_score": 76,
+      "sleep_hours": 5.86,
+      "deep_mins": 99,
+      "light_mins": 176,
+      "rem_mins": 77,
+      "awake_mins": 3,
+      "awake_count": 0,
+      "bedtime": 25.07
+    },
+    {
+      "date": "2026-01-21",
+      "sleep_score": 60,
+      "sleep_hours": 4.67,
+      "deep_mins": 96,
+      "light_mins": 119,
+      "rem_mins": 65,
+      "awake_mins": 13,
+      "awake_count": 1,
+      "bedtime": 28.82
+    },
+    {
+      "date": "2026-01-22",
+      "sleep_score": 85,
+      "sleep_hours": 6.42,
+      "deep_mins": 106,
+      "light_mins": 185,
+      "rem_mins": 94,
+      "awake_mins": 6,
+      "awake_count": 0,
+      "bedtime": 25.15
+    },
+    {
+      "date": "2026-01-23",
+      "sleep_score": 82,
+      "sleep_hours": 6.7,
+      "deep_mins": 122,
+      "light_mins": 199,
+      "rem_mins": 81,
+      "awake_mins": 4,
+      "awake_count": 0,
+      "bedtime": 25.73
+    },
+    {
+      "date": "2026-01-24",
+      "sleep_score": 49,
+      "sleep_hours": 3.77,
+      "deep_mins": 81,
+      "light_mins": 97,
+      "rem_mins": 48,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 28.02
+    },
+    {
+      "date": "2026-01-27",
+      "sleep_score": 50,
+      "sleep_hours": 4.62,
+      "deep_mins": 43,
+      "light_mins": 190,
+      "rem_mins": 44,
+      "awake_mins": 58,
+      "awake_count": 4,
+      "bedtime": 29.62
+    },
+    {
+      "date": "2026-01-28",
+      "sleep_score": 80,
+      "sleep_hours": 6.8,
+      "deep_mins": 110,
+      "light_mins": 242,
+      "rem_mins": 56,
+      "awake_mins": 7,
+      "awake_count": 0,
+      "bedtime": 26.28
+    },
+    {
+      "date": "2026-01-29",
+      "sleep_score": 89,
+      "sleep_hours": 7.83,
+      "deep_mins": 121,
+      "light_mins": 232,
+      "rem_mins": 117,
+      "awake_mins": 46,
+      "awake_count": 1,
+      "bedtime": 23.83
+    },
+    {
+      "date": "2026-01-30",
+      "sleep_score": 58,
+      "sleep_hours": 4.5,
+      "deep_mins": 100,
+      "light_mins": 117,
+      "rem_mins": 53,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 29.47
+    },
+    {
+      "date": "2026-01-31",
+      "sleep_score": 68,
+      "sleep_hours": 5.18,
+      "deep_mins": 135,
+      "light_mins": 109,
+      "rem_mins": 67,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 25.37
+    },
+    {
+      "date": "2026-02-03",
+      "sleep_score": 62,
+      "sleep_hours": 4.72,
+      "deep_mins": 122,
+      "light_mins": 86,
+      "rem_mins": 75,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 27.33
+    },
+    {
+      "date": "2026-02-04",
+      "sleep_score": 81,
+      "sleep_hours": 6.45,
+      "deep_mins": 101,
+      "light_mins": 184,
+      "rem_mins": 102,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 26.9
+    },
+    {
+      "date": "2026-02-05",
+      "sleep_score": 71,
+      "sleep_hours": 5.1,
+      "deep_mins": 103,
+      "light_mins": 184,
+      "rem_mins": 19,
+      "awake_mins": null,
+      "awake_count": 0,
+      "bedtime": 24.92
+    },
+    {
+      "date": "2026-02-06",
+      "sleep_score": 82,
+      "sleep_hours": 7.38,
+      "deep_mins": 110,
+      "light_mins": 179,
+      "rem_mins": 154,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 25.8
+    },
+    {
+      "date": "2026-02-07",
+      "sleep_score": 65,
+      "sleep_hours": 9.12,
+      "deep_mins": 57,
+      "light_mins": 415,
+      "rem_mins": 75,
+      "awake_mins": 61,
+      "awake_count": 4,
+      "bedtime": 22.55
+    },
+    {
+      "date": "2026-02-08",
+      "sleep_score": 58,
+      "sleep_hours": 4.48,
+      "deep_mins": 87,
+      "light_mins": 133,
+      "rem_mins": 49,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 29.5
+    },
+    {
+      "date": "2026-02-11",
+      "sleep_score": 88,
+      "sleep_hours": 8.54,
+      "deep_mins": 99,
+      "light_mins": 276,
+      "rem_mins": 138,
+      "awake_mins": 16,
+      "awake_count": 2,
+      "bedtime": 26.48
+    },
+    {
+      "date": "2026-02-12",
+      "sleep_score": 91,
+      "sleep_hours": 7.86,
+      "deep_mins": 116,
+      "light_mins": 209,
+      "rem_mins": 147,
+      "awake_mins": 10,
+      "awake_count": 1,
+      "bedtime": 27.12
+    },
+    {
+      "date": "2026-02-13",
+      "sleep_score": 50,
+      "sleep_hours": 3.88,
+      "deep_mins": 71,
+      "light_mins": 115,
+      "rem_mins": 47,
+      "awake_mins": 20,
+      "awake_count": 1,
+      "bedtime": 29.53
+    },
+    {
+      "date": "2026-02-14",
+      "sleep_score": 85,
+      "sleep_hours": 8.13,
+      "deep_mins": 91,
+      "light_mins": 299,
+      "rem_mins": 98,
+      "awake_mins": 21,
+      "awake_count": 1,
+      "bedtime": 24.73
+    },
+    {
+      "date": "2026-02-15",
+      "sleep_score": 57,
+      "sleep_hours": 4.4,
+      "deep_mins": 88,
+      "light_mins": 115,
+      "rem_mins": 61,
+      "awake_mins": 12,
+      "awake_count": 0,
+      "bedtime": 31.73
+    },
+    {
+      "date": "2026-02-16",
+      "sleep_score": 87,
+      "sleep_hours": 7.35,
+      "deep_mins": 131,
+      "light_mins": 167,
+      "rem_mins": 143,
+      "awake_mins": null,
+      "awake_count": 0,
+      "bedtime": 27.57
+    },
+    {
+      "date": "2026-02-17",
+      "sleep_score": 64,
+      "sleep_hours": 5.23,
+      "deep_mins": 115,
+      "light_mins": 167,
+      "rem_mins": 32,
+      "awake_mins": 7,
+      "awake_count": 1,
+      "bedtime": 26.95
+    },
+    {
+      "date": "2026-03-24",
+      "sleep_score": 85,
+      "sleep_hours": 7.95,
+      "deep_mins": 88,
+      "light_mins": 290,
+      "rem_mins": 100,
+      "awake_mins": 14,
+      "awake_count": 1,
+      "bedtime": 24.6
+    },
+    {
+      "date": "2026-03-26",
+      "sleep_score": 94,
+      "sleep_hours": 8.82,
+      "deep_mins": 109,
+      "light_mins": 275,
+      "rem_mins": 145,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 24.95
+    },
+    {
+      "date": "2026-03-27",
+      "sleep_score": 54,
+      "sleep_hours": 6.7,
+      "deep_mins": 75,
+      "light_mins": 301,
+      "rem_mins": 26,
+      "awake_mins": 89,
+      "awake_count": 4,
+      "bedtime": 22.82
+    },
+    {
+      "date": "2026-03-28",
+      "sleep_score": 79,
+      "sleep_hours": 6.83,
+      "deep_mins": 127,
+      "light_mins": 193,
+      "rem_mins": 90,
+      "awake_mins": 6,
+      "awake_count": 0,
+      "bedtime": 25.43
+    },
+    {
+      "date": "2026-03-29",
+      "sleep_score": 77,
+      "sleep_hours": 6.32,
+      "deep_mins": 113,
+      "light_mins": 160,
+      "rem_mins": 106,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 26.53
+    },
+    {
+      "date": "2026-03-30",
+      "sleep_score": 85,
+      "sleep_hours": 7.22,
+      "deep_mins": 105,
+      "light_mins": 222,
+      "rem_mins": 106,
+      "awake_mins": 3,
+      "awake_count": 0,
+      "bedtime": 25.6
+    },
+    {
+      "date": "2026-04-01",
+      "sleep_score": 84,
+      "sleep_hours": 7.32,
+      "deep_mins": 122,
+      "light_mins": 186,
+      "rem_mins": 131,
+      "awake_mins": 0,
+      "awake_count": 0,
+      "bedtime": 25.82
+    },
+    {
+      "date": "2026-04-02",
+      "sleep_score": 79,
+      "sleep_hours": 6.77,
+      "deep_mins": 119,
+      "light_mins": 224,
+      "rem_mins": 63,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 26.4
+    },
+    {
+      "date": "2026-04-03",
+      "sleep_score": 75,
+      "sleep_hours": 6.3,
+      "deep_mins": 116,
+      "light_mins": 191,
+      "rem_mins": 71,
+      "awake_mins": 13,
+      "awake_count": 1,
+      "bedtime": 26.58
+    },
+    {
+      "date": "2026-04-04",
+      "sleep_score": 50,
+      "sleep_hours": 3.78,
+      "deep_mins": 72,
+      "light_mins": 102,
+      "rem_mins": 53,
+      "awake_mins": 0,
+      "awake_count": 0,
+      "bedtime": 26.45
+    },
+    {
+      "date": "2026-04-05",
+      "sleep_score": 91,
+      "sleep_hours": 7.48,
+      "deep_mins": 93,
+      "light_mins": 248,
+      "rem_mins": 108,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 24.52
+    },
+    {
+      "date": "2026-04-06",
+      "sleep_score": 60,
+      "sleep_hours": 5.78,
+      "deep_mins": 123,
+      "light_mins": 194,
+      "rem_mins": 30,
+      "awake_mins": 17,
+      "awake_count": 1,
+      "bedtime": 26.5
+    },
+    {
+      "date": "2026-04-07",
+      "sleep_score": 66,
+      "sleep_hours": 5.1,
+      "deep_mins": 130,
+      "light_mins": 133,
+      "rem_mins": 43,
+      "awake_mins": 3,
+      "awake_count": 0,
+      "bedtime": 28.02
+    },
+    {
+      "date": "2026-04-08",
+      "sleep_score": 93,
+      "sleep_hours": 8.03,
+      "deep_mins": 157,
+      "light_mins": 200,
+      "rem_mins": 125,
+      "awake_mins": 10,
+      "awake_count": 1,
+      "bedtime": 24.87
+    },
+    {
+      "date": "2026-04-09",
+      "sleep_score": 50,
+      "sleep_hours": 3.85,
+      "deep_mins": 72,
+      "light_mins": 111,
+      "rem_mins": 48,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 29.03
+    },
+    {
+      "date": "2026-04-10",
+      "sleep_score": 53,
+      "sleep_hours": 7.17,
+      "deep_mins": 129,
+      "light_mins": 237,
+      "rem_mins": 64,
+      "awake_mins": 66,
+      "awake_count": 6,
+      "bedtime": 25.45
+    },
+    {
+      "date": "2026-04-11",
+      "sleep_score": 63,
+      "sleep_hours": 4.87,
+      "deep_mins": 94,
+      "light_mins": 125,
+      "rem_mins": 73,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 27.18
+    },
+    {
+      "date": "2026-04-12",
+      "sleep_score": 71,
+      "sleep_hours": 5.93,
+      "deep_mins": 112,
+      "light_mins": 125,
+      "rem_mins": 119,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 26.87
+    },
+    {
+      "date": "2026-04-15",
+      "sleep_score": 88,
+      "sleep_hours": 7.8,
+      "deep_mins": 126,
+      "light_mins": 227,
+      "rem_mins": 115,
+      "awake_mins": 6,
+      "awake_count": 0,
+      "bedtime": 25.73
+    },
+    {
+      "date": "2026-04-16",
+      "sleep_score": 57,
+      "sleep_hours": 4.38,
+      "deep_mins": 139,
+      "light_mins": 63,
+      "rem_mins": 61,
+      "awake_mins": 0,
+      "awake_count": 0,
+      "bedtime": 29.35
+    },
+    {
+      "date": "2026-04-22",
+      "sleep_score": 71,
+      "sleep_hours": 5.55,
+      "deep_mins": 115,
+      "light_mins": 150,
+      "rem_mins": 68,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 25.08
+    },
+    {
+      "date": "2026-04-23",
+      "sleep_score": 79,
+      "sleep_hours": 7.08,
+      "deep_mins": 108,
+      "light_mins": 178,
+      "rem_mins": 139,
+      "awake_mins": 19,
+      "awake_count": 0,
+      "bedtime": 24.1
+    },
+    {
+      "date": "2026-04-25",
+      "sleep_score": 83,
+      "sleep_hours": 8.23,
+      "deep_mins": 94,
+      "light_mins": 326,
+      "rem_mins": 74,
+      "awake_mins": 17,
+      "awake_count": 2,
+      "bedtime": 23.85
+    },
+    {
+      "date": "2026-04-26",
+      "sleep_score": 53,
+      "sleep_hours": 6.9,
+      "deep_mins": 87,
+      "light_mins": 288,
+      "rem_mins": 39,
+      "awake_mins": 101,
+      "awake_count": 4,
+      "bedtime": 25.18
+    },
+    {
+      "date": "2026-04-27",
+      "sleep_score": 73,
+      "sleep_hours": 6.4,
+      "deep_mins": 91,
+      "light_mins": 236,
+      "rem_mins": 57,
+      "awake_mins": 27,
+      "awake_count": 2,
+      "bedtime": 25.42
+    },
+    {
+      "date": "2026-04-28",
+      "sleep_score": 87,
+      "sleep_hours": 7.37,
+      "deep_mins": 89,
+      "light_mins": 269,
+      "rem_mins": 84,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 23.6
+    },
+    {
+      "date": "2026-04-29",
+      "sleep_score": 83,
+      "sleep_hours": 8.18,
+      "deep_mins": 112,
+      "light_mins": 288,
+      "rem_mins": 91,
+      "awake_mins": 28,
+      "awake_count": 2,
+      "bedtime": 22.88
+    },
+    {
+      "date": "2026-04-30",
+      "sleep_score": 78,
+      "sleep_hours": 6.45,
+      "deep_mins": 95,
+      "light_mins": 180,
+      "rem_mins": 112,
+      "awake_mins": 14,
+      "awake_count": 1,
+      "bedtime": 25.27
+    },
+    {
+      "date": "2026-05-01",
+      "sleep_score": 47,
+      "sleep_hours": 3.33,
+      "deep_mins": 104,
+      "light_mins": 64,
+      "rem_mins": 32,
+      "awake_mins": 0,
+      "awake_count": 0,
+      "bedtime": 23.92
+    },
+    {
+      "date": "2026-05-03",
+      "sleep_score": 90,
+      "sleep_hours": 8.62,
+      "deep_mins": 92,
+      "light_mins": 308,
+      "rem_mins": 117,
+      "awake_mins": 19,
+      "awake_count": 1,
+      "bedtime": 24.0
+    },
+    {
+      "date": "2026-05-04",
+      "sleep_score": 71,
+      "sleep_hours": 5.59,
+      "deep_mins": 144,
+      "light_mins": 100,
+      "rem_mins": 92,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 26.87
+    },
+    {
+      "date": "2026-05-05",
+      "sleep_score": 71,
+      "sleep_hours": 5.75,
+      "deep_mins": 64,
+      "light_mins": 227,
+      "rem_mins": 54,
+      "awake_mins": 9,
+      "awake_count": 1,
+      "bedtime": 23.5
+    },
+    {
+      "date": "2026-05-06",
+      "sleep_score": 67,
+      "sleep_hours": 6.77,
+      "deep_mins": 81,
+      "light_mins": 283,
+      "rem_mins": 42,
+      "awake_mins": 70,
+      "awake_count": 2,
+      "bedtime": 23.65
+    },
+    {
+      "date": "2026-05-07",
+      "sleep_score": 81,
+      "sleep_hours": 6.97,
+      "deep_mins": 128,
+      "light_mins": 187,
+      "rem_mins": 103,
+      "awake_mins": 18,
+      "awake_count": 2,
+      "bedtime": 24.92
+    },
+    {
+      "date": "2026-05-08",
+      "sleep_score": 70,
+      "sleep_hours": 5.05,
+      "deep_mins": 108,
+      "light_mins": 136,
+      "rem_mins": 59,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 26.28
+    },
+    {
+      "date": "2026-05-10",
+      "sleep_score": 83,
+      "sleep_hours": 8.67,
+      "deep_mins": 75,
+      "light_mins": 330,
+      "rem_mins": 115,
+      "awake_mins": 23,
+      "awake_count": 1,
+      "bedtime": 24.5
+    },
+    {
+      "date": "2026-05-11",
+      "sleep_score": 82,
+      "sleep_hours": 7.05,
+      "deep_mins": 110,
+      "light_mins": 237,
+      "rem_mins": 76,
+      "awake_mins": 0,
+      "awake_count": 0,
+      "bedtime": 24.13
+    },
+    {
+      "date": "2026-05-13",
+      "sleep_score": 81,
+      "sleep_hours": 6.97,
+      "deep_mins": 72,
+      "light_mins": 251,
+      "rem_mins": 95,
+      "awake_mins": 9,
+      "awake_count": 0,
+      "bedtime": 24.88
+    },
+    {
+      "date": "2026-05-14",
+      "sleep_score": 52,
+      "sleep_hours": 4.75,
+      "deep_mins": 69,
+      "light_mins": 182,
+      "rem_mins": 34,
+      "awake_mins": 171,
+      "awake_count": 3,
+      "bedtime": 25.18
+    },
+    {
+      "date": "2026-05-16",
+      "sleep_score": 77,
+      "sleep_hours": 6.45,
+      "deep_mins": 126,
+      "light_mins": 146,
+      "rem_mins": 115,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 25.07
+    },
+    {
+      "date": "2026-05-17",
+      "sleep_score": 77,
+      "sleep_hours": 6.02,
+      "deep_mins": 92,
+      "light_mins": 185,
+      "rem_mins": 84,
+      "awake_mins": 0,
+      "awake_count": 0,
+      "bedtime": 25.08
+    },
+    {
+      "date": "2026-05-19",
+      "sleep_score": 67,
+      "sleep_hours": 5.23,
+      "deep_mins": 104,
+      "light_mins": 122,
+      "rem_mins": 88,
+      "awake_mins": 7,
+      "awake_count": 1,
+      "bedtime": 26.27
+    },
+    {
+      "date": "2026-06-02",
+      "sleep_score": 80,
+      "sleep_hours": 6.88,
+      "deep_mins": 92,
+      "light_mins": 248,
+      "rem_mins": 73,
+      "awake_mins": 24,
+      "awake_count": 1,
+      "bedtime": 24.75
+    },
+    {
+      "date": "2026-06-04",
+      "sleep_score": 59,
+      "sleep_hours": 4.6,
+      "deep_mins": 126,
+      "light_mins": 110,
+      "rem_mins": 40,
+      "awake_mins": 4,
+      "awake_count": 0,
+      "bedtime": 27.57
+    },
+    {
+      "date": "2026-06-05",
+      "sleep_score": 78,
+      "sleep_hours": 6.63,
+      "deep_mins": 96,
+      "light_mins": 257,
+      "rem_mins": 45,
+      "awake_mins": 6,
+      "awake_count": 0,
+      "bedtime": 25.58
+    },
+    {
+      "date": "2026-06-06",
+      "sleep_score": 44,
+      "sleep_hours": 3.17,
+      "deep_mins": 71,
+      "light_mins": 65,
+      "rem_mins": 54,
+      "awake_mins": 2,
+      "awake_count": 0,
+      "bedtime": 27.75
+    },
+    {
+      "date": "2026-06-07",
+      "sleep_score": 81,
+      "sleep_hours": 5.92,
+      "deep_mins": 85,
+      "light_mins": 208,
+      "rem_mins": 62,
+      "awake_mins": 14,
+      "awake_count": 1,
+      "bedtime": 25.3
+    },
+    {
+      "date": "2026-06-09",
+      "sleep_score": 79,
+      "sleep_hours": 6.62,
+      "deep_mins": 87,
+      "light_mins": 261,
+      "rem_mins": 49,
+      "awake_mins": 4,
+      "awake_count": 0,
+      "bedtime": 25.45
+    },
+    {
+      "date": "2026-06-10",
+      "sleep_score": 84,
+      "sleep_hours": 7.23,
+      "deep_mins": 69,
+      "light_mins": 282,
+      "rem_mins": 83,
+      "awake_mins": 12,
+      "awake_count": 0,
+      "bedtime": 24.53
+    },
+    {
+      "date": "2026-06-11",
+      "sleep_score": 65,
+      "sleep_hours": 5.33,
+      "deep_mins": 81,
+      "light_mins": 191,
+      "rem_mins": 48,
+      "awake_mins": 52,
+      "awake_count": 2,
+      "bedtime": 25.52
+    },
+    {
+      "date": "2026-06-12",
+      "sleep_score": 74,
+      "sleep_hours": 6.0,
+      "deep_mins": 85,
+      "light_mins": 231,
+      "rem_mins": 44,
+      "awake_mins": 16,
+      "awake_count": 1,
+      "bedtime": 26.48
+    },
+    {
+      "date": "2026-06-13",
+      "sleep_score": 64,
+      "sleep_hours": 4.9,
+      "deep_mins": 102,
+      "light_mins": 100,
+      "rem_mins": 92,
+      "awake_mins": 6,
+      "awake_count": 1,
+      "bedtime": 27.42
+    },
+    {
+      "date": "2026-06-14",
+      "sleep_score": 66,
+      "sleep_hours": 5.1,
+      "deep_mins": 83,
+      "light_mins": 169,
+      "rem_mins": 54,
+      "awake_mins": 12,
+      "awake_count": 1,
+      "bedtime": 26.13
+    },
+    {
+      "date": "2026-06-16",
+      "sleep_score": 86,
+      "sleep_hours": 7.03,
+      "deep_mins": 113,
+      "light_mins": 181,
+      "rem_mins": 128,
+      "awake_mins": 6,
+      "awake_count": 0,
+      "bedtime": 26.07
+    },
+    {
+      "date": "2026-06-17",
+      "sleep_score": 51,
+      "sleep_hours": 3.83,
+      "deep_mins": 84,
+      "light_mins": 94,
+      "rem_mins": 52,
+      "awake_mins": 8,
+      "awake_count": 1,
+      "bedtime": 25.63
+    },
+    {
+      "date": "2026-06-18",
+      "sleep_score": 47,
+      "sleep_hours": 3.45,
+      "deep_mins": 98,
+      "light_mins": 63,
+      "rem_mins": 46,
+      "awake_mins": 1,
+      "awake_count": 0,
+      "bedtime": 27.77
+    },
+    {
+      "date": "2026-06-19",
+      "sleep_score": 81,
+      "sleep_hours": 10.17,
+      "deep_mins": 91,
+      "light_mins": 355,
+      "rem_mins": 164,
+      "awake_mins": 39,
+      "awake_count": 3,
+      "bedtime": 21.1
+    }
+  ],
+  "insights": [
+    {
+      "text": "Sleep score rebounds night-to-night: a high night is usually followed by a lower one (rho=-0.27, p=0.023, n=69). After a top-third sleep score night it averages 66.4 vs 74.6 after a bottom-third night. Classic sleep homeostasis \u2014 your body corrects toward balance.",
+      "impact": "neutral"
+    },
+    {
+      "text": "REM sleep shows a suggestive rebound: 63.0min after a high night vs 82.0min after a low one (p=0.072, n=23+23).",
+      "impact": "neutral"
+    },
+    {
+      "text": "Total sleep shows a suggestive rebound: 5.8h after a high night vs 6.6h after a low one (p=0.079, n=23+23).",
+      "impact": "neutral"
+    },
+    {
+      "text": "Deep sleep is the steady exception \u2014 it neither carries over nor rebounds (rho=+0.07, n.s.), holding roughly constant regardless of the night before. Your body defends it.",
+      "impact": "positive"
+    },
+    {
+      "text": "Across-metric carryover is weak: the strongest is more total sleep \u2192 less sleep score next night (rho=-0.29, p=0.016), but none of the 42 cross-metric links survive multiple-comparison correction. Each night mostly stands alone.",
+      "impact": "neutral"
+    },
+    {
+      "text": "Bedtime timing shows no clear next-night effect \u2014 late vs early nights land within a few points of each other on every sleep metric (all p>0.1).",
+      "impact": "neutral"
+    }
+  ]
+}
