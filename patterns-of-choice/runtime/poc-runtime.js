@@ -91,7 +91,12 @@
             db.createObjectStore(STORE_META, { keyPath: "key" });
         };
         req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
+        // On failure/block, null the memoized promise so a later call can retry
+        // instead of being stuck on the cached rejection — a transient open
+        // failure (private-mode quota, a cross-tab version block) would otherwise
+        // brick the local-first store until a full page reload.
+        req.onerror = () => { dbp = null; reject(req.error); };
+        req.onblocked = () => { dbp = null; reject(new Error("IndexedDB open blocked — another tab holds an older version open")); };
       });
       return dbp;
     }
@@ -100,7 +105,10 @@
         const t = db.transaction(store, mode);
         const s = t.objectStore(store);
         const out = fn(s);
-        t.oncomplete = () => resolve(out._result !== undefined ? out._result : out);
+        // Read ops (getMeta/allEvents) return a box carrying `_result`; resolve that
+        // value even when it's undefined (a missing key -> undefined, not the box).
+        // Write ops return a raw IDBRequest (no `_result`) -> pass it through.
+        t.oncomplete = () => resolve(("_result" in out) ? out._result : out);
         t.onerror = () => reject(t.error);
         t.onabort = () => reject(t.error);
       }));

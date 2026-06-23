@@ -67,6 +67,42 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await rt.eraseEverything();
   ok((await rt.log()).length === 0, "eraseEverything clears the log");
 
+  // --- IndexedDBStore: a failed/blocked open must not be cached forever ---
+  // Regression: req.onerror left the memoized promise rejected, so a transient
+  // open failure bricked the store until a full page reload. The fix nulls dbp so
+  // the next call retries. Fake indexedDB: fail the first open, succeed the second.
+  {
+    let openCalls = 0;
+    const fakeDB = () => ({
+      objectStoreNames: { contains: () => true },
+      createObjectStore() {},
+      transaction() {
+        const t = {};
+        const s = { get() { const r = {}; setTimeout(() => { r.onsuccess && r.onsuccess({ target: { result: undefined } }); t.oncomplete && t.oncomplete(); }, 0); return r; } };
+        t.objectStore = () => s;
+        return t;
+      },
+    });
+    global.indexedDB = { open() {
+      openCalls += 1;
+      const req = {}, failNow = openCalls === 1;
+      setTimeout(() => { if (failNow) { req.error = new Error("open boom"); req.onerror && req.onerror(); } else { req.result = fakeDB(); req.onsuccess && req.onsuccess(); } }, 0);
+      return req;
+    } };
+    const idb = R.IndexedDBStore();
+    let firstRejected = false;
+    try { await idb.getMeta("k"); } catch (_) { firstRejected = true; }
+    ok(firstRejected, "IndexedDB: first (failed) open rejects");
+    let secondOk = false;
+    try { await idb.getMeta("k"); secondOk = true; } catch (_) { secondOk = false; }
+    ok(secondOk && openCalls === 2, "IndexedDB: recovers after a failed open (retries, not a cached rejection)");
+    // getMeta on a MISSING key must resolve undefined (not the internal box) — else
+    // init()'s `if (!deviceId)` sees a truthy {} on a fresh DB and never assigns one.
+    const missing = await idb.getMeta("absent");
+    ok(missing === undefined, "IndexedDB: getMeta returns undefined for a missing key (not the internal box)");
+    delete global.indexedDB;
+  }
+
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
 })();
