@@ -472,8 +472,9 @@
             <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.6rem;" id="current-bedtime">--</div><div class="stat-label">Bedtime</div></div>
         </div>
 
-        <!-- AI-Generated Insights -->
-        <div class="section-title">🧠 Pattern Insights</div>
+        <!-- Pattern insights computed from the daily series -->
+        <div class="section-title">🧠 What your data shows</div>
+        <p id="patternCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
         <div class="insights-grid" id="patternInsights"></div>
 
         <!-- Weekly Insights -->
@@ -559,7 +560,7 @@
         </div>
         <div class="charts-grid" id="calendarChartWrap" style="margin-top: 15px; display: none;">
             <div class="chart-card">
-                <h2>Events per day (last 30 days)</h2>
+                <h2>Events per day vs sleep &amp; stress (last 30 days)</h2>
                 <div class="chart-container"><canvas id="calendarDensityChart"></canvas></div>
             </div>
         </div>
@@ -569,6 +570,7 @@
 
         <!-- Day of Week Analysis -->
         <div class="section-title">📅 Averages by Day of Week</div>
+        <p id="dowCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
         <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
             <div class="chart-card">
                 <h2>Average Steps</h2>
@@ -762,16 +764,17 @@
             <div class="chart-card"><h2>😌 Stress Level</h2><div class="chart-container"><canvas id="stressChart"></canvas></div></div>
         </div>
 
-        <!-- Hourly / Intraday Detail (NEW) -->
-        <div class="section-title">⏱️ Hourly Detail (intraday)</div>
+        <!-- Your Typical Day: intraday series averaged by hour-of-day -->
+        <div class="section-title">🕐 Your Typical Day</div>
         <p style="font-size: 1.05rem; color: var(--text-muted); margin: -6px 0 14px;">
-            Within-day curves at hourly resolution, pulled from Garmin's intraday series (every 2–3 min, bucketed by hour).
+            The average shape of your day — each metric averaged by hour-of-day across the selected window,
+            so the daily rhythm shows through instead of one day's noise. Shaded band = the hour's min–max range.
             Uses the time range above. <span id="hourlyCaption" style="color: var(--text);"></span>
         </p>
         <div class="charts-grid" id="hourlyChartsGrid">
-            <div class="chart-card"><h2>🔋 Body Battery (hourly)</h2><div class="chart-container"><canvas id="hourlyBatteryChart"></canvas></div></div>
-            <div class="chart-card"><h2>😌 Stress (hourly)</h2><div class="chart-container"><canvas id="hourlyStressChart"></canvas></div></div>
-            <div class="chart-card"><h2>❤️ Heart Rate (hourly)</h2><div class="chart-container"><canvas id="hourlyHrChart"></canvas></div></div>
+            <div class="chart-card"><h2>🔋 Body Battery · by hour</h2><div class="chart-container"><canvas id="hourlyBatteryChart"></canvas></div></div>
+            <div class="chart-card"><h2>😌 Stress · by hour</h2><div class="chart-container"><canvas id="hourlyStressChart"></canvas></div></div>
+            <div class="chart-card"><h2>❤️ Heart Rate · by hour</h2><div class="chart-container"><canvas id="hourlyHrChart"></canvas></div></div>
         </div>
         <div id="hourlyUnavailable" style="display: none; color: var(--text-muted); font-size: 0.95rem; padding: 14px 18px; background: var(--card-bg); border: 1px dashed var(--border); border-radius: 8px;">
             No intraday data in this range. It appears for days the watch synced to Garmin (latest synced day shown by default).
@@ -964,6 +967,30 @@
             });
         }
 
+        // Summarize the date span + freshness of a daily series so each section can
+        // state what it's grounded in (and flag staleness). Mirrors the last-real-
+        // biometric logic used for the header stale badge in loadData().
+        function dataWindow(daily) {
+            const fmt = iso => new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const rows = (daily || []).filter(d => d && d.date);
+            if (!rows.length) return null;
+            const hasBio = d => d.resting_hr != null || d.total_steps != null || d.sleep_score != null;
+            const real = rows.filter(hasBio);
+            const lastReal = real.length ? real[real.length - 1].date : null;
+            const ageDays = lastReal ? Math.floor((Date.now() - new Date(lastReal + 'T23:59:59')) / 86400000) : null;
+            return {
+                start: rows[0].date, end: rows[rows.length - 1].date, lastReal, ageDays,
+                days: rows.length, realDays: real.length,
+                startLabel: fmt(rows[0].date), endLabel: fmt(rows[rows.length - 1].date),
+                lastRealLabel: lastReal ? fmt(lastReal) : null,
+                // Suffix for captions: a yellow warning when stale (>=2 days), else a
+                // quiet "fresh through" note. Keeps freshness visible at a glance.
+                freshnessHtml: (ageDays != null && ageDays >= 2 && lastReal)
+                    ? ` · <span style="color: var(--yellow); font-weight: 600;">⚠ most recent reading ${fmt(lastReal)} (${ageDays} day${ageDays === 1 ? '' : 's'} ago)</span>`
+                    : (lastReal ? ` · fresh through ${fmt(lastReal)}` : '')
+            };
+        }
+
         function buildPatternInsights(daily) {
             const insights = [];
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -991,7 +1018,8 @@
                         text: diff < 0
                             ? `Big exercise days (>60min) are followed by ${Math.abs(diff).toFixed(0)} points worse sleep. Your body needs recovery time.`
                             : `Exercise improves your sleep! ${diff.toFixed(0)} points better after active days.`,
-                        color: diff < 0 ? 'var(--yellow)' : 'var(--green)'
+                        color: diff < 0 ? 'var(--yellow)' : 'var(--green)',
+                        basis: `${bigExercise.length} hard days vs ${normalExercise.length} easy, next-day sleep`
                     });
                 }
             }
@@ -1010,7 +1038,8 @@
                         emoji: '📅',
                         title: 'Sleep Patterns by Day',
                         text: `You sleep best on ${days[best.day]}s (${best.avg.toFixed(0)}/100) and worst on ${days[worst.day]}s (${worst.avg.toFixed(0)}/100). ${best.avg - worst.avg > 15 ? 'Huge difference!' : ''}`,
-                        color: 'var(--purple)'
+                        color: 'var(--purple)',
+                        basis: `${dowSleep.reduce((s, d) => s + d.n, 0)} nights by weekday`
                     });
                 }
             }
@@ -1025,7 +1054,8 @@
                         emoji: '⏰',
                         title: '7-Hour Threshold',
                         text: `Getting 7+ hours = ${diff.toFixed(0)} point better sleep score. The magic number is real for you.`,
-                        color: 'var(--cyan)'
+                        color: 'var(--cyan)',
+                        basis: `${above7.length} nights ≥7h vs ${below7.length} under 7h`
                     });
                 }
             }
@@ -1042,7 +1072,8 @@
                     emoji: '👟',
                     title: `${days[maxStepsDay.day]} = Active Day`,
                     text: `You average ${(maxStepsDay.avg/1000).toFixed(0)}k steps on ${days[maxStepsDay.day]}s — ${((maxStepsDay.avg/avgSteps - 1) * 100).toFixed(0)}% more than other days.`,
-                    color: 'var(--accent)'
+                    color: 'var(--accent)',
+                    basis: `${daily.filter(d => d.total_steps).length} tracked days`
                 });
             }
 
@@ -1056,7 +1087,8 @@
                         emoji: '💓',
                         title: 'HRV-HR Connection',
                         text: `Your HRV and resting HR are strongly inverse-correlated (r=${r.toFixed(2)}). Lower HR = higher HRV = better recovery.`,
-                        color: 'var(--red)'
+                        color: 'var(--red)',
+                        basis: `n=${hrvVals.length} nights`
                     });
                 }
             }
@@ -1070,7 +1102,8 @@
                         emoji: '🔋',
                         title: 'Energy = Action',
                         text: `Higher body battery strongly predicts more steps (r=${r.toFixed(2)}). You actually use your energy!`,
-                        color: 'var(--green)'
+                        color: 'var(--green)',
+                        basis: `n=${bbVals.length} days`
                     });
                 }
             }
@@ -1089,7 +1122,8 @@
                         emoji: '⚠️',
                         title: 'Stress Spike',
                         text: `Stress is up ${((recentStress/priorStress - 1) * 100).toFixed(0)}% this week vs last. Something going on?`,
-                        color: 'var(--yellow)'
+                        color: 'var(--yellow)',
+                        basis: `last 7 days vs prior 7`
                     });
                 }
                 if (recentSteps && priorSteps && recentSteps < priorSteps * 0.6) {
@@ -1097,7 +1131,8 @@
                         emoji: '📉',
                         title: 'Activity Drop',
                         text: `Steps down ${((1 - recentSteps/priorSteps) * 100).toFixed(0)}% this week. Rest week or time to get moving?`,
-                        color: 'var(--yellow)'
+                        color: 'var(--yellow)',
+                        basis: `last 7 days vs prior 7`
                     });
                 }
             }
@@ -1121,15 +1156,27 @@
                     emoji: '🔥',
                     title: 'Best Streaks',
                     text: text.join(' • '),
-                    color: 'var(--yellow)'
+                    color: 'var(--yellow)',
+                    basis: `over ${daily.length} days`
                 });
             }
 
-            // Render insights
+            // Caption: state the evidence window so this reads as grounded analysis,
+            // not an opaque "AI pattern". Reuses the shared dataWindow() helper.
+            const w = dataWindow(daily);
+            const pc = document.getElementById('patternCaption');
+            if (pc && w) {
+                pc.innerHTML = `Computed from your last <strong>${w.realDays} days</strong> of data ` +
+                    `(${w.startLabel} – ${w.endLabel}). Recomputed daily.${w.freshnessHtml}`;
+            }
+
+            // Render insights. Each card shows the basis (sample size / window) it
+            // rests on as a small sub-header, so the snippet is self-evidently grounded.
             let html = '';
             for (const ins of insights.slice(0, 8)) {  // Max 8 insights
                 html += `<div class="insight-card">
                     <h3>${ins.emoji} ${ins.title}</h3>
+                    ${ins.basis ? `<div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: -2px 0 6px;">${ins.basis}</div>` : ''}
                     <div class="insight-detail" style="color: ${ins.color}; font-size: 1.1rem;">${ins.text}</div>
                 </div>`;
             }
@@ -1374,34 +1421,61 @@
             document.getElementById('cal-total').textContent = total.toLocaleString();
 
             const last30 = byDay.slice(-30);
+
+            // Overlay sleep & stress so meeting load can be read against recovery —
+            // event counts alone aren't actionable. Join calendar dates to the daily
+            // biometrics already loaded into allDailyData; missing days leave gaps.
+            const bioByDate = new Map((allDailyData || []).map(d => [d.date, d]));
+            const sleepLine = last30.map(d => { const b = bioByDate.get(d.date); return b && b.sleep_score != null ? b.sleep_score : null; });
+            const stressLine = last30.map(d => { const b = bioByDate.get(d.date); return b && b.avg_stress != null ? b.avg_stress : null; });
+            const hasOverlay = sleepLine.some(v => v != null) || stressLine.some(v => v != null);
+
+            const lineCfg = (label, data, color) => ({
+                type: 'line', label, data, yAxisID: 'yPct',
+                borderColor: color, backgroundColor: color,
+                borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.3, spanGaps: true,
+            });
+
+            const datasets = [{
+                type: 'bar', label: 'Events', data: last30.map(d => d.count),
+                backgroundColor: '#a371f7', borderRadius: 3, yAxisID: 'y', order: 2,
+            }];
+            if (hasOverlay) {
+                datasets.push({ ...lineCfg('Sleep score', sleepLine, '#3fb950'), order: 1 });
+                datasets.push({ ...lineCfg('Stress', stressLine, '#f85149'), order: 0 });
+            }
+
             new Chart(document.getElementById('calendarDensityChart'), {
-                type: 'bar',
-                data: {
-                    labels: last30.map(d => fmtDate(d.date)),
-                    datasets: [{
-                        data: last30.map(d => d.count),
-                        backgroundColor: '#a371f7',
-                        borderRadius: 3,
-                    }]
-                },
+                data: { labels: last30.map(d => fmtDate(d.date)), datasets },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: { display: false },
+                        legend: { display: hasOverlay, labels: { color: '#8b949e', boxWidth: 12 } },
                         tooltip: {
                             callbacks: {
                                 title: (items) => items[0].label,
-                                label: (item) => `${item.parsed.y} event${item.parsed.y === 1 ? '' : 's'}`,
+                                label: (item) => {
+                                    if (item.dataset.label === 'Events') return `${item.parsed.y} event${item.parsed.y === 1 ? '' : 's'}`;
+                                    if (item.parsed.y == null) return null;
+                                    return `${item.dataset.label}: ${Math.round(item.parsed.y)}${item.dataset.label === 'Sleep score' ? '/100' : ''}`;
+                                },
                             }
                         }
                     },
                     scales: {
                         y: {
-                            beginAtZero: true,
+                            beginAtZero: true, position: 'left',
                             grid: { color: '#30363d' },
                             ticks: { color: '#8b949e', precision: 0 },
                             title: { display: true, text: 'Events', color: '#999', font: { size: 12 } }
+                        },
+                        yPct: {
+                            display: hasOverlay, beginAtZero: true, min: 0, max: 100, position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { color: '#8b949e' },
+                            title: { display: true, text: 'Sleep / Stress (0–100)', color: '#999', font: { size: 12 } }
                         },
                         x: {
                             grid: { display: false },
@@ -1451,10 +1525,25 @@
                 if (d.avg_stress != null) byDay[dow].stress.push(d.avg_stress);
             }
 
-            const chartOpts = (max, stepSize, yTitle) => ({
+            // Caption: spell out the actual date span feeding these averages so it's
+            // obvious whether the data is current (the asker couldn't tell from
+            // weekday labels alone). freshnessHtml flags a stale feed in yellow.
+            const w = dataWindow(daily);
+            const dowCap = document.getElementById('dowCaption');
+            if (dowCap && w) {
+                dowCap.innerHTML = `Averaged by weekday over <strong>${w.startLabel} – ${w.endLabel}</strong> ` +
+                    `· ${w.realDays} days with data${w.freshnessHtml}`;
+            }
+
+            // counts: per-weekday sample size, surfaced in each tooltip so a bar built
+            // from 2 days reads differently from one built from 13.
+            const chartOpts = (max, stepSize, yTitle, counts, unit) => ({
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { afterLabel: (item) => `n = ${counts[item.dataIndex]} ${unit}` } }
+                },
                 scales: {
                     y: { beginAtZero: true, max, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize }, title: { display: true, text: yTitle, color: '#999', font: { size: 12 } } },
                     x: { grid: { display: false }, ticks: { color: '#8b949e' } }
@@ -1468,7 +1557,7 @@
                     labels: days,
                     datasets: [{ data: stepsAvg, backgroundColor: '#58a6ff', borderRadius: 4 }]
                 },
-                options: chartOpts(Math.max(...stepsAvg) * 1.15, 5000, 'Avg Steps')
+                options: chartOpts(Math.max(...stepsAvg) * 1.15, 5000, 'Avg Steps', byDay.map(d => d.steps.length), 'days')
             });
 
             const sleepAvg = byDay.map(d => Math.round(stats.mean(d.sleep) || 0));
@@ -1478,7 +1567,7 @@
                     labels: days,
                     datasets: [{ data: sleepAvg, backgroundColor: sleepAvg.map(v => v >= 75 ? '#a371f7' : v >= 60 ? '#d29922' : '#f85149'), borderRadius: 4 }]
                 },
-                options: chartOpts(100, 25, 'Sleep Score')
+                options: chartOpts(100, 25, 'Sleep Score', byDay.map(d => d.sleep.length), 'nights')
             });
 
             const stressAvg = byDay.map(d => Math.round(stats.mean(d.stress) || 0));
@@ -1488,7 +1577,7 @@
                     labels: days,
                     datasets: [{ data: stressAvg, backgroundColor: stressAvg.map(v => v <= 25 ? '#3fb950' : v <= 40 ? '#d29922' : '#f85149'), borderRadius: 4 }]
                 },
-                options: chartOpts(60, 15, 'Avg Stress Level')
+                options: chartOpts(60, 15, 'Avg Stress Level', byDay.map(d => d.stress.length), 'days')
             });
         }
 
@@ -2236,6 +2325,61 @@
             return s.filter(r => r.t >= cutoff);
         }
 
+        // Average each metric by hour-of-day (0–23) across the window, keeping the
+        // per-hour spread so a "typical day" curve emerges from many noisy days.
+        const HOURS = Array.from({ length: 24 }, (_, h) => h);
+        const formatHour = h => h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 ? '12p' : `${h - 12}p`;
+
+        function aggregateByHour(points, key) {
+            const buckets = Array.from({ length: 24 }, () => []);
+            for (const p of points) {
+                const v = p[key];
+                if (v == null) continue;
+                buckets[new Date(p.t).getHours()].push(v);  // t is naive local ISO
+            }
+            return buckets.map(vals => vals.length
+                ? { mean: vals.reduce((a, b) => a + b, 0) / vals.length, min: Math.min(...vals), max: Math.max(...vals), n: vals.length }
+                : { mean: null, min: null, max: null, n: 0 });
+        }
+
+        function createTypicalDayChart(id, agg, color, label, yMax) {
+            const yScale = { ...chartDefaults.scales.y, title: { display: true, text: label, color: '#999', font: { size: 12 } } };
+            if (yMax != null) { yScale.min = 0; yScale.max = yMax; }
+            return new Chart(document.getElementById(id).getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: HOURS,
+                    datasets: [
+                        // datasets 0+1 draw an invisible-bordered min/max band; dataset 2 is the mean on top.
+                        { data: agg.map(a => a.min), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: false, spanGaps: true },
+                        { data: agg.map(a => a.max), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, backgroundColor: color + '22', fill: '-1', spanGaps: true },
+                        { label: 'Average', data: agg.map(a => a.mean), borderColor: color, backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, tension: 0.35, fill: false, spanGaps: true },
+                    ]
+                },
+                options: {
+                    ...chartDefaults,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        ...chartDefaults.plugins,
+                        legend: { display: false },
+                        tooltip: {
+                            ...chartDefaults.plugins.tooltip,
+                            filter: item => item.datasetIndex === 2,  // only the mean line
+                            callbacks: {
+                                title: items => `${formatHour(items[0].dataIndex)} (average)`,
+                                label: item => `Avg: ${Math.round(item.parsed.y)}`,
+                                afterLabel: item => { const a = agg[item.dataIndex]; return a.n ? `Range ${Math.round(a.min)}–${Math.round(a.max)} · n=${a.n}` : ''; },
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { type: 'category', grid: { color: '#30363d', drawBorder: false }, ticks: { color: '#8b949e', maxTicksLimit: 9, callback: (v, i) => formatHour(i) } },
+                        y: yScale
+                    }
+                }
+            });
+        }
+
         function renderHourlyCharts() {
             if (!allHourlyData) return;
             hourlyChartInstances.forEach(c => c.destroy());
@@ -2252,11 +2396,11 @@
             }
             grid.style.display = '';
             none.style.display = 'none';
-            if (cap) cap.textContent = `${f.length} hourly points · ${f[0].t.slice(0, 10)} → ${f[f.length - 1].t.slice(0, 10)}`;
-            const mk = key => f.map(r => ({ x: r.t, y: r[key] ?? null }));
-            hourlyChartInstances.push(createChart('hourlyBatteryChart', mk('body_battery'), '#3fb950', true, false, 'Body Battery'));
-            hourlyChartInstances.push(createChart('hourlyStressChart', mk('stress'), '#d29922', false, false, 'Stress'));
-            hourlyChartInstances.push(createChart('hourlyHrChart', mk('hr'), '#f85149', false, false, 'Heart Rate (bpm)'));
+            const days = new Set(f.map(r => r.t.slice(0, 10))).size;
+            if (cap) cap.textContent = `Averaged ${f.length} readings across ${days} day${days === 1 ? '' : 's'} (${f[0].t.slice(0, 10)} → ${f[f.length - 1].t.slice(0, 10)}).`;
+            hourlyChartInstances.push(createTypicalDayChart('hourlyBatteryChart', aggregateByHour(f, 'body_battery'), '#3fb950', 'Body Battery', 100));
+            hourlyChartInstances.push(createTypicalDayChart('hourlyStressChart', aggregateByHour(f, 'stress'), '#d29922', 'Stress', 100));
+            hourlyChartInstances.push(createTypicalDayChart('hourlyHrChart', aggregateByHour(f, 'hr'), '#f85149', 'Heart Rate (bpm)', null));
         }
 
         async function loadHourly() {
