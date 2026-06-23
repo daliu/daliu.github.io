@@ -43,6 +43,22 @@ ok(ord.ok && !ord.level && ord.order[0] === "in-group-out-group", "ordering: in-
 const tie = ord.rels.find(r => (r.a + r.b).includes("truth-telling") && (r.a + r.b).includes("resource-allocation"));
 ok(tie && tie.tie === true, "truth vs allocation is a TIE");
 ok(!ord.order.includes("reciprocity-cooperation"), "single-session domain excluded");
+// §13.1 SE floor: zero-variance sessions (se=0, e.g. n=2 identical) must NOT yield a
+// confident order from tiny mean gaps...
+const zeroVarTiny = {
+  "truth-telling": { domain: "truth-telling", revealed_score_mean: 0.50, n_sessions_contributing: 2, se: 0 },
+  "resource-allocation": { domain: "resource-allocation", revealed_score_mean: 0.52, n_sessions_contributing: 2, se: 0 },
+  "in-group-out-group": { domain: "in-group-out-group", revealed_score_mean: 0.51, n_sessions_contributing: 2, se: 0 },
+};
+ok(P.ipsativeOrdering(zeroVarTiny).level === true, "SE floor: zero-variance + tiny gaps -> level (no false confident order)");
+// ...but genuinely wide gaps still order confidently, even at se=0 (floor doesn't over-suppress).
+const zeroVarWide = {
+  "truth-telling": { domain: "truth-telling", revealed_score_mean: 0.10, n_sessions_contributing: 2, se: 0 },
+  "resource-allocation": { domain: "resource-allocation", revealed_score_mean: 0.50, n_sessions_contributing: 2, se: 0 },
+  "in-group-out-group": { domain: "in-group-out-group", revealed_score_mean: 0.90, n_sessions_contributing: 2, se: 0 },
+};
+const zw = P.ipsativeOrdering(zeroVarWide);
+ok(zw.ok && !zw.level && zw.order[0] === "in-group-out-group" && zw.rels.every(r => r.tie === false), "SE floor: zero-variance + wide gaps still orders confidently");
 const con = P.wordDeedConcordance(revealed, { "truth-telling": 0.80, "resource-allocation": 0.40, "in-group-out-group": 0.20, "reciprocity-cooperation": 0.60 });
 ok(con.ok && con.band === "high", "concordance band high", { band: con.band, tau: con.tau });
 ok(con.flips.some(f => f.said_lower === "in-group-out-group"), "in-group unclaimed-strength flip");

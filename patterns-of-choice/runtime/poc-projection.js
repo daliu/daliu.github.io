@@ -31,6 +31,9 @@
   const MIN_ITEMS_PER_SESSION = 3;       // §3.1
   const INATTENTIVE_RT_MS = 2000;        // §10: quick-fire median RT < 2s -> drop session
   const NOISE_K = 1;                     // §13.1 noise-gate multiplier
+  const SE_FLOOR = 0.05;                 // §13.1: floor on within-person SE (added in
+                                         //   quadrature) so n=2 identical-answer sessions
+                                         //   (se=0) can't fake a confident ordering
   const MIN_SESSIONS_FOR_ORDER = 2;      // need >=2 sessions/domain for an SE
   const MIN_DOMAINS_FOR_ORDER = 3;       // §13.1
   const MIN_DOMAINS_FOR_CONCORDANCE = 3; // §13.4
@@ -110,7 +113,10 @@
     const inf = Object.values(revealed).filter(r => r.se !== null && r.n_sessions_contributing >= MIN_SESSIONS_FOR_ORDER);
     if (inf.length < MIN_DOMAINS_FOR_ORDER) return { ok: false, reason: "needs at least three areas with enough sessions" };
     const mbar = mean(inf.map(r => r.revealed_score_mean));
-    const devs = inf.map(r => ({ domain: r.domain, dev: r.revealed_score_mean - mbar, m: r.revealed_score_mean, se: r.se }));
+    // Floor each within-person SE in quadrature so an implausibly small se (e.g. n=2
+    // identical-answer sessions -> se=0) can't collapse the gate and manufacture a
+    // confident ordering from a trivial mean difference (§13.1).
+    const devs = inf.map(r => ({ domain: r.domain, dev: r.revealed_score_mean - mbar, m: r.revealed_score_mean, se: Math.sqrt(r.se * r.se + SE_FLOOR * SE_FLOOR) }));
     const spread = Math.max(...devs.map(d => d.dev)) - Math.min(...devs.map(d => d.dev));
     const pooledSE = Math.sqrt(mean(devs.map(d => d.se * d.se)));
     if (spread < pooledSE) return { ok: true, level: true, domains: devs.map(d => d.domain) };
@@ -382,5 +388,5 @@
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing,
-           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K } };
+           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR } };
 });
