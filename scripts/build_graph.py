@@ -102,6 +102,153 @@ DETAIL_TITLE_RE = re.compile(
 )
 
 
+# --- Topic hubs (tag-based connectivity) ---------------------------------- #
+# Most journaled notes never [[wikilink]] each other, so they land as isolated
+# nodes even though their TAGS clearly relate them (e.g. five patterns-of-choice
+# conversations). We synthesize "topic" hub nodes from those tags and connect
+# each note to its hubs — pure aggregation from the notes' own metadata (no new
+# detail leaks; every linked note is already public). This is what turns a
+# scatter of dots into a navigable graph.
+
+# Structural / generic tags that should NOT drive topical connections.
+HUB_STOPLIST = {
+    "conversation", "note", "area", "idea", "meta", "handoff", "seed",
+    "developing", "public", "private", "loop", "autonomous-loop", "new-project",
+    "product", "incident", "comparison", "real-data", "pivot", "infrastructure",
+    "methodology", "concept", "entity", "resource", "goal", "question", "source",
+    "architecture", "repo", "project",  # too generic to be a meaningful hub
+}
+
+# Merge tag variants / synonyms onto one canonical tag so related notes hub together.
+TAG_CANON = {
+    "daliu.github.io": "daliu-github-io",
+    "daliu-github-io": "daliu-github-io",
+    "investing": "finance",
+    "pharmacogenomics": "genomics", "psychiatric-genetics": "genomics",
+    "23andme": "genomics", "east-asian": "genomics",
+    "legal-tech": "metis", "legal-nlp": "metis",
+    "runmprc": "mprc", "firebase": "mprc", "firestore": "mprc",
+    "moneysignals": "autotrader", "trading": "autotrader",
+    "trading-infrastructure": "autotrader", "cost-optimization": "autotrader",
+    "robinhood": "autotrader", "macroeconomics": "autotrader", "postgres": "autotrader",
+    "timescaledb": "autotrader", "database": "autotrader", "signals": "autotrader",
+    "self-improving-systems": "machine-learning", "legal-nlp ": "metis",
+    "vault-tooling": "knowledge-management", "obsidian": "knowledge-management",
+    "knowledge-graph": "knowledge-management",
+    "claude-project": "claude-harness", "agent-design": "claude-harness",
+    "subagents": "claude-harness", "claude-code": "claude-harness",
+    "claude-harness": "claude-harness", "agents": "claude-harness",
+    "supply-chain": "security", "npm": "security",
+    "political-economy": "philosophy", "incentives": "philosophy",
+    "georgism": "philosophy", "free-will": "philosophy",
+    "site-polish": "daliu-github-io", "accessibility": "daliu-github-io",
+    "email-obfuscation": "daliu-github-io", "audit-cycle": "daliu-github-io",
+    "health-dashboard": "health", "garmin": "health", "google-calendar": "health",
+    "fitness": "health",
+    "code-review": "testing", "data-viz": "data-viz",
+    "research-instrument": "patterns-of-choice", "research": "patterns-of-choice",
+    "workflows": "claude-harness", "multi-agent": "claude-harness",
+    # Shipt work → ONE aggregate "Shipt" hub (no tech-stack / codename detail hubs).
+    "deals-for-you": "shipt", "dfy": "shipt", "ddfy": "shipt", "personifier": "shipt",
+    "personalization": "shipt", "seasonality": "shipt", "trending-items": "shipt",
+    "embeddings": "shipt", "recsys": "shipt", "reranking": "shipt", "two-tower": "shipt",
+    "matryoshka": "shipt", "alloydb": "shipt", "tag-platform": "shipt",
+    "customer-segmentation": "shipt", "habituation": "shipt", "holiday-shopping": "shipt",
+    "shipt-marketing": "shipt",
+    # Misc connectors so standalone conversations aren't orphans.
+    "nlp": "machine-learning", "senticnet": "machine-learning", "python-package": "machine-learning",
+    "interview": "career", "thomson-reuters": "career", "freenome": "career",
+}
+
+# Nice display titles for canonical hub tags. Where a title matches an existing
+# vault node (e.g. the area pages), the hub REUSES that node instead of duplicating.
+HUB_TITLE = {
+    "patterns-of-choice": "Patterns of Choice",
+    "autotrader": "AutoTrader / MoneySignals",
+    "genomics": "Genomics",
+    "metis": "Metis (Legal ML)",
+    "meta-council": "Meta-Council",
+    "daliu-github-io": "daliu.github.io",
+    "mprc": "Run-MPRC",
+    "claude-harness": "Claude Harness & Agents",
+    "knowledge-management": "Knowledge Management",
+    "security": "Security",
+    "philosophy": "Philosophy & Ethics",
+    "health": "Health and Fitness",
+    "finance": "Finance and Investing",
+    "machine-learning": "Machine Learning",
+    "automation": "Automation",
+    "testing": "Testing & Review",
+    "data-viz": "Data Visualization",
+    "shipt": "Shipt",       # aggregate employer hub (no detail sub-hubs)
+    "career": "Career",
+}
+
+HUB_NODE = {"type": "topic", "color": "#f0a500"}
+CURATED_HUB_MIN = 2     # a curated topic hubs once >=2 notes share it
+# Only curated (vetted-name) hubs are created — never auto-name a hub from a raw
+# tag. This keeps the graph legible and avoids elevating confidential detail tags
+# (e.g. model architectures / project codenames) into first-class graph nodes.
+CURATED_ONLY = True
+
+
+def add_topic_hubs(nodes, edges):
+    """Create topic-hub nodes from shared tags and link notes to them.
+
+    Mutates `nodes` (dict) and `edges` (list) in place. Hubs derive purely from
+    the tags of already-included (public) notes, so they add connectivity without
+    introducing any new content.
+    """
+    from collections import defaultdict
+
+    original_titles = set(nodes)  # only hub the real notes, not other hubs
+    tag_to_notes = defaultdict(set)
+    for title in original_titles:
+        for t in nodes[title].get("tags", []):
+            ct = TAG_CANON.get(t, t)
+            if ct in HUB_STOPLIST:
+                continue
+            tag_to_notes[ct].add(title)
+
+    for ctag, titles in sorted(tag_to_notes.items()):
+        if CURATED_ONLY and ctag not in HUB_TITLE:
+            continue
+        if len(titles) < CURATED_HUB_MIN:
+            continue
+        hub_title = HUB_TITLE.get(ctag) or ctag.replace("-", " ").title()
+        # Reuse an existing node with that title (e.g. the area pages); else make one.
+        if hub_title not in nodes:
+            nodes[hub_title] = {
+                "id": hub_title,
+                "type": HUB_NODE["type"],
+                "color": HUB_NODE["color"],
+                "status": "hub",
+                "tags": [ctag],
+            }
+        for title in titles:
+            if title != hub_title:
+                edges.append({"source": title, "target": hub_title})
+
+
+# Hard confidential block-list. A title containing any of these is NEVER published,
+# regardless of folder opt-in OR an explicit per-note `public: true`. These are
+# employer-confidential project / service / model names that keep getting swept in
+# via folder bulk-opt-in (personifier-*, Deals For You, Seasonality, etc.). The
+# opt-in model says "no details"; this enforces it. Add a term here to redact one.
+CONFIDENTIAL_TERMS = [
+    "personifier", "deals for you", "deals-for-you", "dfy", "ddfy",
+    "matryoshka", "serendipity", "seasonality", "two-tower", "two tower",
+    "alloydb", "habituation", "holiday-shopper", "holiday shopper",
+    "tag platform", "tag-platform", "discovery-trend", "trend-items",
+    "mxbai", "minilm",
+]
+
+
+def is_confidential_title(title):
+    t = (title or "").lower()
+    return any(term in t for term in CONFIDENTIAL_TERMS)
+
+
 def public_folder_names(vault_path):
     """Folders whose _index.md carries `public: true` — bulk-include their notes."""
     out = set()
@@ -216,16 +363,28 @@ def build_graph(vault_path):
             # Hard excludes first, in priority order:
             if "private" in tags or is_public_optout(fm):
                 continue  # explicit per-note opt-out always wins
+            if is_confidential_title(title):
+                continue  # employer-confidential term — never publish, no override
+
+            # A note is "directly" in the public folder only when the walked dir
+            # IS that folder (rel == folder, no nested path). Nested subfolders are
+            # NOT covered by the parent's bulk opt-in.
+            directly_in_folder = (rel == folder)
 
             if is_public_optin(fm):
                 pass       # explicit per-note opt-in always wins (overrides heuristics)
-            elif folder in pub_folders:
+            elif folder in pub_folders and directly_in_folder:
                 # Folder bulk-opt-in, BUT skip detail/internal titles (graph
                 # publishes titles, so a schema/spec title would leak specifics).
                 if DETAIL_TITLE_RE.search(title):
                     continue
             else:
-                continue   # not opted in by note or folder → private by default
+                # Not opted in by note, OR sits in a NESTED subfolder of a public
+                # folder. Nested project folders (e.g. confidential Shipt projects
+                # dropped under areas/) must opt in per-note — folder bulk-opt-in
+                # does NOT recurse. Fails CLOSED. (2026-06-22: this was leaking
+                # wiki/areas/seasonality/ and wiki/areas/deals-for-you-v2/.)
+                continue
 
             status = fm.get("status", "seed")
             type_info = get_folder_type(filepath, vault_path)
@@ -242,12 +401,18 @@ def build_graph(vault_path):
             for link_target in extract_wikilinks(body):
                 edges.append({"source": title, "target": link_target})
 
-            # Extract links from frontmatter 'related' field
+            # Extract links from frontmatter 'related' field.
+            # NB: don't reuse the name `rel` here — it holds the outer directory
+            # path used by the inclusion check above; shadowing it corrupts the
+            # depth-1 test for every subsequent file in the directory.
             related = fm.get("related", []) or []
-            for rel in related:
-                match = re.search(r"\[\[(.+?)\]\]", str(rel))
+            for rel_link in related:
+                match = re.search(r"\[\[(.+?)\]\]", str(rel_link))
                 if match:
                     edges.append({"source": title, "target": match.group(1)})
+
+    # Connect related-but-unlinked notes via shared-tag topic hubs.
+    add_topic_hubs(nodes, edges)
 
     # Filter edges to only include nodes that exist in the graph
     node_titles = set(nodes.keys())
