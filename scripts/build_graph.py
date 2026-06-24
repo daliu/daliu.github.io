@@ -132,7 +132,13 @@ TAG_CANON = {
     "trading-infrastructure": "autotrader", "cost-optimization": "autotrader",
     "robinhood": "autotrader", "macroeconomics": "autotrader", "postgres": "autotrader",
     "timescaledb": "autotrader", "database": "autotrader", "signals": "autotrader",
-    "self-improving-systems": "machine-learning", "legal-nlp ": "metis",
+    "legal-nlp ": "metis",
+    # Self-improving / autonomous-agent systems get their OWN hub (not folded into
+    # generic ML) — Metis, Meta-Council's eval harness, Arbor, and the Argus PR
+    # harness share the review→evaluate→improve principle. (Dave's observation.)
+    "autonomous-research": "self-improving-systems",
+    "autonomous-systems": "self-improving-systems",
+    "evaluation-harness": "self-improving-systems",
     "vault-tooling": "knowledge-management", "obsidian": "knowledge-management",
     "knowledge-graph": "knowledge-management",
     "claude-project": "claude-harness", "agent-design": "claude-harness",
@@ -172,6 +178,7 @@ HUB_TITLE = {
     "health": "Health and Fitness",
     "finance": "Finance and Investing",
     "machine-learning": "Machine Learning",
+    "self-improving-systems": "Self-Improving & Autonomous Systems",
     "automation": "Automation",
     "testing": "Testing & Review",
     "data-viz": "Data Visualization",
