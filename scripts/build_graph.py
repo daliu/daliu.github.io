@@ -232,6 +232,12 @@ def add_work_hubs(nodes, edges, note_folder):
         if title not in nodes:
             nodes[title] = {"id": title, "type": spec["type"], "color": spec["color"],
                             "status": "hub", "tags": []}
+        else:
+            # A real backing note may now exist (e.g. wiki/entities/Onos Health.md).
+            # Keep its tags/status but force the company/project type+color so the
+            # hierarchy stays visually consistent.
+            nodes[title]["type"] = spec["type"]
+            nodes[title]["color"] = spec["color"]
 
     project_to_company = {}
     for title in list(nodes):
