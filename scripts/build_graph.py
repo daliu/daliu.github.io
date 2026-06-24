@@ -152,6 +152,7 @@ TAG_CANON = {
     "health-dashboard": "health", "garmin": "health", "google-calendar": "health",
     "fitness": "health",
     "code-review": "testing", "data-viz": "data-viz",
+    "revealed-preference": "measurement",  # values-measurement theme (PoC ↔ Kreia)
     "research-instrument": "patterns-of-choice", "research": "patterns-of-choice",
     "workflows": "claude-harness", "multi-agent": "claude-harness",
     # Work projects are organized by company → project → notes (see WORK_* below),
@@ -179,6 +180,7 @@ HUB_TITLE = {
     "finance": "Finance and Investing",
     "machine-learning": "Machine Learning",
     "self-improving-systems": "Self-Improving & Autonomous Systems",
+    "measurement": "Revealed Preference & Measurement",
     "automation": "Automation",
     "testing": "Testing & Review",
     "data-viz": "Data Visualization",
