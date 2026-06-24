@@ -153,6 +153,7 @@ TAG_CANON = {
     "fitness": "health",
     "code-review": "testing", "data-viz": "data-viz",
     "revealed-preference": "measurement",  # values-measurement theme (PoC ↔ Kreia)
+    "experimentation": "causal-inference", "ab-test": "causal-inference",  # A/B / causal work
     "research-instrument": "patterns-of-choice", "research": "patterns-of-choice",
     "workflows": "claude-harness", "multi-agent": "claude-harness",
     # Work projects are organized by company → project → notes (see WORK_* below),
@@ -181,6 +182,7 @@ HUB_TITLE = {
     "machine-learning": "Machine Learning",
     "self-improving-systems": "Self-Improving & Autonomous Systems",
     "measurement": "Revealed Preference & Measurement",
+    "causal-inference": "Causal Inference",  # reuses the existing concept node as a hub
     "automation": "Automation",
     "testing": "Testing & Review",
     "data-viz": "Data Visualization",
