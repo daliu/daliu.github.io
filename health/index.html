@@ -1239,7 +1239,9 @@
             let bedTarget = null;
             if (nights.length >= 6) { const top = [...nights].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(nights.length / 3))); bedTarget = med(top.map(d => d.norm)); }
             const stepsArr = rec.filter(d => d.total_steps != null).map(d => d.total_steps);
-            const stepGoal = stepsArr.length >= 8 ? Math.round((pctl(stepsArr, 0.7) || 0) / 500) * 500 : 10000;
+            // Track the attainable FLOOR (median) so streaks build; note stretch hits too.
+            const stepFloor = stepsArr.length >= 8 ? Math.round((med(stepsArr) || 0) / 500) * 500 : 6000;
+            const stepStretch = stepsArr.length >= 8 ? Math.round((pctl(stepsArr, 0.7) || 0) / 500) * 500 : 10000;
 
             // last 7 days-with-data → [{date, hit}]
             const lastN = (has, hit) => rec.filter(has).slice(-7).map(d => ({ date: d.date, hit: !!hit(d) }));
@@ -1248,7 +1250,10 @@
             ];
             if (bedTarget != null) metrics.push({ emoji: '🛏️', label: `Bed by ~${normalizedToBedtime12h(bedTarget)}`,
                 days: lastN(d => d.sleep_start, d => { const n = bedtimeToNormalized(d.sleep_start); return n != null && n <= bedTarget + 0.5; }) });
-            metrics.push({ emoji: '👟', label: `${stepGoal.toLocaleString()} steps`, days: lastN(d => d.total_steps != null, d => d.total_steps >= stepGoal) });
+            const stepDays = lastN(d => d.total_steps != null, d => d.total_steps >= stepFloor);
+            const stretchHits = (stepStretch > stepFloor) ? rec.filter(d => d.total_steps != null).slice(-7).filter(d => d.total_steps >= stepStretch).length : null;
+            metrics.push({ emoji: '👟', label: `Steps ≥ ${stepFloor.toLocaleString()} (floor)`, days: stepDays,
+                footExtra: stretchHits != null ? ` · ${stretchHits}/${stepDays.length} hit ${stepStretch.toLocaleString()} stretch` : '' });
 
             const dayName = ds => ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][new Date(ds + 'T12:00:00').getDay()];
             const render = m => {
@@ -1260,7 +1265,7 @@
                     <span style="width:15px;height:15px;border-radius:50%;background:${x.hit ? 'var(--green)' : 'var(--border)'};"></span>
                     <span style="font-size:0.62rem;color:var(--text-muted);margin-top:3px;">${dayName(x.date)}</span></span>`).join('');
                 const last = m.days[m.days.length - 1];
-                const foot = streak >= 2 ? `🔥 ${streak}-day streak` : (last && last.hit ? '✓ hit most recently' : 'slipped recently');
+                const foot = (streak >= 2 ? `🔥 ${streak}-day streak` : (last && last.hit ? '✓ hit most recently' : 'slipped recently')) + (m.footExtra || '');
                 return `<div class="insight-card">
                     <h3>${m.emoji} ${m.label}</h3>
                     <div style="font-size:1.5rem;font-weight:700;color:${col};margin:2px 0 8px;">${hits}/${n} <span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;">days</span></div>
