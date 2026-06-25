@@ -1245,7 +1245,15 @@
                 </div>`).join('') : '<p style="color:var(--text-muted)">Not enough recent data to plan yet.</p>';
 
             const w = dataWindow(daily), cap = document.getElementById('planCaption');
-            if (cap && w) cap.innerHTML = `🗓️ Planning for <strong>${DOW[tomorrowDow]}</strong> — concrete targets for tonight &amp; tomorrow, from your last <strong>${w.realDays} days</strong> of data.${w.freshnessHtml || ''}`;
+            if (cap && w) {
+                // Confidence note: how much recent data actually backs these targets.
+                // The smallest sample feeding the cards (sleep nights vs step days) governs.
+                const minN = Math.min(nights.length, steps.length);
+                let conf = '';
+                if (minN < 10) conf = ` <span style="color:var(--yellow);font-weight:600;">⚠ limited data (~${minN} days) — treat these as rough starting points.</span>`;
+                else if (minN < 21) conf = ` <span style="color:var(--text-muted);">(provisional — ~${minN} days; sharpens as data builds)</span>`;
+                cap.innerHTML = `🗓️ Planning for <strong>${DOW[tomorrowDow]}</strong> — concrete targets for tonight &amp; tomorrow, from your last <strong>${w.realDays} days</strong> of data.${conf}${w.freshnessHtml || ''}`;
+            }
         }
 
         // Weekly accountability: how often the last 7 days-with-data hit the plan's
