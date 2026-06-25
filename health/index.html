@@ -1211,6 +1211,32 @@
                 cards.push({ emoji: '📐', title: 'Bedtime regularity', big: `±${sd} min`, why, color });
             }
 
+            // 7) Tomorrow's intensity — how HARD to go (steps are volume; this is effort),
+            //    from recovery state + recent vigorous load. (Dave routinely clears the
+            //    WHO 150/wk volume goal, so the useful lever is hard-vs-easy, not minutes.)
+            const vigDays = rec.filter(d => d.vigorous_minutes != null);
+            if (vigDays.length >= 6) {
+                const recentLoad = daily.slice(-2).reduce((a, d) => a + (d.vigorous_minutes || 0), 0);  // vigorous min, last 2 days
+                const hardRecently = recentLoad >= 60;
+                let big, why, color;
+                if (recovery.state === 'low' || hardRecently) {
+                    big = 'Easy / recover';
+                    why = recovery.state === 'low'
+                        ? `${recovery.hrvNote} — keep it light (walk or easy spin), skip hard intervals.`
+                        : `${recentLoad} vigorous min in the last 2 days — let your body absorb it before going hard again.`;
+                    color = 'var(--yellow)';
+                } else if (recovery.state === 'fresh') {
+                    big = 'Go hard';
+                    why = 'Fresh and lightly loaded — a good day for a vigorous session (intervals or a tempo effort).';
+                    color = 'var(--green)';
+                } else {
+                    big = 'Moderate';
+                    why = 'Balanced recovery — a steady moderate effort fits; add intensity if you feel good mid-session.';
+                    color = 'var(--green)';
+                }
+                cards.push({ emoji: '💪', title: "Tomorrow's intensity", big, why, color });
+            }
+
             el.innerHTML = cards.length ? cards.map(c => `
                 <div class="insight-card">
                     <h3>${c.emoji} ${c.title}</h3>
