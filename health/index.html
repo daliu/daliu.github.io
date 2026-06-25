@@ -1305,7 +1305,7 @@
                 const ratio = n ? hits / n : 0;
                 const col = ratio >= 0.7 ? 'var(--green)' : ratio >= 0.4 ? 'var(--yellow)' : 'var(--red)';
                 const dots = m.days.map(x => `<span title="${x.date}" style="display:inline-flex;flex-direction:column;align-items:center;margin-right:6px;">
-                    <span style="width:15px;height:15px;border-radius:50%;background:${x.hit ? 'var(--green)' : 'var(--border)'};"></span>
+                    <span style="width:15px;height:15px;border-radius:50%;${x.hit ? 'background:var(--green);border:2px solid var(--green);' : 'background:transparent;border:2px solid var(--text-muted);'}"></span>
                     <span style="font-size:0.62rem;color:var(--text-muted);margin-top:3px;">${dayName(x.date)}</span></span>`).join('');
                 const last = m.days[m.days.length - 1];
                 const foot = (streak >= 2 ? `🔥 ${streak}-day streak` : (last && last.hit ? '✓ hit most recently' : 'slipped recently')) + (m.footExtra || '');
@@ -1356,7 +1356,11 @@
                         { data: last.map(() => target + 0.5), borderColor: 'transparent', pointRadius: 0, fill: false },                       // band top
                         { data: last.map(() => target - 0.5), borderColor: 'transparent', pointRadius: 0, backgroundColor: 'rgba(63,185,80,0.12)', fill: '-1' },  // band fill
                         { data: last.map(() => target), borderColor: 'rgba(63,185,80,0.45)', borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, fill: false }, // target line
-                        { data: pts, showLine: false, pointRadius: 5, pointHoverRadius: 7,                                                       // bedtime dots
+                        { data: pts, showLine: false, pointHoverRadius: 8,                                                                       // bedtime dots
+                            // Shape AND color encode hit/miss (color-blind-safe): in-window = filled circle, off = ✕.
+                            pointStyle: inBand.map(b => b ? 'circle' : 'crossRot'),
+                            pointRadius: inBand.map(b => b ? 5 : 6),
+                            borderWidth: inBand.map(b => b ? 1 : 2.5),
                             pointBackgroundColor: inBand.map(b => b ? '#3fb950' : '#f0883e'),
                             pointBorderColor: inBand.map(b => b ? '#3fb950' : '#f0883e') },
                     ]
