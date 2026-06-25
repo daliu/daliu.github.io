@@ -478,6 +478,12 @@
             Concrete targets for tonight &amp; tomorrow, derived from your own recent Garmin data.</p>
         <div class="insights-grid" id="tomorrowPlan"></div>
 
+        <!-- Weekly adherence to the plan targets -->
+        <div class="section-title">📊 This Week's Targets</div>
+        <p id="weeklyTargetsCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">
+            How consistently you hit your plan targets over the last 7 days with data.</p>
+        <div class="insights-grid" id="weeklyTargets"></div>
+
         <!-- Pattern insights computed from the daily series -->
         <div class="section-title">🧠 What your data shows</div>
         <p id="patternCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
@@ -1116,6 +1122,61 @@
 
             const w = dataWindow(daily), cap = document.getElementById('planCaption');
             if (cap && w) cap.innerHTML = `Concrete targets for tonight &amp; tomorrow, from your last <strong>${w.realDays} days</strong> of data.${w.freshnessHtml || ''}`;
+        }
+
+        // Weekly accountability: how often the last 7 days-with-data hit the plan's
+        // targets (stable baselines, not the recovery-dosed daily number). Streak +
+        // a 7-dot strip turn the targets into habit feedback.
+        function buildWeeklyTargets(daily) {
+            const el = document.getElementById('weeklyTargets');
+            if (!el || !daily || !daily.length) return;
+            const rec = daily.slice(-45);
+            const med = a => { const s = [...a].sort((x, y) => x - y); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
+            const pctl = (a, p) => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.min(s.length - 1, Math.floor(p * (s.length - 1)))] : null; };
+
+            // Reference targets (match the Plan card's stable baselines).
+            const SLEEP_GOAL = 7;
+            const nights = rec.filter(d => d.sleep_start && d.sleep_score != null)
+                .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score })).filter(d => d.norm != null);
+            let bedTarget = null;
+            if (nights.length >= 6) { const top = [...nights].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(nights.length / 3))); bedTarget = med(top.map(d => d.norm)); }
+            const stepsArr = rec.filter(d => d.total_steps != null).map(d => d.total_steps);
+            const stepGoal = stepsArr.length >= 8 ? Math.round((pctl(stepsArr, 0.7) || 0) / 500) * 500 : 10000;
+
+            // last 7 days-with-data → [{date, hit}]
+            const lastN = (has, hit) => rec.filter(has).slice(-7).map(d => ({ date: d.date, hit: !!hit(d) }));
+            const metrics = [
+                { emoji: '😴', label: `Sleep ≥ ${SLEEP_GOAL}h`, days: lastN(d => d.sleep_hours != null, d => d.sleep_hours >= SLEEP_GOAL) },
+            ];
+            if (bedTarget != null) metrics.push({ emoji: '🛏️', label: `Bed by ~${normalizedToBedtime12h(bedTarget)}`,
+                days: lastN(d => d.sleep_start, d => { const n = bedtimeToNormalized(d.sleep_start); return n != null && n <= bedTarget + 0.5; }) });
+            metrics.push({ emoji: '👟', label: `${stepGoal.toLocaleString()} steps`, days: lastN(d => d.total_steps != null, d => d.total_steps >= stepGoal) });
+
+            const dayName = ds => ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][new Date(ds + 'T12:00:00').getDay()];
+            const render = m => {
+                const n = m.days.length, hits = m.days.filter(x => x.hit).length;
+                let streak = 0; for (let i = m.days.length - 1; i >= 0; i--) { if (m.days[i].hit) streak++; else break; }
+                const ratio = n ? hits / n : 0;
+                const col = ratio >= 0.7 ? 'var(--green)' : ratio >= 0.4 ? 'var(--yellow)' : 'var(--red)';
+                const dots = m.days.map(x => `<span title="${x.date}" style="display:inline-flex;flex-direction:column;align-items:center;margin-right:6px;">
+                    <span style="width:15px;height:15px;border-radius:50%;background:${x.hit ? 'var(--green)' : 'var(--border)'};"></span>
+                    <span style="font-size:0.62rem;color:var(--text-muted);margin-top:3px;">${dayName(x.date)}</span></span>`).join('');
+                const last = m.days[m.days.length - 1];
+                const foot = streak >= 2 ? `🔥 ${streak}-day streak` : (last && last.hit ? '✓ hit most recently' : 'slipped recently');
+                return `<div class="insight-card">
+                    <h3>${m.emoji} ${m.label}</h3>
+                    <div style="font-size:1.5rem;font-weight:700;color:${col};margin:2px 0 8px;">${hits}/${n} <span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;">days</span></div>
+                    <div style="display:flex;margin-bottom:8px;">${dots}</div>
+                    <div class="insight-detail" style="color:var(--text-muted);font-size:0.95rem;">${foot}</div>
+                </div>`;
+            };
+            const shown = metrics.filter(m => m.days.length >= 3);
+            el.innerHTML = shown.length ? shown.map(render).join('') : '<p style="color:var(--text-muted)">Not enough recent data to track targets yet.</p>';
+            const cap = document.getElementById('weeklyTargetsCaption');
+            if (cap && shown.length) {
+                const span = shown[0].days;
+                cap.innerHTML = `How consistently you hit your plan targets over your last 7 days with data (${span[0].date} → ${span[span.length - 1].date}). Green dot = hit.`;
+            }
         }
 
         function buildPatternInsights(daily) {
@@ -2892,6 +2953,7 @@
 
                 // Build all sections
                 buildTomorrowPlan(daily);
+                buildWeeklyTargets(daily);
                 buildPatternInsights(daily30);
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
