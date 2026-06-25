@@ -1,26 +1,6 @@
 {
-  "updated": "2026-06-23T19:00:07.382148",
+  "updated": "2026-06-24T19:00:06.080929",
   "daily": [
-    {
-      "date": "2026-03-26",
-      "avg_body_battery": 48.0,
-      "min_body_battery": 14,
-      "max_body_battery": 87,
-      "avg_stress": 17.0,
-      "total_steps": 6224,
-      "sleep_score": 94,
-      "sleep_hours": 8.82,
-      "hrv_weekly": 62,
-      "hrv_last_night": 66,
-      "hrv_status": "BALANCED",
-      "resting_hr": 44,
-      "sleep_start": null,
-      "sleep_end": null,
-      "active_calories": 363.0,
-      "intensity_minutes": 3,
-      "vigorous_minutes": 25,
-      "distance_meters": 6179.0
-    },
     {
       "date": "2026-03-27",
       "avg_body_battery": 40.0,
@@ -1300,45 +1280,49 @@
       "intensity_minutes": 0,
       "vigorous_minutes": 0,
       "distance_meters": 2063.0
+    },
+    {
+      "date": "2026-06-24",
+      "avg_body_battery": 59.0,
+      "min_body_battery": 20,
+      "max_body_battery": 97,
+      "avg_stress": 20.0,
+      "total_steps": 4660,
+      "sleep_score": 84,
+      "sleep_hours": 7.3,
+      "hrv_weekly": 76,
+      "hrv_last_night": 80,
+      "hrv_status": "BALANCED",
+      "resting_hr": 41,
+      "sleep_start": null,
+      "sleep_end": null,
+      "active_calories": 95.0,
+      "intensity_minutes": 0,
+      "vigorous_minutes": 0,
+      "distance_meters": 4012.0
+    },
+    {
+      "date": "2026-06-25",
+      "avg_body_battery": 42.0,
+      "min_body_battery": 28,
+      "max_body_battery": 97,
+      "avg_stress": 28.0,
+      "total_steps": 2930,
+      "sleep_score": 84,
+      "sleep_hours": 7.3,
+      "hrv_weekly": 74,
+      "hrv_last_night": 80,
+      "hrv_status": "BALANCED",
+      "resting_hr": 41,
+      "sleep_start": null,
+      "sleep_end": null,
+      "active_calories": 9.0,
+      "intensity_minutes": 0,
+      "vigorous_minutes": 0,
+      "distance_meters": 2640.0
     }
   ],
   "hourly": [
-    {
-      "timestamp": "2026-06-17 05:00:04",
-      "body_battery_current": 33,
-      "resting_hr": 43,
-      "stress_avg": 22,
-      "steps": 12161,
-      "sleep_score": 86,
-      "hrv_weekly_avg": 81
-    },
-    {
-      "timestamp": "2026-06-17 09:00:02",
-      "body_battery_current": 31,
-      "resting_hr": 48,
-      "stress_avg": 22,
-      "steps": 170,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-06-17 13:00:02",
-      "body_battery_current": 79,
-      "resting_hr": 39,
-      "stress_avg": 11,
-      "steps": 170,
-      "sleep_score": 51,
-      "hrv_weekly_avg": 81
-    },
-    {
-      "timestamp": "2026-06-17 16:00:23",
-      "body_battery_current": 78,
-      "resting_hr": 39,
-      "stress_avg": 12,
-      "steps": 181,
-      "sleep_score": 51,
-      "hrv_weekly_avg": 81
-    },
     {
       "timestamp": "2026-06-18 05:00:03",
       "body_battery_current": 10,
@@ -1491,6 +1475,51 @@
       "steps": 2344,
       "sleep_score": 76,
       "hrv_weekly_avg": 76
+    },
+    {
+      "timestamp": "2026-06-24 04:00:01",
+      "body_battery_current": 28,
+      "resting_hr": 41,
+      "stress_avg": 30,
+      "steps": 4660,
+      "sleep_score": 76,
+      "hrv_weekly_avg": 76
+    },
+    {
+      "timestamp": "2026-06-24 08:00:02",
+      "body_battery_current": 28,
+      "resting_hr": 45,
+      "stress_avg": 22,
+      "steps": 157,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-06-24 16:00:42",
+      "body_battery_current": 96,
+      "resting_hr": 41,
+      "stress_avg": 12,
+      "steps": 278,
+      "sleep_score": 84,
+      "hrv_weekly_avg": 74
+    },
+    {
+      "timestamp": "2026-06-24 17:00:02",
+      "body_battery_current": 85,
+      "resting_hr": 41,
+      "stress_avg": 14,
+      "steps": 509,
+      "sleep_score": 84,
+      "hrv_weekly_avg": 74
+    },
+    {
+      "timestamp": "2026-06-25 00:00:02",
+      "body_battery_current": 42,
+      "resting_hr": 41,
+      "stress_avg": 28,
+      "steps": 2930,
+      "sleep_score": 84,
+      "hrv_weekly_avg": 74
     }
   ]
 }
