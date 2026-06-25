@@ -1019,16 +1019,34 @@
             const rec = daily.slice(-45);  // recent ~6 weeks
             const med = a => { const s = [...a].sort((x, y) => x - y); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
             const pctl = (a, p) => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.min(s.length - 1, Math.floor(p * (s.length - 1)))] : null; };
+            const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
             const cards = [];
 
-            // 1) Target bedtime — median bedtime of the best-scoring third of nights.
+            // Day-of-week awareness: the plan is for TOMORROW, so tailor to that weekday.
+            // (sleep_score is labeled by wake date, so tomorrow's weekday is the right
+            // lever for tonight's bedtime; steps use tomorrow's weekday directly.)
+            const DOW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const tomorrowDow = (new Date().getDay() + 1) % 7;
+            const onDow = (key) => daily.filter(d => new Date(d.date + 'T12:00:00').getDay() === tomorrowDow && d[key] != null).map(d => d[key]);
+            const wkSteps = onDow('total_steps'), wkSleep = onDow('sleep_score');
+            const allSleepAvg = mean(daily.filter(d => d.sleep_score != null).map(d => d.sleep_score));
+
+            // 1) Target bedtime — best-scoring nights, nudged earlier if this weekday sleeps poorly.
             const nights = rec.filter(d => d.sleep_start && d.sleep_score != null)
                 .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score }))
                 .filter(d => d.norm != null);
             if (nights.length >= 6) {
                 const top = [...nights].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(nights.length / 3)));
-                cards.push({ emoji: '🛏️', title: 'Target bedtime', big: normalizedToBedtime12h(med(top.map(d => d.norm))),
-                    why: `Your best-scoring nights (~${Math.round(med(top.map(d => d.score)))}/100) cluster around this time.`, color: 'var(--purple)' });
+                let bedNorm = med(top.map(d => d.norm));
+                let why = `Your best-scoring nights (~${Math.round(med(top.map(d => d.score)))}/100) cluster around this time.`;
+                if (wkSleep.length >= 4 && allSleepAvg != null) {
+                    const wkAvg = mean(wkSleep);
+                    if (wkAvg <= allSleepAvg - 5) {  // this weekday tends to sleep worse → go earlier
+                        bedNorm -= 0.42;  // ~25 min
+                        why = `${DOW[tomorrowDow]} nights tend to score lower (~${Math.round(wkAvg)} vs ${Math.round(allSleepAvg)} avg) — aim ~25 min earlier tonight.`;
+                    }
+                }
+                cards.push({ emoji: '🛏️', title: 'Target bedtime', big: normalizedToBedtime12h(bedNorm), why, color: 'var(--purple)' });
             }
 
             // 2) Target sleep duration — personalized 7h benefit.
@@ -1068,12 +1086,19 @@
                 return { factor, state, hrvNote, bbNote };
             })();
 
-            // 3) Activity target — recovery-DOSED stretch goal (base 70th-pctl × recovery factor).
+            // 3) Activity target — recovery-DOSED stretch goal, pulled toward this
+            //    weekday's own typical level (70th-pctl blended with the weekday median).
             const steps = rec.filter(d => d.total_steps != null).map(d => d.total_steps);
             if (steps.length >= 8) {
-                const target = Math.round((pctl(steps, 0.7) || 0) * recovery.factor / 500) * 500;
+                let base = pctl(steps, 0.7) || 0, dowNote = '';
+                if (wkSteps.length >= 4) {
+                    const wkMed = med(wkSteps);
+                    base = 0.5 * base + 0.5 * wkMed;  // tailor to how active you usually are on this day
+                    dowNote = ` On ${DOW[tomorrowDow]}s you average ${Math.round(wkMed).toLocaleString()}.`;
+                }
+                const target = Math.round(base * recovery.factor / 500) * 500;
                 const pctAdj = Math.round((recovery.factor - 1) * 100);
-                let why = `Recent median ${Math.round(med(steps)).toLocaleString()}.`;
+                let why = `Recent median ${Math.round(med(steps)).toLocaleString()}.${dowNote}`;
                 if (recovery.factor < 0.97) why += ` Dialed back ${Math.abs(pctAdj)}% — ${recovery.bbNote || recovery.hrvNote.toLowerCase()}.`;
                 else if (recovery.factor > 1.03) why += ` Room to push +${pctAdj}% — you're well recovered.`;
                 else {
@@ -1121,7 +1146,7 @@
                 </div>`).join('') : '<p style="color:var(--text-muted)">Not enough recent data to plan yet.</p>';
 
             const w = dataWindow(daily), cap = document.getElementById('planCaption');
-            if (cap && w) cap.innerHTML = `Concrete targets for tonight &amp; tomorrow, from your last <strong>${w.realDays} days</strong> of data.${w.freshnessHtml || ''}`;
+            if (cap && w) cap.innerHTML = `🗓️ Planning for <strong>${DOW[tomorrowDow]}</strong> — concrete targets for tonight &amp; tomorrow, from your last <strong>${w.realDays} days</strong> of data.${w.freshnessHtml || ''}`;
         }
 
         // Weekly accountability: how often the last 7 days-with-data hit the plan's
