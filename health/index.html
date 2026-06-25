@@ -496,6 +496,15 @@
             <div class="chart-card"><div class="chart-container" style="height: 240px;"><canvas id="bedtimeStripChart"></canvas></div></div>
         </div>
 
+        <!-- Interactive what-if: tomorrow's effort level -> expected same-day outcome -->
+        <div id="effortWhatIfSection" style="display: none;">
+            <div class="section-title">🔮 Tomorrow's effort — what to expect</div>
+            <p style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">
+                Pick an activity level to see how your body usually responds that day (and that night's sleep), from your own history.</p>
+            <div class="time-range-bar" id="effortButtons" style="margin-bottom: 14px;"></div>
+            <div class="chart-card" id="effortOutput" style="padding: 18px 20px;"></div>
+        </div>
+
         <!-- Pattern insights computed from the daily series -->
         <div class="section-title">🧠 What your data shows</div>
         <p id="patternCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
@@ -2939,11 +2948,54 @@
             el.innerHTML = `💡 <strong>Your biggest lever:</strong> ${win.phrase} <span style="color:var(--text-muted);font-size:0.9rem;">(n=${win.n})</span>`;
         }
 
+        // Interactive what-if over a relationship that's actually strong in the data:
+        // activity level -> same-day body battery / that-night sleep / stress (from the
+        // pipeline's activity_levels buckets). Note: sleep-HOURS -> next-day metrics is
+        // ~r=0.02 for this user, so we deliberately do NOT offer that (would mislead).
+        function renderEffortWhatIf(corr) {
+            const sec = document.getElementById('effortWhatIfSection');
+            const btnBar = document.getElementById('effortButtons');
+            const out = document.getElementById('effortOutput');
+            if (!sec || !btnBar || !out || !corr || !corr.activity_levels) { if (sec) sec.style.display = 'none'; return; }
+            const b = corr.baseline || {};
+            const LEVELS = [
+                { key: 'rest_day', label: 'Rest' }, { key: 'light', label: 'Light' },
+                { key: 'moderate', label: 'Moderate' }, { key: 'intense', label: 'Intense' },
+            ].filter(l => corr.activity_levels[l.key] && corr.activity_levels[l.key].sample_size >= 6);
+            if (LEVELS.length < 2) { sec.style.display = 'none'; return; }
+            sec.style.display = '';
+
+            const delta = (v, base, lowerBetter) => {
+                if (v == null || base == null) return '';
+                const d = v - base, good = lowerBetter ? d < 0 : d > 0;
+                const col = Math.abs(d) < 1 ? 'var(--text-muted)' : (good ? 'var(--green)' : 'var(--red)');
+                return `<span style="color:${col};font-size:0.9rem;"> (${Math.abs(d) < 1 ? '≈ usual' : (d > 0 ? '+' : '') + Math.round(d)})</span>`;
+            };
+            const renderOut = key => {
+                const v = corr.activity_levels[key];
+                out.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:14px 26px;align-items:baseline;font-size:1.1rem;">
+                    <span>🔋 Body battery <strong>${Math.round(v.battery)}</strong>${delta(v.battery, b.avg_body_battery, false)}</span>
+                    <span>😴 That night's sleep <strong>${Math.round(v.sleep)}</strong>${delta(v.sleep, b.sleep_score, false)}</span>
+                    <span>😌 Stress <strong>${Math.round(v.stress)}</strong>${delta(v.stress, b.avg_stress, true)}</span>
+                    <span style="color:var(--text-muted);font-size:0.9rem;">based on ${v.sample_size} of your days</span>
+                </div>`;
+            };
+            btnBar.innerHTML = LEVELS.map(l => `<button class="time-range-btn" data-key="${l.key}">${l.label}</button>`).join('');
+            btnBar.querySelectorAll('.time-range-btn').forEach(btn => btn.addEventListener('click', function () {
+                btnBar.querySelectorAll('.time-range-btn').forEach(x => x.classList.remove('active'));
+                this.classList.add('active'); renderOut(this.dataset.key);
+            }));
+            const def = LEVELS.find(l => l.key === 'moderate') || LEVELS[0];
+            btnBar.querySelector(`[data-key="${def.key}"]`).classList.add('active');
+            renderOut(def.key);
+        }
+
         async function loadCorrelations() {
             try {
                 const resp = await fetch('correlations.json?t=' + Date.now());
                 const corr = await resp.json();
                 renderBiggestWin(corr);
+                renderEffortWhatIf(corr);
 
                 // Calendar Insights
                 const insightsHtml = corr.insights.map(i => {
