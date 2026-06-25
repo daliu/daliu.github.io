@@ -472,6 +472,12 @@
             <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.6rem;" id="current-bedtime">--</div><div class="stat-label">Bedtime</div></div>
         </div>
 
+        <!-- Next-day planning: concrete targets synthesized from the user's own data -->
+        <div class="section-title">🌅 Plan for Tomorrow</div>
+        <p id="planCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">
+            Concrete targets for tonight &amp; tomorrow, derived from your own recent Garmin data.</p>
+        <div class="insights-grid" id="tomorrowPlan"></div>
+
         <!-- Pattern insights computed from the daily series -->
         <div class="section-title">🧠 What your data shows</div>
         <p id="patternCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
@@ -996,6 +1002,90 @@
                     ? ` · <span style="color: var(--yellow); font-weight: 600;">⚠ most recent reading ${fmt(lastReal)} (${ageDays} day${ageDays === 1 ? '' : 's'} ago)</span>`
                     : (lastReal ? ` · fresh through ${fmt(lastReal)}` : '')
             };
+        }
+
+        // Next-day planning: synthesize concrete, data-grounded targets for tonight
+        // & tomorrow. Each card states the target + a one-line "why" from the user's
+        // own numbers. Re-callable (upgrades the workout-window card once intraday loads).
+        function buildTomorrowPlan(daily) {
+            const el = document.getElementById('tomorrowPlan');
+            if (!el || !daily || !daily.length) return;
+            const rec = daily.slice(-45);  // recent ~6 weeks
+            const med = a => { const s = [...a].sort((x, y) => x - y); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
+            const pctl = (a, p) => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.min(s.length - 1, Math.floor(p * (s.length - 1)))] : null; };
+            const cards = [];
+
+            // 1) Target bedtime — median bedtime of the best-scoring third of nights.
+            const nights = rec.filter(d => d.sleep_start && d.sleep_score != null)
+                .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score }))
+                .filter(d => d.norm != null);
+            if (nights.length >= 6) {
+                const top = [...nights].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(nights.length / 3)));
+                cards.push({ emoji: '🛏️', title: 'Target bedtime', big: normalizedToBedtime12h(med(top.map(d => d.norm))),
+                    why: `Your best-scoring nights (~${Math.round(med(top.map(d => d.score)))}/100) cluster around this time.`, color: 'var(--purple)' });
+            }
+
+            // 2) Target sleep duration — personalized 7h benefit.
+            const hs = rec.filter(d => d.sleep_hours && d.sleep_score != null);
+            if (hs.length >= 8) {
+                const above = hs.filter(d => d.sleep_hours >= 7).map(d => d.sleep_score);
+                const below = hs.filter(d => d.sleep_hours < 7).map(d => d.sleep_score);
+                let why = 'Aim for a full, consistent night.';
+                if (above.length >= 3 && below.length >= 3) {
+                    const diff = Math.round(stats.mean(above) - stats.mean(below));
+                    why = diff > 0 ? `Nights ≥7h score ~${diff} pts better for you.` : 'Bedtime consistency matters more than raw hours for you.';
+                }
+                const good = hs.filter(d => d.sleep_score >= 70).map(d => d.sleep_hours);
+                const target = Math.max(7, +((good.length ? med(good) : 7)).toFixed(1));
+                cards.push({ emoji: '😴', title: 'Sleep duration', big: `≥ ${target} h`, why, color: 'var(--cyan)' });
+            }
+
+            // 3) Activity target — stretch goal from recent distribution + body-battery link.
+            const steps = rec.filter(d => d.total_steps != null).map(d => d.total_steps);
+            if (steps.length >= 8) {
+                const target = Math.round((pctl(steps, 0.7) || 0) / 500) * 500;
+                let why = `Your recent median is ${Math.round(med(steps)).toLocaleString()} steps.`;
+                const bb = rec.filter(d => d.max_body_battery != null && d.total_steps != null);
+                if (bb.length >= 10) {
+                    const r = stats.correlation(bb.map(d => d.total_steps), bb.map(d => d.max_body_battery));
+                    if (r && r > 0.25) why += ' More movement tracks higher body battery for you.';
+                }
+                cards.push({ emoji: '👟', title: 'Activity target', big: `${target.toLocaleString()} steps`, why, color: 'var(--accent)' });
+            }
+
+            // 4) Best workout window — intraday body-battery peak = most energy to spend.
+            if (typeof allHourlyData !== 'undefined' && allHourlyData && allHourlyData.length) {
+                const buck = Array.from({ length: 24 }, () => []);
+                for (const r of allHourlyData) if (r.body_battery != null) buck[new Date(r.t).getHours()].push(r.body_battery);
+                const means = buck.map(v => v.length ? v.reduce((a, b) => a + b, 0) / v.length : null);
+                let peakH = -1, peakV = -1;
+                for (let h = 6; h <= 20; h++) if (means[h] != null && means[h] > peakV) { peakV = means[h]; peakH = h; }
+                if (peakH >= 0) {
+                    const fmt = h => h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm';
+                    cards.push({ emoji: '⏱️', title: 'Best workout window', big: `~${fmt(peakH)}`,
+                        why: `Your body battery peaks here (~${Math.round(peakV)}) — the most energy to spend.`, color: 'var(--green)' });
+                }
+            }
+
+            // 5) Recovery guidance — HRV status drives today's intensity.
+            const latest = [...daily].reverse().find(d => d.hrv_status || d.max_body_battery != null);
+            if (latest) {
+                const st = (latest.hrv_status || '').toUpperCase();
+                let big = 'Listen to your body', why = 'Not enough HRV signal yet today.', color = 'var(--text-muted)';
+                if (/LOW|UNBALANCED|POOR/.test(st)) { big = 'Go easy today'; why = 'HRV is below your baseline — favor light activity and an earlier night.'; color = 'var(--yellow)'; }
+                else if (/BALANCED|GOOD/.test(st)) { big = 'Good to train'; why = 'HRV is balanced — green light for a normal or hard session.'; color = 'var(--green)'; }
+                cards.push({ emoji: '❤️‍🩹', title: 'Recovery', big, why, color });
+            }
+
+            el.innerHTML = cards.length ? cards.map(c => `
+                <div class="insight-card">
+                    <h3>${c.emoji} ${c.title}</h3>
+                    <div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div>
+                    <div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div>
+                </div>`).join('') : '<p style="color:var(--text-muted)">Not enough recent data to plan yet.</p>';
+
+            const w = dataWindow(daily), cap = document.getElementById('planCaption');
+            if (cap && w) cap.innerHTML = `Concrete targets for tonight &amp; tomorrow, from your last <strong>${w.realDays} days</strong> of data.${w.freshnessHtml || ''}`;
         }
 
         function buildPatternInsights(daily) {
@@ -2508,6 +2598,7 @@
                 const d = await resp.json();
                 allHourlyData = d.series || [];
                 renderHourlyCharts();
+                if (allDailyData) buildTomorrowPlan(allDailyData);  // upgrade workout-window card with intraday data
             } catch (e) {
                 console.warn('hourly data unavailable', e);
                 document.getElementById('hourlyChartsGrid').style.display = 'none';
@@ -2770,6 +2861,7 @@
                 const calendar = await loadCalendar();
 
                 // Build all sections
+                buildTomorrowPlan(daily);
                 buildPatternInsights(daily30);
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
