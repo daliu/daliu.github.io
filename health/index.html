@@ -1138,6 +1138,24 @@
                 cards.push({ emoji: '❤️‍🩹', title: 'Recovery', big: c.big, why: c.why, color: c.color });
             }
 
+            // 6) Bedtime regularity — variance itself is a lever (consistent nights sleep better).
+            const bn = rec.filter(d => d.sleep_start && d.sleep_score != null)
+                .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score })).filter(d => d.norm != null);
+            if (bn.length >= 8) {
+                const bm = med(bn.map(d => d.norm));
+                const sd = Math.round(Math.sqrt(bn.reduce((a, d) => a + (d.norm - bm) ** 2, 0) / bn.length) * 60);  // min
+                const con = bn.filter(d => Math.abs(d.norm - bm) <= 0.5).map(d => d.score);
+                const vary = bn.filter(d => Math.abs(d.norm - bm) > 0.5).map(d => d.score);
+                let why = `Your bedtime swings ±${sd} min around ~${normalizedToBedtime12h(bm)}.`;
+                if (con.length >= 4 && vary.length >= 4) {
+                    const diff = Math.round(mean(con) - mean(vary));
+                    why += diff > 0 ? ` Nights near your usual time score ~${diff} pts better — a tighter window is a low-effort win.`
+                                    : ' Aim to keep it within ±30 min for steadier recovery.';
+                } else { why += ' Aim to keep it within ±30 min.'; }
+                const color = sd > 60 ? 'var(--red)' : sd > 30 ? 'var(--yellow)' : 'var(--green)';
+                cards.push({ emoji: '📐', title: 'Bedtime regularity', big: `±${sd} min`, why, color });
+            }
+
             el.innerHTML = cards.length ? cards.map(c => `
                 <div class="insight-card">
                     <h3>${c.emoji} ${c.title}</h3>
