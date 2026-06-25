@@ -279,6 +279,8 @@
             border-radius: 8px;
             padding: 6px;
             width: fit-content;
+            max-width: 100%;       /* never exceed viewport... */
+            flex-wrap: wrap;       /* ...wrap buttons to a new line on narrow screens instead */
         }
         .time-range-btn {
             padding: 6px 18px;
