@@ -472,6 +472,9 @@
             <div class="stat-card"><div class="stat-value" style="color: var(--text-muted); font-size: 1.6rem;" id="current-bedtime">--</div><div class="stat-label">Bedtime</div></div>
         </div>
 
+        <!-- Yesterday recap: did the last complete day hit the plan's targets? -->
+        <div id="yesterdayRecap" style="display: none; font-size: 1.02rem; line-height: 1.5; margin: 0 0 18px; padding: 12px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text);"></div>
+
         <!-- Next-day planning: concrete targets synthesized from the user's own data -->
         <div class="section-title">🌅 Plan for Tomorrow</div>
         <p id="planCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">
@@ -1017,6 +1020,45 @@
                     ? ` · <span style="color: var(--yellow); font-weight: 600;">⚠ most recent reading ${fmt(lastReal)} (${ageDays} day${ageDays === 1 ? '' : 's'} ago)</span>`
                     : (lastReal ? ` · fresh through ${fmt(lastReal)}` : '')
             };
+        }
+
+        // Morning recap: did the last COMPLETE day (date < today) hit the plan's
+        // stable targets (sleep >=7h, bedtime on-time, steps >= floor)? Closes the
+        // plan -> do -> review loop with a quick scorecard + a nudge for the miss.
+        function buildYesterdayRecap(daily) {
+            const el = document.getElementById('yesterdayRecap');
+            if (!el || !daily || !daily.length) return;
+            const pad = n => String(n).padStart(2, '0');
+            const now = new Date();
+            const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+            const y = [...daily].filter(d => d.date < todayStr).reverse().find(d => d.sleep_score != null || d.total_steps != null);
+            if (!y) { el.style.display = 'none'; return; }
+
+            const med = a => { const s = [...a].sort((x, z) => x - z); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
+            const pctl = (a, p) => { const s = [...a].sort((x, z) => x - z); return s.length ? s[Math.min(s.length - 1, Math.floor(p * (s.length - 1)))] : null; };
+            const rec = daily.slice(-45);
+            // same stable targets as the weekly tracker / plan floor
+            const stepFloor = (() => { const s = rec.filter(d => d.total_steps != null).map(d => d.total_steps); return s.length >= 8 ? Math.round((med(s) || 0) / 500) * 500 : 8000; })();
+            const bedTarget = (() => {
+                const ns = rec.filter(d => d.sleep_start && d.sleep_score != null).map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score })).filter(d => d.norm != null);
+                if (ns.length < 6) return null;
+                const top = [...ns].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(ns.length / 3)));
+                return med(top.map(d => d.norm));
+            })();
+
+            const chips = [];
+            if (y.sleep_hours != null) chips.push({ ok: y.sleep_hours >= 7, txt: `😴 ${y.sleep_hours.toFixed(1)}h`, miss: 'short on sleep; protect tonight\'s window' });
+            if (y.sleep_start && bedTarget != null) { const n = bedtimeToNormalized(y.sleep_start); chips.push({ ok: n != null && n <= bedTarget + 0.5, txt: `🛏️ ${formatTime(y.sleep_start)}`, miss: 'late to bed; aim for your target tonight' }); }
+            if (y.total_steps != null) chips.push({ ok: y.total_steps >= stepFloor, txt: `👟 ${y.total_steps.toLocaleString()}`, miss: 'low movement; an easy walk clears the floor' });
+            if (!chips.length) { el.style.display = 'none'; return; }
+
+            const hit = chips.filter(c => c.ok).length;
+            const dlabel = new Date(y.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            const chipHtml = chips.map(c => `<span style="white-space:nowrap;">${c.txt} <span style="color:${c.ok ? 'var(--green)' : 'var(--red)'};font-weight:700;">${c.ok ? '✓' : '✗'}</span></span>`).join(' &nbsp;·&nbsp; ');
+            const firstMiss = chips.find(c => !c.ok);
+            const tail = firstMiss ? ` — ${firstMiss.miss}.` : ' — clean sweep, carry it into today. 🎯';
+            el.style.display = '';
+            el.innerHTML = `📋 <strong>Yesterday (${dlabel}):</strong> ${chipHtml} &nbsp; <span style="color:var(--text-muted);">${hit}/${chips.length} on target${tail}</span>`;
         }
 
         // Next-day planning: synthesize concrete, data-grounded targets for tonight
@@ -3114,6 +3156,7 @@
                 const calendar = await loadCalendar();
 
                 // Build all sections
+                buildYesterdayRecap(daily);
                 buildTomorrowPlan(daily);
                 buildWeeklyTargets(daily);
                 buildBedtimeStrip(daily);
