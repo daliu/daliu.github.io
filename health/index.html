@@ -476,6 +476,7 @@
         <div class="section-title">🌅 Plan for Tomorrow</div>
         <p id="planCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">
             Concrete targets for tonight &amp; tomorrow, derived from your own recent Garmin data.</p>
+        <div id="biggestWin" style="display: none; font-size: 1.05rem; line-height: 1.5; margin: 0 0 16px; padding: 12px 16px; background: var(--card-bg); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--text);"></div>
         <div class="insights-grid" id="tomorrowPlan"></div>
 
         <!-- Weekly adherence to the plan targets -->
@@ -2814,10 +2815,54 @@
             }
         }
 
+        // Scan the pipeline's controlled aggregates for the single highest-leverage,
+        // actionable lever (largest normalized effect vs baseline, n>=10, positive).
+        // Returns {phrase, n} or null. Descriptive framing — the Causal Analysis
+        // section below has the rigorous, caveated version.
+        function pickBiggestWin(corr) {
+            if (!corr || !corr.baseline) return null;
+            const b = corr.baseline, cands = [];
+            const AL = corr.activity_levels || {};
+            const alName = { light: 'Light-activity days', moderate: 'Moderate-activity days', intense: 'Intense days' };
+            for (const k of ['light', 'moderate', 'intense']) {
+                const v = AL[k]; if (!v || v.sample_size < 10) continue;
+                if (v.sleep != null && b.sleep_score) {
+                    const d = v.sleep - b.sleep_score;
+                    cands.push({ good: d > 0, score: Math.abs(d) / b.sleep_score, n: v.sample_size,
+                        phrase: `${alName[k]} tend to give ~${Math.abs(Math.round(d))}-pt better sleep that night (${Math.round(v.sleep)} vs ${Math.round(b.sleep_score)} usual).` });
+                }
+                if (v.stress != null && b.avg_stress) {
+                    const d = v.stress - b.avg_stress;  // lower stress is better
+                    cands.push({ good: d < 0, score: Math.abs(d) / b.avg_stress, n: v.sample_size,
+                        phrase: `${alName[k]} tend to run lower stress (~${Math.round(v.stress)} vs ${Math.round(b.avg_stress)} usual).` });
+                }
+            }
+            const SI = corr.sleep_impact || {};
+            for (const k of ['great', 'good']) {
+                const v = SI[k]; if (!v || v.sample_size < 10) continue;
+                if (v.next_day_battery != null && b.avg_body_battery) {
+                    const d = v.next_day_battery - b.avg_body_battery;
+                    cands.push({ good: d > 0, score: Math.abs(d) / b.avg_body_battery, n: v.sample_size,
+                        phrase: `After ${k} sleep, your next-day body battery runs ~${Math.abs(Math.round(d))} higher (${Math.round(v.next_day_battery)} vs ${Math.round(b.avg_body_battery)} usual).` });
+                }
+            }
+            const top = cands.filter(c => c.good).sort((x, y) => y.score - x.score)[0];
+            return top || null;
+        }
+
+        function renderBiggestWin(corr) {
+            const el = document.getElementById('biggestWin'); if (!el) return;
+            const win = pickBiggestWin(corr);
+            if (!win) { el.style.display = 'none'; return; }
+            el.style.display = '';
+            el.innerHTML = `💡 <strong>Your biggest lever:</strong> ${win.phrase} <span style="color:var(--text-muted);font-size:0.9rem;">(n=${win.n})</span>`;
+        }
+
         async function loadCorrelations() {
             try {
                 const resp = await fetch('correlations.json?t=' + Date.now());
                 const corr = await resp.json();
+                renderBiggestWin(corr);
 
                 // Calendar Insights
                 const insightsHtml = corr.insights.map(i => {
