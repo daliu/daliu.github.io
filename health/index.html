@@ -1040,15 +1040,42 @@
                 cards.push({ emoji: '😴', title: 'Sleep duration', big: `≥ ${target} h`, why, color: 'var(--cyan)' });
             }
 
-            // 3) Activity target — stretch goal from recent distribution + body-battery link.
+            // Recovery assessment (HRV status + body-battery trend) — one factor that
+            // drives BOTH the activity dose and the recovery card so they agree.
+            const recovery = (() => {
+                const latest = [...daily].reverse().find(d => d.hrv_status || d.max_body_battery != null);
+                const st = ((latest && latest.hrv_status) || '').toUpperCase();
+                let base = 0.9, state = 'neutral', hrvNote = 'HRV signal is thin today';
+                if (/LOW|UNBALANCED|POOR/.test(st)) { base = 0.75; state = 'low'; hrvNote = 'HRV is below your baseline'; }
+                else if (/BALANCED|GOOD/.test(st)) { base = 1.0; state = 'good'; hrvNote = 'HRV is balanced'; }
+                const bbAll = rec.filter(d => d.max_body_battery != null).map(d => d.max_body_battery);
+                let bbMod = 1.0, bbNote = '';
+                if (bbAll.length >= 8) {
+                    const r3 = rec.filter(d => d.max_body_battery != null).slice(-3).map(d => d.max_body_battery);
+                    const recentAvg = r3.reduce((a, b) => a + b, 0) / r3.length, m = med(bbAll);
+                    if (recentAvg < m * 0.85) { bbMod = 0.9; bbNote = 'body battery has been running low'; }
+                    else if (recentAvg > m * 1.12) { bbMod = 1.1; bbNote = 'body battery has been high'; }
+                }
+                let factor = Math.max(0.6, Math.min(1.2, base * bbMod));
+                if (state === 'good' && factor >= 1.08) state = 'fresh';
+                else if (state === 'good' && factor <= 0.85) state = 'low';  // a drained battery drags an OK HRV down
+                return { factor, state, hrvNote, bbNote };
+            })();
+
+            // 3) Activity target — recovery-DOSED stretch goal (base 70th-pctl × recovery factor).
             const steps = rec.filter(d => d.total_steps != null).map(d => d.total_steps);
             if (steps.length >= 8) {
-                const target = Math.round((pctl(steps, 0.7) || 0) / 500) * 500;
-                let why = `Your recent median is ${Math.round(med(steps)).toLocaleString()} steps.`;
-                const bb = rec.filter(d => d.max_body_battery != null && d.total_steps != null);
-                if (bb.length >= 10) {
-                    const r = stats.correlation(bb.map(d => d.total_steps), bb.map(d => d.max_body_battery));
-                    if (r && r > 0.25) why += ' More movement tracks higher body battery for you.';
+                const target = Math.round((pctl(steps, 0.7) || 0) * recovery.factor / 500) * 500;
+                const pctAdj = Math.round((recovery.factor - 1) * 100);
+                let why = `Recent median ${Math.round(med(steps)).toLocaleString()}.`;
+                if (recovery.factor < 0.97) why += ` Dialed back ${Math.abs(pctAdj)}% — ${recovery.bbNote || recovery.hrvNote.toLowerCase()}.`;
+                else if (recovery.factor > 1.03) why += ` Room to push +${pctAdj}% — you're well recovered.`;
+                else {
+                    const bb = rec.filter(d => d.max_body_battery != null && d.total_steps != null);
+                    if (bb.length >= 10) {
+                        const r = stats.correlation(bb.map(d => d.total_steps), bb.map(d => d.max_body_battery));
+                        if (r && r > 0.25) why += ' More movement tracks higher body battery for you.';
+                    }
                 }
                 cards.push({ emoji: '👟', title: 'Activity target', big: `${target.toLocaleString()} steps`, why, color: 'var(--accent)' });
             }
@@ -1067,14 +1094,17 @@
                 }
             }
 
-            // 5) Recovery guidance — HRV status drives today's intensity.
-            const latest = [...daily].reverse().find(d => d.hrv_status || d.max_body_battery != null);
-            if (latest) {
-                const st = (latest.hrv_status || '').toUpperCase();
-                let big = 'Listen to your body', why = 'Not enough HRV signal yet today.', color = 'var(--text-muted)';
-                if (/LOW|UNBALANCED|POOR/.test(st)) { big = 'Go easy today'; why = 'HRV is below your baseline — favor light activity and an earlier night.'; color = 'var(--yellow)'; }
-                else if (/BALANCED|GOOD/.test(st)) { big = 'Good to train'; why = 'HRV is balanced — green light for a normal or hard session.'; color = 'var(--green)'; }
-                cards.push({ emoji: '❤️‍🩹', title: 'Recovery', big, why, color });
+            // 5) Recovery guidance — same assessment as the activity dose, so they agree.
+            {
+                const both = recovery.bbNote ? `${recovery.hrvNote} and ${recovery.bbNote}` : recovery.hrvNote;
+                const map = {
+                    low:     { big: 'Go easy today',      why: `${both} — favor light activity and an earlier night; today's step target is dialed back to match.`, color: 'var(--yellow)' },
+                    good:    { big: 'Good to train',       why: `${recovery.hrvNote} — green light for a normal or hard session.`, color: 'var(--green)' },
+                    fresh:   { big: 'Green light to push', why: `${both} — you're well recovered, so a harder session (and the higher step target) is on the table.`, color: 'var(--green)' },
+                    neutral: { big: 'Listen to your body', why: 'Not enough HRV signal yet today — go by feel.', color: 'var(--text-muted)' },
+                };
+                const c = map[recovery.state] || map.neutral;
+                cards.push({ emoji: '❤️‍🩹', title: 'Recovery', big: c.big, why: c.why, color: c.color });
             }
 
             el.innerHTML = cards.length ? cards.map(c => `
