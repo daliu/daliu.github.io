@@ -1104,19 +1104,23 @@
                     base = 0.5 * base + 0.5 * wkMed;  // tailor to how active you usually are on this day
                     dowNote = ` On ${DOW[tomorrowDow]}s you average ${Math.round(wkMed).toLocaleString()}.`;
                 }
-                const target = Math.round(base * recovery.factor / 500) * 500;
+                const stretch = Math.round(base * recovery.factor / 500) * 500;
+                const floor = Math.round((med(steps) || 0) / 500) * 500;   // your usual baseline — an attainable daily win
                 const pctAdj = Math.round((recovery.factor - 1) * 100);
-                let why = `Recent median ${Math.round(med(steps)).toLocaleString()}.${dowNote}`;
+                const tiered = stretch >= floor + 1000;   // only split when the stretch is a genuine reach
+                let big, why;
+                if (tiered) {
+                    big = `<span style="color:var(--text);">${floor.toLocaleString()}</span><span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;"> floor</span>`
+                        + ` <span style="color:var(--text-muted);">→</span> `
+                        + `<span style="color:var(--accent);">${stretch.toLocaleString()}</span><span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;"> stretch</span>`;
+                    why = `Clear the floor (≈ your usual ${floor.toLocaleString()}) most days; reach for the stretch when you have it.${dowNote}`;
+                } else {
+                    big = `${stretch.toLocaleString()} steps`;
+                    why = `Recent median ${Math.round(med(steps)).toLocaleString()}.${dowNote}`;
+                }
                 if (recovery.factor < 0.97) why += ` Dialed back ${Math.abs(pctAdj)}% — ${recovery.bbNote || recovery.hrvNote.toLowerCase()}.`;
                 else if (recovery.factor > 1.03) why += ` Room to push +${pctAdj}% — you're well recovered.`;
-                else {
-                    const bb = rec.filter(d => d.max_body_battery != null && d.total_steps != null);
-                    if (bb.length >= 10) {
-                        const r = stats.correlation(bb.map(d => d.total_steps), bb.map(d => d.max_body_battery));
-                        if (r && r > 0.25) why += ' More movement tracks higher body battery for you.';
-                    }
-                }
-                cards.push({ emoji: '👟', title: 'Activity target', big: `${target.toLocaleString()} steps`, why, color: 'var(--accent)' });
+                cards.push({ emoji: '👟', title: 'Activity target', big, why, color: 'var(--accent)' });
             }
 
             // 4) Best workout window — intraday body-battery peak = most energy to spend.
