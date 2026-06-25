@@ -484,6 +484,14 @@
             How consistently you hit your plan targets over the last 7 days with data.</p>
         <div class="insights-grid" id="weeklyTargets"></div>
 
+        <!-- Bedtime regularity over the last 14 nights (makes the variance visible) -->
+        <div id="bedtimeStripSection" style="display: none;">
+            <div class="section-title">📐 Bedtime — last 14 nights</div>
+            <p id="bedtimeStripCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">
+                Each dot is a night's bedtime; the green band is your ±30-min target window. Tightening the scatter is the lever from your plan.</p>
+            <div class="chart-card"><div class="chart-container" style="height: 240px;"><canvas id="bedtimeStripChart"></canvas></div></div>
+        </div>
+
         <!-- Pattern insights computed from the daily series -->
         <div class="section-title">🧠 What your data shows</div>
         <p id="patternCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
@@ -1220,6 +1228,67 @@
                 const span = shown[0].days;
                 cap.innerHTML = `How consistently you hit your plan targets over your last 7 days with data (${span[0].date} → ${span[span.length - 1].date}). Green dot = hit.`;
             }
+        }
+
+        // Visual companion to the bedtime-regularity plan card: plot the last 14
+        // nights' bedtimes against the ±30-min target band so the scatter is obvious.
+        function buildBedtimeStrip(daily) {
+            const canvas = document.getElementById('bedtimeStripChart');
+            const section = document.getElementById('bedtimeStripSection');
+            if (!canvas || !section || !daily) return;
+            const med = a => { const s = [...a].sort((x, y) => x - y); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
+            const rec = daily.slice(-45);
+            const nights = rec.filter(d => d.sleep_start && d.sleep_score != null)
+                .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score })).filter(d => d.norm != null);
+            const last = daily.filter(d => d.sleep_start).slice(-14)
+                .map(d => ({ date: d.date, norm: bedtimeToNormalized(d.sleep_start) })).filter(d => d.norm != null);
+            if (nights.length < 6 || last.length < 4) { section.style.display = 'none'; return; }  // not enough to be meaningful
+            section.style.display = '';
+
+            const top = [...nights].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(nights.length / 3)));
+            const target = med(top.map(d => d.norm));
+            const labels = last.map(d => { const dt = new Date(d.date + 'T12:00:00'); return `${dt.getMonth() + 1}/${dt.getDate()}`; });
+            const pts = last.map(d => d.norm);
+            const inBand = last.map(d => Math.abs(d.norm - target) <= 0.5);
+            const lo = Math.min(target - 1, Math.min(...pts)) - 0.3, hi = Math.max(target + 1, Math.max(...pts)) + 0.3;
+
+            if (bedtimeStripInstance) bedtimeStripInstance.destroy();
+            bedtimeStripInstance = new Chart(canvas.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        { data: last.map(() => target + 0.5), borderColor: 'transparent', pointRadius: 0, fill: false },                       // band top
+                        { data: last.map(() => target - 0.5), borderColor: 'transparent', pointRadius: 0, backgroundColor: 'rgba(63,185,80,0.12)', fill: '-1' },  // band fill
+                        { data: last.map(() => target), borderColor: 'rgba(63,185,80,0.45)', borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, fill: false }, // target line
+                        { data: pts, showLine: false, pointRadius: 5, pointHoverRadius: 7,                                                       // bedtime dots
+                            pointBackgroundColor: inBand.map(b => b ? '#3fb950' : '#f0883e'),
+                            pointBorderColor: inBand.map(b => b ? '#3fb950' : '#f0883e') },
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            filter: item => item.datasetIndex === 3,
+                            callbacks: {
+                                title: items => labels[items[0].dataIndex],
+                                label: item => normalizedToBedtime12h(item.parsed.y) + (inBand[item.dataIndex] ? ' · in window' : ' · off-target'),
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { min: lo, max: hi, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize: 1, callback: v => normalizedToBedtime12h(v) }, title: { display: true, text: 'Bedtime', color: '#999', font: { size: 12 } } },
+                        x: { grid: { display: false }, ticks: { color: '#8b949e', maxRotation: 0 } }
+                    }
+                }
+            });
+
+            const off = inBand.filter(b => !b).length;
+            const cap = document.getElementById('bedtimeStripCaption');
+            if (cap) cap.innerHTML = `Each dot is a night's bedtime; the green band is your ±30-min window around <strong>${normalizedToBedtime12h(target)}</strong>. ` +
+                `<span style="color:${off > last.length / 2 ? 'var(--yellow)' : 'var(--text)'};">${last.length - off}/${last.length} nights landed in the window.</span> Tightening the scatter is the lever from your plan.`;
         }
 
         function buildPatternInsights(daily) {
@@ -2485,6 +2554,7 @@
         let allDailyData = null;
         let trendChartInstances = [];
         let allHourlyData = null;
+        let bedtimeStripInstance = null;
         let hourlyChartInstances = [];
 
         function setupTimeRangeSelector() {
@@ -2997,6 +3067,7 @@
                 // Build all sections
                 buildTomorrowPlan(daily);
                 buildWeeklyTargets(daily);
+                buildBedtimeStrip(daily);
                 buildPatternInsights(daily30);
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
