@@ -1128,7 +1128,17 @@
                     why = diff > 0 ? `Nights ≥7h score ~${diff} pts better for you.` : 'Bedtime consistency matters more than raw hours for you.';
                 }
                 const good = hs.filter(d => d.sleep_score >= 70).map(d => d.sleep_hours);
-                const target = Math.max(7, +((good.length ? med(good) : 7)).toFixed(1));
+                let target = Math.max(7, +((good.length ? med(good) : 7)).toFixed(1));
+                // Debt-aware: a 7-night rolling balance vs 7h/night bumps tonight's target
+                // to catch up after a deficit (a per-night ≥7h goal alone ignores accumulation).
+                const last7h = daily.filter(d => d.sleep_hours != null).slice(-7).map(d => d.sleep_hours);
+                if (last7h.length >= 4) {
+                    const bal = last7h.reduce((a, h) => a + (h - 7), 0);  // + surplus / − debt
+                    if (bal <= -3) { target = Math.max(target, 8); why += ` You're ${Math.abs(bal).toFixed(1)}h in sleep debt this week — aim higher to catch up.`; }
+                    else if (bal <= -1) { target = Math.max(target, 7.5); why += ` Slightly behind this week (~${Math.abs(bal).toFixed(1)}h debt).`; }
+                    else if (bal >= 3) { why += ` You're ${bal.toFixed(1)}h ahead of pace this week — well rested.`; }
+                    else { why += ` On pace this week (${bal >= 0 ? '+' : ''}${bal.toFixed(1)}h).`; }
+                }
                 cards.push({ emoji: '😴', title: 'Sleep duration', big: `≥ ${target} h`, why, color: 'var(--cyan)' });
             }
 
