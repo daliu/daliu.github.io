@@ -1114,6 +1114,9 @@
                         why = `${DOW[tomorrowDow]} nights tend to score lower (~${Math.round(wkAvg)} vs ${Math.round(allSleepAvg)} avg) — aim ~25 min earlier tonight.`;
                     }
                 }
+                // Wind-down cue 45 min earlier — a concrete trigger to actually hit the
+                // target (directly targets the user's biggest gap: bedtime consistency).
+                why += ` Start winding down ~${normalizedToBedtime12h(bedNorm - 0.75)}.`;
                 cards.push({ emoji: '🛏️', title: 'Target bedtime', big: normalizedToBedtime12h(bedNorm), why, color: 'var(--purple)' });
             }
 
