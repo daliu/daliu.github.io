@@ -836,6 +836,13 @@
             </div>
         </div>
 
+        <!-- Sedentary time: the "active couch potato" indicator (current biometric data) -->
+        <div id="sedentarySection" style="display: none;">
+            <div class="section-title">🪑 Sedentary Time</div>
+            <div class="insights-grid" id="sedentaryCards"></div>
+            <div id="sedentaryNote" style="font-size: 0.95rem; line-height: 1.55; margin-top: 14px; padding: 12px 16px; background: var(--card-bg); border-left: 3px solid var(--yellow); border-radius: 6px; color: var(--text-muted);"></div>
+        </div>
+
         <!-- Charts with Time Range Selector -->
         <div class="section-title">📉 Trends</div>
         <div class="time-range-bar" id="timeRangeBar">
@@ -3391,6 +3398,7 @@
                 buildSleepArchitecture(daily30);
                 buildVo2max(data.vo2max || []);
                 buildTrainingZones(data.hr_zones);
+                buildSedentary(daily);
                 buildStressComposition(daily);
                 buildRecovery(daily);
                 if (allSleepSeries) buildSleepStages(allSleepSeries, daily);  // re-render once daily is ready (cross-ref needs it)
@@ -3565,6 +3573,30 @@
             if (xs.length >= 12) { const r = stats.correlation(xs, ys); if (r != null) xref = ` More high-stress time shows only a ${Math.abs(r) < 0.2 ? 'weak' : 'modest'} link to the next night's sleep (r=${r.toFixed(2)}, n=${xs.length}).`; }
             document.getElementById('stressCompCaption').textContent = `How your typical day splits across Garmin's stress zones (last ${rec.length} days).`;
             document.getElementById('stressCompNote').innerHTML = `Your typical day is <strong style="color:var(--green)">${Math.round(calm)}% calm</strong> (rest + low) and only <strong style="color:${high > 10 ? 'var(--yellow)' : 'var(--text)'}">${Math.round(high)}% high-stress</strong>.${xref} <em>Single-subject &amp; observational.</em>`;
+        }
+
+        // Sedentary time — a current biometric indicator. Descriptive (cross-refs weak):
+        // the "active couch potato" framing (you can train well AND sit too much).
+        // Uses a median of recent COMPLETE days (excludes today's partial/odd reading).
+        function buildSedentary(daily) {
+            const sec = document.getElementById('sedentarySection');
+            if (!sec || !daily) return;
+            const now = new Date(), pad = n => String(n).padStart(2, '0');
+            const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+            const rows = daily.filter(d => d.sedentary_seconds != null && d.date < today).slice(-30);
+            if (rows.length < 8) { sec.style.display = 'none'; return; }
+            sec.style.display = '';
+            const hrs = rows.map(d => d.sedentary_seconds / 3600).sort((a, b) => a - b);
+            const med = hrs[Math.floor(hrs.length / 2)];
+            const stepRows = rows.filter(d => d.total_steps != null);
+            const avgSteps = stepRows.length ? Math.round(stepRows.reduce((a, d) => a + d.total_steps, 0) / stepRows.length) : null;
+            const level = med >= 11 ? ['on the high side', 'var(--yellow)'] : med >= 8 ? ['moderate', 'var(--cyan)'] : ['low', 'var(--green)'];
+            const cards = [
+                { emoji: '🪑', title: 'Sedentary, typical day', big: `~${med.toFixed(1)} h`, why: `Median awake low-movement time over the last ${rows.length} complete days — ${level[0]}.`, color: level[1] },
+            ];
+            if (avgSteps != null) cards.push({ emoji: '🚶', title: 'Daily steps', big: avgSteps.toLocaleString(), why: `You average ~${avgSteps.toLocaleString()} steps — so decent activity coexists with long sitting (the "active couch potato" pattern).`, color: 'var(--accent)' });
+            document.getElementById('sedentaryCards').innerHTML = cards.map(c => `<div class="insight-card"><h3>${c.emoji} ${c.title}</h3><div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div><div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div></div>`).join('');
+            document.getElementById('sedentaryNote').innerHTML = `Prolonged sitting is an <strong>independent</strong> health risk even with regular exercise — short movement breaks help. In your data, sedentary time has only weak links to sleep/stress/battery (|r|≤0.17), so this is general guidance, not a personalized causal effect. <em>Excludes today's partial day.</em>`;
         }
 
         // Training-intensity mix — HR-zone distribution of workouts vs the 80/20
