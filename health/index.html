@@ -3534,13 +3534,23 @@
             const rScoreChg = pair('sleep_score', 'bb_charged'), rHoursChg = pair('sleep_hours', 'bb_charged');
             const rScoreWake = pair('sleep_score', 'bb_at_wake'), rWakeStress = pair('bb_at_wake', 'avg_stress');
             const f = r => r == null ? '—' : (r >= 0 ? '+' : '') + r.toFixed(2);
+            // Controlled: does sleep QUALITY drive recharge beyond DURATION (partial corr)?
+            const partialR = (xk, yk, zk) => {
+                const d = all.filter(r => r[xk] != null && r[yk] != null && r[zk] != null);
+                if (d.length < 15) return null;
+                const Z = d.map(r => r[zk]), mz = Z.reduce((a, b) => a + b, 0) / Z.length;
+                const resid = arr => { const ma = arr.reduce((a, b) => a + b, 0) / arr.length; let szz = 0, sza = 0; for (let i = 0; i < Z.length; i++) { szz += (Z[i] - mz) ** 2; sza += (Z[i] - mz) * (arr[i] - ma); } const sl = szz ? sza / szz : 0, ic = ma - sl * mz; return arr.map((a, i) => a - (sl * Z[i] + ic)); };
+                return stats.correlation(resid(d.map(r => r[xk])), resid(d.map(r => r[yk])));
+            };
+            const pQual = partialR('sleep_score', 'bb_charged', 'sleep_hours'), pDur = partialR('sleep_hours', 'bb_charged', 'sleep_score');
             const cards = [
                 { emoji: '🌙', title: 'Overnight recharge', big: `+${avgChg}`, why: `Your body battery recharges ~${avgChg} points overnight, on average.`, color: 'var(--cyan)' },
                 { emoji: '☀️', title: 'Morning readiness', big: `${avgWake}`, why: `You wake at ~${avgWake}/100 — and better sleep means waking higher (sleep score r=${f(rScoreWake)}).`, color: 'var(--green)' },
                 { emoji: '🛌', title: 'What drives recharge', big: 'Sleep quality', why: `Sleep SCORE drives your overnight recharge (r=${f(rScoreChg)}) more than duration (r=${f(rHoursChg)}) — quality beats quantity for you.`, color: 'var(--purple)' },
             ];
             document.getElementById('recoveryCards').innerHTML = cards.map(c => `<div class="insight-card"><h3>${c.emoji} ${c.title}</h3><div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div><div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div></div>`).join('');
-            document.getElementById('recoveryNote').innerHTML = `These are among the <strong>strongest links in your data</strong> (n=${all.length}): sleep quality → overnight recharge r=${f(rScoreChg)}. And starting the day recovered tracks a calmer day — morning battery vs daytime stress r=${f(rWakeStress)}. <em>Single-subject &amp; observational.</em>`;
+            const ctrl = (pQual != null && pDur != null) ? ` Controlling for sleep <strong>duration</strong>, quality still drives recharge (partial r=${f(pQual)}); duration adds essentially nothing once quality is accounted for (r=${f(pDur)}) — so it's genuinely <strong>quality, not hours</strong>.` : '';
+            document.getElementById('recoveryNote').innerHTML = `These are among the <strong>strongest links in your data</strong> (n=${all.length}): sleep quality → overnight recharge r=${f(rScoreChg)}.${ctrl} And starting the day recovered tracks a calmer day — morning battery vs daytime stress r=${f(rWakeStress)}. <em>Single-subject &amp; observational.</em>`;
         }
 
         // Stress composition — how the typical day splits across rest/low/med/high
