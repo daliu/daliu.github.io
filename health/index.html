@@ -3687,7 +3687,15 @@
                 const p = strong[0];
                 msg = `The clearest (still modest) link: higher prior-day ${p.drv} → <strong>${p.r < 0 ? 'less' : 'more'} ${p.stage} sleep</strong> (r=${p.r.toFixed(2)}, n=${p.n}). Every other exercise/stress→stage link is weak (\|r\|&lt;0.2).`;
             }
-            xref.innerHTML = `🔬 <strong>What moves your stages?</strong> ${msg} <span style="color:var(--text-muted);font-size:0.9rem;">Single-subject &amp; observational.</span>`;
+            // Which stage tracks overnight recharge? (deep is commonly *assumed* to —
+            // for this user it doesn't; recharge tracks total/light sleep instead.)
+            let rechargeMsg = '';
+            const rPair = stage => { const xs = [], ys = []; for (const r of ws) { const dd = byDate[r.date]; if (r[stage] != null && dd && dd.bb_charged != null) { xs.push(r[stage]); ys.push(dd.bb_charged); } } return xs.length >= 15 ? stats.correlation(xs, ys) : null; };
+            const rDeep = rPair('deep_mins'), rLight = rPair('light_mins');
+            if (rDeep != null && Math.abs(rDeep) < 0.2) {
+                rechargeMsg = ` <strong>Deep ≠ recharge:</strong> your overnight body-battery recharge does <strong>not</strong> track deep-sleep minutes (r=${rDeep.toFixed(2)})${rLight != null ? ` — total/light sleep tracks it better (r=${rLight.toFixed(2)})` : ''}. Recharge is about total restful time, not deep sleep specifically.`;
+            }
+            xref.innerHTML = `🔬 <strong>What moves your stages?</strong> ${msg}${rechargeMsg} <span style="color:var(--text-muted);font-size:0.9rem;">Single-subject &amp; observational.</span>`;
         }
 
         // Modeled optimal bedtime (from generate-sleep-model → sleep-model.json).
