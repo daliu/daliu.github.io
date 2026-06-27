@@ -529,6 +529,11 @@
         <!-- Sleep Architecture (NEW) -->
         <div class="section-title">🛏️ Sleep Architecture</div>
         <div class="sleep-arch-grid" id="sleepArchGrid"></div>
+        <!-- Sleep-stage composition (deep/REM/light) + honest exercise/stress cross-ref -->
+        <div id="sleepStageBlock" style="display: none; margin-top: 15px;">
+            <div class="insights-grid" id="sleepStageGrid"></div>
+            <div id="sleepStageCrossRef" style="font-size: 1rem; line-height: 1.5; margin-top: 14px; padding: 12px 16px; background: var(--card-bg); border-left: 3px solid var(--cyan); border-radius: 6px; color: var(--text);"></div>
+        </div>
         <div class="charts-grid" style="margin-top: 15px;">
             <div class="chart-card">
                 <h2>Sleep Score by Bedtime Hour</h2>
@@ -2731,6 +2736,7 @@
         let allDailyData = null;
         let trendChartInstances = [];
         let allHourlyData = null;
+        let allSleepSeries = null;
         let bedtimeStripInstance = null;
         let adherenceTrendInstance = null;
         let hourlyChartInstances = [];
@@ -3339,6 +3345,7 @@
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
                 buildSleepArchitecture(daily30);
+                if (allSleepSeries) buildSleepStages(allSleepSeries, daily);  // re-render once daily is ready (cross-ref needs it)
                 buildHeatmap(daily, calendar?.by_day);
                 buildDayOfWeek(daily);  // full window (~90d) — weekday/weekend patterns over a long frame
                 buildCausalInsights(daily30);
@@ -3455,6 +3462,68 @@
             m.innerHTML = html;
         }
 
+        // Sleep-stage composition (deep/REM/light vs typical ranges) + an HONEST
+        // cross-reference of prior-day exercise/stress → that night's deep/REM. The
+        // relationships are weak for this user (|r|≤0.2), so we say so rather than
+        // dress up noise as a finding.
+        function buildSleepStages(series, daily) {
+            const block = document.getElementById('sleepStageBlock');
+            const grid = document.getElementById('sleepStageGrid');
+            const xref = document.getElementById('sleepStageCrossRef');
+            if (!block || !grid || !series) return;
+            const ws = series.filter(r => r.deep_mins != null && r.rem_mins != null && r.light_mins != null);
+            if (ws.length < 8) { block.style.display = 'none'; return; }
+            block.style.display = '';
+            const mean = a => a.reduce((x, y) => x + y, 0) / a.length;
+            const deep = mean(ws.map(r => r.deep_mins)), rem = mean(ws.map(r => r.rem_mins)), light = mean(ws.map(r => r.light_mins));
+            const tot = deep + rem + light;
+            const stages = [
+                { name: 'Deep', emoji: '🌊', mins: deep, lo: 13, hi: 23, color: '#3b82f6', filler: false },
+                { name: 'REM', emoji: '🧠', mins: rem, lo: 20, hi: 25, color: '#a371f7', filler: false },
+                { name: 'Light', emoji: '💤', mins: light, lo: 45, hi: 55, color: '#8b949e', filler: true },
+            ];
+            grid.innerHTML = stages.map(s => {
+                const pct = Math.round(100 * s.mins / tot);
+                let verdict, vcol;
+                if (pct >= s.lo && pct <= s.hi) { verdict = 'in the typical range'; vcol = 'var(--text-muted)'; }
+                else if (pct > s.hi) { verdict = s.filler ? 'above typical' : 'above typical (more restorative)'; vcol = s.filler ? 'var(--text-muted)' : 'var(--green)'; }
+                else { verdict = 'below typical'; vcol = s.filler ? 'var(--text-muted)' : 'var(--yellow)'; }
+                return `<div class="insight-card">
+                    <h3>${s.emoji} ${s.name} sleep</h3>
+                    <div style="font-size:1.5rem;font-weight:700;color:${s.color};margin:2px 0 4px;">${Math.round(s.mins)} min <span style="font-size:1rem;color:var(--text-muted);font-weight:400;">· ${pct}%</span></div>
+                    <div class="insight-detail" style="color:${vcol};font-size:0.95rem;">${verdict} (typical ${s.lo}–${s.hi}%)</div>
+                </div>`;
+            }).join('');
+
+            // Honest cross-reference: prior-day exercise/stress → that night's deep/REM.
+            if (!xref) return;
+            if (!daily || !daily.length) { xref.style.display = 'none'; return; }
+            const byDate = {}; daily.forEach(d => byDate[d.date] = d);
+            const prev = ds => { const dt = new Date(ds + 'T12:00:00'); dt.setDate(dt.getDate() - 1); const p = n => String(n).padStart(2, '0'); return `${dt.getFullYear()}-${p(dt.getMonth() + 1)}-${p(dt.getDate())}`; };
+            const corr = (xs, ys) => { const n = xs.length; if (n < 12) return null; const mx = xs.reduce((a, b) => a + b, 0) / n, my = ys.reduce((a, b) => a + b, 0) / n; let sxy = 0, sxx = 0, syy = 0; for (let i = 0; i < n; i++) { const dx = xs[i] - mx, dy = ys[i] - my; sxy += dx * dy; sxx += dx * dx; syy += dy * dy; } return (sxx && syy) ? sxy / Math.sqrt(sxx * syy) : null; };
+            const pairs = [];
+            for (const [stage, slabel] of [['deep_mins', 'deep'], ['rem_mins', 'REM']]) {
+                for (const [drv, dlabel] of [['vigorous_minutes', 'exercise'], ['avg_stress', 'stress']]) {
+                    const xs = [], ys = [];
+                    for (const r of ws) { const pd = prev(r.date); if (r[stage] != null && byDate[pd] && byDate[pd][drv] != null) { xs.push(byDate[pd][drv]); ys.push(r[stage]); } }
+                    const c = corr(xs, ys);
+                    if (c != null) pairs.push({ stage: slabel, drv: dlabel, r: c, n: xs.length });
+                }
+            }
+            if (!pairs.length) { xref.style.display = 'none'; return; }
+            xref.style.display = '';
+            pairs.sort((a, b) => Math.abs(b.r) - Math.abs(a.r));
+            const strong = pairs.filter(p => Math.abs(p.r) >= 0.2);
+            let msg;
+            if (!strong.length) {
+                msg = `Your sleep stages look <strong>remarkably stable</strong> — yesterday's exercise and stress barely move them (every \|r\|&lt;0.2, n≈${pairs[0].n}). Deep sleep in particular appears defended.`;
+            } else {
+                const p = strong[0];
+                msg = `The clearest (still modest) link: higher prior-day ${p.drv} → <strong>${p.r < 0 ? 'less' : 'more'} ${p.stage} sleep</strong> (r=${p.r.toFixed(2)}, n=${p.n}). Every other exercise/stress→stage link is weak (\|r\|&lt;0.2).`;
+            }
+            xref.innerHTML = `🔬 <strong>What moves your stages?</strong> ${msg} <span style="color:var(--text-muted);font-size:0.9rem;">Single-subject &amp; observational.</span>`;
+        }
+
         async function loadSleepCarryover() {
             try {
                 const resp = await fetch('sleep-analysis.json?t=' + Date.now());
@@ -3467,6 +3536,8 @@
                 renderAutocorr(d);
                 renderRebound(d);
                 renderCrossLag(d);
+                allSleepSeries = d.series || null;
+                buildSleepStages(allSleepSeries, allDailyData);
             } catch (e) {
                 console.warn('sleep carryover unavailable', e);
                 document.getElementById('carryoverSection').innerHTML =
