@@ -793,6 +793,13 @@
             </table>
         </div>
 
+        <!-- VO2 max — cardio-fitness trend (measured per-activity by Garmin) -->
+        <div id="vo2maxSection" style="display: none;">
+            <div class="section-title">🫁 VO₂ Max — cardio fitness</div>
+            <p id="vo2maxCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
+            <div class="chart-card"><div class="chart-container" style="height: 220px;"><canvas id="vo2maxChart"></canvas></div></div>
+        </div>
+
         <!-- Charts with Time Range Selector -->
         <div class="section-title">📉 Trends</div>
         <div class="time-range-bar" id="timeRangeBar">
@@ -2737,6 +2744,7 @@
         let trendChartInstances = [];
         let allHourlyData = null;
         let allSleepSeries = null;
+        let vo2maxInstance = null;
         let bedtimeStripInstance = null;
         let adherenceTrendInstance = null;
         let hourlyChartInstances = [];
@@ -3345,6 +3353,7 @@
                 buildWeeklyInsights(daily30);
                 buildRecords(daily30);
                 buildSleepArchitecture(daily30);
+                buildVo2max(data.vo2max || []);
                 if (allSleepSeries) buildSleepStages(allSleepSeries, daily);  // re-render once daily is ready (cross-ref needs it)
                 buildHeatmap(daily, calendar?.by_day);
                 buildDayOfWeek(daily);  // full window (~90d) — weekday/weekend patterns over a long frame
@@ -3460,6 +3469,44 @@
             const m = document.getElementById('crossLagMatrix');
             m.style.gridTemplateColumns = `120px repeat(${keys.length}, minmax(48px, 1fr))`;
             m.innerHTML = html;
+        }
+
+        // VO2 max cardio-fitness trend (per-activity measurements from data.json).
+        // Honest framing: only call it "improving" on a real (>=2 pt) gain; otherwise
+        // "stable in the X–Y range". Tight-but-not-exaggerated y-axis.
+        function buildVo2max(series) {
+            const sec = document.getElementById('vo2maxSection');
+            const canvas = document.getElementById('vo2maxChart');
+            if (!sec || !canvas || !Array.isArray(series) || series.length < 5) { if (sec) sec.style.display = 'none'; return; }
+            sec.style.display = '';
+            const pts = series.map(p => ({ x: p.date, y: p.vo2max }));
+            const vals = series.map(p => p.vo2max);
+            const cur = vals[vals.length - 1], first = vals[0];
+            const delta = cur - first, lo = Math.min(...vals), hi = Math.max(...vals);
+            const months = Math.max(1, Math.round((new Date(series[series.length - 1].date) - new Date(series[0].date)) / (30 * 86400000)));
+            const recent = vals.slice(-6), recentDelta = recent[recent.length - 1] - recent[0];
+
+            let verdict, vcol;
+            if (delta >= 2) { verdict = `up ${Math.round(delta)} pts over the last ${months} months — improving fitness`; vcol = 'var(--green)'; }
+            else if (delta <= -2) { verdict = `down ${Math.abs(Math.round(delta))} over the last ${months} months`; vcol = 'var(--yellow)'; }
+            else { verdict = `stable in the ${Math.round(lo)}–${Math.round(hi)} range over the last ${months} months`; vcol = 'var(--text-muted)'; }
+            const recentMsg = Math.abs(recentDelta) < 1 ? 'holding steady recently' : (recentDelta > 0 ? 'still ticking up recently' : 'easing off recently');
+
+            if (vo2maxInstance) vo2maxInstance.destroy();
+            vo2maxInstance = new Chart(canvas.getContext('2d'), {
+                type: 'line',
+                data: { datasets: [{ data: pts, borderColor: '#39c5cf', backgroundColor: '#39c5cf22', fill: true, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { title: i => i[0].label, label: i => `VO₂ max ${i.parsed.y}` } } },
+                    scales: {
+                        y: { min: Math.floor(lo - 2), max: Math.ceil(hi + 2), grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'VO₂ max (ml/kg/min)', color: '#999', font: { size: 11 } } },
+                        x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'MMM' } }, grid: { display: false }, ticks: { color: '#8b949e', maxTicksLimit: 8 } }
+                    }
+                }
+            });
+            const cap = document.getElementById('vo2maxCaption');
+            if (cap) cap.innerHTML = `Currently <strong>${cur}</strong> ml/kg/min (higher = fitter) — <span style="color:${vcol};font-weight:600;">${verdict}</span>, ${recentMsg}. Measured by Garmin on run days (n=${series.length}).`;
         }
 
         // Sleep-stage composition (deep/REM/light vs typical ranges) + an HONEST

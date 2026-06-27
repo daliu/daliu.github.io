@@ -1,25 +1,25 @@
 {
-  "updated": "2026-06-26T19:00:06.627137",
+  "updated": "2026-06-27T02:36:31.471035",
   "daily": [
     {
       "date": "2026-03-29",
-      "avg_body_battery": 28.0,
+      "avg_body_battery": 53.0,
       "min_body_battery": 5,
-      "max_body_battery": 73,
-      "avg_stress": 31.0,
-      "total_steps": 25366,
-      "sleep_score": 79,
-      "sleep_hours": 6.83,
-      "hrv_weekly": 64,
-      "hrv_last_night": 64,
+      "max_body_battery": 59,
+      "avg_stress": 27.0,
+      "total_steps": 429,
+      "sleep_score": 77,
+      "sleep_hours": 6.32,
+      "hrv_weekly": 62,
+      "hrv_last_night": 55,
       "hrv_status": "BALANCED",
       "resting_hr": 43,
       "sleep_start": "02:32",
       "sleep_end": "08:53",
-      "active_calories": 1595.0,
-      "intensity_minutes": 5,
-      "vigorous_minutes": 118,
-      "distance_meters": 26101.0
+      "active_calories": 5.0,
+      "intensity_minutes": 0,
+      "vigorous_minutes": 0,
+      "distance_meters": 361.0
     },
     {
       "date": "2026-03-30",
@@ -1303,11 +1303,11 @@
     },
     {
       "date": "2026-06-27",
-      "avg_body_battery": 34.0,
-      "min_body_battery": 34,
+      "avg_body_battery": 25.0,
+      "min_body_battery": 16,
       "max_body_battery": 78,
-      "avg_stress": 31.0,
-      "total_steps": 10539,
+      "avg_stress": 35.0,
+      "total_steps": 11206,
       "sleep_score": null,
       "sleep_hours": null,
       "hrv_weekly": 73,
@@ -1316,10 +1316,10 @@
       "resting_hr": 45,
       "sleep_start": null,
       "sleep_end": null,
-      "active_calories": 740.0,
+      "active_calories": 752.0,
       "intensity_minutes": 3,
       "vigorous_minutes": 53,
-      "distance_meters": 11664.0
+      "distance_meters": 12225.0
     }
   ],
   "hourly": [
@@ -1511,6 +1511,289 @@
       "steps": 10539,
       "sleep_score": null,
       "hrv_weekly_avg": 73
+    },
+    {
+      "timestamp": "2026-06-27 06:00:02",
+      "body_battery_current": 16,
+      "resting_hr": 45,
+      "stress_avg": 38,
+      "steps": 11206,
+      "sleep_score": null,
+      "hrv_weekly_avg": 73
+    }
+  ],
+  "vo2max": [
+    {
+      "date": "2026-01-05",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-01-07",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-01-11",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-01-13",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-01-15",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-01-16",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-01-17",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-01-20",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-01-22",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-01-24",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-01-27",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-01-29",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-01-31",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-01",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-04",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-05",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-10",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-11",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-12",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-17",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-19",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-20",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-02-24",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-03-06",
+      "vo2max": 55.0
+    },
+    {
+      "date": "2026-03-08",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-03-15",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-03-20",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-03-22",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-03-23",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-03-25",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-03-28",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-03-31",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-04-02",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-04-03",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-04-04",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-05",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-06",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-07",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-08",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-09",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-11",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-14",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-16",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-19",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-22",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-25",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-04-29",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-02",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-05",
+      "vo2max": 55.0
+    },
+    {
+      "date": "2026-05-06",
+      "vo2max": 55.0
+    },
+    {
+      "date": "2026-05-12",
+      "vo2max": 55.0
+    },
+    {
+      "date": "2026-05-14",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-16",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-17",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-19",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-20",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-23",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-25",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-26",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-05-30",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-01",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-03",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-07",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-11",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-13",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-14",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-16",
+      "vo2max": 54.0
+    },
+    {
+      "date": "2026-06-18",
+      "vo2max": 54.0
     }
   ]
 }
