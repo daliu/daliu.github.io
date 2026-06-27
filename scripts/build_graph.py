@@ -180,7 +180,7 @@ HUB_TITLE = {
     "health": "Health and Fitness",
     "finance": "Finance and Investing",
     "machine-learning": "Machine Learning",
-    "self-improving-systems": "Self-Improving & Autonomous Systems",
+    "self-improving-systems": "Autonomous Adaptive Intelligence",
     "measurement": "Revealed Preference & Measurement",
     "causal-inference": "Causal Inference",  # reuses the existing concept node as a hub
     "automation": "Automation",
