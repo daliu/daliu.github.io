@@ -513,6 +513,13 @@
             <div class="chart-card" id="effortOutput" style="padding: 18px 20px;"></div>
         </div>
 
+        <!-- Modeled optimal bedtime (re-fitting regression; generate-sleep-model -> sleep-model.json) -->
+        <div id="sleepModelSection" style="display: none;">
+            <div class="section-title">🎯 Optimal Bedtime — modeled</div>
+            <div class="insights-grid" id="sleepModelCards"></div>
+            <div id="sleepModelNotes" style="font-size: 0.98rem; line-height: 1.55; margin-top: 14px; padding: 12px 16px; background: var(--card-bg); border-left: 3px solid var(--purple); border-radius: 6px; color: var(--text-muted);"></div>
+        </div>
+
         <!-- Pattern insights computed from the daily series -->
         <div class="section-title">🧠 What your data shows</div>
         <p id="patternCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
@@ -3571,6 +3578,36 @@
             xref.innerHTML = `🔬 <strong>What moves your stages?</strong> ${msg} <span style="color:var(--text-muted);font-size:0.9rem;">Single-subject &amp; observational.</span>`;
         }
 
+        // Modeled optimal bedtime (from generate-sleep-model → sleep-model.json).
+        // Presents the recommendation + predicted gains, and is scrupulously honest
+        // about what bedtime does (duration) vs doesn't (point-predict quality/battery).
+        async function loadSleepModel() {
+            const sec = document.getElementById('sleepModelSection');
+            try {
+                const resp = await fetch('sleep-model.json?t=' + Date.now());
+                if (!resp.ok) throw new Error('no file');
+                const m = await resp.json();
+                if (m.insufficient || !m.bedtime) { if (sec) sec.style.display = 'none'; return; }
+                sec.style.display = '';
+                const b = m.bedtime, s = b.stats;
+                const g = k => { const d = b.pred_at_recommended[k] - b.pred_at_median[k]; return (d >= 0 ? '+' : '') + (k === 'sleep_hours' ? d.toFixed(1) : Math.round(d)); };
+                const cards = [
+                    { emoji: '🛏️', title: 'Recommended bedtime', big: b.recommended_label,
+                      why: `${b.monotonic_earlier_better ? 'Earlier is consistently better across your data' : 'Your modeled sweet spot'} — you average ${b.median_label}. 80% CI ${b.ci_label}.`, color: 'var(--purple)' },
+                    { emoji: '😴', title: 'Predicted sleep there', big: `${Math.round(b.pred_at_recommended.sleep_score)} · ${b.pred_at_recommended.sleep_hours.toFixed(1)}h`,
+                      why: `${g('sleep_score')} score & ${g('sleep_hours')}h vs your ${b.median_label} median. Each hour earlier ≈ +${s.sleep_score.per_hour_earlier} score, +${s.sleep_hours.per_hour_earlier}h.`, color: 'var(--cyan)' },
+                    { emoji: '🔋', title: 'Predicted battery there', big: `${Math.round(b.pred_at_recommended.battery)}`,
+                      why: `${g('battery')} vs median. Each hour earlier to bed ≈ +${s.battery.per_hour_earlier} next-day body battery.`, color: 'var(--green)' },
+                ];
+                document.getElementById('sleepModelCards').innerHTML = cards.map(c => `<div class="insight-card"><h3>${c.emoji} ${c.title}</h3><div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div><div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div></div>`).join('');
+                const ex = m.exercise, fb = ex.effect_r.weekly_frequency.battery;
+                document.getElementById('sleepModelNotes').innerHTML =
+                    `📐 <strong>How to read this:</strong> modeled on <strong>${m.n} nights</strong> (refits as new data lands). Bedtime predicts your sleep <strong>duration</strong> reliably (cross-validated R²=${s.sleep_hours.cv_r2.toFixed(2)}); it's significantly correlated with sleep quality (r=${s.sleep_score.r}, p=${s.sleep_score.p}) and body battery (r=${s.battery.r}, p=${s.battery.p}) but explains less of their night-to-night swing. ` +
+                    `${b.monotonic_earlier_better ? `No interior optimum yet — you rarely sleep before ~${b.pct10_label}, so the true floor is untested; the model will pin a sweet spot once you shift earlier. ` : ''}` +
+                    `<strong>Exercise:</strong> volume isn't a lever for your sleep (all |r|≤0.13); a higher weekly training frequency carries a small next-day body-battery cost (r=${fb}). Train for fitness (see VO₂ Max), not for sleep. <em>Single-subject &amp; observational.</em>`;
+            } catch (e) { console.warn('sleep model unavailable', e); if (sec) sec.style.display = 'none'; }
+        }
+
         async function loadSleepCarryover() {
             try {
                 const resp = await fetch('sleep-analysis.json?t=' + Date.now());
@@ -3597,6 +3634,7 @@
         loadData(); // also kicks off loadCalendar internally
         loadCorrelations();
         loadSleepCarryover();
+        loadSleepModel();
         loadHourly();
     </script>
 
