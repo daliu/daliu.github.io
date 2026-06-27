@@ -825,6 +825,17 @@
             <div class="chart-card"><div class="chart-container" style="height: 220px;"><canvas id="vo2maxChart"></canvas></div></div>
         </div>
 
+        <!-- Training-intensity mix: HR-zone distribution vs the 80/20 principle -->
+        <div id="trainingZonesSection" style="display: none;">
+            <div class="section-title">🏃 Training Intensity Mix</div>
+            <p id="trainingZonesCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
+            <div class="chart-card" style="padding: 18px 20px;">
+                <div id="trainingZonesBar" style="display: flex; height: 34px; border-radius: 8px; overflow: hidden; background: var(--bg);"></div>
+                <div id="trainingZonesLegend" style="display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 12px; font-size: 0.92rem;"></div>
+                <div id="trainingZonesNote" style="margin-top: 12px; font-size: 0.95rem; color: var(--text-muted); line-height: 1.5;"></div>
+            </div>
+        </div>
+
         <!-- Charts with Time Range Selector -->
         <div class="section-title">📉 Trends</div>
         <div class="time-range-bar" id="timeRangeBar">
@@ -3379,6 +3390,7 @@
                 buildRecords(daily30);
                 buildSleepArchitecture(daily30);
                 buildVo2max(data.vo2max || []);
+                buildTrainingZones(data.hr_zones);
                 buildStressComposition(daily);
                 buildRecovery(daily);
                 if (allSleepSeries) buildSleepStages(allSleepSeries, daily);  // re-render once daily is ready (cross-ref needs it)
@@ -3553,6 +3565,29 @@
             if (xs.length >= 12) { const r = stats.correlation(xs, ys); if (r != null) xref = ` More high-stress time shows only a ${Math.abs(r) < 0.2 ? 'weak' : 'modest'} link to the next night's sleep (r=${r.toFixed(2)}, n=${xs.length}).`; }
             document.getElementById('stressCompCaption').textContent = `How your typical day splits across Garmin's stress zones (last ${rec.length} days).`;
             document.getElementById('stressCompNote').innerHTML = `Your typical day is <strong style="color:var(--green)">${Math.round(calm)}% calm</strong> (rest + low) and only <strong style="color:${high > 10 ? 'var(--yellow)' : 'var(--text)'}">${Math.round(high)}% high-stress</strong>.${xref} <em>Single-subject &amp; observational.</em>`;
+        }
+
+        // Training-intensity mix — HR-zone distribution of workouts vs the 80/20
+        // endurance principle. Descriptive (his actual mix) + a referenced guideline.
+        function buildTrainingZones(hrz) {
+            const sec = document.getElementById('trainingZonesSection'), bar = document.getElementById('trainingZonesBar');
+            if (!sec || !bar || !hrz) return;
+            const z = [hrz.z1 || 0, hrz.z2 || 0, hrz.z3 || 0, hrz.z4 || 0, hrz.z5 || 0];
+            const tot = z.reduce((a, b) => a + b, 0);
+            if (!tot || (hrz.n || 0) < 5) { sec.style.display = 'none'; return; }
+            sec.style.display = '';
+            const defs = [
+                { label: 'Z1 warm-up', color: '#2ea043' }, { label: 'Z2 easy', color: '#3fb950' },
+                { label: 'Z3 tempo', color: '#d29922' }, { label: 'Z4 threshold', color: '#f0883e' }, { label: 'Z5 max', color: '#f85149' },
+            ].map((d, i) => ({ ...d, pct: 100 * z[i] / tot }));
+            bar.innerHTML = defs.map(d => `<div title="${d.label} ${Math.round(d.pct)}%" style="width:${d.pct}%;background:${d.color};"></div>`).join('');
+            document.getElementById('trainingZonesLegend').innerHTML = defs.map(d => `<span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:${d.color};display:inline-block;"></span>${d.label} <strong>${Math.round(d.pct)}%</strong></span>`).join('');
+            const easy = 100 * (z[0] + z[1]) / tot, mod = 100 * z[2] / tot, hard = 100 * (z[3] + z[4]) / tot;
+            document.getElementById('trainingZonesCaption').textContent = `How your workout time splits across heart-rate zones (last ${hrz.days} days · ${hrz.n} workouts · ${(tot / 3600).toFixed(0)}h).`;
+            document.getElementById('trainingZonesNote').innerHTML =
+                `<strong>Easy ${Math.round(easy)}%</strong> (Z1-2) · <strong>Moderate ${Math.round(mod)}%</strong> (Z3) · <strong>Hard ${Math.round(hard)}%</strong> (Z4-5). ` +
+                `The polarized <strong>80/20</strong> endurance principle targets ~80% easy / ~20% moderate-hard. ` +
+                `${easy < 70 ? `You're at <strong style="color:var(--yellow)">${Math.round(easy)}% easy</strong> with ${Math.round(mod + hard)}% in the moderate-hard "gray zone" — more easy volume could build aerobic base and aid recovery.` : `You're close to that mix.`} <em>General training guideline, not derived from your own outcomes.</em>`;
         }
 
         // VO2 max cardio-fitness trend (per-activity measurements from data.json).
