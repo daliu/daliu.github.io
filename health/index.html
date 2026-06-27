@@ -531,6 +531,13 @@
             </div>
         </div>
 
+        <!-- Overnight recovery: recharge + morning readiness, driven by sleep quality -->
+        <div id="recoverySection" style="display: none;">
+            <div class="section-title">🔋 Overnight Recovery</div>
+            <div class="insights-grid" id="recoveryCards"></div>
+            <div id="recoveryNote" style="font-size: 0.95rem; line-height: 1.55; margin-top: 14px; padding: 12px 16px; background: var(--card-bg); border-left: 3px solid var(--green); border-radius: 6px; color: var(--text-muted);"></div>
+        </div>
+
         <!-- Pattern insights computed from the daily series -->
         <div class="section-title">🧠 What your data shows</div>
         <p id="patternCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
@@ -3373,6 +3380,7 @@
                 buildSleepArchitecture(daily30);
                 buildVo2max(data.vo2max || []);
                 buildStressComposition(daily);
+                buildRecovery(daily);
                 if (allSleepSeries) buildSleepStages(allSleepSeries, daily);  // re-render once daily is ready (cross-ref needs it)
                 buildHeatmap(daily, calendar?.by_day);
                 buildDayOfWeek(daily);  // full window (~90d) — weekday/weekend patterns over a long frame
@@ -3488,6 +3496,31 @@
             const m = document.getElementById('crossLagMatrix');
             m.style.gridTemplateColumns = `120px repeat(${keys.length}, minmax(48px, 1fr))`;
             m.innerHTML = html;
+        }
+
+        // Overnight recovery — recharge + morning readiness, and the (strong) sleep-quality
+        // driver. These are the strongest relationships in the dataset (r~0.8), unlike the
+        // weak ambient ones — but still single-subject/observational.
+        function buildRecovery(daily) {
+            const sec = document.getElementById('recoverySection');
+            if (!sec || !daily) return;
+            const rec = daily.slice(-45).filter(d => d.bb_at_wake != null && d.bb_charged != null);
+            const all = daily.filter(d => d.bb_at_wake != null);
+            if (rec.length < 8) { sec.style.display = 'none'; return; }
+            sec.style.display = '';
+            const mean = k => Math.round(rec.reduce((a, d) => a + (d[k] || 0), 0) / rec.length);
+            const avgChg = mean('bb_charged'), avgWake = mean('bb_at_wake');
+            const pair = (xk, yk) => { const xs = [], ys = []; for (const d of all) { if (d[xk] != null && d[yk] != null) { xs.push(d[xk]); ys.push(d[yk]); } } return xs.length >= 12 ? stats.correlation(xs, ys) : null; };
+            const rScoreChg = pair('sleep_score', 'bb_charged'), rHoursChg = pair('sleep_hours', 'bb_charged');
+            const rScoreWake = pair('sleep_score', 'bb_at_wake'), rWakeStress = pair('bb_at_wake', 'avg_stress');
+            const f = r => r == null ? '—' : (r >= 0 ? '+' : '') + r.toFixed(2);
+            const cards = [
+                { emoji: '🌙', title: 'Overnight recharge', big: `+${avgChg}`, why: `Your body battery recharges ~${avgChg} points overnight, on average.`, color: 'var(--cyan)' },
+                { emoji: '☀️', title: 'Morning readiness', big: `${avgWake}`, why: `You wake at ~${avgWake}/100 — and better sleep means waking higher (sleep score r=${f(rScoreWake)}).`, color: 'var(--green)' },
+                { emoji: '🛌', title: 'What drives recharge', big: 'Sleep quality', why: `Sleep SCORE drives your overnight recharge (r=${f(rScoreChg)}) more than duration (r=${f(rHoursChg)}) — quality beats quantity for you.`, color: 'var(--purple)' },
+            ];
+            document.getElementById('recoveryCards').innerHTML = cards.map(c => `<div class="insight-card"><h3>${c.emoji} ${c.title}</h3><div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div><div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div></div>`).join('');
+            document.getElementById('recoveryNote').innerHTML = `These are among the <strong>strongest links in your data</strong> (n=${all.length}): sleep quality → overnight recharge r=${f(rScoreChg)}. And starting the day recovered tracks a calmer day — morning battery vs daytime stress r=${f(rWakeStress)}. <em>Single-subject &amp; observational.</em>`;
         }
 
         // Stress composition — how the typical day splits across rest/low/med/high
