@@ -3533,6 +3533,7 @@
             const pair = (xk, yk) => { const xs = [], ys = []; for (const d of all) { if (d[xk] != null && d[yk] != null) { xs.push(d[xk]); ys.push(d[yk]); } } return xs.length >= 12 ? stats.correlation(xs, ys) : null; };
             const rScoreChg = pair('sleep_score', 'bb_charged'), rHoursChg = pair('sleep_hours', 'bb_charged');
             const rScoreWake = pair('sleep_score', 'bb_at_wake'), rWakeStress = pair('bb_at_wake', 'avg_stress');
+            const rHrvBatt = pair('hrv_last_night', 'max_body_battery'), rHrvSteps = pair('hrv_last_night', 'total_steps');
             const f = r => r == null ? '—' : (r >= 0 ? '+' : '') + r.toFixed(2);
             // Controlled: does sleep QUALITY drive recharge beyond DURATION (partial corr)?
             const partialR = (xk, yk, zk) => {
@@ -3548,6 +3549,7 @@
                 { emoji: '☀️', title: 'Morning readiness', big: `${avgWake}`, why: `You wake at ~${avgWake}/100 — and better sleep means waking higher (sleep score r=${f(rScoreWake)}).`, color: 'var(--green)' },
                 { emoji: '🛌', title: 'What drives recharge', big: 'Sleep quality', why: `Sleep SCORE drives your overnight recharge (r=${f(rScoreChg)}) more than duration (r=${f(rHoursChg)}) — quality beats quantity for you.`, color: 'var(--purple)' },
             ];
+            if (rHrvBatt != null) cards.push({ emoji: '💓', title: 'HRV → your day', big: 'Readiness signal', why: `Higher overnight HRV tracks more peak energy (battery r=${f(rHrvBatt)}) and more movement that day (steps r=${f(rHrvSteps)}) — your autonomic recovery shapes both. Same-day signal (next-day effects are weak).`, color: 'var(--red)' });
             document.getElementById('recoveryCards').innerHTML = cards.map(c => `<div class="insight-card"><h3>${c.emoji} ${c.title}</h3><div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div><div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div></div>`).join('');
             const ctrl = (pQual != null && pDur != null) ? ` Controlling for sleep <strong>duration</strong>, quality still drives recharge (partial r=${f(pQual)}); duration adds essentially nothing once quality is accounted for (r=${f(pDur)}) — so it's genuinely <strong>quality, not hours</strong>.` : '';
             document.getElementById('recoveryNote').innerHTML = `These are among the <strong>strongest links in your data</strong> (n=${all.length}): sleep quality → overnight recharge r=${f(rScoreChg)}.${ctrl} And starting the day recovered tracks a calmer day — morning battery vs daytime stress r=${f(rWakeStress)}. <em>Single-subject &amp; observational.</em>`;
