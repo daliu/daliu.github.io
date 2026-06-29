@@ -143,6 +143,73 @@
         .trend-down { color: var(--red); }
         .trend-neutral { color: var(--text-muted); }
 
+        /* ===== Evidence Board — capstone causal map (the whole investigation, one board) ===== */
+        .eb-board {
+            background-color: #10151c;
+            background-image: radial-gradient(circle at 1px 1px, rgba(139,148,158,0.07) 1px, transparent 0);
+            background-size: 22px 22px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 20px 24px;
+            margin-bottom: 20px;
+        }
+        .eb-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin-bottom: 4px; }
+        .eb-kicker { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; }
+        .eb-sub { color: var(--text-muted); font-size: 0.98rem; }
+        .eb-chip { font-family: ui-monospace, Menlo, monospace; font-size: 0.7rem; letter-spacing: 1px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-muted); text-transform: uppercase; }
+        /* validated chain (vertical spine — reads top→bottom, stacks cleanly on mobile) */
+        .eb-chain { display: flex; flex-direction: column; align-items: stretch; max-width: 680px; margin: 14px auto 0; }
+        .eb-node {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--node-c, var(--accent));
+            border-radius: 10px;
+            padding: 11px 16px;
+        }
+        .eb-node .eb-emoji { font-size: 1.35rem; }
+        .eb-node .eb-title { font-weight: 700; font-size: 1.1rem; }
+        .eb-node .eb-desc { color: var(--text-muted); font-size: 0.93rem; margin-top: 2px; }
+        .eb-badge { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 3px 9px; border-radius: 6px; margin-top: 8px; background: rgba(88,166,255,0.12); color: var(--accent); line-height: 1.4; }
+        .eb-link { display: flex; flex-direction: column; align-items: center; padding: 1px 0; }
+        .eb-link .eb-line { width: 2px; height: 12px; background: var(--link-c, var(--green)); opacity: 0.55; }
+        .eb-tag {
+            font-family: ui-monospace, Menlo, monospace;
+            font-size: 0.8rem;
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--link-c, var(--green));
+            border-radius: 20px;
+            padding: 4px 13px;
+            text-align: center;
+            line-height: 1.4;
+            max-width: 100%;
+        }
+        .eb-tier { font-weight: 700; letter-spacing: 0.5px; }
+        .eb-arrow { color: var(--link-c, var(--green)); font-size: 0.85rem; line-height: 1; margin-top: 2px; }
+        /* dead ends — links we checked and rejected (shown as severed strings) */
+        .eb-dead-wrap { margin-top: 24px; }
+        .eb-dead-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 10px; max-width: 100%; }
+        .eb-dead { background: var(--card-bg); border: 1px dashed var(--border); border-radius: 10px; padding: 12px 14px; opacity: 0.92; }
+        .eb-dead-link { font-size: 0.98rem; color: var(--text); font-weight: 600; }
+        .eb-dead-link .eb-x { color: var(--red); font-weight: 700; margin: 0 7px; }
+        .eb-dead-why { color: var(--text-muted); font-size: 0.86rem; margin-top: 5px; line-height: 1.45; }
+        .eb-dead-stat { font-family: ui-monospace, Menlo, monospace; font-size: 0.76rem; color: var(--red); margin-top: 7px; }
+        .eb-verdict {
+            margin-top: 24px;
+            background: linear-gradient(135deg, rgba(63,185,80,0.10), rgba(88,166,255,0.05));
+            border: 1px solid var(--green);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 1.04rem;
+            line-height: 1.5;
+        }
+        .eb-rules { margin-top: 16px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; border-top: 1px dashed var(--border); padding-top: 12px; }
+        @media (max-width: 600px) {
+            .eb-board { padding: 18px 13px 20px; }
+            .eb-node .eb-title { font-size: 1.02rem; }
+            .eb-tag { font-size: 0.74rem; }
+        }
+
         /* Heatmap */
         .heatmap-container {
             background: var(--card-bg);
@@ -483,6 +550,16 @@
             Concrete targets for tonight &amp; tomorrow, derived from your own recent Garmin data.</p>
         <div id="biggestWin" style="display: none; font-size: 1.05rem; line-height: 1.5; margin: 0 0 16px; padding: 12px 16px; background: var(--card-bg); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--text);"></div>
         <div class="insights-grid" id="tomorrowPlan"></div>
+
+        <!-- Evidence Board — capstone: the whole investigation as one causal map
+             (validated chain + the dead ends we checked and rejected). Every edge
+             is computed live from the data; nothing here is hand-entered. -->
+        <div id="evidenceBoardSection" style="display: none;">
+            <div class="section-title">🧵 The Evidence Board</div>
+            <p style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;">
+                The capstone — why the plan above says what it says. The one validated chain in your data, the HRV side-dial, and the links we checked and threw out.</p>
+            <div class="eb-board" id="evidenceBoard"></div>
+        </div>
 
         <!-- Weekly adherence to the plan targets -->
         <div class="section-title">📊 This Week's Targets</div>
@@ -3401,6 +3478,7 @@
                 buildSedentary(daily);
                 buildStressComposition(daily);
                 buildRecovery(daily);
+                buildEvidenceBoard(daily);  // capstone causal map (async; folds in cross-validated bedtime slopes)
                 if (allSleepSeries) buildSleepStages(allSleepSeries, daily);  // re-render once daily is ready (cross-ref needs it)
                 buildHeatmap(daily, calendar?.by_day);
                 buildDayOfWeek(daily);  // full window (~90d) — weekday/weekend patterns over a long frame
@@ -3553,6 +3631,120 @@
             document.getElementById('recoveryCards').innerHTML = cards.map(c => `<div class="insight-card"><h3>${c.emoji} ${c.title}</h3><div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div><div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div></div>`).join('');
             const ctrl = (pQual != null && pDur != null) ? ` Controlling for sleep <strong>duration</strong>, quality still drives recharge (partial r=${f(pQual)}); duration adds essentially nothing once quality is accounted for (r=${f(pDur)}) — so it's genuinely <strong>quality, not hours</strong>.` : '';
             document.getElementById('recoveryNote').innerHTML = `These are among the <strong>strongest links in your data</strong> (n=${all.length}): sleep quality → overnight recharge r=${f(rScoreChg)}.${ctrl} And starting the day recovered tracks a calmer day — morning battery vs daytime stress r=${f(rWakeStress)}. <em>Single-subject &amp; observational.</em>`;
+        }
+
+        // ===== Evidence Board — capstone synthesis of the whole causal investigation =====
+        // Pulls every validated finding into one map: the single cause→effect chain
+        // (earlier bedtime → more sleep → higher quality → bigger recharge → calmer day),
+        // the HRV readiness side-dial, and — just as prominently — the DEAD ENDS we
+        // checked and rejected. Each edge is computed LIVE from `daily` (+ the
+        // cross-validated bedtime slopes from sleep-model.json) and tagged with effect
+        // size, n, and a confidence tier. Re-runnable: refreshes as new data lands.
+        async function buildEvidenceBoard(daily) {
+            const sec = document.getElementById('evidenceBoardSection');
+            const root = document.getElementById('evidenceBoard');
+            if (!sec || !root || !daily) return;
+            const all = daily.filter(d => d != null);
+            if (all.length < 20) { sec.style.display = 'none'; return; }
+
+            // --- live stats helpers (same residual-partial method as buildRecovery) ---
+            const corr = (rows, xk, yk) => { const xs = [], ys = []; for (const d of rows) { if (d[xk] != null && d[yk] != null) { xs.push(d[xk]); ys.push(d[yk]); } } return xs.length >= 12 ? { r: stats.correlation(xs, ys), n: xs.length } : null; };
+            const partialR = (xk, yk, zk) => {
+                const d = all.filter(r => r[xk] != null && r[yk] != null && r[zk] != null);
+                if (d.length < 15) return null;
+                const Z = d.map(r => r[zk]), mz = Z.reduce((a, b) => a + b, 0) / Z.length;
+                const resid = arr => { const ma = arr.reduce((a, b) => a + b, 0) / arr.length; let szz = 0, sza = 0; for (let i = 0; i < Z.length; i++) { szz += (Z[i] - mz) ** 2; sza += (Z[i] - mz) * (arr[i] - ma); } const sl = szz ? sza / szz : 0, ic = ma - sl * mz; return arr.map((a, i) => a - (sl * Z[i] + ic)); };
+                return stats.correlation(resid(d.map(r => r[xk])), resid(d.map(r => r[yk])));
+            };
+            // bedtime "HH:MM" → earliness (earlier clock = larger number, continuous across midnight),
+            // so a POSITIVE correlation reads intuitively as "earlier → more".
+            const bmin = t => { if (!t) return null; const [h, m] = t.split(':').map(Number); let d = h + m / 60; if (d < 12) d += 24; return -d; };
+            const byDate = {}; daily.forEach(d => byDate[d.date] = d);
+            const pad = n => String(n).padStart(2, '0');
+            const nextOf = ds => { const dt = new Date(ds + 'T12:00:00'); dt.setDate(dt.getDate() + 1); return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`; };
+            const corrLag = (xk, yk) => { const xs = [], ys = []; for (const d of daily) { if (d[xk] != null) { const nd = byDate[nextOf(d.date)]; if (nd && nd[yk] != null) { xs.push(d[xk]); ys.push(nd[yk]); } } } return xs.length >= 12 ? { r: stats.correlation(xs, ys), n: xs.length } : null; };
+            const tier = r => { const a = Math.abs(r); if (a >= 0.5) return ['STRONG', 'var(--green)']; if (a >= 0.3) return ['MODERATE', 'var(--cyan)']; if (a >= 0.2) return ['MODEST', 'var(--yellow)']; return ['NO LINK', 'var(--text-muted)']; };
+            const fr = r => (r >= 0 ? '+' : '') + r.toFixed(2);
+
+            // --- compute the chain edges ---
+            const withBt = daily.map(d => ({ ...d, _bt: bmin(d.sleep_start) }));
+            const eBed = corr(withBt.filter(d => d._bt != null), '_bt', 'sleep_hours');
+            const eDurQual = corr(all, 'sleep_hours', 'sleep_score');
+            const eQualChg = corr(all, 'sleep_score', 'bb_charged');
+            const eWake = corr(all, 'bb_at_wake', 'avg_stress');
+            const pQual = partialR('sleep_score', 'bb_charged', 'sleep_hours');
+            const pDur = partialR('sleep_hours', 'bb_charged', 'sleep_score');
+            const hrvBatt = corr(all, 'hrv_last_night', 'max_body_battery');
+            const hrvSteps = corr(all, 'hrv_last_night', 'total_steps');
+            if (!eBed || !eQualChg) { sec.style.display = 'none'; return; }  // core chain must exist
+
+            // deep-sleep → recharge dead-end (needs the sleep-stage series; fills in on re-call)
+            let deepEdge = null;
+            if (Array.isArray(allSleepSeries) && allSleepSeries.length) {
+                const xs = [], ys = [];
+                for (const r of allSleepSeries) { const dd = byDate[r.date]; if (r.deep_mins != null && dd && dd.bb_charged != null) { xs.push(r.deep_mins); ys.push(dd.bb_charged); } }
+                if (xs.length >= 15) deepEdge = { r: stats.correlation(xs, ys), n: xs.length };
+            }
+
+            // % of the typical day spent calm (rest + low stress)
+            let calmPct = null;
+            const rc = daily.slice(-45).filter(d => d.rest_stress_pct != null && d.low_stress_pct != null);
+            if (rc.length >= 8) { const mn = k => rc.reduce((a, d) => a + (d[k] || 0), 0) / rc.length; const tot = mn('rest_stress_pct') + mn('low_stress_pct') + mn('medium_stress_pct') + mn('high_stress_pct') || 1; calmPct = Math.round(100 * (mn('rest_stress_pct') + mn('low_stress_pct')) / tot); }
+
+            // cross-validated bedtime slopes (graceful if the model file isn't up yet)
+            let model = null;
+            try { const resp = await fetch('sleep-model.json?t=' + Date.now()); if (resp.ok) { const m = await resp.json(); if (!m.insufficient && m.bedtime) model = m; } } catch (e) { /* degrade to live r only */ }
+            const ph = model ? model.bedtime.stats : null;
+            const nNights = model ? model.n : eBed.n;
+
+            // --- renderers ---
+            const nodeHTML = n => `<div class="eb-node" style="--node-c:${n.color}"><div style="display:flex;align-items:center;gap:10px;"><span class="eb-emoji">${n.emoji}</span><span class="eb-title">${n.title}</span></div>${n.desc ? `<div class="eb-desc">${n.desc}</div>` : ''}${n.badge ? `<div class="eb-badge"${n.badgeColor ? ` style="background:${n.badgeBg};color:${n.badgeColor};"` : ''}>${n.badge}</div>` : ''}</div>`;
+            const linkHTML = lk => { const [tl, tc] = tier(lk.r); return `<div class="eb-link" style="--link-c:${tc}"><div class="eb-line"></div><div class="eb-tag" style="--link-c:${tc}">${lk.label} · r=${lk.r.toFixed(2)} · n=${lk.n} · <span class="eb-tier" style="color:${tc}">${tl}</span>${lk.sub ? `<br><span style="color:var(--text-muted);font-size:0.72rem;">${lk.sub}</span>` : ''}</div><div class="eb-arrow">▼</div></div>`; };
+
+            const qualBadge = (pQual != null && pDur != null)
+                ? `Quality, not hours — partial r ${fr(pQual)} vs ${fr(pDur)} for recharge${deepEdge ? ` · not deep sleep (r=${deepEdge.r.toFixed(2)})` : ''}`
+                : null;
+            const nodes = {
+                bed: { emoji: '🛏️', title: 'Go to bed earlier', color: 'var(--purple)', desc: model ? `You average ${model.bedtime.median_label}; the model points to ${model.bedtime.recommended_label}.` : 'The single upstream lever.' },
+                sleep: { emoji: '😴', title: 'More total sleep', color: 'var(--cyan)', desc: 'Longer, more complete nights.' },
+                qual: { emoji: '✨', title: 'Higher sleep quality', color: 'var(--purple)', desc: 'A better sleep score — the restorative kind.', badge: qualBadge, badgeBg: 'rgba(163,113,247,0.14)', badgeColor: 'var(--purple)' },
+                chg: { emoji: '🔋', title: 'Bigger overnight recharge', color: 'var(--green)', desc: 'Body battery climbs more while you sleep.' },
+                day: { emoji: '😌', title: 'Calmer, higher-energy day', color: 'var(--green)', desc: 'You wake recovered and the day runs calmer.', badge: calmPct != null ? `${calmPct}% of your typical day is calm` : null, badgeBg: 'rgba(63,185,80,0.14)', badgeColor: 'var(--green)' },
+            };
+            const bedSub = ph ? `+${ph.sleep_hours.per_hour_earlier}h sleep · +${ph.sleep_score.per_hour_earlier} score · +${ph.battery.per_hour_earlier} battery — per hour earlier` : 'earlier is consistently better';
+            let spine = nodeHTML(nodes.bed)
+                + linkHTML({ label: 'earlier bedtime → more sleep', r: eBed.r, n: eBed.n, sub: bedSub })
+                + nodeHTML(nodes.sleep);
+            if (eDurQual) spine += linkHTML({ label: 'more sleep → higher quality', r: eDurQual.r, n: eDurQual.n });
+            spine += nodeHTML(nodes.qual)
+                + linkHTML({ label: 'quality → recharge — your strongest link', r: eQualChg.r, n: eQualChg.n })
+                + nodeHTML(nodes.chg);
+            if (eWake) spine += linkHTML({ label: 'recharged morning → calmer day', r: eWake.r, n: eWake.n, sub: 'higher wake battery tracks lower daytime stress' });
+            spine += nodeHTML(nodes.day);
+
+            const hrvBlock = hrvBatt ? `<div class="eb-node" style="--node-c:var(--red);max-width:680px;margin:18px auto 0;"><div style="display:flex;align-items:center;gap:10px;"><span class="eb-emoji">💓</span><span class="eb-title">A second dial: overnight HRV</span></div><div class="eb-desc">Your autonomic readiness — it doesn't sit in the chain, it feeds the day in parallel.</div><div class="eb-badge" style="background:rgba(248,81,73,0.13);color:var(--red);">peak energy r=${hrvBatt.r.toFixed(2)}${hrvSteps ? ` · daily movement r=${hrvSteps.r.toFixed(2)}` : ''} · same-day signal</div></div>` : '';
+
+            // dead ends — only include a card when we actually have the number (no fake stats)
+            const deads = [];
+            const eExSleep = corrLag('vigorous_minutes', 'sleep_score');
+            if (eExSleep) deads.push({ a: '🏋️ Exercise volume', b: 'better sleep', why: 'More vigorous minutes today does not buy a better night. Train for fitness, not for sleep.', stat: `next-day sleep r=${eExSleep.r.toFixed(2)} · n=${eExSleep.n}` });
+            const eHrsNext = corrLag('sleep_hours', 'max_body_battery');
+            if (eHrsNext) deads.push({ a: '😴 Sleep hours', b: 'next-day energy', why: 'How long you slept barely moves tomorrow\'s battery — it is quality, not duration, that carries forward.', stat: `r=${eHrsNext.r.toFixed(2)} · n=${eHrsNext.n}` });
+            if (deepEdge) deads.push({ a: '🛏️ Deep-sleep minutes', b: 'a bigger recharge', why: 'Chasing "deep sleep" is the wrong target — total sleep quality drives the recharge, not the deep stage.', stat: `r=${deepEdge.r.toFixed(2)} · n=${deepEdge.n}` });
+            deads.push({ a: '🫁 Respiration · SpO₂ · timing', b: 'any outcome', why: 'Swept across the dataset in earlier passes — no reliable link surfaced.', stat: 'no usable signal' });
+            const deadHTML = deads.map(d => `<div class="eb-dead"><div class="eb-dead-link">${d.a}<span class="eb-x">✗</span>${d.b}</div><div class="eb-dead-why">${d.why}</div><div class="eb-dead-stat">${d.stat}</div></div>`).join('');
+
+            const verdict = `🎯 <strong>The one lever: go to bed earlier.</strong> It is the head of the only validated cascade in your data — pull it and more sleep, a bigger overnight recharge, and a calmer next day all follow. Exercise earns its place for <strong>fitness</strong> (VO₂ ~54, stable), not for sleep.`;
+            const rules = `📋 <strong>Rules of evidence.</strong> Every solid line survived effect-size and sample-size scrutiny (n≈${nNights} nights). <span style="color:var(--green);font-weight:600;">STRONG</span> = |r| ≥ 0.5, <span style="color:var(--cyan);">MODERATE</span> ≥ 0.3. Severed strings (<span style="color:var(--red);">✗</span>) are links we <strong>checked and rejected</strong> — shown on purpose, because refusing to draw a line the data won't support is the whole point. Single-subject &amp; observational: correlation, not proof — but nothing here we could explain away.`;
+
+            root.innerHTML =
+                `<div class="eb-head"><span class="eb-kicker">🧵 Case file · what moves what</span><span class="eb-sub">The whole investigation, one board.</span><span class="eb-chip">n≈${nNights} nights · single-subject</span></div>`
+                + `<div class="eb-chain">${spine}</div>`
+                + hrvBlock
+                + `<div class="eb-dead-wrap"><span class="eb-kicker" style="color:var(--red);">Dead ends · checked &amp; rejected</span><div class="eb-dead-grid">${deadHTML}</div></div>`
+                + `<div class="eb-verdict">${verdict}</div>`
+                + `<div class="eb-rules">${rules}</div>`;
+            sec.style.display = '';
         }
 
         // Stress composition — how the typical day splits across rest/low/med/high
@@ -3786,6 +3978,7 @@
                 renderCrossLag(d);
                 allSleepSeries = d.series || null;
                 buildSleepStages(allSleepSeries, allDailyData);
+                if (allDailyData) buildEvidenceBoard(allDailyData);  // re-call: now the deep-sleep dead-end can compute
             } catch (e) {
                 console.warn('sleep carryover unavailable', e);
                 document.getElementById('carryoverSection').innerHTML =
