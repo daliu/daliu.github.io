@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-06T19:29:46.694237+00:00",
+  "generated_at": "2026-06-29T07:21:03.619753+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "679c312",
-      "date": "2026-05-06T10:00:15-04:00",
-      "message": "daily: 2026-05-06 market update"
+      "hash": "9252c6c",
+      "date": "2026-06-29T00:13:29-07:00",
+      "message": "Render analytics enrichments: quality, heatmaps, map, trends"
     },
     "branch": "master"
   },
@@ -13,25 +13,25 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 57,
+      "page_count": 94,
       "last_commit": {
-        "hash": "679c312",
-        "date": "2026-05-06T10:00:15-04:00",
-        "message": "daily: 2026-05-06 market update"
+        "hash": "f7c8fbc",
+        "date": "2026-06-28T22:52:28-07:00",
+        "message": "Fix Google Analytics: correct measurement ID G-NNGFMHGWCE -> G-GR5Z815VXW site-wide"
       }
     },
     "health_dashboard": {
       "name": "Health Dashboard",
       "url": "/health/",
-      "schedule": "~19:00 ET daily",
+      "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-05-05T19:00:06.974936",
+        "updated": "2026-06-28T23:29:03.403397",
         "date_range": null
       },
       "last_commit": {
-        "hash": "0e43bbb",
-        "date": "2026-05-05T19:00:15-07:00",
-        "message": "Update health data 2026-05-05 19:00"
+        "hash": "983cccd",
+        "date": "2026-06-28T23:29:10-07:00",
+        "message": "Update health data 2026-06-28 23:29"
       }
     },
     "knowledge_graph": {
@@ -40,129 +40,129 @@
       "schedule": "manual (run scripts/build_graph.py)",
       "graph": {
         "generated": "auto",
-        "node_count": 11,
-        "edge_count": 14
+        "node_count": 107,
+        "edge_count": 219
       },
       "last_commit": {
-        "hash": "4bee647",
-        "date": "2026-05-05T08:28:55-07:00",
-        "message": "Refresh knowledge graph data from vault (11 nodes, 14 edges)"
+        "hash": "791a8a7",
+        "date": "2026-06-27T01:47:30-07:00",
+        "message": "knowledge graph: rename hub \u2192 \"Autonomous Adaptive Intelligence\""
       }
     },
     "site_analytics": {
       "name": "Site Analytics",
       "url": "/analytics/",
-      "schedule": "manual (run scripts/fetch_analytics.py)",
+      "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-03-26T00:00:00Z"
+        "updated": "2026-06-29T07:08:03Z"
       },
       "last_commit": {
-        "hash": "7e03dd0",
-        "date": "2026-03-26T14:32:13-07:00",
-        "message": "feat: Add public analytics dashboard with GA4 data pipeline"
+        "hash": "74943f2",
+        "date": "2026-06-29T00:08:28-07:00",
+        "message": "Add analytics data layer: traffic quality, heatmaps, geo, trends"
       }
     }
   },
   "recent_commits": [
     {
-      "hash": "679c312",
-      "date": "2026-05-06T10:00:15-04:00",
-      "message": "daily: 2026-05-06 market update"
+      "hash": "9252c6c",
+      "date": "2026-06-29T00:13:29-07:00",
+      "message": "Render analytics enrichments: quality, heatmaps, map, trends"
     },
     {
-      "hash": "0e43bbb",
-      "date": "2026-05-05T19:00:15-07:00",
-      "message": "Update health data 2026-05-05 19:00"
+      "hash": "74943f2",
+      "date": "2026-06-29T00:08:28-07:00",
+      "message": "Add analytics data layer: traffic quality, heatmaps, geo, trends"
     },
     {
-      "hash": "3a5d89f",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "knowledge: add og:* and canonical meta tags for SEO/social sharing"
+      "hash": "fe55551",
+      "date": "2026-06-28T23:34:01-07:00",
+      "message": "Improve analytics dashboard: dedupe pages, humanize labels, label time windows"
     },
     {
-      "hash": "cf6cae3",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: Enter in search pins the first match"
+      "hash": "983cccd",
+      "date": "2026-06-28T23:29:10-07:00",
+      "message": "Update health data 2026-06-28 23:29"
     },
     {
-      "hash": "f6ef4d2",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: mobile polish + Reset view button"
+      "hash": "13b14e0",
+      "date": "2026-06-28T23:18:06-07:00",
+      "message": "Update health data 2026-06-28 23:18"
     },
     {
-      "hash": "aafeeb9",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: spread out the layout so labels don't overlap"
+      "hash": "d4f00bf",
+      "date": "2026-06-29T05:57:03+00:00",
+      "message": "Update analytics data 2026-06-29"
     },
     {
-      "hash": "e1fdaf7",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: help overlay + dynamic page title"
+      "hash": "4ef9328",
+      "date": "2026-06-28T22:56:45-07:00",
+      "message": "Fix analytics workflow: hoist GA4_PROPERTY_ID to job-level env"
     },
     {
-      "hash": "857b1f7",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Update health data 2026-05-04 19:00"
+      "hash": "f7c8fbc",
+      "date": "2026-06-28T22:52:28-07:00",
+      "message": "Fix Google Analytics: correct measurement ID G-NNGFMHGWCE -> G-GR5Z815VXW site-wide"
     },
     {
-      "hash": "f0694c0",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: keyboard shortcuts + share button"
+      "hash": "3344b20",
+      "date": "2026-06-28T22:34:44-07:00",
+      "message": "patterns-of-choice: add the moral-conviction card to the research-program grid"
     },
     {
-      "hash": "4748631",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: shareable URL state"
+      "hash": "a06efa9",
+      "date": "2026-06-28T20:50:03-07:00",
+      "message": "social: embed Short for 2026-06-28 (KUi3XyGqJeU)"
     },
     {
-      "hash": "eba7197",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: node detail side panel"
+      "hash": "24c3ff9",
+      "date": "2026-06-28T20:49:03-07:00",
+      "message": "social: 2026-06-28 MoneySignals deck (3 cards)"
     },
     {
-      "hash": "92d0379",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Knowledge Graph: search, type filters, zoom controls, polish"
+      "hash": "cd5426d",
+      "date": "2026-06-28T20:48:29-07:00",
+      "message": "homepage: make PoC hero button readable + drop redundant about-link"
     },
     {
-      "hash": "4bee647",
-      "date": "2026-05-05T08:28:55-07:00",
-      "message": "Refresh knowledge graph data from vault (11 nodes, 14 edges)"
+      "hash": "08fe871",
+      "date": "2026-06-28T20:45:54-07:00",
+      "message": "Add Evidence Board capstone \u2014 the whole causal investigation as one map"
     },
     {
-      "hash": "f0da4b4",
-      "date": "2026-05-05T08:28:04-07:00",
-      "message": "404: add Publications link to the navbar"
+      "hash": "3fa5d70",
+      "date": "2026-06-28T20:42:42-07:00",
+      "message": "patterns-of-choice: add the dyadic-structure card to the research-program grid"
     },
     {
-      "hash": "2c3208b",
-      "date": "2026-05-05T08:28:04-07:00",
-      "message": "sitemap: include publications, genomics, knowledge"
+      "hash": "bff8f51",
+      "date": "2026-06-28T20:18:26-07:00",
+      "message": "homepage: Patterns of Choice hero entry -> app.html + \"about this project\" link"
     },
     {
-      "hash": "02bb254",
-      "date": "2026-05-05T08:28:04-07:00",
-      "message": "nav: add Publications link to autotrader/health/analytics/genomics + Meta Council to genomics"
+      "hash": "db8ccd1",
+      "date": "2026-06-28T19:00:14-07:00",
+      "message": "Update health data 2026-06-28 19:00"
     },
     {
-      "hash": "03e133d",
-      "date": "2026-05-05T08:28:04-07:00",
-      "message": "publications: add the Data About Me dropdown to the navbar"
+      "hash": "84f2782",
+      "date": "2026-06-28T09:13:13-07:00",
+      "message": "patterns-of-choice: add the moral-attention card to the research-program grid"
     },
     {
-      "hash": "582f693",
-      "date": "2026-05-05T10:00:09-04:00",
-      "message": "daily: 2026-05-05 market update"
+      "hash": "56782a8",
+      "date": "2026-06-28T03:41:26-07:00",
+      "message": "health: refresh calendar density 2026-06-28 03:41"
     },
     {
-      "hash": "2113ff6",
-      "date": "2026-05-04T10:00:10-04:00",
-      "message": "daily: 2026-05-04 market update"
+      "hash": "5c4fd19",
+      "date": "2026-06-27T19:00:13-07:00",
+      "message": "Update health data 2026-06-27 19:00"
     },
     {
-      "hash": "3878cf4",
-      "date": "2026-05-03T20:27:02-07:00",
-      "message": "Update health data 2026-05-03 20:27"
+      "hash": "fee9bf6",
+      "date": "2026-06-27T09:38:28-07:00",
+      "message": "health dashboard: HRV-readiness card in Recovery section"
     }
   ]
 }

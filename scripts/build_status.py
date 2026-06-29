@@ -102,7 +102,7 @@ def main():
             "health_dashboard": {
                 "name": "Health Dashboard",
                 "url": "/health/",
-                "schedule": "~19:00 ET daily",
+                "schedule": "8 AM, 2 PM, 9 PM PT (3×/day)",
                 "data": health_meta(),
                 "last_commit": latest_commit_for("health/"),
             },
@@ -116,7 +116,7 @@ def main():
             "site_analytics": {
                 "name": "Site Analytics",
                 "url": "/analytics/",
-                "schedule": "manual (run scripts/fetch_analytics.py)",
+                "schedule": "Daily at 6 AM UTC (GitHub Actions)",
                 "data": analytics_meta(),
                 "last_commit": latest_commit_for("analytics/data.json"),
             },

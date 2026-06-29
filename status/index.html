@@ -418,9 +418,9 @@ function ageHours(iso) {
 function pipelineStatus(key, lastIso) {
   const thresholds = {
     autotrader_daily: { ok: 30, warn: 78 },         // weekday-only; ~30h covers a normal Mon, ~78h covers weekend gap
-    health_dashboard: { ok: 30, warn: 54 },         // ~daily
+    health_dashboard: { ok: 30, warn: 54 },         // 3×/day, but commits only when data changes (~daily)
     knowledge_graph: null,                          // manual; no clock pressure
-    site_analytics: null
+    site_analytics: { ok: 30, warn: 54 }            // daily GitHub Actions run at 6 AM UTC
   };
   const t = thresholds[key];
   if (!t) return 'unknown';
