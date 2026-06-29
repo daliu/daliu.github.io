@@ -12,6 +12,10 @@ permissions:
 jobs:
   update-analytics:
     runs-on: ubuntu-latest
+    # Hoisted to job level so the `if:` gates below can actually see it.
+    # A step-level env var is NOT available to that same step's `if:`.
+    env:
+      GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
     steps:
       - uses: actions/checkout@v4
 
@@ -21,21 +25,16 @@ jobs:
 
       - name: Install dependencies
         if: env.GA4_PROPERTY_ID != ''
-        env:
-          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: pip install 'google-analytics-data>=0.18,<0.19' 'google-auth>=2.29,<3'
 
       - name: Fetch GA4 data
         if: env.GA4_PROPERTY_ID != ''
         env:
-          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
           GA4_CREDENTIALS_JSON: ${{ secrets.GA4_CREDENTIALS_JSON }}
         run: python scripts/fetch_analytics.py
 
       - name: Validate data.json is not empty
         if: env.GA4_PROPERTY_ID != ''
-        env:
-          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: |
           if [ ! -s analytics/data.json ]; then
             echo "ERROR: data.json is empty or missing after fetch"
@@ -46,8 +45,6 @@ jobs:
 
       - name: Commit and push
         if: env.GA4_PROPERTY_ID != ''
-        env:
-          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -56,8 +53,6 @@ jobs:
 
       - name: Skip notice (secrets not configured)
         if: env.GA4_PROPERTY_ID == ''
-        env:
-          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: echo "Skipping analytics update — GA4_PROPERTY_ID secret is not configured."
 
       - name: Create issue on failure
