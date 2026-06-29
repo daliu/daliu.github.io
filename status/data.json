@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-29T07:21:03.619753+00:00",
+  "generated_at": "2026-06-29T07:28:02.672486+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "9252c6c",
-      "date": "2026-06-29T00:13:29-07:00",
-      "message": "Render analytics enrichments: quality, heatmaps, map, trends"
+      "hash": "ca90b58",
+      "date": "2026-06-29T00:24:16-07:00",
+      "message": "Sync /now/ and /status/ with current autonomous systems"
     },
     "branch": "master"
   },
@@ -40,8 +40,8 @@
       "schedule": "manual (run scripts/build_graph.py)",
       "graph": {
         "generated": "auto",
-        "node_count": 107,
-        "edge_count": 219
+        "node_count": 117,
+        "edge_count": 233
       },
       "last_commit": {
         "hash": "791a8a7",
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "ca90b58",
+      "date": "2026-06-29T00:24:16-07:00",
+      "message": "Sync /now/ and /status/ with current autonomous systems"
+    },
     {
       "hash": "9252c6c",
       "date": "2026-06-29T00:13:29-07:00",
@@ -158,11 +163,6 @@
       "hash": "5c4fd19",
       "date": "2026-06-27T19:00:13-07:00",
       "message": "Update health data 2026-06-27 19:00"
-    },
-    {
-      "hash": "fee9bf6",
-      "date": "2026-06-27T09:38:28-07:00",
-      "message": "health dashboard: HRV-readiness card in Recovery section"
     }
   ]
 }
