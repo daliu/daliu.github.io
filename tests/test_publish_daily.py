@@ -344,7 +344,7 @@ class TestGenerateWrapperPage:
         assert 'display: none;' in self.html
 
     def test_ga4_snippet_present(self):
-        assert "G-NNGFMHGWCE" in self.html
+        assert "G-GR5Z815VXW" in self.html
         assert "googletagmanager.com/gtag" in self.html
 
     def test_og_tags_present(self):
@@ -398,7 +398,7 @@ class TestGeneratePlaceholderWrapperPage:
         assert "<iframe" not in self.html
 
     def test_ga4_snippet_present(self):
-        assert "G-NNGFMHGWCE" in self.html
+        assert "G-GR5Z815VXW" in self.html
 
     def test_og_tags_present(self):
         assert 'property="og:title"' in self.html
