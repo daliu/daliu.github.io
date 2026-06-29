@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-29T07:08:03Z",
+  "updated": "2026-06-29T10:25:17Z",
   "date_range": {
     "start": "2026-04-01",
     "end": "2026-06-29"
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-05-10",
-    "end": "2026-06-28",
-    "days_with_data": 50
+    "end": "2026-06-29",
+    "days_with_data": 51
   },
   "totals": {
-    "total_users": 361,
-    "total_sessions": 402,
-    "total_pageviews": 885,
+    "total_users": 362,
+    "total_sessions": 404,
+    "total_pageviews": 889,
     "total_engaged_sessions": 67,
-    "engagement_rate": 0.1667,
-    "avg_session_duration_seconds": 140.5,
-    "bounce_rate": 0.8333
+    "engagement_rate": 0.1658,
+    "avg_session_duration_seconds": 146.4,
+    "bounce_rate": 0.8342
   },
   "daily": [
     {
@@ -516,10 +516,20 @@
     {
       "date": "2026-06-28",
       "users": 7,
-      "sessions": 9,
-      "pageviews": 18,
+      "sessions": 10,
+      "pageviews": 21,
       "new_users": 6,
-      "avg_session_duration": 590.8,
+      "avg_session_duration": 622.2,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
+    },
+    {
+      "date": "2026-06-29",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 1,
+      "new_users": 0,
+      "avg_session_duration": 1731.3,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -589,6 +599,13 @@
       "avg_time_on_page": 47.2
     },
     {
+      "path": "/patterns-of-choice/app.html",
+      "title": "Patterns of Choice \u2014 the practice (local-first)",
+      "pageviews": 18,
+      "users": 2,
+      "avg_time_on_page": 377.0
+    },
+    {
       "path": "/research/adaptive-domain-intelligence/",
       "title": "Adaptive Domain Intelligence \u2014 Dave Liu",
       "pageviews": 17,
@@ -601,13 +618,6 @@
       "pageviews": 17,
       "users": 4,
       "avg_time_on_page": 4.2
-    },
-    {
-      "path": "/patterns-of-choice/app.html",
-      "title": "Patterns of Choice \u2014 the practice (local-first)",
-      "pageviews": 14,
-      "users": 2,
-      "avg_time_on_page": 94.7
     },
     {
       "path": "/patterns-of-choice/demo.html",
@@ -688,7 +698,7 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 5,
+      "sessions": 6,
       "users": 4
     },
     {
@@ -713,7 +723,7 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 388,
+      "sessions": 389,
       "percentage": 95.8
     },
     {
@@ -725,13 +735,13 @@
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 375,
+      "sessions": 376,
       "percentage": 91.9
     },
     {
       "browser": "Safari",
       "sessions": 19,
-      "percentage": 4.7
+      "percentage": 4.6
     },
     {
       "browser": "Edge",
@@ -782,7 +792,7 @@
     },
     {
       "country": "United States",
-      "sessions": 107,
+      "sessions": 108,
       "users": 27
     },
     {
@@ -823,12 +833,12 @@
   ],
   "user_types": {
     "new": 321,
-    "returning": 75
+    "returning": 76
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 33
+      "pageviews": 34
     },
     {
       "hour": 1,
@@ -920,15 +930,15 @@
     },
     {
       "hour": 23,
-      "pageviews": 31
+      "pageviews": 34
     }
   ],
   "quality": {
     "engaged_sessions": 67,
-    "non_engaged_sessions": 335,
+    "non_engaged_sessions": 337,
     "likely_automated_sessions": 286,
-    "likely_human_sessions": 117,
-    "automated_pct": 71.0,
+    "likely_human_sessions": 118,
+    "automated_pct": 70.8,
     "est_human_users": 37,
     "thresholds": {
       "human": 0.4,
@@ -948,12 +958,12 @@
     },
     {
       "country": "United States",
-      "sessions": 107,
+      "sessions": 108,
       "engaged": 61,
       "users": 27,
-      "pageviews": 586,
-      "avg_duration": 505.1,
-      "engagement_rate": 0.57,
+      "pageviews": 590,
+      "avg_duration": 524.9,
+      "engagement_rate": 0.565,
       "class": "human"
     },
     {
@@ -1062,10 +1072,10 @@
         11,
         17,
         1,
-        1
+        4
       ],
       [
-        2,
+        3,
         2,
         0,
         8,
@@ -1258,7 +1268,7 @@
         5
       ],
       [
-        5,
+        6,
         4,
         2,
         1,
@@ -1281,7 +1291,7 @@
         11,
         10,
         9,
-        6
+        7
       ],
       [
         0,
@@ -1352,10 +1362,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 71,
+      "sessions": 72,
       "users": 4,
       "engaged": 48,
-      "engagement_rate": 0.676
+      "engagement_rate": 0.667
     },
     {
       "lat": 37.3361663,
@@ -1367,15 +1377,6 @@
       "engagement_rate": 0.545
     },
     {
-      "lat": 39.8283,
-      "lng": -98.5795,
-      "label": "United States",
-      "sessions": 9,
-      "users": 7,
-      "engaged": 3,
-      "engagement_rate": 0.333
-    },
-    {
       "lat": 41.258841,
       "lng": -95.8519484,
       "label": "Council Bluffs, United States",
@@ -1383,6 +1384,15 @@
       "users": 5,
       "engaged": 0,
       "engagement_rate": 0.0
+    },
+    {
+      "lat": 39.8283,
+      "lng": -98.5795,
+      "label": "United States",
+      "sessions": 5,
+      "users": 3,
+      "engaged": 3,
+      "engagement_rate": 0.6
     },
     {
       "lat": 51.0456064,
@@ -1581,29 +1591,65 @@
       "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0
+    },
+    {
+      "lat": 36.6673066,
+      "lng": -78.3882002,
+      "label": "Boydton, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 36.7954163,
+      "lng": -79.4941946,
+      "label": "Flint Hill, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 47.1301417,
+      "lng": -119.278077,
+      "label": "Moses Lake, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 41.139981,
+      "lng": -104.820246,
+      "label": "Cheyenne, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
     }
   ],
   "trends": {
     "wow": {
       "users": {
-        "current": 60,
-        "previous": 63,
-        "change_pct": -4.8
+        "current": 51,
+        "previous": 62,
+        "change_pct": -17.7
       },
       "sessions": {
-        "current": 73,
-        "previous": 71,
-        "change_pct": 2.8
+        "current": 63,
+        "previous": 72,
+        "change_pct": -12.5
       },
       "pageviews": {
-        "current": 159,
-        "previous": 200,
-        "change_pct": -20.5
+        "current": 123,
+        "previous": 224,
+        "change_pct": -45.1
       }
     },
     "baseline": {
-      "mean_pageviews": 17.7,
-      "std_pageviews": 18.9
+      "mean_pageviews": 17.4,
+      "std_pageviews": 18.8
     },
     "anomalies": [
       {
@@ -1614,7 +1660,7 @@
       {
         "date": "2026-06-05",
         "pageviews": 60,
-        "z": 2.2
+        "z": 2.3
       },
       {
         "date": "2026-06-18",
