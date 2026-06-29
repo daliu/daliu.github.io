@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-27T19:00:10.072088",
+  "updated": "2026-06-28T19:00:11.196996",
   "n": 61,
   "bedtime": {
     "recommended_norm": 5.85,
@@ -9,52 +9,52 @@
     "ci_label": "11:30 PM \u2013 12:06 AM",
     "median_label": "1:31 AM",
     "pct10_label": "11:51 PM",
-    "pct90_label": "3:45 AM",
+    "pct90_label": "3:46 AM",
     "stats": {
       "sleep_score": {
         "kind": "linear",
-        "cv_r2": -0.04,
-        "r": -0.39,
-        "p": 0.0019,
-        "per_hour_earlier": 3.08
+        "cv_r2": -0.095,
+        "r": -0.41,
+        "p": 0.0011,
+        "per_hour_earlier": 3.21
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": 0.12,
-        "r": -0.56,
+        "cv_r2": 0.124,
+        "r": -0.57,
         "p": 0.0,
-        "per_hour_earlier": 0.52
+        "per_hour_earlier": 0.54
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.034,
-        "r": -0.44,
-        "p": 0.0004,
-        "per_hour_earlier": 3.93
+        "cv_r2": -0.105,
+        "r": -0.43,
+        "p": 0.0005,
+        "per_hour_earlier": 3.86
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 80.9,
+      "sleep_score": 80.8,
       "sleep_hours": 7.6,
       "battery": 85.4
     },
     "pred_at_median": {
-      "sleep_score": 75.8,
+      "sleep_score": 75.5,
       "sleep_hours": 6.7,
-      "battery": 78.9
+      "battery": 79.0
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.12,
-        "sleep_hours": 0.09,
+        "sleep_score": 0.15,
+        "sleep_hours": 0.11,
         "battery": -0.09
       },
       "weekly_frequency": {
-        "sleep_score": -0.01,
-        "sleep_hours": -0.02,
-        "battery": -0.22
+        "sleep_score": 0.03,
+        "sleep_hours": 0.03,
+        "battery": -0.2
       }
     },
     "typical_weekly_freq": 3,
