@@ -27,6 +27,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         :root {
             --bg: #0d1117;
@@ -223,6 +228,52 @@
             text-transform: none;
             letter-spacing: 0;
         }
+
+        /* Traffic quality */
+        .quality-callout {
+            background: linear-gradient(90deg, rgba(248,81,73,0.12), rgba(63,185,80,0.10));
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 15px;
+            font-size: 1.12rem;
+            line-height: 1.55;
+        }
+        .quality-callout strong { color: var(--text); }
+        .badge-q { display: inline-block; padding: 2px 9px; border-radius: 11px; font-size: 0.82rem; font-weight: 600; white-space: nowrap; }
+        .badge-human { background: rgba(63,185,80,0.18); color: #5fd97a; }
+        .badge-mixed { background: rgba(210,153,34,0.18); color: #e3b341; }
+        .badge-automated { background: rgba(248,81,73,0.18); color: #ff7b72; }
+
+        /* Trend delta chips */
+        .chip-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+        .chip {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 7px 15px;
+            font-size: 1rem;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .chip-k { color: var(--text-muted); text-transform: capitalize; }
+        .chip-v { font-weight: 700; }
+
+        /* Heatmaps */
+        .heatmap-wrap { overflow-x: auto; padding-bottom: 4px; }
+        .heatmap { display: grid; gap: 3px; min-width: 560px; }
+        .hm-cell { aspect-ratio: 1 / 1; border-radius: 3px; min-height: 16px; }
+        .hm-label { color: var(--text-muted); font-size: 0.78rem; display: flex; align-items: center; justify-content: center; }
+        .hm-label.row { justify-content: flex-end; padding-right: 6px; }
+        .hm-legend { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.9rem; margin-top: 10px; flex-wrap: wrap; }
+        .hm-legend .scale { display: inline-block; width: 110px; height: 10px; border-radius: 5px; background: linear-gradient(90deg, #161b22, #58a6ff); }
+
+        /* Visitor map */
+        #map { height: 440px; border-radius: 8px; }
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #161b22; color: #e6edf3; }
+        .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+        .leaflet-container a.leaflet-popup-close-button { color: #8b949e; }
+        .map-note { color: var(--text-muted); font-size: 0.95rem; margin-top: 10px; }
+        .map-note code { background: #0d1117; padding: 1px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -412,8 +463,27 @@ function render(data) {
     html += statCard('days-tracked', data.daily.length, 'Days Tracked', '#8b949e');
     html += '</div>';
 
+    // --- Traffic Quality (real-audience filtering) ---
+    if (data.quality && data.country_quality && data.country_quality.length) {
+        html += '<div class="section-title">Traffic Quality <span class="win">last ' + win.main_days + ' days</span></div>';
+        html += buildQualityCallout(data);
+        html += '<div class="charts-grid">';
+        html += '<div class="chart-card"><h2>Engaged vs Drive-by Sessions</h2>';
+        html += '<div class="chart-container"><canvas id="chart-quality"></canvas></div></div>';
+        html += '<div class="chart-card"><h2>Engagement by Country</h2>';
+        html += '<div style="max-height:310px;overflow:auto"><table class="stats-table">';
+        html += '<thead><tr><th>Country</th><th>Sessions</th><th>Engaged</th><th>Class</th></tr></thead><tbody>';
+        data.country_quality.forEach(function(c) {
+            html += '<tr><td>' + escapeHtml(c.country) + '</td><td>' + fmtNum(c.sessions) + '</td><td>' +
+                    fmtPct(c.engagement_rate) + '</td><td>' + classBadge(c['class']) + '</td></tr>';
+        });
+        html += '</tbody></table></div></div>';
+        html += '</div>';
+    }
+
     // --- Visitors Over Time ---
-    html += '<div class="section-title">Traffic Trends</div>';
+    html += '<div class="section-title">Traffic Trends <span class="win">last ' + win.main_days + ' days</span></div>';
+    if (data.trends) html += renderTrendChips(data.trends);
     html += '<div class="time-range-bar" id="trend-range">';
     html += '<button class="time-range-btn" data-days="7">7d</button>';
     html += '<button class="time-range-btn" data-days="14">14d</button>';
@@ -421,7 +491,25 @@ function render(data) {
     html += '<button class="time-range-btn" data-days="0">All</button>';
     html += '</div>';
     html += '<div class="full-card"><h2>Visitors &amp; Page Views</h2>';
-    html += '<div class="chart-container tall"><canvas id="chart-trend"></canvas></div></div>';
+    html += '<div class="chart-container tall"><canvas id="chart-trend"></canvas></div>';
+    html += '<div class="map-note">Red points mark statistical anomalies (page views &ge;2&sigma; above the mean). Purple dashed lines mark annotated events.</div></div>';
+
+    // --- Event Impact ---
+    if (data.events && data.events.length) {
+        html += '<div class="full-card"><h2>Event Impact</h2>';
+        html += '<table class="stats-table"><thead><tr><th>Date</th><th>Event</th><th>Baseline (7d before)</th><th>After (3d)</th><th>Lift</th></tr></thead><tbody>';
+        data.events.forEach(function(e) {
+            var lift = (e.lift_pct == null) ? '—' : ((e.lift_pct >= 0 ? '+' : '') + e.lift_pct + '%');
+            var liftColor = (e.lift_pct == null) ? 'var(--text-muted)' : (e.lift_pct >= 0 ? 'var(--green)' : 'var(--red)');
+            html += '<tr><td>' + escapeHtml(e.date || '') + '</td><td>' + escapeHtml(e.label || '') +
+                    (e.url ? ' <a href="' + escapeHtml(e.url) + '" target="_blank" rel="noopener" style="color:var(--accent)">&#8599;</a>' : '') +
+                    '</td><td>' + (e.baseline_pageviews != null ? e.baseline_pageviews : '—') +
+                    '</td><td>' + (e.after_pageviews != null ? e.after_pageviews : '—') +
+                    '</td><td style="color:' + liftColor + ';font-weight:600">' + lift + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        html += '<div class="map-note">Lift = avg daily page views in the 3 days from the event vs. the 7 days before. Correlational — a known change on the site, not proof of cause. Edit <code>analytics/events.json</code> to track your own.</div></div>';
+    }
 
     // --- Charts Grid ---
     html += '<div class="section-title">Breakdown <span class="win">last ' + win.main_days + ' days</span></div>';
@@ -452,6 +540,26 @@ function render(data) {
     html += '<div class="chart-container"><canvas id="chart-hourly"></canvas></div></div>';
 
     html += '</div>'; // end charts-grid
+
+    // --- Activity Patterns (heatmaps) ---
+    if (data.punchcard && data.punchcard.matrix) {
+        html += '<div class="section-title">Activity Patterns <span class="win">last ' + win.main_days + ' days · site time</span></div>';
+        html += '<div class="full-card"><h2>Day of Week &times; Hour — Page Views</h2>';
+        html += '<div id="punchcard" class="heatmap-wrap"></div>';
+        html += '<div class="hm-legend">Fewer <span class="scale"></span> More &middot; columns are hour of day in the site\'s reporting timezone</div></div>';
+        if (data.hour_by_country && data.hour_by_country.countries && data.hour_by_country.countries.length) {
+            html += '<div class="full-card"><h2>Hour of Day by Country — Sessions</h2>';
+            html += '<div id="hour-country" class="heatmap-wrap"></div>';
+            html += '<div class="hm-legend">Fewer <span class="scale"></span> More &middot; hour is the site\'s reporting time, <em>not</em> each visitor\'s local time</div></div>';
+        }
+    }
+
+    // --- Visitor Map ---
+    if (data.geo_points && data.geo_points.length) {
+        html += '<div class="section-title">Visitor Map <span class="win">last ' + win.main_days + ' days</span></div>';
+        html += '<div class="full-card"><div id="map"></div>';
+        html += '<div class="map-note">Circle size = sessions &middot; color = engagement (<span style="color:var(--green)">green</span> human, <span style="color:var(--yellow)">amber</span> mixed, <span style="color:var(--red)">red</span> automated). Plotted at city level where known, otherwise the country center.</div></div>';
+    }
 
     // --- Geographic Data ---
     if (data.countries && data.countries.length > 0) {
@@ -488,13 +596,23 @@ function render(data) {
     animateValue(document.getElementById('stat-days-tracked'), data.daily.length, 800);
 
     // Build charts
-    buildTrendChart(data.daily, 30);
+    buildTrendChart(data.daily, 30, data.trends, data.events);
     buildPagesChart(data.pages);
     buildSourcesChart(data.sources);
     buildDevicesChart(data.devices);
     buildBrowsersChart(data.browsers);
     buildNvrChart(data.user_types);
     buildHourlyChart(data.hourly);
+    if (data.quality) buildQualityChart(data.quality);
+    if (data.punchcard && data.punchcard.matrix) {
+        var hourCols = [];
+        for (var h = 0; h < 24; h++) hourCols.push(h % 3 === 0 ? String(h) : '');
+        renderHeatmap('punchcard', data.punchcard.dow_labels, hourCols, data.punchcard.matrix, 'page views');
+        if (data.hour_by_country && data.hour_by_country.matrix) {
+            renderHeatmap('hour-country', data.hour_by_country.countries, hourCols, data.hour_by_country.matrix, 'sessions');
+        }
+    }
+    if (data.geo_points && data.geo_points.length) buildMap(data.geo_points);
 
     // Time range buttons
     document.getElementById('trend-range').addEventListener('click', function(e) {
@@ -502,7 +620,7 @@ function render(data) {
             this.querySelectorAll('.time-range-btn').forEach(function(b) { b.classList.remove('active'); });
             e.target.classList.add('active');
             var days = parseInt(e.target.dataset.days);
-            buildTrendChart(data.daily, days);
+            buildTrendChart(data.daily, days, data.trends, data.events);
         }
     });
 }
@@ -515,7 +633,7 @@ function statCard(id, value, label, color, isDuration, isPct) {
     return '<div class="stat-card"><div class="stat-value" id="stat-' + id + '" style="color:' + color + '">' + display + '</div><div class="stat-label">' + label + '</div></div>';
 }
 
-function buildTrendChart(daily, days) {
+function buildTrendChart(daily, days, trends, events) {
     var filtered = days > 0 ? daily.slice(-days) : daily;
     destroyChart('trend');
 
@@ -525,6 +643,29 @@ function buildTrendChart(daily, days) {
 
     // Rolling 7-day average
     var rollingUsers = computeRolling(users, 7);
+
+    // Highlight anomaly days on the Page Views series.
+    var anomSet = {};
+    if (trends && trends.anomalies) trends.anomalies.forEach(function(a) { anomSet[a.date] = a; });
+    var pvRadius = filtered.map(function(d) { return anomSet[d.date] ? 6 : (days <= 14 ? 4 : 0); });
+    var pvColor = filtered.map(function(d) { return anomSet[d.date] ? COLORS.red : COLORS.green; });
+
+    // Event markers as vertical lines (annotation plugin; silently ignored if absent).
+    var annotations = {};
+    if (events) {
+        events.forEach(function(e, i) {
+            var idx = labels.indexOf(e.date);
+            if (idx === -1) return;
+            var short = (e.label && e.label.length > 22) ? e.label.slice(0, 22) + '…' : (e.label || 'event');
+            annotations['ev' + i] = {
+                type: 'line', scaleID: 'x', value: idx,
+                borderColor: COLORS.purple, borderWidth: 1.5, borderDash: [4, 4],
+                label: { display: true, content: short, position: 'start',
+                         backgroundColor: 'rgba(163,113,247,0.85)', color: '#fff',
+                         font: { size: 10 }, padding: 3 }
+            };
+        });
+    }
 
     charts['trend'] = new Chart(document.getElementById('chart-trend'), {
         type: 'line',
@@ -548,8 +689,9 @@ function buildTrendChart(daily, days) {
                     backgroundColor: 'transparent',
                     borderDash: [],
                     tension: 0.3,
-                    pointRadius: days <= 14 ? 4 : 0,
-                    pointHoverRadius: 5,
+                    pointRadius: pvRadius,
+                    pointBackgroundColor: pvColor,
+                    pointHoverRadius: 6,
                 },
                 {
                     label: '7-day Avg Users',
@@ -567,7 +709,10 @@ function buildTrendChart(daily, days) {
             responsive: true,
             maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
-            plugins: { legend: { position: 'top' } },
+            plugins: {
+                legend: { position: 'top' },
+                annotation: { annotations: annotations }
+            },
             scales: {
                 x: { grid: { display: false } },
                 y: { beginAtZero: true, grid: { color: '#30363d40' } }
@@ -761,6 +906,133 @@ function buildHourlyChart(hourly) {
             }
         }
     });
+}
+
+function classBadge(cls) {
+    var map = { human: 'Likely human', mixed: 'Mixed', automated: 'Likely automated' };
+    return '<span class="badge-q badge-' + cls + '">' + (map[cls] || cls) + '</span>';
+}
+
+function buildQualityCallout(data) {
+    var q = data.quality;
+    var auto = null, human = null;
+    data.country_quality.forEach(function(c) {
+        if (c['class'] === 'automated' && (!auto || c.sessions > auto.sessions)) auto = c;
+        if (c['class'] !== 'automated' && (!human || c.sessions > human.sessions)) human = c;
+    });
+    var totalSess = data.totals.total_sessions || 0;
+    var pctEngaged = totalSess ? Math.round(q.engaged_sessions / totalSess * 100) : 0;
+    var s = '<div class="quality-callout">';
+    s += 'Only <strong>' + pctEngaged + '%</strong> of sessions (' + fmtNum(q.engaged_sessions) +
+         ' of ' + fmtNum(totalSess) + ') show real human engagement. ';
+    s += 'An estimated <strong>' + fmtNum(q.likely_automated_sessions) + ' sessions (' + q.automated_pct +
+         '%)</strong> look automated';
+    if (auto) s += ' — led by ' + escapeHtml(auto.country) + ' (' + fmtNum(auto.sessions) +
+                   ' sessions at ' + fmtPct(auto.engagement_rate) + ' engagement)';
+    s += '. Your real audience is roughly <strong>' + fmtNum(q.est_human_users) + ' people</strong>';
+    if (human) s += ', concentrated in ' + escapeHtml(human.country) + ' (' + fmtPct(human.engagement_rate) + ' engaged)';
+    s += '. <span class="win">Heuristic: a country counts as automated when fewer than ' +
+         Math.round((q.thresholds ? q.thresholds.mixed : 0.15) * 100) + '% of its sessions engage.</span></div>';
+    return s;
+}
+
+function buildQualityChart(q) {
+    var el = document.getElementById('chart-quality');
+    if (!el) return;
+    destroyChart('quality');
+    charts['quality'] = new Chart(el, {
+        type: 'doughnut',
+        data: {
+            labels: ['Engaged (human-like)', 'Drive-by / automated'],
+            datasets: [{
+                data: [q.engaged_sessions, q.non_engaged_sessions],
+                backgroundColor: [COLORS.green, COLORS.red],
+                borderColor: '#161b22',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'right', labels: { padding: 15, usePointStyle: true } } }
+        }
+    });
+}
+
+function renderTrendChips(trends) {
+    if (!trends || !trends.wow) return '';
+    var html = '<div class="chip-row">';
+    ['users', 'sessions', 'pageviews'].forEach(function(k) {
+        var w = trends.wow[k];
+        if (!w) return;
+        var ch = w.change_pct;
+        var dir = (ch == null) ? '' : (ch >= 0 ? '▲' : '▼');
+        var col = (ch == null) ? 'var(--text-muted)' : (ch >= 0 ? 'var(--green)' : 'var(--red)');
+        var label = (k === 'pageviews') ? 'page views' : k;
+        html += '<div class="chip"><span class="chip-k">' + label + ' (7d)</span> <span class="chip-v">' +
+                fmtNum(w.current) + '</span> <span style="color:' + col + '">' + dir + ' ' +
+                (ch == null ? '—' : Math.abs(ch) + '%') + '</span></div>';
+    });
+    html += '</div>';
+    return html;
+}
+
+function hmLabel(text, isRow) {
+    var d = document.createElement('div');
+    d.className = 'hm-label' + (isRow ? ' row' : '');
+    d.textContent = text;
+    return d;
+}
+
+function renderHeatmap(containerId, rowLabels, colLabels, matrix, valueLabel) {
+    var el = document.getElementById(containerId);
+    if (!el) return;
+    var cols = colLabels.length;
+    var maxV = 0;
+    matrix.forEach(function(r) { r.forEach(function(v) { if (v > maxV) maxV = v; }); });
+
+    var grid = document.createElement('div');
+    grid.className = 'heatmap';
+    grid.style.gridTemplateColumns = '64px repeat(' + cols + ', minmax(16px, 1fr))';
+
+    grid.appendChild(hmLabel(''));
+    colLabels.forEach(function(c) { grid.appendChild(hmLabel(c)); });
+
+    matrix.forEach(function(row, i) {
+        grid.appendChild(hmLabel(rowLabels[i], true));
+        row.forEach(function(v, j) {
+            var cell = document.createElement('div');
+            cell.className = 'hm-cell';
+            var ratio = maxV > 0 ? v / maxV : 0;
+            cell.style.background = (v === 0) ? '#161b22' : 'rgba(88,166,255,' + (0.12 + ratio * 0.88) + ')';
+            var hr = (colLabels[j] !== '' ? colLabels[j] : j);
+            cell.title = rowLabels[i] + ' · ' + hr + ':00 — ' + v + ' ' + (valueLabel || '');
+            grid.appendChild(cell);
+        });
+    });
+
+    el.innerHTML = '';
+    el.appendChild(grid);
+}
+
+function buildMap(points) {
+    if (typeof L === 'undefined') return;
+    var el = document.getElementById('map');
+    if (!el) return;
+    var map = L.map('map', { scrollWheelZoom: false, worldCopyJump: true }).setView([25, 5], 2);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
+    }).addTo(map);
+    var maxS = Math.max.apply(null, points.map(function(p) { return p.sessions; })) || 1;
+    points.forEach(function(p) {
+        var r = 6 + 26 * Math.sqrt(p.sessions / maxS);
+        var color = p.engagement_rate >= 0.4 ? COLORS.green : (p.engagement_rate >= 0.15 ? COLORS.yellow : COLORS.red);
+        L.circleMarker([p.lat, p.lng], {
+            radius: r, color: color, fillColor: color, fillOpacity: 0.45, weight: 1.5
+        }).bindPopup('<b>' + escapeHtml(p.label) + '</b><br>' + fmtNum(p.sessions) + ' sessions · ' +
+                     fmtNum(p.users) + ' users<br>' + Math.round(p.engagement_rate * 100) + '% engaged').addTo(map);
+    });
+    setTimeout(function() { map.invalidateSize(); }, 200);
 }
 
 function escapeHtml(str) {
