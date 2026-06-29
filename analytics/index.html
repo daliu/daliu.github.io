@@ -209,6 +209,20 @@
             margin-bottom: 15px;
             color: var(--text-muted);
         }
+
+        /* Time-window labels */
+        .range-note {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin: -8px 0 22px;
+        }
+        .win {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            text-transform: none;
+            letter-spacing: 0;
+        }
     </style>
 </head>
 <body>
@@ -313,6 +327,12 @@ function fmtPct(val) {
     return (val * 100).toFixed(1) + '%';
 }
 
+function fmtDayLabel(s) {
+    if (!s) return '';
+    var d = new Date(s + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
 function animateValue(el, target, duration, formatter) {
     const start = 0;
     const startTime = performance.now();
@@ -370,11 +390,23 @@ function render(data) {
     // Build the full dashboard
     let html = '';
 
+    // Window labels so every section states the interval it covers.
+    var win = data.windows || { main_days: 90, hourly_days: 30 };
+    var span = data.data_span || {};
+    if (span.start) {
+        html += '<div class="range-note">Showing <strong>' + fmtDayLabel(span.start) + ' – ' +
+                fmtDayLabel(span.end) + '</strong> · ' + (span.days_with_data || data.daily.length) +
+                ' days with data. Breakdowns below cover the last ' + win.main_days +
+                ' days unless labeled otherwise.</div>';
+    }
+
     // --- Summary Stats ---
     html += '<div class="stats-grid">';
     html += statCard('total-users', data.totals.total_users, 'Total Visitors', COLORS.accent);
     html += statCard('total-pvs', data.totals.total_pageviews, 'Page Views', COLORS.green);
     html += statCard('total-sessions', data.totals.total_sessions, 'Sessions', COLORS.cyan);
+    if (data.totals.engagement_rate != null)
+        html += statCard('engagement', data.totals.engagement_rate, 'Engagement', COLORS.green, false, true);
     html += statCard('avg-duration', data.totals.avg_session_duration_seconds, 'Avg Duration', COLORS.purple, true);
     html += statCard('bounce-rate', data.totals.bounce_rate, 'Bounce Rate', COLORS.yellow, false, true);
     html += statCard('days-tracked', data.daily.length, 'Days Tracked', '#8b949e');
@@ -392,7 +424,7 @@ function render(data) {
     html += '<div class="chart-container tall"><canvas id="chart-trend"></canvas></div></div>';
 
     // --- Charts Grid ---
-    html += '<div class="section-title">Breakdown</div>';
+    html += '<div class="section-title">Breakdown <span class="win">last ' + win.main_days + ' days</span></div>';
     html += '<div class="charts-grid">';
 
     // Top Pages
@@ -416,14 +448,14 @@ function render(data) {
     html += '<div class="chart-container"><canvas id="chart-nvr"></canvas></div></div>';
 
     // Hourly
-    html += '<div class="chart-card"><h2>Visits by Hour of Day</h2>';
+    html += '<div class="chart-card"><h2>Visits by Hour of Day <span class="win">last ' + win.hourly_days + 'd · site time</span></h2>';
     html += '<div class="chart-container"><canvas id="chart-hourly"></canvas></div></div>';
 
     html += '</div>'; // end charts-grid
 
     // --- Geographic Data ---
     if (data.countries && data.countries.length > 0) {
-        html += '<div class="section-title">Geographic Distribution</div>';
+        html += '<div class="section-title">Geographic Distribution <span class="win">last ' + win.main_days + ' days</span></div>';
         html += '<div class="stats-table-container"><table class="stats-table">';
         html += '<thead><tr><th>Country</th><th>Sessions</th><th>Users</th></tr></thead><tbody>';
         data.countries.forEach(function(c) {
@@ -434,7 +466,7 @@ function render(data) {
 
     // --- Sources Table ---
     if (data.sources && data.sources.length > 0) {
-        html += '<div class="section-title">All Traffic Sources</div>';
+        html += '<div class="section-title">All Traffic Sources <span class="win">last ' + win.main_days + ' days</span></div>';
         html += '<div class="stats-table-container"><table class="stats-table">';
         html += '<thead><tr><th>Source</th><th>Medium</th><th>Sessions</th><th>Users</th></tr></thead><tbody>';
         data.sources.forEach(function(s) {
@@ -449,6 +481,8 @@ function render(data) {
     animateValue(document.getElementById('stat-total-users'), data.totals.total_users, 800);
     animateValue(document.getElementById('stat-total-pvs'), data.totals.total_pageviews, 800);
     animateValue(document.getElementById('stat-total-sessions'), data.totals.total_sessions, 800);
+    if (data.totals.engagement_rate != null)
+        animateValue(document.getElementById('stat-engagement'), Math.round(data.totals.engagement_rate * 100), 800, function(v) { return v + '%'; });
     animateValue(document.getElementById('stat-avg-duration'), data.totals.avg_session_duration_seconds, 800, fmtDuration);
     animateValue(document.getElementById('stat-bounce-rate'), Math.round(data.totals.bounce_rate * 100), 800, function(v) { return v + '%'; });
     animateValue(document.getElementById('stat-days-tracked'), data.daily.length, 800);
@@ -573,7 +607,10 @@ function buildPagesChart(pages) {
             responsive: true,
             maintainAspectRatio: false,
             indexAxis: 'y',
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { afterLabel: function(ctx) { return top[ctx.dataIndex].title || ''; } } }
+            },
             scales: {
                 x: { beginAtZero: true, grid: { color: '#30363d40' } },
                 y: { grid: { display: false } }
@@ -590,7 +627,7 @@ function buildSourcesChart(sources) {
     charts['sources'] = new Chart(document.getElementById('chart-sources'), {
         type: 'doughnut',
         data: {
-            labels: top.map(function(s) { return s.source + ' / ' + s.medium; }),
+            labels: top.map(function(s) { return (s.medium && s.medium !== '—') ? (s.source + ' / ' + s.medium) : s.source; }),
             datasets: [{
                 data: top.map(function(s) { return s.sessions; }),
                 backgroundColor: COLORS.palette.slice(0, top.length),

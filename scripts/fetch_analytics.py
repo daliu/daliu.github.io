@@ -27,6 +27,35 @@ OUTPUT_PATH = os.path.join(REPO_ROOT, "analytics", "data.json")
 
 SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
 
+# Windows (in days) each section is computed over. Surfaced in data.json so the
+# dashboard can label exactly what interval every breakdown covers.
+MAIN_WINDOW_DAYS = 90
+HOURLY_WINDOW_DAYS = 30
+
+
+def clean_label(value):
+    """Make GA4's internal placeholder dimension values human-readable."""
+    return {
+        "(direct)": "Direct",
+        "(none)": "—",
+        "(not set)": "Unknown",
+        "(not provided)": "Unknown",
+        "(data not available)": "Unknown",
+    }.get(value, value)
+
+
+def canonical_path(path):
+    """Collapse equivalent URLs so one page isn't counted as several rows.
+
+    e.g. "/index.html" -> "/". Without this the same page can appear multiple
+    times in Top Pages whenever its <title> changed during the window.
+    """
+    if path in ("/index.html", "/index"):
+        return "/"
+    if path.endswith("/index.html"):
+        return path[: -len("index.html")]
+    return path
+
 
 def get_client():
     creds_json = os.environ["GA4_CREDENTIALS_JSON"]
@@ -67,16 +96,19 @@ def main():
     client = get_client()
 
     end_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    start_date = (datetime.now(timezone.utc) - timedelta(days=89)).strftime("%Y-%m-%d")
+    start_date = (datetime.now(timezone.utc) - timedelta(days=MAIN_WINDOW_DAYS - 1)).strftime("%Y-%m-%d")
     date_range = (start_date, end_date)
-    date_range_30d = ((datetime.now(timezone.utc) - timedelta(days=29)).strftime("%Y-%m-%d"), end_date)
+    date_range_30d = (
+        (datetime.now(timezone.utc) - timedelta(days=HOURLY_WINDOW_DAYS - 1)).strftime("%Y-%m-%d"),
+        end_date,
+    )
 
     # 1. Daily overview
     daily_resp = run_report(
         client, property_id,
         dimensions=["date"],
         metrics=["totalUsers", "sessions", "screenPageViews", "newUsers",
-                 "averageSessionDuration", "bounceRate"],
+                 "averageSessionDuration", "bounceRate", "engagedSessions"],
         date_range=date_range,
         order_bys=[OrderBy(dimension=OrderBy.DimensionOrderBy(dimension_name="date"))],
     )
@@ -91,12 +123,15 @@ def main():
             "new_users": int(row.metric_values[3].value),
             "avg_session_duration": round(float(row.metric_values[4].value), 1),
             "bounce_rate": round(float(row.metric_values[5].value), 4),
+            "engaged_sessions": int(row.metric_values[6].value),
         })
 
     # Compute totals
     total_users = sum(d["users"] for d in daily)
     total_sessions = sum(d["sessions"] for d in daily)
     total_pageviews = sum(d["pageviews"] for d in daily)
+    total_engaged = sum(d["engaged_sessions"] for d in daily)
+    engagement_rate = total_engaged / total_sessions if total_sessions > 0 else 0
     avg_duration = (
         sum(d["avg_session_duration"] * d["sessions"] for d in daily) / total_sessions
         if total_sessions > 0 else 0
@@ -106,23 +141,51 @@ def main():
         if total_sessions > 0 else 0
     )
 
-    # 2. Top pages
+    # 2. Top pages — aggregate by canonical path.
+    #    Querying pagePath alone keeps users/pageviews properly de-duplicated; a
+    #    separate title lookup gives a representative title without splitting one
+    #    page into multiple rows when its <title> changed during the window.
     pages_resp = run_report(
         client, property_id,
-        dimensions=["pagePath", "pageTitle"],
+        dimensions=["pagePath"],
         metrics=["screenPageViews", "totalUsers", "averageSessionDuration"],
         date_range=date_range,
         order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="screenPageViews"), desc=True)],
-        limit=20,
+        limit=50,
     )
-    pages = []
+    title_resp = run_report(
+        client, property_id,
+        dimensions=["pagePath", "pageTitle"],
+        metrics=["screenPageViews"],
+        date_range=date_range,
+        order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="screenPageViews"), desc=True)],
+        limit=200,
+    )
+    # First title seen per path == its highest-traffic title (rows are sorted desc).
+    title_map = {}
+    for row in title_resp.rows:
+        p = canonical_path(row.dimension_values[0].value)
+        if p not in title_map:
+            title_map[p] = row.dimension_values[1].value
+
+    page_agg = {}
     for row in pages_resp.rows:
+        p = canonical_path(row.dimension_values[0].value)
+        pv = int(row.metric_values[0].value)
+        users = int(row.metric_values[1].value)
+        dur = float(row.metric_values[2].value)
+        a = page_agg.setdefault(p, {"path": p, "pageviews": 0, "users": 0, "_dur_w": 0.0})
+        a["pageviews"] += pv
+        a["users"] += users
+        a["_dur_w"] += dur * pv
+    pages = []
+    for a in sorted(page_agg.values(), key=lambda x: x["pageviews"], reverse=True)[:20]:
         pages.append({
-            "path": row.dimension_values[0].value,
-            "title": row.dimension_values[1].value,
-            "pageviews": int(row.metric_values[0].value),
-            "users": int(row.metric_values[1].value),
-            "avg_time_on_page": round(float(row.metric_values[2].value), 1),
+            "path": a["path"],
+            "title": title_map.get(a["path"], ""),
+            "pageviews": a["pageviews"],
+            "users": a["users"],
+            "avg_time_on_page": round(a["_dur_w"] / a["pageviews"], 1) if a["pageviews"] else 0,
         })
 
     # 3. Traffic sources
@@ -134,9 +197,10 @@ def main():
         order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="sessions"), desc=True)],
         limit=15,
     )
-    sources = parse_rows(sources_resp,
-                         ["source", "medium"],
-                         ["sessions", "users"])
+    sources = parse_rows(sources_resp, ["source", "medium"], ["sessions", "users"])
+    for s in sources:
+        s["source"] = clean_label(s["source"])
+        s["medium"] = clean_label(s["medium"])
 
     # 4. Devices
     devices_resp = run_report(
@@ -183,11 +247,11 @@ def main():
         order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="sessions"), desc=True)],
         limit=20,
     )
-    countries = parse_rows(countries_resp,
-                           ["country"],
-                           ["sessions", "users"])
+    countries = parse_rows(countries_resp, ["country"], ["sessions", "users"])
+    for c in countries:
+        c["country"] = clean_label(c["country"])
 
-    # 7. Hourly (last 30 days)
+    # 7. Hourly (last HOURLY_WINDOW_DAYS days, in the property's reporting timezone)
     hourly_resp = run_report(
         client, property_id,
         dimensions=["hour"],
@@ -216,10 +280,21 @@ def main():
     output = {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "date_range": {"start": start_date, "end": end_date},
+        "windows": {
+            "main_days": MAIN_WINDOW_DAYS,
+            "hourly_days": HOURLY_WINDOW_DAYS,
+        },
+        "data_span": {
+            "start": daily[0]["date"] if daily else start_date,
+            "end": daily[-1]["date"] if daily else end_date,
+            "days_with_data": len(daily),
+        },
         "totals": {
             "total_users": total_users,
             "total_sessions": total_sessions,
             "total_pageviews": total_pageviews,
+            "total_engaged_sessions": total_engaged,
+            "engagement_rate": round(engagement_rate, 4),
             "avg_session_duration_seconds": round(avg_duration, 1),
             "bounce_rate": round(avg_bounce, 4),
         },
@@ -240,7 +315,8 @@ def main():
     print(f"Wrote analytics data to {OUTPUT_PATH}")
     print(f"  Date range: {start_date} to {end_date}")
     print(f"  Daily records: {len(daily)}")
-    print(f"  Total users: {total_users}, pageviews: {total_pageviews}")
+    print(f"  Total users: {total_users}, pageviews: {total_pageviews}, engaged: {total_engaged}")
+    print(f"  Top pages: {len(pages)} (deduped by canonical path)")
 
 
 if __name__ == "__main__":

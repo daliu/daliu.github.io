@@ -1,15 +1,26 @@
 {
-  "updated": "2026-06-29T05:57:03Z",
+  "updated": "2026-06-29T06:31:53Z",
   "date_range": {
     "start": "2026-04-01",
     "end": "2026-06-29"
   },
+  "windows": {
+    "main_days": 90,
+    "hourly_days": 30
+  },
+  "data_span": {
+    "start": "2026-05-10",
+    "end": "2026-06-28",
+    "days_with_data": 50
+  },
   "totals": {
     "total_users": 361,
-    "total_sessions": 401,
+    "total_sessions": 402,
     "total_pageviews": 885,
-    "avg_session_duration_seconds": 140.9,
-    "bounce_rate": 0.8329
+    "total_engaged_sessions": 67,
+    "engagement_rate": 0.1667,
+    "avg_session_duration_seconds": 140.5,
+    "bounce_rate": 0.8333
   },
   "daily": [
     {
@@ -19,7 +30,8 @@
       "pageviews": 69,
       "new_users": 6,
       "avg_session_duration": 821.8,
-      "bounce_rate": 0.7143
+      "bounce_rate": 0.7143,
+      "engaged_sessions": 2
     },
     {
       "date": "2026-05-11",
@@ -28,7 +40,8 @@
       "pageviews": 7,
       "new_users": 7,
       "avg_session_duration": 1.1,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-12",
@@ -37,7 +50,8 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-13",
@@ -46,7 +60,8 @@
       "pageviews": 6,
       "new_users": 6,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-14",
@@ -55,7 +70,8 @@
       "pageviews": 28,
       "new_users": 9,
       "avg_session_duration": 12.4,
-      "bounce_rate": 0.7273
+      "bounce_rate": 0.7273,
+      "engaged_sessions": 3
     },
     {
       "date": "2026-05-15",
@@ -64,7 +80,8 @@
       "pageviews": 7,
       "new_users": 7,
       "avg_session_duration": 0.7,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-16",
@@ -73,7 +90,8 @@
       "pageviews": 9,
       "new_users": 5,
       "avg_session_duration": 2.1,
-      "bounce_rate": 0.8333
+      "bounce_rate": 0.8333,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-05-17",
@@ -82,7 +100,8 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-18",
@@ -91,7 +110,8 @@
       "pageviews": 7,
       "new_users": 7,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-19",
@@ -100,7 +120,8 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-20",
@@ -109,7 +130,8 @@
       "pageviews": 6,
       "new_users": 6,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-21",
@@ -118,7 +140,8 @@
       "pageviews": 4,
       "new_users": 4,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-22",
@@ -127,7 +150,8 @@
       "pageviews": 8,
       "new_users": 8,
       "avg_session_duration": 2.3,
-      "bounce_rate": 0.875
+      "bounce_rate": 0.875,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-05-23",
@@ -136,7 +160,8 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-24",
@@ -145,7 +170,8 @@
       "pageviews": 4,
       "new_users": 4,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-25",
@@ -154,7 +180,8 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-26",
@@ -163,7 +190,8 @@
       "pageviews": 6,
       "new_users": 6,
       "avg_session_duration": 1.7,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-27",
@@ -172,7 +200,8 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 1.3,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-28",
@@ -181,7 +210,8 @@
       "pageviews": 7,
       "new_users": 7,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-29",
@@ -190,7 +220,8 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-05-30",
@@ -199,7 +230,8 @@
       "pageviews": 10,
       "new_users": 5,
       "avg_session_duration": 4.6,
-      "bounce_rate": 0.8333
+      "bounce_rate": 0.8333,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-05-31",
@@ -208,7 +240,8 @@
       "pageviews": 13,
       "new_users": 6,
       "avg_session_duration": 35.4,
-      "bounce_rate": 0.75
+      "bounce_rate": 0.75,
+      "engaged_sessions": 2
     },
     {
       "date": "2026-06-01",
@@ -217,7 +250,8 @@
       "pageviews": 6,
       "new_users": 6,
       "avg_session_duration": 1.2,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-06-02",
@@ -226,7 +260,8 @@
       "pageviews": 6,
       "new_users": 6,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-06-03",
@@ -235,7 +270,8 @@
       "pageviews": 26,
       "new_users": 21,
       "avg_session_duration": 109.7,
-      "bounce_rate": 0.9048
+      "bounce_rate": 0.9048,
+      "engaged_sessions": 2
     },
     {
       "date": "2026-06-04",
@@ -244,7 +280,8 @@
       "pageviews": 13,
       "new_users": 4,
       "avg_session_duration": 58.2,
-      "bounce_rate": 0.7143
+      "bounce_rate": 0.7143,
+      "engaged_sessions": 2
     },
     {
       "date": "2026-06-05",
@@ -253,7 +290,8 @@
       "pageviews": 60,
       "new_users": 7,
       "avg_session_duration": 172.3,
-      "bounce_rate": 0.6364
+      "bounce_rate": 0.6364,
+      "engaged_sessions": 4
     },
     {
       "date": "2026-06-06",
@@ -262,7 +300,8 @@
       "pageviews": 13,
       "new_users": 6,
       "avg_session_duration": 40.4,
-      "bounce_rate": 0.75
+      "bounce_rate": 0.75,
+      "engaged_sessions": 2
     },
     {
       "date": "2026-06-07",
@@ -271,7 +310,8 @@
       "pageviews": 8,
       "new_users": 6,
       "avg_session_duration": 61.6,
-      "bounce_rate": 0.8571
+      "bounce_rate": 0.8571,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-06-08",
@@ -280,7 +320,8 @@
       "pageviews": 44,
       "new_users": 5,
       "avg_session_duration": 417.8,
-      "bounce_rate": 0.5556
+      "bounce_rate": 0.5556,
+      "engaged_sessions": 4
     },
     {
       "date": "2026-06-09",
@@ -289,7 +330,8 @@
       "pageviews": 30,
       "new_users": 6,
       "avg_session_duration": 152.5,
-      "bounce_rate": 0.7
+      "bounce_rate": 0.7,
+      "engaged_sessions": 3
     },
     {
       "date": "2026-06-10",
@@ -298,7 +340,8 @@
       "pageviews": 9,
       "new_users": 5,
       "avg_session_duration": 2.9,
-      "bounce_rate": 0.8571
+      "bounce_rate": 0.8571,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-06-11",
@@ -307,7 +350,8 @@
       "pageviews": 7,
       "new_users": 5,
       "avg_session_duration": 2.6,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-06-12",
@@ -316,7 +360,8 @@
       "pageviews": 32,
       "new_users": 7,
       "avg_session_duration": 301.5,
-      "bounce_rate": 0.7692
+      "bounce_rate": 0.7692,
+      "engaged_sessions": 3
     },
     {
       "date": "2026-06-13",
@@ -325,7 +370,8 @@
       "pageviews": 40,
       "new_users": 3,
       "avg_session_duration": 925.3,
-      "bounce_rate": 0.75
+      "bounce_rate": 0.75,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-06-14",
@@ -334,7 +380,8 @@
       "pageviews": 6,
       "new_users": 6,
       "avg_session_duration": 1.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-06-15",
@@ -343,7 +390,8 @@
       "pageviews": 16,
       "new_users": 10,
       "avg_session_duration": 107.5,
-      "bounce_rate": 0.7273
+      "bounce_rate": 0.7273,
+      "engaged_sessions": 3
     },
     {
       "date": "2026-06-16",
@@ -352,7 +400,8 @@
       "pageviews": 28,
       "new_users": 9,
       "avg_session_duration": 160.3,
-      "bounce_rate": 0.6429
+      "bounce_rate": 0.6429,
+      "engaged_sessions": 5
     },
     {
       "date": "2026-06-17",
@@ -361,7 +410,8 @@
       "pageviews": 33,
       "new_users": 9,
       "avg_session_duration": 366.8,
-      "bounce_rate": 0.625
+      "bounce_rate": 0.625,
+      "engaged_sessions": 6
     },
     {
       "date": "2026-06-18",
@@ -370,7 +420,8 @@
       "pageviews": 99,
       "new_users": 6,
       "avg_session_duration": 62.7,
-      "bounce_rate": 0.875
+      "bounce_rate": 0.875,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-06-19",
@@ -379,7 +430,8 @@
       "pageviews": 10,
       "new_users": 4,
       "avg_session_duration": 198.9,
-      "bounce_rate": 0.875
+      "bounce_rate": 0.875,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-06-20",
@@ -388,7 +440,8 @@
       "pageviews": 6,
       "new_users": 6,
       "avg_session_duration": 0.0,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-06-21",
@@ -397,7 +450,8 @@
       "pageviews": 8,
       "new_users": 8,
       "avg_session_duration": 0.5,
-      "bounce_rate": 1.0
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     },
     {
       "date": "2026-06-22",
@@ -406,7 +460,8 @@
       "pageviews": 40,
       "new_users": 7,
       "avg_session_duration": 669.7,
-      "bounce_rate": 0.5833
+      "bounce_rate": 0.5833,
+      "engaged_sessions": 5
     },
     {
       "date": "2026-06-23",
@@ -415,7 +470,8 @@
       "pageviews": 36,
       "new_users": 11,
       "avg_session_duration": 23.3,
-      "bounce_rate": 0.7647
+      "bounce_rate": 0.7647,
+      "engaged_sessions": 4
     },
     {
       "date": "2026-06-24",
@@ -424,7 +480,8 @@
       "pageviews": 14,
       "new_users": 4,
       "avg_session_duration": 411.3,
-      "bounce_rate": 0.625
+      "bounce_rate": 0.625,
+      "engaged_sessions": 3
     },
     {
       "date": "2026-06-25",
@@ -433,7 +490,8 @@
       "pageviews": 25,
       "new_users": 5,
       "avg_session_duration": 289.6,
-      "bounce_rate": 0.6
+      "bounce_rate": 0.6,
+      "engaged_sessions": 4
     },
     {
       "date": "2026-06-26",
@@ -442,7 +500,8 @@
       "pageviews": 6,
       "new_users": 5,
       "avg_session_duration": 12.9,
-      "bounce_rate": 0.8333
+      "bounce_rate": 0.8333,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-06-27",
@@ -451,53 +510,69 @@
       "pageviews": 20,
       "new_users": 8,
       "avg_session_duration": 46.6,
-      "bounce_rate": 0.9091
+      "bounce_rate": 0.9091,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-06-28",
       "users": 7,
-      "sessions": 8,
+      "sessions": 9,
       "pageviews": 18,
       "new_users": 6,
-      "avg_session_duration": 664.7,
-      "bounce_rate": 1.0
+      "avg_session_duration": 590.8,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     }
   ],
   "pages": [
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 275,
-      "users": 213,
-      "avg_time_on_page": 70.7
+      "pageviews": 304,
+      "users": 227,
+      "avg_time_on_page": 78.5
     },
     {
       "path": "/knowledge/",
       "title": "Knowledge Graph \u2014 Dave Liu",
-      "pageviews": 64,
+      "pageviews": 125,
       "users": 5,
-      "avg_time_on_page": 205.3
+      "avg_time_on_page": 259.1
     },
     {
       "path": "/health/",
       "title": "Health Dashboard \u2014 Dave Liu",
-      "pageviews": 40,
-      "users": 4,
-      "avg_time_on_page": 297.4
+      "pageviews": 45,
+      "users": 7,
+      "avg_time_on_page": 256.3
+    },
+    {
+      "path": "/publications.html",
+      "title": "Publications \u2014 Dave Liu",
+      "pageviews": 35,
+      "users": 6,
+      "avg_time_on_page": 9.9
     },
     {
       "path": "/patterns-of-choice/",
       "title": "Patterns of Choice \u2014 Dave Liu",
       "pageviews": 34,
       "users": 3,
-      "avg_time_on_page": 315.5
+      "avg_time_on_page": 297.9
     },
     {
-      "path": "/publications.html",
-      "title": "Publications \u2014 Dave Liu",
-      "pageviews": 29,
+      "path": "/portfolio.html",
+      "title": "Portfolio \u2014 Dave Liu",
+      "pageviews": 26,
       "users": 5,
-      "avg_time_on_page": 8.5
+      "avg_time_on_page": 192.1
+    },
+    {
+      "path": "/autotrader.html",
+      "title": "AutoTrader \u2014 Dave Liu",
+      "pageviews": 25,
+      "users": 5,
+      "avg_time_on_page": 147.6
     },
     {
       "path": "/resume/",
@@ -507,18 +582,11 @@
       "avg_time_on_page": 52.6
     },
     {
-      "path": "/autotrader.html",
-      "title": "AutoTrader \u2014 Dave Liu",
-      "pageviews": 23,
+      "path": "/analytics/",
+      "title": "Site Analytics | Dave Liu",
+      "pageviews": 20,
       "users": 4,
-      "avg_time_on_page": 156.8
-    },
-    {
-      "path": "/",
-      "title": "MoneySignals \u2014 ML-Powered Market Intelligence API",
-      "pageviews": 17,
-      "users": 9,
-      "avg_time_on_page": 81.2
+      "avg_time_on_page": 47.2
     },
     {
       "path": "/research/adaptive-domain-intelligence/",
@@ -528,39 +596,18 @@
       "avg_time_on_page": 264.6
     },
     {
+      "path": "/autotrader/daily/",
+      "title": "Daily Updates \u2014 AutoTrader \u2014 Dave Liu",
+      "pageviews": 17,
+      "users": 4,
+      "avg_time_on_page": 4.2
+    },
+    {
       "path": "/patterns-of-choice/app.html",
       "title": "Patterns of Choice \u2014 the practice (local-first)",
       "pageviews": 14,
       "users": 2,
       "avg_time_on_page": 94.7
-    },
-    {
-      "path": "/portfolio.html",
-      "title": "Portfolio \u2014 Dave Liu",
-      "pageviews": 14,
-      "users": 4,
-      "avg_time_on_page": 54.8
-    },
-    {
-      "path": "/analytics/",
-      "title": "Site Analytics | Dave Liu",
-      "pageviews": 12,
-      "users": 2,
-      "avg_time_on_page": 101.8
-    },
-    {
-      "path": "/portfolio.html",
-      "title": "Portfolio - Dave Liu",
-      "pageviews": 12,
-      "users": 1,
-      "avg_time_on_page": 1977.2
-    },
-    {
-      "path": "/autotrader/daily/index.html",
-      "title": "Daily Updates \u2014 AutoTrader \u2014 Dave Liu",
-      "pageviews": 11,
-      "users": 1,
-      "avg_time_on_page": 4.7
     },
     {
       "path": "/patterns-of-choice/demo.html",
@@ -577,13 +624,6 @@
       "avg_time_on_page": 56.7
     },
     {
-      "path": "/analytics/",
-      "title": "Site Analytics \u2014 Dave Liu",
-      "pageviews": 6,
-      "users": 2,
-      "avg_time_on_page": 18.3
-    },
-    {
       "path": "/genomics/",
       "title": "Personal Pharmacogenomics \u2014 Dave Liu",
       "pageviews": 6,
@@ -591,24 +631,45 @@
       "avg_time_on_page": 431.8
     },
     {
-      "path": "/index.html",
-      "title": "Dave Liu - Senior Data Scientist & ML Engineer",
-      "pageviews": 6,
-      "users": 1,
-      "avg_time_on_page": 421.9
+      "path": "/patterns-of-choice/cardsort.html",
+      "title": "Patterns of Choice \u2014 The Card Sort (stated-values demo)",
+      "pageviews": 5,
+      "users": 2,
+      "avg_time_on_page": 65.7
     },
     {
-      "path": "/knowledge/",
-      "title": "Data Science and ML \u00b7 Knowledge Graph \u2014 Dave Liu",
-      "pageviews": 6,
+      "path": "/patterns-of-choice/onramp.html",
+      "title": "Patterns of Choice \u2014 The Two-Minute Self-Portrait",
+      "pageviews": 5,
       "users": 2,
-      "avg_time_on_page": 34.8
+      "avg_time_on_page": 264.1
+    },
+    {
+      "path": "/autotrader/daily/2026-06-16.html",
+      "title": "Daily Update \u2014 Jun 16, 2026 \u2014 MoneySignals",
+      "pageviews": 4,
+      "users": 1,
+      "avg_time_on_page": 6.4
+    },
+    {
+      "path": "/404.html",
+      "title": "404 \u2014 Page Not Found \u2014 Dave Liu",
+      "pageviews": 3,
+      "users": 1,
+      "avg_time_on_page": 11.5
+    },
+    {
+      "path": "/autotrader/daily/2026-02-18.html",
+      "title": "Daily Update \u2014 Feb 18, 2026 \u2014 AutoTrader",
+      "pageviews": 3,
+      "users": 2,
+      "avg_time_on_page": 4.0
     }
   ],
   "sources": [
     {
-      "source": "(direct)",
-      "medium": "(none)",
+      "source": "Direct",
+      "medium": "\u2014",
       "sessions": 366,
       "users": 313
     },
@@ -625,9 +686,9 @@
       "users": 1
     },
     {
-      "source": "(not set)",
-      "medium": "(not set)",
-      "sessions": 4,
+      "source": "Unknown",
+      "medium": "Unknown",
+      "sessions": 5,
       "users": 4
     },
     {
@@ -638,7 +699,7 @@
     },
     {
       "source": "chatgpt.com",
-      "medium": "(not set)",
+      "medium": "Unknown",
       "sessions": 1,
       "users": 1
     },
@@ -652,7 +713,7 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 387,
+      "sessions": 388,
       "percentage": 95.8
     },
     {
@@ -664,7 +725,7 @@
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 374,
+      "sessions": 375,
       "percentage": 91.9
     },
     {
@@ -721,7 +782,7 @@
     },
     {
       "country": "United States",
-      "sessions": 106,
+      "sessions": 107,
       "users": 27
     },
     {
@@ -730,7 +791,7 @@
       "users": 4
     },
     {
-      "country": "(not set)",
+      "country": "Unknown",
       "sessions": 3,
       "users": 3
     },
@@ -762,7 +823,7 @@
   ],
   "user_types": {
     "new": 321,
-    "returning": 74
+    "returning": 75
   },
   "hourly": [
     {
