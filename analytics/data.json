@@ -1,8 +1,8 @@
 {
-  "updated": "2026-06-29T10:25:17Z",
+  "updated": "2026-06-30T08:58:00Z",
   "date_range": {
-    "start": "2026-04-01",
-    "end": "2026-06-29"
+    "start": "2026-04-02",
+    "end": "2026-06-30"
   },
   "windows": {
     "main_days": 90,
@@ -15,12 +15,12 @@
   },
   "totals": {
     "total_users": 362,
-    "total_sessions": 404,
-    "total_pageviews": 889,
-    "total_engaged_sessions": 67,
-    "engagement_rate": 0.1658,
-    "avg_session_duration_seconds": 146.4,
-    "bounce_rate": 0.8342
+    "total_sessions": 406,
+    "total_pageviews": 894,
+    "total_engaged_sessions": 70,
+    "engagement_rate": 0.1724,
+    "avg_session_duration_seconds": 142.4,
+    "bounce_rate": 0.8276
   },
   "daily": [
     {
@@ -517,19 +517,19 @@
       "date": "2026-06-28",
       "users": 7,
       "sessions": 10,
-      "pageviews": 21,
+      "pageviews": 25,
       "new_users": 6,
-      "avg_session_duration": 622.2,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
+      "avg_session_duration": 489.0,
+      "bounce_rate": 0.7,
+      "engaged_sessions": 3
     },
     {
       "date": "2026-06-29",
       "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
+      "sessions": 3,
+      "pageviews": 2,
       "new_users": 0,
-      "avg_session_duration": 1731.3,
+      "avg_session_duration": 577.1,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -538,9 +538,9 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 304,
+      "pageviews": 305,
       "users": 227,
-      "avg_time_on_page": 78.5
+      "avg_time_on_page": 78.7
     },
     {
       "path": "/knowledge/",
@@ -559,16 +559,16 @@
     {
       "path": "/publications.html",
       "title": "Publications \u2014 Dave Liu",
-      "pageviews": 35,
+      "pageviews": 36,
       "users": 6,
-      "avg_time_on_page": 9.9
+      "avg_time_on_page": 15.5
     },
     {
       "path": "/patterns-of-choice/",
       "title": "Patterns of Choice \u2014 Dave Liu",
       "pageviews": 34,
       "users": 3,
-      "avg_time_on_page": 297.9
+      "avg_time_on_page": 146.5
     },
     {
       "path": "/portfolio.html",
@@ -592,18 +592,18 @@
       "avg_time_on_page": 52.6
     },
     {
+      "path": "/patterns-of-choice/app.html",
+      "title": "Patterns of Choice \u2014 the practice (local-first)",
+      "pageviews": 21,
+      "users": 2,
+      "avg_time_on_page": 252.8
+    },
+    {
       "path": "/analytics/",
       "title": "Site Analytics | Dave Liu",
       "pageviews": 20,
       "users": 4,
-      "avg_time_on_page": 47.2
-    },
-    {
-      "path": "/patterns-of-choice/app.html",
-      "title": "Patterns of Choice \u2014 the practice (local-first)",
-      "pageviews": 18,
-      "users": 2,
-      "avg_time_on_page": 377.0
+      "avg_time_on_page": 272.7
     },
     {
       "path": "/research/adaptive-domain-intelligence/",
@@ -686,7 +686,7 @@
     {
       "source": "linkedin.com",
       "medium": "referral",
-      "sessions": 22,
+      "sessions": 23,
       "users": 4
     },
     {
@@ -698,8 +698,14 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 6,
+      "sessions": 5,
       "users": 4
+    },
+    {
+      "source": "lnkd.in",
+      "medium": "referral",
+      "sessions": 2,
+      "users": 1
     },
     {
       "source": "bing",
@@ -723,7 +729,7 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 389,
+      "sessions": 392,
       "percentage": 95.8
     },
     {
@@ -735,8 +741,8 @@
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 376,
-      "percentage": 91.9
+      "sessions": 379,
+      "percentage": 92.0
     },
     {
       "browser": "Safari",
@@ -792,7 +798,7 @@
     },
     {
       "country": "United States",
-      "sessions": 108,
+      "sessions": 111,
       "users": 27
     },
     {
@@ -833,7 +839,7 @@
   ],
   "user_types": {
     "new": 321,
-    "returning": 76
+    "returning": 79
   },
   "hourly": [
     {
@@ -850,7 +856,7 @@
     },
     {
       "hour": 3,
-      "pageviews": 31
+      "pageviews": 30
     },
     {
       "hour": 4,
@@ -874,11 +880,11 @@
     },
     {
       "hour": 9,
-      "pageviews": 42
+      "pageviews": 35
     },
     {
       "hour": 10,
-      "pageviews": 14
+      "pageviews": 13
     },
     {
       "hour": 11,
@@ -902,7 +908,7 @@
     },
     {
       "hour": 16,
-      "pageviews": 45
+      "pageviews": 44
     },
     {
       "hour": 17,
@@ -918,11 +924,11 @@
     },
     {
       "hour": 20,
-      "pageviews": 38
+      "pageviews": 41
     },
     {
       "hour": 21,
-      "pageviews": 66
+      "pageviews": 64
     },
     {
       "hour": 22,
@@ -930,15 +936,15 @@
     },
     {
       "hour": 23,
-      "pageviews": 34
+      "pageviews": 35
     }
   ],
   "quality": {
-    "engaged_sessions": 67,
-    "non_engaged_sessions": 337,
+    "engaged_sessions": 70,
+    "non_engaged_sessions": 336,
     "likely_automated_sessions": 286,
-    "likely_human_sessions": 118,
-    "automated_pct": 70.8,
+    "likely_human_sessions": 121,
+    "automated_pct": 70.3,
     "est_human_users": 37,
     "thresholds": {
       "human": 0.4,
@@ -958,12 +964,12 @@
     },
     {
       "country": "United States",
-      "sessions": 108,
-      "engaged": 61,
+      "sessions": 111,
+      "engaged": 64,
       "users": 27,
-      "pageviews": 590,
-      "avg_duration": 524.9,
-      "engagement_rate": 0.565,
+      "pageviews": 595,
+      "avg_duration": 498.7,
+      "engagement_rate": 0.577,
       "class": "human"
     },
     {
@@ -1069,10 +1075,10 @@
         0,
         0,
         0,
-        11,
+        14,
         17,
         1,
-        4
+        5
       ],
       [
         3,
@@ -1090,7 +1096,7 @@
         21,
         4,
         0,
-        7,
+        8,
         13,
         20,
         9,
@@ -1283,12 +1289,12 @@
         8,
         7,
         3,
-        1,
+        2,
         7,
         5,
         7,
         2,
-        11,
+        12,
         10,
         9,
         7
@@ -1362,10 +1368,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 72,
+      "sessions": 75,
       "users": 4,
-      "engaged": 48,
-      "engagement_rate": 0.667
+      "engaged": 51,
+      "engagement_rate": 0.68
     },
     {
       "lat": 37.3361663,
@@ -1637,18 +1643,18 @@
         "change_pct": -17.7
       },
       "sessions": {
-        "current": 63,
+        "current": 65,
         "previous": 72,
-        "change_pct": -12.5
+        "change_pct": -9.7
       },
       "pageviews": {
-        "current": 123,
+        "current": 128,
         "previous": 224,
-        "change_pct": -45.1
+        "change_pct": -42.9
       }
     },
     "baseline": {
-      "mean_pageviews": 17.4,
+      "mean_pageviews": 17.5,
       "std_pageviews": 18.8
     },
     "anomalies": [
