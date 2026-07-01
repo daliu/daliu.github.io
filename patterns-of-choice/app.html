@@ -1028,6 +1028,18 @@ function textureViz(tex){
     + `<div class="viz-cap" style="color:var(--muted)">Under each average, what it's made of. Toward the value shows in the area's colour, away in grey; solid&nbsp;= strongly, faded&nbsp;= mildly. Every row is the same width, so this is the <em>mix</em> of your choices — not how many (noted at right). Mass to the right means most leaned in; a long solid tail either way means some were emphatic.</div></div>`;
 }
 
+// within-dimension over time: one small line per area (only areas with >=2
+// qualifying sessions), each point a single session's average, oldest -> newest.
+// Reuses trajViz; the line's average is the same revealed value shown above, so
+// this adds motion-over-time without a new statistic. Descriptive, no verdict.
+function trajectoryViz(traj){
+  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
+  const doms = POCProjection.DOMAINS.filter(d => traj[d] && traj[d].length >= 2);
+  if (!doms.length) return "";
+  return doms.map(d => trajViz(DLAB[d], d, traj[d], "away", "toward")).join("")
+    + `<p class="body-text" style="color:var(--muted);font-size:14px;margin-top:2px">Each point is one session's average in that area, oldest to newest — the same per-session values behind the average above, shown in order. Lines start short and fill in as you do more sessions; an area measured only once isn't drawn yet.</p>`;
+}
+
 // --- shareable portrait: render the reveal to a self-contained PNG, entirely on
 //     device (SVG -> canvas -> download). Descriptive + inward-pointing; the image
 //     is the user's own mirror, never a ranking. Absolute colors (no CSS vars) so it
@@ -1184,6 +1196,7 @@ async function renderReveal(){
   // within-dimension texture: what each revealed average is made of (§2.2) — the
   // spread of primary-axis choices by strength, underneath the mean above.
   const texHtml = textureViz(POCProjection.dimensionTexture(r.exp.session_log, TAGMAP));
+  const trajHtml = trajectoryViz(POCProjection.dimensionTrajectory(r.exp.session_log, TAGMAP));
 
   let ordHtml;
   if (!ordering.ok) ordHtml = `<p class="row-prose">No reliable ordering yet — ${ordering.reason}.</p>`;
@@ -1229,6 +1242,7 @@ async function renderReveal(){
     <h3 style="font-weight:500;font-size:17px;">What your choices revealed, by area</h3>
     ${bars}
     ${texHtml ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">What each average is made of</h3>${texHtml}` : ""}
+    ${trajHtml ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">How it's moved, session to session</h3>${trajHtml}` : ""}
     <h3 style="font-weight:500;font-size:17px;margin-top:20px;">Where you lean, relative to yourself</h3>
     ${ordHtml}
     ${conHtml}

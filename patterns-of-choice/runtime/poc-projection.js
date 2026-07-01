@@ -393,6 +393,36 @@
     return out; // { domain: { total, strongFor, mildFor, mildAgainst, strongAgainst } }
   }
 
+  // --- within-dimension over time: the per-session revealed means (the exact
+  // values revealedScores() averages, gated identically by §3.1 min-items and §10
+  // inattentive-RT), exposed as a chronological series. This is a PRESENTATION of
+  // existing points, NOT a new aggregation — a domain's series averages back to its
+  // revealed_score_mean. Ordered by first appearance in the (time-sorted) log. ---
+  function dimensionTrajectory(sessionLog, tagMap) {
+    const bySession = {};                 // "session_id\tdomain" -> { scores, rts }
+    const sessionOrder = [], seen = new Set();
+    for (const e of sessionLog || []) {
+      if (!seen.has(e.session_id)) { seen.add(e.session_id); sessionOrder.push(e.session_id); }
+      const { score, n } = itemScore(e.domain, e.tags, tagMap);
+      const g = bySession[e.session_id + "\t" + e.domain] || (bySession[e.session_id + "\t" + e.domain] = { scores: [], rts: [] });
+      if (n > 0) { g.scores.push(score); g.rts.push(e.response_time_ms); }
+    }
+    const qualified = {};                  // "session_id\tdomain" -> per-session mean
+    for (const key in bySession) {
+      const g = bySession[key];
+      if (g.scores.length < MIN_ITEMS_PER_SESSION) continue;   // §3.1 NA
+      if (median(g.rts) < INATTENTIVE_RT_MS) continue;         // §10 inattentive drop
+      qualified[key] = mean(g.scores);
+    }
+    const out = {};
+    for (const d of DOMAINS) {
+      const series = [];
+      for (const sid of sessionOrder) { const k = sid + "\t" + d; if (k in qualified) series.push(qualified[k]); }
+      if (series.length) out[d] = series;
+    }
+    return out; // { domain: [meanSession1, meanSession2, ...] } in chronological order
+  }
+
   // --- top-level: full individual profile from an analyzer-export bundle ---
   // bundle: runtime.exportForAnalyzer() output; valuesByDomain from values-deck
   function profile(bundle, tagMap, valuesByDomain, layer) {
@@ -408,6 +438,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
-           arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture,
+           arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR } };
 });

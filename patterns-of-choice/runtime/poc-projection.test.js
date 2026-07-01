@@ -70,6 +70,25 @@ const dt = P.dimensionTexture([
 ], tagMap)["truth-telling"];
 ok(dt.total === 4, "dimensionTexture: counts primary-axis choices, excludes metadata tags", dt);
 ok(dt.strongFor === 1 && dt.mildFor === 1 && dt.mildAgainst === 1 && dt.strongAgainst === 1, "dimensionTexture: choices bucketed into valence bands", dt);
+
+// --- dimensionTrajectory: per-session means over time; same §3.1/§10 gates as revealedScores ---
+const trajLog = [
+  entry("s1","truth-telling",["truth:commission"],3000), entry("s1","truth-telling",["truth:state"],3000), entry("s1","truth-telling",["lie:white"],3000), // (1+0.7-0.5)/3 = 0.4
+  entry("s2","truth-telling",["truth:commission"],3000), entry("s2","truth-telling",["truth:commission"],3000), entry("s2","truth-telling",["truth:state"],3000), // (1+1+0.7)/3 = 0.9
+  entry("s3","truth-telling",["truth:commission"],3000), entry("s3","truth-telling",["truth:state"],3000), // 2 items -> excluded (§3.1)
+  entry("s4","truth-telling",["truth:commission"],400), entry("s4","truth-telling",["truth:state"],400), entry("s4","truth-telling",["lie:white"],400), // fast RT -> excluded (§10)
+];
+const traj = P.dimensionTrajectory(trajLog, tagMap)["truth-telling"];
+ok(traj.length === 2, "trajectory: only qualifying sessions (>=3 items, RT ok)", traj);
+ok(Math.abs(traj[0] - 0.4) < 1e-9 && Math.abs(traj[1] - 0.9) < 1e-9, "trajectory: per-session means, chronological", traj);
+const trev = P.revealedScores(trajLog, tagMap)["truth-telling"].revealed_score_mean;
+ok(Math.abs((0.4 + 0.9) / 2 - trev) < 1e-9, "trajectory averages back to revealed score (no new aggregation)", { trev });
+const trajB = P.dimensionTrajectory([
+  entry("sB","truth-telling",["truth:commission"],3000), entry("sB","truth-telling",["truth:commission"],3000), entry("sB","truth-telling",["truth:state"],3000), // 0.9, appears first
+  entry("sA","truth-telling",["lie:white"],3000), entry("sA","truth-telling",["lie:white"],3000), entry("sA","truth-telling",["truth:state"],3000),           // -0.1, appears second
+], tagMap)["truth-telling"];
+ok(trajB.length === 2 && Math.abs(trajB[0] - 0.9) < 1e-9 && Math.abs(trajB[1] - (-0.1)) < 1e-9, "trajectory: order = first-appearance in log, not session-id sort", trajB);
+
 const con = P.wordDeedConcordance(revealed, { "truth-telling": 0.80, "resource-allocation": 0.40, "in-group-out-group": 0.20, "reciprocity-cooperation": 0.60 });
 ok(con.ok && con.band === "high", "concordance band high", { band: con.band, tau: con.tau });
 ok(con.flips.some(f => f.said_lower === "in-group-out-group"), "in-group unclaimed-strength flip");
