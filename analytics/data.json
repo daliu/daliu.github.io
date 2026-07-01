@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-01T09:31:34Z",
+  "updated": "2026-07-01T17:16:20Z",
   "date_range": {
     "start": "2026-04-03",
     "end": "2026-07-01"
@@ -1781,17 +1781,52 @@
   },
   "events": [
     {
-      "date": "2026-06-03",
-      "label": "Traffic spike (auto-detected \u2014 replace with real cause)",
+      "date": "2026-05-10",
+      "label": "\u2191 Direct surge \u2014 mixed signals",
       "url": "",
-      "baseline_pageviews": 7.4,
-      "after_pageviews": 33.0,
-      "lift_pct": 344.2
+      "origin": "auto",
+      "cause": {
+        "top_source": "Direct",
+        "top_medium": "\u2014",
+        "top_source_pct": 100,
+        "top_page": "/analytics/",
+        "engagement_rate": 0.286,
+        "class": "mixed"
+      },
+      "baseline_pageviews": 0,
+      "after_pageviews": 27.0,
+      "lift_pct": null
+    },
+    {
+      "date": "2026-06-05",
+      "label": "\u2191 Direct surge \u2014 mixed signals",
+      "url": "",
+      "origin": "auto",
+      "cause": {
+        "top_source": "Direct",
+        "top_medium": "\u2014",
+        "top_source_pct": 91,
+        "top_page": "/",
+        "engagement_rate": 0.3,
+        "class": "mixed"
+      },
+      "baseline_pageviews": 11.3,
+      "after_pageviews": 27.0,
+      "lift_pct": 139.2
     },
     {
       "date": "2026-06-18",
-      "label": "Page-view spike (auto-detected \u2014 replace with real cause)",
+      "label": "\u2191 Direct surge \u2014 likely automated",
       "url": "",
+      "origin": "auto",
+      "cause": {
+        "top_source": "Direct",
+        "top_medium": "\u2014",
+        "top_source_pct": 75,
+        "top_page": "/",
+        "engagement_rate": 0.0,
+        "class": "automated"
+      },
       "baseline_pageviews": 23.1,
       "after_pageviews": 38.3,
       "lift_pct": 65.6

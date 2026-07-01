@@ -501,14 +501,26 @@ function render(data) {
         data.events.forEach(function(e) {
             var lift = (e.lift_pct == null) ? '—' : ((e.lift_pct >= 0 ? '+' : '') + e.lift_pct + '%');
             var liftColor = (e.lift_pct == null) ? 'var(--text-muted)' : (e.lift_pct >= 0 ? 'var(--green)' : 'var(--red)');
-            html += '<tr><td>' + escapeHtml(e.date || '') + '</td><td>' + escapeHtml(e.label || '') +
+            var origin = '';
+            if (e.origin === 'auto') origin = ' <span style="font-size:0.72rem;color:var(--text-muted);border:1px solid var(--border);border-radius:9px;padding:1px 7px;vertical-align:middle">auto</span>';
+            else if (e.origin === 'manual') origin = ' <span style="font-size:0.72rem;color:var(--accent);border:1px solid var(--accent);border-radius:9px;padding:1px 7px;vertical-align:middle">you</span>';
+            var detail = '';
+            if (e.cause) {
+                var c = e.cause, bits = [];
+                if (c.top_source) bits.push(escapeHtml(c.top_source) + (c.top_source_pct ? ' ' + c.top_source_pct + '%' : ''));
+                if (c.top_page) bits.push('&rarr; ' + escapeHtml(c.top_page));
+                detail = '<div style="font-size:0.85rem;color:var(--text-muted);margin-top:3px">' +
+                         bits.join(' ') + (c['class'] ? ' ' + classBadge(c['class']) : '') + '</div>';
+            }
+            html += '<tr><td>' + escapeHtml(e.date || '') + '</td><td>' + escapeHtml(e.label || '') + origin +
                     (e.url ? ' <a href="' + escapeHtml(e.url) + '" target="_blank" rel="noopener" style="color:var(--accent)">&#8599;</a>' : '') +
+                    detail +
                     '</td><td>' + (e.baseline_pageviews != null ? e.baseline_pageviews : '—') +
                     '</td><td>' + (e.after_pageviews != null ? e.after_pageviews : '—') +
                     '</td><td style="color:' + liftColor + ';font-weight:600">' + lift + '</td></tr>';
         });
         html += '</tbody></table>';
-        html += '<div class="map-note">Lift = avg daily page views in the 3 days from the event vs. the 7 days before. Correlational — a known change on the site, not proof of cause. Edit <code>analytics/events.json</code> to track your own.</div></div>';
+        html += '<div class="map-note">Lift = avg daily page views in the 3 days from the event vs. the 7 days before. Correlational — a known change on the site, not proof of cause. <strong>auto</strong> rows are spikes characterized from that day\'s GA4 signature (top source &rarr; landing page + a human/bot read); add your own known events to <code>analytics/events.json</code> and they take precedence.</div></div>';
     }
 
     // --- Charts Grid ---

@@ -276,7 +276,10 @@ def compute_event_impact(daily, events_input):
             "date": d,
             "label": ev.get("label", ""),
             "url": ev.get("url", ""),
+            "origin": ev.get("origin", "manual"),
         }
+        if ev.get("cause"):
+            entry["cause"] = ev["cause"]
         if d not in by_date:
             entry["note"] = "no traffic data on this date"
             entry["baseline_pageviews"] = None
@@ -293,6 +296,102 @@ def compute_event_impact(daily, events_input):
         entry["after_pageviews"] = round(aft, 1)
         entry["lift_pct"] = round((aft - base) / base * 100, 1) if base else None
         out.append(entry)
+    return out
+
+
+def _day_report(client, property_id, date, dimensions, metrics, limit):
+    """Run a GA4 report scoped to a single day, ordered by the first metric."""
+    return run_report(
+        client, property_id,
+        dimensions=dimensions, metrics=metrics,
+        date_range=(date, date),
+        order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name=metrics[0]), desc=True)],
+        limit=limit,
+    )
+
+
+def characterize_spikes(client, property_id, anomalies, skip_dates, cap=6):
+    """Derive a data-backed cause for each auto-detected traffic spike.
+
+    For each anomaly day, ask GA4 what actually happened that day: which source
+    drove the sessions and which page absorbed them. The dominant source's
+    engagement rate says whether the spike was a real referral surge (humans)
+    or an automated/bot wave — the distinction that makes an "event" worth
+    annotating. Correlational: the day's signature, not proof of cause. Manual
+    annotations (skip_dates) always win, so we never overwrite a real label.
+    """
+    out = []
+    for a in sorted(anomalies, key=lambda x: x.get("z", 0), reverse=True):
+        if len(out) >= cap:
+            break
+        date = a.get("date")
+        if not date or date in skip_dates:
+            continue
+        try:
+            src_resp = _day_report(
+                client, property_id, date,
+                ["sessionSource", "sessionMedium"], ["sessions", "engagedSessions"], 5,
+            )
+            page_resp = _day_report(
+                client, property_id, date, ["pagePath"], ["screenPageViews"], 5,
+            )
+        except Exception as e:
+            print(f"  WARN: could not characterize spike {date}: {e}")
+            continue
+
+        day_sessions, top = 0, None
+        for row in src_resp.rows:
+            sess = int(row.metric_values[0].value)
+            day_sessions += sess
+            if top is None:
+                top = {
+                    "source": clean_label(row.dimension_values[0].value),
+                    "medium": clean_label(row.dimension_values[1].value),
+                    "sessions": sess,
+                    "engaged": int(row.metric_values[1].value),
+                }
+        if not top:
+            continue
+        top_page = (canonical_path(page_resp.rows[0].dimension_values[0].value)
+                    if page_resp.rows else "")
+
+        share = round(top["sessions"] / day_sessions * 100) if day_sessions else 0
+        rate = top["engaged"] / top["sessions"] if top["sessions"] else 0
+        cls = classify_quality(rate)
+        src, med = top["source"], top["medium"]
+        is_direct = src in ("Direct", "Unknown") or med in ("—", "none")
+
+        # Human-readable cause from the day's dominant signature. For Direct traffic
+        # the source name says nothing, so the engagement class carries the story —
+        # fold it into the label. Keep the label consistent with the "class" badge:
+        # never call a "mixed" day "automated".
+        if med == "organic":
+            label = f"↑ {src} organic search"
+        elif med == "referral":
+            label = f"↑ {src} referral"
+        elif not is_direct:
+            label = f"↑ {src} traffic spike"
+        elif cls == "automated":
+            label = f"↑ {src} surge — likely automated"
+        elif cls == "mixed":
+            label = f"↑ {src} surge — mixed signals"
+        else:
+            label = f"↑ {src} traffic spike"
+
+        out.append({
+            "date": date,
+            "label": label,
+            "url": "",
+            "origin": "auto",
+            "cause": {
+                "top_source": src,
+                "top_medium": med,
+                "top_source_pct": share,
+                "top_page": top_page,
+                "engagement_rate": round(rate, 3),
+                "class": cls,
+            },
+        })
     return out
 
 
@@ -656,8 +755,22 @@ def main():
     # 12. Trends + event impact (computed locally from the daily series)
     # ----------------------------------------------------------------------- #
     trends = compute_trends(daily)
-    events_input = load_json(EVENTS_PATH, {}).get("events", [])
-    events = compute_event_impact(daily, events_input)
+    # Manual annotations (the user's own known events) are authoritative; any
+    # detected spike the user hasn't labeled gets an auto-derived cause from
+    # that day's GA4 signature (dominant source + landing page + human/bot read).
+    manual = [e for e in load_json(EVENTS_PATH, {}).get("events", []) if e.get("date")]
+    for e in manual:
+        e.setdefault("origin", "manual")
+    manual_dates = {e["date"] for e in manual}
+    auto_events = []
+    try:
+        auto_events = characterize_spikes(
+            client, property_id, trends.get("anomalies", []), manual_dates
+        )
+    except Exception as e:
+        print(f"  WARN: spike characterization failed: {e}")
+    merged = sorted(manual + auto_events, key=lambda e: e.get("date", ""))
+    events = compute_event_impact(daily, merged)
 
     # Build output
     output = {

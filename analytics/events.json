@@ -1,7 +1,4 @@
 {
-  "_comment": "Annotate the traffic timeline with real events to measure their before/after impact. Add one object per event: {\"date\": \"YYYY-MM-DD\", \"label\": \"What happened\", \"url\": \"optional link\"}. Lift = avg daily page views in the 3 days from the event (inclusive) vs. the 7 days before. This is correlational, not proof of cause. The two seeded entries are auto-detected traffic spikes — replace their labels with the real cause, or delete them.",
-  "events": [
-    { "date": "2026-06-03", "label": "Traffic spike (auto-detected — replace with real cause)", "url": "" },
-    { "date": "2026-06-18", "label": "Page-view spike (auto-detected — replace with real cause)", "url": "" }
-  ]
+  "_comment": "Your OWN known events, to measure their before/after impact. Add one object per event: {\"date\": \"YYYY-MM-DD\", \"label\": \"What happened\", \"url\": \"optional link\"}. Manual entries here are authoritative and take precedence. Traffic spikes you do NOT annotate are auto-characterized by the pipeline from that day's GA4 signature (dominant source + landing page + a human/bot read), so you rarely need to touch this file. Lift = avg daily page views in the 3 days from the event (inclusive) vs. the 7 days before — correlational, not proof of cause.",
+  "events": []
 }
