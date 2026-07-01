@@ -1040,6 +1040,48 @@ function trajectoryViz(traj){
     + `<p class="body-text" style="color:var(--muted);font-size:14px;margin-top:2px">Each point is one session's average in that area, oldest to newest — the same per-session values behind the average above, shown in order. Lines start short and fill in as you do more sessions; an area measured only once isn't drawn yet.</p>`;
 }
 
+// all-areas radar: the four revealed means as ONE shape, each on its own spoke
+// (center = leaned away from the value, outer edge = leaned into it, dashed ring =
+// neutral). The polar twin of the synoptic chart — the SAME revealed_score_mean
+// values, drawn as a gestalt, not a new statistic. Only drawn once all four areas
+// are measured; a triangle with a missing corner would misrepresent the shape.
+function radarViz(rev){
+  const RLAB = {
+    "truth-telling": ["truth-telling"],
+    "resource-allocation": ["resource", "allocation"],
+    "in-group-out-group": ["in-group /", "out-group"],
+    "reciprocity-cooperation": ["reciprocity &", "cooperation"],
+  };
+  const doms = POCProjection.DOMAINS;
+  if (!doms.every(d => rev[d])) return ""; // need all four for an honest shape
+  const cx = 210, cy = 148, R = 96, lh = 14;
+  const ang = i => (-90 + i*90) * Math.PI/180;               // top, right, bottom, left
+  const pt = (i, rad) => [cx + rad*Math.cos(ang(i)), cy + rad*Math.sin(ang(i))];
+  const rOf = v => ((Math.max(-1, Math.min(1, v)) + 1) / 2) * R; // -1 -> center, 0 -> R/2, +1 -> edge
+  const ring = rad => `<polygon points="${doms.map((d,i)=>{ const [x,y]=pt(i,rad); return x.toFixed(1)+" "+y.toFixed(1); }).join(" ")}"`;
+  const outer = ring(R) + ` fill="none" stroke="var(--border)" stroke-width="1.5"/>`;
+  const neutral = ring(R/2) + ` fill="none" stroke="#c0c0b6" stroke-width="1.5" stroke-dasharray="2 5"/>`;
+  const spokes = doms.map((d,i)=>{ const [x,y]=pt(i,R); return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="1"/>`; }).join("");
+  const verts = doms.map((d,i)=> pt(i, rOf(rev[d].revealed_score_mean)));
+  const dpath = verts.map((p,i)=> (i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ") + " Z";
+  const shape = `<path class="drawin" pathLength="1" d="${dpath}" fill="var(--fg)" fill-opacity="0.06" stroke="var(--fg)" stroke-opacity="0.5" stroke-width="2" stroke-linejoin="round"/>`;
+  const dots = doms.map((d,i)=>{ const [x,y]=verts[i]; return `<circle class="dotin" style="animation-delay:${120+i*90}ms" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5" fill="${dcol(d)}"/>`; }).join("");
+  const lab = doms.map((d,i)=>{
+    const [tx,ty] = pt(i,R), lines = RLAB[d], col = dcol(d), n = lines.length;
+    let x, anchor, y0;
+    if (i===0){ x=tx; anchor="middle"; y0 = ty - 12 - (n-1)*lh; }         // top: block above tip
+    else if (i===1){ x=tx+12; anchor="start"; y0 = ty - (n-1)/2*lh + 4; } // right
+    else if (i===2){ x=tx; anchor="middle"; y0 = ty + 20; }              // bottom: block below tip
+    else { x=tx-12; anchor="end"; y0 = ty - (n-1)/2*lh + 4; }            // left
+    return lines.map((t,k)=>`<text x="${x.toFixed(1)}" y="${(y0+k*lh).toFixed(1)}" text-anchor="${anchor}" style="fill:${col};font-size:13px;font-weight:600">${esc(t)}</text>`).join("");
+  }).join("");
+  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
+  const aria = doms.map(d => `${DLAB[d]} ${rev[d].revealed_score_mean>=0?"+":""}${rev[d].revealed_score_mean.toFixed(2)}`).join(", ");
+  return `<div class="viz"><svg viewBox="0 0 420 300" role="img" aria-label="All four areas as one shape, each on a spoke from center (leaned away from the value) to edge (leaned into it): ${aria}.">`
+    + outer + neutral + spokes + shape + dots + lab
+    + `</svg><div class="viz-cap" style="color:var(--muted)">All four areas at once. Each spoke runs from the center — you leaned <em>away</em> from that value — out to the edge — you leaned <em>into</em> it; the dashed ring is neutral. Same numbers as the chart above, drawn as one shape: a fuller shape means leaning in across the board, a lopsided one means it depends on the area.</div></div>`;
+}
+
 // --- shareable portrait: render the reveal to a self-contained PNG, entirely on
 //     device (SVG -> canvas -> download). Descriptive + inward-pointing; the image
 //     is the user's own mirror, never a ranking. Absolute colors (no CSS vars) so it
@@ -1197,6 +1239,7 @@ async function renderReveal(){
   // spread of primary-axis choices by strength, underneath the mean above.
   const texHtml = textureViz(POCProjection.dimensionTexture(r.exp.session_log, TAGMAP));
   const trajHtml = trajectoryViz(POCProjection.dimensionTrajectory(r.exp.session_log, TAGMAP));
+  const radarHtml = radarViz(r.rev); // polar gestalt of the synoptic revealed means (all four areas)
 
   let ordHtml;
   if (!ordering.ok) ordHtml = `<p class="row-prose">No reliable ordering yet — ${ordering.reason}.</p>`;
@@ -1241,6 +1284,7 @@ async function renderReveal(){
     <p class="body-text" style="color:var(--muted);font-size:15px;">Computed on your device from ${st.sessionCount} sessions. Held loosely — this is early, and it points inward (at you over time), never at anyone else.</p>
     <h3 style="font-weight:500;font-size:17px;">What your choices revealed, by area</h3>
     ${bars}
+    ${radarHtml ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">All four areas, as one shape</h3>${radarHtml}` : ""}
     ${texHtml ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">What each average is made of</h3>${texHtml}` : ""}
     ${trajHtml ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">How it's moved, session to session</h3>${trajHtml}` : ""}
     <h3 style="font-weight:500;font-size:17px;margin-top:20px;">Where you lean, relative to yourself</h3>
