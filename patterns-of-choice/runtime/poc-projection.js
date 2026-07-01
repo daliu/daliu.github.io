@@ -267,6 +267,48 @@
     return out;
   }
 
+  // --- metaethical objectivism: the two claim-type reads, the N=1 reveal (§20.1, R6) ---
+  // One person's moral-claim and taste-claim objectivism reads, each a within-person
+  // mean of its OWN 1–7 objectivism Likert items (1 = purely opinion/preference … 7 =
+  // objective fact, true independent of anyone's view). Reported SEPARATELY and NEVER
+  // pooled into one "conviction score" (§13.5, the load-bearing discipline here) — and
+  // the STATED probe is never fused with the deferred REVEALED tolerance/language
+  // signatures either. A claim type with fewer than MIN_OBJECTIVISM_ITEMS scorable items
+  // is SUPPRESSED (null), never scored on thin data (§1.5); a declined item (non-numeric
+  // / boolean) is DROPPED, never imputed 0 (§1.5). Value-neutral with EXTRA force — the
+  // branch is charged: treating morals as objective fact is moral clarity OR rigid
+  // intolerance, subjectivism is tolerant pluralism OR standing for nothing; each pole
+  // DESCRIBED, never ranked, and the two reads are shown side by side without implying
+  // one should exceed the other at the individual level (that gradient is the cohort-only
+  // R6d, never an N=1 verdict; Goodwin & Darley 2008). Mirrors the analyzer's
+  // objectivism_by_user; JS↔Python parity-locked in scripts/check_impl_parity.py.
+  const MIN_OBJECTIVISM_ITEMS = 3;                       // §1.5 floor (== analyzer R6_MIN_ITEMS)
+  const OBJECTIVISM_CLAIM_TYPES = ["moral", "taste"];
+  function objectivismResponse(r) {
+    const v = r && r.objectivism;
+    return typeof v === "number" ? v : null;             // typeof excludes booleans -> matches the analyzer
+  }
+  function claimTypeMean(records, claimType) {
+    const vals = [];
+    for (const r of records || []) {
+      if (!r || r.claim_type !== claimType) continue;
+      const v = objectivismResponse(r);
+      if (v !== null) vals.push(v);
+    }
+    return { claim_type: claimType, mean: vals.length >= MIN_OBJECTIVISM_ITEMS ? mean(vals) : null, n: vals.length };
+  }
+  function objectivismReads(records) {
+    // the two claim-type reads exposed SEPARATELY — never averaged into one objectivism scalar (§13.5)
+    const out = {};
+    for (const c of OBJECTIVISM_CLAIM_TYPES) {
+      const cm = claimTypeMean(records, c);
+      out[c] = cm.mean;                                  // null <=> below the >=3-item floor (suppressed)
+      out["n_" + c] = cm.n;
+    }
+    out.ok = out.moral !== null || out.taste !== null;
+    return out;
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -478,6 +520,6 @@
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
-           centralityFacets, facetMean,
-           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS } };
+           centralityFacets, facetMean, objectivismReads, claimTypeMean,
+           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS } };
 });
