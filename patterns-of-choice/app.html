@@ -996,6 +996,38 @@ function trajViz(name, domain, scores, lo, hi){
   </svg></div>`;
 }
 
+// within-dimension texture: under each area's average, the make-up of the choices
+// that produced it — how many leaned toward the value vs away, and how strongly.
+// Diverging from a shared neutral center; same bar length per row (the MIX, not
+// the volume — the count is noted at right). Descriptive, no verdict.
+function textureViz(tex){
+  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
+  const doms = POCProjection.DOMAINS.filter(d => tex[d] && tex[d].total > 0);
+  if (!doms.length) return "";
+  const GREY = "#9ba49b", CX = 300, halfW = 276; // bar spans x 24..576, neutral at 300
+  const rowH = 52, top = 12, bot = 34, H = top + doms.length*rowH + bot;
+  let rows = "";
+  doms.forEach((d, i) => {
+    const o = tex[d], col = dcol(d), rt = top + i*rowH, yL = rt + 16, yT = rt + 30, bh = 13;
+    const w = n => (n / o.total) * halfW;
+    const seg = (x, width, fill, op, origin, k) => width <= 0 ? "" :
+      `<rect class="growin" style="animation-delay:${i*90 + k*70}ms;transform-origin:${origin} center" x="${x.toFixed(1)}" y="${yT}" width="${width.toFixed(1)}" height="${bh}" rx="2" fill="${fill}" fill-opacity="${op}"/>`;
+    const mfW = w(o.mildFor), sfW = w(o.strongFor), maW = w(o.mildAgainst), saW = w(o.strongAgainst);
+    rows += `<text x="24" y="${yL}" style="fill:${col};font-size:14px;font-weight:500">${DLAB[d]}</text>`
+      + `<text x="576" y="${yL}" text-anchor="end" style="fill:var(--muted);font-size:12px;font-variant-numeric:tabular-nums">${o.total} choice${o.total===1?"":"s"}</text>`
+      + seg(CX, mfW, col, 0.42, "left", 0)               // toward: mild (inner)
+      + seg(CX + mfW, sfW, col, 1, "left", 1)            // toward: strong (outer)
+      + seg(CX - maW, maW, GREY, 0.42, "right", 0)       // away: mild (inner)
+      + seg(CX - maW - saW, saW, GREY, 1, "right", 1);   // away: strong (outer)
+  });
+  const y0 = top + 30, yn = top + (doms.length-1)*rowH + 30 + 13;
+  const mid = `<line x1="${CX}" y1="${y0 - 8}" x2="${CX}" y2="${yn + 8}" stroke="#bcd0c2" stroke-width="1.5" stroke-dasharray="2 5"/>`;
+  const ax = (x, anchor, t) => `<text x="${x}" y="${H-10}" ${anchor?`text-anchor="${anchor}" `:""}style="fill:var(--muted);font-size:10px;letter-spacing:.4px;text-transform:uppercase">${t}</text>`;
+  const foot = ax(24, "", "away from it") + ax(CX, "middle", "neutral") + ax(576, "end", "leaned into it");
+  return `<div class="viz"><svg viewBox="0 0 600 ${H}" role="img" aria-label="What each area's average is made of, by how strongly each choice leaned toward or away from the value.">${mid}${rows}${foot}</svg>`
+    + `<div class="viz-cap" style="color:var(--muted)">Under each average, what it's made of. Toward the value shows in the area's colour, away in grey; solid&nbsp;= strongly, faded&nbsp;= mildly. Every row is the same width, so this is the <em>mix</em> of your choices — not how many (noted at right). Mass to the right means most leaned in; a long solid tail either way means some were emphatic.</div></div>`;
+}
+
 // --- shareable portrait: render the reveal to a self-contained PNG, entirely on
 //     device (SVG -> canvas -> download). Descriptive + inward-pointing; the image
 //     is the user's own mirror, never a ranking. Absolute colors (no CSS vars) so it
@@ -1149,6 +1181,10 @@ async function renderReveal(){
   const bars = `<svg class="synoptic" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Per-area chart, each on its own neutral-centered axis. ${ariaSummary}.">${midline}${srows}${foot}</svg>
     <div class="progress" style="margin-top:2px;">${hasStated ? "○ what you'd say &middot; ● what you did &middot; " : "● what you did &middot; "}each area on its own axis; center is neutral, not a score.</div>`;
 
+  // within-dimension texture: what each revealed average is made of (§2.2) — the
+  // spread of primary-axis choices by strength, underneath the mean above.
+  const texHtml = textureViz(POCProjection.dimensionTexture(r.exp.session_log, TAGMAP));
+
   let ordHtml;
   if (!ordering.ok) ordHtml = `<p class="row-prose">No reliable ordering yet — ${ordering.reason}.</p>`;
   else if (ordering.level) ordHtml = `<p class="row-prose">Across the areas with enough sessions, your choices came out roughly level — you reached for them about equally, relative to your own average.</p>`;
@@ -1192,6 +1228,7 @@ async function renderReveal(){
     <p class="body-text" style="color:var(--muted);font-size:15px;">Computed on your device from ${st.sessionCount} sessions. Held loosely — this is early, and it points inward (at you over time), never at anyone else.</p>
     <h3 style="font-weight:500;font-size:17px;">What your choices revealed, by area</h3>
     ${bars}
+    ${texHtml ? `<h3 style="font-weight:500;font-size:17px;margin-top:20px;">What each average is made of</h3>${texHtml}` : ""}
     <h3 style="font-weight:500;font-size:17px;margin-top:20px;">Where you lean, relative to yourself</h3>
     ${ordHtml}
     ${conHtml}

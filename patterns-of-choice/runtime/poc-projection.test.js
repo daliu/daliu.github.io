@@ -59,6 +59,17 @@ const zeroVarWide = {
 };
 const zw = P.ipsativeOrdering(zeroVarWide);
 ok(zw.ok && !zw.level && zw.order[0] === "in-group-out-group" && zw.rels.every(r => r.tie === false), "SE floor: zero-variance + wide gaps still orders confidently");
+
+// --- dimensionTexture: per-domain valence composition of primary-axis choices ---
+const dt = P.dimensionTexture([
+  { domain: "truth-telling", tags: ["truth:commission"] },    // +1   -> strongFor
+  { domain: "truth-telling", tags: ["truth:partial"] },       // +0.5 -> mildFor
+  { domain: "truth-telling", tags: ["lie:white"] },           // -0.5 -> mildAgainst
+  { domain: "truth-telling", tags: ["lie:commission"] },      // -1   -> strongAgainst
+  { domain: "truth-telling", tags: ["counterparty:close"] },  // metadata (not primary axis) -> skip
+], tagMap)["truth-telling"];
+ok(dt.total === 4, "dimensionTexture: counts primary-axis choices, excludes metadata tags", dt);
+ok(dt.strongFor === 1 && dt.mildFor === 1 && dt.mildAgainst === 1 && dt.strongAgainst === 1, "dimensionTexture: choices bucketed into valence bands", dt);
 const con = P.wordDeedConcordance(revealed, { "truth-telling": 0.80, "resource-allocation": 0.40, "in-group-out-group": 0.20, "reciprocity-cooperation": 0.60 });
 ok(con.ok && con.band === "high", "concordance band high", { band: con.band, tau: con.tau });
 ok(con.flips.some(f => f.said_lower === "in-group-out-group"), "in-group unclaimed-strength flip");

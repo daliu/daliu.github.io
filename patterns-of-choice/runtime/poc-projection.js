@@ -372,6 +372,27 @@
     return { ok: true, kind: arc.scoring === "inclusion" ? "inclusion" : "candor", pairs, n: pairs.length, nShifts: shifts.length, lean, trajectory };
   }
 
+  // --- within-dimension composition: the spread of a person's primary-axis
+  // choices toward each pole, underneath the revealed mean (§2.2). Descriptive
+  // counts by valence band — "what your choices were made of", NOT a score. ---
+  function dimensionTexture(sessionLog, tagMap) {
+    const primaryAxis = tagMap.primary_axis, scoring = tagMap.scoring;
+    const bandOf = c => c >= 0.7 ? "strongFor" : c > 0 ? "mildFor" : c <= -0.7 ? "strongAgainst" : "mildAgainst";
+    const out = {};
+    for (const e of sessionLog || []) {
+      const d = e.domain, primary = primaryAxis[d];
+      if (!primary) continue;
+      for (const t of e.tags || []) {
+        const hit = scoring[d + "\t" + t];
+        if (!hit || hit.axis !== primary || !hit.contribution) continue; // primary-axis, non-neutral only
+        const o = out[d] || (out[d] = { domain: d, total: 0, strongFor: 0, mildFor: 0, mildAgainst: 0, strongAgainst: 0 });
+        o[bandOf(hit.contribution)] += 1;
+        o.total += 1;
+      }
+    }
+    return out; // { domain: { total, strongFor, mildFor, mildAgainst, strongAgainst } }
+  }
+
   // --- top-level: full individual profile from an analyzer-export bundle ---
   // bundle: runtime.exportForAnalyzer() output; valuesByDomain from values-deck
   function profile(bundle, tagMap, valuesByDomain, layer) {
@@ -387,6 +408,6 @@
   }
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
-           arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing,
+           arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR } };
 });
