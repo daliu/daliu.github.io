@@ -228,6 +228,45 @@
     return { ok: true, byValue: out };
   }
 
+  // --- moral-identity centrality: the two facets, the N=1 reveal (§19.1, R1) ---
+  // One person's internalization (private, self-defining) and symbolization (public,
+  // expressed) facet means, each a within-person mean of its OWN 1–7 Likert items.
+  // Reported SEPARATELY and NEVER pooled into one "moral-identity score" (§13.5, the
+  // load-bearing discipline here): a facet with fewer than MIN_CENTRALITY_ITEMS
+  // scorable items is SUPPRESSED (null), never scored on thin data (§1.5); a declined
+  // item (non-numeric / boolean response) is DROPPED, never imputed 0 (§1.5). Value-
+  // neutral — a high internalization mean is integrity OR rigid self-righteousness,
+  // described never ranked, and internalizing is not "better" than symbolizing (Aquino
+  // & Reed 2002). Mirrors the analyzer's centrality_facet_by_user; JS↔Python parity-
+  // locked in scripts/check_impl_parity.py. Like attachmentReport, the records are read
+  // straight from the raw instrument log (outside the analyzer export contract).
+  const MIN_CENTRALITY_ITEMS = 3;                        // §1.5 floor (== analyzer R1_MIN_ITEMS)
+  const CENTRALITY_FACETS = ["internalization", "symbolization"];
+  function centralityResponse(r) {
+    const v = r && r.response;
+    return typeof v === "number" ? v : null;             // typeof excludes booleans -> matches the analyzer
+  }
+  function facetMean(records, facet) {
+    const vals = [];
+    for (const r of records || []) {
+      if (!r || r.facet !== facet) continue;
+      const v = centralityResponse(r);
+      if (v !== null) vals.push(v);
+    }
+    return { facet, mean: vals.length >= MIN_CENTRALITY_ITEMS ? mean(vals) : null, n: vals.length };
+  }
+  function centralityFacets(records) {
+    // the two facets exposed SEPARATELY — never averaged into one centrality scalar (§13.5)
+    const out = {};
+    for (const f of CENTRALITY_FACETS) {
+      const fm = facetMean(records, f);
+      out[f] = fm.mean;                                  // null <=> below the >=3-item floor (suppressed)
+      out["n_" + f] = fm.n;
+    }
+    out.ok = out.internalization !== null || out.symbolization !== null;
+    return out;
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -439,5 +478,6 @@
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
-           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR } };
+           centralityFacets, facetMean,
+           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS } };
 });
