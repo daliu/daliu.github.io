@@ -456,6 +456,7 @@
     <div class="col-sm-12">
       <h2 style="text-align: center; margin-bottom: 8px;">At a Glance</h2>
       <p style="text-align: center; color: #888; margin-bottom: 24px; font-size: 14px;">Skim the sections — or grab the <a href="resume/resume.pdf" download style="color: #1abc9c; font-weight: 600;">resume PDF</a> / <a href="resume/" style="color: #1abc9c; font-weight: 600;">resume page</a>.</p>
+      <p style="text-align: center; margin: -6px 0 26px;"><a href="now/" style="display: inline-block; border: 1px solid #1abc9c; color: #1abc9c; border-radius: 20px; padding: 5px 18px; font-size: 13px; font-family: Montserrat, sans-serif; font-weight: 600; letter-spacing: 0.5px; text-decoration: none;"><span style="color: #3fb950;">&#9679;</span> Now &mdash; what I'm building and shipping this month</a></p>
       <div class="row" style="max-width: 960px; margin: 0 auto;">
         <div class="col-sm-4 outline-col">
           <a class="outline-card" href="#about">
@@ -483,7 +484,7 @@
           <a class="outline-card" href="#projects">
             <span class="outline-num">05</span>
             <span class="outline-title">Featured Projects</span>
-            <span class="outline-desc">Meta Council · AutoTrader</span>
+            <span class="outline-desc">Meta Council · AutoTrader · Patterns of Choice · Adaptive Domain Intelligence</span>
           </a>
           <a class="outline-card" href="#other-projects">
             <span class="outline-num">06</span>
@@ -766,6 +767,21 @@
         <p>The design spans four ethical domains and three scenario types (quick-fire timed choices, branching narratives, and cost-of-virtue stake ladders), scored with Bradley-Terry pairwise models and bootstrap confidence intervals across nine pre-registered hypotheses. It carries a growing family of novel measurement claims: narrative immersion as a debiasing mechanism (H8), self-prediction calibration (H9: do you know your own gap?), and design-stage work on cross-situational consistency, the moral-circle radius, the self&ndash;other double standard, an informant &ldquo;moral 360,&rdquo; a real-stakes validity probe, and a moral-language channel&mdash;each treating a different facet of self-knowledge (or of whether the instrument captures real behavior at all) as something measurable. A working local-first runtime now ships the daily practice on-device (your data never leaves the browser); a 61-scenario corpus with five recurring-character arcs is authored; OSF pre-registration (filed before recruitment) is in progress.</p>
         <a href="patterns-of-choice/" class="btn-view">READ THE WRITEUP &rarr;</a>
         <a href="patterns-of-choice/demo.html" class="btn-view" style="margin-left: 10px; background: #474e5d;">TRY THE 90-SECOND DEMO &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Project: Adaptive Domain Intelligence (Metis) -->
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+      <div class="featured-project text-left">
+        <h4 style="font-weight: 600; color: #303030; margin-bottom: 5px;">Adaptive Domain Intelligence &mdash; An LLM-as-Feature-Engineer Architecture</h4>
+        <span style="color: #1abc9c; font-size: 13px; font-family: Montserrat, sans-serif; letter-spacing: 1px;">2026 &middot; RESEARCH &middot; WORKING PAPER</span>
+        <p style="margin-top: 15px;">A research system (reference implementation &ldquo;Metis&rdquo;) for a recurring class of high-stakes problems: compressing a qualitative record&mdash;a court opinion, a clinical note, a field dispatch&mdash;into a calibrated empirical verdict. Large language models read such text fluently but fail here in two documented ways: they fabricate, and they degrade when allowed to judge their own improvements. This architecture confronts both. The LLM is confined to two roles&mdash;proposing a feature schema and performing <em>verbatim-quote-grounded extraction</em>&mdash;while a small, calibrated classical model makes the actual prediction; any extracted value without a verbatim evidence span is dropped and counted against a measured hallucination rate. The system self-improves only when a domain expert <em>and</em> a frozen gold set the loop never fits to both endorse a change, adjudicated by a permutation test with a hard subgroup-fairness veto.</p>
+        <p>Evaluated not by chasing a benchmark but as a <span class="metric-highlight">known-answer test</span>: across four real legal corpora spanning six decades of empirical judicial-politics findings, it independently re-derives the established signals (judge party predicts decision direction; repeat-player status predicts settlement) <em>and</em> the established nulls (judge attributes don't predict settlement; panel composition washes out). It exhibits the honesty its design targets&mdash;vetoing one of its own expert-approved escalations on held-out evidence, and on real European Court of Human Rights texts extracting ~1,200 features at a measured-zero hallucination rate yet landing at chance, the correct answer to a known leakage trap where prior text-only work reported ~79%. Every headline number is independently re-derived from scratch by an automated verifier (8/8 reproduce with zero drift).</p>
+        <a href="research/adaptive-domain-intelligence/" class="btn-view">READ THE WRITE-UP &rarr;</a>
+        <a href="research/adaptive-domain-intelligence.pdf" class="btn-view" style="margin-left: 10px; background: #474e5d;">READ THE PAPER &rarr;</a>
+        <a href="research/adaptive-domain-intelligence/audit/" class="btn-view" style="margin-left: 10px; background: #474e5d;">EXTRACTION-AUDIT TOOL &rarr;</a>
       </div>
     </div>
   </div>
