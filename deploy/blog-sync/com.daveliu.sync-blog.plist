@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd agent for the career blog sync.
+
+  INSTALL PATH (NOT this repo copy):
+    ~/Library/LaunchAgents/com.daveliu.sync-blog.plist
+  This copy under deploy/blog-sync/ exists for code review. To enable AFTER the
+  blog PR is merged to master:
+    cp deploy/blog-sync/com.daveliu.sync-blog.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.daveliu.sync-blog.plist
+  (Do NOT load it before merge — it pushes to master.)
+
+  Daily at 20:05 local — 5 min after sync-knowledge-graph (20:00) so the two
+  vault-materializing jobs don't race on iCloud download.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.daveliu.sync-blog</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>/Users/daveliu/scripts/sync-blog.sh >> /tmp/sync-blog.log 2>&amp;1</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>20</integer>
+        <key>Minute</key>
+        <integer>5</integer>
+    </dict>
+</dict>
+</plist>
