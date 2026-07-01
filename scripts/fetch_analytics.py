@@ -353,7 +353,8 @@ def main():
     pages_resp = run_report(
         client, property_id,
         dimensions=["pagePath"],
-        metrics=["screenPageViews", "totalUsers", "averageSessionDuration"],
+        metrics=["screenPageViews", "totalUsers", "averageSessionDuration",
+                 "sessions", "engagedSessions"],
         date_range=date_range,
         order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="screenPageViews"), desc=True)],
         limit=50,
@@ -379,33 +380,48 @@ def main():
         pv = int(row.metric_values[0].value)
         users = int(row.metric_values[1].value)
         dur = float(row.metric_values[2].value)
-        a = page_agg.setdefault(p, {"path": p, "pageviews": 0, "users": 0, "_dur_w": 0.0})
+        sess = int(row.metric_values[3].value)
+        eng = int(row.metric_values[4].value)
+        a = page_agg.setdefault(p, {"path": p, "pageviews": 0, "users": 0,
+                                    "_dur_w": 0.0, "sessions": 0, "engaged": 0})
         a["pageviews"] += pv
         a["users"] += users
         a["_dur_w"] += dur * pv
+        a["sessions"] += sess
+        a["engaged"] += eng
     pages = []
     for a in sorted(page_agg.values(), key=lambda x: x["pageviews"], reverse=True)[:20]:
+        # Engagement rate for sessions touching this page = human-reader proxy.
+        rate = a["engaged"] / a["sessions"] if a["sessions"] else 0
         pages.append({
             "path": a["path"],
             "title": title_map.get(a["path"], ""),
             "pageviews": a["pageviews"],
             "users": a["users"],
             "avg_time_on_page": round(a["_dur_w"] / a["pageviews"], 1) if a["pageviews"] else 0,
+            "sessions": a["sessions"],
+            "engaged": a["engaged"],
+            "engagement_rate": round(rate, 3),
+            "class": classify_quality(rate),
         })
 
     # 3. Traffic sources
     sources_resp = run_report(
         client, property_id,
         dimensions=["sessionSource", "sessionMedium"],
-        metrics=["sessions", "totalUsers"],
+        metrics=["sessions", "totalUsers", "engagedSessions"],
         date_range=date_range,
         order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="sessions"), desc=True)],
         limit=15,
     )
-    sources = parse_rows(sources_resp, ["source", "medium"], ["sessions", "users"])
+    sources = parse_rows(sources_resp, ["source", "medium"], ["sessions", "users", "engaged"])
     for s in sources:
         s["source"] = clean_label(s["source"])
         s["medium"] = clean_label(s["medium"])
+        # Which sources bring engaged humans vs. drive-by/automated traffic.
+        rate = s["engaged"] / s["sessions"] if s["sessions"] else 0
+        s["engagement_rate"] = round(rate, 3)
+        s["class"] = classify_quality(rate)
 
     # 4. Devices
     devices_resp = run_report(

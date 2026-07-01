@@ -561,6 +561,20 @@ function render(data) {
         html += '<div class="map-note">Circle size = sessions &middot; color = engagement (<span style="color:var(--green)">green</span> human, <span style="color:var(--yellow)">amber</span> mixed, <span style="color:var(--red)">red</span> automated). Plotted at city level where known, otherwise the country center.</div></div>';
     }
 
+    // --- Top Pages reader-quality table ---
+    if (data.pages && data.pages.length > 0 && data.pages[0].engagement_rate != null) {
+        html += '<div class="section-title">Top Pages — Reader Quality <span class="win">last ' + win.main_days + ' days</span></div>';
+        html += '<div class="stats-table-container"><table class="stats-table">';
+        html += '<thead><tr><th>Page</th><th>Page Views</th><th>Engagement</th><th>Quality</th></tr></thead><tbody>';
+        data.pages.forEach(function(p) {
+            var cell = '<strong>' + escapeHtml(p.path) + '</strong>';
+            if (p.title) cell += '<br><span style="color:var(--text-muted);font-size:0.85em">' + escapeHtml(p.title) + '</span>';
+            html += '<tr><td>' + cell + '</td><td>' + fmtNum(p.pageviews) + '</td><td>' + fmtPct(p.engagement_rate) + '</td><td>' + classBadge(p['class']) + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+        html += '<div class="map-note">Engagement = share of sessions touching a page that were engaged. High-engagement pages are the ones real humans actually read; near-0% means the views were mostly automated.</div>';
+    }
+
     // --- Geographic Data ---
     if (data.countries && data.countries.length > 0) {
         html += '<div class="section-title">Geographic Distribution <span class="win">last ' + win.main_days + ' days</span></div>';
@@ -574,13 +588,18 @@ function render(data) {
 
     // --- Sources Table ---
     if (data.sources && data.sources.length > 0) {
+        var srcHasQuality = data.sources[0].engagement_rate != null;
         html += '<div class="section-title">All Traffic Sources <span class="win">last ' + win.main_days + ' days</span></div>';
         html += '<div class="stats-table-container"><table class="stats-table">';
-        html += '<thead><tr><th>Source</th><th>Medium</th><th>Sessions</th><th>Users</th></tr></thead><tbody>';
+        html += '<thead><tr><th>Source</th><th>Medium</th><th>Sessions</th><th>Users</th>' +
+                (srcHasQuality ? '<th>Engagement</th><th>Quality</th>' : '') + '</tr></thead><tbody>';
         data.sources.forEach(function(s) {
-            html += '<tr><td>' + escapeHtml(s.source) + '</td><td>' + escapeHtml(s.medium) + '</td><td>' + fmtNum(s.sessions) + '</td><td>' + fmtNum(s.users) + '</td></tr>';
+            html += '<tr><td>' + escapeHtml(s.source) + '</td><td>' + escapeHtml(s.medium) + '</td><td>' + fmtNum(s.sessions) + '</td><td>' + fmtNum(s.users) + '</td>' +
+                    (srcHasQuality ? '<td>' + fmtPct(s.engagement_rate) + '</td><td>' + classBadge(s['class']) + '</td>' : '') + '</tr>';
         });
         html += '</tbody></table></div>';
+        if (srcHasQuality)
+            html += '<div class="map-note">Quality = share of each source\'s sessions that were engaged (&gt;10s, 2+ page views, or a conversion). Automated referrers cluster near 0%.</div>';
     }
 
     content.innerHTML = html;

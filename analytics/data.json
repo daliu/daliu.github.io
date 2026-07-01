@@ -1,8 +1,8 @@
 {
-  "updated": "2026-06-30T08:58:00Z",
+  "updated": "2026-07-01T02:47:00Z",
   "date_range": {
-    "start": "2026-04-02",
-    "end": "2026-06-30"
+    "start": "2026-04-03",
+    "end": "2026-07-01"
   },
   "windows": {
     "main_days": 90,
@@ -17,10 +17,10 @@
     "total_users": 362,
     "total_sessions": 406,
     "total_pageviews": 894,
-    "total_engaged_sessions": 70,
-    "engagement_rate": 0.1724,
-    "avg_session_duration_seconds": 142.4,
-    "bounce_rate": 0.8276
+    "total_engaged_sessions": 71,
+    "engagement_rate": 0.1749,
+    "avg_session_duration_seconds": 140.8,
+    "bounce_rate": 0.8251
   },
   "daily": [
     {
@@ -529,9 +529,9 @@
       "sessions": 3,
       "pageviews": 2,
       "new_users": 0,
-      "avg_session_duration": 577.1,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
+      "avg_session_duration": 368.8,
+      "bounce_rate": 0.6667,
+      "engaged_sessions": 1
     }
   ],
   "pages": [
@@ -540,140 +540,220 @@
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
       "pageviews": 305,
       "users": 227,
-      "avg_time_on_page": 78.7
+      "avg_time_on_page": 78.7,
+      "sessions": 275,
+      "engaged": 52,
+      "engagement_rate": 0.189,
+      "class": "mixed"
     },
     {
       "path": "/knowledge/",
       "title": "Knowledge Graph \u2014 Dave Liu",
       "pageviews": 125,
       "users": 5,
-      "avg_time_on_page": 259.1
+      "avg_time_on_page": 259.1,
+      "sessions": 30,
+      "engaged": 22,
+      "engagement_rate": 0.733,
+      "class": "human"
     },
     {
       "path": "/health/",
       "title": "Health Dashboard \u2014 Dave Liu",
       "pageviews": 45,
       "users": 7,
-      "avg_time_on_page": 256.3
+      "avg_time_on_page": 256.3,
+      "sessions": 28,
+      "engaged": 19,
+      "engagement_rate": 0.679,
+      "class": "human"
     },
     {
       "path": "/publications.html",
       "title": "Publications \u2014 Dave Liu",
       "pageviews": 36,
       "users": 6,
-      "avg_time_on_page": 15.5
+      "avg_time_on_page": 15.5,
+      "sessions": 23,
+      "engaged": 20,
+      "engagement_rate": 0.87,
+      "class": "human"
     },
     {
       "path": "/patterns-of-choice/",
       "title": "Patterns of Choice \u2014 Dave Liu",
       "pageviews": 34,
       "users": 3,
-      "avg_time_on_page": 146.5
+      "avg_time_on_page": 146.5,
+      "sessions": 18,
+      "engaged": 15,
+      "engagement_rate": 0.833,
+      "class": "human"
     },
     {
       "path": "/portfolio.html",
       "title": "Portfolio \u2014 Dave Liu",
       "pageviews": 26,
       "users": 5,
-      "avg_time_on_page": 192.1
+      "avg_time_on_page": 192.1,
+      "sessions": 14,
+      "engaged": 11,
+      "engagement_rate": 0.786,
+      "class": "human"
     },
     {
       "path": "/autotrader.html",
       "title": "AutoTrader \u2014 Dave Liu",
       "pageviews": 25,
       "users": 5,
-      "avg_time_on_page": 147.6
+      "avg_time_on_page": 147.6,
+      "sessions": 16,
+      "engaged": 14,
+      "engagement_rate": 0.875,
+      "class": "human"
     },
     {
       "path": "/resume/",
       "title": "Resume \u2014 Dave Liu",
       "pageviews": 24,
       "users": 3,
-      "avg_time_on_page": 52.6
+      "avg_time_on_page": 52.6,
+      "sessions": 10,
+      "engaged": 10,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "path": "/patterns-of-choice/app.html",
       "title": "Patterns of Choice \u2014 the practice (local-first)",
       "pageviews": 21,
       "users": 2,
-      "avg_time_on_page": 252.8
+      "avg_time_on_page": 219.0,
+      "sessions": 11,
+      "engaged": 8,
+      "engagement_rate": 0.727,
+      "class": "human"
     },
     {
       "path": "/analytics/",
       "title": "Site Analytics | Dave Liu",
       "pageviews": 20,
       "users": 4,
-      "avg_time_on_page": 272.7
+      "avg_time_on_page": 272.7,
+      "sessions": 7,
+      "engaged": 4,
+      "engagement_rate": 0.571,
+      "class": "human"
     },
     {
       "path": "/research/adaptive-domain-intelligence/",
       "title": "Adaptive Domain Intelligence \u2014 Dave Liu",
       "pageviews": 17,
       "users": 7,
-      "avg_time_on_page": 264.6
+      "avg_time_on_page": 264.6,
+      "sessions": 17,
+      "engaged": 12,
+      "engagement_rate": 0.706,
+      "class": "human"
     },
     {
       "path": "/autotrader/daily/",
       "title": "Daily Updates \u2014 AutoTrader \u2014 Dave Liu",
       "pageviews": 17,
       "users": 4,
-      "avg_time_on_page": 4.2
+      "avg_time_on_page": 4.2,
+      "sessions": 13,
+      "engaged": 11,
+      "engagement_rate": 0.846,
+      "class": "human"
     },
     {
       "path": "/patterns-of-choice/demo.html",
       "title": "Patterns of Choice \u2014 Interactive Demo",
       "pageviews": 7,
       "users": 2,
-      "avg_time_on_page": 101.4
+      "avg_time_on_page": 101.4,
+      "sessions": 2,
+      "engaged": 1,
+      "engagement_rate": 0.5,
+      "class": "human"
     },
     {
       "path": "/patterns-of-choice/h8-demo.html",
       "title": "Patterns of Choice \u2014 The Weight of a Name (H8 demo)",
       "pageviews": 7,
       "users": 3,
-      "avg_time_on_page": 56.7
+      "avg_time_on_page": 56.7,
+      "sessions": 6,
+      "engaged": 5,
+      "engagement_rate": 0.833,
+      "class": "human"
     },
     {
       "path": "/genomics/",
       "title": "Personal Pharmacogenomics \u2014 Dave Liu",
       "pageviews": 6,
       "users": 3,
-      "avg_time_on_page": 431.8
+      "avg_time_on_page": 431.8,
+      "sessions": 4,
+      "engaged": 3,
+      "engagement_rate": 0.75,
+      "class": "human"
     },
     {
       "path": "/patterns-of-choice/cardsort.html",
       "title": "Patterns of Choice \u2014 The Card Sort (stated-values demo)",
       "pageviews": 5,
       "users": 2,
-      "avg_time_on_page": 65.7
+      "avg_time_on_page": 65.7,
+      "sessions": 3,
+      "engaged": 2,
+      "engagement_rate": 0.667,
+      "class": "human"
     },
     {
       "path": "/patterns-of-choice/onramp.html",
       "title": "Patterns of Choice \u2014 The Two-Minute Self-Portrait",
       "pageviews": 5,
       "users": 2,
-      "avg_time_on_page": 264.1
+      "avg_time_on_page": 264.1,
+      "sessions": 2,
+      "engaged": 1,
+      "engagement_rate": 0.5,
+      "class": "human"
     },
     {
       "path": "/autotrader/daily/2026-06-16.html",
       "title": "Daily Update \u2014 Jun 16, 2026 \u2014 MoneySignals",
       "pageviews": 4,
       "users": 1,
-      "avg_time_on_page": 6.4
+      "avg_time_on_page": 6.4,
+      "sessions": 4,
+      "engaged": 4,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "path": "/404.html",
       "title": "404 \u2014 Page Not Found \u2014 Dave Liu",
       "pageviews": 3,
       "users": 1,
-      "avg_time_on_page": 11.5
+      "avg_time_on_page": 11.5,
+      "sessions": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     },
     {
       "path": "/autotrader/daily/2026-02-18.html",
       "title": "Daily Update \u2014 Feb 18, 2026 \u2014 AutoTrader",
       "pageviews": 3,
       "users": 2,
-      "avg_time_on_page": 4.0
+      "avg_time_on_page": 4.0,
+      "sessions": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     }
   ],
   "sources": [
@@ -681,55 +761,79 @@
       "source": "Direct",
       "medium": "\u2014",
       "sessions": 366,
-      "users": 313
+      "users": 313,
+      "engaged": 46,
+      "engagement_rate": 0.126,
+      "class": "automated"
     },
     {
       "source": "linkedin.com",
       "medium": "referral",
       "sessions": 23,
-      "users": 4
+      "users": 4,
+      "engaged": 17,
+      "engagement_rate": 0.739,
+      "class": "human"
     },
     {
       "source": "daliu.github.io",
       "medium": "referral",
       "sessions": 8,
-      "users": 1
+      "users": 1,
+      "engaged": 5,
+      "engagement_rate": 0.625,
+      "class": "human"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 5,
-      "users": 4
+      "sessions": 4,
+      "users": 4,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     },
     {
       "source": "lnkd.in",
       "medium": "referral",
       "sessions": 2,
-      "users": 1
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     },
     {
       "source": "bing",
       "medium": "organic",
       "sessions": 1,
-      "users": 1
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     },
     {
       "source": "chatgpt.com",
       "medium": "Unknown",
       "sessions": 1,
-      "users": 1
+      "users": 1,
+      "engaged": 1,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "source": "google",
       "medium": "organic",
       "sessions": 1,
-      "users": 1
+      "users": 1,
+      "engaged": 1,
+      "engagement_rate": 1.0,
+      "class": "human"
     }
   ],
   "devices": [
     {
       "category": "desktop",
-      "sessions": 392,
+      "sessions": 391,
       "percentage": 95.8
     },
     {
@@ -741,7 +845,7 @@
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 379,
+      "sessions": 378,
       "percentage": 92.0
     },
     {
@@ -798,7 +902,7 @@
     },
     {
       "country": "United States",
-      "sessions": 111,
+      "sessions": 110,
       "users": 27
     },
     {
@@ -839,12 +943,12 @@
   ],
   "user_types": {
     "new": 321,
-    "returning": 79
+    "returning": 78
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 34
+      "pageviews": 33
     },
     {
       "hour": 1,
@@ -856,7 +960,7 @@
     },
     {
       "hour": 3,
-      "pageviews": 30
+      "pageviews": 29
     },
     {
       "hour": 4,
@@ -868,7 +972,7 @@
     },
     {
       "hour": 6,
-      "pageviews": 4
+      "pageviews": 3
     },
     {
       "hour": 7,
@@ -880,7 +984,7 @@
     },
     {
       "hour": 9,
-      "pageviews": 35
+      "pageviews": 34
     },
     {
       "hour": 10,
@@ -904,7 +1008,7 @@
     },
     {
       "hour": 15,
-      "pageviews": 48
+      "pageviews": 47
     },
     {
       "hour": 16,
@@ -928,7 +1032,7 @@
     },
     {
       "hour": 21,
-      "pageviews": 64
+      "pageviews": 63
     },
     {
       "hour": 22,
@@ -940,11 +1044,11 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 70,
-    "non_engaged_sessions": 336,
+    "engaged_sessions": 71,
+    "non_engaged_sessions": 335,
     "likely_automated_sessions": 286,
-    "likely_human_sessions": 121,
-    "automated_pct": 70.3,
+    "likely_human_sessions": 120,
+    "automated_pct": 70.4,
     "est_human_users": 37,
     "thresholds": {
       "human": 0.4,
@@ -964,12 +1068,12 @@
     },
     {
       "country": "United States",
-      "sessions": 111,
+      "sessions": 110,
       "engaged": 64,
       "users": 27,
       "pageviews": 595,
-      "avg_duration": 498.7,
-      "engagement_rate": 0.577,
+      "avg_duration": 497.5,
+      "engagement_rate": 0.582,
       "class": "human"
     },
     {
@@ -1368,10 +1472,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 75,
+      "sessions": 74,
       "users": 4,
       "engaged": 51,
-      "engagement_rate": 0.68
+      "engagement_rate": 0.689
     },
     {
       "lat": 37.3361663,
