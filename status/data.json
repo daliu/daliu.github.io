@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-29T07:28:02.672486+00:00",
+  "generated_at": "2026-07-01T12:00:15.519475+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "ca90b58",
-      "date": "2026-06-29T00:24:16-07:00",
-      "message": "Sync /now/ and /status/ with current autonomous systems"
+      "hash": "fcad0f7",
+      "date": "2026-07-01T04:01:48-07:00",
+      "message": "social: embed Short for 2026-07-01 (p36woqPlpwk)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 94,
+      "page_count": 97,
       "last_commit": {
-        "hash": "f7c8fbc",
-        "date": "2026-06-28T22:52:28-07:00",
-        "message": "Fix Google Analytics: correct measurement ID G-NNGFMHGWCE -> G-GR5Z815VXW site-wide"
+        "hash": "fcad0f7",
+        "date": "2026-07-01T04:01:48-07:00",
+        "message": "social: embed Short for 2026-07-01 (p36woqPlpwk)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-06-28T23:29:03.403397",
+        "updated": "2026-07-01T05:00:07.794697",
         "date_range": null
       },
       "last_commit": {
-        "hash": "983cccd",
-        "date": "2026-06-28T23:29:10-07:00",
-        "message": "Update health data 2026-06-28 23:29"
+        "hash": "7b75fe6",
+        "date": "2026-07-01T03:40:09-07:00",
+        "message": "health: refresh calendar density 2026-07-01 03:40"
       }
     },
     "knowledge_graph": {
@@ -44,9 +44,9 @@
         "edge_count": 233
       },
       "last_commit": {
-        "hash": "791a8a7",
-        "date": "2026-06-27T01:47:30-07:00",
-        "message": "knowledge graph: rename hub \u2192 \"Autonomous Adaptive Intelligence\""
+        "hash": "26d122f",
+        "date": "2026-06-29T00:31:54-07:00",
+        "message": "Refresh knowledge graph + system status data; note daily auto-sync on /now/"
       }
     },
     "site_analytics": {
@@ -54,115 +54,115 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-06-29T07:08:03Z"
+        "updated": "2026-07-01T09:31:34Z"
       },
       "last_commit": {
-        "hash": "74943f2",
-        "date": "2026-06-29T00:08:28-07:00",
-        "message": "Add analytics data layer: traffic quality, heatmaps, geo, trends"
+        "hash": "2f8e60b",
+        "date": "2026-07-01T09:31:35+00:00",
+        "message": "Update analytics data 2026-07-01"
       }
     }
   },
   "recent_commits": [
     {
-      "hash": "ca90b58",
-      "date": "2026-06-29T00:24:16-07:00",
-      "message": "Sync /now/ and /status/ with current autonomous systems"
+      "hash": "fcad0f7",
+      "date": "2026-07-01T04:01:48-07:00",
+      "message": "social: embed Short for 2026-07-01 (p36woqPlpwk)"
     },
     {
-      "hash": "9252c6c",
-      "date": "2026-06-29T00:13:29-07:00",
-      "message": "Render analytics enrichments: quality, heatmaps, map, trends"
+      "hash": "c69575f",
+      "date": "2026-07-01T04:00:31-07:00",
+      "message": "social: 2026-07-01 MoneySignals deck (4 cards)"
     },
     {
-      "hash": "74943f2",
-      "date": "2026-06-29T00:08:28-07:00",
-      "message": "Add analytics data layer: traffic quality, heatmaps, geo, trends"
+      "hash": "7b75fe6",
+      "date": "2026-07-01T03:40:09-07:00",
+      "message": "health: refresh calendar density 2026-07-01 03:40"
     },
     {
-      "hash": "fe55551",
-      "date": "2026-06-28T23:34:01-07:00",
-      "message": "Improve analytics dashboard: dedupe pages, humanize labels, label time windows"
+      "hash": "b94791d",
+      "date": "2026-07-01T06:11:26-04:00",
+      "message": "blog: 2026-07-01 \u2014 Energy & Defense Resurgence"
     },
     {
-      "hash": "983cccd",
-      "date": "2026-06-28T23:29:10-07:00",
-      "message": "Update health data 2026-06-28 23:29"
+      "hash": "404c60d",
+      "date": "2026-07-01T06:11:23-04:00",
+      "message": "daily: 2026-07-01 market update"
     },
     {
-      "hash": "13b14e0",
-      "date": "2026-06-28T23:18:06-07:00",
-      "message": "Update health data 2026-06-28 23:18"
+      "hash": "2f8e60b",
+      "date": "2026-07-01T09:31:35+00:00",
+      "message": "Update analytics data 2026-07-01"
     },
     {
-      "hash": "d4f00bf",
-      "date": "2026-06-29T05:57:03+00:00",
-      "message": "Update analytics data 2026-06-29"
+      "hash": "fd4736c",
+      "date": "2026-06-30T22:58:49-04:00",
+      "message": "blog: 2026-06-30 \u2014 Defensive Rotation & Safe-Haven Demand"
     },
     {
-      "hash": "4ef9328",
-      "date": "2026-06-28T22:56:45-07:00",
-      "message": "Fix analytics workflow: hoist GA4_PROPERTY_ID to job-level env"
+      "hash": "e1573eb",
+      "date": "2026-06-30T19:50:36-07:00",
+      "message": "Analytics: engagement-quality lens on Top Pages and Traffic Sources"
     },
     {
-      "hash": "f7c8fbc",
-      "date": "2026-06-28T22:52:28-07:00",
-      "message": "Fix Google Analytics: correct measurement ID G-NNGFMHGWCE -> G-GR5Z815VXW site-wide"
+      "hash": "43ebcfb",
+      "date": "2026-06-30T19:50:11-07:00",
+      "message": "patterns-of-choice: add within-dimension \"texture\" view to the reveal"
     },
     {
-      "hash": "3344b20",
-      "date": "2026-06-28T22:34:44-07:00",
-      "message": "patterns-of-choice: add the moral-conviction card to the research-program grid"
+      "hash": "ed9ff3b",
+      "date": "2026-06-30T09:30:34-07:00",
+      "message": "social: embed Short for 2026-06-30 (p8JVID1OvmQ)"
     },
     {
-      "hash": "a06efa9",
-      "date": "2026-06-28T20:50:03-07:00",
-      "message": "social: embed Short for 2026-06-28 (KUi3XyGqJeU)"
+      "hash": "8d82471",
+      "date": "2026-06-30T09:03:22-07:00",
+      "message": "blog: 2026-06-30 \u2014 Defensive Rotation & Safe-Haven Demand"
     },
     {
-      "hash": "24c3ff9",
-      "date": "2026-06-28T20:49:03-07:00",
-      "message": "social: 2026-06-28 MoneySignals deck (3 cards)"
+      "hash": "80f7f51",
+      "date": "2026-06-30T05:00:10-07:00",
+      "message": "Update health data 2026-06-30 05:00"
     },
     {
-      "hash": "cd5426d",
-      "date": "2026-06-28T20:48:29-07:00",
-      "message": "homepage: make PoC hero button readable + drop redundant about-link"
+      "hash": "ac22c2b",
+      "date": "2026-06-30T04:02:05-07:00",
+      "message": "social: embed Short for 2026-06-30 (EX6_rJQYlXg)"
     },
     {
-      "hash": "08fe871",
-      "date": "2026-06-28T20:45:54-07:00",
-      "message": "Add Evidence Board capstone \u2014 the whole causal investigation as one map"
+      "hash": "1d930a5",
+      "date": "2026-06-30T04:00:32-07:00",
+      "message": "social: 2026-06-30 MoneySignals deck (5 cards)"
     },
     {
-      "hash": "3fa5d70",
-      "date": "2026-06-28T20:42:42-07:00",
-      "message": "patterns-of-choice: add the dyadic-structure card to the research-program grid"
+      "hash": "b81e254",
+      "date": "2026-06-30T03:40:08-07:00",
+      "message": "health: refresh calendar density 2026-06-30 03:40"
     },
     {
-      "hash": "bff8f51",
-      "date": "2026-06-28T20:18:26-07:00",
-      "message": "homepage: Patterns of Choice hero entry -> app.html + \"about this project\" link"
+      "hash": "5541197",
+      "date": "2026-06-30T06:13:48-04:00",
+      "message": "daily: 2026-06-30 market update"
     },
     {
-      "hash": "db8ccd1",
-      "date": "2026-06-28T19:00:14-07:00",
-      "message": "Update health data 2026-06-28 19:00"
+      "hash": "58cee1f",
+      "date": "2026-06-30T08:58:00+00:00",
+      "message": "Update analytics data 2026-06-30"
     },
     {
-      "hash": "84f2782",
-      "date": "2026-06-28T09:13:13-07:00",
-      "message": "patterns-of-choice: add the moral-attention card to the research-program grid"
+      "hash": "0c52418",
+      "date": "2026-06-29T18:00:14-07:00",
+      "message": "Update health data 2026-06-29 18:00"
     },
     {
-      "hash": "56782a8",
-      "date": "2026-06-28T03:41:26-07:00",
-      "message": "health: refresh calendar density 2026-06-28 03:41"
+      "hash": "09edfb2",
+      "date": "2026-06-29T11:00:15-07:00",
+      "message": "Update health data 2026-06-29 11:00"
     },
     {
-      "hash": "5c4fd19",
-      "date": "2026-06-27T19:00:13-07:00",
-      "message": "Update health data 2026-06-27 19:00"
+      "hash": "dcfc6a4",
+      "date": "2026-06-29T09:31:47-07:00",
+      "message": "social: embed Short for 2026-06-29 (fR_LqmZv77U)"
     }
   ]
 }
