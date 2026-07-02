@@ -684,6 +684,52 @@
             </div>
         </div>
 
+        <!-- Stress Recovery (NEW): how fast does a spike fade, at two timescales? -->
+        <div class="section-title">⚡ Stress Recovery — how fast does a spike fade?</div>
+        <div id="stressRecoverySection">
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin: -6px 0 14px;">
+                When stress spikes, how long until it settles — and does a stressful day leave a mark on the next?
+                Two timescales from your own data: <em>minutes</em> (from Garmin's 3-minute stress signal) and <em>days</em>.
+                <span id="srCaption" style="color: var(--text);"></span>
+                <br><span style="font-size: 0.95rem;">Garmin "stress" is an HRV-derived proxy for autonomic arousal, not cortisol. Single-subject &amp; observational.</span>
+            </p>
+
+            <div class="stats-grid" id="srKpis"></div>
+            <div class="insights-grid" id="srInsights"></div>
+
+            <div class="charts-grid" id="srIntradayCharts">
+                <div class="chart-card">
+                    <h2>After a peak, stress decays in minutes</h2>
+                    <div class="chart-container"><canvas id="srDecayChart"></canvas></div>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
+                        Every high-stress peak (≥76) aligned at <span style="color: var(--red)">t=0</span>, averaged.
+                        Stress climbs, spikes, and the <em>very next</em> reading is already back down — a spike, not a
+                        plateau. The dashed line is your settled baseline; shaded band is ±1 SEM.
+                    </p>
+                </div>
+                <div class="chart-card">
+                    <h2>Time from peak until stress settles</h2>
+                    <div class="chart-container"><canvas id="srSettleChart"></canvas></div>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
+                        Minutes from each peak until stress holds at rest/low (≤50) for 30 min.
+                        <span style="color: var(--green)">Green</span> = settled within the hour;
+                        <span style="color: var(--text-muted)">grey</span> = took longer.
+                    </p>
+                </div>
+            </div>
+
+            <div class="chart-card" id="srEpochCard" style="margin-top: 15px;">
+                <h2>Does a high-stress day dent the next days?</h2>
+                <div class="chart-container" style="height: 240px;"><canvas id="srEpochChart"></canvas></div>
+                <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
+                    Recovery markers around a high-stress <em>day</em> (day <span style="color: var(--red)">0</span>),
+                    in z-scores vs your personal baseline. Resting HR is inverted so <strong>up = better recovery</strong>
+                    for all three. A shared same-day dip that climbs back toward baseline within a few days — no durable
+                    multi-day residue.
+                </p>
+            </div>
+        </div>
+
         <!-- Activity Heatmap -->
         <div class="section-title">🗓️ Daily Steps (90 days)</div>
         <div class="heatmap-container">
@@ -3986,14 +4032,186 @@
             }
         }
 
+        // ===== Stress Recovery (spike -> settle, at two timescales) =====
+        // Draw a straight reference line on one axis without the annotation plugin.
+        function srRefLine(axis, value, color, dash) {
+            return {
+                id: `srRef_${axis}_${value}`,
+                afterDatasetsDraw(chart) {
+                    const sc = chart.scales[axis];
+                    if (!sc) return;
+                    const { ctx, chartArea: a } = chart;
+                    const p = sc.getPixelForValue(value);
+                    if (p == null || isNaN(p)) return;
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.strokeStyle = color; ctx.lineWidth = 1.2; ctx.setLineDash(dash || [4, 4]);
+                    if (axis === 'x') { ctx.moveTo(p, a.top); ctx.lineTo(p, a.bottom); }
+                    else { ctx.moveTo(a.left, p); ctx.lineTo(a.right, p); }
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            };
+        }
+        const srTip = { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e', padding: 10, cornerRadius: 6 };
+
+        function renderStressRecovery(d) {
+            const intr = d.intraday, daily = d.daily;
+            const rng = d.date_range || {};
+            const capEl = document.getElementById('srCaption');
+            if (capEl) {
+                const bits = [];
+                if (intr) bits.push(`${intr.n_observed} peaks over ${rng.days_with_data || intr.days_with_data} days`);
+                if (rng.start && rng.end) bits.push(`${rng.start} → ${rng.end}`);
+                capEl.textContent = bits.length ? '· ' + bits.join(' · ') : '';
+            }
+
+            // KPI cards (from the robust intraday episode data)
+            const kpiEl = document.getElementById('srKpis');
+            if (intr && kpiEl) {
+                const s = intr.settle;
+                const kpis = [
+                    { big: `${s.median_min} min`, label: 'Median time to settle' },
+                    { big: `${s.within_60min_pct}%`, label: 'Settle within an hour' },
+                    { big: `${s.within_120min_pct}%`, label: 'Settle within two hours' },
+                    { big: `${intr.episodes_per_day}`, label: 'High-stress peaks / day' },
+                ];
+                kpiEl.innerHTML = kpis.map(k =>
+                    `<div class="stat-card"><div class="stat-value" style="font-size:1.7rem;">${k.big}</div><div class="stat-label">${k.label}</div></div>`).join('');
+            } else if (kpiEl) { kpiEl.style.display = 'none'; }
+
+            // Insight cards
+            const insEl = document.getElementById('srInsights');
+            if (insEl && d.insights) {
+                const col = { positive: 'var(--green)', neutral: 'var(--cyan)', negative: 'var(--yellow)' };
+                const icon = { positive: '⚡', neutral: '🧭', negative: '⚠️' };
+                insEl.innerHTML = d.insights.map(i =>
+                    `<div class="insight-card" style="border-left: 3px solid ${col[i.impact] || 'var(--cyan)'};">
+                        <div class="insight-detail" style="font-size: 1.1rem; color: var(--text);">${icon[i.impact] || '🧭'} ${i.text}</div>
+                    </div>`).join('');
+            }
+
+            // Chart 1 — peak-aligned decay curve (minutes)
+            const decayCard = document.getElementById('srIntradayCharts');
+            if (intr && intr.decay_curve && intr.decay_curve.length) {
+                const dc = intr.decay_curve;
+                const pre = dc.filter(p => p.t <= -9);
+                const baseline = pre.length ? pre.reduce((a, p) => a + p.mean, 0) / pre.length : dc[dc.length - 1].mean;
+                new Chart(document.getElementById('srDecayChart').getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        datasets: [
+                            { data: dc.map(p => ({ x: p.t, y: p.mean + p.sem })), borderWidth: 0, pointRadius: 0, fill: '+1', backgroundColor: 'rgba(57,197,207,0.15)', tension: 0.3 },
+                            { data: dc.map(p => ({ x: p.t, y: p.mean - p.sem })), borderWidth: 0, pointRadius: 0, fill: false, tension: 0.3 },
+                            { data: dc.map(p => ({ x: p.t, y: p.mean, n: p.n })), borderColor: '#39c5cf', backgroundColor: '#39c5cf', borderWidth: 2, pointRadius: 2, pointHoverRadius: 5, tension: 0.3, fill: false },
+                        ]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        interaction: { mode: 'nearest', intersect: false },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                ...srTip, filter: (i) => i.datasetIndex === 2,
+                                callbacks: {
+                                    title: (items) => `${items[0].parsed.x >= 0 ? '+' : ''}${items[0].parsed.x} min from peak`,
+                                    label: (item) => `stress ${item.parsed.y.toFixed(0)}  (n=${item.raw.n})`
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { type: 'linear', min: -30, max: 120, title: { display: true, text: 'minutes relative to peak', color: '#8b949e', font: { size: 11 } }, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize: 30, callback: (v) => v > 0 ? '+' + v : v } },
+                            y: { min: 0, max: 100, title: { display: true, text: 'Garmin stress (0–100)', color: '#8b949e', font: { size: 11 } }, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize: 25 } }
+                        }
+                    },
+                    plugins: [srRefLine('x', 0, '#f85149'), srRefLine('y', Math.round(baseline), '#8b949e', [3, 3])]
+                });
+
+                // Chart 2 — settle-time histogram
+                const sh = intr.settle_hist;
+                new Chart(document.getElementById('srSettleChart').getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: sh.map(b => b.overflow ? `${b.bin}+` : `${b.bin}`),
+                        datasets: [{ data: sh.map(b => b.count), backgroundColor: sh.map(b => (!b.overflow && b.bin < 60) ? '#3fb950' : '#6e7681'), borderRadius: 4 }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                ...srTip,
+                                callbacks: {
+                                    title: (items) => { const b = sh[items[0].dataIndex]; return b.overflow ? `${b.bin}+ min` : `${b.bin}–${b.bin + 15} min`; },
+                                    label: (item) => `${item.parsed.y} peak${item.parsed.y === 1 ? '' : 's'}`
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { title: { display: true, text: 'minutes from peak to settle', color: '#8b949e', font: { size: 11 } }, grid: { display: false }, ticks: { color: '#8b949e' } },
+                            y: { beginAtZero: true, title: { display: true, text: 'peaks', color: '#8b949e', font: { size: 11 } }, grid: { color: '#30363d' }, ticks: { color: '#8b949e', precision: 0 } }
+                        }
+                    }
+                });
+            } else if (decayCard) { decayCard.style.display = 'none'; }
+
+            // Chart 3 — daily-scale superposed epoch (z-scored, oriented so up = better)
+            const epochCard = document.getElementById('srEpochCard');
+            if (daily && daily.markers && daily.markers.length) {
+                const colorByKey = { bb_at_wake: '#58a6ff', sleep_score: '#a371f7', resting_hr: '#39c5cf' };
+                const datasets = daily.markers.map(m => ({
+                    label: m.label + (m.good < 0 ? ' (inverted)' : ''),
+                    data: m.epoch.map(p => ({ x: p.off, y: +(p.z * m.good).toFixed(2), n: p.n })),
+                    borderColor: colorByKey[m.key] || '#8b949e', backgroundColor: colorByKey[m.key] || '#8b949e',
+                    borderWidth: 2, pointRadius: 3, pointHoverRadius: 6, tension: 0, fill: false
+                }));
+                new Chart(document.getElementById('srEpochChart').getContext('2d'), {
+                    type: 'line',
+                    data: { datasets },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        interaction: { mode: 'nearest', intersect: false },
+                        plugins: {
+                            legend: { display: true, labels: { color: '#8b949e', boxWidth: 12, usePointStyle: true } },
+                            tooltip: {
+                                ...srTip,
+                                callbacks: {
+                                    title: (items) => `day ${items[0].parsed.x >= 0 ? '+' : ''}${items[0].parsed.x}`,
+                                    label: (item) => `${item.dataset.label}: ${item.parsed.y >= 0 ? '+' : ''}${item.parsed.y} SD (n=${item.raw.n})`
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { type: 'linear', min: -2, max: 7, title: { display: true, text: 'days from high-stress day', color: '#8b949e', font: { size: 11 } }, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize: 1, callback: (v) => v > 0 ? '+' + v : v } },
+                            y: { title: { display: true, text: 'recovery vs baseline (z, ↑ better)', color: '#8b949e', font: { size: 11 } }, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } }
+                        }
+                    },
+                    plugins: [srRefLine('x', 0, '#f85149'), srRefLine('y', 0, '#8b949e', [2, 2])]
+                });
+            } else if (epochCard) { epochCard.style.display = 'none'; }
+        }
+
+        async function loadStressRecovery() {
+            const sec = document.getElementById('stressRecoverySection');
+            try {
+                const resp = await fetch('stress-recovery.json?t=' + Date.now());
+                if (!resp.ok) throw new Error('not found');
+                renderStressRecovery(await resp.json());
+            } catch (e) {
+                console.warn('stress recovery unavailable', e);
+                if (sec) sec.innerHTML = '<p style="color: var(--text-muted)">Stress recovery analysis will appear once enough intraday stress data is collected.</p>';
+            }
+        }
+
         setupTimeRangeSelector();
         setupDayTypeSelector();
         loadData(); // also kicks off loadCalendar internally
         loadCorrelations();
         loadSleepCarryover();
+        loadStressRecovery();
         loadSleepModel();
         loadHourly();
-    </script>
+</script>
 
 <footer style="background: #161b22; border-top: 1px solid #30363d; padding: 30px 20px; text-align: center; margin-top: 40px;">
   <div style="margin-bottom: 12px;">
