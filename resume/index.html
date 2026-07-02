@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resume — Dave Liu</title>
-<meta name="description" content="Resume of David Liu — Senior Data Scientist with 14 years of experience building production ML systems across biotech, e-commerce, healthcare, recruiting, and fintech.">
+<meta name="description" content="Resume of David Liu — ML research engineer and senior data scientist. Production ML systems across biotech, e-commerce, healthcare, recruiting, and fintech, plus independent AI research on multi-agent synthesis and LLM-grounded extraction.">
 <meta property="og:title" content="Resume — Dave Liu">
-<meta property="og:description" content="Resume of David Liu — Senior Data Scientist with 14 years of experience building production ML systems.">
+<meta property="og:description" content="Resume of David Liu — ML research engineer and senior data scientist building production ML systems and independent AI research.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://daliu.github.io/resume/">
 <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -203,7 +203,7 @@
 
   /* Print styles */
   @media print {
-    @page { size: letter; margin: 0.45in 0.5in; }
+    @page { size: letter; margin: 0.4in 0.5in; }
     body, html { background: #fff !important; color: var(--ink); }
     nav, .toolbar, footer, .navbar, .navbar-fixed-top { display: none !important; }
     .page {
@@ -214,14 +214,18 @@
       border-radius: 0;
     }
     a { color: var(--ink) !important; text-decoration: none !important; }
-    section { margin: 14px 0 0; }
-    section h2 { font-size: 12px; margin-bottom: 8px; padding-bottom: 2px; }
+    .page a[href]:after { content: "" !important; } /* Bootstrap print styles append the raw URL */
+    section { margin: 10px 0 0; }
+    section h2 { font-size: 12px; margin-bottom: 5px; padding-bottom: 2px; }
     .resume-header h1 { font-size: 28px; }
-    .resume-header { margin-bottom: 14px; padding-bottom: 8px; }
-    .role { margin-bottom: 10px; }
+    .resume-header { margin-bottom: 12px; padding-bottom: 8px; }
+    .role { margin-bottom: 8px; }
+    .project { margin-bottom: 7px; }
+    .pub { margin-bottom: 5px; }
     .role li, .compact-list li, .project p, .pub-title, .skill-row, .edu-row {
-      font-size: 11.5px;
-      margin-bottom: 2px;
+      font-size: 11px;
+      margin-bottom: 1px;
+      line-height: 1.35;
     }
     .role-title, .project-title { font-size: 12.5px; }
     .role-context { font-size: 11px; }
@@ -279,12 +283,13 @@
 
   <header class="resume-header">
     <h1>David Liu</h1>
-    <p class="tagline">Senior Data Scientist · 14 years building production ML systems across biotech, e-commerce, healthcare, recruiting, and fintech.</p>
+    <p class="tagline">ML Research Engineer &amp; Senior Data Scientist · 14 years writing code, a decade of production ML across biotech, e-commerce, healthcare, recruiting, and fintech.</p>
+    <p class="tagline" style="font-style: normal; margin-top: 4px; font-size: 13px;"><a href="https://daliu.github.io/">daliu.github.io</a> · <a href="https://github.com/daliu">github.com/daliu</a> · <a href="https://www.linkedin.com/in/dave-l-a3139775/">linkedin.com/in/dave-l-a3139775</a></p>
   </header>
 
   <section>
     <h2>Summary</h2>
-    <p>I build production machine learning systems end-to-end — from data ingestion and feature engineering through model training, serving, and measurement. My focus is what actually ships: defining the right metric, getting the right data, and ensuring the model holds up in front of real users. Currently leading personalization at Shipt for millions of grocery shoppers; previously a core ML engineer at Freenome (cancer-detection blood test) and Change Healthcare. On the side I run AutoTrader, a fully autonomous market-prediction system, and publish independent research on multi-agent AI and model selection under distribution shift.</p>
+    <p>I build production machine learning systems end-to-end — from data ingestion and feature engineering through model training, serving, and measurement — and I instrument them to verify their own claims. My work has a consistent pattern: question the accepted metric, find the architectural gap, build the system others extend into production. Currently leading personalization at Shipt for millions of grocery shoppers; previously a Machine Learning Research Engineer at Freenome (multiomics cancer detection) and a Sr. ML Engineer at Change Healthcare. I also run an independent AI research program — three papers spanning multi-agent synthesis, model selection under distribution shift, and LLM-grounded feature extraction — with evaluation designed so the system that produces a number is never the one that grades it.</p>
   </section>
 
   <section>
@@ -383,6 +388,12 @@
     <h2>Selected Projects</h2>
 
     <div class="project">
+      <span class="project-title">Adaptive Domain Intelligence — LLM-as-Feature-Engineer Architecture</span>
+      <span class="project-tag">2026 · Research · Working Paper</span>
+      <p>Research architecture for compressing qualitative records (court opinions, clinical notes) into calibrated predictions without trusting the LLM: the model only proposes feature schemas and performs verbatim-quote-grounded extraction — unsupported values are dropped and counted toward a measured hallucination rate — while a small calibrated classical model makes the prediction; self-improvement is gated by a domain expert and a frozen gold set (permutation test + subgroup-fairness veto). Validated as a known-answer test on four real legal corpora: re-derives six decades of established judicial-politics signals and nulls, and correctly lands at chance on an ECtHR leakage trap where prior text-only work reported ~79%. An automated verifier re-derives every headline number (8/8, zero drift).</p>
+    </div>
+
+    <div class="project">
       <span class="project-title">Meta Council — Multi-Expert AI Decision Support Platform</span>
       <span class="project-tag">2025 — Present · Research &amp; Product</span>
       <p>Multi-agent LLM framework where N expert agents (each with a unique persona and analytical framework) analyze queries in parallel, then a weighted synthesis step produces structured decision documents with confidence scores, dissent preservation, and risk matrices. Evaluated across 750+ benchmark runs spanning 6 domains and 5 models (3B to frontier-class): synthesis outperforms single-best by 29–58% (p&lt;0.0001, d=2.16); the optimal aggregation method is domain-dependent; synthesis amplifies model quality non-linearly. Published as an independent research paper.</p>
@@ -395,21 +406,26 @@
     </div>
 
     <div class="project">
-      <span class="project-title">XGBoost Visual Guide</span>
-      <span class="project-tag">2026 · Open-Source</span>
-      <p>Interactive visual textbook explaining XGBoost and gradient boosting from first principles — 10 sections covering decision trees, ensemble methods, animated step-by-step gradient boosting, learning rate effects, XGBoost-specific innovations (histogram splits, sparsity handling), early stopping, feature importance, and a hyperparameter cheat sheet. D3.js + Chart.js.</p>
+      <span class="project-title">Patterns of Choice — Revealed vs. Stated Ethical Values</span>
+      <span class="project-tag">2026 · Research · Open-Source</span>
+      <p>Longitudinal instrument measuring the gap between the ethical values people claim and the values their choices reveal, built around a pre-registered hypothesis that recurring-character narrative immersion reduces social-desirability bias. Shipped as a local-first offline PWA — event-sourced engine, deterministic on-device scoring, nothing leaves the device — with a 61-scenario corpus, five recurring-character arcs, and a cross-implementation parity gate between the app runtime and the analysis pipeline.</p>
     </div>
 
     <div class="project">
-      <span class="project-title">Sentic — Multi-dimensional sentiment analysis</span>
-      <span class="project-tag">2017 · Open-Source</span>
-      <p>Python library for multi-dimensional sentiment analysis going beyond positive/negative polarity (mood, attention, sensitivity, aptitude, pleasantness) across 20+ languages, built on the SenticNet4 knowledge base. Available on PyPI.</p>
+      <span class="project-title">XGBoost Visual Guide</span>
+      <span class="project-tag">2026 · Open-Source</span>
+      <p>Interactive visual textbook explaining XGBoost and gradient boosting from first principles — 10 sections covering decision trees, ensemble methods, animated step-by-step gradient boosting, learning rate effects, XGBoost-specific innovations (histogram splits, sparsity handling), early stopping, feature importance, and a hyperparameter cheat sheet. D3.js + Chart.js.</p>
     </div>
 
   </section>
 
   <section>
     <h2>Publications</h2>
+
+    <div class="pub">
+      <p class="pub-title">Adaptive Domain Intelligence: An LLM-as-Feature-Engineer Architecture for Compressing Qualitative Records into Calibrated Empirical Predictions</p>
+      <p class="pub-meta">2026 · Independent Research · Working Paper · LLM feature engineering, grounded extraction, hallucination measurement, self-improving systems, calibration, legal NLP</p>
+    </div>
 
     <div class="pub">
       <p class="pub-title">Weighted Multi-Expert Synthesis for High-Stakes Decision Support: A Multi-Agent LLM Framework with Dissent Preservation</p>
@@ -432,6 +448,8 @@
     <h2>Technical Skills</h2>
     <div class="skill-row"><span class="skill-label">Languages</span><span class="skill-vals">Python · SQL · Bash · Java · C/C++</span></div>
     <div class="skill-row"><span class="skill-label">ML &amp; Data</span><span class="skill-vals">PyTorch · XGBoost · Scikit-learn · Pandas · MLFlow · FAISS · Gensim · NLTK · SpaCy</span></div>
+    <div class="skill-row"><span class="skill-label">LLM &amp; Agents</span><span class="skill-vals">Claude &amp; GPT APIs · multi-agent orchestration · RAG · grounded extraction · LLM evaluation &amp; hallucination measurement · agentic coding workflows</span></div>
+    <div class="skill-row"><span class="skill-label">Experimentation</span><span class="skill-vals">A/B testing · walk-forward validation · permutation tests · calibration · confidence intervals · pre-registered hypotheses</span></div>
     <div class="skill-row"><span class="skill-label">Cloud</span><span class="skill-vals">GCP · AWS · Azure</span></div>
     <div class="skill-row"><span class="skill-label">Data Infrastructure</span><span class="skill-vals">PostgreSQL · Snowflake · MySQL · Spark · Kafka</span></div>
     <div class="skill-row"><span class="skill-label">Orchestration</span><span class="skill-vals">Airflow · Flyte · Metaflow · GitHub Actions</span></div>
