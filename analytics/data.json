@@ -1,8 +1,8 @@
 {
-  "updated": "2026-07-01T17:16:20Z",
+  "updated": "2026-07-02T08:43:07Z",
   "date_range": {
-    "start": "2026-04-03",
-    "end": "2026-07-01"
+    "start": "2026-04-04",
+    "end": "2026-07-02"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-05-10",
-    "end": "2026-06-29",
-    "days_with_data": 51
+    "end": "2026-07-01",
+    "days_with_data": 52
   },
   "totals": {
-    "total_users": 362,
-    "total_sessions": 406,
-    "total_pageviews": 894,
+    "total_users": 363,
+    "total_sessions": 407,
+    "total_pageviews": 895,
     "total_engaged_sessions": 71,
-    "engagement_rate": 0.1749,
-    "avg_session_duration_seconds": 140.8,
-    "bounce_rate": 0.8251
+    "engagement_rate": 0.1744,
+    "avg_session_duration_seconds": 140.5,
+    "bounce_rate": 0.8256
   },
   "daily": [
     {
@@ -532,6 +532,16 @@
       "avg_session_duration": 368.8,
       "bounce_rate": 0.6667,
       "engaged_sessions": 1
+    },
+    {
+      "date": "2026-07-01",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 1,
+      "new_users": 0,
+      "avg_session_duration": 0.0,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     }
   ],
   "pages": [
@@ -626,12 +636,12 @@
     {
       "path": "/patterns-of-choice/app.html",
       "title": "Patterns of Choice \u2014 the practice (local-first)",
-      "pageviews": 21,
+      "pageviews": 22,
       "users": 2,
-      "avg_time_on_page": 219.0,
-      "sessions": 11,
+      "avg_time_on_page": 200.7,
+      "sessions": 12,
       "engaged": 8,
-      "engagement_rate": 0.727,
+      "engagement_rate": 0.667,
       "class": "human"
     },
     {
@@ -787,7 +797,7 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 4,
+      "sessions": 5,
       "users": 4,
       "engaged": 0,
       "engagement_rate": 0.0,
@@ -796,7 +806,7 @@
     {
       "source": "lnkd.in",
       "medium": "referral",
-      "sessions": 2,
+      "sessions": 3,
       "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0,
@@ -833,7 +843,7 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 391,
+      "sessions": 392,
       "percentage": 95.8
     },
     {
@@ -845,7 +855,7 @@
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 378,
+      "sessions": 379,
       "percentage": 92.0
     },
     {
@@ -902,7 +912,7 @@
     },
     {
       "country": "United States",
-      "sessions": 110,
+      "sessions": 111,
       "users": 27
     },
     {
@@ -943,7 +953,7 @@
   ],
   "user_types": {
     "new": 321,
-    "returning": 78
+    "returning": 79
   },
   "hourly": [
     {
@@ -960,7 +970,7 @@
     },
     {
       "hour": 3,
-      "pageviews": 29
+      "pageviews": 28
     },
     {
       "hour": 4,
@@ -1000,7 +1010,7 @@
     },
     {
       "hour": 13,
-      "pageviews": 13
+      "pageviews": 12
     },
     {
       "hour": 14,
@@ -1008,7 +1018,7 @@
     },
     {
       "hour": 15,
-      "pageviews": 47
+      "pageviews": 46
     },
     {
       "hour": 16,
@@ -1032,7 +1042,7 @@
     },
     {
       "hour": 21,
-      "pageviews": 63
+      "pageviews": 62
     },
     {
       "hour": 22,
@@ -1040,15 +1050,15 @@
     },
     {
       "hour": 23,
-      "pageviews": 35
+      "pageviews": 34
     }
   ],
   "quality": {
     "engaged_sessions": 71,
-    "non_engaged_sessions": 335,
+    "non_engaged_sessions": 336,
     "likely_automated_sessions": 286,
-    "likely_human_sessions": 120,
-    "automated_pct": 70.4,
+    "likely_human_sessions": 121,
+    "automated_pct": 70.3,
     "est_human_users": 37,
     "thresholds": {
       "human": 0.4,
@@ -1068,12 +1078,12 @@
     },
     {
       "country": "United States",
-      "sessions": 110,
+      "sessions": 111,
       "engaged": 64,
       "users": 27,
-      "pageviews": 595,
-      "avg_duration": 497.5,
-      "engagement_rate": 0.582,
+      "pageviews": 596,
+      "avg_duration": 493.0,
+      "engagement_rate": 0.577,
       "class": "human"
     },
     {
@@ -1246,7 +1256,7 @@
         2,
         1,
         0,
-        13,
+        14,
         9,
         9,
         1,
@@ -1387,7 +1397,7 @@
         0,
         1,
         3,
-        5,
+        6,
         5,
         11,
         8,
@@ -1472,10 +1482,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 74,
+      "sessions": 75,
       "users": 4,
       "engaged": 51,
-      "engagement_rate": 0.689
+      "engagement_rate": 0.68
     },
     {
       "lat": 37.3361663,
@@ -1742,30 +1752,30 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 51,
-        "previous": 62,
-        "change_pct": -17.7
+        "current": 39,
+        "previous": 63,
+        "change_pct": -38.1
       },
       "sessions": {
-        "current": 65,
-        "previous": 72,
-        "change_pct": -9.7
+        "current": 49,
+        "previous": 75,
+        "change_pct": -34.7
       },
       "pageviews": {
-        "current": 128,
-        "previous": 224,
-        "change_pct": -42.9
+        "current": 93,
+        "previous": 232,
+        "change_pct": -59.9
       }
     },
     "baseline": {
-      "mean_pageviews": 17.5,
+      "mean_pageviews": 17.2,
       "std_pageviews": 18.8
     },
     "anomalies": [
       {
         "date": "2026-05-10",
         "pageviews": 69,
-        "z": 2.7
+        "z": 2.8
       },
       {
         "date": "2026-06-05",
@@ -1775,7 +1785,7 @@
       {
         "date": "2026-06-18",
         "pageviews": 99,
-        "z": 4.3
+        "z": 4.4
       }
     ]
   },
