@@ -309,6 +309,39 @@
     return out;
   }
 
+  // --- moral hypocrisy: the self–other severity asymmetry, the N=1 reveal (§18.1, H12) ---
+  // One person's paired within-person contrast on a common 0–10 severity scale: the SAME
+  // act rated as one's own (severity_self) and as another's (severity_other), and
+  // H_i = mean(severity_other − severity_self) over their matched pairs. SIGNED and
+  // value-neutral: positive = harsher on others (the self-serving direction), negative =
+  // harsher on self — BOTH directions described, never ranked (a self-critical person is
+  // not "more honest", a self-serving one not "more confident"); the cohort "holier than
+  // thou" tilt is the cohort-only H12c anchor, never an N=1 verdict (Tappin & McKay 2017;
+  // Epley & Dunning 2000). A declined judgment — either side missing / non-numeric /
+  // boolean — DROPS the pair, never imputed 0 (the §18.1 pairing lock, the H12 analog of
+  // the §13.2 censoring lock), and the sign is preserved (harsher-on-self stays negative,
+  // never clamped). Fewer than MIN_HYPOCRISY_PAIRS scorable pairs → SUPPRESSED (null),
+  // never scored on thin data (§1.5). Never summed into any composite (§13.5). Judgments
+  // of hypothetical acts — a STATED asymmetry; the reveal never claims the person would
+  // act on it (§18.4). Mirrors the analyzer's hypocrisy_asymmetry_by_user; JS↔Python
+  // parity-locked in scripts/check_impl_parity.py.
+  const MIN_HYPOCRISY_PAIRS = 3;                         // §1.5 floor (== analyzer H12_MIN_PAIRS)
+  function hypocrisyPairDelta(r) {
+    const s = r && r.severity_self;
+    const o = r && r.severity_other;
+    if (typeof s !== "number" || typeof o !== "number") return null; // declined -> pair DROPPED (typeof excludes booleans -> matches _hypocrisy_pair_delta)
+    return o - s;                                        // SIGNED: harsher-on-self stays negative
+  }
+  function hypocrisyAsymmetry(records) {
+    const deltas = [];
+    for (const r of records || []) {
+      const d = hypocrisyPairDelta(r);
+      if (d !== null) deltas.push(d);
+    }
+    const h = deltas.length >= MIN_HYPOCRISY_PAIRS ? mean(deltas) : null; // null <=> below the >=3-pair floor
+    return { h: h, n_pairs: deltas.length, ok: h !== null };
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -520,6 +553,6 @@
 
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
-           centralityFacets, facetMean, objectivismReads, claimTypeMean,
-           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS } };
+           centralityFacets, facetMean, objectivismReads, claimTypeMean, hypocrisyAsymmetry, hypocrisyPairDelta,
+           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS } };
 });
