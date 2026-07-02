@@ -4,9 +4,9 @@
   <title>Portfolio — Dave Liu</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Dave Liu's portfolio - Senior Data Scientist who has built production ML systems across biotech, e-commerce, healthcare, recruiting, and fintech. Roles at Shipt, Freenome, Change Healthcare, Riviera Partners, and more.">
+  <meta name="description" content="Dave Liu's portfolio - ML research engineer and senior data scientist. Production ML systems at Shipt, Freenome, and Change Healthcare, plus independent AI research: multi-agent evaluation, LLM-grounded extraction, and values measurement.">
   <meta property="og:title" content="Portfolio — Dave Liu">
-  <meta property="og:description" content="Senior Data Scientist who has built production ML systems across biotech, e-commerce, healthcare, recruiting, and fintech.">
+  <meta property="og:description" content="ML research engineer and senior data scientist — production ML systems plus independent research on multi-agent evaluation, LLM-grounded extraction, and values measurement.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
   <meta property="og:url" content="https://daliu.github.io/portfolio.html">
@@ -445,7 +445,7 @@
 <div class="jumbotron text-center">
   <h1 class="sr-only">Dave Liu — Portfolio</h1>
   <img src="images/biz_pic.jpg" class="img-responsive img-circle margin slide" style="display:inline" alt="Dave Liu" height="400" width="400">
-  <p>Senior Data Scientist &middot; ML Engineer &middot; Systems Builder</p>
+  <p>ML Research Engineer &middot; Senior Data Scientist &middot; Systems Builder</p>
   <div style="margin-top: 25px;">
     <a href="resume/resume.pdf" download class="btn btn-lg" style="background:#1abc9c; color:#fff; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin: 0 6px 10px;">Resume (PDF)</a>
     <a href="resume/" class="btn btn-lg" style="border: 2px solid #1abc9c; color:#1abc9c; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin: 0 6px 10px;">View Resume</a>
@@ -487,7 +487,7 @@
           <a class="outline-card" href="#projects">
             <span class="outline-num">05</span>
             <span class="outline-title">Featured Projects</span>
-            <span class="outline-desc">Meta Council · AutoTrader · Patterns of Choice · Adaptive Domain Intelligence</span>
+            <span class="outline-desc">Adaptive Domain Intelligence · Meta Council · AutoTrader · Patterns of Choice</span>
           </a>
           <a class="outline-card" href="#other-projects">
             <span class="outline-num">06</span>
@@ -529,7 +529,7 @@
       <br>
       <p>That philosophy has taken me across biotech, e-commerce, healthcare, recruiting, and fintech over the past decade. At <a href="https://www.shipt.com/" style="color:#1abc9c;">Shipt</a> I lead personalization for millions of grocery shoppers. Before that I helped build a <a href="https://freenome.com/" style="color:#1abc9c;">cancer detection model</a> at Freenome, designed a task-matching system that saved <a href="https://changehealthcare.com/" style="color:#1abc9c;">Change Healthcare</a> $7M a year, and built talent-ranking models at <a href="https://rivierapartners.com/" style="color:#1abc9c;">Riviera Partners</a>. On nights and weekends I run <a href="autotrader.html" style="color:#1abc9c;">AutoTrader</a>, a fully autonomous stock prediction system I built from scratch.</p>
       <br>
-      <p>What ties all of that together is a belief that the hardest part of data science is rarely the model&mdash;it's getting the right data, defining the right metric, and making sure the thing actually ships. I spend as much time asking &ldquo;should we be measuring this at all?&rdquo; as I do writing training loops. It's an approach that's led to production systems at every company I've been part of, and one I don't plan on changing.</p>
+      <p>What ties all of that together is a belief that the hardest part of data science is rarely the model&mdash;it's getting the right data, defining the right metric, and making sure the thing actually ships. I spend as much time asking &ldquo;should we be measuring this at all?&rdquo; as I do writing training loops. It's an approach that's led to production systems at every company I've been part of, and one I don't plan on changing. In 2026 it became an independent research program&mdash;three self-published papers on multi-agent synthesis, model selection under distribution shift, and LLM-grounded feature extraction&mdash;all built on the same rule I use in production: the system that produces a number is never the one that grades it.</p>
     </div>
   </div>
 </div>
@@ -731,9 +731,24 @@
 <!-- Projects Section -->
 <div id="projects" class="container-fluid text-center bg-grey">
 
-  <!-- Featured Project: Meta Council -->
   <h2>Featured Projects</h2>
   <div class="section-divider" style="margin: 0 auto 30px auto;"></div>
+  <!-- Featured Project: Adaptive Domain Intelligence (Metis) -->
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+      <div class="featured-project text-left">
+        <h4 style="font-weight: 600; color: #303030; margin-bottom: 5px;">Adaptive Domain Intelligence &mdash; An LLM-as-Feature-Engineer Architecture</h4>
+        <span style="color: #1abc9c; font-size: 13px; font-family: Montserrat, sans-serif; letter-spacing: 1px;">2026 &middot; RESEARCH &middot; WORKING PAPER</span>
+        <p style="margin-top: 15px;">A research system (reference implementation &ldquo;Metis&rdquo;) for a recurring class of high-stakes problems: compressing a qualitative record&mdash;a court opinion, a clinical note, a field dispatch&mdash;into a calibrated empirical verdict. Large language models read such text fluently but fail here in two documented ways: they fabricate, and they degrade when allowed to judge their own improvements. This architecture confronts both. The LLM is confined to two roles&mdash;proposing a feature schema and performing <em>verbatim-quote-grounded extraction</em>&mdash;while a small, calibrated classical model makes the actual prediction; any extracted value without a verbatim evidence span is dropped and counted against a measured hallucination rate. The system self-improves only when a domain expert <em>and</em> a frozen gold set the loop never fits to both endorse a change, adjudicated by a permutation test with a hard subgroup-fairness veto.</p>
+        <p>Evaluated not by chasing a benchmark but as a <span class="metric-highlight">known-answer test</span>: across four real legal corpora spanning six decades of empirical judicial-politics findings, it independently re-derives the established signals (judge party predicts decision direction; repeat-player status predicts settlement) <em>and</em> the established nulls (judge attributes don't predict settlement; panel composition washes out). It exhibits the honesty its design targets&mdash;vetoing one of its own expert-approved escalations on held-out evidence, and on real European Court of Human Rights texts extracting ~1,200 features at a measured-zero hallucination rate yet landing at chance, the correct answer to a known leakage trap where prior text-only work reported ~79%. Every headline number is independently re-derived from scratch by an automated verifier (8/8 reproduce with zero drift).</p>
+        <a href="research/adaptive-domain-intelligence/" class="btn-view">READ THE WRITE-UP &rarr;</a>
+        <a href="research/adaptive-domain-intelligence.pdf" class="btn-view" style="margin-left: 10px; background: #474e5d;">READ THE PAPER &rarr;</a>
+        <a href="research/adaptive-domain-intelligence/audit/" class="btn-view" style="margin-left: 10px; background: #474e5d;">EXTRACTION-AUDIT TOOL &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Project: Meta Council -->
   <div class="row">
     <div class="col-sm-10 col-sm-offset-1">
       <div class="featured-project text-left" style="margin-bottom: 40px;">
@@ -770,21 +785,6 @@
         <p>The design spans four ethical domains and three scenario types (quick-fire timed choices, branching narratives, and cost-of-virtue stake ladders), scored with Bradley-Terry pairwise models and bootstrap confidence intervals across nine pre-registered hypotheses. It carries a growing family of novel measurement claims: narrative immersion as a debiasing mechanism (H8), self-prediction calibration (H9: do you know your own gap?), and design-stage work on cross-situational consistency, the moral-circle radius, the self&ndash;other double standard, an informant &ldquo;moral 360,&rdquo; a real-stakes validity probe, and a moral-language channel&mdash;each treating a different facet of self-knowledge (or of whether the instrument captures real behavior at all) as something measurable. A working local-first runtime now ships the daily practice on-device (your data never leaves the browser); a 61-scenario corpus with five recurring-character arcs is authored; OSF pre-registration (filed before recruitment) is in progress.</p>
         <a href="patterns-of-choice/" class="btn-view">READ THE WRITEUP &rarr;</a>
         <a href="patterns-of-choice/demo.html" class="btn-view" style="margin-left: 10px; background: #474e5d;">TRY THE 90-SECOND DEMO &rarr;</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Featured Project: Adaptive Domain Intelligence (Metis) -->
-  <div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-      <div class="featured-project text-left">
-        <h4 style="font-weight: 600; color: #303030; margin-bottom: 5px;">Adaptive Domain Intelligence &mdash; An LLM-as-Feature-Engineer Architecture</h4>
-        <span style="color: #1abc9c; font-size: 13px; font-family: Montserrat, sans-serif; letter-spacing: 1px;">2026 &middot; RESEARCH &middot; WORKING PAPER</span>
-        <p style="margin-top: 15px;">A research system (reference implementation &ldquo;Metis&rdquo;) for a recurring class of high-stakes problems: compressing a qualitative record&mdash;a court opinion, a clinical note, a field dispatch&mdash;into a calibrated empirical verdict. Large language models read such text fluently but fail here in two documented ways: they fabricate, and they degrade when allowed to judge their own improvements. This architecture confronts both. The LLM is confined to two roles&mdash;proposing a feature schema and performing <em>verbatim-quote-grounded extraction</em>&mdash;while a small, calibrated classical model makes the actual prediction; any extracted value without a verbatim evidence span is dropped and counted against a measured hallucination rate. The system self-improves only when a domain expert <em>and</em> a frozen gold set the loop never fits to both endorse a change, adjudicated by a permutation test with a hard subgroup-fairness veto.</p>
-        <p>Evaluated not by chasing a benchmark but as a <span class="metric-highlight">known-answer test</span>: across four real legal corpora spanning six decades of empirical judicial-politics findings, it independently re-derives the established signals (judge party predicts decision direction; repeat-player status predicts settlement) <em>and</em> the established nulls (judge attributes don't predict settlement; panel composition washes out). It exhibits the honesty its design targets&mdash;vetoing one of its own expert-approved escalations on held-out evidence, and on real European Court of Human Rights texts extracting ~1,200 features at a measured-zero hallucination rate yet landing at chance, the correct answer to a known leakage trap where prior text-only work reported ~79%. Every headline number is independently re-derived from scratch by an automated verifier (8/8 reproduce with zero drift).</p>
-        <a href="research/adaptive-domain-intelligence/" class="btn-view">READ THE WRITE-UP &rarr;</a>
-        <a href="research/adaptive-domain-intelligence.pdf" class="btn-view" style="margin-left: 10px; background: #474e5d;">READ THE PAPER &rarr;</a>
-        <a href="research/adaptive-domain-intelligence/audit/" class="btn-view" style="margin-left: 10px; background: #474e5d;">EXTRACTION-AUDIT TOOL &rarr;</a>
       </div>
     </div>
   </div>
