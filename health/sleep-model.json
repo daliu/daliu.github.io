@@ -1,63 +1,63 @@
 {
-  "updated": "2026-07-01T18:12:19.570445",
-  "n": 61,
+  "updated": "2026-07-02T05:00:11.480103",
+  "n": 62,
   "bedtime": {
-    "recommended_norm": 5.85,
+    "recommended_norm": 5.857,
     "recommended_label": "11:51 PM",
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
-    "ci_label": "11:30 PM \u2013 12:06 AM",
-    "median_label": "1:25 AM",
+    "ci_label": "11:36 PM \u2013 12:01 AM",
+    "median_label": "1:22 AM",
     "pct10_label": "11:51 PM",
     "pct90_label": "3:46 AM",
     "stats": {
       "sleep_score": {
         "kind": "linear",
-        "cv_r2": -0.03,
-        "r": -0.42,
-        "p": 0.0007,
-        "per_hour_earlier": 3.26
+        "cv_r2": 0.037,
+        "r": -0.43,
+        "p": 0.0005,
+        "per_hour_earlier": 3.3
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": 0.109,
+        "cv_r2": 0.178,
         "r": -0.58,
         "p": 0.0,
         "per_hour_earlier": 0.54
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.06,
-        "r": -0.43,
-        "p": 0.0005,
-        "per_hour_earlier": 3.83
+        "cv_r2": 0.01,
+        "r": -0.44,
+        "p": 0.0003,
+        "per_hour_earlier": 3.95
       }
     },
     "pred_at_recommended": {
       "sleep_score": 80.4,
       "sleep_hours": 7.5,
-      "battery": 85.4
+      "battery": 85.5
     },
     "pred_at_median": {
-      "sleep_score": 75.3,
+      "sleep_score": 75.4,
       "sleep_hours": 6.7,
-      "battery": 79.4
+      "battery": 79.6
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.13,
-        "sleep_hours": 0.09,
-        "battery": -0.07
+        "sleep_score": 0.12,
+        "sleep_hours": 0.08,
+        "battery": -0.1
       },
       "weekly_frequency": {
-        "sleep_score": 0.01,
-        "sleep_hours": 0.0,
-        "battery": -0.19
+        "sleep_score": -0.01,
+        "sleep_hours": -0.0,
+        "battery": -0.21
       }
     },
     "typical_weekly_freq": 3,
-    "verdict": "weak"
+    "verdict": "mixed"
   }
 }
