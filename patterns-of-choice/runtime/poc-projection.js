@@ -342,6 +342,47 @@
     return { h: h, n_pairs: deltas.length, ok: h !== null };
   }
 
+  // --- cross-situational consistency: per-construct sd_i(c) + V, the N=1 reveal (§15.5, H10) ---
+  // Per construct (domain), the sample SD of that construct's context means; V is the
+  // §15.1 within-branch mean of this branch's own sd facets, reported ALONGSIDE them —
+  // never a cross-branch composite (§13.5). Low sd reads "steadiness", high reads
+  // "responsiveness to context" (Dancy's particularism caveat): both DESCRIBED, never
+  // ranked. §1.5 floors: a context enters with ≥2 items, a construct with ≥3 qualifying
+  // contexts, V with ≥3 qualifying constructs — below a floor the value is SUPPRESSED
+  // (construct absent / V null; the surviving facets still reveal alone). Consumes the
+  // runtime's ALREADY-SCORED items {domain, context, score} — no declined-guard, exactly
+  // like the analyzer's context_sd_by_user_construct / context_profile_by_user, which
+  // this mirrors under the JS↔Python parity lock in scripts/check_impl_parity.py.
+  const MIN_ITEMS_PER_CONTEXT = 2;                       // §1.5 floor (== analyzer H10_ITEMS_PER_CONTEXT_MIN)
+  const MIN_CONTEXTS = 3;                                // §1.5 floor (== analyzer H10_CONTEXT_MIN)
+  const MIN_CONSTRUCTS = 3;                              // §1.5 floor (== analyzer H10_CONSTRUCT_MIN)
+  function sampleSD(xs) {
+    if (xs.length < 2) return null;                      // matches _sample_sd's NaN guard (never reached above the floors)
+    const m = mean(xs);
+    return Math.sqrt(xs.reduce((a, x) => a + (x - m) * (x - m), 0) / (xs.length - 1));
+  }
+  function contextVariability(records) {
+    const cells = new Map();                             // domain -> context -> scores
+    for (const r of records || []) {
+      if (!cells.has(r.domain)) cells.set(r.domain, new Map());
+      const byCtx = cells.get(r.domain);
+      if (!byCtx.has(r.context)) byCtx.set(r.context, []);
+      byCtx.get(r.context).push(r.score);
+    }
+    const constructs = [];
+    for (const domain of Array.from(cells.keys()).sort()) {
+      const means = [];
+      for (const scores of cells.get(domain).values()) {
+        if (scores.length >= MIN_ITEMS_PER_CONTEXT) means.push(mean(scores));
+      }
+      if (means.length >= MIN_CONTEXTS) {
+        constructs.push({ domain: domain, sd: sampleSD(means), n_contexts: means.length });
+      }
+    }
+    const v = constructs.length >= MIN_CONSTRUCTS ? mean(constructs.map(c => c.sd)) : null; // null <=> below the >=3-construct floor
+    return { constructs: constructs, v: v, n_constructs: constructs.length, ok: constructs.length > 0 };
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -554,5 +595,6 @@
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
            centralityFacets, facetMean, objectivismReads, claimTypeMean, hypocrisyAsymmetry, hypocrisyPairDelta,
-           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS } };
+           contextVariability, sampleSD,
+           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS, MIN_ITEMS_PER_CONTEXT, MIN_CONTEXTS, MIN_CONSTRUCTS } };
 });
