@@ -919,6 +919,8 @@ async function canReveal(st){
 //     no verdict). Verified via screenshot preview before porting. ---
 const DCOLOR = { "truth-telling":"#2b6cb0", "resource-allocation":"#c0732e", "in-group-out-group":"#2f8f6b", "reciprocity-cooperation":"#9c4f96" };
 function dcol(d){ return DCOLOR[d] || "var(--accent)"; }
+// human-readable domain labels — shared by the reveal chart and every read-visual.
+const DLAB = { "truth-telling":"truth-telling", "resource-allocation":"resource allocation", "in-group-out-group":"in-group / out-group", "reciprocity-cooperation":"reciprocity & cooperation" };
 
 // H8b divergence: abstract choice vs the choice about a named figure, with a shift arrow.
 function divergenceViz(name, domain, div){
@@ -1000,9 +1002,7 @@ function trajViz(name, domain, scores, lo, hi){
 // that produced it — how many leaned toward the value vs away, and how strongly.
 // Diverging from a shared neutral center; same bar length per row (the MIX, not
 // the volume — the count is noted at right). Descriptive, no verdict.
-function textureViz(tex){
-  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
-  const doms = POCProjection.DOMAINS.filter(d => tex[d] && tex[d].total > 0);
+function textureViz(tex){  const doms = POCProjection.DOMAINS.filter(d => tex[d] && tex[d].total > 0);
   if (!doms.length) return "";
   const GREY = "#9ba49b", CX = 300, halfW = 276; // bar spans x 24..576, neutral at 300
   const rowH = 52, top = 12, bot = 34, H = top + doms.length*rowH + bot;
@@ -1032,9 +1032,7 @@ function textureViz(tex){
 // qualifying sessions), each point a single session's average, oldest -> newest.
 // Reuses trajViz; the line's average is the same revealed value shown above, so
 // this adds motion-over-time without a new statistic. Descriptive, no verdict.
-function trajectoryViz(traj){
-  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
-  const doms = POCProjection.DOMAINS.filter(d => traj[d] && traj[d].length >= 2);
+function trajectoryViz(traj){  const doms = POCProjection.DOMAINS.filter(d => traj[d] && traj[d].length >= 2);
   if (!doms.length) return "";
   return doms.map(d => trajViz(DLAB[d], d, traj[d], "away", "toward")).join("")
     + `<p class="body-text" style="color:var(--muted);font-size:14px;margin-top:2px">Each point is one session's average in that area, oldest to newest — the same per-session values behind the average above, shown in order. Lines start short and fill in as you do more sessions; an area measured only once isn't drawn yet.</p>`;
@@ -1074,9 +1072,7 @@ function radarViz(rev){
     else if (i===2){ x=tx; anchor="middle"; y0 = ty + 20; }              // bottom: block below tip
     else { x=tx-12; anchor="end"; y0 = ty - (n-1)/2*lh + 4; }            // left
     return lines.map((t,k)=>`<text x="${x.toFixed(1)}" y="${(y0+k*lh).toFixed(1)}" text-anchor="${anchor}" style="fill:${col};font-size:13px;font-weight:600">${esc(t)}</text>`).join("");
-  }).join("");
-  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
-  const aria = doms.map(d => `${DLAB[d]} ${rev[d].revealed_score_mean>=0?"+":""}${rev[d].revealed_score_mean.toFixed(2)}`).join(", ");
+  }).join("");  const aria = doms.map(d => `${DLAB[d]} ${rev[d].revealed_score_mean>=0?"+":""}${rev[d].revealed_score_mean.toFixed(2)}`).join(", ");
   return `<div class="viz"><svg viewBox="0 0 420 300" role="img" aria-label="All four areas as one shape, each on a spoke from center (leaned away from the value) to edge (leaned into it): ${aria}.">`
     + outer + neutral + spokes + shape + dots + lab
     + `</svg><div class="viz-cap" style="color:var(--muted)">All four areas at once. Each spoke runs from the center — you leaned <em>away</em> from that value — out to the edge — you leaned <em>into</em> it; the dashed ring is neutral. Same numbers as the chart above, drawn as one shape: a fuller shape means leaning in across the board, a lopsided one means it depends on the area.</div></div>`;
@@ -1193,8 +1189,6 @@ async function renderReveal(){
     arcReads.push({ nm, domain: arc.primary_domain, div, att: POCProjection.attachmentReport(instrs, arc) });
   }
   const covDomain = {}; (BUNDLE.covProbes || []).forEach(c => { covDomain[c.value_slot] = c.domain; });
-  const DLAB = {"truth-telling":"truth-telling","resource-allocation":"resource allocation","in-group-out-group":"in-group / out-group","reciprocity-cooperation":"reciprocity & cooperation"};
-
   // per-domain dumbbell: filled dot = what you DID (revealed mean), and when the
   // card sort exists, a hollow ring = what you SAID (stated frac mapped onto the
   // same axis) with the connecting line as the distance. Honestly scoped: this

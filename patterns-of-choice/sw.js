@@ -19,7 +19,7 @@
  * This SW only caches static app assets; it touches no personal data.
  * ============================================================================ */
 
-const CACHE_VERSION = "poc-app-v26-2026-07";
+const CACHE_VERSION = "poc-app-v27-2026-07";
 const SCOPE_PREFIX = "/patterns-of-choice/";
 
 // Exact assets the app needs to run offline (relative to scope).
