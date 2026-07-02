@@ -2,8 +2,10 @@
 
 Covers: frontmatter parsing, the publish-gate filter (the hard safety
 requirement — a publish: false / missing-flag post must NOT appear in output),
-slug derivation, post-page + index generation, the additive sitemap merge
-(must preserve non-blog entries), the overwrite guard, and idempotency.
+slug derivation, post-page + index generation, the Atom feed (blog/feed.xml
++ the <link rel="alternate"> discovery tag in the index head), the additive
+sitemap merge (must preserve non-blog entries), the overwrite guard, and
+idempotency.
 
 Mirrors the style of tests/test_publish_daily.py.
 """
@@ -279,6 +281,107 @@ class TestSpliceIndex:
 
 
 # ---------------------------------------------------------------------------
+# Atom feed (blog/feed.xml + index <head> discovery link)
+# ---------------------------------------------------------------------------
+
+class TestGenerateFeed:
+    def _parse(self, xml_text):
+        import xml.etree.ElementTree as ET
+        return ET.fromstring(xml_text)
+
+    def test_well_formed_atom(self):
+        root = self._parse(build_blog.generate_feed([_sample_post()]))
+        assert root.tag == "{http://www.w3.org/2005/Atom}feed"
+
+    def test_entry_fields(self):
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        root = self._parse(build_blog.generate_feed([_sample_post()]))
+        entries = root.findall("a:entry", ns)
+        assert len(entries) == 1
+        e = entries[0]
+        assert e.find("a:title", ns).text == "My First Post"
+        assert e.find("a:id", ns).text == "https://daliu.github.io/blog/welcome.html"
+        assert e.find("a:link", ns).get("href") == "https://daliu.github.io/blog/welcome.html"
+        assert e.find("a:updated", ns).text == "2026-06-28T00:00:00Z"
+        assert e.find("a:summary", ns).text == "An intro post."
+
+    def test_content_is_escaped_html(self):
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        root = self._parse(build_blog.generate_feed([_sample_post()]))
+        content = root.find("a:entry/a:content", ns)
+        assert content.get("type") == "html"
+        # ElementTree unescapes on parse — the round-tripped text is the HTML.
+        assert content.text == "<p>Hello <strong>world</strong>.</p>"
+
+    def test_tags_become_categories(self):
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        root = self._parse(build_blog.generate_feed([_sample_post()]))
+        terms = [c.get("term") for c in root.findall("a:entry/a:category", ns)]
+        assert terms == ["career", "meta"]
+
+    def test_feed_updated_is_newest_post_date(self):
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        root = self._parse(build_blog.generate_feed([_sample_post()]))
+        assert root.find("a:updated", ns).text == "2026-06-28T00:00:00Z"
+
+    def test_self_and_alternate_links(self):
+        feed = build_blog.generate_feed([_sample_post()])
+        assert 'rel="self"' in feed
+        assert "https://daliu.github.io/blog/feed.xml" in feed
+        assert 'href="https://daliu.github.io/blog/"' in feed
+
+    def test_empty_feed_no_entries_still_valid(self):
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        root = self._parse(build_blog.generate_feed([]))
+        assert root.findall("a:entry", ns) == []
+        assert root.find("a:updated", ns).text is not None
+
+    def test_deterministic(self):
+        # No wall-clock anywhere — two builds are byte-identical.
+        assert build_blog.generate_feed([_sample_post()]) == \
+            build_blog.generate_feed([_sample_post()])
+
+    def test_title_escaped(self):
+        post = dict(_sample_post(), title="Ampersands & <angles>")
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        root = self._parse(build_blog.generate_feed([post]))
+        assert root.find("a:entry/a:title", ns).text == "Ampersands & <angles>"
+
+
+class TestFeedDiscoveryLink:
+    def test_generated_index_has_alternate_link(self):
+        html = build_blog.generate_index_page([_sample_post()])
+        assert build_blog.FEED_LINK_TAG in html
+        # In the head, before the body starts.
+        assert html.index(build_blog.FEED_LINK_TAG) < html.index("<body>")
+
+    def test_post_pages_do_not_get_the_link(self):
+        # The backlog item scopes discovery to the index head only.
+        assert build_blog.FEED_LINK_TAG not in build_blog.generate_post_page(_sample_post())
+
+    def test_splice_injects_link_into_legacy_chrome(self):
+        legacy = build_blog.generate_index_page([]).replace(
+            "\n  " + build_blog.FEED_LINK_TAG, "")
+        assert build_blog.FEED_LINK_TAG not in legacy
+        spliced = build_blog.splice_index(legacy, [_sample_post()])
+        assert spliced.count(build_blog.FEED_LINK_TAG) == 1
+        assert spliced.index(build_blog.FEED_LINK_TAG) < spliced.index("<body>")
+
+    def test_splice_idempotent_with_link(self):
+        once = build_blog.splice_index(
+            build_blog.generate_index_page([_sample_post()]), [_sample_post()])
+        twice = build_blog.splice_index(once, [_sample_post()])
+        assert once == twice
+        assert twice.count(build_blog.FEED_LINK_TAG) == 1
+
+    def test_ensure_feed_link_no_canonical_falls_back_to_head_close(self):
+        html = "<html><head><title>x</title></head><body></body></html>"
+        out = build_blog.ensure_feed_link(html)
+        assert build_blog.FEED_LINK_TAG in out
+        assert out.index(build_blog.FEED_LINK_TAG) < out.index("</head>")
+
+
+# ---------------------------------------------------------------------------
 # Sitemap merge (additive — must NOT clobber non-blog entries)
 # ---------------------------------------------------------------------------
 
@@ -361,6 +464,8 @@ class TestBuildAndGuard:
         assert len(posts) == 1
         assert os.path.join(blog_dir, "hi.html") in outputs
         assert os.path.join(blog_dir, "index.html") in outputs
+        assert os.path.join(blog_dir, "feed.xml") in outputs
+        assert "<title>Hi</title>" in outputs[os.path.join(blog_dir, "feed.xml")]
 
     def test_build_idempotent(self, tmp_path, monkeypatch):
         blog_dir, _ = self._point_at_tmp(tmp_path, monkeypatch)
