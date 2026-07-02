@@ -318,8 +318,11 @@
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 15px;
         }
+        /* Denser variant for sections with smaller charts (classed, not inline,
+           so the mobile rule below can still collapse it to one column). */
+        .charts-grid.narrow { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
         @media (max-width: 600px) {
-            .charts-grid { grid-template-columns: 1fr; }
+            .charts-grid, .charts-grid.narrow { grid-template-columns: 1fr; }
         }
         .chart-card {
             background: var(--card-bg);
@@ -659,8 +662,8 @@
                     <div class="chart-container"><canvas id="autocorrChart"></canvas></div>
                     <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
                         Each metric vs itself the next night.
-                        <span style="color: var(--green)">Positive</span> = a high night tends to repeat (persistence);
-                        <span style="color: var(--red)">negative</span> = a high night is followed by a low one (rebound). ✱ = p&lt;0.05.
+                        <span style="color: var(--cyan)">Positive</span> = a high night tends to repeat (persistence);
+                        <span style="color: var(--purple)">negative</span> = a high night is followed by a low one (rebound). ✱ = p&lt;0.05.
                     </p>
                 </div>
                 <div class="chart-card">
@@ -676,8 +679,8 @@
             <div class="stats-table-container" style="margin-top: 15px;">
                 <h3 style="font-size: 1.2rem; color: var(--text); margin-bottom: 8px;">Cross-lag matrix: last night (row) → tonight (column)</h3>
                 <p style="font-size: 1rem; color: var(--text-muted); margin-bottom: 14px;">
-                    Spearman rho. <span style="color: var(--green)">Green</span> = the two move together,
-                    <span style="color: var(--red)">red</span> = they move oppositely. Bold + outline = survives
+                    Spearman rho. <span style="color: var(--cyan)">Cyan</span> = the two move together,
+                    <span style="color: var(--purple)">purple</span> = they move oppositely. Bold + outline = survives
                     multiple-comparison (FDR) correction; dim = not significant (p≥0.05). Hover a cell for details.
                 </p>
                 <div class="correlation-matrix" id="crossLagMatrix"></div>
@@ -752,10 +755,15 @@
             <div class="stat-card"><div class="stat-value" id="cal-light" style="font-size: 1.6rem;">--</div><div class="stat-label">Lightest day</div></div>
             <div class="stat-card"><div class="stat-value" id="cal-total">--</div><div class="stat-label">Total events (90 d)</div></div>
         </div>
-        <div class="charts-grid" id="calendarChartWrap" style="margin-top: 15px; display: none;">
+        <div id="calendarChartWrap" style="margin-top: 15px; display: none;">
             <div class="chart-card">
-                <h2>Events per day vs sleep &amp; stress (last 30 days)</h2>
-                <div class="chart-container"><canvas id="calendarDensityChart"></canvas></div>
+                <h2>Meeting load vs recovery (last 30 days)</h2>
+                <div class="chart-container" style="height: 110px;"><canvas id="calendarEventsChart"></canvas></div>
+                <div class="chart-container" id="calendarBioWrap" style="height: 200px; margin-top: 4px;"><canvas id="calendarBioChart"></canvas></div>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 8px;">
+                    Top: calendar events per day. Bottom: that day's <span style="color: var(--green)">sleep score</span> and
+                    <span style="color: var(--red)">stress</span> (0–100), on a shared date axis — read the two together.
+                </p>
             </div>
         </div>
         <div id="calendarUnavailable" style="color: var(--text-muted); font-size: 0.95rem; padding: 14px 18px; background: var(--card-bg); border: 1px dashed var(--border); border-radius: 8px;">
@@ -765,7 +773,7 @@
         <!-- Day of Week Analysis -->
         <div class="section-title">📅 Averages by Day of Week</div>
         <p id="dowCaption" style="font-size: 1rem; color: var(--text-muted); margin: -10px 0 12px;"></p>
-        <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="charts-grid narrow">
             <div class="chart-card">
                 <h2>Average Steps</h2>
                 <div class="chart-container"><canvas id="dowStepsChart"></canvas></div>
@@ -780,15 +788,19 @@
             </div>
         </div>
 
-        <!-- Causal Inference Section -->
-        <div class="section-title">🔬 Causal Analysis</div>
+        <!-- Next-Day Associations (association, not proof of cause) -->
+        <div class="section-title">🔬 Next-Day Associations</div>
+        <p style="font-size:1.05rem;color:var(--text-muted);max-width:900px;margin:-6px 0 14px;">
+            How today's behavior tracks with <em>tomorrow's</em> metrics — high vs low days, controlling for obvious confounders and corrected for multiple comparisons (Benjamini–Hochberg, q=0.10). <strong>Single-subject &amp; observational: associations, not proof of cause.</strong> A card is flagged only if it survives that correction.
+        </p>
         <div class="insights-grid" id="causalInsights"></div>
 
         <div class="stats-table-container">
             <h3 style="font-size: 1.2rem; color: var(--text); margin-bottom: 10px;">📊 Effect Sizes (Controlled Analysis)</h3>
             <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 15px;">
-                Comparing outcomes after high vs low exposure days, controlling for confounders.
-                Effect = difference in means; p-value approximated via permutation test.
+                Outcomes after high vs low exposure days (median split), with a control-variable partial
+                correlation and a permutation p-value. Confidence reflects Benjamini–Hochberg FDR across
+                these tests; a small <strong>n</strong> means noisy. Association, not causation.
             </p>
             <table class="stats-table">
                 <thead>
@@ -799,6 +811,7 @@
                         <th>Low Days (mean)</th>
                         <th>Difference</th>
                         <th>Partial r</th>
+                        <th>n</th>
                         <th>Confidence</th>
                     </tr>
                 </thead>
@@ -879,7 +892,7 @@
         <div class="section-title">💡 Insights</div>
         <div class="insights-grid" id="calendarInsights"></div>
 
-        <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="charts-grid narrow">
             <div class="chart-card">
                 <h2>Day of Week → Body Battery</h2>
                 <div class="chart-container"><canvas id="dowBatteryChart"></canvas></div>
@@ -926,7 +939,7 @@
         <div class="stats-table-container">
             <div id="correlationMatrix"></div>
             <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 10px;">
-                Pearson correlation coefficients. Green = positive correlation, Red = negative correlation.
+                Pearson correlation coefficients (−1 to +1). Cell color shows direction; opacity shows strength.
             </p>
         </div>
 
@@ -1662,18 +1675,21 @@
                     else normalExercise.push({ sleep: nextSleep, hrv: nextHrv });
                 }
             }
-            if (bigExercise.length >= 3 && normalExercise.length >= 3) {
+            if (bigExercise.length >= 5 && normalExercise.length >= 5) {
                 const bigSleep = stats.mean(bigExercise.map(d => d.sleep));
                 const normSleep = stats.mean(normalExercise.map(d => d.sleep));
                 const diff = bigSleep - normSleep;
-                if (Math.abs(diff) > 5) {
+                if (Math.abs(diff) > 8) {
+                    // Honest + reconciled with the Sleep Model (training volume barely
+                    // tracks sleep, |r|≤0.13): this crude mean-split can flip, so no
+                    // causal "improves/hurts" claim and a neutral color.
                     insights.push({
                         emoji: diff < 0 ? '🏃💤' : '🏃✨',
                         title: 'Exercise & Sleep',
                         text: diff < 0
-                            ? `Big exercise days (>60min) are followed by ${Math.abs(diff).toFixed(0)} points worse sleep. Your body needs recovery time.`
-                            : `Exercise improves your sleep! ${diff.toFixed(0)} points better after active days.`,
-                        color: diff < 0 ? 'var(--yellow)' : 'var(--green)',
+                            ? `Here, big-exercise days (>60min) were followed by ${Math.abs(diff).toFixed(0)} points lower sleep score — a small-sample pattern, not a proven effect.`
+                            : `Here, big-exercise days (>60min) were followed by ${diff.toFixed(0)} points higher sleep score. Small sample, and volume barely tracks your sleep overall — likely noise, not a lever.`,
+                        color: 'var(--cyan)',
                         basis: `${bigExercise.length} hard days vs ${normalExercise.length} easy, next-day sleep`
                     });
                 }
@@ -1681,7 +1697,7 @@
 
             // 2. Best day of week for sleep
             const dowSleep = [0,1,2,3,4,5,6].map(d => {
-                const vals = daily.filter(x => new Date(x.date).getDay() === d && x.sleep_score).map(x => x.sleep_score);
+                const vals = daily.filter(x => new Date(x.date + 'T12:00:00').getDay() === d && x.sleep_score).map(x => x.sleep_score);
                 return { day: d, avg: vals.length ? stats.mean(vals) : null, n: vals.length };
             }).filter(d => d.avg != null);
 
@@ -1708,7 +1724,7 @@
                     insights.push({
                         emoji: '⏰',
                         title: '7-Hour Threshold',
-                        text: `Getting 7+ hours = ${diff.toFixed(0)} point better sleep score. The magic number is real for you.`,
+                        text: `Nights of 7h+ score ${diff.toFixed(0)} points higher — though sleep score partly bakes in duration, so some of this gap is by construction.`,
                         color: 'var(--cyan)',
                         basis: `${above7.length} nights ≥7h vs ${below7.length} under 7h`
                     });
@@ -1717,7 +1733,7 @@
 
             // 4. Most active day
             const dowSteps = [0,1,2,3,4,5,6].map(d => {
-                const vals = daily.filter(x => new Date(x.date).getDay() === d && x.total_steps).map(x => x.total_steps);
+                const vals = daily.filter(x => new Date(x.date + 'T12:00:00').getDay() === d && x.total_steps).map(x => x.total_steps);
                 return { day: d, avg: vals.length ? stats.mean(vals) : 0 };
             });
             const maxStepsDay = dowSteps.reduce((a, b) => a.avg > b.avg ? a : b);
@@ -1857,7 +1873,7 @@
                 const lwAvg = stats.mean(lw);
 
                 let trend = '', trendClass = 'trend-neutral';
-                if (twAvg != null && lwAvg != null) {
+                if (twAvg != null && lwAvg != null && lwAvg !== 0) {
                     const diff = twAvg - lwAvg;
                     const pct = (diff / lwAvg * 100);
                     const isGood = m.invert ? diff < 0 : diff > 0;
@@ -1891,7 +1907,7 @@
 
                 const sorted = [...withVal].sort((a, b) => r.best === 'max' ? b[r.key] - a[r.key] : a[r.key] - b[r.key]);
                 const best = sorted[0];
-                const date = new Date(best.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const date = new Date(best.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
                 html += `<div class="record-card">
                     <div class="emoji">${r.emoji}</div>
@@ -2035,7 +2051,9 @@
             for (let i = 89; i >= 0; i--) {
                 const d = new Date(today);
                 d.setDate(d.getDate() - i);
-                const dateStr = d.toISOString().slice(0, 10);
+                // Build the key from LOCAL date parts; toISOString() would convert to UTC
+                // and roll to tomorrow after ~5pm PT, mismatching the tooltip's local date.
+                const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                 const day = daily.find(x => x.date === dateStr);
                 const steps = day?.total_steps || 0;
 
@@ -2077,68 +2095,65 @@
 
             const last30 = byDay.slice(-30);
 
-            // Overlay sleep & stress so meeting load can be read against recovery —
-            // event counts alone aren't actionable. Join calendar dates to the daily
-            // biometrics already loaded into allDailyData; missing days leave gaps.
+            // Meeting load vs recovery as two vertically-aligned small multiples
+            // (NOT a dual-axis): events/day on top, that day's sleep & stress (0–100)
+            // below, sharing one date axis. Both y-axes are pinned to the same width so
+            // the plot areas line up and top can be read against bottom. Missing days gap.
             const bioByDate = new Map((allDailyData || []).map(d => [d.date, d]));
-            const sleepLine = last30.map(d => { const b = bioByDate.get(d.date); return b && b.sleep_score != null ? b.sleep_score : null; });
-            const stressLine = last30.map(d => { const b = bioByDate.get(d.date); return b && b.avg_stress != null ? b.avg_stress : null; });
+            const labels = last30.map(d => fmtDate(d.date));
+            const sleepLine = last30.map(d => { const b = bioByDate.get(d.date); return b && b.sleep_score > 0 ? b.sleep_score : null; });
+            // avg_stress > 0 also rejects Garmin's -1/-2 "unmeasured" sentinels so an
+            // unmeasured day reads as a gap, never a fake ~0 reading.
+            const stressLine = last30.map(d => { const b = bioByDate.get(d.date); return b && b.avg_stress > 0 ? b.avg_stress : null; });
             const hasOverlay = sleepLine.some(v => v != null) || stressLine.some(v => v != null);
+            const pinW = (s) => { s.width = 46; }; // align both plot areas
+            const calTip = { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e', padding: 10, cornerRadius: 6 };
+            ['calendarEventsChart', 'calendarBioChart'].forEach(id => { const ex = Chart.getChart(id); if (ex) ex.destroy(); });
 
-            const lineCfg = (label, data, color) => ({
-                type: 'line', label, data, yAxisID: 'yPct',
-                borderColor: color, backgroundColor: color,
-                borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.3, spanGaps: true,
-            });
-
-            const datasets = [{
-                type: 'bar', label: 'Events', data: last30.map(d => d.count),
-                backgroundColor: '#a371f7', borderRadius: 3, yAxisID: 'y', order: 2,
-            }];
-            if (hasOverlay) {
-                datasets.push({ ...lineCfg('Sleep score', sleepLine, '#3fb950'), order: 1 });
-                datasets.push({ ...lineCfg('Stress', stressLine, '#f85149'), order: 0 });
-            }
-
-            new Chart(document.getElementById('calendarDensityChart'), {
-                data: { labels: last30.map(d => fmtDate(d.date)), datasets },
+            new Chart(document.getElementById('calendarEventsChart'), {
+                type: 'bar',
+                data: { labels, datasets: [{ label: 'Events', data: last30.map(d => d.count), backgroundColor: '#a371f7', borderRadius: 3 }] },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: { display: hasOverlay, labels: { color: '#8b949e', boxWidth: 12 } },
-                        tooltip: {
-                            callbacks: {
-                                title: (items) => items[0].label,
-                                label: (item) => {
-                                    if (item.dataset.label === 'Events') return `${item.parsed.y} event${item.parsed.y === 1 ? '' : 's'}`;
-                                    if (item.parsed.y == null) return null;
-                                    return `${item.dataset.label}: ${Math.round(item.parsed.y)}${item.dataset.label === 'Sleep score' ? '/100' : ''}`;
-                                },
-                            }
-                        }
+                        legend: { display: false },
+                        tooltip: { ...calTip, callbacks: { title: (i) => i[0].label, label: (i) => `${i.parsed.y} event${i.parsed.y === 1 ? '' : 's'}` } }
                     },
                     scales: {
-                        y: {
-                            beginAtZero: true, position: 'left',
-                            grid: { color: '#30363d' },
-                            ticks: { color: '#8b949e', precision: 0 },
-                            title: { display: true, text: 'Events', color: '#999', font: { size: 12 } }
-                        },
-                        yPct: {
-                            display: hasOverlay, beginAtZero: true, min: 0, max: 100, position: 'right',
-                            grid: { drawOnChartArea: false },
-                            ticks: { color: '#8b949e' },
-                            title: { display: true, text: 'Sleep / Stress (0–100)', color: '#999', font: { size: 12 } }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#8b949e', maxRotation: 60, minRotation: 60, autoSkip: true, maxTicksLimit: 15 }
-                        }
+                        y: { beginAtZero: true, afterFit: pinW, grid: { color: '#30363d' }, ticks: { color: '#8b949e', precision: 0, maxTicksLimit: 4 }, title: { display: true, text: 'Events', color: '#999', font: { size: 11 } } },
+                        x: { grid: { display: false }, ticks: { display: false } }
                     }
                 }
             });
+
+            const bioWrap = document.getElementById('calendarBioWrap');
+            if (hasOverlay) {
+                bioWrap.style.display = '';
+                new Chart(document.getElementById('calendarBioChart'), {
+                    type: 'line',
+                    data: {
+                        labels, datasets: [
+                            { label: 'Sleep score', data: sleepLine, borderColor: '#3fb950', backgroundColor: '#3fb950', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0, spanGaps: true },
+                            { label: 'Stress', data: stressLine, borderColor: '#f85149', backgroundColor: '#f85149', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0, spanGaps: true },
+                        ]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { display: true, labels: { color: '#8b949e', boxWidth: 12 } },
+                            tooltip: { ...calTip, callbacks: { title: (i) => i[0].label, label: (item) => item.parsed.y == null ? null : `${item.dataset.label}: ${Math.round(item.parsed.y)}${item.dataset.label === 'Sleep score' ? '/100' : ''}` } }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, min: 0, max: 100, afterFit: pinW, grid: { color: '#30363d' }, ticks: { color: '#8b949e', stepSize: 25 }, title: { display: true, text: 'Sleep / Stress', color: '#999', font: { size: 11 } } },
+                            x: { grid: { display: false }, ticks: { color: '#8b949e', maxRotation: 60, minRotation: 60, autoSkip: true, maxTicksLimit: 15 } }
+                        }
+                    }
+                });
+            } else {
+                bioWrap.style.display = 'none';
+            }
         }
 
         async function loadCalendar() {
@@ -2174,7 +2189,9 @@
             const byDay = days.map(() => ({ steps: [], sleep: [], stress: [] }));
 
             for (const d of daily) {
-                const dow = new Date(d.date).getDay();
+                // Parse at local noon: a date-only string parses as UTC midnight, which
+                // in any Americas timezone reads back as the previous evening → wrong weekday.
+                const dow = new Date(d.date + 'T12:00:00').getDay();
                 if (d.total_steps != null) byDay[dow].steps.push(d.total_steps);
                 if (d.sleep_score != null) byDay[dow].sleep.push(d.sleep_score);
                 if (d.avg_stress != null) byDay[dow].stress.push(d.avg_stress);
@@ -2287,7 +2304,7 @@
                 const y = data[i + lag][yKey];
                 if (x != null && y != null) pairs.push({ x, y });
             }
-            if (pairs.length < 6) return null;
+            if (pairs.length < 8) return null;
 
             const xs = pairs.map(p => p.x);
             const median = stats.median(xs);
@@ -2295,25 +2312,34 @@
             const highDays = pairs.filter(p => p.x > median);
             const lowDays = pairs.filter(p => p.x <= median);
 
-            if (highDays.length < 3 || lowDays.length < 3) return null;
+            if (highDays.length < 4 || lowDays.length < 4) return null;
 
             const highMean = stats.mean(highDays.map(p => p.y));
             const lowMean = stats.mean(lowDays.map(p => p.y));
             const diff = highMean - lowMean;
 
-            // Permutation test for significance (simplified)
+            // Permutation test. Uses a DETERMINISTIC seeded PRNG + an unbiased
+            // Fisher-Yates shuffle so the p-value is stable across page reloads and the
+            // null is a true uniform permutation. (The old `sort(()=>Math.random()-0.5)`
+            // was both statistically biased and changed on every refresh, flipping
+            // borderline verdicts.) Seed derives from the data so it's reproducible.
+            let seed = (0x9e3779b9 ^ pairs.length) >>> 0;
+            for (const p of pairs) seed = (Math.imul(seed, 31) + Math.round((p.x + p.y) * 1000)) >>> 0;
+            const rand = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
             const pooled = pairs.map(p => p.y);
+            const nHigh = highDays.length, nPerms = 2000;
             let moreExtreme = 0;
-            const nPerms = 500;
-            for (let i = 0; i < nPerms; i++) {
-                const shuffled = [...pooled].sort(() => Math.random() - 0.5);
-                const permHigh = stats.mean(shuffled.slice(0, highDays.length));
-                const permLow = stats.mean(shuffled.slice(highDays.length));
+            for (let k = 0; k < nPerms; k++) {
+                const arr = pooled.slice();
+                for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); const t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+                const permHigh = stats.mean(arr.slice(0, nHigh));
+                const permLow = stats.mean(arr.slice(nHigh));
                 if (Math.abs(permHigh - permLow) >= Math.abs(diff)) moreExtreme++;
             }
-            const pValue = moreExtreme / nPerms;
+            // Add-one (Phipson–Smyth) estimator: never reports an impossible p=0.
+            const pValue = (moreExtreme + 1) / (nPerms + 1);
 
-            return { highMean, lowMean, diff, pValue, n: pairs.length };
+            return { highMean, lowMean, diff, pValue, n: pairs.length, nHigh, nLow: lowDays.length };
         }
 
         function buildCausalInsights(daily) {
@@ -2379,59 +2405,58 @@
                 },
             ];
 
-            let html = '';
+            const causeLabels = {
+                'vigorous_minutes': 'Vigorous exercise', 'avg_stress': 'High stress',
+                'sleep_score': 'Good sleep', 'sleep_hours': 'More sleep'
+            };
+            const effectLabels = {
+                'sleep_score': 'sleep score', 'hrv_last_night': 'HRV', 'avg_stress': 'stress',
+                'max_body_battery': 'body battery', 'total_steps': 'activity', 'resting_hr': 'resting HR'
+            };
+
+            // First pass: compute every effect, then correct for multiple comparisons.
+            const rows = [];
             for (const a of analyses) {
                 const effect = computeEffectSize(daily, a.cause, a.effect, a.lag);
-                const partialR = partialCorrelation(daily, a.cause, a.effect, a.controls, a.lag);
+                if (effect) rows.push({ a, effect });
+            }
+            // Benjamini–Hochberg FDR (q = 0.10) across the tests actually run. One raw
+            // p < 0.05 out of ~7 tests is expected by chance, so a card is only flagged
+            // "supported" if it survives correction — otherwise it reads as no-clear-signal.
+            const m = rows.length;
+            const byP = [...rows].sort((r1, r2) => r1.effect.pValue - r2.effect.pValue);
+            let maxSig = -1;
+            byP.forEach((r, i) => { if (r.effect.pValue <= ((i + 1) / m) * 0.10) maxSig = i; });
+            const supported = new Set(byP.slice(0, maxSig + 1));
 
-                if (!effect) continue;
-
-                // Generate insight
-                const significant = effect.pValue < 0.1;
-                const direction = effect.diff > 0 ? 'increases' : 'decreases';
+            let html = '';
+            for (const row of rows) {
+                const { a, effect } = row;
+                const isSupported = supported.has(row);
+                const dirWord = effect.diff > 0 ? 'higher' : 'lower';
                 const isGood = (a.goodDir === 'positive' && effect.diff > 0) ||
                                (a.goodDir === 'negative' && effect.diff < 0);
-
-                const causeLabel = {
-                    'vigorous_minutes': 'Vigorous exercise',
-                    'avg_stress': 'High stress',
-                    'sleep_score': 'Good sleep',
-                    'sleep_hours': 'More sleep'
-                }[a.cause] || a.cause;
-
-                const effectLabel = {
-                    'sleep_score': 'sleep score',
-                    'hrv_last_night': 'HRV',
-                    'avg_stress': 'stress',
-                    'max_body_battery': 'body battery',
-                    'total_steps': 'activity',
-                    'resting_hr': 'resting HR'
-                }[a.effect] || a.effect;
+                const causeLabel = causeLabels[a.cause] || a.cause;
+                const effectLabel = effectLabels[a.effect] || a.effect;
 
                 let verdict, verdictColor, emoji;
-                if (!significant) {
-                    verdict = 'No clear effect';
+                if (!isSupported) {
+                    verdict = 'No clear association';
                     verdictColor = 'var(--text-muted)';
                     emoji = '🤷';
-                } else if (isGood) {
-                    verdict = `${causeLabel} ${direction} ${effectLabel}`;
-                    verdictColor = 'var(--green)';
-                    emoji = '✅';
                 } else {
-                    verdict = `${causeLabel} ${direction} ${effectLabel}`;
-                    verdictColor = 'var(--red)';
-                    emoji = '⚠️';
+                    // Arrow, not a causal verb: this is an association, not proof of cause.
+                    verdict = `${causeLabel} → ${dirWord} next-day ${effectLabel}`;
+                    verdictColor = isGood ? 'var(--green)' : 'var(--yellow)';
+                    emoji = isGood ? '📈' : '📉';
                 }
-
-                const confidence = effect.pValue < 0.05 ? 'High' : effect.pValue < 0.1 ? 'Moderate' : 'Low';
-                const confColor = effect.pValue < 0.05 ? 'var(--green)' : effect.pValue < 0.1 ? 'var(--yellow)' : 'var(--text-muted)';
 
                 html += `<div class="insight-card">
                     <h3>${emoji} ${a.question}</h3>
-                    <div class="insight-value" style="font-size: 1.1rem; color: ${verdictColor}">${verdict}</div>
+                    <div class="insight-value" style="font-size: 1.05rem; color: ${verdictColor}">${verdict}</div>
                     <div class="insight-detail">
-                        Effect: ${effect.diff > 0 ? '+' : ''}${effect.diff.toFixed(1)} points<br>
-                        <span style="color: ${confColor}">Confidence: ${confidence} (p=${effect.pValue.toFixed(2)})</span>
+                        Δ ${effect.diff > 0 ? '+' : ''}${effect.diff.toFixed(1)} on high vs low days · n=${effect.n}<br>
+                        <span style="color: var(--text-muted)">p=${effect.pValue.toFixed(3)}${isSupported ? ' · survives multiple-testing correction' : ' · not after correction'}</span>
                     </div>
                 </div>`;
             }
@@ -2458,26 +2483,39 @@
                 { cause: 'sleep_hours', causeLabel: '⏰ Sleep Duration', effect: 'total_steps', effectLabel: 'Steps (+1d)', controls: ['avg_stress'] },
             ];
 
-            let html = '';
-            for (const a of analyses) {
-                const effect = computeEffectSize(daily, a.cause, a.effect, 1);
-                const partialR = partialCorrelation(daily, a.cause, a.effect, a.controls, 1);
+            // Compute all rows first, then apply Benjamini–Hochberg FDR (q=0.10) across
+            // the table so "confidence" reflects multiple-testing, not a lone raw p-value.
+            const computed = analyses.map(a => ({
+                a,
+                effect: computeEffectSize(daily, a.cause, a.effect, 1),
+                partialR: partialCorrelation(daily, a.cause, a.effect, a.controls, 1)
+            }));
+            const valid = computed.filter(c => c.effect);
+            const mm = valid.length;
+            const byP = [...valid].sort((x, y) => x.effect.pValue - y.effect.pValue);
+            let maxSig = -1;
+            byP.forEach((c, i) => { if (c.effect.pValue <= ((i + 1) / mm) * 0.10) maxSig = i; });
+            const supported = new Set(byP.slice(0, maxSig + 1));
 
+            let html = '';
+            for (const c of computed) {
+                const { a, effect, partialR } = c;
                 if (!effect) {
-                    html += `<tr><td class="metric-name">${a.causeLabel}</td><td>${a.effectLabel}</td><td colspan="5" style="color: var(--text-muted)">Insufficient data</td></tr>`;
+                    html += `<tr><td class="metric-name">${a.causeLabel}</td><td>${a.effectLabel}</td><td colspan="6" style="color: var(--text-muted)">Insufficient data</td></tr>`;
                     continue;
                 }
-
-                const confLevel = effect.pValue < 0.05 ? '🟢 High' : effect.pValue < 0.1 ? '🟡 Moderate' : '⚪ Low';
-                const diffColor = effect.diff > 0 ? 'var(--green)' : effect.diff < 0 ? 'var(--red)' : 'var(--text-muted)';
+                // Sign is carried by the +/- number, not by color (a negative difference
+                // is often the healthy direction — coloring it red would mislead).
+                const confLevel = supported.has(c) ? '🟢 Survives FDR' : '⚪ Not significant';
 
                 html += `<tr>
                     <td class="metric-name">${a.causeLabel}</td>
                     <td>${a.effectLabel}</td>
                     <td>${effect.highMean.toFixed(1)}</td>
                     <td>${effect.lowMean.toFixed(1)}</td>
-                    <td style="color: ${diffColor}">${effect.diff > 0 ? '+' : ''}${effect.diff.toFixed(1)}</td>
+                    <td>${effect.diff > 0 ? '+' : ''}${effect.diff.toFixed(1)}</td>
                     <td>${partialR != null ? partialR.toFixed(2) : '--'}</td>
+                    <td>${effect.n}</td>
                     <td>${confLevel}</td>
                 </tr>`;
             }
@@ -2629,14 +2667,23 @@
                         const x = pairs.map(d => d[metrics[i].key]);
                         const y = pairs.map(d => d[metrics[j].key]);
                         const r = stats.correlation(x, y);
+                        // Diverging by SIGN, not valence: a negative correlation
+                        // isn't "bad" (e.g. stress↔sleep), so avoid red/green. Cyan =
+                        // positive, purple = negative, opacity ∝ |r|, neutral near 0.
                         const bg = r == null ? 'transparent' :
-                            r > 0 ? `rgba(63, 185, 80, ${Math.abs(r) * 0.6})` :
-                            `rgba(248, 81, 73, ${Math.abs(r) * 0.6})`;
+                            Math.abs(r) < 0.05 ? 'rgba(139, 148, 158, 0.12)' :
+                            r > 0 ? `rgba(57, 197, 207, ${Math.abs(r) * 0.6})` :
+                            `rgba(163, 113, 247, ${Math.abs(r) * 0.6})`;
                         html += `<div class="corr-cell" style="background: ${bg};">${r != null ? r.toFixed(2) : '--'}</div>`;
                     }
                 }
             }
             html += '</div>';
+            html += `<div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:center;margin-top:10px;font-size:0.8rem;color:var(--text-muted);">
+                <span><span style="display:inline-block;width:12px;height:12px;background:rgba(57,197,207,0.6);border-radius:2px;vertical-align:middle;"></span> positive</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:rgba(163,113,247,0.6);border-radius:2px;vertical-align:middle;"></span> negative</span>
+                <span>opacity ∝ strength · sign isn't good or bad</span>
+            </div>`;
             document.getElementById('correlationMatrix').innerHTML = html;
         }
 
@@ -3261,7 +3308,7 @@
                 renderEffortWhatIf(corr);
 
                 // Calendar Insights
-                const insightsHtml = corr.insights.map(i => {
+                const insightsHtml = (corr.insights || []).map(i => {
                     const icon = i.impact === 'positive' ? '↑' : i.impact === 'negative' ? '↓' : '→';
                     const color = i.impact === 'positive' ? 'var(--green)' : i.impact === 'negative' ? 'var(--red)' : 'var(--text-muted)';
                     return `
@@ -3273,7 +3320,7 @@
                 document.getElementById('calendarInsights').innerHTML = insightsHtml || '<p style="color: var(--text-muted);">Collecting more data...</p>';
 
                 // Day of Week Chart
-                const dow = corr.day_of_week;
+                const dow = corr.day_of_week || {};
                 const dowLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                 const dowData = dowLabels.map(d => dow[d]?.battery || 0);
                 new Chart(document.getElementById('dowBatteryChart'), {
@@ -3328,7 +3375,7 @@
                 });
 
                 // Active Streak Chart
-                const streaks = corr.exercise_streaks;
+                const streaks = corr.exercise_streaks || {};
                 const streakLabels = ['No streak', '1-2 days', '3-4 days', '5+ days'];
                 const streakKeys = ['no_streak', '1-2_days', '3-4_days', '5+_days'];
                 const streakData = streakKeys.map(k => streaks[k]?.battery || 0);
@@ -3352,8 +3399,8 @@
                 });
 
                 // Sleep Lag Chart
-                const sleepGreat = corr.lagged_effects.sleep_great || {};
-                const sleepPoor = corr.lagged_effects.sleep_poor || {};
+                const sleepGreat = (corr.lagged_effects || {}).sleep_great || {};
+                const sleepPoor = (corr.lagged_effects || {}).sleep_poor || {};
                 new Chart(document.getElementById('sleepLagChart'), {
                     type: 'line',
                     data: {
@@ -3386,7 +3433,7 @@
                 });
 
                 // Category Impact Chart (one-off calendar events)
-                const cats = corr.event_categories;
+                const cats = corr.event_categories || {};
                 const catLabels = Object.keys(cats);
                 const catData = catLabels.map(c => cats[c]?.battery_delta || 0);
                 const catSamples = catLabels.map(c => cats[c]?.sample_size || 0);
@@ -3413,7 +3460,7 @@
                                     }
                                 }
                             },
-                            scales: { y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Battery Delta vs Baseline', color: '#999', font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
+                            scales: { y: { beginAtZero: true, grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: true, text: 'Battery Delta vs Baseline', color: '#999', font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#8b949e' } } }
                         }
                     });
                 } else {
@@ -3425,7 +3472,7 @@
                 const factorLabels = { 'exercise': '🏃 Active (10K+)', 'high_steps': '🚶 High Steps (20K+)', 'sleep_great': '😴 Great Sleep', 'sleep_poor': '😵 Poor Sleep' };
                 let tableHtml = '';
                 for (const f of factors) {
-                    const lag = corr.lagged_effects[f] || {};
+                    const lag = (corr.lagged_effects || {})[f] || {};
                     const d1 = lag['+1d']?.battery;
                     const d2 = lag['+2d']?.battery;
                     const d3 = lag['+3d']?.battery;
@@ -3563,11 +3610,13 @@
         function scColor(rho) {
             if (rho == null || isNaN(rho)) return 'transparent';
             const a = Math.min(Math.abs(rho) / 0.4, 1) * 0.8;
-            return rho >= 0 ? `rgba(63,185,80,${a})` : `rgba(248,81,73,${a})`;
+            // Diverging by sign, not valence (a negative carryover isn't "bad"): cyan +, purple −.
+            return rho >= 0 ? `rgba(57,197,207,${a})` : `rgba(163,113,247,${a})`;
         }
 
         function scBarChart(id, labels, values, axisLabel) {
-            const colors = values.map(v => v >= 0 ? '#3fb950' : '#f85149');
+            // Cyan = positive, purple = negative (sign, not valence — matches the matrix).
+            const colors = values.map(v => v >= 0 ? '#39c5cf' : '#a371f7');
             return new Chart(document.getElementById(id).getContext('2d'), {
                 type: 'bar',
                 data: { labels, datasets: [{ data: values, backgroundColor: colors, borderRadius: 4 }] },
@@ -3580,7 +3629,7 @@
                     },
                     scales: {
                         x: { grid: { display: false }, ticks: { color: '#8b949e' } },
-                        y: { grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: !!axisLabel, text: axisLabel, color: '#8b949e', font: { size: 11 } } }
+                        y: { beginAtZero: true, grid: { color: '#30363d' }, ticks: { color: '#8b949e' }, title: { display: !!axisLabel, text: axisLabel, color: '#8b949e', font: { size: 11 } } }
                     }
                 }
             });
@@ -3989,24 +4038,27 @@
                 const resp = await fetch('sleep-model.json?t=' + Date.now());
                 if (!resp.ok) throw new Error('no file');
                 const m = await resp.json();
-                if (m.insufficient || !m.bedtime) { if (sec) sec.style.display = 'none'; return; }
+                if (m.insufficient || !m.bedtime || !m.bedtime.stats || !m.bedtime.pred_at_recommended || !m.bedtime.pred_at_median) { if (sec) sec.style.display = 'none'; return; }
                 sec.style.display = '';
                 const b = m.bedtime, s = b.stats;
                 const g = k => { const d = b.pred_at_recommended[k] - b.pred_at_median[k]; return (d >= 0 ? '+' : '') + (k === 'sleep_hours' ? d.toFixed(1) : Math.round(d)); };
                 const cards = [
                     { emoji: '🛏️', title: 'Recommended bedtime', big: b.recommended_label,
                       why: `${b.monotonic_earlier_better ? 'Earlier is consistently better across your data' : 'Your modeled sweet spot'} — you average ${b.median_label}. 80% CI ${b.ci_label}.`, color: 'var(--purple)' },
-                    { emoji: '😴', title: 'Predicted sleep there', big: `${Math.round(b.pred_at_recommended.sleep_score)} · ${b.pred_at_recommended.sleep_hours.toFixed(1)}h`,
+                    { emoji: '😴', title: 'Modeled sleep there', big: `${Math.round(b.pred_at_recommended.sleep_score)} · ${b.pred_at_recommended.sleep_hours.toFixed(1)}h`,
                       why: `${g('sleep_score')} score & ${g('sleep_hours')}h vs your ${b.median_label} median. Each hour earlier ≈ +${s.sleep_score.per_hour_earlier} score, +${s.sleep_hours.per_hour_earlier}h.`, color: 'var(--cyan)' },
-                    { emoji: '🔋', title: 'Predicted battery there', big: `${Math.round(b.pred_at_recommended.battery)}`,
+                    { emoji: '🔋', title: 'Modeled battery there', big: `${Math.round(b.pred_at_recommended.battery)}`,
                       why: `${g('battery')} vs median. Each hour earlier to bed ≈ +${s.battery.per_hour_earlier} next-day body battery.`, color: 'var(--green)' },
                 ];
                 document.getElementById('sleepModelCards').innerHTML = cards.map(c => `<div class="insight-card"><h3>${c.emoji} ${c.title}</h3><div style="font-size:1.5rem;font-weight:700;color:${c.color};margin:2px 0 4px;">${c.big}</div><div class="insight-detail" style="color:var(--text-muted);font-size:1rem;">${c.why}</div></div>`).join('');
-                const ex = m.exercise, fb = ex.effect_r.weekly_frequency.battery;
+                const fb = m.exercise?.effect_r?.weekly_frequency?.battery;
+                const exerciseNote = fb != null
+                    ? `<strong>Exercise:</strong> volume isn't a lever for your sleep (all |r|≤0.13); a higher weekly training frequency carries a small next-day body-battery cost (r=${fb}). Train for fitness (see VO₂ Max), not for sleep. `
+                    : '';
                 document.getElementById('sleepModelNotes').innerHTML =
-                    `📐 <strong>How to read this:</strong> modeled on <strong>${m.n} nights</strong> (refits as new data lands). Bedtime predicts your sleep <strong>duration</strong> reliably (cross-validated R²=${s.sleep_hours.cv_r2.toFixed(2)}); it's significantly correlated with sleep quality (r=${s.sleep_score.r}, p=${s.sleep_score.p}) and body battery (r=${s.battery.r}, p=${s.battery.p}) but explains less of their night-to-night swing. ` +
+                    `📐 <strong>How to read this:</strong> modeled on <strong>${m.n} nights</strong> (refits as new data lands). Bedtime predicts your sleep <strong>duration</strong> with real out-of-sample skill (cross-validated R²=${s.sleep_hours.cv_r2.toFixed(2)}). It's also correlated with sleep quality (r=${s.sleep_score.r}, p=${s.sleep_score.p}) and body battery (r=${s.battery.r}, p=${s.battery.p}), but has <strong>no out-of-sample skill</strong> for either (cross-validated R²=${s.sleep_score.cv_r2.toFixed(2)} and ${s.battery.cv_r2.toFixed(2)}) — so treat the modeled score/battery above as directional, not a forecast. ` +
                     `${b.monotonic_earlier_better ? `No interior optimum yet — you rarely sleep before ~${b.pct10_label}, so the true floor is untested; the model will pin a sweet spot once you shift earlier. ` : ''}` +
-                    `<strong>Exercise:</strong> volume isn't a lever for your sleep (all |r|≤0.13); a higher weekly training frequency carries a small next-day body-battery cost (r=${fb}). Train for fitness (see VO₂ Max), not for sleep. <em>Single-subject &amp; observational.</em>`;
+                    exerciseNote + `<em>Single-subject &amp; observational.</em>`;
             } catch (e) { console.warn('sleep model unavailable', e); if (sec) sec.style.display = 'none'; }
         }
 
