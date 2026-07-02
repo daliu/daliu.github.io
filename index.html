@@ -298,6 +298,9 @@
     .word.t1 { font-size: 26px; }
     .word.t2 { font-size: 22px; }
   }
+  /* No editable fields on this page — hide any stray text caret (e.g. browser caret-browsing mode) */
+  html { caret-color: transparent; }
+  input, textarea, select, [contenteditable] { caret-color: auto; }
   </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">

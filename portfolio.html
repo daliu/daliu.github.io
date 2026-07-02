@@ -375,6 +375,9 @@
     letter-spacing: 1px;
   }
   .skill-tag.green { background: #1abc9c; }
+  /* No editable fields on this page — hide any stray text caret (e.g. browser caret-browsing mode) */
+  html { caret-color: transparent; }
+  input, textarea, select, [contenteditable] { caret-color: auto; }
   </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
