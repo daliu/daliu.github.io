@@ -383,6 +383,58 @@
     return { constructs: constructs, v: v, n_constructs: constructs.length, ok: constructs.length > 0 };
   }
 
+  // --- moral-circle shape: β_i slope + right-censored radius R_i, the N=1 reveal (§16.5, H11) ---
+  // Concern per social-distance bin (mean of ≥2 circle_radius-axis item scores; a user
+  // forms a shape only with ≥4 populated ordered bins, else SUPPRESSED — §1.5). β_i is
+  // the OLS slope of concern on bin index (steepness); R_i is the first bin ascending
+  // where concern crosses the midpoint between near-bin concern and the axis floor.
+  // When concern NEVER crosses, the radius is RIGHT-CENSORED: radius stays null,
+  // censored true — never made finite (§13.2). Reach and steepness DESCRIBE the shape;
+  // a wider circle is never scored as better (Singer's impartialism and Williams/
+  // MacIntyre's partialism are both readings, §16.5). β_i and R_i are separate facets,
+  // never pooled into a circle score (§13.5). Consumes the runtime's ALREADY-SCORED
+  // circle items {bin, score} — no declined-guard, exactly like the analyzer's
+  // circle_shape_by_user, which this mirrors under the JS↔Python parity lock in
+  // scripts/check_impl_parity.py.
+  const MIN_ITEMS_PER_BIN = 2;                           // §1.5 floor (== analyzer H11_ITEMS_PER_BIN_MIN)
+  const MIN_BINS = 4;                                    // §1.5 floor (== analyzer H11_BINS_MIN)
+  const CIRCLE_AXIS_FLOOR = -1.0;                        // boundaries pole of the circle_radius axis (== analyzer H11_AXIS_FLOOR)
+  function olsSlope(xs, ys) {
+    if (xs.length < 2) return null;                      // matches _ols_slope's NaN guards (never reached above the ≥4-bin floor:
+    const mx = mean(xs), my = mean(ys);                  // ≥4 distinct integer bins always give positive x-spread)
+    let num = 0, denom = 0;
+    for (let i = 0; i < xs.length; i++) {
+      num += (xs[i] - mx) * (ys[i] - my);
+      denom += (xs[i] - mx) * (xs[i] - mx);
+    }
+    return denom === 0 ? null : num / denom;
+  }
+  function circleShape(records) {
+    const cells = new Map();                             // bin -> scores
+    for (const r of records || []) {
+      if (!cells.has(r.bin)) cells.set(r.bin, []);
+      cells.get(r.bin).push(r.score);
+    }
+    const concern = new Map();
+    for (const [b, scores] of cells) {
+      if (scores.length >= MIN_ITEMS_PER_BIN) concern.set(b, mean(scores));
+    }
+    if (concern.size < MIN_BINS) {
+      return { beta: null, radius: null, censored: null, n_bins: concern.size, ok: false }; // suppressed (§1.5)
+    }
+    const bins = Array.from(concern.keys()).sort((a, b) => a - b);
+    const beta = olsSlope(bins, bins.map(b => concern.get(b)));
+    const nearBin = bins[0], farBin = bins[bins.length - 1];
+    const nearC = concern.get(nearBin), farC = concern.get(farBin);
+    const midpoint = (nearC + CIRCLE_AXIS_FLOOR) / 2;
+    let radius = null, censored = true;
+    for (const b of bins) {
+      if (concern.get(b) <= midpoint) { radius = b; censored = false; break; }
+    }
+    return { beta: beta, radius: radius, censored: censored, n_bins: concern.size, midpoint: midpoint,
+             near_bin: nearBin, far_bin: farBin, near_concern: nearC, far_concern: farC, ok: true };
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -595,6 +647,6 @@
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
            centralityFacets, facetMean, objectivismReads, claimTypeMean, hypocrisyAsymmetry, hypocrisyPairDelta,
-           contextVariability, sampleSD,
-           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS, MIN_ITEMS_PER_CONTEXT, MIN_CONTEXTS, MIN_CONSTRUCTS } };
+           contextVariability, sampleSD, circleShape, olsSlope,
+           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS, MIN_ITEMS_PER_CONTEXT, MIN_CONTEXTS, MIN_CONSTRUCTS, MIN_ITEMS_PER_BIN, MIN_BINS, CIRCLE_AXIS_FLOOR } };
 });
