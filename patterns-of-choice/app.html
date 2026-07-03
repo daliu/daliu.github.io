@@ -288,14 +288,28 @@ async function startH8Probe(pairId){
   const exp = await RT.exportForAnalyzer();     // skip if already answered
   if (exp.session_log.find(e => e.scenario_id === probe.abstract.scenario_id && e.item_id === probe.abstract.item_id && e.option_id != null)){ return renderHome(); }
   const item = probe.abstract;                  // {scenario_id, item_id, prompt, options}
-  h8sess = { id: POCRuntime.uuid(), probe, item, t0: Date.now(), timer: null };
+  h8sess = { id: POCRuntime.uuid(), probe, item, t0: null, timer: null };
+  // Read untimed (same split as the quick-fire): the prompt first, the choices and
+  // the decision clock only on reveal — so RT is decision latency, not reading.
+  render(`
+    <div class="timer" id="h8timer" aria-hidden="true">&nbsp;</div>
+    <div class="item-prompt">${item.prompt}</div>
+    <button class="primary" onclick="revealH8Choices()">I've read it — show the choices</button>
+    <div class="progress">a quick hypothetical &middot; take your time reading</div>
+  `);
+}
+function revealH8Choices(){
+  if (!h8sess){ return; }
+  const item = h8sess.item;
+  h8sess.t0 = Date.now();                        // decision clock starts on reveal
   let left = 8;
   render(`
-    <div class="timer" id="h8timer" aria-hidden="true">⏱  ${left} seconds</div>
+    <div class="timer" id="h8timer" aria-hidden="true">${prefersReduced ? "&nbsp;" : "⏱  " + left + " seconds"}</div>
     <div class="item-prompt">${item.prompt}</div>
     ${item.options.map(o => `<button onclick="answerH8Probe('${o.id}')">${o.text}</button>`).join("")}
     <div class="progress">a quick hypothetical &middot; no wrong answer</div>
   `);
+  if (h8sess.timer) clearInterval(h8sess.timer);
   if (!prefersReduced){
     h8sess.timer = setInterval(() => {
       left -= 1;
@@ -314,7 +328,7 @@ async function answerH8Probe(optionId){
     scenario_id: h8sess.probe.abstract.scenario_id, scenario_type: "h8-abstract-probe",
     domain: h8sess.probe.domain || "resource-allocation",
     item_id: h8sess.probe.abstract.item_id, option_id: optionId,
-    tags: opt ? opt.tags : [], response_time_ms: Date.now() - h8sess.t0,
+    tags: opt ? opt.tags : [], response_time_ms: h8sess.t0 ? (Date.now() - h8sess.t0) : 0,
     presented_position: 1, was_timeout: optionId === null,
   });
   render(`
@@ -494,7 +508,7 @@ function arcCardHtml(ainfo){
     inner = `<div class="name">${nm}</div>
       <p class="row-prose" style="margin:6px 0 12px;">${prog.encounters === 0 ? "You've only just met." : `${prog.encounters} time${prog.encounters===1?"":"s"} together so far.`}</p>
       <button class="primary" onclick="startArc('${id}')">Continue with ${nm}</button>
-      ${hypo ? `<button class="secondary" onclick="startH8Probe('${probe.pair_id}')">A quick hypothetical (15s)</button>` : ""}`;
+      ${hypo ? `<button class="secondary" onclick="startH8Probe('${probe.pair_id}')">A quick hypothetical</button>` : ""}`;
   }
   return `<div class="domyield" style="margin-top:20px;border-left:3px solid var(--accent);">${inner}</div>`;
 }
@@ -806,11 +820,25 @@ async function endArcBeat(terminal){
 
 function renderItem(){
   if (!sess || sess.idx >= sess.qf.items.length){ return endSession(); }
+  if (sess.timer) clearInterval(sess.timer);
   const item = sess.qf.items[sess.idx];
-  const t0 = Date.now();
+  // Read untimed: show the prompt first, no clock. The decision timer starts only
+  // when you reveal the choices (revealItemChoices), so response_time_ms is decision
+  // latency — not reading speed — and a slow read never silently drops the item.
+  render(`
+    <div class="timer" id="timer" aria-hidden="true">&nbsp;</div>
+    <div class="item-prompt">${item.prompt}</div>
+    <button class="primary" onclick="revealItemChoices()">I've read it — show the choices</button>
+    <div class="progress">Item ${sess.idx+1} of ${sess.qf.items.length} &middot; ${sess.domain.replace(/-/g," ")} &middot; take your time reading</div>
+  `);
+}
+function revealItemChoices(){
+  if (!sess || sess.idx >= sess.qf.items.length){ return; }
+  const item = sess.qf.items[sess.idx];
+  const t0 = Date.now();                       // decision clock starts on reveal, not on prompt render
   let left = sess.qf.timer_seconds_per_item || 8;
   render(`
-    <div class="timer" id="timer" aria-hidden="true">⏱  ${left} seconds</div>
+    <div class="timer" id="timer" aria-hidden="true">${prefersReduced ? "&nbsp;" : "⏱  " + left + " seconds"}</div>
     <div class="item-prompt">${item.prompt}</div>
     <button onclick="answer('${item.id}','a',${t0})">${item.options[0].text}</button>
     <button onclick="answer('${item.id}','b',${t0})">${item.options[1].text}</button>
