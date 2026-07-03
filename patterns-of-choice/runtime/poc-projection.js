@@ -435,6 +435,48 @@
              near_bin: nearBin, far_bin: farBin, near_concern: nearC, far_concern: farC, ok: true };
   }
 
+  // --- professed protected values: the set P_i of `never` slots, the N=1 reveal (§17.5, R2) ---
+  // A pure re-read of the cost-of-virtue channel: the value slots whose response is a
+  // right-censored `never` (no_break_point true, or first_accept_rung "never" — the SAME
+  // predicate the break-point scorer censors on, pole-agnostic) ARE the professed
+  // protected set. Membership is CATEGORICAL — the set holds value-slot strings, never
+  // prices; a `never` is never finitized (§13.2). First-wave read: with multi-wave
+  // records the earliest wave wins, mirroring the analyzer census. An EMPTY set is
+  // DATA (every probed value has a price at some stake), not suppression — nothing is
+  // estimated here, so no §1.5 floor applies; ok:false only when no probed wave exists.
+  // PROFESSED (cheap-talk caveat, §17.5): a hypothetical `never` is costless, so the
+  // reveal never claims the value would survive a real offer. A large set is NEVER
+  // scored as better — many `never`s read integrity OR rigid dogmatism; the set is
+  // named, never ranked, never summed into a sacredness score (§13.5). Consumes flat
+  // CoV responses {wave, value_slot, no_break_point, first_accept_rung} — exactly like
+  // the analyzer's protected_profile_by_user, which this mirrors under the JS↔Python
+  // parity lock in scripts/check_impl_parity.py.
+  function isProtectedResponse(r) {                      // == analyzer _cov_response_is_protected
+    return r.no_break_point === true || r.first_accept_rung === "never";
+  }
+  function protectedValues(records) {
+    const cmp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);  // mirrors Python sorted() for strings
+    const waves = new Set();
+    const professedByWave = new Map(), probedByWave = new Map();
+    for (const r of records || []) {
+      const w = r.wave === undefined || r.wave === null ? null : r.wave;
+      if (w === null) continue;                          // no wave key -> dropped, like wave_of -> None
+      waves.add(w);
+      if (!professedByWave.has(w)) { professedByWave.set(w, new Set()); probedByWave.set(w, new Set()); }
+      if (r.value_slot) {
+        probedByWave.get(w).add(r.value_slot);
+        if (isProtectedResponse(r)) professedByWave.get(w).add(r.value_slot);
+      }
+    }
+    if (!waves.size) {
+      return { professed: null, n_professed: 0, n_slots_probed: 0, wave: null, ok: false }; // never probed
+    }
+    const wave = Array.from(waves).sort(cmp)[0];         // FIRST wave, like the analyzer census
+    const professed = Array.from(professedByWave.get(wave)).sort(cmp);
+    return { professed: professed, n_professed: professed.length,
+             n_slots_probed: probedByWave.get(wave).size, wave: wave, ok: true };
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -647,6 +689,6 @@
   return { profile, revealedScores, cardSortStated, ipsativeOrdering, wordDeedConcordance, itemScore,
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
            centralityFacets, facetMean, objectivismReads, claimTypeMean, hypocrisyAsymmetry, hypocrisyPairDelta,
-           contextVariability, sampleSD, circleShape, olsSlope,
+           contextVariability, sampleSD, circleShape, olsSlope, protectedValues, isProtectedResponse,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS, MIN_ITEMS_PER_CONTEXT, MIN_CONTEXTS, MIN_CONSTRUCTS, MIN_ITEMS_PER_BIN, MIN_BINS, CIRCLE_AXIS_FLOOR } };
 });
