@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-05T01:00:14.473830+00:00",
+  "generated_at": "2026-07-05T12:00:15.024331+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "b8cc395",
-      "date": "2026-07-04T11:00:14-07:00",
-      "message": "Update health data 2026-07-04 11:00"
+      "hash": "7ea02eb",
+      "date": "2026-07-05T03:40:09-07:00",
+      "message": "health: refresh calendar density 2026-07-05 03:40"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-04T18:00:06.546982",
+        "updated": "2026-07-05T05:00:07.130244",
         "date_range": null
       },
       "last_commit": {
-        "hash": "b8cc395",
-        "date": "2026-07-04T11:00:14-07:00",
-        "message": "Update health data 2026-07-04 11:00"
+        "hash": "7ea02eb",
+        "date": "2026-07-05T03:40:09-07:00",
+        "message": "health: refresh calendar density 2026-07-05 03:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-04T08:25:49Z"
+        "updated": "2026-07-05T08:42:24Z"
       },
       "last_commit": {
-        "hash": "ed4f03d",
-        "date": "2026-07-04T08:25:49+00:00",
-        "message": "Update analytics data 2026-07-04"
+        "hash": "cfea117",
+        "date": "2026-07-05T08:42:25+00:00",
+        "message": "Update analytics data 2026-07-05"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "7ea02eb",
+      "date": "2026-07-05T03:40:09-07:00",
+      "message": "health: refresh calendar density 2026-07-05 03:40"
+    },
+    {
+      "hash": "cfea117",
+      "date": "2026-07-05T08:42:25+00:00",
+      "message": "Update analytics data 2026-07-05"
+    },
+    {
+      "hash": "455f756",
+      "date": "2026-07-04T18:00:14-07:00",
+      "message": "Update health data 2026-07-04 18:00"
+    },
     {
       "hash": "b8cc395",
       "date": "2026-07-04T11:00:14-07:00",
@@ -148,21 +163,6 @@
       "hash": "c744049",
       "date": "2026-07-03T01:36:00-07:00",
       "message": "patterns-of-choice: split timed items into read-then-decide"
-    },
-    {
-      "hash": "c80d0d3",
-      "date": "2026-07-03T01:27:28-07:00",
-      "message": "resume: rename Experimentation skills row to Evaluation & Testing"
-    },
-    {
-      "hash": "d5e12a6",
-      "date": "2026-07-03T00:55:06-07:00",
-      "message": "health: turn section groups into a tab filter (default \"All\")"
-    },
-    {
-      "hash": "50dc77b",
-      "date": "2026-07-02T18:00:14-07:00",
-      "message": "Update health data 2026-07-02 18:00"
     }
   ]
 }
