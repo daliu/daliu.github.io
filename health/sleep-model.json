@@ -1,45 +1,45 @@
 {
-  "updated": "2026-07-04T11:00:09.094787",
-  "n": 61,
+  "updated": "2026-07-04T18:00:10.008675",
+  "n": 60,
   "bedtime": {
-    "recommended_norm": 5.85,
-    "recommended_label": "11:51 PM",
+    "recommended_norm": 5.83,
+    "recommended_label": "11:50 PM",
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
-    "ci_label": "11:30 PM \u2013 12:06 AM",
-    "median_label": "1:21 AM",
-    "pct10_label": "11:51 PM",
-    "pct90_label": "3:46 AM",
+    "ci_label": "11:31 PM \u2013 12:05 AM",
+    "median_label": "1:23 AM",
+    "pct10_label": "11:50 PM",
+    "pct90_label": "3:47 AM",
     "stats": {
       "sleep_score": {
         "kind": "linear",
-        "cv_r2": -0.045,
+        "cv_r2": -0.099,
         "r": -0.42,
-        "p": 0.0007,
-        "per_hour_earlier": 3.15
+        "p": 0.001,
+        "per_hour_earlier": 3.07
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": 0.118,
+        "cv_r2": 0.121,
         "r": -0.57,
         "p": 0.0,
         "per_hour_earlier": 0.52
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.081,
+        "cv_r2": -0.134,
         "r": -0.4,
-        "p": 0.0013,
-        "per_hour_earlier": 3.58
+        "p": 0.0014,
+        "per_hour_earlier": 3.6
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 80.6,
+      "sleep_score": 80.3,
       "sleep_hours": 7.6,
-      "battery": 85.9
+      "battery": 86.1
     },
     "pred_at_median": {
-      "sleep_score": 75.9,
+      "sleep_score": 75.5,
       "sleep_hours": 6.8,
       "battery": 80.5
     }
@@ -47,12 +47,12 @@
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.13,
-        "sleep_hours": 0.08,
-        "battery": -0.1
+        "sleep_score": 0.07,
+        "sleep_hours": 0.06,
+        "battery": -0.11
       },
       "weekly_frequency": {
-        "sleep_score": 0.02,
+        "sleep_score": -0.0,
         "sleep_hours": -0.01,
         "battery": -0.23
       }
