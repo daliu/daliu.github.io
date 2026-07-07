@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-07T04:00:15.465752+00:00",
+  "generated_at": "2026-07-07T15:42:49.830288+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "6198a4f",
-      "date": "2026-07-06T14:00:14-07:00",
-      "message": "Update health data 2026-07-06 14:00"
+      "hash": "098add9",
+      "date": "2026-07-07T08:42:00-07:00",
+      "message": "health: refresh calendar density 2026-07-07 08:42"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 100,
+      "page_count": 101,
       "last_commit": {
-        "hash": "f3bc05e",
-        "date": "2026-07-06T12:33:39-07:00",
-        "message": "social: embed Short for 2026-07-06 (E62gxIBp4MU)"
+        "hash": "e41c2bc",
+        "date": "2026-07-07T06:11:54-04:00",
+        "message": "daily: 2026-07-07 market update"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-06T21:00:06.960036",
+        "updated": "2026-07-07T08:41:53.642516",
         "date_range": null
       },
       "last_commit": {
-        "hash": "6198a4f",
-        "date": "2026-07-06T14:00:14-07:00",
-        "message": "Update health data 2026-07-06 14:00"
+        "hash": "098add9",
+        "date": "2026-07-07T08:42:00-07:00",
+        "message": "health: refresh calendar density 2026-07-07 08:42"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,41 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-06T09:58:31Z"
+        "updated": "2026-07-07T09:26:16Z"
       },
       "last_commit": {
-        "hash": "8b10557",
-        "date": "2026-07-06T09:58:31+00:00",
-        "message": "Update analytics data 2026-07-06"
+        "hash": "d72d5d1",
+        "date": "2026-07-07T09:26:16+00:00",
+        "message": "Update analytics data 2026-07-07"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "098add9",
+      "date": "2026-07-07T08:42:00-07:00",
+      "message": "health: refresh calendar density 2026-07-07 08:42"
+    },
+    {
+      "hash": "8cc03ea",
+      "date": "2026-07-07T06:11:56-04:00",
+      "message": "blog: 2026-07-07 \u2014 Tech & Defense Surge Dominates"
+    },
+    {
+      "hash": "e41c2bc",
+      "date": "2026-07-07T06:11:54-04:00",
+      "message": "daily: 2026-07-07 market update"
+    },
+    {
+      "hash": "d72d5d1",
+      "date": "2026-07-07T09:26:16+00:00",
+      "message": "Update analytics data 2026-07-07"
+    },
+    {
+      "hash": "5545af5",
+      "date": "2026-07-06T21:00:15-07:00",
+      "message": "Update health data 2026-07-06 21:00"
+    },
     {
       "hash": "6198a4f",
       "date": "2026-07-06T14:00:14-07:00",
@@ -138,31 +163,6 @@
       "hash": "586f0c9",
       "date": "2026-07-05T05:00:15-07:00",
       "message": "Update health data 2026-07-05 05:00"
-    },
-    {
-      "hash": "7ea02eb",
-      "date": "2026-07-05T03:40:09-07:00",
-      "message": "health: refresh calendar density 2026-07-05 03:40"
-    },
-    {
-      "hash": "cfea117",
-      "date": "2026-07-05T08:42:25+00:00",
-      "message": "Update analytics data 2026-07-05"
-    },
-    {
-      "hash": "455f756",
-      "date": "2026-07-04T18:00:14-07:00",
-      "message": "Update health data 2026-07-04 18:00"
-    },
-    {
-      "hash": "b8cc395",
-      "date": "2026-07-04T11:00:14-07:00",
-      "message": "Update health data 2026-07-04 11:00"
-    },
-    {
-      "hash": "5ef4288",
-      "date": "2026-07-04T05:00:15-07:00",
-      "message": "Update health data 2026-07-04 05:00"
     }
   ]
 }
