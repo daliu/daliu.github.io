@@ -164,7 +164,17 @@ const ITEMS = [
 
 const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const app = document.getElementById("app");
-function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
+function render(html){
+  app.innerHTML = html;
+  window.scrollTo(0,0);
+  // a11y: content swaps in place, so move focus to the new screen's lead element —
+  // keyboard users land on it and screen readers announce the change (otherwise
+  // focus sticks to the just-removed button and the swap goes unannounced).
+  // Falls back to the container. Mirrors app.html.
+  const lead = app.querySelector("h1, h2, .item-prompt") || app;
+  lead.setAttribute("tabindex", "-1");
+  try { lead.focus({ preventScroll: true }); } catch (_) { lead.focus(); }
+}
 
 // State: per-domain touch counts + first-touch order + per-domain waver (picked
 // different option-leans within the same domain across items — surfaced as range).

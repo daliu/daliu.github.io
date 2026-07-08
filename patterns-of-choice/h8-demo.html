@@ -182,7 +182,18 @@
 // ============================================================================
 
 const app = document.getElementById("app");
-function render(html) { app.innerHTML = html; window.scrollTo(0, 0); }
+function render(html) {
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+  // a11y: content swaps in place, so move focus to the new screen's lead element —
+  // keyboard users land on it and screen readers announce the change (otherwise
+  // focus sticks to the just-removed button and the swap goes unannounced).
+  // Falls back to the container. Screens that want an input focused (renderAttach1)
+  // call .focus() after render(), which correctly wins. Mirrors app.html.
+  const lead = app.querySelector("h1, h2, .item-prompt") || app;
+  lead.setAttribute("tabindex", "-1");
+  try { lead.focus({ preventScroll: true }); } catch (_) { lead.focus(); }
+}
 
 const state = {
   name: "",
