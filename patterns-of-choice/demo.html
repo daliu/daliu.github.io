@@ -333,7 +333,7 @@ function renderQuickfireIntro() {
   render(`
     <h2>A new kind of task</h2>
     <div class="body-text">
-      <p>Rapid choices under a timer. Each one is between two options, eight seconds each.</p>
+      <p>Each moment is a choice between two options. You read it untimed; the moment you reveal the two answers, a short clock starts — so it captures which one you reach for first, not how fast you read.</p>
       <p>The point is to capture what you reach for first — not what you'd choose on reflection. There are no right answers and the timer is part of the data, not part of a test.</p>
     </div>
     <button class="primary" onclick="renderEstimate()">Ready</button>
@@ -383,9 +383,23 @@ function renderQuickfireItem() {
     renderSessionEnd();
     return;
   }
+  if (timerInterval) clearInterval(timerInterval);
 
   const item = SCENARIO.items[currentItemIndex];
-  const itemStartTime = Date.now();
+
+  // Reading phase — untimed. The decision clock does not start until the reader
+  // reveals the two options, so response time is decision latency, not reading speed.
+  render(`
+    <div class="timer">&nbsp;</div>
+    <div class="item-prompt">${item.prompt}</div>
+    <button class="primary" onclick="revealQuickfireChoices()">I've read it — show the choices</button>
+    <div class="meta">Item ${currentItemIndex + 1} of ${SCENARIO.items.length} · take your time reading</div>
+  `);
+}
+
+function revealQuickfireChoices() {
+  const item = SCENARIO.items[currentItemIndex];
+  const itemStartTime = Date.now();   // decision clock starts on reveal, not on prompt render
   let timeLeft = SCENARIO.metadata.timer_seconds_per_item;
 
   render(`
