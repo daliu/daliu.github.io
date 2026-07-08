@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-08T04:00:16.843585+00:00",
+  "generated_at": "2026-07-08T15:00:18.155756+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "8b7ac5a",
-      "date": "2026-07-07T14:00:10-07:00",
-      "message": "Update health data 2026-07-07 14:00"
+      "hash": "17a9291",
+      "date": "2026-07-08T07:38:28-07:00",
+      "message": "poc: move focus to the new screen on re-render across the remaining demos (a11y)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 101,
+      "page_count": 102,
       "last_commit": {
-        "hash": "d21c4d5",
-        "date": "2026-07-07T12:32:56-07:00",
-        "message": "social: embed Short for 2026-07-07 (DL9dybBQzYU)"
+        "hash": "c07b22a",
+        "date": "2026-07-08T07:02:39-07:00",
+        "message": "social: embed Short for 2026-07-08 (i4YZoCS9vc0)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-07T21:00:03.484218",
+        "updated": "2026-07-08T08:00:06.567174",
         "date_range": null
       },
       "last_commit": {
-        "hash": "8b7ac5a",
-        "date": "2026-07-07T14:00:10-07:00",
-        "message": "Update health data 2026-07-07 14:00"
+        "hash": "7850021",
+        "date": "2026-07-08T06:40:08-07:00",
+        "message": "health: refresh calendar density 2026-07-08 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,86 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-07T09:26:16Z"
+        "updated": "2026-07-08T08:10:19Z"
       },
       "last_commit": {
-        "hash": "d72d5d1",
-        "date": "2026-07-07T09:26:16+00:00",
-        "message": "Update analytics data 2026-07-07"
+        "hash": "1f715e9",
+        "date": "2026-07-08T08:10:19+00:00",
+        "message": "Update analytics data 2026-07-08"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "17a9291",
+      "date": "2026-07-08T07:38:28-07:00",
+      "message": "poc: move focus to the new screen on re-render across the remaining demos (a11y)"
+    },
+    {
+      "hash": "cb2cef0",
+      "date": "2026-07-08T07:04:51-07:00",
+      "message": "poc: move focus to the new screen on re-render in the demo (a11y)"
+    },
+    {
+      "hash": "c07b22a",
+      "date": "2026-07-08T07:02:39-07:00",
+      "message": "social: embed Short for 2026-07-08 (i4YZoCS9vc0)"
+    },
+    {
+      "hash": "ea16bed",
+      "date": "2026-07-08T07:00:19-07:00",
+      "message": "social: 2026-07-08 MoneySignals deck (5 cards)"
+    },
+    {
+      "hash": "7850021",
+      "date": "2026-07-08T06:40:08-07:00",
+      "message": "health: refresh calendar density 2026-07-08 06:40"
+    },
+    {
+      "hash": "5b746ef",
+      "date": "2026-07-08T06:30:25-07:00",
+      "message": "poc: graceful message when the browser blocks on-device storage"
+    },
+    {
+      "hash": "c4fdcf7",
+      "date": "2026-07-08T04:47:56-07:00",
+      "message": "poc: use summary_large_image for the wide social card"
+    },
+    {
+      "hash": "434ee7b",
+      "date": "2026-07-08T04:15:28-07:00",
+      "message": "poc: add brand theme-color to the six pages that lacked it"
+    },
+    {
+      "hash": "b7d9eff",
+      "date": "2026-07-08T06:08:13-04:00",
+      "message": "blog: 2026-07-08 \u2014 Defense & Energy Dominance"
+    },
+    {
+      "hash": "6369a6f",
+      "date": "2026-07-08T06:08:10-04:00",
+      "message": "daily: 2026-07-08 market update"
+    },
+    {
+      "hash": "63253ef",
+      "date": "2026-07-08T02:32:40-07:00",
+      "message": "poc demo: honor prefers-reduced-motion in the quick-fire timer"
+    },
+    {
+      "hash": "506591e",
+      "date": "2026-07-08T01:59:43-07:00",
+      "message": "poc demo: align quick-fire to read-then-decide timing"
+    },
+    {
+      "hash": "1f715e9",
+      "date": "2026-07-08T08:10:19+00:00",
+      "message": "Update analytics data 2026-07-08"
+    },
+    {
+      "hash": "dab19bf",
+      "date": "2026-07-07T21:00:16-07:00",
+      "message": "Update health data 2026-07-07 21:00"
+    },
     {
       "hash": "8b7ac5a",
       "date": "2026-07-07T14:00:10-07:00",
@@ -93,76 +163,6 @@
       "hash": "8cc03ea",
       "date": "2026-07-07T06:11:56-04:00",
       "message": "blog: 2026-07-07 \u2014 Tech & Defense Surge Dominates"
-    },
-    {
-      "hash": "e41c2bc",
-      "date": "2026-07-07T06:11:54-04:00",
-      "message": "daily: 2026-07-07 market update"
-    },
-    {
-      "hash": "d72d5d1",
-      "date": "2026-07-07T09:26:16+00:00",
-      "message": "Update analytics data 2026-07-07"
-    },
-    {
-      "hash": "5545af5",
-      "date": "2026-07-06T21:00:15-07:00",
-      "message": "Update health data 2026-07-06 21:00"
-    },
-    {
-      "hash": "6198a4f",
-      "date": "2026-07-06T14:00:14-07:00",
-      "message": "Update health data 2026-07-06 14:00"
-    },
-    {
-      "hash": "f3bc05e",
-      "date": "2026-07-06T12:33:39-07:00",
-      "message": "social: embed Short for 2026-07-06 (E62gxIBp4MU)"
-    },
-    {
-      "hash": "3c1a017",
-      "date": "2026-07-06T12:30:22-07:00",
-      "message": "social: 2026-07-06 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "1074354",
-      "date": "2026-07-06T09:31:16-07:00",
-      "message": "social: embed Short for 2026-07-06 (Xz8-ZbaPc58)"
-    },
-    {
-      "hash": "f469a25",
-      "date": "2026-07-06T09:30:15-07:00",
-      "message": "social: 2026-07-06 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "f74ce92",
-      "date": "2026-07-06T05:00:15-07:00",
-      "message": "Update health data 2026-07-06 05:00"
-    },
-    {
-      "hash": "c2d664d",
-      "date": "2026-07-06T04:01:27-07:00",
-      "message": "social: embed Short for 2026-07-06 (XSIyrcP3IBQ)"
-    },
-    {
-      "hash": "8e2ec9f",
-      "date": "2026-07-06T04:00:25-07:00",
-      "message": "social: 2026-07-06 MoneySignals deck (5 cards)"
-    },
-    {
-      "hash": "d73a325",
-      "date": "2026-07-06T03:40:06-07:00",
-      "message": "health: refresh calendar density 2026-07-06 03:40"
-    },
-    {
-      "hash": "7c7b227",
-      "date": "2026-07-06T06:08:27-04:00",
-      "message": "blog: 2026-07-06 \u2014 Defense & Energy Rotation Dominating Headlines"
-    },
-    {
-      "hash": "164b622",
-      "date": "2026-07-06T06:08:24-04:00",
-      "message": "daily: 2026-07-06 market update"
     }
   ]
 }
