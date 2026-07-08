@@ -283,7 +283,17 @@ const sessionLog = {
 };
 
 const app = document.getElementById("app");
-function render(html) { app.innerHTML = html; }
+function render(html) {
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+  // a11y: this is a single view that swaps content in place, so move focus to the
+  // new screen's lead element — keyboard users land on it and screen readers
+  // announce the change (otherwise focus sticks to the just-removed button and the
+  // swap goes unannounced). Falls back to the container. Mirrors app.html.
+  const lead = app.querySelector("h1, h2, .item-prompt") || app;
+  lead.setAttribute("tabindex", "-1");
+  try { lead.focus({ preventScroll: true }); } catch (_) { lead.focus(); }
+}
 
 // Respect reduced-motion: suppress the ticking countdown AND the forced timeout
 // so these users answer at their own pace by clicking, matching app.html.
