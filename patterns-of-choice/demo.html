@@ -284,6 +284,10 @@ const sessionLog = {
 const app = document.getElementById("app");
 function render(html) { app.innerHTML = html; }
 
+// Respect reduced-motion: suppress the ticking countdown AND the forced timeout
+// so these users answer at their own pace by clicking, matching app.html.
+const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function renderOpening() {
   render(`
     <h1>Patterns of Choice</h1>
@@ -390,7 +394,7 @@ function renderQuickfireItem() {
   // Reading phase — untimed. The decision clock does not start until the reader
   // reveals the two options, so response time is decision latency, not reading speed.
   render(`
-    <div class="timer">&nbsp;</div>
+    <div class="timer" aria-hidden="true">&nbsp;</div>
     <div class="item-prompt">${item.prompt}</div>
     <button class="primary" onclick="revealQuickfireChoices()">I've read it — show the choices</button>
     <div class="meta">Item ${currentItemIndex + 1} of ${SCENARIO.items.length} · take your time reading</div>
@@ -403,7 +407,7 @@ function revealQuickfireChoices() {
   let timeLeft = SCENARIO.metadata.timer_seconds_per_item;
 
   render(`
-    <div class="timer" id="timer">⏱  ${timeLeft} seconds</div>
+    <div class="timer" id="timer" aria-hidden="true">${prefersReduced ? "&nbsp;" : "⏱  " + timeLeft + " seconds"}</div>
     <div class="item-prompt">${item.prompt}</div>
     <button onclick="answer('${item.id}', 'a', ${itemStartTime})">${item.options[0].text}</button>
     <button onclick="answer('${item.id}', 'b', ${itemStartTime})">${item.options[1].text}</button>
@@ -411,6 +415,7 @@ function revealQuickfireChoices() {
   `);
 
   if (timerInterval) clearInterval(timerInterval);
+  if (prefersReduced) return;   // reduced-motion: no countdown, no forced timeout — answer by clicking
   timerInterval = setInterval(() => {
     timeLeft -= 1;
     const timerEl = document.getElementById("timer");
