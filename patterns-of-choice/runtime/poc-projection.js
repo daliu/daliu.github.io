@@ -477,6 +477,35 @@
              n_slots_probed: probedByWave.get(wave).size, wave: wave, ok: true };
   }
 
+  // --- H9 self-prediction calibration reveal (§14.2, axis channel only) ---
+  // Given ONE participant's prediction records {channel, domain, predicted_tags,
+  // realized_tags} — a pre-resolved prediction<->choice pair per probe — score both
+  // sides on the axis channel with the SAME parity-locked itemScore, take
+  // e = pred - rev (signed; e>0 = predicted more virtuous than acted), then report
+  // the signed cal_bias = mean(e) and the magnitude cal_error = mean(|e|).
+  // N=1-interpretable: pred and rev share one pre-defined axis, so NO cohort norms
+  // (contrast the §6 gap), hence eligible for the personal reveal. Descriptive only
+  // — never a score-out-of-N, never cross-person-ranked (§14.7). Mirrors, per user,
+  // calibration_person_indices(calibration_axis_records(...)) under the JS<->Python
+  // parity lock in scripts/check_impl_parity.py. The cost-of-virtue PRICE channel
+  // is NOT pooled here and carries its own §14.1 censoring — intentionally absent.
+  function selfCalibration(records, tagMap) {
+    const es = [];
+    for (const r of records || []) {
+      if (r.channel !== "axis") continue;                // axis channel only (cov never pooled)
+      const pred = itemScore(r.domain, r.predicted_tags, tagMap);
+      const rev = itemScore(r.domain, r.realized_tags, tagMap);
+      if (pred.n === 0 || rev.n === 0) continue;          // NA — no primary-axis contribution
+      es.push(pred.score - rev.score);
+    }
+    if (!es.length) {
+      return { cal_bias: null, cal_error: null, n_probes: 0, ok: false }; // no admitted probe -> absent
+    }
+    const bias = es.reduce((s, x) => s + x, 0) / es.length;
+    const err = es.reduce((s, x) => s + Math.abs(x), 0) / es.length;
+    return { cal_bias: bias, cal_error: err, n_probes: es.length, ok: true };
+  }
+
   // --- self-alignment across the three stated reference-selves (self-discrepancy) ---
   // Given the revealed order and a card sort done in multiple layers (who you ARE /
   // who you ASPIRE to be / who you ADMIRE), report which stated self the person's
@@ -690,5 +719,6 @@
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
            centralityFacets, facetMean, objectivismReads, claimTypeMean, hypocrisyAsymmetry, hypocrisyPairDelta,
            contextVariability, sampleSD, circleShape, olsSlope, protectedValues, isProtectedResponse,
+           selfCalibration,
            DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS, MIN_ITEMS_PER_CONTEXT, MIN_CONTEXTS, MIN_CONSTRUCTS, MIN_ITEMS_PER_BIN, MIN_BINS, CIRCLE_AXIS_FLOOR } };
 });
