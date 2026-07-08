@@ -116,7 +116,11 @@
 <div class="local-banner">
   Local-first: your choices live only in this browser (IndexedDB) and are computed on your device. Nothing is sent anywhere. This is a working prototype of the real instrument.
 </div>
-<main class="container" id="app"></main>
+<main class="container" id="app"><noscript>
+  <h1>This practice needs JavaScript</h1>
+  <p class="body-text">Patterns of Choice runs entirely on your own device &mdash; the whole instrument is JavaScript that computes your profile locally and stores it only in this browser. There is no server to fall back to, because nothing here runs on one. Turn JavaScript on for this page and your daily sessions will work, with nothing ever leaving your device.</p>
+  <a href="./" class="back-link">&larr; Back to the project</a>
+</noscript></main>
 
 <script src="runtime/poc-runtime.js"></script>
 <script src="runtime/poc-projection.js"></script>
