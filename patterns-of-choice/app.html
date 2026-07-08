@@ -152,7 +152,19 @@ async function loadJSON(path, fallbackGlobal){
 
 async function boot(){
   RT = POCRuntime.createRuntime({ corpus_version: "mvp1-2026-06", tag_map_version: "v0.1" });
-  await RT.init();
+  try {
+    await RT.init();
+  } catch (_) {
+    // The practice keeps everything on-device, so it needs the browser's local
+    // storage (IndexedDB). Some browsers refuse it in a private/incognito window
+    // or when site storage is disabled — surface that plainly rather than hang on
+    // a blank screen, and don't silently fall back to memory-only (a multi-week
+    // instrument that quietly forgets everything on close would be worse).
+    render(`<h1>This browser is blocking on-device storage</h1>
+      <p class="body-text">Patterns of Choice keeps everything on your own device, which needs your browser's local storage. This browser is refusing it &mdash; most often because this is a private or incognito window, or storage is turned off for this site. Open it in a normal window and your sessions will persist here across weeks, with nothing ever sent anywhere.</p>
+      <a href="./" class="back-link">&larr; Back to the project</a>`);
+    return;
+  }
   BUNDLE = await loadJSON("runtime/content-bundle.v0.1.json");
   TAGMAP = await loadJSON("runtime/tag-axis-map.v0.1.json");
   if (!BUNDLE || !TAGMAP){
