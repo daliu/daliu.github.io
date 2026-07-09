@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-09T08:00:15.263689-07:00",
+  "updated": "2026-07-09T14:00:15.826106-07:00",
   "window_days": 90,
   "date_range": {
     "start": "2026-04-11",
@@ -7,15 +7,15 @@
     "days_with_data": 89
   },
   "intraday": {
-    "n_episodes": 236,
-    "n_observed": 236,
-    "episodes_per_day": 2.6,
+    "n_episodes": 239,
+    "n_observed": 239,
+    "episodes_per_day": 2.7,
     "days_with_data": 89,
     "median_peak": 81,
     "settle": {
-      "median_min": 20,
+      "median_min": 21,
       "p75_min": 57,
-      "p90_min": 108,
+      "p90_min": 106,
       "within_60min_pct": 78,
       "within_120min_pct": 92,
       "to_rest_median_min": 16
@@ -24,15 +24,15 @@
     "decay_curve": [
       {
         "t": -30,
-        "mean": 37.9,
-        "sem": 1.45,
-        "n": 132
+        "mean": 38.1,
+        "sem": 1.44,
+        "n": 134
       },
       {
         "t": -27,
-        "mean": 39.7,
-        "sem": 1.41,
-        "n": 137
+        "mean": 39.9,
+        "sem": 1.4,
+        "n": 138
       },
       {
         "t": -24,
@@ -42,135 +42,135 @@
       },
       {
         "t": -21,
-        "mean": 39.4,
-        "sem": 1.31,
-        "n": 135
+        "mean": 39.7,
+        "sem": 1.32,
+        "n": 137
       },
       {
         "t": -18,
         "mean": 42.6,
         "sem": 1.48,
-        "n": 137
-      },
-      {
-        "t": -15,
-        "mean": 43.6,
-        "sem": 1.42,
         "n": 139
       },
       {
+        "t": -15,
+        "mean": 43.9,
+        "sem": 1.41,
+        "n": 141
+      },
+      {
         "t": -12,
-        "mean": 43.8,
-        "sem": 1.54,
-        "n": 126
+        "mean": 44.1,
+        "sem": 1.53,
+        "n": 128
       },
       {
         "t": -9,
-        "mean": 44.8,
-        "sem": 1.46,
-        "n": 117
+        "mean": 44.7,
+        "sem": 1.45,
+        "n": 118
       },
       {
         "t": -6,
-        "mean": 49.1,
-        "sem": 1.49,
-        "n": 116
+        "mean": 49.0,
+        "sem": 1.48,
+        "n": 118
       },
       {
         "t": -3,
         "mean": 57.7,
-        "sem": 1.33,
-        "n": 107
+        "sem": 1.31,
+        "n": 109
       },
       {
         "t": 0,
         "mean": 81.2,
-        "sem": 0.37,
-        "n": 190
+        "sem": 0.36,
+        "n": 193
       },
       {
         "t": 3,
-        "mean": 60.2,
-        "sem": 1.38,
-        "n": 132
+        "mean": 60.1,
+        "sem": 1.36,
+        "n": 135
       },
       {
         "t": 6,
-        "mean": 51.0,
-        "sem": 1.58,
-        "n": 135
+        "mean": 51.1,
+        "sem": 1.56,
+        "n": 138
       },
       {
         "t": 9,
-        "mean": 48.4,
-        "sem": 1.61,
-        "n": 135
+        "mean": 48.7,
+        "sem": 1.59,
+        "n": 138
       },
       {
         "t": 12,
-        "mean": 47.9,
+        "mean": 48.4,
         "sem": 1.54,
-        "n": 143
+        "n": 146
       },
       {
         "t": 15,
-        "mean": 49.0,
+        "mean": 49.4,
+        "sem": 1.62,
+        "n": 145
+      },
+      {
+        "t": 18,
+        "mean": 49.5,
+        "sem": 1.68,
+        "n": 148
+      },
+      {
+        "t": 21,
+        "mean": 46.8,
+        "sem": 1.58,
+        "n": 154
+      },
+      {
+        "t": 24,
+        "mean": 48.4,
+        "sem": 1.51,
+        "n": 151
+      },
+      {
+        "t": 27,
+        "mean": 47.3,
         "sem": 1.63,
         "n": 142
       },
       {
-        "t": 18,
-        "mean": 49.1,
-        "sem": 1.7,
-        "n": 145
-      },
-      {
-        "t": 21,
-        "mean": 46.5,
-        "sem": 1.6,
-        "n": 151
-      },
-      {
-        "t": 24,
-        "mean": 48.1,
-        "sem": 1.52,
-        "n": 149
-      },
-      {
-        "t": 27,
-        "mean": 47.1,
-        "sem": 1.65,
-        "n": 140
-      },
-      {
         "t": 30,
         "mean": 45.5,
-        "sem": 1.49,
-        "n": 141
+        "sem": 1.48,
+        "n": 142
       },
       {
         "t": 33,
-        "mean": 44.3,
-        "sem": 1.64,
-        "n": 137
+        "mean": 44.2,
+        "sem": 1.63,
+        "n": 138
       },
       {
         "t": 36,
         "mean": 47.0,
-        "sem": 1.64,
-        "n": 139
+        "sem": 1.63,
+        "n": 141
       },
       {
         "t": 39,
-        "mean": 48.5,
-        "sem": 1.66,
-        "n": 144
+        "mean": 48.3,
+        "sem": 1.64,
+        "n": 146
       },
       {
         "t": 42,
-        "mean": 45.3,
-        "sem": 1.61,
-        "n": 146
+        "mean": 45.4,
+        "sem": 1.6,
+        "n": 147
       },
       {
         "t": 45,
@@ -180,105 +180,105 @@
       },
       {
         "t": 48,
-        "mean": 47.0,
+        "mean": 47.2,
         "sem": 1.65,
-        "n": 138
+        "n": 139
       },
       {
         "t": 51,
-        "mean": 46.1,
-        "sem": 1.74,
-        "n": 140
+        "mean": 46.3,
+        "sem": 1.73,
+        "n": 141
       },
       {
         "t": 54,
-        "mean": 47.7,
-        "sem": 1.74,
-        "n": 134
+        "mean": 47.9,
+        "sem": 1.73,
+        "n": 135
       },
       {
         "t": 57,
-        "mean": 47.2,
-        "sem": 1.67,
-        "n": 141
+        "mean": 47.4,
+        "sem": 1.65,
+        "n": 143
       },
       {
         "t": 60,
         "mean": 44.4,
-        "sem": 1.64,
-        "n": 140
-      },
-      {
-        "t": 63,
-        "mean": 45.6,
         "sem": 1.63,
-        "n": 143
-      },
-      {
-        "t": 66,
-        "mean": 45.5,
-        "sem": 1.67,
-        "n": 140
-      },
-      {
-        "t": 69,
-        "mean": 46.1,
-        "sem": 1.7,
         "n": 141
       },
       {
-        "t": 72,
-        "mean": 45.8,
-        "sem": 1.74,
-        "n": 143
-      },
-      {
-        "t": 75,
-        "mean": 45.9,
-        "sem": 1.79,
-        "n": 149
-      },
-      {
-        "t": 78,
-        "mean": 44.9,
-        "sem": 1.71,
-        "n": 146
-      },
-      {
-        "t": 81,
-        "mean": 43.4,
-        "sem": 1.61,
-        "n": 142
-      },
-      {
-        "t": 84,
-        "mean": 44.2,
-        "sem": 1.69,
+        "t": 63,
+        "mean": 45.7,
+        "sem": 1.62,
         "n": 144
       },
       {
-        "t": 87,
-        "mean": 43.0,
-        "sem": 1.64,
+        "t": 66,
+        "mean": 45.6,
+        "sem": 1.65,
         "n": 142
       },
       {
-        "t": 90,
-        "mean": 42.9,
+        "t": 69,
+        "mean": 46.5,
         "sem": 1.71,
         "n": 143
       },
       {
+        "t": 72,
+        "mean": 46.1,
+        "sem": 1.72,
+        "n": 145
+      },
+      {
+        "t": 75,
+        "mean": 46.1,
+        "sem": 1.78,
+        "n": 151
+      },
+      {
+        "t": 78,
+        "mean": 45.3,
+        "sem": 1.7,
+        "n": 148
+      },
+      {
+        "t": 81,
+        "mean": 43.8,
+        "sem": 1.61,
+        "n": 144
+      },
+      {
+        "t": 84,
+        "mean": 44.5,
+        "sem": 1.68,
+        "n": 146
+      },
+      {
+        "t": 87,
+        "mean": 43.4,
+        "sem": 1.64,
+        "n": 144
+      },
+      {
+        "t": 90,
+        "mean": 43.1,
+        "sem": 1.69,
+        "n": 145
+      },
+      {
         "t": 93,
-        "mean": 42.4,
+        "mean": 42.6,
         "sem": 1.74,
-        "n": 138
+        "n": 139
       },
       {
         "t": 96,
         "mean": 43.5,
-        "sem": 1.8,
-        "n": 143
+        "sem": 1.79,
+        "n": 144
       },
       {
         "t": 99,
@@ -288,27 +288,27 @@
       },
       {
         "t": 102,
-        "mean": 41.1,
-        "sem": 1.58,
-        "n": 144
+        "mean": 41.0,
+        "sem": 1.57,
+        "n": 145
       },
       {
         "t": 105,
-        "mean": 41.5,
-        "sem": 1.62,
-        "n": 142
+        "mean": 41.4,
+        "sem": 1.61,
+        "n": 143
       },
       {
         "t": 108,
-        "mean": 41.9,
-        "sem": 1.73,
-        "n": 142
+        "mean": 41.8,
+        "sem": 1.72,
+        "n": 143
       },
       {
         "t": 111,
-        "mean": 42.9,
-        "sem": 1.62,
-        "n": 143
+        "mean": 43.0,
+        "sem": 1.61,
+        "n": 144
       },
       {
         "t": 114,
@@ -332,15 +332,15 @@
     "settle_hist": [
       {
         "bin": 0,
-        "count": 98
+        "count": 99
       },
       {
         "bin": 15,
-        "count": 40
+        "count": 41
       },
       {
         "bin": 30,
-        "count": 24
+        "count": 25
       },
       {
         "bin": 45,
@@ -393,66 +393,66 @@
         "key": "bb_at_wake",
         "label": "Body Battery @ wake",
         "good": 1,
-        "baseline": 76.0,
+        "baseline": 76.2,
         "epoch": [
           {
             "off": -2,
-            "z": 0.36,
-            "delta": 5.3,
+            "z": 0.34,
+            "delta": 5.1,
             "n": 18
           },
           {
             "off": -1,
-            "z": 0.44,
-            "delta": 6.5,
+            "z": 0.43,
+            "delta": 6.3,
             "n": 22
           },
           {
             "off": 0,
-            "z": -0.32,
-            "delta": -4.6,
+            "z": -0.33,
+            "delta": -4.8,
             "n": 23
           },
           {
             "off": 1,
-            "z": -0.44,
-            "delta": -6.5,
+            "z": -0.46,
+            "delta": -6.7,
             "n": 22
           },
           {
             "off": 2,
-            "z": 0.23,
-            "delta": 3.3,
-            "n": 19
+            "z": 0.27,
+            "delta": 4.0,
+            "n": 20
           },
           {
             "off": 3,
-            "z": 0.04,
-            "delta": 0.5,
+            "z": 0.02,
+            "delta": 0.3,
             "n": 17
           },
           {
             "off": 4,
-            "z": -0.39,
-            "delta": -5.7,
+            "z": -0.4,
+            "delta": -5.9,
             "n": 18
           },
           {
             "off": 5,
-            "z": -0.12,
-            "delta": -1.8,
+            "z": -0.14,
+            "delta": -2.0,
             "n": 14
           },
           {
             "off": 6,
-            "z": -0.23,
-            "delta": -3.4,
+            "z": -0.24,
+            "delta": -3.6,
             "n": 15
           },
           {
             "off": 7,
-            "z": -0.21,
-            "delta": -3.1,
+            "z": -0.22,
+            "delta": -3.3,
             "n": 17
           }
         ]
@@ -529,24 +529,24 @@
         "key": "sleep_score",
         "label": "Sleep score",
         "good": 1,
-        "baseline": 72.4,
+        "baseline": 72.5,
         "epoch": [
           {
             "off": -2,
-            "z": 0.21,
-            "delta": 2.7,
+            "z": 0.2,
+            "delta": 2.6,
             "n": 18
           },
           {
             "off": -1,
-            "z": 0.32,
-            "delta": 4.1,
+            "z": 0.31,
+            "delta": 4.0,
             "n": 22
           },
           {
             "off": 0,
-            "z": -0.34,
-            "delta": -4.4,
+            "z": -0.35,
+            "delta": -4.5,
             "n": 23
           },
           {
@@ -557,49 +557,49 @@
           },
           {
             "off": 2,
-            "z": -0.07,
-            "delta": -0.9,
-            "n": 19
+            "z": -0.04,
+            "delta": -0.5,
+            "n": 20
           },
           {
             "off": 3,
-            "z": -0.01,
-            "delta": -0.1,
+            "z": -0.02,
+            "delta": -0.2,
             "n": 17
           },
           {
             "off": 4,
-            "z": -0.28,
+            "z": -0.29,
             "delta": -3.7,
             "n": 18
           },
           {
             "off": 5,
-            "z": 0.25,
-            "delta": 3.2,
+            "z": 0.24,
+            "delta": 3.1,
             "n": 14
           },
           {
             "off": 6,
             "z": 0.02,
-            "delta": 0.3,
+            "delta": 0.2,
             "n": 15
           },
           {
             "off": 7,
             "z": -0.14,
-            "delta": -1.8,
+            "delta": -1.9,
             "n": 17
           }
         ]
       }
     ],
-    "recovered_by_day": 2
+    "recovered_by_day": 3
   },
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>20 min</strong> to settle, <strong>78%</strong> of 236 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>21 min</strong> to settle, <strong>78%</strong> of 239 episodes gone within an hour."
     },
     {
       "impact": "neutral",
@@ -607,7 +607,7 @@
     },
     {
       "impact": "positive",
-      "text": "At the daily scale, a high-stress day (n=24) leaves only a same-day dip that recovers to baseline by <strong>day +2</strong> \u2014 no multi-day residue on independent markers."
+      "text": "At the daily scale, a high-stress day (n=24) leaves only a same-day dip that recovers to baseline by <strong>day +3</strong> \u2014 no multi-day residue on independent markers."
     },
     {
       "impact": "neutral",
