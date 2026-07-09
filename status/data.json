@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-09T04:00:16.793040+00:00",
+  "generated_at": "2026-07-09T15:00:15.336380+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "4ee794d",
-      "date": "2026-07-08T14:11:45-07:00",
-      "message": "poc runtime: on-device self-prediction calibration reveal (selfCalibration)"
+      "hash": "3f54c84",
+      "date": "2026-07-09T07:01:39-07:00",
+      "message": "social: embed Short for 2026-07-09 (_4aCW9UZATg)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 102,
+      "page_count": 103,
       "last_commit": {
-        "hash": "3ae2350",
-        "date": "2026-07-08T12:31:18-07:00",
-        "message": "social: embed Short for 2026-07-08 (Ppy1EM4LiBA)"
+        "hash": "3f54c84",
+        "date": "2026-07-09T07:01:39-07:00",
+        "message": "social: embed Short for 2026-07-09 (_4aCW9UZATg)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-08T21:00:06.124973",
+        "updated": "2026-07-09T08:00:06.429040",
         "date_range": null
       },
       "last_commit": {
-        "hash": "3d87315",
-        "date": "2026-07-08T14:00:15-07:00",
-        "message": "Update health data 2026-07-08 14:00"
+        "hash": "5e022ed",
+        "date": "2026-07-09T06:40:08-07:00",
+        "message": "health: refresh calendar density 2026-07-09 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,51 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-08T08:10:19Z"
+        "updated": "2026-07-09T09:33:21Z"
       },
       "last_commit": {
-        "hash": "1f715e9",
-        "date": "2026-07-08T08:10:19+00:00",
-        "message": "Update analytics data 2026-07-08"
+        "hash": "be2ece8",
+        "date": "2026-07-09T09:33:22+00:00",
+        "message": "Update analytics data 2026-07-09"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "3f54c84",
+      "date": "2026-07-09T07:01:39-07:00",
+      "message": "social: embed Short for 2026-07-09 (_4aCW9UZATg)"
+    },
+    {
+      "hash": "ee9bcfa",
+      "date": "2026-07-09T07:00:22-07:00",
+      "message": "social: 2026-07-09 MoneySignals deck (4 cards)"
+    },
+    {
+      "hash": "5e022ed",
+      "date": "2026-07-09T06:40:08-07:00",
+      "message": "health: refresh calendar density 2026-07-09 06:40"
+    },
+    {
+      "hash": "44fa567",
+      "date": "2026-07-09T06:11:46-04:00",
+      "message": "blog: 2026-07-09 \u2014 Energy Dominance & Defense Surge"
+    },
+    {
+      "hash": "9dc8fd2",
+      "date": "2026-07-09T06:11:44-04:00",
+      "message": "daily: 2026-07-09 market update"
+    },
+    {
+      "hash": "be2ece8",
+      "date": "2026-07-09T09:33:22+00:00",
+      "message": "Update analytics data 2026-07-09"
+    },
+    {
+      "hash": "939ca84",
+      "date": "2026-07-08T21:00:16-07:00",
+      "message": "Update health data 2026-07-08 21:00"
+    },
     {
       "hash": "4ee794d",
       "date": "2026-07-08T14:11:45-07:00",
@@ -128,41 +163,6 @@
       "hash": "7850021",
       "date": "2026-07-08T06:40:08-07:00",
       "message": "health: refresh calendar density 2026-07-08 06:40"
-    },
-    {
-      "hash": "5b746ef",
-      "date": "2026-07-08T06:30:25-07:00",
-      "message": "poc: graceful message when the browser blocks on-device storage"
-    },
-    {
-      "hash": "c4fdcf7",
-      "date": "2026-07-08T04:47:56-07:00",
-      "message": "poc: use summary_large_image for the wide social card"
-    },
-    {
-      "hash": "434ee7b",
-      "date": "2026-07-08T04:15:28-07:00",
-      "message": "poc: add brand theme-color to the six pages that lacked it"
-    },
-    {
-      "hash": "b7d9eff",
-      "date": "2026-07-08T06:08:13-04:00",
-      "message": "blog: 2026-07-08 \u2014 Defense & Energy Dominance"
-    },
-    {
-      "hash": "6369a6f",
-      "date": "2026-07-08T06:08:10-04:00",
-      "message": "daily: 2026-07-08 market update"
-    },
-    {
-      "hash": "63253ef",
-      "date": "2026-07-08T02:32:40-07:00",
-      "message": "poc demo: honor prefers-reduced-motion in the quick-fire timer"
-    },
-    {
-      "hash": "506591e",
-      "date": "2026-07-08T01:59:43-07:00",
-      "message": "poc demo: align quick-fire to read-then-decide timing"
     }
   ]
 }
