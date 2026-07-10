@@ -435,6 +435,133 @@
              near_bin: nearBin, far_bin: farBin, near_concern: nearC, far_concern: farC, ok: true };
   }
 
+  // --- decision-conflict re-read: person i's RELATIVE effort per domain, the N=1 reveal (§22/§1.1, A4) ---
+  // rt_z(i, item) = the within-person z-score of RESIDUALIZED response_time_ms — residualized on
+  // [prompt_chars, presented_position] (OLS) to strip reading-load + order effects, with was_timeout
+  // and the TIMED quick-fire set (CV-1) EXCLUDED, then z-scored WITHIN the person (people read at
+  // different speeds). conflict(i, d) = the mean rt_z over person i's items in domain d: which of
+  // THEIR OWN choices were hard-won vs. automatic. VALUE-NEUTRAL (§3): effort is not worse, slow is
+  // not "more deontological" (Bago & De Neys 2019) — a descriptive effort/ambivalence flag, never a
+  // moral-framework label, never a virtue ranking. NEVER pooled cross-person (§13.5): the z-score and
+  // the mean are within-ONE-person, so the on-device N=1 reveal reads only the device's own records
+  // (self-contained — no cohort needed; the cohort-filtered analyzer result equals the solo result
+  // exactly). Mirrors the analyzer's conflict_by_user_domain under the JS↔Python parity lock in
+  // scripts/check_impl_parity.py. RT-ONLY / EXPLORATORY, NO PUBLIC CARD (§1.4).
+  const A4_MIN_ITEMS = 4;                                 // per-user scorable-item floor (== analyzer A4_MIN_ITEMS): intercept + 2 predictors + slack
+  function _a4User(r) { const u = r.user; return (u !== undefined && u !== null) ? u : r.user_id; }
+  function _a4Item(r) { const v = r.item; return (v !== undefined && v !== null) ? v : r.item_id; }
+  function _a4Excluded(r) {                               // §1.1 exclusions: no genuine RT (timeout) + the TIMED quick-fire set (CV-1)
+    if (r.was_timeout) return true;
+    if (r.timed) return true;
+    const st = r.scenario_type;
+    return typeof st === "string" && st.startsWith("quick-fire");
+  }
+  function _a4PromptChars(r) {                            // reading-load confound: explicit prompt_chars, else item text length
+    const v = r.prompt_chars;
+    if (typeof v === "number") return v;                  // typeof excludes booleans (== analyzer's not-bool guard)
+    for (const key of ["text", "prompt", "prompt_text"]) {
+      const t = r[key];
+      if (typeof t === "string") return t.length;
+    }
+    return null;
+  }
+  function _solveLinear(mat, vec) {                       // Gaussian elimination, partial pivoting; null if (near-)singular (== analyzer _solve_linear)
+    const n = mat.length;
+    const aug = [];
+    for (let i = 0; i < n; i++) aug.push(mat[i].slice().concat([vec[i]]));
+    for (let col = 0; col < n; col++) {
+      let piv = col, best = Math.abs(aug[col][col]);      // FIRST max on ties (Python max returns the first) — strict > only replaces
+      for (let rr = col + 1; rr < n; rr++) {
+        const a = Math.abs(aug[rr][col]);
+        if (a > best) { best = a; piv = rr; }
+      }
+      if (Math.abs(aug[piv][col]) < 1e-12) return null;
+      const tmp = aug[col]; aug[col] = aug[piv]; aug[piv] = tmp;
+      const pivot = aug[col][col];
+      for (let rr = 0; rr < n; rr++) {
+        if (rr === col) continue;
+        const factor = aug[rr][col] / pivot;
+        if (factor === 0.0) continue;
+        for (let cc = col; cc <= n; cc++) aug[rr][cc] -= factor * aug[col][cc];
+      }
+    }
+    const x = [];
+    for (let i = 0; i < n; i++) x.push(aug[i][n] / aug[i][i]);
+    return x;
+  }
+  function _olsResiduals(predictors, y) {                 // residuals of y ~ [intercept]+predictors; null if n≤k or rank-deficient (== analyzer _ols_residuals)
+    const n = y.length;
+    const cols = [new Array(n).fill(1.0)];
+    for (const c of predictors) cols.push(c.slice());
+    const k = cols.length;
+    if (n <= k) return null;
+    const XtX = [];
+    for (let a = 0; a < k; a++) {
+      const row = [];
+      for (let b = 0; b < k; b++) { let s = 0; for (let i = 0; i < n; i++) s += cols[a][i] * cols[b][i]; row.push(s); }
+      XtX.push(row);
+    }
+    const Xty = [];
+    for (let a = 0; a < k; a++) { let s = 0; for (let i = 0; i < n; i++) s += cols[a][i] * y[i]; Xty.push(s); }
+    const beta = _solveLinear(XtX, Xty);
+    if (beta === null) return null;
+    const resid = [];
+    for (let i = 0; i < n; i++) { let pred = 0; for (let a = 0; a < k; a++) pred += beta[a] * cols[a][i]; resid.push(y[i] - pred); }
+    return resid;
+  }
+  function conflictScoresByItem(records) {                // {user,item,z} per scorable item — rt_z(i,item), within-person (mirrors conflict_scores_by_item)
+    const perUser = new Map();                            // user -> [[item, rt, chars, pos], ...]
+    for (const r of records || []) {
+      if (_a4Excluded(r)) continue;
+      const user = _a4User(r), item = _a4Item(r), rt = r.response_time_ms, chars = _a4PromptChars(r), pos = r.presented_position;
+      if (user == null || item == null || typeof rt !== "number" || chars == null || typeof pos !== "number") continue;
+      if (!perUser.has(user)) perUser.set(user, []);
+      perUser.get(user).push([item, rt, chars, pos]);
+    }
+    const out = [];
+    for (const [user, items] of perUser) {
+      if (items.length < A4_MIN_ITEMS) continue;          // §1.1 floor — too few items for a within-person fit
+      const y = items.map(it => it[1]);
+      let resid = _olsResiduals([items.map(it => it[2]), items.map(it => it[3])], y);
+      if (resid === null) {                               // rank-deficient design (no length/position variance) -> plain within-person mean-centering
+        const meanY = y.reduce((s, v) => s + v, 0) / y.length;
+        resid = y.map(v => v - meanY);
+      }
+      const mu = resid.reduce((s, v) => s + v, 0) / resid.length;
+      let ss = 0; for (const v of resid) ss += (v - mu) * (v - mu);
+      const sd = Math.sqrt(ss / resid.length);            // POPULATION sd (÷ N) — matches the analyzer; NOT the module's sample sd()
+      for (let i = 0; i < items.length; i++) out.push({ user, item: items[i][0], z: sd === 0 ? 0.0 : (resid[i] - mu) / sd });
+    }
+    return out;
+  }
+  function conflictByUserDomain(records) {                // conflict(i,d): mean rt_z over person i's domain-d items (mirrors conflict_by_user_domain)
+    const rz = conflictScoresByItem(records);
+    const domainOf = new Map();                           // "user item" -> domain (last write wins, as the analyzer dict does)
+    for (const r of records || []) {
+      const user = _a4User(r), item = _a4Item(r), dom = r.domain;
+      if (user != null && item != null && dom != null) domainOf.set(user + " " + item, dom);
+    }
+    const cells = new Map();                              // "user domain" -> {user, domain, zs:[]}
+    for (const e of rz) {
+      const dom = domainOf.get(e.user + " " + e.item);
+      if (dom == null) continue;
+      const ck = e.user + " " + dom;
+      if (!cells.has(ck)) cells.set(ck, { user: e.user, domain: dom, zs: [] });
+      cells.get(ck).zs.push(e.z);
+    }
+    const out = [];
+    for (const c of cells.values()) out.push({ user: c.user, domain: c.domain, conflict: mean(c.zs), n_items: c.zs.length });
+    return out;
+  }
+  // on-device N=1 reveal: the device holds only its own records, so this reads person i's domains alone
+  function conflictReads(records) {
+    const cells = conflictByUserDomain(records);
+    if (!cells.length) return { domains: [], n_domains: 0, ok: false }; // no scorable domain (below the item floor, or all excluded) — DATA, not suppression
+    const domains = cells.map(c => ({ domain: c.domain, conflict: c.conflict, n_items: c.n_items }))
+                         .sort((a, b) => (a.domain < b.domain ? -1 : a.domain > b.domain ? 1 : 0));
+    return { domains, n_domains: domains.length, ok: true };
+  }
+
   // --- professed protected values: the set P_i of `never` slots, the N=1 reveal (§17.5, R2) ---
   // A pure re-read of the cost-of-virtue channel: the value slots whose response is a
   // right-censored `never` (no_break_point true, or first_accept_rung "never" — the SAME
@@ -719,6 +846,6 @@
            arcProgress, h8Divergence, attachmentReport, selfAlignment, costOfVirtue, h8aDebiasing, dimensionTexture, dimensionTrajectory,
            centralityFacets, facetMean, objectivismReads, claimTypeMean, hypocrisyAsymmetry, hypocrisyPairDelta,
            contextVariability, sampleSD, circleShape, olsSlope, protectedValues, isProtectedResponse,
-           selfCalibration,
-           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS, MIN_ITEMS_PER_CONTEXT, MIN_CONTEXTS, MIN_CONSTRUCTS, MIN_ITEMS_PER_BIN, MIN_BINS, CIRCLE_AXIS_FLOOR } };
+           selfCalibration, conflictReads, conflictByUserDomain, conflictScoresByItem,
+           DOMAINS, _constants: { MIN_ITEMS_PER_SESSION, INATTENTIVE_RT_MS, NOISE_K, SE_FLOOR, MIN_CENTRALITY_ITEMS, MIN_OBJECTIVISM_ITEMS, MIN_HYPOCRISY_PAIRS, MIN_ITEMS_PER_CONTEXT, MIN_CONTEXTS, MIN_CONSTRUCTS, MIN_ITEMS_PER_BIN, MIN_BINS, CIRCLE_AXIS_FLOOR, A4_MIN_ITEMS } };
 });
