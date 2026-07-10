@@ -15,6 +15,13 @@
       ]
     },
     {
+      "id": "Holiday Buy Again shelf vs Seasonal Trending \u2014 YoY viability stats (Nov/Dec 2024 \u2192 Nov/Dec 2025)",
+      "type": "comparison",
+      "color": "#d16969",
+      "status": "seed",
+      "tags": []
+    },
+    {
       "id": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
       "type": "comparison",
       "color": "#d16969",
@@ -80,6 +87,20 @@
         "side-project",
         "web",
         "psychology"
+      ]
+    },
+    {
+      "id": "Seasonality \u2014 Eligibility v2 Design (occasion-tag lens)",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "proposal",
+      "tags": [
+        "shipt",
+        "seasonality",
+        "trending-items",
+        "eligibility",
+        "tags",
+        "design"
       ]
     },
     {
@@ -222,14 +243,21 @@
       "id": "Argus \u2014 Portable, Configurable PR Reviewer",
       "type": "note",
       "color": "#808080",
-      "status": "empirical-record",
+      "status": "seed",
+      "tags": []
+    },
+    {
+      "id": "Site Automation \u2014 daliu.github.io",
+      "type": "note",
+      "color": "#808080",
+      "status": "stable",
       "tags": [
+        "reference",
         "claude-harness",
-        "pr-review",
-        "agent-design",
-        "portable",
-        "methodology",
-        "self-improving-systems"
+        "automation",
+        "web",
+        "launchd",
+        "blog"
       ]
     },
     {
@@ -292,6 +320,40 @@
       ]
     },
     {
+      "id": "Ship select_columns tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council financial_ratios tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Dashboard Tab Navigation",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "dashboard",
+        "web-dev",
+        "ux"
+      ]
+    },
+    {
       "id": "Mobile Sidebar Overlay Tap Bug",
       "type": "conversation",
       "color": "#569cd6",
@@ -302,6 +364,17 @@
         "frontend",
         "mobile",
         "bugfix"
+      ]
+    },
+    {
+      "id": "Meta Council iter-301 outliers tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -318,6 +391,50 @@
       ]
     },
     {
+      "id": "Auto Tabular Scraper Load More Interactions",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping"
+      ]
+    },
+    {
+      "id": "Surface table-transform tools in llms.txt",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "llms-txt"
+      ]
+    },
+    {
+      "id": "CS Sizing Third Root Cause \u2014 Composite Signal Dropped MR",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "trading",
+        "debugging"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Robots and Sitemaps",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping"
+      ]
+    },
+    {
       "id": "Genomics Pivot to EAS Pharmacogenomics",
       "type": "conversation",
       "color": "#569cd6",
@@ -328,6 +445,17 @@
         "pharmacogenomics",
         "east-asian",
         "pivot"
+      ]
+    },
+    {
+      "id": "Codex MCP validation + registry publish prep",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "mcp"
       ]
     },
     {
@@ -342,6 +470,18 @@
       ]
     },
     {
+      "id": "Auto Tabular Scraper Guided Capture",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "selenium",
+        "local-tools"
+      ]
+    },
+    {
       "id": "Metis Resolution Estimation \u2014 Settlements, Timelines, Amounts",
       "type": "conversation",
       "color": "#569cd6",
@@ -352,6 +492,135 @@
         "machine-learning",
         "legal-tech",
         "real-data"
+      ]
+    },
+    {
+      "id": "ETF Pullback Exit-Rule Study",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "complete",
+      "tags": [
+        "conversation",
+        "trading",
+        "moneysignals",
+        "research"
+      ]
+    },
+    {
+      "id": "Portfolio Overview \u2014 Metis and /now/ Coverage",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "daliu-github-io",
+        "portfolio",
+        "career"
+      ]
+    },
+    {
+      "id": "Meta Council Lead Sets Ship",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "leads",
+        "premium"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper XLSX Resources",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python"
+      ]
+    },
+    {
+      "id": "Honest has_header coaching across table tools",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Alt-Data Sweep Complete \u2014 The Constraint Is Data Depth",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "signal-research",
+        "walk-forward"
+      ]
+    },
+    {
+      "id": "Sales Pipeline Reconcile and Merge",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "sales-pipeline",
+        "git"
+      ]
+    },
+    {
+      "id": "Meta Council tool loop \u2014 iter 287 dilution tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "PR 64 Ship, LOCUS Pricing, Google OAuth",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "locus",
+        "deploy",
+        "oauth"
+      ]
+    },
+    {
+      "id": "Split-Healer Shipped Corpus-Wide",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "complete",
+      "tags": [
+        "conversation",
+        "trading",
+        "moneysignals",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "MCP HTTP Parity for Outsiders",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "mcp"
       ]
     },
     {
@@ -381,6 +650,17 @@
       ]
     },
     {
+      "id": "Meta Council iter-303 normality tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
       "id": "MoneySignals Polish Loop \u2014 Live Track Record",
       "type": "conversation",
       "color": "#569cd6",
@@ -390,6 +670,42 @@
         "autotrader",
         "moneysignals",
         "product"
+      ]
+    },
+    {
+      "id": "Bond ETF Backfill + Signal Battery",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "complete",
+      "tags": [
+        "conversation",
+        "trading",
+        "moneysignals",
+        "research",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "Meta Council iter 290 \u2014 implied_volatility tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "quant-finance"
+      ]
+    },
+    {
+      "id": "Ship group_by GROUP BY tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -405,6 +721,64 @@
         "ethics",
         "loop",
         "experimentation"
+      ]
+    },
+    {
+      "id": "Registry Back-fill Fix + Training Zombie Guard",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "complete",
+      "tags": [
+        "conversation",
+        "trading",
+        "moneysignals",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "Themis v1-Hosted Build",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "legal-nlp",
+        "rag",
+        "themis"
+      ]
+    },
+    {
+      "id": "Ship color_convert tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Interfaces",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python",
+        "selenium"
+      ]
+    },
+    {
+      "id": "Markdown-table ingestion in shared _parse_table",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -434,6 +808,18 @@
       ]
     },
     {
+      "id": "ETF Pullback Surface + Data Repair",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "trading",
+        "moneysignals",
+        "data-quality"
+      ]
+    },
+    {
       "id": "Personal Genomics Paper Draft",
       "type": "conversation",
       "color": "#569cd6",
@@ -444,6 +830,53 @@
         "paper",
         "psychiatric-genetics",
         "23andme"
+      ]
+    },
+    {
+      "id": "Meta Council runway tool (iter 286)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "writeoff \u2014 Receipt OCR Tax-Deduction Tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "project",
+        "taxes",
+        "ocr",
+        "open-source"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper XML Feeds",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python"
+      ]
+    },
+    {
+      "id": "Ship text_normalize tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "security"
       ]
     },
     {
@@ -459,6 +892,55 @@
       ]
     },
     {
+      "id": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "testing",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council Workflow Page UX Loop",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "ui-ux",
+        "autonomous-loop"
+      ]
+    },
+    {
+      "id": "Self-Updating /now/ Page and Session-Agnostic Blog Loop",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "daliu-github-io",
+        "automation",
+        "launchd",
+        "blog"
+      ]
+    },
+    {
+      "id": "Re-sync CLAUDE.md tool count to 120+",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "docs-freshness"
+      ]
+    },
+    {
       "id": "daliu.github.io \u2014 Expose the Full Patterns of Choice Experiment",
       "type": "conversation",
       "color": "#569cd6",
@@ -468,6 +950,130 @@
         "daliu-github-io",
         "patterns-of-choice",
         "public-site"
+      ]
+    },
+    {
+      "id": "Ship WACC tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council iter-300 surface histogram in llms.txt",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "llms-txt"
+      ]
+    },
+    {
+      "id": "GCP Compute Rethink and VM3 Runaway",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "infrastructure",
+        "cost-optimization"
+      ]
+    },
+    {
+      "id": "Forecast Tool + Iter 297 Ship",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Ship config_convert tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Ship sql_query tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Content-Type Resource Probing",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping"
+      ]
+    },
+    {
+      "id": "Meta Council iter 289 \u2014 black_scholes option-pricing tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "quant-finance"
+      ]
+    },
+    {
+      "id": "Health Dashboard Section Organization",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "dashboard",
+        "web-dev",
+        "ux"
+      ]
+    },
+    {
+      "id": "Meta Council iter 291 \u2014 llms.txt finance-tool surfacing",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "discoverability"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Structured Resources",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping"
       ]
     },
     {
@@ -484,6 +1090,30 @@
       ]
     },
     {
+      "id": "Meta Council iter-299 histogram tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Trading Run Planning Tax Fix",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "performance",
+        "timescaledb",
+        "trading"
+      ]
+    },
+    {
       "id": "Social Media Automation Pipeline",
       "type": "conversation",
       "color": "#569cd6",
@@ -493,6 +1123,40 @@
         "moneysignals",
         "automation",
         "social-media"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Content Waits",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "auto-tabular-scraper",
+        "scraping",
+        "selenium"
+      ]
+    },
+    {
+      "id": "Ship sort_table tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Ship diff_stat tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -509,6 +1173,29 @@
         "epistemics",
         "measurement",
         "self-knowledge"
+      ]
+    },
+    {
+      "id": "Ship table_diff tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council ANOVA Tool (iter 279)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "statistics"
       ]
     },
     {
@@ -536,6 +1223,18 @@
       ]
     },
     {
+      "id": "Auto Tabular Scraper Table Statistics",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python",
+        "data-profiling"
+      ]
+    },
+    {
       "id": "Jared \u2014 Incentives, Inequality, and the Golden Mean",
       "type": "conversation",
       "color": "#569cd6",
@@ -547,6 +1246,52 @@
         "incentives",
         "georgism",
         "free-will"
+      ]
+    },
+    {
+      "id": "Ship capital_budget DCF tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "finance"
+      ]
+    },
+    {
+      "id": "Meta Council chi_square tool (iter 278)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "statistics"
+      ]
+    },
+    {
+      "id": "Ship toml_query tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "sql_query multi-table (data2)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -588,6 +1333,76 @@
       ]
     },
     {
+      "id": "Role Fit and Research Engineer Repositioning",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "career",
+        "website"
+      ]
+    },
+    {
+      "id": "Surface finance family in llms.txt",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Autonomous Loop Audit and Journaling Policy Fix",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "claude-code",
+        "automation",
+        "workflow"
+      ]
+    },
+    {
+      "id": "Tool-Calling Enhancement Loop",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council iter-302 surface outliers in llms.txt",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "llms-txt"
+      ]
+    },
+    {
+      "id": "Meta Council llms.txt Text-Hygiene Sync (iter 283)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "llms-txt",
+        "marketing"
+      ]
+    },
+    {
       "id": "Social Digest and X Auth",
       "type": "conversation",
       "color": "#569cd6",
@@ -597,6 +1412,63 @@
         "autotrader",
         "social-media",
         "moneysignals"
+      ]
+    },
+    {
+      "id": "Ship table_convert tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Surface unpivot in llms.txt + live-status UI",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council Tool-Calling Loop \u2014 iter 294 (xirr)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Profitability Avenues and Contract Wins",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "strategy",
+        "sales-pipeline"
+      ]
+    },
+    {
+      "id": "Outreach Bounce Safety",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "stable",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "sales-pipeline",
+        "deliverability"
       ]
     },
     {
@@ -614,6 +1486,86 @@
         "social-choice",
         "measurement",
         "revealed-preference"
+      ]
+    },
+    {
+      "id": "Ship filter_rows tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council Rank Correlation Tool (iter 280)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "statistics"
+      ]
+    },
+    {
+      "id": "Meta Council saas_metrics llms.txt (iter 285)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "llms-txt",
+        "saas-metrics"
+      ]
+    },
+    {
+      "id": "Complete GFM ingestion across inline-parser table tools",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "ETF Horizon Signal Battery",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "trading",
+        "research"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Shadow DOM Capture",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping"
+      ]
+    },
+    {
+      "id": "Meta Council saas_metrics tool (iter 284)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "saas-metrics"
       ]
     },
     {
@@ -645,6 +1597,30 @@
       ]
     },
     {
+      "id": "Sentic 0.0.9 PyPI Publish",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "python",
+        "packaging",
+        "nlp",
+        "senticnet"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Iframe Capture",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python"
+      ]
+    },
+    {
       "id": "Black Screen Video and WhatsApp Uplift Automation",
       "type": "conversation",
       "color": "#569cd6",
@@ -655,6 +1631,31 @@
         "whatsapp",
         "launchd",
         "personal"
+      ]
+    },
+    {
+      "id": "Funnel, LOCUS Pilot, MCP Viz",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "locus",
+        "mcp",
+        "outreach"
+      ]
+    },
+    {
+      "id": "SES Guard and Codex MCP",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "outreach",
+        "mcp"
       ]
     },
     {
@@ -670,6 +1671,40 @@
       ]
     },
     {
+      "id": "Auto Tabular Scraper Failure Handling",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python",
+        "selenium"
+      ]
+    },
+    {
+      "id": "Ship number_format tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Ship dedupe tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
       "id": "Knowledge Wiki Setup",
       "type": "conversation",
       "color": "#569cd6",
@@ -679,6 +1714,17 @@
         "infrastructure",
         "obsidian",
         "knowledge-management"
+      ]
+    },
+    {
+      "id": "Ship pivot crosstab tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -709,6 +1755,54 @@
       ]
     },
     {
+      "id": "Auto Tabular Scraper Auto Feature Mode",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "auto-tabular-scraper",
+        "scraping",
+        "selenium"
+      ]
+    },
+    {
+      "id": "Direction-Adjusted Event-Signal Expectancy",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "stable",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "trading",
+        "event-signals"
+      ]
+    },
+    {
+      "id": "Look-Ahead Features Found via TabFM Benchmark",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "trading",
+        "ml",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "Prediction Methodology Audit + Salvage Analysis",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "research",
+        "statistics"
+      ]
+    },
+    {
       "id": "Run-MPRC Event Registration with Stripe",
       "type": "conversation",
       "color": "#569cd6",
@@ -719,6 +1813,122 @@
         "stripe",
         "firebase",
         "react"
+      ]
+    },
+    {
+      "id": "Prediction Grading Wrong Window + Scorecard Fix",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "autotrader",
+        "data-quality",
+        "email"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Spanned Tables",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping"
+      ]
+    },
+    {
+      "id": "Meta Council Lead Sets Premium (2)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "outreach",
+        "premium",
+        "autonomous-loop"
+      ]
+    },
+    {
+      "id": "Meta Council linear_regression tool (iter 277)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "MoneySignals SEO Blog Sync",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "seo",
+        "autotrader"
+      ]
+    },
+    {
+      "id": "Ship break_even CVP tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Ship case_convert tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper One-Line Crawl CLI",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python",
+        "cli"
+      ]
+    },
+    {
+      "id": "Meta Council Lead Sets Ship (2) \u2014 Catalog v2 + main CI unbreak",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "lead-generation",
+        "ci"
+      ]
+    },
+    {
+      "id": "Ship unpivot melt tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -787,6 +1997,16 @@
       ]
     },
     {
+      "id": "WhatsApp Bot Activity \u2014 2026-07",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "seed",
+      "tags": [
+        "automation",
+        "whatsapp"
+      ]
+    },
+    {
       "id": "SenticNet 9 Package Update",
       "type": "conversation",
       "color": "#569cd6",
@@ -825,6 +2045,18 @@
       ]
     },
     {
+      "id": "PR 65 Ship and Email Relay Decision",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "outreach",
+        "infrastructure"
+      ]
+    },
+    {
       "id": "Macro Shock Detector",
       "type": "conversation",
       "color": "#569cd6",
@@ -838,6 +2070,18 @@
       ]
     },
     {
+      "id": "Ship redact PII/DLP masking tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tooling",
+        "privacy"
+      ]
+    },
+    {
       "id": "Droplet GCS Backup Fix",
       "type": "conversation",
       "color": "#569cd6",
@@ -848,6 +2092,18 @@
         "infrastructure",
         "backups",
         "disaster-recovery"
+      ]
+    },
+    {
+      "id": "MCP Announcement + Edge-Claim Truth Audit",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "mcp",
+        "marketing"
       ]
     },
     {
@@ -875,6 +2131,80 @@
         "automation",
         "garmin",
         "google-calendar"
+      ]
+    },
+    {
+      "id": "Free API Tier Ship",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "api",
+        "mcp",
+        "growth"
+      ]
+    },
+    {
+      "id": "Ship depreciation tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Ship join JOIN tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Project Browser",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python",
+        "data-visualization"
+      ]
+    },
+    {
+      "id": "Funnel Measurement and Stripe Cleanup",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "funnel",
+        "analytics",
+        "stripe",
+        "email-deliverability"
+      ]
+    },
+    {
+      "id": "Chatbot Data Collector build",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "matchmaking",
+        "patterns-of-choice",
+        "chatbot",
+        "autonomous-loop"
       ]
     },
     {
@@ -927,6 +2257,54 @@
       ]
     },
     {
+      "id": "Writeoff Bank Statement Ingestion",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "writeoff",
+        "tax",
+        "product-direction"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Scroll State Capture",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python"
+      ]
+    },
+    {
+      "id": "Social Attention Alt-Data Test (No Edge)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "signal-research",
+        "walk-forward"
+      ]
+    },
+    {
+      "id": "Health Dashboard Audit Pass",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "data-visualization",
+        "statistics",
+        "dashboard",
+        "web-dev"
+      ]
+    },
+    {
       "id": "EODHD Cost Cuts, EOD-Only Pipeline, and Robinhood MCP Spike",
       "type": "conversation",
       "color": "#569cd6",
@@ -940,6 +2318,29 @@
       ]
     },
     {
+      "id": "Meta Council bond tool (iter 288)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "fixed-income"
+      ]
+    },
+    {
+      "id": "WhatsApp Bot Headless Automation",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "automation",
+        "whatsapp"
+      ]
+    },
+    {
       "id": "Knowledge Graph Company Organization",
       "type": "conversation",
       "color": "#569cd6",
@@ -949,6 +2350,123 @@
         "daliu-github-io",
         "knowledge-graph",
         "career"
+      ]
+    },
+    {
+      "id": "Themis Citation-Grounded Legal RAG",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "rag",
+        "legal",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "WhatsApp Thumbs-Up Approval Flow",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "automation",
+        "whatsapp"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Crawl Manifest and Retries",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python",
+        "crawler"
+      ]
+    },
+    {
+      "id": "Auto Tabular Scraper Bounded Crawler and JSON Extraction",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "python",
+        "crawler"
+      ]
+    },
+    {
+      "id": "Zombie Ticker Freshness Guard",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "trading",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "Meta Council llms.txt Inference-Stats Sync (iter 282)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "llms-txt",
+        "marketing"
+      ]
+    },
+    {
+      "id": "Meta Council Tool-Calling Loop \u2014 iter 296 (surface decision_matrix)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council Mann-Whitney U Tool (iter 281)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling",
+        "statistics"
+      ]
+    },
+    {
+      "id": "Ship amortization tool",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council Tool-Calling Loop \u2014 iter 295 (decision_matrix)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "tool-calling"
       ]
     },
     {
@@ -974,6 +2492,42 @@
         "firebase",
         "security",
         "testing"
+      ]
+    },
+    {
+      "id": "Values-Based Matchmaking Product Assessment",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "product-strategy",
+        "patterns-of-choice",
+        "dating"
+      ]
+    },
+    {
+      "id": "Untradeable Ticker Filter for Event Signals",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "data-quality",
+        "event-signals",
+        "alpaca"
+      ]
+    },
+    {
+      "id": "Blog Atom Feed PR 48",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "blog",
+        "claude-harness"
       ]
     },
     {
@@ -1083,6 +2637,21 @@
         "personalization",
         "dfy",
         "ann"
+      ]
+    },
+    {
+      "id": "glayvin",
+      "type": "entity",
+      "color": "#c586c0",
+      "status": "active",
+      "tags": [
+        "entity",
+        "repo",
+        "shipt",
+        "agents",
+        "harness",
+        "pi",
+        "ai-tooling"
       ]
     },
     {
@@ -1401,6 +2970,10 @@
   ],
   "links": [
     {
+      "source": "Holiday Buy Again shelf vs Seasonal Trending \u2014 YoY viability stats (Nov/Dec 2024 \u2192 Nov/Dec 2025)",
+      "target": "Seasonality \u2014 Eligibility Design (Phase 1)"
+    },
+    {
       "source": "Matryoshka (mxbai-xsmall) vs all-MiniLM-L6-v2 for DFY Embeddings",
       "target": "Search and Personalization"
     },
@@ -1447,6 +3020,14 @@
     {
       "source": "Career and Work",
       "target": "Causal Inference"
+    },
+    {
+      "source": "Seasonality \u2014 Eligibility v2 Design (occasion-tag lens)",
+      "target": "Seasonality \u2014 Eligibility Design (Phase 1)"
+    },
+    {
+      "source": "Seasonality \u2014 Eligibility v2 Design (occasion-tag lens)",
+      "target": "Seasonality \u2014 Project Hub"
     },
     {
       "source": "Seasonality \u2014 A/B Experiment Proposal",
@@ -1745,6 +3326,14 @@
       "target": "personifier-reranking"
     },
     {
+      "source": "glayvin",
+      "target": "AI Tools and Products"
+    },
+    {
+      "source": "glayvin",
+      "target": "Career and Work"
+    },
+    {
       "source": "Deals For You",
       "target": "serendipity"
     },
@@ -1815,6 +3404,10 @@
     {
       "source": "Habituation Tier vs Holiday-Shopper as Customer-Segmentation Axes (Shipt Tag Platform)",
       "target": "Tag Platform"
+    },
+    {
+      "source": "Seasonality \u2014 Eligibility v2 Design (occasion-tag lens)",
+      "target": "Seasonality"
     },
     {
       "source": "Seasonality \u2014 A/B Experiment Proposal",
@@ -1901,15 +3494,7 @@
       "target": "Shipt"
     },
     {
-      "source": "Health Dashboard Context & Typical-Day Overhaul",
-      "target": "Automation"
-    },
-    {
       "source": "Health Publish Cadence and Now/Status Sync",
-      "target": "Automation"
-    },
-    {
-      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
       "target": "Automation"
     },
     {
@@ -1921,12 +3506,48 @@
       "target": "Automation"
     },
     {
+      "source": "Exercise-Sleep Tracking and Activity-Sync Fix",
+      "target": "Automation"
+    },
+    {
+      "source": "Site Automation \u2014 daliu.github.io",
+      "target": "Automation"
+    },
+    {
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "target": "Automation"
+    },
+    {
+      "source": "Self-Updating /now/ Page and Session-Agnostic Blog Loop",
+      "target": "Automation"
+    },
+    {
+      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
+      "target": "Automation"
+    },
+    {
+      "source": "WhatsApp Bot Headless Automation",
+      "target": "Automation"
+    },
+    {
+      "source": "Autonomous Loop Audit and Journaling Policy Fix",
+      "target": "Automation"
+    },
+    {
+      "source": "WhatsApp Bot Activity \u2014 2026-07",
+      "target": "Automation"
+    },
+    {
+      "source": "WhatsApp Thumbs-Up Approval Flow",
+      "target": "Automation"
+    },
+    {
       "source": "Black Screen Video and WhatsApp Uplift Automation",
       "target": "Automation"
     },
     {
-      "source": "Exercise-Sleep Tracking and Activity-Sync Fix",
-      "target": "Automation"
+      "source": "MoneySignals Polish Loop \u2014 Live Track Record",
+      "target": "AutoTrader / MoneySignals"
     },
     {
       "source": "Model Training Pipeline",
@@ -1937,27 +3558,7 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Autotrader",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
       "source": "Social Media Automation Pipeline",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Hierarchical Signal Architecture",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "ticker_features 681GB Disk Crisis Recovery",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "MoneySignals Polish Loop \u2014 Live Track Record",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "CSP Blocked MoneySignals Email Signup",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -1965,12 +3566,120 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
+      "source": "CS Sizing Third Root Cause \u2014 Composite Signal Dropped MR",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Prediction Grading Wrong Window + Scorecard Fix",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Look-Ahead Features Found via TabFM Benchmark",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Alt-Data Sweep Complete \u2014 The Constraint Is Data Depth",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Bond ETF Backfill + Signal Battery",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Funnel Measurement and Stripe Cleanup",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Free API Tier Ship",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Zombie Ticker Freshness Guard",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "GCP Compute Rethink and VM3 Runaway",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Autotrader",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Untradeable Ticker Filter for Event Signals",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "ETF Horizon Signal Battery",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Hierarchical Signal Architecture",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
       "source": "EODHD Cost Cuts, EOD-Only Pipeline, and Robinhood MCP Spike",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "ETF Pullback Exit-Rule Study",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Prediction Methodology Audit + Salvage Analysis",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "CSP Blocked MoneySignals Email Signup",
       "target": "AutoTrader / MoneySignals"
     },
     {
       "source": "Hierarchical Signal Tests and Adversarial Review",
       "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "MoneySignals SEO Blog Sync",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Social Attention Alt-Data Test (No Edge)",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "ETF Pullback Surface + Data Repair",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Split-Healer Shipped Corpus-Wide",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Registry Back-fill Fix + Training Zombie Guard",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Direction-Adjusted Event-Signal Expectancy",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Trading Run Planning Tax Fix",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "MCP Announcement + Edge-Claim Truth Audit",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "ticker_features 681GB Disk Crisis Recovery",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Career and Work",
+      "target": "Career"
+    },
+    {
+      "source": "Portfolio Overview \u2014 Metis and /now/ Coverage",
+      "target": "Career"
     },
     {
       "source": "Knowledge Graph Company Organization",
@@ -1981,7 +3690,7 @@
       "target": "Career"
     },
     {
-      "source": "Career and Work",
+      "source": "Role Fit and Research Engineer Repositioning",
       "target": "Career"
     },
     {
@@ -1997,11 +3706,7 @@
       "target": "Claude Harness & Agents"
     },
     {
-      "source": "Claude Agent Harness",
-      "target": "Claude Harness & Agents"
-    },
-    {
-      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
+      "source": "Arbor \u2014 Hypothesis-Tree Refinement for Autonomous Research",
       "target": "Claude Harness & Agents"
     },
     {
@@ -2009,27 +3714,35 @@
       "target": "Claude Harness & Agents"
     },
     {
+      "source": "Site Automation \u2014 daliu.github.io",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Blog Atom Feed PR 48",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "glayvin",
+      "target": "Claude Harness & Agents"
+    },
+    {
       "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
       "target": "Claude Harness & Agents"
     },
     {
-      "source": "Arbor \u2014 Hypothesis-Tree Refinement for Autonomous Research",
+      "source": "Claude Agent Harness",
       "target": "Claude Harness & Agents"
     },
     {
-      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
+      "source": "Autonomous Loop Audit and Journaling Policy Fix",
       "target": "Claude Harness & Agents"
     },
     {
-      "source": "Knowledge Graph Company Organization",
-      "target": "daliu.github.io"
+      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
+      "target": "Claude Harness & Agents"
     },
     {
-      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "Knowledge Graph Polish (autonomous /loop)",
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
       "target": "daliu.github.io"
     },
     {
@@ -2037,7 +3750,7 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
       "target": "daliu.github.io"
     },
     {
@@ -2045,7 +3758,23 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "source": "Portfolio Overview \u2014 Metis and /now/ Coverage",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Knowledge Graph Company Organization",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Self-Updating /now/ Page and Session-Agnostic Blog Loop",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
       "target": "daliu.github.io"
     },
     {
@@ -2053,11 +3782,11 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
+      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
       "target": "daliu.github.io"
     },
     {
-      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
+      "source": "Knowledge Graph Polish (autonomous /loop)",
       "target": "daliu.github.io"
     },
     {
@@ -2065,7 +3794,7 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "Evidence Board Capstone + iCloud Documents EPERM",
+      "source": "Site Analytics Dashboard Enrichment",
       "target": "Data Visualization"
     },
     {
@@ -2073,32 +3802,24 @@
       "target": "Data Visualization"
     },
     {
-      "source": "Site Analytics Dashboard Enrichment",
+      "source": "Evidence Board Capstone + iCloud Documents EPERM",
       "target": "Data Visualization"
     },
     {
-      "source": "Genomics Pivot to EAS Pharmacogenomics",
-      "target": "Genomics"
+      "source": "Ship capital_budget DCF tool",
+      "target": "Finance and Investing"
     },
     {
       "source": "Personal Genomics Paper Draft",
       "target": "Genomics"
     },
     {
-      "source": "Genomics Interactive Companions",
+      "source": "Genomics Pivot to EAS Pharmacogenomics",
       "target": "Genomics"
     },
     {
-      "source": "Sleep Carryover Analysis and Visual Email",
-      "target": "Health and Fitness"
-    },
-    {
-      "source": "Health Dashboard Context & Typical-Day Overhaul",
-      "target": "Health and Fitness"
-    },
-    {
-      "source": "Health Publish Cadence and Now/Status Sync",
-      "target": "Health and Fitness"
+      "source": "Genomics Interactive Companions",
+      "target": "Genomics"
     },
     {
       "source": "Hourly Granularity and Knowledge Graph Leak Fix",
@@ -2109,7 +3830,11 @@
       "target": "Health and Fitness"
     },
     {
-      "source": "Stress vs In-Person Time (WhatsApp Proxy)",
+      "source": "Health Publish Cadence and Now/Status Sync",
+      "target": "Health and Fitness"
+    },
+    {
+      "source": "Sleep Carryover Analysis and Visual Email",
       "target": "Health and Fitness"
     },
     {
@@ -2117,11 +3842,27 @@
       "target": "Health and Fitness"
     },
     {
+      "source": "Stress vs In-Person Time (WhatsApp Proxy)",
+      "target": "Health and Fitness"
+    },
+    {
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "target": "Health and Fitness"
+    },
+    {
       "source": "Evidence Board Capstone + iCloud Documents EPERM",
       "target": "Health and Fitness"
     },
     {
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "target": "Knowledge Management"
+    },
+    {
       "source": "Knowledge Graph Company Organization",
+      "target": "Knowledge Management"
+    },
+    {
+      "source": "Knowledge Wiki Setup",
       "target": "Knowledge Management"
     },
     {
@@ -2131,18 +3872,6 @@
     {
       "source": "Knowledge Graph Polish (autonomous /loop)",
       "target": "Knowledge Management"
-    },
-    {
-      "source": "Knowledge Wiki Setup",
-      "target": "Knowledge Management"
-    },
-    {
-      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
-      "target": "Knowledge Management"
-    },
-    {
-      "source": "SenticNet 9 Package Update",
-      "target": "Machine Learning"
     },
     {
       "source": "The Octopus of Machine Learning Problems",
@@ -2157,7 +3886,7 @@
       "target": "Machine Learning"
     },
     {
-      "source": "Automated ML Pipeline",
+      "source": "SenticNet 9 Package Update",
       "target": "Machine Learning"
     },
     {
@@ -2165,23 +3894,15 @@
       "target": "Machine Learning"
     },
     {
-      "source": "Patterns of Choice design",
-      "target": "Revealed Preference & Measurement"
+      "source": "Automated ML Pipeline",
+      "target": "Machine Learning"
+    },
+    {
+      "source": "Sentic 0.0.9 PyPI Publish",
+      "target": "Machine Learning"
     },
     {
       "source": "Patterns of Choice \u2014 Extension Loop",
-      "target": "Revealed Preference & Measurement"
-    },
-    {
-      "source": "Kreia, Moral Systems, and Quantifying Trust",
-      "target": "Revealed Preference & Measurement"
-    },
-    {
-      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
-      "target": "Revealed Preference & Measurement"
-    },
-    {
-      "source": "Patterns of Choice \u2014 Review and Hardening",
       "target": "Revealed Preference & Measurement"
     },
     {
@@ -2189,27 +3910,59 @@
       "target": "Revealed Preference & Measurement"
     },
     {
+      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
+      "target": "Revealed Preference & Measurement"
+    },
+    {
+      "source": "Kreia, Moral Systems, and Quantifying Trust",
+      "target": "Revealed Preference & Measurement"
+    },
+    {
+      "source": "Patterns of Choice design",
+      "target": "Revealed Preference & Measurement"
+    },
+    {
+      "source": "Patterns of Choice \u2014 Review and Hardening",
+      "target": "Revealed Preference & Measurement"
+    },
+    {
+      "source": "Funnel, LOCUS Pilot, MCP Viz",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship join JOIN tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Workflow Page UX Loop",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council linear_regression tool (iter 277)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 295 (decision_matrix)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Surface table-transform tools in llms.txt",
+      "target": "Meta-Council"
+    },
+    {
       "source": "Meta Council Public Leak Audit",
       "target": "Meta-Council"
     },
     {
-      "source": "Droplet GCS Backup Fix",
+      "source": "Ship capital_budget DCF tool",
       "target": "Meta-Council"
     },
     {
-      "source": "Dead Copy Email Button Fix",
+      "source": "Ship amortization tool",
       "target": "Meta-Council"
     },
     {
-      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Mobile Sidebar Overlay Tap Bug",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Outreach Sending Diagnosis & Lead Base Overview",
+      "source": "Ship filter_rows tool",
       "target": "Meta-Council"
     },
     {
@@ -2217,15 +3970,291 @@
       "target": "Meta-Council"
     },
     {
-      "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
-      "target": "Metis (Legal ML)"
+      "source": "MCP HTTP Parity for Outsiders",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Lead Sets Ship",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship sort_table tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Outreach Bounce Safety",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "sql_query multi-table (data2)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship redact PII/DLP masking tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Forecast Tool + Iter 297 Ship",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter-299 histogram tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship pivot crosstab tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter-300 surface histogram in llms.txt",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter 291 \u2014 llms.txt finance-tool surfacing",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship number_format tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Markdown-table ingestion in shared _parse_table",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 294 (xirr)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship sql_query tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Droplet GCS Backup Fix",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Mann-Whitney U Tool (iter 281)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "PR 65 Ship and Email Relay Decision",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship diff_stat tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship table_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Mobile Sidebar Overlay Tap Bug",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 296 (surface decision_matrix)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council runway tool (iter 286)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "SES Guard and Codex MCP",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "PR 64 Ship, LOCUS Pricing, Google OAuth",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship WACC tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship table_diff tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship case_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship dedupe tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council llms.txt Text-Hygiene Sync (iter 283)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter-303 normality tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council saas_metrics llms.txt (iter 285)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council tool loop \u2014 iter 287 dilution tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Outreach Sending Diagnosis & Lead Base Overview",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter 290 \u2014 implied_volatility tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council chi_square tool (iter 278)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship toml_query tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship select_columns tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship depreciation tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Lead Sets Premium (2)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship break_even CVP tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship config_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Surface finance family in llms.txt",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Tool-Calling Enhancement Loop",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter 289 \u2014 black_scholes option-pricing tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship text_normalize tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council bond tool (iter 288)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council financial_ratios tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Surface unpivot in llms.txt + live-status UI",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council llms.txt Inference-Stats Sync (iter 282)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Complete GFM ingestion across inline-parser table tools",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship unpivot melt tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter-302 surface outliers in llms.txt",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter-301 outliers tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Profitability Avenues and Contract Wins",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Sales Pipeline Reconcile and Merge",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Dead Copy Email Button Fix",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship group_by GROUP BY tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council saas_metrics tool (iter 284)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Re-sync CLAUDE.md tool count to 120+",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Honest has_header coaching across table tools",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Lead Sets Ship (2) \u2014 Catalog v2 + main CI unbreak",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Codex MCP validation + registry publish prep",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Rank Correlation Tool (iter 280)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship color_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council ANOVA Tool (iter 279)",
+      "target": "Meta-Council"
     },
     {
       "source": "Arbor Paper and Metis Integration",
       "target": "Metis (Legal ML)"
     },
     {
+      "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
+      "target": "Metis (Legal ML)"
+    },
+    {
       "source": "Metis Resolution Estimation \u2014 Settlements, Timelines, Amounts",
+      "target": "Metis (Legal ML)"
+    },
+    {
+      "source": "Themis v1-Hosted Build",
       "target": "Metis (Legal ML)"
     },
     {
@@ -2237,7 +4266,11 @@
       "target": "Run-MPRC"
     },
     {
-      "source": "Patterns of Choice design",
+      "source": "Patterns of Choice Max-Effort Build",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Prediction Methodology Audit + Salvage Analysis",
       "target": "Patterns of Choice"
     },
     {
@@ -2245,19 +4278,7 @@
       "target": "Patterns of Choice"
     },
     {
-      "source": "Patterns of Choice Max-Effort Build",
-      "target": "Patterns of Choice"
-    },
-    {
-      "source": "Patterns of Choice \u2014 Arc Mechanism Build-Out",
-      "target": "Patterns of Choice"
-    },
-    {
-      "source": "Patterns of Choice \u2014 Review and Hardening",
-      "target": "Patterns of Choice"
-    },
-    {
-      "source": "daliu.github.io \u2014 Expose the Full Patterns of Choice Experiment",
+      "source": "ETF Horizon Signal Battery",
       "target": "Patterns of Choice"
     },
     {
@@ -2265,8 +4286,36 @@
       "target": "Patterns of Choice"
     },
     {
-      "source": "Kreia, Moral Systems, and Quantifying Trust",
-      "target": "Philosophy & Ethics"
+      "source": "ETF Pullback Exit-Rule Study",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Chatbot Data Collector build",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice \u2014 Review and Hardening",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice \u2014 Arc Mechanism Build-Out",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice design",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Bond ETF Backfill + Signal Battery",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "daliu.github.io \u2014 Expose the Full Patterns of Choice Experiment",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Values-Based Matchmaking Product Assessment",
+      "target": "Patterns of Choice"
     },
     {
       "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
@@ -2277,7 +4326,19 @@
       "target": "Philosophy & Ethics"
     },
     {
+      "source": "Kreia, Moral Systems, and Quantifying Trust",
+      "target": "Philosophy & Ethics"
+    },
+    {
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "target": "Security"
+    },
+    {
       "source": "Meta Council Public Leak Audit",
+      "target": "Security"
+    },
+    {
+      "source": "Ship text_normalize tool",
       "target": "Security"
     },
     {
@@ -2289,15 +4350,7 @@
       "target": "Security"
     },
     {
-      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
-      "target": "Security"
-    },
-    {
       "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
-      "target": "Autonomous Adaptive Intelligence"
-    },
-    {
-      "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
       "target": "Autonomous Adaptive Intelligence"
     },
     {
@@ -2305,15 +4358,27 @@
       "target": "Autonomous Adaptive Intelligence"
     },
     {
+      "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
+      "target": "Autonomous Adaptive Intelligence"
+    },
+    {
       "source": "Arbor \u2014 Hypothesis-Tree Refinement for Autonomous Research",
       "target": "Autonomous Adaptive Intelligence"
     },
     {
-      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
-      "target": "Autonomous Adaptive Intelligence"
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
+      "target": "Testing & Review"
     },
     {
       "source": "Seasonality \u2014 PR Review Panel",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "Hierarchical Signal Tests and Adversarial Review",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
       "target": "Testing & Review"
     },
     {
@@ -2323,19 +4388,11 @@
     {
       "source": "Patterns of Choice \u2014 Review and Hardening",
       "target": "Testing & Review"
-    },
-    {
-      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
-      "target": "Testing & Review"
-    },
-    {
-      "source": "Hierarchical Signal Tests and Adversarial Review",
-      "target": "Testing & Review"
     }
   ],
   "meta": {
     "generated": "auto",
-    "node_count": 117,
-    "edge_count": 233
+    "node_count": 252,
+    "edge_count": 355
   }
 }
