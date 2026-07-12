@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-12T15:00:17.419414+00:00",
+  "generated_at": "2026-07-12T21:00:19.448648+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "5ea87ef",
-      "date": "2026-07-12T06:40:08-07:00",
-      "message": "health: refresh calendar density 2026-07-12 06:40"
+      "hash": "d47bb41",
+      "date": "2026-07-12T08:00:17-07:00",
+      "message": "Update health data 2026-07-12 08:00"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-12T08:00:06.569517",
+        "updated": "2026-07-12T14:00:03.079143",
         "date_range": null
       },
       "last_commit": {
-        "hash": "5ea87ef",
-        "date": "2026-07-12T06:40:08-07:00",
-        "message": "health: refresh calendar density 2026-07-12 06:40"
+        "hash": "d47bb41",
+        "date": "2026-07-12T08:00:17-07:00",
+        "message": "Update health data 2026-07-12 08:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "d47bb41",
+      "date": "2026-07-12T08:00:17-07:00",
+      "message": "Update health data 2026-07-12 08:00"
+    },
     {
       "hash": "5ea87ef",
       "date": "2026-07-12T06:40:08-07:00",
@@ -158,11 +163,6 @@
       "hash": "5b46605",
       "date": "2026-07-10T00:25:00-07:00",
       "message": "patterns-of-choice: add A4 on-device decision-conflict reveal (conflictReads)"
-    },
-    {
-      "hash": "3440b67",
-      "date": "2026-07-09T21:00:16-07:00",
-      "message": "Update health data 2026-07-09 21:00"
     }
   ]
 }
