@@ -1361,16 +1361,17 @@
             const rec = daily.slice(-45);
             // same stable targets as the weekly tracker / plan floor
             const stepFloor = (() => { const s = rec.filter(d => d.total_steps != null).map(d => d.total_steps); return s.length >= 8 ? Math.round((med(s) || 0) / 500) * 500 : 8000; })();
-            const bedTarget = (() => {
-                const ns = rec.filter(d => d.sleep_start && d.sleep_score != null).map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score })).filter(d => d.norm != null);
-                if (ns.length < 6) return null;
-                const top = [...ns].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(ns.length / 3)));
-                return med(top.map(d => d.norm));
+            // Bedtime adherence is measured against your recent typical bedtime: the plan's
+            // goal is the model's optimum (~11:36 PM), but here we simply reward beating your
+            // usual — a winnable step in the right direction — so no fixed time competes with it.
+            const bedMedian = (() => {
+                const ns = rec.filter(d => d.sleep_start).map(d => bedtimeToNormalized(d.sleep_start)).filter(n => n != null);
+                return ns.length >= 6 ? med(ns) : null;
             })();
 
             const chips = [];
             if (y.sleep_hours != null) chips.push({ ok: y.sleep_hours >= 7, txt: `😴 ${y.sleep_hours.toFixed(1)}h`, miss: 'short on sleep; protect tonight\'s window' });
-            if (y.sleep_start && bedTarget != null) { const n = bedtimeToNormalized(y.sleep_start); chips.push({ ok: n != null && n <= bedTarget + 0.5, txt: `🛏️ ${formatTime(y.sleep_start)}`, miss: 'late to bed; aim for your target tonight' }); }
+            if (y.sleep_start && bedMedian != null) { const n = bedtimeToNormalized(y.sleep_start); chips.push({ ok: n != null && n <= bedMedian, txt: `🛏️ ${formatTime(y.sleep_start)}`, miss: 'later than your usual; aim earlier tonight' }); }
             if (y.total_steps != null) chips.push({ ok: y.total_steps >= stepFloor, txt: `👟 ${y.total_steps.toLocaleString()}`, miss: 'low movement; an easy walk clears the floor' });
             if (!chips.length) { el.style.display = 'none'; return; }
 
@@ -1404,19 +1405,35 @@
             const wkSteps = onDow('total_steps'), wkSleep = onDow('sleep_score');
             const allSleepAvg = mean(daily.filter(d => d.sleep_score != null).map(d => d.sleep_score));
 
-            // 1) Target bedtime — best-scoring nights, nudged earlier if this weekday sleeps poorly.
+            // 1) Target bedtime — the pipeline's sleep model is the source of truth when it
+            //    has one, so this card AGREES with the Optimal-Bedtime card, the "biggest
+            //    lever", and the Evidence Board (no contradicting bedtimes). When the model
+            //    says earlier-is-better and points meaningfully earlier than the user's own
+            //    best-scoring nights, follow the model; otherwise fall back to the descriptive
+            //    "best nights" median with a day-of-week nudge.
             const nights = rec.filter(d => d.sleep_start && d.sleep_score != null)
                 .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score }))
                 .filter(d => d.norm != null);
+            const sm = (typeof allSleepModel !== 'undefined' && allSleepModel && allSleepModel.bedtime && allSleepModel.bedtime.stats) ? allSleepModel.bedtime : null;
             if (nights.length >= 6) {
                 const top = [...nights].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(nights.length / 3)));
-                let bedNorm = med(top.map(d => d.norm));
-                let why = `Your best-scoring nights (~${Math.round(med(top.map(d => d.score)))}/100) cluster around this time.`;
-                if (wkSleep.length >= 4 && allSleepAvg != null) {
-                    const wkAvg = mean(wkSleep);
-                    if (wkAvg <= allSleepAvg - 5) {  // this weekday tends to sleep worse → go earlier
-                        bedNorm -= 0.42;  // ~25 min
-                        why = `${DOW[tomorrowDow]} nights tend to score lower (~${Math.round(wkAvg)} vs ${Math.round(allSleepAvg)} avg) — aim ~25 min earlier tonight.`;
+                const bestNorm = med(top.map(d => d.norm));
+                let bedNorm = bestNorm, why;
+                // Model wins only when it points ≥15 min earlier than your best nights.
+                const modelEarlier = sm && sm.recommended_norm != null && sm.monotonic_earlier_better && sm.recommended_norm < bestNorm - 0.25;
+                if (modelEarlier) {
+                    bedNorm = sm.recommended_norm;
+                    const perH = sm.stats.sleep_hours && sm.stats.sleep_hours.per_hour_earlier;
+                    why = `Earlier is consistently better for you (bedtime → sleep quality r=${sm.stats.sleep_score.r}). You average ${sm.median_label}; the model's sweet spot is ${sm.recommended_label}`
+                        + (perH ? ` — about +${perH}h of sleep per hour earlier` : '') + `. Even a step toward it helps.`;
+                } else {
+                    why = `Your best-scoring nights (~${Math.round(med(top.map(d => d.score)))}/100) cluster around this time.`;
+                    if (wkSleep.length >= 4 && allSleepAvg != null) {
+                        const wkAvg = mean(wkSleep);
+                        if (wkAvg <= allSleepAvg - 5) {  // this weekday tends to sleep worse → go earlier
+                            bedNorm -= 0.42;  // ~25 min
+                            why = `${DOW[tomorrowDow]} nights tend to score lower (~${Math.round(wkAvg)} vs ${Math.round(allSleepAvg)} avg) — aim ~25 min earlier tonight.`;
+                        }
                     }
                 }
                 // Wind-down cue 45 min earlier — a concrete trigger to actually hit the
@@ -1603,10 +1620,11 @@
 
             // Reference targets (match the Plan card's stable baselines).
             const SLEEP_GOAL = 7;
-            const nights = rec.filter(d => d.sleep_start && d.sleep_score != null)
-                .map(d => ({ norm: bedtimeToNormalized(d.sleep_start), score: d.sleep_score })).filter(d => d.norm != null);
-            let bedTarget = null;
-            if (nights.length >= 6) { const top = [...nights].sort((a, b) => b.score - a.score).slice(0, Math.max(3, Math.round(nights.length / 3))); bedTarget = med(top.map(d => d.norm)); }
+            // Bedtime: reward beating your recent typical time (progress toward the plan's
+            // earlier goal), not a fixed clock time — so this doesn't compete with the
+            // model-driven Target-bedtime card above.
+            const bedNorms = rec.filter(d => d.sleep_start).map(d => bedtimeToNormalized(d.sleep_start)).filter(n => n != null);
+            const bedMedian = bedNorms.length >= 6 ? med(bedNorms) : null;
             const stepsArr = rec.filter(d => d.total_steps != null).map(d => d.total_steps);
             // Track the attainable FLOOR (median) so streaks build; note stretch hits too.
             const stepFloor = stepsArr.length >= 8 ? Math.round((med(stepsArr) || 0) / 500) * 500 : 6000;
@@ -1617,8 +1635,8 @@
             const metrics = [
                 { emoji: '😴', label: `Sleep ≥ ${SLEEP_GOAL}h`, days: lastN(d => d.sleep_hours != null, d => d.sleep_hours >= SLEEP_GOAL) },
             ];
-            if (bedTarget != null) metrics.push({ emoji: '🛏️', label: `Bed by ~${normalizedToBedtime12h(bedTarget)}`,
-                days: lastN(d => d.sleep_start, d => { const n = bedtimeToNormalized(d.sleep_start); return n != null && n <= bedTarget + 0.5; }) });
+            if (bedMedian != null) metrics.push({ emoji: '🛏️', label: `Earlier than ~${normalizedToBedtime12h(bedMedian)}`,
+                days: lastN(d => d.sleep_start, d => { const n = bedtimeToNormalized(d.sleep_start); return n != null && n <= bedMedian; }) });
             const stepDays = lastN(d => d.total_steps != null, d => d.total_steps >= stepFloor);
             const stretchHits = (stepStretch > stepFloor) ? rec.filter(d => d.total_steps != null).slice(-7).filter(d => d.total_steps >= stepStretch).length : null;
             metrics.push({ emoji: '👟', label: `Steps ≥ ${stepFloor.toLocaleString()} (floor)`, days: stepDays,
@@ -3070,6 +3088,7 @@
         let allDailyData = null;
         let trendChartInstances = [];
         let allHourlyData = null;
+        let allSleepModel = null;   // pipeline sleep-model.json — shared so the Plan card & modeled card agree
         let allSleepSeries = null;
         let vo2maxInstance = null;
         let bedtimeStripInstance = null;
@@ -4153,6 +4172,7 @@
                 if (!resp.ok) throw new Error('no file');
                 const m = await resp.json();
                 if (m.insufficient || !m.bedtime || !m.bedtime.stats || !m.bedtime.pred_at_recommended || !m.bedtime.pred_at_median) { if (sec) sec.style.display = 'none'; return; }
+                allSleepModel = m;  // share with buildTomorrowPlan so the Target-bedtime card agrees with this model
                 sec.style.display = '';
                 const b = m.bedtime, s = b.stats;
                 const g = k => { const d = b.pred_at_recommended[k] - b.pred_at_median[k]; return (d >= 0 ? '+' : '') + (k === 'sleep_hours' ? d.toFixed(1) : Math.round(d)); };
@@ -4173,6 +4193,7 @@
                     `📐 <strong>How to read this:</strong> modeled on <strong>${m.n} nights</strong> (refits as new data lands). Bedtime predicts your sleep <strong>duration</strong> with real out-of-sample skill (cross-validated R²=${s.sleep_hours.cv_r2.toFixed(2)}). It's also correlated with sleep quality (r=${s.sleep_score.r}, p=${s.sleep_score.p}) and body battery (r=${s.battery.r}, p=${s.battery.p}), but has <strong>no out-of-sample skill</strong> for either (cross-validated R²=${s.sleep_score.cv_r2.toFixed(2)} and ${s.battery.cv_r2.toFixed(2)}) — so treat the modeled score/battery above as directional, not a forecast. ` +
                     `${b.monotonic_earlier_better ? `No interior optimum yet — you rarely sleep before ~${b.pct10_label}, so the true floor is untested; the model will pin a sweet spot once you shift earlier. ` : ''}` +
                     exerciseNote + `<em>Single-subject &amp; observational.</em>`;
+                if (allDailyData) buildTomorrowPlan(allDailyData);  // re-render now the model can drive the Target-bedtime card
             } catch (e) { console.warn('sleep model unavailable', e); if (sec) sec.style.display = 'none'; }
         }
 
