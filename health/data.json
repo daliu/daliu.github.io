@@ -1,34 +1,6 @@
 {
-  "updated": "2026-07-13T08:00:05.274963",
+  "updated": "2026-07-13T14:00:07.429522",
   "daily": [
-    {
-      "date": "2026-04-14",
-      "avg_body_battery": null,
-      "min_body_battery": null,
-      "max_body_battery": null,
-      "avg_stress": null,
-      "total_steps": 213,
-      "sleep_score": null,
-      "sleep_hours": null,
-      "hrv_weekly": 47,
-      "hrv_last_night": null,
-      "hrv_status": "LOW",
-      "resting_hr": null,
-      "sleep_start": null,
-      "sleep_end": null,
-      "active_calories": 5.0,
-      "intensity_minutes": 0,
-      "vigorous_minutes": 0,
-      "distance_meters": 179.0,
-      "rest_stress_pct": 0.0,
-      "low_stress_pct": 0.0,
-      "medium_stress_pct": 0.0,
-      "high_stress_pct": 0.0,
-      "bb_charged": null,
-      "bb_drained": null,
-      "bb_at_wake": null,
-      "sedentary_seconds": 34260
-    },
     {
       "date": "2026-04-15",
       "avg_body_battery": 48.0,
@@ -1851,24 +1823,15 @@
     }
   ],
   "hr_zones": {
-    "z1": 18347.98,
-    "z2": 37701.194,
-    "z3": 52141.386,
-    "z4": 34121.4,
+    "z1": 17742.995,
+    "z2": 36969.236,
+    "z3": 50565.445999999996,
+    "z4": 33900.4,
     "z5": 10861.111,
-    "n": 49,
+    "n": 48,
     "days": 90
   },
   "hourly": [
-    {
-      "timestamp": "2026-07-06 16:00:05",
-      "body_battery_current": 98,
-      "resting_hr": 41,
-      "stress_avg": 10,
-      "steps": 18,
-      "sleep_score": 70,
-      "hrv_weekly_avg": 82
-    },
     {
       "timestamp": "2026-07-07 16:00:14",
       "body_battery_current": 84,
@@ -2102,6 +2065,15 @@
       "steps": 5913,
       "sleep_score": 62,
       "hrv_weekly_avg": 79
+    },
+    {
+      "timestamp": "2026-07-13 20:44:37",
+      "body_battery_current": null,
+      "resting_hr": null,
+      "stress_avg": -2,
+      "steps": 401,
+      "sleep_score": null,
+      "hrv_weekly_avg": 77
     }
   ],
   "vo2max": [
