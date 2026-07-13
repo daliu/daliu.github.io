@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-12T21:00:19.448648+00:00",
+  "generated_at": "2026-07-13T04:00:17.996746+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "d47bb41",
-      "date": "2026-07-12T08:00:17-07:00",
-      "message": "Update health data 2026-07-12 08:00"
+      "hash": "9b927d2",
+      "date": "2026-07-12T14:00:19-07:00",
+      "message": "Update health data 2026-07-12 14:00"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-12T14:00:03.079143",
+        "updated": "2026-07-12T21:00:05.616731",
         "date_range": null
       },
       "last_commit": {
-        "hash": "d47bb41",
-        "date": "2026-07-12T08:00:17-07:00",
-        "message": "Update health data 2026-07-12 08:00"
+        "hash": "9b927d2",
+        "date": "2026-07-12T14:00:19-07:00",
+        "message": "Update health data 2026-07-12 14:00"
       }
     },
     "knowledge_graph": {
@@ -40,8 +40,8 @@
       "schedule": "manual (run scripts/build_graph.py)",
       "graph": {
         "generated": "auto",
-        "node_count": 252,
-        "edge_count": 355
+        "node_count": 281,
+        "edge_count": 394
       },
       "last_commit": {
         "hash": "69da062",
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "9b927d2",
+      "date": "2026-07-12T14:00:19-07:00",
+      "message": "Update health data 2026-07-12 14:00"
+    },
     {
       "hash": "d47bb41",
       "date": "2026-07-12T08:00:17-07:00",
@@ -158,11 +163,6 @@
       "hash": "f034965",
       "date": "2026-07-10T09:20:33+00:00",
       "message": "Update analytics data 2026-07-10"
-    },
-    {
-      "hash": "5b46605",
-      "date": "2026-07-10T00:25:00-07:00",
-      "message": "patterns-of-choice: add A4 on-device decision-conflict reveal (conflictReads)"
     }
   ]
 }
