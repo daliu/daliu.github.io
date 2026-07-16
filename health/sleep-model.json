@@ -1,59 +1,59 @@
 {
-  "updated": "2026-07-15T14:00:08.638791",
-  "n": 62,
+  "updated": "2026-07-15T21:00:14.895978",
+  "n": 61,
   "bedtime": {
-    "recommended_norm": 5.605,
+    "recommended_norm": 5.6,
     "recommended_label": "11:36 PM",
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
-    "ci_label": "11:04 PM \u2013 11:55 PM",
-    "median_label": "1:20 AM",
+    "ci_label": "10:55 PM \u2013 11:55 PM",
+    "median_label": "1:18 AM",
     "pct10_label": "11:36 PM",
-    "pct90_label": "3:10 AM",
+    "pct90_label": "2:56 AM",
     "stats": {
       "sleep_score": {
         "kind": "quadratic",
-        "cv_r2": -0.069,
-        "r": -0.46,
-        "p": 0.0002,
-        "per_hour_earlier": 3.33
+        "cv_r2": -0.128,
+        "r": -0.42,
+        "p": 0.0007,
+        "per_hour_earlier": 3.18
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": 0.212,
-        "r": -0.6,
+        "cv_r2": 0.142,
+        "r": -0.57,
         "p": 0.0,
         "per_hour_earlier": 0.57
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.093,
-        "r": -0.39,
-        "p": 0.0017,
-        "per_hour_earlier": 3.55
+        "cv_r2": -0.218,
+        "r": -0.33,
+        "p": 0.0089,
+        "per_hour_earlier": 3.09
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 79.8,
+      "sleep_score": 80.0,
       "sleep_hours": 7.7,
-      "battery": 88.9
+      "battery": 88.3
     },
     "pred_at_median": {
-      "sleep_score": 77.6,
+      "sleep_score": 77.8,
       "sleep_hours": 6.7,
-      "battery": 82.8
+      "battery": 83.1
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": -0.13,
-        "sleep_hours": -0.03,
-        "battery": -0.13
+        "sleep_score": -0.12,
+        "sleep_hours": -0.02,
+        "battery": -0.12
       },
       "weekly_frequency": {
-        "sleep_score": 0.01,
-        "sleep_hours": 0.03,
+        "sleep_score": 0.0,
+        "sleep_hours": 0.02,
         "battery": 0.13
       }
     },
