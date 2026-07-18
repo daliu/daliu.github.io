@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-18T04:00:16.733646+00:00",
+  "generated_at": "2026-07-18T15:39:39.364850+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "c99a25b",
-      "date": "2026-07-17T14:00:14-07:00",
-      "message": "Update health data 2026-07-17 14:00"
+      "hash": "4eabfba",
+      "date": "2026-07-18T06:55:34-07:00",
+      "message": "health: refresh calendar density 2026-07-18 06:55"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-17T21:00:06.880850",
+        "updated": "2026-07-18T08:09:02.507331",
         "date_range": null
       },
       "last_commit": {
-        "hash": "c99a25b",
-        "date": "2026-07-17T14:00:14-07:00",
-        "message": "Update health data 2026-07-17 14:00"
+        "hash": "4eabfba",
+        "date": "2026-07-18T06:55:34-07:00",
+        "message": "health: refresh calendar density 2026-07-18 06:55"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-17T07:54:00Z"
+        "updated": "2026-07-18T07:28:56Z"
       },
       "last_commit": {
-        "hash": "494ee94",
-        "date": "2026-07-17T07:54:01+00:00",
-        "message": "Update analytics data 2026-07-17"
+        "hash": "a84149a",
+        "date": "2026-07-18T07:28:57+00:00",
+        "message": "Update analytics data 2026-07-18"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "4eabfba",
+      "date": "2026-07-18T06:55:34-07:00",
+      "message": "health: refresh calendar density 2026-07-18 06:55"
+    },
+    {
+      "hash": "a84149a",
+      "date": "2026-07-18T07:28:57+00:00",
+      "message": "Update analytics data 2026-07-18"
+    },
+    {
+      "hash": "96b47f6",
+      "date": "2026-07-17T21:00:16-07:00",
+      "message": "Update health data 2026-07-17 21:00"
+    },
     {
       "hash": "c99a25b",
       "date": "2026-07-17T14:00:14-07:00",
@@ -148,21 +163,6 @@
       "hash": "f327df5",
       "date": "2026-07-15T06:19:35-04:00",
       "message": "blog: 2026-07-15 \u2014 Cautious Meets Selective optimistic"
-    },
-    {
-      "hash": "cd99bae",
-      "date": "2026-07-15T06:19:32-04:00",
-      "message": "daily: 2026-07-15 market update"
-    },
-    {
-      "hash": "37970d8",
-      "date": "2026-07-15T07:52:12+00:00",
-      "message": "Update analytics data 2026-07-15"
-    },
-    {
-      "hash": "49d47ca",
-      "date": "2026-07-14T21:00:16-07:00",
-      "message": "Update health data 2026-07-14 21:00"
     }
   ]
 }
