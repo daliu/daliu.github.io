@@ -1,8 +1,8 @@
 {
-  "updated": "2026-07-19T08:01:42Z",
+  "updated": "2026-07-20T08:42:48Z",
   "date_range": {
-    "start": "2026-04-21",
-    "end": "2026-07-19"
+    "start": "2026-04-22",
+    "end": "2026-07-20"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-05-10",
-    "end": "2026-07-18",
-    "days_with_data": 53
+    "end": "2026-07-19",
+    "days_with_data": 54
   },
   "totals": {
-    "total_users": 368,
-    "total_sessions": 412,
-    "total_pageviews": 899,
-    "total_engaged_sessions": 71,
-    "engagement_rate": 0.1723,
-    "avg_session_duration_seconds": 138.8,
-    "bounce_rate": 0.8277
+    "total_users": 372,
+    "total_sessions": 416,
+    "total_pageviews": 905,
+    "total_engaged_sessions": 73,
+    "engagement_rate": 0.1755,
+    "avg_session_duration_seconds": 137.5,
+    "bounce_rate": 0.8245
   },
   "daily": [
     {
@@ -547,9 +547,19 @@
       "date": "2026-07-18",
       "users": 5,
       "sessions": 5,
+      "pageviews": 6,
+      "new_users": 6,
+      "avg_session_duration": 5.5,
+      "bounce_rate": 0.6,
+      "engaged_sessions": 2
+    },
+    {
+      "date": "2026-07-19",
+      "users": 4,
+      "sessions": 4,
       "pageviews": 4,
       "new_users": 4,
-      "avg_session_duration": 3.7,
+      "avg_session_duration": 2.2,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -558,12 +568,12 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 309,
-      "users": 232,
-      "avg_time_on_page": 77.4,
-      "sessions": 280,
-      "engaged": 52,
-      "engagement_rate": 0.186,
+      "pageviews": 315,
+      "users": 236,
+      "avg_time_on_page": 76.4,
+      "sessions": 284,
+      "engaged": 54,
+      "engagement_rate": 0.19,
       "class": "mixed"
     },
     {
@@ -780,10 +790,10 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 370,
-      "users": 317,
-      "engaged": 46,
-      "engagement_rate": 0.124,
+      "sessions": 375,
+      "users": 322,
+      "engaged": 48,
+      "engagement_rate": 0.128,
       "class": "automated"
     },
     {
@@ -853,35 +863,35 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 394,
-      "percentage": 95.2
+      "sessions": 395,
+      "percentage": 94.3
     },
     {
       "category": "mobile",
-      "sessions": 20,
-      "percentage": 4.8
+      "sessions": 24,
+      "percentage": 5.7
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 381,
-      "percentage": 91.4
+      "sessions": 382,
+      "percentage": 90.5
     },
     {
       "browser": "Safari",
-      "sessions": 22,
-      "percentage": 5.3
+      "sessions": 26,
+      "percentage": 6.2
     },
     {
       "browser": "Edge",
       "sessions": 4,
-      "percentage": 1.0
+      "percentage": 0.9
     },
     {
       "browser": "Safari (in-app)",
       "sessions": 4,
-      "percentage": 1.0
+      "percentage": 0.9
     },
     {
       "browser": "Firefox",
@@ -922,18 +932,18 @@
     },
     {
       "country": "United States",
-      "sessions": 114,
-      "users": 30
+      "sessions": 117,
+      "users": 33
+    },
+    {
+      "country": "Unknown",
+      "sessions": 5,
+      "users": 5
     },
     {
       "country": "China",
       "sessions": 4,
       "users": 4
-    },
-    {
-      "country": "Unknown",
-      "sessions": 3,
-      "users": 3
     },
     {
       "country": "Canada",
@@ -942,8 +952,8 @@
     },
     {
       "country": "",
-      "sessions": 2,
-      "users": 2
+      "sessions": 1,
+      "users": 1
     },
     {
       "country": "France",
@@ -967,17 +977,17 @@
     }
   ],
   "user_types": {
-    "new": 325,
+    "new": 330,
     "returning": 79
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 2
+      "pageviews": 3
     },
     {
       "hour": 1,
-      "pageviews": 15
+      "pageviews": 16
     },
     {
       "hour": 2,
@@ -985,7 +995,7 @@
     },
     {
       "hour": 3,
-      "pageviews": 11
+      "pageviews": 10
     },
     {
       "hour": 4,
@@ -1009,7 +1019,7 @@
     },
     {
       "hour": 9,
-      "pageviews": 15
+      "pageviews": 14
     },
     {
       "hour": 10,
@@ -1033,7 +1043,7 @@
     },
     {
       "hour": 15,
-      "pageviews": 10
+      "pageviews": 9
     },
     {
       "hour": 16,
@@ -1041,7 +1051,7 @@
     },
     {
       "hour": 17,
-      "pageviews": 8
+      "pageviews": 7
     },
     {
       "hour": 18,
@@ -1053,7 +1063,7 @@
     },
     {
       "hour": 20,
-      "pageviews": 21
+      "pageviews": 22
     },
     {
       "hour": 21,
@@ -1065,16 +1075,16 @@
     },
     {
       "hour": 23,
-      "pageviews": 14
+      "pageviews": 15
     }
   ],
   "quality": {
-    "engaged_sessions": 71,
-    "non_engaged_sessions": 341,
-    "likely_automated_sessions": 288,
-    "likely_human_sessions": 124,
-    "automated_pct": 69.9,
-    "est_human_users": 40,
+    "engaged_sessions": 73,
+    "non_engaged_sessions": 343,
+    "likely_automated_sessions": 287,
+    "likely_human_sessions": 129,
+    "automated_pct": 69.0,
+    "est_human_users": 45,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -1093,12 +1103,22 @@
     },
     {
       "country": "United States",
-      "sessions": 114,
-      "engaged": 64,
-      "users": 30,
-      "pageviews": 598,
-      "avg_duration": 480.1,
-      "engagement_rate": 0.561,
+      "sessions": 117,
+      "engaged": 65,
+      "users": 33,
+      "pageviews": 603,
+      "avg_duration": 467.8,
+      "engagement_rate": 0.556,
+      "class": "human"
+    },
+    {
+      "country": "Unknown",
+      "sessions": 5,
+      "engaged": 2,
+      "users": 5,
+      "pageviews": 5,
+      "avg_duration": 10.0,
+      "engagement_rate": 0.4,
       "class": "human"
     },
     {
@@ -1109,16 +1129,6 @@
       "pageviews": 7,
       "avg_duration": 557.9,
       "engagement_rate": 0.25,
-      "class": "mixed"
-    },
-    {
-      "country": "Unknown",
-      "sessions": 3,
-      "engaged": 1,
-      "users": 3,
-      "pageviews": 3,
-      "avg_duration": 9.2,
-      "engagement_rate": 0.333,
       "class": "mixed"
     },
     {
@@ -1133,11 +1143,11 @@
     },
     {
       "country": "",
-      "sessions": 2,
+      "sessions": 1,
       "engaged": 0,
-      "users": 2,
-      "pageviews": 2,
-      "avg_duration": 7.5,
+      "users": 1,
+      "pageviews": 1,
+      "avg_duration": 6.9,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -1194,14 +1204,14 @@
     ],
     "matrix": [
       [
-        2,
-        0,
+        3,
+        1,
         1,
         7,
         2,
         0,
         1,
-        0,
+        1,
         3,
         14,
         1,
@@ -1215,7 +1225,7 @@
         0,
         0,
         14,
-        17,
+        18,
         1,
         5
       ],
@@ -1370,10 +1380,10 @@
         2,
         8,
         0,
-        5,
+        6,
         17,
         1,
-        1
+        2
       ]
     ],
     "metric": "pageviews"
@@ -1414,13 +1424,13 @@
       ],
       [
         6,
-        4,
+        5,
         2,
         1,
         1,
         1,
         0,
-        1,
+        2,
         3,
         6,
         5,
@@ -1434,7 +1444,7 @@
         8,
         2,
         13,
-        10,
+        11,
         9,
         8
       ],
@@ -1522,6 +1532,15 @@
       "engagement_rate": 0.545
     },
     {
+      "lat": 39.029784,
+      "lng": -77.4744148,
+      "label": "Ashburn, United States",
+      "sessions": 6,
+      "users": 6,
+      "engaged": 1,
+      "engagement_rate": 0.167
+    },
+    {
       "lat": 41.258841,
       "lng": -95.8519484,
       "label": "Council Bluffs, United States",
@@ -1565,15 +1584,6 @@
       "users": 1,
       "engaged": 1,
       "engagement_rate": 0.333
-    },
-    {
-      "lat": 39.029784,
-      "lng": -77.4744148,
-      "label": "Ashburn, United States",
-      "sessions": 3,
-      "users": 3,
-      "engaged": 0,
-      "engagement_rate": 0.0
     },
     {
       "lat": 39.1911128,
@@ -1786,24 +1796,24 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 38,
+        "current": 34,
         "previous": 57,
-        "change_pct": -33.3
+        "change_pct": -40.4
       },
       "sessions": {
-        "current": 46,
-        "previous": 67,
-        "change_pct": -31.3
+        "current": 40,
+        "previous": 69,
+        "change_pct": -42.0
       },
       "pageviews": {
-        "current": 83,
-        "previous": 213,
-        "change_pct": -61.0
+        "current": 64,
+        "previous": 139,
+        "change_pct": -54.0
       }
     },
     "baseline": {
-      "mean_pageviews": 17.0,
-      "std_pageviews": 18.7
+      "mean_pageviews": 16.8,
+      "std_pageviews": 18.6
     },
     "anomalies": [
       {
