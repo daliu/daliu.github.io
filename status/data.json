@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-20T04:00:16.514027+00:00",
+  "generated_at": "2026-07-20T15:00:18.240137+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "9853dd8",
-      "date": "2026-07-19T20:00:05-07:00",
-      "message": "Update knowledge graph + system status + now data 2026-07-19"
+      "hash": "65a38a7",
+      "date": "2026-07-20T06:40:08-07:00",
+      "message": "health: refresh calendar density 2026-07-20 06:40"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 108,
+      "page_count": 109,
       "last_commit": {
-        "hash": "0d025d9",
-        "date": "2026-07-17T06:10:16-04:00",
-        "message": "daily: 2026-07-17 market update"
+        "hash": "f033789",
+        "date": "2026-07-20T06:06:38-04:00",
+        "message": "daily: 2026-07-20 market update"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-19T21:00:05.962565",
+        "updated": "2026-07-20T08:00:08.345829",
         "date_range": null
       },
       "last_commit": {
-        "hash": "0e941c6",
-        "date": "2026-07-19T14:00:15-07:00",
-        "message": "Update health data 2026-07-19 14:00"
+        "hash": "65a38a7",
+        "date": "2026-07-20T06:40:08-07:00",
+        "message": "health: refresh calendar density 2026-07-20 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,46 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-19T08:01:42Z"
+        "updated": "2026-07-20T08:42:48Z"
       },
       "last_commit": {
-        "hash": "55b3883",
-        "date": "2026-07-19T08:01:43+00:00",
-        "message": "Update analytics data 2026-07-19"
+        "hash": "2efd913",
+        "date": "2026-07-20T08:42:48+00:00",
+        "message": "Update analytics data 2026-07-20"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "65a38a7",
+      "date": "2026-07-20T06:40:08-07:00",
+      "message": "health: refresh calendar density 2026-07-20 06:40"
+    },
+    {
+      "hash": "7007162",
+      "date": "2026-07-20T06:06:41-04:00",
+      "message": "blog: 2026-07-20 \u2014 Defensive Rotation & Safe-Haven Demand Dominating"
+    },
+    {
+      "hash": "f033789",
+      "date": "2026-07-20T06:06:38-04:00",
+      "message": "daily: 2026-07-20 market update"
+    },
+    {
+      "hash": "2efd913",
+      "date": "2026-07-20T08:42:48+00:00",
+      "message": "Update analytics data 2026-07-20"
+    },
+    {
+      "hash": "f7fd955",
+      "date": "2026-07-20T00:06:22-07:00",
+      "message": "health: Target-bedtime card notes deep sleep is front-loaded/protected"
+    },
+    {
+      "hash": "b5ce56e",
+      "date": "2026-07-19T21:00:16-07:00",
+      "message": "Update health data 2026-07-19 21:00"
+    },
     {
       "hash": "9853dd8",
       "date": "2026-07-19T20:00:05-07:00",
@@ -133,36 +163,6 @@
       "hash": "016707b",
       "date": "2026-07-17T06:40:11-07:00",
       "message": "health: refresh calendar density 2026-07-17 06:40"
-    },
-    {
-      "hash": "1b9ecbe",
-      "date": "2026-07-17T06:10:18-04:00",
-      "message": "blog: 2026-07-17 \u2014 Cautious Rotation Dominating"
-    },
-    {
-      "hash": "0d025d9",
-      "date": "2026-07-17T06:10:16-04:00",
-      "message": "daily: 2026-07-17 market update"
-    },
-    {
-      "hash": "494ee94",
-      "date": "2026-07-17T07:54:01+00:00",
-      "message": "Update analytics data 2026-07-17"
-    },
-    {
-      "hash": "7dc414e",
-      "date": "2026-07-16T21:00:17-07:00",
-      "message": "Update health data 2026-07-16 21:00"
-    },
-    {
-      "hash": "cbb6d40",
-      "date": "2026-07-16T14:00:16-07:00",
-      "message": "Update health data 2026-07-16 14:00"
-    },
-    {
-      "hash": "12c2549",
-      "date": "2026-07-16T08:29:53-07:00",
-      "message": "Update health data 2026-07-16 08:29"
     }
   ]
 }
