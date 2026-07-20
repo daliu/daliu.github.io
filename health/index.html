@@ -1439,6 +1439,20 @@
                 // Wind-down cue 45 min earlier — a concrete trigger to actually hit the
                 // target (directly targets the user's biggest gap: bedtime consistency).
                 why += ` Start winding down ~${normalizedToBedtime12h(bedNorm - 0.75)}.`;
+                // Honest nuance from the sleep-stage series: deep sleep is front-loaded and
+                // protected — it barely moves with bedtime timing (checked: flat across your
+                // early vs late nights), so this target is about total sleep and how rested you
+                // feel, not squeezing out more deep sleep. Computed live, never hand-entered.
+                if (typeof allSleepSeries !== 'undefined' && allSleepSeries) {
+                    const ds = allSleepSeries.filter(s => s.deep_mins != null && s.bedtime != null);
+                    if (ds.length >= 20) {
+                        const medBed = med(ds.map(s => s.bedtime));
+                        const eDeep = mean(ds.filter(s => s.bedtime <= medBed).map(s => s.deep_mins));
+                        const lDeep = mean(ds.filter(s => s.bedtime > medBed).map(s => s.deep_mins));
+                        if (eDeep != null && lDeep != null)
+                            why += ` Deep sleep is front-loaded for you (~${Math.round(eDeep)} min on earlier nights vs ~${Math.round(lDeep)} on later) — hitting this helps your total sleep and how rested you feel, not extra deep sleep.`;
+                    }
+                }
                 cards.push({ emoji: '🛏️', title: 'Target bedtime', big: normalizedToBedtime12h(bedNorm), why, color: 'var(--purple)' });
             }
 
@@ -4212,6 +4226,7 @@
                 allSleepSeries = d.series || null;
                 buildSleepStages(allSleepSeries, allDailyData);
                 if (allDailyData) buildEvidenceBoard(allDailyData);  // re-call: now the deep-sleep dead-end can compute
+                if (allDailyData) buildTomorrowPlan(allDailyData);   // re-render: Target-bedtime card can now show the deep-sleep-is-protected nuance
             } catch (e) {
                 console.warn('sleep carryover unavailable', e);
                 document.getElementById('carryoverSection').innerHTML =
