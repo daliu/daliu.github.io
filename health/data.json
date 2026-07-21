@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-21T08:00:07.317608",
+  "updated": "2026-07-21T14:00:07.911966",
   "daily": [
     {
       "date": "2026-04-23",
@@ -1935,10 +1935,10 @@
     },
     {
       "date": "2026-07-21",
-      "avg_body_battery": 25.0,
+      "avg_body_battery": 31.0,
       "min_body_battery": 5,
       "max_body_battery": 90,
-      "avg_stress": 38.0,
+      "avg_stress": 34.0,
       "total_steps": 5397,
       "sleep_score": 78,
       "sleep_hours": 6.78,
@@ -1952,7 +1952,7 @@
       "intensity_minutes": 2,
       "vigorous_minutes": 5,
       "distance_meters": 4543.0,
-      "rest_stress_pct": 73.64,
+      "rest_stress_pct": 78.79,
       "low_stress_pct": 25.0,
       "medium_stress_pct": 51.32,
       "high_stress_pct": 7.92,
@@ -1963,33 +1963,15 @@
     }
   ],
   "hr_zones": {
-    "z1": 20781.818,
-    "z2": 35920.837,
-    "z3": 51205.618,
-    "z4": 29104.559,
+    "z1": 20264.817,
+    "z2": 34600.702,
+    "z3": 50478.648,
+    "z4": 28981.559,
     "z5": 8927.514,
-    "n": 49,
+    "n": 48,
     "days": 90
   },
   "hourly": [
-    {
-      "timestamp": "2026-07-14 15:45:06",
-      "body_battery_current": 58,
-      "resting_hr": 45,
-      "stress_avg": 24,
-      "steps": 1234,
-      "sleep_score": 65,
-      "hrv_weekly_avg": 74
-    },
-    {
-      "timestamp": "2026-07-14 19:45:12",
-      "body_battery_current": 42,
-      "resting_hr": 45,
-      "stress_avg": 28,
-      "steps": 4304,
-      "sleep_score": 65,
-      "hrv_weekly_avg": 74
-    },
     {
       "timestamp": "2026-07-14 23:45:18",
       "body_battery_current": 27,
@@ -2214,13 +2196,18 @@
       "steps": 400,
       "sleep_score": 51,
       "hrv_weekly_avg": 77
+    },
+    {
+      "timestamp": "2026-07-21 16:09:41",
+      "body_battery_current": 54,
+      "resting_hr": 47,
+      "stress_avg": 21,
+      "steps": 409,
+      "sleep_score": 51,
+      "hrv_weekly_avg": 77
     }
   ],
   "vo2max": [
-    {
-      "date": "2026-01-22",
-      "vo2max": 54.0
-    },
     {
       "date": "2026-01-24",
       "vo2max": 54.0
