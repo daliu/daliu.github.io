@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-21T04:00:17.274352+00:00",
+  "generated_at": "2026-07-21T15:00:17.946451+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "3110353",
-      "date": "2026-07-20T14:00:16-07:00",
-      "message": "Update health data 2026-07-20 14:00"
+      "hash": "2fc3965",
+      "date": "2026-07-21T06:40:09-07:00",
+      "message": "health: refresh calendar density 2026-07-21 06:40"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 109,
+      "page_count": 110,
       "last_commit": {
-        "hash": "f033789",
-        "date": "2026-07-20T06:06:38-04:00",
-        "message": "daily: 2026-07-20 market update"
+        "hash": "d8601a7",
+        "date": "2026-07-21T06:08:50-04:00",
+        "message": "daily: 2026-07-21 market update"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-20T21:00:07.727408",
+        "updated": "2026-07-21T08:00:07.317608",
         "date_range": null
       },
       "last_commit": {
-        "hash": "3110353",
-        "date": "2026-07-20T14:00:16-07:00",
-        "message": "Update health data 2026-07-20 14:00"
+        "hash": "2fc3965",
+        "date": "2026-07-21T06:40:09-07:00",
+        "message": "health: refresh calendar density 2026-07-21 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,41 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-20T08:42:48Z"
+        "updated": "2026-07-21T08:10:13Z"
       },
       "last_commit": {
-        "hash": "2efd913",
-        "date": "2026-07-20T08:42:48+00:00",
-        "message": "Update analytics data 2026-07-20"
+        "hash": "c86c625",
+        "date": "2026-07-21T08:10:13+00:00",
+        "message": "Update analytics data 2026-07-21"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "2fc3965",
+      "date": "2026-07-21T06:40:09-07:00",
+      "message": "health: refresh calendar density 2026-07-21 06:40"
+    },
+    {
+      "hash": "9765ce7",
+      "date": "2026-07-21T06:08:53-04:00",
+      "message": "blog: 2026-07-21 \u2014 Defensive & Hard Asset Rotation Dominates"
+    },
+    {
+      "hash": "d8601a7",
+      "date": "2026-07-21T06:08:50-04:00",
+      "message": "daily: 2026-07-21 market update"
+    },
+    {
+      "hash": "c86c625",
+      "date": "2026-07-21T08:10:13+00:00",
+      "message": "Update analytics data 2026-07-21"
+    },
+    {
+      "hash": "7a9dd4b",
+      "date": "2026-07-20T21:00:17-07:00",
+      "message": "Update health data 2026-07-20 21:00"
+    },
     {
       "hash": "3110353",
       "date": "2026-07-20T14:00:16-07:00",
@@ -138,31 +163,6 @@
       "hash": "79a9800",
       "date": "2026-07-18T14:00:16-07:00",
       "message": "Update health data 2026-07-18 14:00"
-    },
-    {
-      "hash": "b4479a5",
-      "date": "2026-07-18T08:39:39-07:00",
-      "message": "Update health data 2026-07-18 08:39"
-    },
-    {
-      "hash": "4eabfba",
-      "date": "2026-07-18T06:55:34-07:00",
-      "message": "health: refresh calendar density 2026-07-18 06:55"
-    },
-    {
-      "hash": "a84149a",
-      "date": "2026-07-18T07:28:57+00:00",
-      "message": "Update analytics data 2026-07-18"
-    },
-    {
-      "hash": "96b47f6",
-      "date": "2026-07-17T21:00:16-07:00",
-      "message": "Update health data 2026-07-17 21:00"
-    },
-    {
-      "hash": "c99a25b",
-      "date": "2026-07-17T14:00:14-07:00",
-      "message": "Update health data 2026-07-17 14:00"
     }
   ]
 }
