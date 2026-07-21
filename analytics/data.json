@@ -1,8 +1,8 @@
 {
-  "updated": "2026-07-20T08:42:48Z",
+  "updated": "2026-07-21T08:10:13Z",
   "date_range": {
-    "start": "2026-04-22",
-    "end": "2026-07-20"
+    "start": "2026-04-23",
+    "end": "2026-07-21"
   },
   "windows": {
     "main_days": 90,
@@ -559,7 +559,7 @@
       "sessions": 4,
       "pageviews": 4,
       "new_users": 4,
-      "avg_session_duration": 2.2,
+      "avg_session_duration": 3.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -817,8 +817,8 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 6,
-      "users": 6,
+      "sessions": 4,
+      "users": 4,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -937,8 +937,8 @@
     },
     {
       "country": "Unknown",
-      "sessions": 5,
-      "users": 5
+      "sessions": 6,
+      "users": 6
     },
     {
       "country": "China",
@@ -949,11 +949,6 @@
       "country": "Canada",
       "sessions": 3,
       "users": 3
-    },
-    {
-      "country": "",
-      "sessions": 1,
-      "users": 1
     },
     {
       "country": "France",
@@ -995,7 +990,7 @@
     },
     {
       "hour": 3,
-      "pageviews": 10
+      "pageviews": 9
     },
     {
       "hour": 4,
@@ -1007,7 +1002,7 @@
     },
     {
       "hour": 6,
-      "pageviews": 1
+      "pageviews": 0
     },
     {
       "hour": 7,
@@ -1015,11 +1010,11 @@
     },
     {
       "hour": 8,
-      "pageviews": 2
+      "pageviews": 1
     },
     {
       "hour": 9,
-      "pageviews": 14
+      "pageviews": 13
     },
     {
       "hour": 10,
@@ -1043,7 +1038,7 @@
     },
     {
       "hour": 15,
-      "pageviews": 9
+      "pageviews": 8
     },
     {
       "hour": 16,
@@ -1067,7 +1062,7 @@
     },
     {
       "hour": 21,
-      "pageviews": 29
+      "pageviews": 27
     },
     {
       "hour": 22,
@@ -1075,16 +1070,16 @@
     },
     {
       "hour": 23,
-      "pageviews": 15
+      "pageviews": 14
     }
   ],
   "quality": {
     "engaged_sessions": 73,
     "non_engaged_sessions": 343,
-    "likely_automated_sessions": 287,
-    "likely_human_sessions": 129,
-    "automated_pct": 69.0,
-    "est_human_users": 45,
+    "likely_automated_sessions": 286,
+    "likely_human_sessions": 130,
+    "automated_pct": 68.8,
+    "est_human_users": 46,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -1107,19 +1102,19 @@
       "engaged": 65,
       "users": 33,
       "pageviews": 603,
-      "avg_duration": 467.8,
+      "avg_duration": 467.9,
       "engagement_rate": 0.556,
       "class": "human"
     },
     {
       "country": "Unknown",
-      "sessions": 5,
+      "sessions": 6,
       "engaged": 2,
-      "users": 5,
-      "pageviews": 5,
-      "avg_duration": 10.0,
-      "engagement_rate": 0.4,
-      "class": "human"
+      "users": 6,
+      "pageviews": 6,
+      "avg_duration": 9.5,
+      "engagement_rate": 0.333,
+      "class": "mixed"
     },
     {
       "country": "China",
@@ -1138,16 +1133,6 @@
       "users": 3,
       "pageviews": 3,
       "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 6.9,
       "engagement_rate": 0.0,
       "class": "automated"
     },
