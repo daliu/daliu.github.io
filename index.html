@@ -48,13 +48,93 @@
       margin-bottom: 15px;
   }
   .jumbotron {
-      background-color: #474e5d;
+      background:
+          radial-gradient(circle at 12% 12%, rgba(26,188,156,0.18), transparent 30%),
+          radial-gradient(circle at 88% 18%, rgba(124,58,237,0.16), transparent 32%),
+          linear-gradient(135deg, #303846 0%, #414b5d 55%, #343c4b 100%);
       color: #fff;
       padding: 60px 25px;
       font-family: Montserrat, sans-serif;
   }
   .jumbotron h1 { font-size: 36px; font-weight: 700; margin-bottom: 10px; }
   .jumbotron p { font-size: 18px; color: #bdc3c7; }
+  .hero-links {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 1120px;
+      margin: 30px auto 0;
+  }
+  .hero-link {
+      --card-start: #3d4758;
+      --card-end: #505b6d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      min-height: 58px;
+      padding: 13px 18px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.20);
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--card-start), var(--card-end));
+      color: #fff;
+      font: 600 14px/1.35 Montserrat, sans-serif;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.18);
+      box-shadow: 0 8px 20px rgba(18,24,33,0.20);
+      transition: transform 0.18s ease, filter 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .hero-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, rgba(255,255,255,0.18), transparent 42%);
+      opacity: 0.55;
+      pointer-events: none;
+  }
+  .hero-link .fa {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 30px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.16);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+      font-size: 15px;
+  }
+  .hero-link > span {
+      position: relative;
+      z-index: 1;
+  }
+  .hero-link:hover,
+  .hero-link:focus {
+      color: #fff;
+      text-decoration: none;
+      border-color: rgba(255,255,255,0.58);
+      box-shadow: 0 13px 28px rgba(18,24,33,0.28);
+      filter: saturate(1.18);
+      transform: translateY(-3px);
+      outline: none;
+  }
+  .hero-link:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  .hero-link.primary {
+      grid-column: span 2;
+      --card-start: #0f766e;
+      --card-end: #0d8176;
+      border-color: rgba(101,255,224,0.48);
+      font-weight: 700;
+  }
+  .hero-link.research { --card-start: #b45309; --card-end: #c2530d; }
+  .hero-link.council { --card-start: #1d4ed8; --card-end: #2563b9; }
+  .hero-link.trading { --card-start: #0e7490; --card-end: #0a788e; }
+  .hero-link.patterns { --card-start: #15803d; --card-end: #1b7f3b; }
+  .hero-link.health { --card-start: #be123c; --card-end: #d12c50; }
+  .hero-link.knowledge { --card-start: #6d28d9; --card-end: #7b3fc9; }
   .container-fluid { padding: 60px 50px; }
   .bg-grey { background-color: #f6f6f6; }
   .navbar {
@@ -297,6 +377,17 @@
     .year-markers { margin-left: 115px; }
     .word.t1 { font-size: 26px; }
     .word.t2 { font-size: 22px; }
+    .hero-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .hero-link.primary { grid-column: span 2; }
+  }
+  @media screen and (max-width: 480px) {
+    .hero-links { grid-template-columns: 1fr; }
+    .hero-link.primary { grid-column: auto; }
+    .hero-link { min-height: 54px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-link { transition: none; }
+    .hero-link:hover, .hero-link:focus { transform: none; }
   }
   /* No editable fields on this page — hide any stray text caret (e.g. browser caret-browsing mode) */
   html { caret-color: transparent; }
@@ -363,14 +454,14 @@
 <div class="jumbotron text-center">
   <h1>Data About Dave</h1>
   <p>Because what kind of data scientist would I be if I didn't quantify myself?</p>
-  <div style="margin-top: 25px;">
-    <a href="portfolio.html" class="btn btn-lg" style="background:#1abc9c; color:#fff; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-right: 10px;">View My Portfolio</a>
-    <a href="research/adaptive-domain-intelligence/" class="btn btn-lg" style="border: 2px solid #e67e22; color:#e67e22; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px;">Adaptive Domain Intelligence</a>
-    <a href="https://meta-council.com" class="btn btn-lg" style="border: 2px solid #3498db; color:#3498db; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-left: 10px;">Meta Council</a>
-    <a href="autotrader.html" class="btn btn-lg" style="border: 2px solid #1abc9c; color:#1abc9c; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-left: 10px;">Explore AutoTrader</a>
-    <a href="patterns-of-choice/app.html" class="btn btn-lg" style="border: 2px solid #2ecc71; color:#2ecc71; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-left: 10px;">Patterns of Choice</a>
-    <a href="health/" class="btn btn-lg" style="border: 2px solid #e74c3c; color:#e74c3c; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-left: 10px;">Health Dashboard</a>
-    <a href="knowledge/" class="btn btn-lg" style="border: 2px solid #9b59b6; color:#9b59b6; font-family:Montserrat,sans-serif; font-weight:600; padding: 12px 35px; border-radius: 4px; margin-left: 10px;">Knowledge Graph</a>
+  <div class="hero-links" aria-label="Featured projects and pages">
+    <a href="portfolio.html" class="hero-link primary"><span class="fa fa-briefcase" aria-hidden="true"></span><span>View My Portfolio</span></a>
+    <a href="research/adaptive-domain-intelligence/" class="hero-link research"><span class="fa fa-flask" aria-hidden="true"></span><span>Adaptive Domain Intelligence</span></a>
+    <a href="https://meta-council.com" class="hero-link council"><span class="fa fa-users" aria-hidden="true"></span><span>Meta Council</span></a>
+    <a href="autotrader.html" class="hero-link trading"><span class="fa fa-line-chart" aria-hidden="true"></span><span>Explore AutoTrader</span></a>
+    <a href="patterns-of-choice/app.html" class="hero-link patterns"><span class="fa fa-compass" aria-hidden="true"></span><span>Patterns of Choice</span></a>
+    <a href="health/" class="hero-link health"><span class="fa fa-heartbeat" aria-hidden="true"></span><span>Health Dashboard</span></a>
+    <a href="knowledge/" class="hero-link knowledge"><span class="fa fa-share-alt" aria-hidden="true"></span><span>Knowledge Graph</span></a>
   </div>
 </div>
 
@@ -397,7 +488,7 @@
       <div class="big-stat">
         <span class="number prefix" data-target="300" data-prefix="$" data-suffix="M+">$0</span>
         <span class="label-text">Estimated Business Impact</span>
-        <span class="sub-text">$20M documented · $150-300M+ incl. Shipt GMV lift, Riviera 4x ARR, Freenome product & platform</span>
+        <span class="sub-text">$20M documented · $150-300M+ incl. Shipt GMV lift, Riviera 4x ARR, Freenome product &amp; platform</span>
       </div>
     </div>
     <div class="col-sm-3 col-xs-6">
