@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-25T04:00:18.642533+00:00",
+  "generated_at": "2026-07-25T15:02:50.627599+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "52eb715",
-      "date": "2026-07-24T14:00:17-07:00",
-      "message": "Update health data 2026-07-24 14:00"
+      "hash": "b0f9a84",
+      "date": "2026-07-25T06:43:45-07:00",
+      "message": "health: refresh calendar density 2026-07-25 06:43"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-24T21:00:07.288425",
+        "updated": "2026-07-25T08:02:38.089467",
         "date_range": null
       },
       "last_commit": {
-        "hash": "52eb715",
-        "date": "2026-07-24T14:00:17-07:00",
-        "message": "Update health data 2026-07-24 14:00"
+        "hash": "b0f9a84",
+        "date": "2026-07-25T06:43:45-07:00",
+        "message": "health: refresh calendar density 2026-07-25 06:43"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-07-24T08:09:53Z"
+        "updated": "2026-07-25T07:52:11Z"
       },
       "last_commit": {
-        "hash": "9afe80d",
-        "date": "2026-07-24T08:09:53+00:00",
-        "message": "Update analytics data 2026-07-24"
+        "hash": "0079869",
+        "date": "2026-07-25T07:52:11+00:00",
+        "message": "Update analytics data 2026-07-25"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "b0f9a84",
+      "date": "2026-07-25T06:43:45-07:00",
+      "message": "health: refresh calendar density 2026-07-25 06:43"
+    },
+    {
+      "hash": "0079869",
+      "date": "2026-07-25T07:52:11+00:00",
+      "message": "Update analytics data 2026-07-25"
+    },
+    {
+      "hash": "f067041",
+      "date": "2026-07-24T21:00:18-07:00",
+      "message": "Update health data 2026-07-24 21:00"
+    },
     {
       "hash": "52eb715",
       "date": "2026-07-24T14:00:17-07:00",
@@ -148,21 +163,6 @@
       "hash": "c15af9a",
       "date": "2026-07-23T08:13:41+00:00",
       "message": "Update analytics data 2026-07-23"
-    },
-    {
-      "hash": "a4372c7",
-      "date": "2026-07-22T21:00:18-07:00",
-      "message": "Update health data 2026-07-22 21:00"
-    },
-    {
-      "hash": "58525e4",
-      "date": "2026-07-22T18:19:26-07:00",
-      "message": "social: embed Short for 2026-07-22 (bM_bWzNfgr4)"
-    },
-    {
-      "hash": "abd4cf4",
-      "date": "2026-07-22T18:18:23-07:00",
-      "message": "social: 2026-07-22 MoneySignals deck (3 cards)"
     }
   ]
 }
