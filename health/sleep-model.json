@@ -1,60 +1,60 @@
 {
-  "updated": "2026-07-26T08:00:11.030916",
-  "n": 68,
+  "updated": "2026-07-26T14:00:11.390964",
+  "n": 67,
   "bedtime": {
-    "recommended_norm": 5.635,
+    "recommended_norm": 5.63,
     "recommended_label": "11:38 PM",
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
-    "ci_label": "11:04 PM \u2013 12:04 AM",
+    "ci_label": "11:04 PM \u2013 12:05 AM",
     "median_label": "1:27 AM",
     "pct10_label": "11:38 PM",
-    "pct90_label": "3:16 AM",
+    "pct90_label": "3:02 AM",
     "stats": {
       "sleep_score": {
         "kind": "quadratic",
-        "cv_r2": 0.016,
-        "r": -0.46,
-        "p": 0.0001,
-        "per_hour_earlier": 3.4
+        "cv_r2": -0.012,
+        "r": -0.43,
+        "p": 0.0003,
+        "per_hour_earlier": 3.08
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": 0.165,
-        "r": -0.58,
+        "cv_r2": 0.179,
+        "r": -0.56,
         "p": 0.0,
-        "per_hour_earlier": 0.56
+        "per_hour_earlier": 0.55
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.177,
+        "cv_r2": -0.106,
         "r": -0.34,
-        "p": 0.0052,
-        "per_hour_earlier": 2.97
+        "p": 0.0048,
+        "per_hour_earlier": 3.08
       }
     },
     "pred_at_recommended": {
       "sleep_score": 80.2,
       "sleep_hours": 7.6,
-      "battery": 88.3
+      "battery": 88.6
     },
     "pred_at_median": {
-      "sleep_score": 77.8,
+      "sleep_score": 77.9,
       "sleep_hours": 6.6,
-      "battery": 82.9
+      "battery": 83.0
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": -0.04,
-        "sleep_hours": 0.02,
-        "battery": -0.13
+        "sleep_score": -0.07,
+        "sleep_hours": 0.01,
+        "battery": -0.14
       },
       "weekly_frequency": {
-        "sleep_score": 0.1,
-        "sleep_hours": 0.1,
-        "battery": 0.14
+        "sleep_score": 0.04,
+        "sleep_hours": 0.08,
+        "battery": 0.12
       }
     },
     "typical_weekly_freq": 3,
