@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-27T03:00:05.701281+00:00",
+  "generated_at": "2026-07-27T04:00:17.135686+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "cd06f31",
-      "date": "2026-07-26T14:00:17-07:00",
-      "message": "Update health data 2026-07-26 14:00"
+      "hash": "0189397",
+      "date": "2026-07-26T20:00:06-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-07-26"
     },
     "branch": "master"
   },
@@ -25,7 +25,7 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-07-26T14:00:06.611931",
+        "updated": "2026-07-26T21:00:06.770440",
         "date_range": null
       },
       "last_commit": {
@@ -44,9 +44,9 @@
         "edge_count": 564
       },
       "last_commit": {
-        "hash": "9853dd8",
-        "date": "2026-07-19T20:00:05-07:00",
-        "message": "Update knowledge graph + system status + now data 2026-07-19"
+        "hash": "0189397",
+        "date": "2026-07-26T20:00:06-07:00",
+        "message": "Update knowledge graph + system status + now data 2026-07-26"
       }
     },
     "site_analytics": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "0189397",
+      "date": "2026-07-26T20:00:06-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-07-26"
+    },
     {
       "hash": "cd06f31",
       "date": "2026-07-26T14:00:17-07:00",
@@ -158,11 +163,6 @@
       "hash": "e5577ea",
       "date": "2026-07-24T06:40:09-07:00",
       "message": "health: refresh calendar density 2026-07-24 06:40"
-    },
-    {
-      "hash": "e4aac04",
-      "date": "2026-07-24T06:07:32-04:00",
-      "message": "blog: 2026-07-24 \u2014 Cautious Positioning with Defensive Rotation"
     }
   ]
 }
