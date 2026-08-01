@@ -8,6 +8,8 @@ Usage:
 """
 
 import argparse
+import glob
+import hashlib
 import os
 import re
 import shutil
@@ -22,6 +24,10 @@ INDEX_PATH = os.path.join(DAILY_DIR, "index.html")
 
 ENTRY_START = "<!-- DAILY-ENTRIES -->"
 ENTRY_END = "<!-- /DAILY-ENTRIES -->"
+
+# Grep-able marker for the daily chain / log review. Detection only: a warning
+# never blocks a publish unless --strict-freshness is passed explicitly.
+FRESHNESS_WARNING_PREFIX = "PUBLISH-FRESHNESS-WARNING"
 
 
 def parse_args():
@@ -53,6 +59,16 @@ def parse_args():
         "--regenerate-wrappers",
         action="store_true",
         help="Regenerate all wrapper HTML pages with the latest template",
+    )
+    parser.add_argument(
+        "--strict-freshness",
+        action="store_true",
+        help=(
+            "Exit non-zero instead of only warning when the payload looks "
+            "stale (byte-identical to the previous day, missing today's date, "
+            "or generated from an old preview file). Off by default so a false "
+            "positive can never cost the day's page."
+        ),
     )
     return parser.parse_args()
 
@@ -526,6 +542,89 @@ def find_gaps_since_last_entry(existing_dates, new_date_str):
         current += timedelta(days=1)
 
     return sorted(gaps)
+
+
+def _previous_published_email(date_str, emails_dir=None):
+    """Return (date_str, path) of the newest published email strictly before date_str.
+
+    Returns (None, None) when there is nothing to compare against.
+    """
+    emails_dir = emails_dir or EMAILS_DIR
+    if not os.path.isdir(emails_dir):
+        return None, None
+
+    candidates = []
+    for path in glob.glob(os.path.join(emails_dir, "*.html")):
+        name = os.path.basename(path)[: -len(".html")]
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", name) and name < date_str:
+            candidates.append((name, path))
+
+    return max(candidates) if candidates else (None, None)
+
+
+def check_publish_freshness(date_str, source_path, emails_dir=None, now=None):
+    """Detect a stale payload *before* it is published. Detection only.
+
+    Returns a list of human-readable warning strings; empty means "looks fresh".
+    This NEVER raises and NEVER blocks a publish — by the time publish runs, the
+    subscriber-critical inference+email path has already succeeded, so a false
+    positive here must not cost the day's page. Callers print the warnings with
+    FRESHNESS_WARNING_PREFIX so a wrapper script can grep for them.
+
+    Three independent signals, calibrated against the 96 emails published
+    through 2026-07-31 (autotrader repo, docs/PUBLISH_FRESHNESS.md):
+
+    1. Byte-identical to the previously published email. 29 true positives,
+       0 false positives — catches every day of the 2026-04-01..03 and
+       2026-04-30..05-29 stale-republish runs, including day one.
+    2. The publish date appears nowhere in the payload. A strict subset of (1)
+       on that corpus, but an independent failure mode: it still fires when a
+       stale payload picks up an incidental byte change.
+    3. The source file was not written on the publish date, which is what the
+       10:00 AM retry does when it re-publishes yesterday's preview file.
+    """
+    warnings = []
+    try:
+        if not os.path.exists(source_path):
+            return []
+
+        with open(source_path, "rb") as f:
+            raw = f.read()
+        html = raw.decode("utf-8", errors="replace")
+
+        prev_date, prev_path = _previous_published_email(date_str, emails_dir)
+        if prev_path:
+            with open(prev_path, "rb") as f:
+                prev_raw = f.read()
+            if raw == prev_raw:
+                digest = hashlib.md5(raw).hexdigest()[:12]
+                warnings.append(
+                    f"payload is byte-identical to the previously published "
+                    f"email ({prev_date}, md5 {digest}) — the generator most "
+                    f"likely did not run"
+                )
+
+        if date_str not in html:
+            warnings.append(
+                f"publish date {date_str} does not appear anywhere in the "
+                f"payload — content is probably from an earlier day"
+            )
+
+        mtime = datetime.fromtimestamp(os.path.getmtime(source_path))
+        if mtime.strftime("%Y-%m-%d") != date_str:
+            age_hours = ((now or datetime.now()) - mtime).total_seconds() / 3600.0
+            warnings.append(
+                f"source {source_path} was last written "
+                f"{mtime:%Y-%m-%d %H:%M} ({age_hours:.1f}h ago), not on "
+                f"{date_str} — stale preview file"
+            )
+    except Exception as exc:  # never let the check break a publish
+        return [
+            f"freshness check failed to run "
+            f"({exc.__class__.__name__}: {exc}); publishing anyway"
+        ]
+
+    return warnings
 
 
 def generate_placeholder_wrapper_page(date_str, date_obj):
@@ -1193,6 +1292,17 @@ def main():
     if not os.path.exists(args.source):
         print(f"ERROR: Source file not found: {args.source}")
         sys.exit(1)
+
+    # Freshness: detect a stale payload before it is published. Detection only —
+    # a warning is printed and publishing continues, because the subscriber
+    # email has already gone out by this point and a false positive must never
+    # cost the day's page. --strict-freshness opts in to blocking.
+    stale_warnings = check_publish_freshness(date_str, args.source)
+    for warning in stale_warnings:
+        print(f"{FRESHNESS_WARNING_PREFIX}: {warning}")
+    if stale_warnings and args.strict_freshness:
+        print("ERROR: --strict-freshness set and payload looks stale; not publishing.")
+        sys.exit(3)
 
     # Auto-detect gaps: warn if there are missing trading days since the last entry
     if os.path.exists(INDEX_PATH):

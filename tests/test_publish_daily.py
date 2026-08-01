@@ -817,3 +817,221 @@ class TestGeneratePlaceholderHtmlFile:
         content = path.read_text()
         assert publish_daily.PLACEHOLDER_MESSAGE in content
         assert "March 10, 2026" in content
+
+
+# ---------------------------------------------------------------------------
+# _previous_published_email / check_publish_freshness
+# ---------------------------------------------------------------------------
+
+def _emails_dir(tmp_path, files):
+    """Create an emails dir containing {name: bytes} and return its path."""
+    d = tmp_path / "emails"
+    d.mkdir(exist_ok=True)
+    for name, payload in files.items():
+        (d / name).write_bytes(payload)
+    return str(d)
+
+
+def _write_source(tmp_path, payload, written_on, name="email.html"):
+    """Write a source payload stamped as written on `written_on` (YYYY-MM-DD).
+
+    Tests must stamp mtime explicitly: the freshness check treats a source that
+    was not written on the publish date as stale, so a file created "now" for a
+    fake historical publish date would otherwise trip that signal.
+    """
+    src = tmp_path / name
+    if isinstance(payload, bytes):
+        src.write_bytes(payload)
+    else:
+        src.write_text(payload)
+    stamp = datetime.strptime(written_on, "%Y-%m-%d").replace(hour=5, minute=30)
+    os.utime(src, (stamp.timestamp(), stamp.timestamp()))
+    return src
+
+
+class TestPreviousPublishedEmail:
+    def test_picks_newest_strictly_before(self, tmp_path):
+        d = _emails_dir(
+            tmp_path,
+            {
+                "2026-06-01.html": b"a",
+                "2026-06-02.html": b"b",
+                "2026-06-03.html": b"c",
+            },
+        )
+        date_str, path = publish_daily._previous_published_email("2026-06-03", d)
+        assert date_str == "2026-06-02"
+        assert path.endswith("2026-06-02.html")
+
+    def test_ignores_non_date_filenames(self, tmp_path):
+        d = _emails_dir(
+            tmp_path, {"2026-06-01.html": b"a", "index.html": b"x", "notes.html": b"y"}
+        )
+        date_str, _ = publish_daily._previous_published_email("2026-06-02", d)
+        assert date_str == "2026-06-01"
+
+    def test_returns_none_when_empty(self, tmp_path):
+        d = _emails_dir(tmp_path, {})
+        assert publish_daily._previous_published_email("2026-06-02", d) == (None, None)
+
+    def test_returns_none_when_dir_missing(self, tmp_path):
+        missing = str(tmp_path / "nope")
+        assert publish_daily._previous_published_email("2026-06-02", missing) == (
+            None,
+            None,
+        )
+
+
+class TestCheckPublishFreshness:
+    def test_fresh_payload_has_no_warnings(self, tmp_path):
+        d = _emails_dir(tmp_path, {"2026-06-01.html": b"<p>2026-06-01 old</p>"})
+        src = _write_source(tmp_path, "<p>report for 2026-06-02</p>", "2026-06-02")
+        assert publish_daily.check_publish_freshness("2026-06-02", src, d) == []
+
+    def test_flags_byte_identical_to_previous(self, tmp_path):
+        payload = b"<p>report for 2026-06-02 and 2026-06-01</p>"
+        d = _emails_dir(tmp_path, {"2026-06-01.html": payload})
+        src = _write_source(tmp_path, payload, "2026-06-02")
+        warnings = publish_daily.check_publish_freshness("2026-06-02", src, d)
+        assert len(warnings) == 1
+        assert "byte-identical" in warnings[0]
+        assert "2026-06-01" in warnings[0]
+
+    def test_flags_missing_publish_date(self, tmp_path):
+        d = _emails_dir(tmp_path, {"2026-06-01.html": b"unrelated"})
+        src = _write_source(tmp_path, "<p>report for 2026-06-01</p>", "2026-06-02")
+        warnings = publish_daily.check_publish_freshness("2026-06-02", src, d)
+        assert len(warnings) == 1
+        assert "does not appear anywhere" in warnings[0]
+
+    def test_flags_stale_source_mtime(self, tmp_path):
+        d = _emails_dir(tmp_path, {"2026-06-01.html": b"unrelated"})
+        src = _write_source(tmp_path, "<p>report for 2026-06-02</p>", "2026-06-01")
+        warnings = publish_daily.check_publish_freshness(
+            "2026-06-02", src, d, now=datetime(2026, 6, 2, 10, 0)
+        )
+        assert len(warnings) == 1
+        assert "stale preview file" in warnings[0]
+        assert "28.5h ago" in warnings[0]
+
+    def test_all_three_signals_can_fire_together(self, tmp_path):
+        payload = b"<p>report for 2026-06-01</p>"
+        d = _emails_dir(tmp_path, {"2026-06-01.html": payload})
+        src = _write_source(tmp_path, payload, "2026-06-01")
+        warnings = publish_daily.check_publish_freshness("2026-06-02", src, d)
+        assert len(warnings) == 3
+
+    def test_missing_source_is_not_a_warning(self, tmp_path):
+        d = _emails_dir(tmp_path, {})
+        missing = str(tmp_path / "gone.html")
+        assert publish_daily.check_publish_freshness("2026-06-02", missing, d) == []
+
+    def test_never_raises_on_unreadable_source(self, tmp_path):
+        """A broken check must degrade to a warning, never an exception."""
+        d = _emails_dir(tmp_path, {})
+        src = tmp_path / "email.html"
+        src.write_text("x")
+        with patch("builtins.open", side_effect=OSError("boom")):
+            warnings = publish_daily.check_publish_freshness("2026-06-02", src, d)
+        assert len(warnings) == 1
+        assert "freshness check failed to run" in warnings[0]
+
+    def test_binary_payload_does_not_raise(self, tmp_path):
+        d = _emails_dir(tmp_path, {})
+        src = tmp_path / "email.html"
+        src.write_bytes(b"\xff\xfe\x00binary junk")
+        warnings = publish_daily.check_publish_freshness("2026-06-02", src, d)
+        assert isinstance(warnings, list)
+
+
+class TestMainFreshnessIsNonFatal:
+    """The guarantee that matters: a stale payload still publishes by default."""
+
+    def _run_main(self, tmp_path, monkeypatch, extra_argv=()):
+        daily = tmp_path / "daily"
+        emails = daily / "emails"
+        emails.mkdir(parents=True)
+        payload = "<p>stale report for 2026-06-01</p>"
+        (emails / "2026-06-01.html").write_text(payload)
+        # byte-identical to yesterday => guaranteed to warn, but written today
+        # so the mtime signal stays quiet and the test isolates the real one
+        src = _write_source(tmp_path, payload, "2026-06-02", name="preview.html")
+
+        monkeypatch.setattr(publish_daily, "DAILY_DIR", str(daily))
+        monkeypatch.setattr(publish_daily, "EMAILS_DIR", str(emails))
+        monkeypatch.setattr(publish_daily, "INDEX_PATH", str(daily / "index.html"))
+        monkeypatch.setattr(publish_daily, "update_sitemap", lambda: None)
+        monkeypatch.setattr(
+            sys,
+            "argv",
+            [
+                "publish_daily.py",
+                "--date",
+                "2026-06-02",
+                "--source",
+                str(src),
+                "--no-push",
+                *extra_argv,
+            ],
+        )
+        return daily, emails
+
+    def test_warns_but_still_publishes(self, tmp_path, monkeypatch, capsys):
+        daily, emails = self._run_main(tmp_path, monkeypatch)
+
+        publish_daily.main()  # must NOT raise SystemExit
+
+        out = capsys.readouterr().out
+        assert publish_daily.FRESHNESS_WARNING_PREFIX in out
+        assert "byte-identical" in out
+        # the page was still published — this is the non-negotiable part
+        assert (emails / "2026-06-02.html").exists()
+        assert (daily / "2026-06-02.html").exists()
+
+    def test_strict_flag_blocks_and_publishes_nothing(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        daily, emails = self._run_main(
+            tmp_path, monkeypatch, extra_argv=("--strict-freshness",)
+        )
+
+        with pytest.raises(SystemExit) as exc:
+            publish_daily.main()
+
+        assert exc.value.code == 3
+        out = capsys.readouterr().out
+        assert publish_daily.FRESHNESS_WARNING_PREFIX in out
+        assert not (emails / "2026-06-02.html").exists()
+
+    def test_fresh_payload_produces_no_warning(self, tmp_path, monkeypatch, capsys):
+        daily = tmp_path / "daily"
+        emails = daily / "emails"
+        emails.mkdir(parents=True)
+        (emails / "2026-06-01.html").write_text("<p>old 2026-06-01</p>")
+        src = _write_source(
+            tmp_path, "<p>fresh report for 2026-06-02</p>", "2026-06-02",
+            name="preview.html",
+        )
+
+        monkeypatch.setattr(publish_daily, "DAILY_DIR", str(daily))
+        monkeypatch.setattr(publish_daily, "EMAILS_DIR", str(emails))
+        monkeypatch.setattr(publish_daily, "INDEX_PATH", str(daily / "index.html"))
+        monkeypatch.setattr(publish_daily, "update_sitemap", lambda: None)
+        monkeypatch.setattr(
+            sys,
+            "argv",
+            [
+                "publish_daily.py",
+                "--date",
+                "2026-06-02",
+                "--source",
+                str(src),
+                "--no-push",
+            ],
+        )
+
+        publish_daily.main()
+
+        out = capsys.readouterr().out
+        assert publish_daily.FRESHNESS_WARNING_PREFIX not in out
+        assert (emails / "2026-06-02.html").exists()
