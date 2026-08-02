@@ -10,6 +10,8 @@ teal accent #1abc9c, GA4, OG tags — matching now/index.html), and publishes:
   * blog/<slug>.html      — one page per published post
   * blog/index.html       — dated cards, newest first, spliced between the
                             <!-- BEGIN auto:blog-index --> / <!-- END ... --> markers
+  * blog/feed.xml         — Atom 1.0 feed of every published post (linked from
+                            the index head via <link rel="alternate">)
   * sitemap.xml           — blog index + every post URL
 
 THE PUBLISH GATE (hard safety requirement). A post is published if and ONLY if
@@ -64,6 +66,16 @@ MD_EXTENSIONS = ["fenced_code", "tables", "toc"]
 # this script owns in sitemap.xml. publish_daily.py owns the rest (static pages
 # + autotrader daily pages); we merge additively so neither clobbers the other.
 BLOG_INDEX_LOC = f"{SITE}/blog/"
+
+# Atom feed (blog/feed.xml). The <link rel="alternate"> tag below is inserted
+# into the index <head> — both when generating a fresh index and when splicing
+# into an existing one whose chrome predates the feed.
+FEED_LOC = f"{SITE}/blog/feed.xml"
+FEED_TITLE = "Dave Liu — Blog"
+FEED_LINK_TAG = (
+    f'<link rel="alternate" type="application/atom+xml" '
+    f'title="{FEED_TITLE}" href="{FEED_LOC}">'
+)
 
 
 # --------------------------------------------------------------------------- #
@@ -341,11 +353,13 @@ SHARED_STYLE = """  <style>
   </style>"""
 
 
-def _head(title, description, canonical, og_type):
+def _head(title, description, canonical, og_type, feed_link=False):
     """Shared <head>: title, meta description, canonical, OG/twitter tags,
-    GA4, favicon, bootstrap, font-awesome, shared style."""
+    GA4, favicon, bootstrap, font-awesome, shared style. `feed_link=True`
+    (index only) adds the Atom <link rel="alternate"> for feed discovery."""
     desc = html.escape(description or "")
     t = html.escape(title)
+    feed = f"\n  {FEED_LINK_TAG}" if feed_link else ""
     return f"""<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -357,7 +371,7 @@ def _head(title, description, canonical, og_type):
   <meta property="og:url" content="{canonical}">
   <meta property="og:image" content="{OG_IMAGE}">
   <meta name="twitter:card" content="summary">
-  <link rel="canonical" href="{canonical}">
+  <link rel="canonical" href="{canonical}">{feed}
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
@@ -459,7 +473,7 @@ def generate_index_page(posts):
     cards = render_index_cards(posts)
     return f"""<!DOCTYPE html>
 <html lang="en">
-{_head("Blog — Dave Liu", description, canonical, "website")}
+{_head("Blog — Dave Liu", description, canonical, "website", feed_link=True)}
 <body>
 
 {_nav(active_blog=True)}
@@ -482,17 +496,88 @@ def generate_index_page(posts):
 """
 
 
+def ensure_feed_link(index_html):
+    """Insert the Atom <link rel="alternate"> into an existing index <head> if
+    it's missing (chrome written before the feed existed). Idempotent — a head
+    that already has the tag is returned unchanged."""
+    if FEED_LINK_TAG in index_html:
+        return index_html
+    canonical_tag = f'<link rel="canonical" href="{BLOG_INDEX_LOC}">'
+    if canonical_tag in index_html:
+        return index_html.replace(
+            canonical_tag, f"{canonical_tag}\n  {FEED_LINK_TAG}", 1
+        )
+    if "</head>" in index_html:
+        return index_html.replace("</head>", f"  {FEED_LINK_TAG}\n</head>", 1)
+    return index_html
+
+
 def splice_index(existing_html, posts):
     """Re-splice only the card block inside an existing index.html, preserving
     the hand-written chrome around it (mirrors build_patterns_program.splice).
-    Falls back to a full regenerate if markers are absent."""
+    Also ensures the head carries the Atom feed link. Falls back to a full
+    regenerate if markers are absent."""
     if BEGIN_MARK not in existing_html or END_MARK not in existing_html:
         return generate_index_page(posts)
     b = existing_html.index(BEGIN_MARK)
     e = existing_html.index(END_MARK) + len(END_MARK)
     cards = render_index_cards(posts)
     block = f"{BEGIN_MARK}\n{cards}\n  {END_MARK}"
-    return existing_html[:b] + block + existing_html[e:]
+    return ensure_feed_link(existing_html[:b] + block + existing_html[e:])
+
+
+# --------------------------------------------------------------------------- #
+# Atom feed
+# --------------------------------------------------------------------------- #
+
+def _rfc3339(date_str):
+    """Atom timestamps are RFC 3339; posts only carry a date, so midnight UTC."""
+    return f"{date_str}T00:00:00Z"
+
+
+def generate_feed(posts):
+    """Render blog/feed.xml as Atom 1.0, newest entry first.
+
+    Deliberately deterministic — no wall-clock: the feed-level <updated> is the
+    newest post's date (fixed epoch when there are no posts), so rebuilding
+    with unchanged sources yields no diff and --check stays quiet.
+    Post bodies ship escaped inside <content type="html">."""
+    updated = _rfc3339(posts[0]["date"]) if posts else "1970-01-01T00:00:00Z"
+    entries = []
+    for p in posts:
+        url = f"{SITE}/blog/{p['slug']}.html"
+        summary = ""
+        if p["description"]:
+            summary = f"\n    <summary>{html.escape(p['description'])}</summary>"
+        categories = "".join(
+            f'\n    <category term="{html.escape(t, quote=True)}"/>'
+            for t in p["tags"]
+        )
+        entries.append(f"""  <entry>
+    <title>{html.escape(p['title'])}</title>
+    <link rel="alternate" type="text/html" href="{url}"/>
+    <id>{url}</id>
+    <updated>{_rfc3339(p['date'])}</updated>{summary}{categories}
+    <content type="html">{html.escape(p['body_html'])}</content>
+  </entry>""")
+    entries_xml = ("\n" + "\n".join(entries)) if entries else ""
+    subtitle = (
+        "Short, honest notes on building software, working with people, "
+        "and navigating a career."
+    )
+    return f"""<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{html.escape(FEED_TITLE)}</title>
+  <subtitle>{subtitle}</subtitle>
+  <link rel="self" type="application/atom+xml" href="{FEED_LOC}"/>
+  <link rel="alternate" type="text/html" href="{BLOG_INDEX_LOC}"/>
+  <id>{BLOG_INDEX_LOC}</id>
+  <updated>{updated}</updated>
+  <author>
+    <name>Dave Liu</name>
+  </author>{entries_xml}
+</feed>
+"""
 
 
 # --------------------------------------------------------------------------- #
@@ -607,6 +692,9 @@ def build(vault_path):
             outputs[index_path] = splice_index(f.read(), posts)
     else:
         outputs[index_path] = generate_index_page(posts)
+
+    # Atom feed.
+    outputs[os.path.join(BLOG_DIR, "feed.xml")] = generate_feed(posts)
 
     # Sitemap: merge blog URLs into the existing file additively, preserving
     # all non-blog entries (publish_daily.py owns those).
