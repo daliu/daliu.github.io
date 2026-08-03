@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-03T03:00:05.861263+00:00",
+  "generated_at": "2026-08-03T04:00:20.492054+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "d3f71b4",
-      "date": "2026-08-02T14:00:14-07:00",
-      "message": "Update health data 2026-08-02 14:00"
+      "hash": "ce96533",
+      "date": "2026-08-02T20:00:06-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-08-02"
     },
     "branch": "master"
   },
@@ -25,7 +25,7 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-08-02T14:00:04.452632",
+        "updated": "2026-08-02T21:00:06.908375",
         "date_range": null
       },
       "last_commit": {
@@ -44,9 +44,9 @@
         "edge_count": 631
       },
       "last_commit": {
-        "hash": "0189397",
-        "date": "2026-07-26T20:00:06-07:00",
-        "message": "Update knowledge graph + system status + now data 2026-07-26"
+        "hash": "ce96533",
+        "date": "2026-08-02T20:00:06-07:00",
+        "message": "Update knowledge graph + system status + now data 2026-08-02"
       }
     },
     "site_analytics": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "ce96533",
+      "date": "2026-08-02T20:00:06-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-08-02"
+    },
     {
       "hash": "d3f71b4",
       "date": "2026-08-02T14:00:14-07:00",
@@ -158,11 +163,6 @@
       "hash": "6a6a41f",
       "date": "2026-07-31T06:04:30-04:00",
       "message": "blog: 2026-07-31 \u2014 Defensive & Value Rotation Underway"
-    },
-    {
-      "hash": "9675b2f",
-      "date": "2026-07-31T06:04:27-04:00",
-      "message": "daily: 2026-07-31 market update"
     }
   ]
 }
