@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-03T04:00:20.492054+00:00",
+  "generated_at": "2026-08-03T15:04:12.608661+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "ce96533",
-      "date": "2026-08-02T20:00:06-07:00",
-      "message": "Update knowledge graph + system status + now data 2026-08-02"
+      "hash": "81982d8",
+      "date": "2026-08-03T08:03:53-07:00",
+      "message": "social: 2026-08-03 MoneySignals deck (5 cards)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 118,
+      "page_count": 119,
       "last_commit": {
-        "hash": "98f91eb",
-        "date": "2026-07-31T12:32:39-07:00",
-        "message": "social: embed Short for 2026-07-31 (qTFIOu0d55o)"
+        "hash": "81982d8",
+        "date": "2026-08-03T08:03:53-07:00",
+        "message": "social: 2026-08-03 MoneySignals deck (5 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-08-02T21:00:06.908375",
+        "updated": "2026-08-03T08:03:53.846497",
         "date_range": null
       },
       "last_commit": {
-        "hash": "d3f71b4",
-        "date": "2026-08-02T14:00:14-07:00",
-        "message": "Update health data 2026-08-02 14:00"
+        "hash": "63375c5",
+        "date": "2026-08-03T08:03:53-07:00",
+        "message": "health: refresh calendar density 2026-08-03 06:52"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,41 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-08-02T08:07:37Z"
+        "updated": "2026-08-03T09:25:30Z"
       },
       "last_commit": {
-        "hash": "181f3a2",
-        "date": "2026-08-02T08:07:38+00:00",
-        "message": "Update analytics data 2026-08-02"
+        "hash": "01dba60",
+        "date": "2026-08-03T09:25:30+00:00",
+        "message": "Update analytics data 2026-08-03"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "81982d8",
+      "date": "2026-08-03T08:03:53-07:00",
+      "message": "social: 2026-08-03 MoneySignals deck (5 cards)"
+    },
+    {
+      "hash": "63375c5",
+      "date": "2026-08-03T08:03:53-07:00",
+      "message": "health: refresh calendar density 2026-08-03 06:52"
+    },
+    {
+      "hash": "41a1d1a",
+      "date": "2026-08-03T10:00:15-04:00",
+      "message": "daily: 2026-08-03 market update"
+    },
+    {
+      "hash": "01dba60",
+      "date": "2026-08-03T09:25:30+00:00",
+      "message": "Update analytics data 2026-08-03"
+    },
+    {
+      "hash": "73c2ddd",
+      "date": "2026-08-02T21:00:20-07:00",
+      "message": "Update health data 2026-08-02 21:00"
+    },
     {
       "hash": "ce96533",
       "date": "2026-08-02T20:00:06-07:00",
@@ -138,31 +163,6 @@
       "hash": "3e8c756",
       "date": "2026-07-31T12:30:20-07:00",
       "message": "social: 2026-07-31 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "77b67c0",
-      "date": "2026-07-31T08:00:17-07:00",
-      "message": "Update health data 2026-07-31 08:00"
-    },
-    {
-      "hash": "912dc17",
-      "date": "2026-07-31T07:02:25-07:00",
-      "message": "social: embed Short for 2026-07-31 (QtYcG9-g5-E)"
-    },
-    {
-      "hash": "2ba47d5",
-      "date": "2026-07-31T07:00:20-07:00",
-      "message": "social: 2026-07-31 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "e6f938a",
-      "date": "2026-07-31T06:40:05-07:00",
-      "message": "health: refresh calendar density 2026-07-31 06:40"
-    },
-    {
-      "hash": "6a6a41f",
-      "date": "2026-07-31T06:04:30-04:00",
-      "message": "blog: 2026-07-31 \u2014 Defensive & Value Rotation Underway"
     }
   ]
 }
