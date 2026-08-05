@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-04T08:22:57Z",
+  "updated": "2026-08-05T08:21:09Z",
   "date_range": {
-    "start": "2026-05-07",
-    "end": "2026-08-04"
+    "start": "2026-05-08",
+    "end": "2026-08-05"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-05-10",
-    "end": "2026-08-01",
-    "days_with_data": 55
+    "end": "2026-08-04",
+    "days_with_data": 56
   },
   "totals": {
-    "total_users": 374,
-    "total_sessions": 418,
+    "total_users": 375,
+    "total_sessions": 419,
     "total_pageviews": 907,
     "total_engaged_sessions": 73,
-    "engagement_rate": 0.1746,
-    "avg_session_duration_seconds": 136.9,
-    "bounce_rate": 0.8254
+    "engagement_rate": 0.1742,
+    "avg_session_duration_seconds": 136.6,
+    "bounce_rate": 0.8258
   },
   "daily": [
     {
@@ -572,6 +572,16 @@
       "avg_session_duration": 0.8,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
+    },
+    {
+      "date": "2026-08-04",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 0,
+      "new_users": 0,
+      "avg_session_duration": 0.0,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     }
   ],
   "pages": [
@@ -579,11 +589,11 @@
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
       "pageviews": 317,
-      "users": 238,
-      "avg_time_on_page": 75.9,
-      "sessions": 286,
+      "users": 239,
+      "avg_time_on_page": 75.6,
+      "sessions": 287,
       "engaged": 54,
-      "engagement_rate": 0.189,
+      "engagement_rate": 0.188,
       "class": "mixed"
     },
     {
@@ -827,8 +837,8 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 4,
-      "users": 4,
+      "sessions": 5,
+      "users": 5,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -874,24 +884,24 @@
     {
       "category": "desktop",
       "sessions": 395,
-      "percentage": 93.8
+      "percentage": 93.6
     },
     {
       "category": "mobile",
-      "sessions": 26,
-      "percentage": 6.2
+      "sessions": 27,
+      "percentage": 6.4
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
       "sessions": 382,
-      "percentage": 90.1
+      "percentage": 89.9
     },
     {
       "browser": "Safari",
-      "sessions": 28,
-      "percentage": 6.6
+      "sessions": 29,
+      "percentage": 6.8
     },
     {
       "browser": "Edge",
@@ -942,8 +952,8 @@
     },
     {
       "country": "United States",
-      "sessions": 119,
-      "users": 35
+      "sessions": 120,
+      "users": 36
     },
     {
       "country": "Unknown",
@@ -1085,11 +1095,11 @@
   ],
   "quality": {
     "engaged_sessions": 73,
-    "non_engaged_sessions": 345,
+    "non_engaged_sessions": 346,
     "likely_automated_sessions": 286,
-    "likely_human_sessions": 132,
-    "automated_pct": 68.4,
-    "est_human_users": 48,
+    "likely_human_sessions": 133,
+    "automated_pct": 68.3,
+    "est_human_users": 49,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -1108,12 +1118,12 @@
     },
     {
       "country": "United States",
-      "sessions": 119,
+      "sessions": 120,
       "engaged": 65,
-      "users": 35,
+      "users": 36,
       "pageviews": 605,
-      "avg_duration": 460.0,
-      "engagement_rate": 0.546,
+      "avg_duration": 456.2,
+      "engagement_rate": 0.542,
       "class": "human"
     },
     {
@@ -1425,7 +1435,7 @@
         1,
         1,
         0,
-        2,
+        3,
         3,
         6,
         5,
@@ -1530,10 +1540,10 @@
       "lat": 39.029784,
       "lng": -77.4744148,
       "label": "Ashburn, United States",
-      "sessions": 7,
-      "users": 7,
+      "sessions": 8,
+      "users": 8,
       "engaged": 1,
-      "engagement_rate": 0.143
+      "engagement_rate": 0.125
     },
     {
       "lat": 39.8283,
@@ -1791,35 +1801,35 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 30,
-        "previous": 57,
-        "change_pct": -47.4
+        "current": 21,
+        "previous": 61,
+        "change_pct": -65.6
       },
       "sessions": {
-        "current": 36,
-        "previous": 67,
-        "change_pct": -46.3
+        "current": 26,
+        "previous": 72,
+        "change_pct": -63.9
       },
       "pageviews": {
-        "current": 60,
-        "previous": 135,
-        "change_pct": -55.6
+        "current": 40,
+        "previous": 149,
+        "change_pct": -73.2
       }
     },
     "baseline": {
-      "mean_pageviews": 16.5,
+      "mean_pageviews": 16.2,
       "std_pageviews": 18.5
     },
     "anomalies": [
       {
         "date": "2026-05-10",
         "pageviews": 69,
-        "z": 2.8
+        "z": 2.9
       },
       {
         "date": "2026-06-05",
         "pageviews": 60,
-        "z": 2.3
+        "z": 2.4
       },
       {
         "date": "2026-06-18",
