@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-05T08:21:09Z",
+  "updated": "2026-08-06T08:17:57Z",
   "date_range": {
-    "start": "2026-05-08",
-    "end": "2026-08-05"
+    "start": "2026-05-09",
+    "end": "2026-08-06"
   },
   "windows": {
     "main_days": 90,
@@ -16,7 +16,7 @@
   "totals": {
     "total_users": 375,
     "total_sessions": 419,
-    "total_pageviews": 907,
+    "total_pageviews": 908,
     "total_engaged_sessions": 73,
     "engagement_rate": 0.1742,
     "avg_session_duration_seconds": 136.6,
@@ -577,9 +577,9 @@
       "date": "2026-08-04",
       "users": 1,
       "sessions": 1,
-      "pageviews": 0,
-      "new_users": 0,
-      "avg_session_duration": 0.0,
+      "pageviews": 1,
+      "new_users": 1,
+      "avg_session_duration": 1.7,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -588,7 +588,7 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 317,
+      "pageviews": 318,
       "users": 239,
       "avg_time_on_page": 75.6,
       "sessions": 287,
@@ -810,8 +810,8 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 377,
-      "users": 324,
+      "sessions": 378,
+      "users": 325,
       "engaged": 48,
       "engagement_rate": 0.127,
       "class": "automated"
@@ -837,8 +837,8 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 5,
-      "users": 5,
+      "sessions": 4,
+      "users": 4,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -992,7 +992,7 @@
     }
   ],
   "user_types": {
-    "new": 332,
+    "new": 333,
     "returning": 79
   },
   "hourly": [
@@ -1026,7 +1026,7 @@
     },
     {
       "hour": 7,
-      "pageviews": 1
+      "pageviews": 2
     },
     {
       "hour": 8,
@@ -1121,7 +1121,7 @@
       "sessions": 120,
       "engaged": 65,
       "users": 36,
-      "pageviews": 605,
+      "pageviews": 606,
       "avg_duration": 456.2,
       "engagement_rate": 0.542,
       "class": "human"
@@ -1268,7 +1268,7 @@
         0,
         0,
         0,
-        0,
+        1,
         1,
         9,
         3,
@@ -1811,9 +1811,9 @@
         "change_pct": -63.9
       },
       "pageviews": {
-        "current": 40,
+        "current": 41,
         "previous": 149,
-        "change_pct": -73.2
+        "change_pct": -72.5
       }
     },
     "baseline": {
