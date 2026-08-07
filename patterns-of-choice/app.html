@@ -1350,8 +1350,11 @@ async function renderData(){
     <h2>Your data</h2>
     <div class="body-text">
       <p>Everything you've done lives only in this browser's local storage. It has never been sent anywhere.</p>
+      <p style="color:var(--muted);">A backup file is how you keep a copy, or move to another browser: it holds your choices and their history (not the intro you've seen or the names you've given the people who recur). Restoring <em>adds</em> from a backup — it never overwrites or removes anything already here.</p>
     </div>
     <button class="secondary" onclick="downloadBackup()">Download a backup file</button>
+    <button class="secondary" onclick="document.getElementById('restorefile').click()">Restore from a backup file</button>
+    <input id="restorefile" type="file" accept="application/json,.json" style="display:none" onchange="restoreFromFile(this)" aria-hidden="true" tabindex="-1" />
     <button class="secondary danger" onclick="confirmErase()">Wipe my profile…</button>
     <a href="#" onclick="renderHome();return false;" class="back-link">&larr; Back</a>
   `);
@@ -1362,6 +1365,49 @@ async function downloadBackup(){
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a"); a.href=url; a.download="patterns-of-choice-backup.json"; a.click();
   URL.revokeObjectURL(url);
+}
+// Restore merges a downloaded backup back in. The file is read on this device
+// (nothing is sent); importBackup re-appends each event and skips any it already
+// has, so restoring only *adds* what's missing and never overwrites or removes.
+async function restoreFromFile(input){
+  const file = input.files && input.files[0];
+  input.value = ""; // let the same file be chosen again after an error
+  if (!file) return;
+  let text;
+  try { text = await file.text(); }
+  catch(_) { return renderRestoreError("That file couldn't be read from this device."); }
+  let bundle;
+  try { bundle = JSON.parse(text); }
+  catch(_) { return renderRestoreError("That file isn't valid — it may be the wrong file, or it got damaged. Look for the one named <strong>patterns-of-choice-backup.json</strong>."); }
+  let n;
+  try { n = await RT.importBackup(bundle); }
+  catch(_) { return renderRestoreError("That doesn't look like a Patterns of Choice backup. Look for the file named <strong>patterns-of-choice-backup.json</strong>."); }
+  renderRestoreDone(n);
+}
+function renderRestoreDone(n){
+  const body = n > 0
+    ? `<p>Restored <strong>${n}</strong> ${n === 1 ? "entry" : "entries"} from that backup into this browser.</p>`
+    : `<p>Nothing new to add — everything in that backup was already on this device.</p>`;
+  render(`
+    <h2>Backup restored</h2>
+    <div class="body-text">
+      ${body}
+      <p style="color:var(--muted);">Restoring only <em>adds</em> what was missing; nothing already here was changed or removed. Your settings — the intro you've seen, the names you've given the people who recur — aren't part of a backup file, so those stay as they are on this device.</p>
+    </div>
+    <button class="primary" onclick="renderHome()">Back to start</button>
+  `);
+}
+function renderRestoreError(msg){
+  render(`
+    <h2>That file couldn't be restored</h2>
+    <div class="body-text">
+      <p>${msg}</p>
+      <p style="color:var(--muted);">Nothing on this device was changed. You can try another file.</p>
+    </div>
+    <button class="secondary" onclick="document.getElementById('restorefile').click()">Choose another file</button>
+    <input id="restorefile" type="file" accept="application/json,.json" style="display:none" onchange="restoreFromFile(this)" aria-hidden="true" tabindex="-1" />
+    <button class="primary" onclick="renderData()">Back</button>
+  `);
 }
 function eraseGate(input){
   const ok = input.value.trim().toUpperCase() === "ERASE";
