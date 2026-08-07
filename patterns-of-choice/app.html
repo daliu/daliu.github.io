@@ -1013,7 +1013,8 @@ function covLadderViz(items){
     if (it.no_break) rows += `<circle class="dotin" ${dly} cx="572" cy="${yT}" r="7" fill="${col}"/><text x="572" y="${yT-11}" text-anchor="end" style="fill:${col};font-size:10px">wouldn't</text>`;
     else { const idx = ladder.indexOf(it.stake), cx = idx>=0 ? lx(idx) : 150; rows += `<circle class="dotin" ${dly} cx="${cx}" cy="${yT}" r="7" fill="${col}"/>`; }
   });
-  return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">The smallest amount at which you'd set each aside. A price isn't a verdict — most people have one; the signal is whether it drifts.</div></div>`;
+  const aria = items.map(it => it.no_break ? `${esc(it.value)}: wouldn't set aside` : `${esc(it.value)}: $${it.stake>=1000?(it.stake/1000)+'k':it.stake}`).join("; ");
+  return `<div class="viz"><svg viewBox="0 0 600 ${H}" role="img" aria-label="The smallest amount at which you'd set each value aside — a 'price' for each, where 'wouldn't' means none: ${aria}.">${rows}</svg><div class="viz-cap" style="color:var(--muted)">The smallest amount at which you'd set each aside. A price isn't a verdict — most people have one; the signal is whether it drifts.</div></div>`;
 }
 
 // self-alignment: which stated "you" your choices track (longer bar = closer).
@@ -1028,7 +1029,8 @@ function alignViz(byLayer){
       + `<line class="growin" style="animation-delay:${i*140+200}ms" x1="180" y1="${y}" x2="${bx(x.tau).toFixed(1)}" y2="${y}" stroke="${c}" stroke-width="8" stroke-linecap="round"/>`
       + (closest ? `<text x="565" y="${y+4}" style="fill:var(--accent);font-size:11px">closest</text>` : "");
   });
-  return `<div class="viz"><svg viewBox="0 0 600 ${H}">${rows}</svg><div class="viz-cap" style="color:var(--muted)">How closely your everyday choices track each version of yourself you described.</div></div>`;
+  const aria = byLayer.map((x,i) => `${esc(x.label)}${i===0?" (closest)":""}`).join(", ");
+  return `<div class="viz"><svg viewBox="0 0 600 ${H}" role="img" aria-label="How closely your everyday choices track each version of yourself you described, closest first: ${aria}.">${rows}</svg><div class="viz-cap" style="color:var(--muted)">How closely your everyday choices track each version of yourself you described.</div></div>`;
 }
 
 // evolves trajectory: the value (trust / inclusion) across the ordered beats.
