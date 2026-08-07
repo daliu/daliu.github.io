@@ -206,7 +206,7 @@
   <h2 id="try">Try it yourself</h2>
   <div class="card" style="border-left: 3px solid var(--accent);">
     <p style="margin: 0 0 12px;"><strong>The real instrument is now runnable.</strong> <a href="app.html">Open the practice →</a> — a working local-first prototype that runs the daily sessions on your own device, stores your choices only in your browser (nothing sent anywhere), and computes your profile locally once you've practiced across a few areas. Built on an event-sourced runtime you can read in the <a href="https://github.com/daliu/patterns-of-choice/tree/main">open repo</a>.</p>
-    <p style="margin: 0; color: var(--muted); font-size: 15px;">It's an early prototype — one quick-fire per day so far, with the card-sort onboarding and richer reveal landing next.</p>
+    <p style="margin: 0; color: var(--muted); font-size: 15px;">It's still early — pre-cohort, and the reveal deepens the more you practice — but the full loop runs today: the three-layer card sort, daily sessions that alternate quick-fire choices with branching narratives, the cost-of-virtue probes, and an on-device reveal with per-domain visuals.</p>
   </div>
   <p style="margin-top: 24px;">New here, or want the bite-sized pieces first? Start with <a href="onramp.html">The Two-Minute Self-Portrait</a> — a quick pop-quiz that's honest about why you shouldn't trust it, and the gentlest way in.</p>
   <p>Or explore the instrument's pieces one at a time — each a couple of minutes, nothing recorded. The first three are the <em>inputs</em>; the last is the <em>payoff</em> they build toward.</p>
@@ -368,14 +368,14 @@
 
   <h2 id="state">Current state</h2>
   <ul>
-    <li><strong>Runnable instrument:</strong> a local-first PWA (<a href="app.html">app.html</a>) — card sort + daily sessions + on-device profile, installable and fully offline, your data stored only in your browser. Built on an event-sourced runtime (engine + projection + app), each layer unit-tested.</li>
+    <li><strong>Runnable instrument:</strong> a local-first PWA (<a href="app.html">app.html</a>) — three-layer card sort + daily sessions (alternating quick-fire and branching narrative) + cost-of-virtue probes + an on-device profile with per-domain reveal visuals, installable and fully offline, your data stored only in your browser. Built on an event-sourced runtime (engine + projection + app), each layer unit-tested.</li>
     <li>Scenario corpus: 61 scenarios — the 48-scenario MVP-1 base (6 quick-fire + 3 narrative + 3 cost-of-virtue per domain × 4) + 9 H8 paired narrative-vs-abstract probes, all schema-validated</li>
     <li>Scoring: a pure-Python analyzer (6 of 9 hypotheses runnable) <em>and</em> a client-side projection that computes the reference-free reads on-device — both generated from one canonical tag-axis map so they can't drift</li>
     <li>Design specifications: complete (concept, build spec, scoring spec incl. the §13 value-weighting layer, onboarding copy, runtime architecture) — plus standalone design docs for H9–H12, the informant &ldquo;moral 360,&rdquo; the real-stakes validity channel, the moral-language channel, the measurement-avenues research map, and the validity audit</li>
     <li>Optional research track: pre-registration template (9 hypotheses, falsification thresholds), pilot materials, pre-launch checklist — there if a validation study is ever run, not required to use the tool</li>
   </ul>
 
-  <p><strong>What's next:</strong> iterative polish on the working runtime — the three-layer card sort (current / aspirational / admired self), the narrative and cost-of-virtue session types in the daily loop, and richer reveal visuals. The core instrument runs today; from here it's refinement of the runtime plus specifying the research program above (H10–H12, the moral circle, the moral 360, and the real-stakes and moral-language channels are design-stage, not yet locked into the validation) — all of it in the <a href="https://github.com/daliu/patterns-of-choice">open repo</a>.</p>
+  <p><strong>What's next:</strong> the core loop now runs end-to-end — the three-layer card sort (current / aspirational / admired self), quick-fire and branching-narrative daily sessions, cost-of-virtue probes, and an on-device reveal with per-domain visuals. From here it's continued refinement of the runtime plus specifying the research program above (H10–H12, the moral circle, the moral 360, and the real-stakes and moral-language channels are design-stage, not yet locked into the validation) — all of it in the <a href="https://github.com/daliu/patterns-of-choice">open repo</a>.</p>
 
   <h2 id="links">Links</h2>
   <ul>
