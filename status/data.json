@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-08T15:00:17.030686+00:00",
+  "generated_at": "2026-08-08T21:20:55.223969+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "3df9978",
-      "date": "2026-08-08T06:40:14-07:00",
-      "message": "health: refresh calendar density 2026-08-08 06:40"
+      "hash": "3e6c1a0",
+      "date": "2026-08-08T08:00:17-07:00",
+      "message": "Update health data 2026-08-08 08:00"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-08-08T08:00:02.523704",
+        "updated": "2026-08-08T14:02:34.826032",
         "date_range": null
       },
       "last_commit": {
-        "hash": "3df9978",
-        "date": "2026-08-08T06:40:14-07:00",
-        "message": "health: refresh calendar density 2026-08-08 06:40"
+        "hash": "3e6c1a0",
+        "date": "2026-08-08T08:00:17-07:00",
+        "message": "Update health data 2026-08-08 08:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "3e6c1a0",
+      "date": "2026-08-08T08:00:17-07:00",
+      "message": "Update health data 2026-08-08 08:00"
+    },
     {
       "hash": "3df9978",
       "date": "2026-08-08T06:40:14-07:00",
@@ -158,11 +163,6 @@
       "hash": "aba879e",
       "date": "2026-08-06T23:52:49-07:00",
       "message": "poc app: restore from a backup file"
-    },
-    {
-      "hash": "f1992cc",
-      "date": "2026-08-06T21:00:13-07:00",
-      "message": "Update health data 2026-08-06 21:00"
     }
   ]
 }
