@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-09T05:04:53.756688+00:00",
+  "generated_at": "2026-08-09T15:00:18.358367+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "0165d17",
-      "date": "2026-08-08T14:20:55-07:00",
-      "message": "Update health data 2026-08-08 14:20"
+      "hash": "2886dac",
+      "date": "2026-08-09T06:40:08-07:00",
+      "message": "health: refresh calendar density 2026-08-09 06:40"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-08-08T21:09:57.083567",
+        "updated": "2026-08-09T08:00:07.138306",
         "date_range": null
       },
       "last_commit": {
-        "hash": "0165d17",
-        "date": "2026-08-08T14:20:55-07:00",
-        "message": "Update health data 2026-08-08 14:20"
+        "hash": "2886dac",
+        "date": "2026-08-09T06:40:08-07:00",
+        "message": "health: refresh calendar density 2026-08-09 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-08-08T06:36:15Z"
+        "updated": "2026-08-09T06:39:57Z"
       },
       "last_commit": {
-        "hash": "ade64d2",
-        "date": "2026-08-08T06:36:15+00:00",
-        "message": "Update analytics data 2026-08-08"
+        "hash": "179bbdf",
+        "date": "2026-08-09T06:39:57+00:00",
+        "message": "Update analytics data 2026-08-09"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "2886dac",
+      "date": "2026-08-09T06:40:08-07:00",
+      "message": "health: refresh calendar density 2026-08-09 06:40"
+    },
+    {
+      "hash": "179bbdf",
+      "date": "2026-08-09T06:39:57+00:00",
+      "message": "Update analytics data 2026-08-09"
+    },
+    {
+      "hash": "88f433f",
+      "date": "2026-08-08T22:04:54-07:00",
+      "message": "Update health data 2026-08-08 22:04"
+    },
     {
       "hash": "0165d17",
       "date": "2026-08-08T14:20:55-07:00",
@@ -148,21 +163,6 @@
       "hash": "99273e4",
       "date": "2026-08-07T05:45:15-04:00",
       "message": "blog: 2026-08-07 \u2014 Defensive & Value Rotation Underway"
-    },
-    {
-      "hash": "6acf8a3",
-      "date": "2026-08-07T05:45:13-04:00",
-      "message": "daily: 2026-08-07 market update"
-    },
-    {
-      "hash": "f958bef",
-      "date": "2026-08-07T01:44:52-07:00",
-      "message": "patterns-of-choice: refresh landing copy to match the shipped app"
-    },
-    {
-      "hash": "0134545",
-      "date": "2026-08-07T07:01:07+00:00",
-      "message": "Update analytics data 2026-08-07"
     }
   ]
 }
