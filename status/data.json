@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-10T03:00:00.995313+00:00",
+  "generated_at": "2026-08-10T04:00:16.892364+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "4bfbf6d",
-      "date": "2026-08-09T14:00:19-07:00",
-      "message": "Update health data 2026-08-09 14:00"
+      "hash": "6db99a9",
+      "date": "2026-08-09T20:00:01-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-08-09"
     },
     "branch": "master"
   },
@@ -25,7 +25,7 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-08-09T14:00:07.141887",
+        "updated": "2026-08-09T21:00:02.258401",
         "date_range": null
       },
       "last_commit": {
@@ -44,9 +44,9 @@
         "edge_count": 739
       },
       "last_commit": {
-        "hash": "ce96533",
-        "date": "2026-08-02T20:00:06-07:00",
-        "message": "Update knowledge graph + system status + now data 2026-08-02"
+        "hash": "6db99a9",
+        "date": "2026-08-09T20:00:01-07:00",
+        "message": "Update knowledge graph + system status + now data 2026-08-09"
       }
     },
     "site_analytics": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "6db99a9",
+      "date": "2026-08-09T20:00:01-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-08-09"
+    },
     {
       "hash": "4bfbf6d",
       "date": "2026-08-09T14:00:19-07:00",
@@ -158,11 +163,6 @@
       "hash": "915ee00",
       "date": "2026-08-07T06:40:05-07:00",
       "message": "health: refresh calendar density 2026-08-07 06:40"
-    },
-    {
-      "hash": "c5d4025",
-      "date": "2026-08-07T03:29:33-07:00",
-      "message": "poc app: label the last two reveal charts for screen readers"
     }
   ]
 }
