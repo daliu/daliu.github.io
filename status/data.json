@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-09T21:00:19.700988+00:00",
+  "generated_at": "2026-08-10T03:00:00.995313+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "5cd8ef3",
-      "date": "2026-08-09T08:00:18-07:00",
-      "message": "Update health data 2026-08-09 08:00"
+      "hash": "4bfbf6d",
+      "date": "2026-08-09T14:00:19-07:00",
+      "message": "Update health data 2026-08-09 14:00"
     },
     "branch": "master"
   },
@@ -29,9 +29,9 @@
         "date_range": null
       },
       "last_commit": {
-        "hash": "5cd8ef3",
-        "date": "2026-08-09T08:00:18-07:00",
-        "message": "Update health data 2026-08-09 08:00"
+        "hash": "4bfbf6d",
+        "date": "2026-08-09T14:00:19-07:00",
+        "message": "Update health data 2026-08-09 14:00"
       }
     },
     "knowledge_graph": {
@@ -40,8 +40,8 @@
       "schedule": "manual (run scripts/build_graph.py)",
       "graph": {
         "generated": "auto",
-        "node_count": 452,
-        "edge_count": 631
+        "node_count": 510,
+        "edge_count": 739
       },
       "last_commit": {
         "hash": "ce96533",
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "4bfbf6d",
+      "date": "2026-08-09T14:00:19-07:00",
+      "message": "Update health data 2026-08-09 14:00"
+    },
     {
       "hash": "5cd8ef3",
       "date": "2026-08-09T08:00:18-07:00",
@@ -158,11 +163,6 @@
       "hash": "c5d4025",
       "date": "2026-08-07T03:29:33-07:00",
       "message": "poc app: label the last two reveal charts for screen readers"
-    },
-    {
-      "hash": "8f10bbe",
-      "date": "2026-08-07T02:53:57-07:00",
-      "message": "patterns-of-choice: focus-management a11y parity for profile.html"
     }
   ]
 }

@@ -1,6 +1,33 @@
 {
   "nodes": [
     {
+      "id": "2026-08-05 - DFY Exp 495 Raw vs CUPED (Pre-Post Validation and Corrected Impact)",
+      "type": "comparison",
+      "color": "#d16969",
+      "status": "seed",
+      "tags": [
+        "ab-testing",
+        "cuped",
+        "srm",
+        "dfy",
+        "experiment-495"
+      ]
+    },
+    {
+      "id": "2026-08-05 - DFY Reranker Attribution (Store-Coverage DiD)",
+      "type": "comparison",
+      "color": "#d16969",
+      "status": "complete",
+      "tags": [
+        "shipt",
+        "deals-for-you",
+        "reranker",
+        "attribution",
+        "causal-inference",
+        "did"
+      ]
+    },
+    {
       "id": "Habituation Tier vs Holiday-Shopper as Customer-Segmentation Axes (Shipt Tag Platform)",
       "type": "comparison",
       "color": "#d16969",
@@ -158,6 +185,18 @@
       ]
     },
     {
+      "id": "Seasonality \u2014 Docs Map",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "seasonality",
+        "documentation",
+        "index"
+      ]
+    },
+    {
       "id": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
       "type": "area",
       "color": "#4fc1ff",
@@ -183,6 +222,36 @@
         "trending-items",
         "two-tower",
         "recsys"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 MCP Deals Tool (strawman spec)",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "draft",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "mcp",
+        "rag",
+        "integration",
+        "strawman"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "two-tower",
+        "architecture",
+        "narrative",
+        "interview-prep"
       ]
     },
     {
@@ -227,6 +296,66 @@
       ]
     },
     {
+      "id": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "architecture",
+        "two-tower",
+        "walkthrough",
+        "interview"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Incident 2026-07-26 Beat The Heat deal-pool 4x",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "resolved",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "incident",
+        "post-mortem",
+        "snowflake",
+        "deals"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Experiment Results",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "experiment",
+        "results",
+        "two-tower",
+        "recsys"
+      ]
+    },
+    {
+      "id": "Deals For You V2 \u2014 Eligibility Hot-Swap",
+      "type": "area",
+      "color": "#4fc1ff",
+      "status": "active",
+      "tags": [
+        "shipt",
+        "personalization",
+        "dfy",
+        "alloydb",
+        "postgres",
+        "architecture",
+        "data-engineering"
+      ]
+    },
+    {
       "id": "Deals For You V2 \u2014 Reranking Engine",
       "type": "area",
       "color": "#4fc1ff",
@@ -243,8 +372,31 @@
       "id": "Argus \u2014 Portable, Configurable PR Reviewer",
       "type": "note",
       "color": "#808080",
-      "status": "seed",
-      "tags": []
+      "status": "empirical-record",
+      "tags": [
+        "claude-harness",
+        "pr-review",
+        "agent-design",
+        "portable",
+        "methodology",
+        "self-improving-systems"
+      ]
+    },
+    {
+      "id": "Agentic Skills and Workflows",
+      "type": "note",
+      "color": "#808080",
+      "status": "active",
+      "tags": [
+        "agentic-toolkit",
+        "agentic-skill",
+        "agentic-workflow",
+        "portable",
+        "prd",
+        "tickets",
+        "pull-request",
+        "code-review"
+      ]
     },
     {
       "id": "Site Automation \u2014 daliu.github.io",
@@ -279,6 +431,17 @@
       "tags": [
         "meta",
         "claude-harness"
+      ]
+    },
+    {
+      "id": "Argus \u2014 Portable, Configurable PR Reviewer (redirect)",
+      "type": "note",
+      "color": "#808080",
+      "status": "seed",
+      "tags": [
+        "argus",
+        "pr-review",
+        "redirect"
       ]
     },
     {
@@ -328,6 +491,18 @@
         "conversation",
         "meta-council",
         "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council Feedback Tool Rename \u2014 Merged, Deploy Blocked",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "mcp",
+        "deploy"
       ]
     },
     {
@@ -620,6 +795,17 @@
       ]
     },
     {
+      "id": "Decision Backlog \u2014 Recommendations and Deferrals",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "decisions"
+      ]
+    },
+    {
       "id": "Auto Tabular Scraper Dashboard Scheduling",
       "type": "conversation",
       "color": "#569cd6",
@@ -839,6 +1025,19 @@
         "selenium",
         "browser-automation",
         "safety"
+      ]
+    },
+    {
+      "id": "The First Real Payment Found Two Silent Bugs",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "payments",
+        "stripe",
+        "production-bug"
       ]
     },
     {
@@ -1084,6 +1283,16 @@
       ]
     },
     {
+      "id": "Meta Council Invoicing and Workflow Template Marketplace",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council"
+      ]
+    },
+    {
       "id": "Meta Council iter-303 normality tool",
       "type": "conversation",
       "color": "#569cd6",
@@ -1104,6 +1313,18 @@
         "mprc",
         "security",
         "strava"
+      ]
+    },
+    {
+      "id": "Meta Council Credits and Data Brokerage Rail",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "payments",
+        "product"
       ]
     },
     {
@@ -1245,6 +1466,20 @@
       ]
     },
     {
+      "id": "Offensive Bias \u2014 Conflicting Directives, Selection Pressure, and the Logic Plague",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "philosophy",
+        "ai-safety",
+        "ai-governance",
+        "alignment",
+        "epistemics"
+      ]
+    },
+    {
       "id": "Ship color_convert tool",
       "type": "conversation",
       "color": "#569cd6",
@@ -1337,6 +1572,18 @@
         "moneysignals",
         "incident",
         "gcp"
+      ]
+    },
+    {
+      "id": "Meta Council Laws and Regulations Workflows",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "legal-research",
+        "agent-workflows"
       ]
     },
     {
@@ -1534,6 +1781,17 @@
       ]
     },
     {
+      "id": "First Live Order Proposed \u2014 Wait for Red",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "trading",
+        "robinhood"
+      ]
+    },
+    {
       "id": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
       "type": "conversation",
       "color": "#569cd6",
@@ -1610,6 +1868,31 @@
         "autotrader",
         "prediction-markets",
         "forecasting"
+      ]
+    },
+    {
+      "id": "Patterns of Choice \u2014 R4a Moral Attentiveness Built",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "patterns-of-choice",
+        "autonomous-loop",
+        "measurement"
+      ]
+    },
+    {
+      "id": "Meta Council Agent-First Workflow Lane",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "agentic-workflows",
+        "ticket-lane",
+        "product-strategy"
       ]
     },
     {
@@ -1752,6 +2035,21 @@
       ]
     },
     {
+      "id": "Hypothesis-Tree Research Protocols",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "agentic-toolkit",
+        "autonomous-research",
+        "methodology",
+        "legal",
+        "ethics",
+        "algorithmic-trading"
+      ]
+    },
+    {
       "id": "Meta Council iter 289 \u2014 black_scholes option-pricing tool",
       "type": "conversation",
       "color": "#569cd6",
@@ -1761,6 +2059,29 @@
         "meta-council",
         "tool-calling",
         "quant-finance"
+      ]
+    },
+    {
+      "id": "Meta Council legal service and self-improving guardrail loop",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "legal",
+        "adi"
+      ]
+    },
+    {
+      "id": "Patterns of Choice \u2014 Four Decisions Ratified",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "patterns-of-choice",
+        "research-methodology"
       ]
     },
     {
@@ -1827,6 +2148,19 @@
       ]
     },
     {
+      "id": "Meta Council Resumable Delivery Cycle Reads",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "ticketing",
+        "mcp",
+        "delivery-cycles"
+      ]
+    },
+    {
       "id": "MPRC Public Events Calendar Error Privacy",
       "type": "conversation",
       "color": "#569cd6",
@@ -1849,6 +2183,18 @@
         "security",
         "privacy",
         "strava"
+      ]
+    },
+    {
+      "id": "Meta Council Exact Incident History Contract",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "incident-management",
+        "architecture"
       ]
     },
     {
@@ -1885,6 +2231,19 @@
         "sqlite",
         "developer-experience",
         "cli"
+      ]
+    },
+    {
+      "id": "MPRC Preview Promotion Incident",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "blocked",
+      "tags": [
+        "conversation",
+        "mprc",
+        "deployment",
+        "netlify",
+        "privacy"
       ]
     },
     {
@@ -1925,6 +2284,18 @@
         "sqlite",
         "proxies",
         "network-sessions"
+      ]
+    },
+    {
+      "id": "Meta Council Secure Database Export Design",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "incident-response",
+        "security-architecture"
       ]
     },
     {
@@ -1996,6 +2367,19 @@
         "mprc",
         "security",
         "firebase"
+      ]
+    },
+    {
+      "id": "YouTube Voice Pipeline Groundwork",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "social-media",
+        "youtube",
+        "writing-voice"
       ]
     },
     {
@@ -2072,6 +2456,19 @@
       ]
     },
     {
+      "id": "Meta Council Attention Policy Authority",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "incident-response",
+        "mcp",
+        "software-architecture"
+      ]
+    },
+    {
       "id": "Ship sort_table tool",
       "type": "conversation",
       "color": "#569cd6",
@@ -2096,6 +2493,18 @@
       ]
     },
     {
+      "id": "Meta Council Refunds, Chargebacks, and the OpenAPI Fix",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "payments",
+        "deployment"
+      ]
+    },
+    {
       "id": "MPRC Unused Functions Test Dependency Removal",
       "type": "conversation",
       "color": "#569cd6",
@@ -2108,6 +2517,19 @@
       ]
     },
     {
+      "id": "Hypothesis-Tree Protocol First Real Run",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autonomous-research",
+        "methodology",
+        "meta-council",
+        "evaluation"
+      ]
+    },
+    {
       "id": "MPRC Functions Dependency Patch",
       "type": "conversation",
       "color": "#569cd6",
@@ -2117,6 +2539,31 @@
         "mprc",
         "security",
         "dependencies"
+      ]
+    },
+    {
+      "id": "Generous Shorts and Growth Reality Check",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "social-media",
+        "youtube",
+        "growth"
+      ]
+    },
+    {
+      "id": "Meta Council Structured Core Ticket Mutation Receipts",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "mcp",
+        "ticket-operations"
       ]
     },
     {
@@ -2255,6 +2702,20 @@
       ]
     },
     {
+      "id": "Cross-Venue Divergence and the Matcher That Refuses",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "mcp",
+        "prediction-markets",
+        "market-microstructure",
+        "epistemics"
+      ]
+    },
+    {
       "id": "MPRC Browser Verified-Role Projection Review",
       "type": "conversation",
       "color": "#569cd6",
@@ -2276,6 +2737,18 @@
         "autotrader",
         "testing",
         "code-review"
+      ]
+    },
+    {
+      "id": "Vault Version History and Index Reconciliation",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "obsidian",
+        "vault",
+        "forensics"
       ]
     },
     {
@@ -2579,6 +3052,43 @@
       ]
     },
     {
+      "id": "Meta Council Sign in with Google",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "auth",
+        "security"
+      ]
+    },
+    {
+      "id": "Meta Council Enterprise Security Ticket Lane",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "security",
+        "compliance",
+        "enterprise-sales"
+      ]
+    },
+    {
+      "id": "Meta Council Opus-Ready Ticket Lane",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "ticket-design",
+        "autonomous-loop"
+      ]
+    },
+    {
       "id": "Ship table_convert tool",
       "type": "conversation",
       "color": "#569cd6",
@@ -2636,6 +3146,19 @@
       ]
     },
     {
+      "id": "Meta Council Authoritative Delivery Cycle Rows",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "ticketing",
+        "delivery-cycles",
+        "accessibility"
+      ]
+    },
+    {
       "id": "Outreach Bounce Safety",
       "type": "conversation",
       "color": "#569cd6",
@@ -2675,6 +3198,19 @@
         "security",
         "strava",
         "firebase"
+      ]
+    },
+    {
+      "id": "Stripe Is Configured and Has Never Taken a Payment",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "payments",
+        "stripe",
+        "operations"
       ]
     },
     {
@@ -2733,6 +3269,31 @@
         "conversation",
         "meta-council",
         "platform-reliability"
+      ]
+    },
+    {
+      "id": "Feature Columns and a Silent Collection Failure",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "scraping",
+        "machine-learning",
+        "feature-engineering",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "Meta Council Incident Center and Delivery Hardening",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "incident-response",
+        "mcp"
       ]
     },
     {
@@ -3454,6 +4015,19 @@
       ]
     },
     {
+      "id": "Meta Council Structured Ticket MCP and Plan Reconciliation",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "mcp",
+        "ticket-operations",
+        "project-planning"
+      ]
+    },
+    {
       "id": "MPRC Stored Strava Token Validation",
       "type": "conversation",
       "color": "#569cd6",
@@ -3464,6 +4038,19 @@
         "security",
         "strava",
         "firebase"
+      ]
+    },
+    {
+      "id": "Meta Council Dense Rows and Structured Ticket Detail",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "mcp",
+        "ticket-operations",
+        "accessibility"
       ]
     },
     {
@@ -3523,6 +4110,19 @@
         "meta-council",
         "cost-control",
         "anthropic-api"
+      ]
+    },
+    {
+      "id": "Shipping an Anti-Signal Tool That Confirms Nothing",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "moneysignals",
+        "mcp",
+        "statistics",
+        "epistemics"
       ]
     },
     {
@@ -3588,6 +4188,19 @@
       ]
     },
     {
+      "id": "Meta Council Bounded Incident Attention",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "incident-response",
+        "mcp",
+        "postgresql"
+      ]
+    },
+    {
       "id": "MoneySignals SEO Blog Sync",
       "type": "conversation",
       "color": "#569cd6",
@@ -3597,6 +4210,19 @@
         "moneysignals",
         "seo",
         "autotrader"
+      ]
+    },
+    {
+      "id": "Nightly Tryst Schedules and Data Purge",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "auto-tabular-scraper",
+        "scraping",
+        "automation",
+        "research-ethics"
       ]
     },
     {
@@ -3782,6 +4408,21 @@
         "knowledge-graph",
         "security",
         "privacy"
+      ]
+    },
+    {
+      "id": "DFY Exp 495 Validation and Final Readout (session log)",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "complete",
+      "tags": [
+        "conversation",
+        "shipt-dfy",
+        "ab-testing",
+        "cuped",
+        "srm",
+        "experiment-495",
+        "personifier"
       ]
     },
     {
@@ -4202,6 +4843,19 @@
       ]
     },
     {
+      "id": "Meta Council Ticket Operations and Incident Platform",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "incident-response",
+        "ticket-operations",
+        "mcp"
+      ]
+    },
+    {
       "id": "Ship depreciation tool",
       "type": "conversation",
       "color": "#569cd6",
@@ -4236,6 +4890,20 @@
       ]
     },
     {
+      "id": "Meta Council Redaction Agents",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "security",
+        "privacy",
+        "healthcare",
+        "compliance"
+      ]
+    },
+    {
       "id": "Ship join JOIN tool",
       "type": "conversation",
       "color": "#569cd6",
@@ -4244,6 +4912,18 @@
         "conversation",
         "meta-council",
         "tool-calling"
+      ]
+    },
+    {
+      "id": "Meta Council Explicit Ticket Lifecycle Authority",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "mcp",
+        "ticket-lifecycle"
       ]
     },
     {
@@ -4291,6 +4971,19 @@
         "mprc",
         "membership",
         "web-security"
+      ]
+    },
+    {
+      "id": "Meta Council ALT-017 Effect Operations",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "incident-response",
+        "mcp",
+        "observability"
       ]
     },
     {
@@ -4428,6 +5121,19 @@
         "self-improving-systems",
         "evaluation",
         "idea"
+      ]
+    },
+    {
+      "id": "PG Backups Dead Since March \u2014 Found and Fixed",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "autotrader",
+        "infrastructure",
+        "backups",
+        "incident"
       ]
     },
     {
@@ -4685,6 +5391,19 @@
       ]
     },
     {
+      "id": "Plain-Language Summaries for PR and Ticket Notes",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "vault-convention",
+        "legibility",
+        "escalation",
+        "meta-council"
+      ]
+    },
+    {
       "id": "Auto Tabular Scraper Crawl Manifest and Retries",
       "type": "conversation",
       "color": "#569cd6",
@@ -4821,6 +5540,19 @@
       ]
     },
     {
+      "id": "Desktop Accounting Ingest Skill",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "meta-council",
+        "accounting",
+        "writeoff",
+        "mcp"
+      ]
+    },
+    {
       "id": "Bounded Runtime Singleton Shutdown",
       "type": "conversation",
       "color": "#569cd6",
@@ -4943,6 +5675,18 @@
       ]
     },
     {
+      "id": "Receipt Folder Accounting Ledger",
+      "type": "conversation",
+      "color": "#569cd6",
+      "status": "developing",
+      "tags": [
+        "conversation",
+        "accounting",
+        "security",
+        "deployment"
+      ]
+    },
+    {
       "id": "Ticket Sync Lifecycle",
       "type": "conversation",
       "color": "#569cd6",
@@ -5000,6 +5744,19 @@
         "concept",
         "causal-inference",
         "experimentation"
+      ]
+    },
+    {
+      "id": "Plain-Language Summaries for PR Reviews and Tickets",
+      "type": "concept",
+      "color": "#dcdcaa",
+      "status": "developing",
+      "tags": [
+        "concept",
+        "vault-convention",
+        "engineering-practice",
+        "legibility",
+        "escalation"
       ]
     },
     {
@@ -5144,7 +5901,7 @@
       "id": "Deals For You",
       "type": "entity",
       "color": "#c586c0",
-      "status": "developing",
+      "status": "active",
       "tags": [
         "entity",
         "product",
@@ -5456,6 +6213,10 @@
   ],
   "links": [
     {
+      "source": "2026-08-05 - DFY Reranker Attribution (Store-Coverage DiD)",
+      "target": "2026-08-05 - DFY Exp 495 Raw vs CUPED (Pre-Post Validation and Corrected Impact)"
+    },
+    {
       "source": "Holiday Buy Again shelf vs Seasonal Trending \u2014 YoY viability stats (Nov/Dec 2024 \u2192 Nov/Dec 2025)",
       "target": "Seasonality \u2014 Eligibility Design (Phase 1)"
     },
@@ -5556,6 +6317,22 @@
       "target": "Seasonality \u2014 Eligibility Design (Phase 1)"
     },
     {
+      "source": "Seasonality \u2014 Docs Map",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Seasonality \u2014 Docs Map",
+      "target": "Seasonality \u2014 Eligibility Design (Phase 1)"
+    },
+    {
+      "source": "Seasonality \u2014 Docs Map",
+      "target": "Seasonality \u2014 Eligibility v2 Design (occasion-tag lens)"
+    },
+    {
+      "source": "Seasonality \u2014 Docs Map",
+      "target": "Seasonality \u2014 Current Trending Items Pipeline"
+    },
+    {
       "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
       "target": "Seasonality \u2014 Project Hub"
     },
@@ -5608,6 +6385,46 @@
       "target": "Career and Work"
     },
     {
+      "source": "Deals For You V2 \u2014 MCP Deals Tool (strawman spec)",
+      "target": "personifier-vector-serve"
+    },
+    {
+      "source": "Deals For You V2 \u2014 MCP Deals Tool (strawman spec)",
+      "target": "Deals For You V2 \u2014 Risks & Open Questions"
+    },
+    {
+      "source": "Deals For You V2 \u2014 MCP Deals Tool (strawman spec)",
+      "target": "Deals For You V2 \u2014 Architecture Hub"
+    },
+    {
+      "source": "Deals For You V2 \u2014 MCP Deals Tool (strawman spec)",
+      "target": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "target": "Deals For You V2 \u2014 Architecture Hub"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "target": "Deals For You V2 \u2014 Experiment Results"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "target": "Deals For You V2 \u2014 End-to-End Walkthrough"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "target": "Deals For You"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "target": "Career and Work"
+    },
+    {
       "source": "Deals For You V2 \u2014 Risks & Open Questions",
       "target": "Deals For You V2 \u2014 Reranking Engine"
     },
@@ -5618,6 +6435,22 @@
     {
       "source": "Deals For You V2 \u2014 Risks & Open Questions",
       "target": "Deals For You V2 \u2014 Embeddings & Models"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You V2 \u2014 Experiment Results"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You V2 \u2014 End-to-End Walkthrough"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You V2 \u2014 Eligibility Hot-Swap"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Architecture Hub",
+      "target": "Deals For You V2 \u2014 Incident 2026-07-26 Beat The Heat deal-pool 4x"
     },
     {
       "source": "Deals For You V2 \u2014 Architecture Hub",
@@ -5660,8 +6493,84 @@
       "target": "personifier-features-gen"
     },
     {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "personifier-features-gen"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Deals For You V2 \u2014 Embeddings & Models"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "personifier-features-publisher"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Deals For You V2 \u2014 Eligibility Hot-Swap"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "serendipity"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "personifier-vector-serve"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "personifier-reranking"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Deals For You V2 \u2014 Reranking Engine"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Deals For You V2 \u2014 Experiment Results"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Deals For You V2 \u2014 Risks & Open Questions"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Deals For You V2 \u2014 MCP Deals Tool (strawman spec)"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Incident 2026-07-26 Beat The Heat deal-pool 4x",
+      "target": "Deals For You V2 \u2014 Risks & Open Questions"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Experiment Results",
+      "target": "Deals For You V2 \u2014 Reranking Engine"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Experiment Results",
+      "target": "Deals For You V2 \u2014 Risks & Open Questions"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Experiment Results",
+      "target": "Deals For You"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Experiment Results",
+      "target": "Seasonality \u2014 Project Hub"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Eligibility Hot-Swap",
+      "target": "personifier-features-publisher"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Eligibility Hot-Swap",
+      "target": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)"
+    },
+    {
       "source": "Deals For You V2 \u2014 Reranking Engine",
       "target": "personifier-reranking"
+    },
+    {
+      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
+      "target": "Agentic Skills and Workflows"
     },
     {
       "source": "Argus \u2014 Portable, Configurable PR Reviewer",
@@ -5674,6 +6583,10 @@
     {
       "source": "PR Reviews",
       "target": "Autonomous Adaptive Intelligence"
+    },
+    {
+      "source": "Argus \u2014 Portable, Configurable PR Reviewer (redirect)",
+      "target": "Agentic Skills and Workflows"
     },
     {
       "source": "Copilot Training \u2014 Tips on working with LLMs",
@@ -5694,6 +6607,10 @@
     {
       "source": "Hierarchical Signal Architecture",
       "target": "Autotrader"
+    },
+    {
+      "source": "Hypothesis-Tree Research Protocols",
+      "target": "Agentic Skills and Workflows"
     },
     {
       "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
@@ -5728,6 +6645,10 @@
       "target": "Side Projects"
     },
     {
+      "source": "DFY Exp 495 Validation and Final Readout (session log)",
+      "target": "2026-08-05 - DFY Exp 495 Raw vs CUPED (Pre-Post Validation and Corrected Impact)"
+    },
+    {
       "source": "Macro Shock Detector",
       "target": "Autotrader"
     },
@@ -5760,8 +6681,16 @@
       "target": "Onos Health"
     },
     {
+      "source": "Meta Council Ticket Backlog Slices",
+      "target": "Plain-Language Summaries for PR Reviews and Tickets"
+    },
+    {
       "source": "MPRC Frontend Privacy Candidate Audit",
       "target": "MPRC Admin Event Registrations Privacy Audit"
+    },
+    {
+      "source": "Plain-Language Summaries for PR and Ticket Notes",
+      "target": "Plain-Language Summaries for PR Reviews and Tickets"
     },
     {
       "source": "ADI Derived Bucket Privacy",
@@ -5944,12 +6873,24 @@
       "target": "Seasonality"
     },
     {
+      "source": "Seasonality \u2014 Docs Map",
+      "target": "Seasonality"
+    },
+    {
       "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
       "target": "Seasonality"
     },
     {
       "source": "Seasonality \u2014 Project Hub",
       "target": "Seasonality"
+    },
+    {
+      "source": "Deals For You V2 \u2014 MCP Deals Tool (strawman spec)",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Executive Narrative (Team Personalization deck)",
+      "target": "Deals For You V2"
     },
     {
       "source": "Deals For You V2 \u2014 Risks & Open Questions",
@@ -5961,6 +6902,22 @@
     },
     {
       "source": "Deals For You V2 \u2014 Embeddings & Models",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Incident 2026-07-26 Beat The Heat deal-pool 4x",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Experiment Results",
+      "target": "Deals For You V2"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Eligibility Hot-Swap",
       "target": "Deals For You V2"
     },
     {
@@ -6012,39 +6969,7 @@
       "target": "Shipt"
     },
     {
-      "source": "Health Dashboard Context & Typical-Day Overhaul",
-      "target": "Automation"
-    },
-    {
-      "source": "Auto Tabular Scraper Adaptive Action Learning",
-      "target": "Automation"
-    },
-    {
-      "source": "Health Publish Cadence and Now/Status Sync",
-      "target": "Automation"
-    },
-    {
-      "source": "Black Screen Video and WhatsApp Uplift Automation",
-      "target": "Automation"
-    },
-    {
-      "source": "Autonomous Loop Audit and Journaling Policy Fix",
-      "target": "Automation"
-    },
-    {
-      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
-      "target": "Automation"
-    },
-    {
-      "source": "Exercise-Sleep Tracking and Activity-Sync Fix",
-      "target": "Automation"
-    },
-    {
-      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
-      "target": "Automation"
-    },
-    {
-      "source": "Social Media Automation Pipeline",
+      "source": "Site Automation \u2014 daliu.github.io",
       "target": "Automation"
     },
     {
@@ -6052,27 +6977,7 @@
       "target": "Automation"
     },
     {
-      "source": "Health Check Scheduler Dedupe",
-      "target": "Automation"
-    },
-    {
-      "source": "Auto Tabular Scraper Dashboard Scheduling",
-      "target": "Automation"
-    },
-    {
-      "source": "Self-Updating /now/ Page and Session-Agnostic Blog Loop",
-      "target": "Automation"
-    },
-    {
-      "source": "Knowledge Graph Sync Fix",
-      "target": "Automation"
-    },
-    {
-      "source": "Site Automation \u2014 daliu.github.io",
-      "target": "Automation"
-    },
-    {
-      "source": "WhatsApp Bot Activity \u2014 2026-07",
+      "source": "Autonomous Loop Audit and Journaling Policy Fix",
       "target": "Automation"
     },
     {
@@ -6080,31 +6985,79 @@
       "target": "Automation"
     },
     {
+      "source": "daliu.github.io Maintenance Loop \u2014 Polish Iterations",
+      "target": "Automation"
+    },
+    {
+      "source": "Knowledge Graph Sync Fix",
+      "target": "Automation"
+    },
+    {
+      "source": "WhatsApp Bot Activity \u2014 2026-07",
+      "target": "Automation"
+    },
+    {
+      "source": "Health Publish Cadence and Now/Status Sync",
+      "target": "Automation"
+    },
+    {
+      "source": "Nightly Tryst Schedules and Data Purge",
+      "target": "Automation"
+    },
+    {
+      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
+      "target": "Automation"
+    },
+    {
+      "source": "Auto Tabular Scraper Adaptive Action Learning",
+      "target": "Automation"
+    },
+    {
+      "source": "Social Media Automation Pipeline",
+      "target": "Automation"
+    },
+    {
+      "source": "Self-Updating /now/ Page and Session-Agnostic Blog Loop",
+      "target": "Automation"
+    },
+    {
+      "source": "Black Screen Video and WhatsApp Uplift Automation",
+      "target": "Automation"
+    },
+    {
+      "source": "Auto Tabular Scraper Dashboard Scheduling",
+      "target": "Automation"
+    },
+    {
+      "source": "Health Check Scheduler Dedupe",
+      "target": "Automation"
+    },
+    {
+      "source": "Exercise-Sleep Tracking and Activity-Sync Fix",
+      "target": "Automation"
+    },
+    {
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "target": "Automation"
+    },
+    {
+      "source": "Deals For You V2 \u2014 Eligibility Hot-Swap",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
       "source": "YouTube Transcript Synthesis Pipeline Build",
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Model Training Pipeline",
+      "source": "Stripe Is Configured and Has Never Taken a Payment",
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "ETF Pullback Paper Leg (Option C)",
+      "source": "MoneySignals Production Outage (GCP Billing)",
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "ETF Horizon Signal Battery",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Social Digest and X Auth",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Social Media Automation Pipeline",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "CS Sizing Third Root Cause \u2014 Composite Signal Dropped MR",
+      "source": "PG Backups Dead Since March \u2014 Found and Fixed",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -6112,51 +7065,7 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Untradeable Ticker Filter for Event Signals",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "API/MCP Developer-Surface DX + Honesty Batch",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Autotrader",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "F1g Sector-Rotation Pullback Wired Into Trading",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "YouTube Shorts Automation Recovery",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Live-Trading Readiness Assessment",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "MoneySignals Polish Loop \u2014 Live Track Record",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Free API Tier Ship",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "GDELT Dead on Arrival + Ops Hygiene",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Publish-Freshness Detector and a Correction I Nearly Shipped",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "GCP Compute Rethink and VM3 Runaway",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Social Attention Alt-Data Test (No Edge)",
+      "source": "ETF Pullback Exit-Rule Study",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -6164,35 +7073,19 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Look-Ahead Features Found via TabFM Benchmark",
+      "source": "API/MCP Developer-Surface DX + Honesty Batch",
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Funnel Measurement and Stripe Cleanup",
+      "source": "Split-Healer Shipped Corpus-Wide",
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "MoneySignals SEO Blog Sync",
+      "source": "YouTube Shorts Automation Recovery",
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Prediction Methodology Audit + Salvage Analysis",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Trading Run Planning Tax Fix",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Macro Shock Detector",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "ETF Pullback Exit-Rule Study",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Stripe Webhook Repair + Unsubscribe Enforcement",
+      "source": "Decision Backlog \u2014 Recommendations and Deferrals",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -6200,7 +7093,155 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
+      "source": "Free API Tier Ship",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "GCP Compute Rethink and VM3 Runaway",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "First Live Order Proposed \u2014 Wait for Red",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Prediction Methodology Audit + Salvage Analysis",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "GDELT Dead on Arrival + Ops Hygiene",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Untradeable Ticker Filter for Event Signals",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Stripe Webhook Repair + Unsubscribe Enforcement",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "CS Sizing Third Root Cause \u2014 Composite Signal Dropped MR",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Zombie Ticker Freshness Guard",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Cross-Venue Divergence and the Matcher That Refuses",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Alt-Data Sweep Complete \u2014 The Constraint Is Data Depth",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Shipping an Anti-Signal Tool That Confirms Nothing",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Social Attention Alt-Data Test (No Edge)",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Publish-Freshness Detector and a Correction I Nearly Shipped",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Funnel Measurement and Stripe Cleanup",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "The First Real Payment Found Two Silent Bugs",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Autotrader",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Direction-Adjusted Event-Signal Expectancy",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "MoneySignals Engineering Longform Video Pipeline",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "MoneySignals SEO Blog Sync",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "MCP Announcement + Edge-Claim Truth Audit",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Look-Ahead Features Found via TabFM Benchmark",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Macro Shock Detector",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "ETF Pullback Paper Leg (Option C)",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "EODHD Cost Cuts, EOD-Only Pipeline, and Robinhood MCP Spike",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Live-Trading Readiness Assessment",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
       "source": "Prediction Grading Wrong Window + Scorecard Fix",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Model Training Pipeline",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "MoneySignals Polish Loop \u2014 Live Track Record",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Capital Cycle Real Growth Synthesis",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "YouTube Voice Pipeline Groundwork",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Broker MCPs, Conviction Ledger, Event-Shock Battery",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Predicted Return Root Cause \u2014 XGBoost base_score",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Generous Shorts and Growth Reality Check",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Bond ETF Backfill + Signal Battery",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Hierarchical Signal Tests and Adversarial Review",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "MoneySignals Second-Order Signals and Crowd Calibration",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "F1g Sector-Rotation Pullback Wired Into Trading",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -6212,27 +7253,23 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "MoneySignals Second-Order Signals and Crowd Calibration",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "EODHD Cost Cuts, EOD-Only Pipeline, and Robinhood MCP Spike",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "MoneySignals Production Outage (GCP Billing)",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Split-Healer Shipped Corpus-Wide",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
       "source": "ETF Pullback Surface + Data Repair",
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "Broker MCPs, Conviction Ledger, Event-Shock Battery",
+      "source": "Social Media Automation Pipeline",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Trading Run Planning Tax Fix",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "ETF Horizon Signal Battery",
+      "target": "AutoTrader / MoneySignals"
+    },
+    {
+      "source": "Social Digest and X Auth",
       "target": "AutoTrader / MoneySignals"
     },
     {
@@ -6240,43 +7277,7 @@
       "target": "AutoTrader / MoneySignals"
     },
     {
-      "source": "MoneySignals Engineering Longform Video Pipeline",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Capital Cycle Real Growth Synthesis",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Direction-Adjusted Event-Signal Expectancy",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Bond ETF Backfill + Signal Battery",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Zombie Ticker Freshness Guard",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Alt-Data Sweep Complete \u2014 The Constraint Is Data Depth",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Predicted Return Root Cause \u2014 XGBoost base_score",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Hierarchical Signal Tests and Adversarial Review",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "MCP Announcement + Edge-Claim Truth Audit",
-      "target": "AutoTrader / MoneySignals"
-    },
-    {
-      "source": "Career and Work",
+      "source": "Thomson Reuters Lead Research Engineer Interview Prep",
       "target": "Career"
     },
     {
@@ -6284,11 +7285,7 @@
       "target": "Career"
     },
     {
-      "source": "Knowledge Graph Company Organization",
-      "target": "Career"
-    },
-    {
-      "source": "Thomson Reuters Lead Research Engineer Interview Prep",
+      "source": "TR Interview Deck (Sina Round)",
       "target": "Career"
     },
     {
@@ -6296,8 +7293,20 @@
       "target": "Career"
     },
     {
-      "source": "TR Interview Deck (Sina Round)",
+      "source": "Career and Work",
       "target": "Career"
+    },
+    {
+      "source": "Deals For You V2 \u2014 End-to-End Walkthrough",
+      "target": "Career"
+    },
+    {
+      "source": "Knowledge Graph Company Organization",
+      "target": "Career"
+    },
+    {
+      "source": "2026-08-05 - DFY Reranker Attribution (Store-Coverage DiD)",
+      "target": "Causal Inference"
     },
     {
       "source": "Seasonality \u2014 A/B Experiment Proposal",
@@ -6308,23 +7317,7 @@
       "target": "Causal Inference"
     },
     {
-      "source": "Blog Atom Feed PR 48",
-      "target": "Claude Harness & Agents"
-    },
-    {
-      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
-      "target": "Claude Harness & Agents"
-    },
-    {
-      "source": "Meta Council Workflow Control Room and Enterprise Platform",
-      "target": "Claude Harness & Agents"
-    },
-    {
       "source": "Autonomous Loop Audit and Journaling Policy Fix",
-      "target": "Claude Harness & Agents"
-    },
-    {
-      "source": "Patterns of Choice Max-Effort Build",
       "target": "Claude Harness & Agents"
     },
     {
@@ -6332,11 +7325,39 @@
       "target": "Claude Harness & Agents"
     },
     {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "target": "Claude Harness & Agents"
+    },
+    {
       "source": "Meta Council Workflow Page UX Overhaul",
       "target": "Claude Harness & Agents"
     },
     {
+      "source": "glayvin",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Patterns of Choice Max-Effort Build",
+      "target": "Claude Harness & Agents"
+    },
+    {
       "source": "Arbor \u2014 Hypothesis-Tree Refinement for Autonomous Research",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Blog Atom Feed PR 48",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Meta Council Workflow Control Room and Enterprise Platform",
+      "target": "Claude Harness & Agents"
+    },
+    {
+      "source": "Site Automation \u2014 daliu.github.io",
       "target": "Claude Harness & Agents"
     },
     {
@@ -6348,51 +7369,23 @@
       "target": "Claude Harness & Agents"
     },
     {
-      "source": "Site Automation \u2014 daliu.github.io",
-      "target": "Claude Harness & Agents"
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "target": "daliu.github.io"
     },
     {
-      "source": "glayvin",
-      "target": "Claude Harness & Agents"
+      "source": "Knowledge Graph Sync Fix",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "MPRC Keyboard Focus Visibility",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Self-Updating /now/ Page and Session-Agnostic Blog Loop",
+      "target": "daliu.github.io"
     },
     {
       "source": "daliu.github.io \u2014 Expose the Full Patterns of Choice Experiment",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "Knowledge Graph Company Organization",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "Health Dashboard Context & Typical-Day Overhaul",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "MPRC Password Reset Review",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "MPRC Header Content Clearance",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "MPRC Shop Checkout Error Privacy",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "Portfolio Overview \u2014 Metis and /now/ Coverage",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "MPRC Admin Order Action Privacy Audit",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
       "target": "daliu.github.io"
     },
     {
@@ -6404,15 +7397,7 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "Site Polish, Resume Page, and Audit Cycle",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "Self-Updating /now/ Page and Session-Agnostic Blog Loop",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
+      "source": "Meta Council Authoritative Delivery Cycle Rows",
       "target": "daliu.github.io"
     },
     {
@@ -6420,19 +7405,15 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "MPRC Keyboard Focus Visibility",
+      "source": "Site Polish, Resume Page, and Audit Cycle",
       "target": "daliu.github.io"
     },
     {
-      "source": "MPRC Dual-Method Member Sign-In",
+      "source": "Knowledge Graph Company Organization",
       "target": "daliu.github.io"
     },
     {
-      "source": "Health Publish Cadence and Now/Status Sync",
-      "target": "daliu.github.io"
-    },
-    {
-      "source": "Knowledge Graph Sync Fix",
+      "source": "MPRC Shop Checkout Error Privacy",
       "target": "daliu.github.io"
     },
     {
@@ -6440,15 +7421,47 @@
       "target": "daliu.github.io"
     },
     {
-      "source": "Health Dashboard Bedtime Coherence",
-      "target": "Data Visualization"
+      "source": "MPRC Header Content Clearance",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Meta Council Dense Rows and Structured Ticket Detail",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "MPRC Dual-Method Member Sign-In",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "MPRC Password Reset Review",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Health Publish Cadence and Now/Status Sync",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "daliu.github.io Calendar/Garmin Fix + Credential Keep-Warm",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "MPRC Admin Order Action Privacy Audit",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Portfolio Overview \u2014 Metis and /now/ Coverage",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "target": "daliu.github.io"
+    },
+    {
+      "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
+      "target": "daliu.github.io"
     },
     {
       "source": "Genomics Interactive Companions",
-      "target": "Data Visualization"
-    },
-    {
-      "source": "Site Analytics Dashboard Enrichment",
       "target": "Data Visualization"
     },
     {
@@ -6456,20 +7469,24 @@
       "target": "Data Visualization"
     },
     {
-      "source": "Pioneers Get the Arrows, Settlers Get the Land",
-      "target": "Finance and Investing"
+      "source": "Site Analytics Dashboard Enrichment",
+      "target": "Data Visualization"
+    },
+    {
+      "source": "Health Dashboard Bedtime Coherence",
+      "target": "Data Visualization"
     },
     {
       "source": "Capital Cycle Real Growth Synthesis",
       "target": "Finance and Investing"
     },
     {
-      "source": "Ship capital_budget DCF tool",
+      "source": "Pioneers Get the Arrows, Settlers Get the Land",
       "target": "Finance and Investing"
     },
     {
-      "source": "Genomics Interactive Companions",
-      "target": "Genomics"
+      "source": "Ship capital_budget DCF tool",
+      "target": "Finance and Investing"
     },
     {
       "source": "Genomics Pivot to EAS Pharmacogenomics",
@@ -6480,7 +7497,15 @@
       "target": "Genomics"
     },
     {
-      "source": "Health Dashboard Context & Typical-Day Overhaul",
+      "source": "Genomics Interactive Companions",
+      "target": "Genomics"
+    },
+    {
+      "source": "Sleep Carryover Analysis and Visual Email",
+      "target": "Health and Fitness"
+    },
+    {
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
       "target": "Health and Fitness"
     },
     {
@@ -6500,27 +7525,19 @@
       "target": "Health and Fitness"
     },
     {
-      "source": "Sleep Carryover Analysis and Visual Email",
-      "target": "Health and Fitness"
-    },
-    {
       "source": "Evidence Board Capstone + iCloud Documents EPERM",
       "target": "Health and Fitness"
     },
     {
-      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "source": "Health Dashboard Context & Typical-Day Overhaul",
       "target": "Health and Fitness"
     },
     {
+      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "target": "Knowledge Management"
+    },
+    {
       "source": "Knowledge Wiki Setup",
-      "target": "Knowledge Management"
-    },
-    {
-      "source": "Knowledge Graph Polish (autonomous /loop)",
-      "target": "Knowledge Management"
-    },
-    {
-      "source": "Knowledge Graph Company Organization",
       "target": "Knowledge Management"
     },
     {
@@ -6528,20 +7545,20 @@
       "target": "Knowledge Management"
     },
     {
+      "source": "Knowledge Graph Polish (autonomous /loop)",
+      "target": "Knowledge Management"
+    },
+    {
+      "source": "Vault Version History and Index Reconciliation",
+      "target": "Knowledge Management"
+    },
+    {
       "source": "daliu.github.io: Email Obfuscation and Knowledge Graph Repair",
       "target": "Knowledge Management"
     },
     {
-      "source": "Hourly Granularity and Knowledge Graph Leak Fix",
+      "source": "Knowledge Graph Company Organization",
       "target": "Knowledge Management"
-    },
-    {
-      "source": "Sentic 0.0.9 PyPI Publish",
-      "target": "Machine Learning"
-    },
-    {
-      "source": "Model Training Pipeline",
-      "target": "Machine Learning"
     },
     {
       "source": "The Octopus of Machine Learning Problems",
@@ -6552,11 +7569,15 @@
       "target": "Machine Learning"
     },
     {
-      "source": "Automated ML Pipeline",
+      "source": "Predicted Return Root Cause \u2014 XGBoost base_score",
       "target": "Machine Learning"
     },
     {
-      "source": "Predicted Return Root Cause \u2014 XGBoost base_score",
+      "source": "Sentic 0.0.9 PyPI Publish",
+      "target": "Machine Learning"
+    },
+    {
+      "source": "Feature Columns and a Silent Collection Failure",
       "target": "Machine Learning"
     },
     {
@@ -6564,19 +7585,19 @@
       "target": "Machine Learning"
     },
     {
+      "source": "Automated ML Pipeline",
+      "target": "Machine Learning"
+    },
+    {
       "source": "Metis Resolution Estimation \u2014 Settlements, Timelines, Amounts",
       "target": "Machine Learning"
     },
     {
-      "source": "Patterns of Choice \u2014 Review and Hardening",
-      "target": "Revealed Preference & Measurement"
+      "source": "Model Training Pipeline",
+      "target": "Machine Learning"
     },
     {
-      "source": "Patterns of Choice \u2014 Self-Calibration (H9) and Validity Reframe",
-      "target": "Revealed Preference & Measurement"
-    },
-    {
-      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
+      "source": "Kreia, Moral Systems, and Quantifying Trust",
       "target": "Revealed Preference & Measurement"
     },
     {
@@ -6584,511 +7605,27 @@
       "target": "Revealed Preference & Measurement"
     },
     {
+      "source": "Patterns of Choice \u2014 Review and Hardening",
+      "target": "Revealed Preference & Measurement"
+    },
+    {
+      "source": "Patterns of Choice \u2014 R4a Moral Attentiveness Built",
+      "target": "Revealed Preference & Measurement"
+    },
+    {
+      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
+      "target": "Revealed Preference & Measurement"
+    },
+    {
       "source": "Patterns of Choice design",
       "target": "Revealed Preference & Measurement"
     },
     {
-      "source": "Kreia, Moral Systems, and Quantifying Trust",
+      "source": "Patterns of Choice \u2014 Self-Calibration (H9) and Validity Reframe",
       "target": "Revealed Preference & Measurement"
     },
     {
-      "source": "PR 64 Ship, LOCUS Pricing, Google OAuth",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council ANOVA Tool (iter 279)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ticketing Platform Phase A",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship sql_query tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Scheduler Hardening",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "MCP HTTP Parity for Outsiders",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Mobile Sidebar Overlay Tap Bug",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ticket Dependency and BDD Promotion",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Surface table-transform tools in llms.txt",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Verified Accounting Agent Proposals",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Grounded Legal Spend Breaker",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council runway tool (iter 286)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Tool-Calling Loop \u2014 iter 296 (surface decision_matrix)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship toml_query tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Rank Correlation Tool (iter 280)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Validation Evidence Services",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Marketing MCP Final Hardening",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Solo Backlog Sweep",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Approved Lead Adapters",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council iter-302 surface outliers in llms.txt",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta-Council Prod Regression Recovery + Deploy Guardrail",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Marketing Source Governance",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Backlog Review, Merge, and Deploy",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council financial_ratios tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "SES Email Relay Cutover Plan",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Re-sync CLAUDE.md tool count to 120+",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Workflow Admission and Deletion Authority",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship config_convert tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council iter 289 \u2014 black_scholes option-pricing tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council MicroLaunch Submission",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Outreach Sending Diagnosis & Lead Base Overview",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Markdown-table ingestion in shared _parse_table",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council API Key Authority Settings",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Legal Matter History",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council iter-300 surface histogram in llms.txt",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Atomic ADI Ledger Sequencing",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Idempotent Ticket Plans",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ticket Sync Lifecycle",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Landing Privacy and Developer Quickstarts",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Consulting Approved SOW Work Graphs",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Workflow Page UX Overhaul",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Forecast Tool + Iter 297 Ship",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Lead Sets Ship",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Lead Sets Premium (2)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Lifecycle Convergence",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "CI Pipeline Cost and Reliability Fixes",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Trace-Safe ADI Ledger Retention",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council tool loop \u2014 iter 287 dilution tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Backlog Resolution and MCP Expansion",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Dead Copy Email Button Fix",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council saas_metrics llms.txt (iter 285)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Ticket Authority End-to-End Proof",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Ticket Labels",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "ADI Artifact Privacy",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Stable Accounting Ticket Synchronization",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "SES Guard and Codex MCP",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Dependency and BDD Services",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Outreach Bounce Safety",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council llms.txt Inference-Stats Sync (iter 282)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Secure Accounting Ingest",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Honest has_header coaching across table tools",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Bounded Runtime Singleton Shutdown",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship table_diff tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Durable Council Execution",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "sql_query multi-table (data2)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Workflow Template Revision CAS",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Surface unpivot in llms.txt + live-status UI",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship text_normalize tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council chi_square tool (iter 278)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship break_even CVP tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Public Leak Audit",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship amortization tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Consulting Accounting Handoff",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Is It Legal Section (Themis Phase A)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council iter-303 normality tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship number_format tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Profitability Avenues and Contract Wins",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Workflow Adapter Backend Matrix",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Enterprise Compliance Hardening",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship capital_budget DCF tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council platform-spend safeguards",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship table_convert tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship redact PII/DLP masking tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Codex MCP validation + registry publish prep",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Recoverable Account Deletion Saga",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Tool-Calling Loop \u2014 iter 295 (decision_matrix)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship group_by GROUP BY tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Sales Pipeline Reconcile and Merge",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Consulting Foundation Security Hardening",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Enterprise Ticket Integrations and Fable Review",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Pitch Library Provenance",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Google OAuth Lifecycle",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Tool-Calling Loop \u2014 iter 294 (xirr)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council saas_metrics tool (iter 284)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Tool-Calling Fix + Enhancement Loop",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council iter 290 \u2014 implied_volatility tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Verify-Before-Send Merge and Deploy",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "PR 65 Ship and Email Relay Decision",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Polish Batch Ship (Content Filter + Redirects + Header)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship diff_stat tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Complete GFM ingestion across inline-parser table tools",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Governed Outreach Writes over Hosted MCP",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Mann-Whitney U Tool (iter 281)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council MCP Enterprise Readiness",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Droplet GCS Backup Fix",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council linear_regression tool (iter 277)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Ticket MCP Parity",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Ticket Backlog Slices",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "ADI Diagnostics Consent",
-      "target": "Meta-Council"
-    },
-    {
       "source": "Ship join JOIN tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Tool-Calling Enhancement Loop",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council bond tool (iter 288)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Workflow Page UX Loop",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship filter_rows tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Outreach Business Suite Lifecycle",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Atomic Completion",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council iter 291 \u2014 llms.txt finance-tool surfacing",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Sales Held Queue Lands on Main",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "MC-016 AI-Sales Recommendation Brain",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Business Suite Foundation Release",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Relay Cutover Preflight Doctor",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Business Suite Command Center",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Funnel, LOCUS Pilot, MCP Viz",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship color_convert tool",
       "target": "Meta-Council"
     },
     {
@@ -7096,7 +7633,11 @@
       "target": "Meta-Council"
     },
     {
-      "source": "Ship pivot crosstab tool",
+      "source": "Meta Council iter-303 normality tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter 290 \u2014 implied_volatility tool",
       "target": "Meta-Council"
     },
     {
@@ -7104,11 +7645,7 @@
       "target": "Meta-Council"
     },
     {
-      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Business Suite Validation and Lifecycle Promotion",
+      "source": "Governed Outreach Writes over Hosted MCP",
       "target": "Meta-Council"
     },
     {
@@ -7116,67 +7653,35 @@
       "target": "Meta-Council"
     },
     {
-      "source": "Meta Council Lead Sets Ship (2) \u2014 Catalog v2 + main CI unbreak",
+      "source": "Meta Council iter-302 surface outliers in llms.txt",
       "target": "Meta-Council"
     },
     {
-      "source": "Ship WACC tool",
+      "source": "Meta Council Agent-First Workflow Lane",
       "target": "Meta-Council"
     },
     {
-      "source": "Meta Council Marketing Sales Attribution",
+      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
       "target": "Meta-Council"
     },
     {
-      "source": "Meta Council Ticket Authority Parity",
+      "source": "Meta Council Authoritative Delivery Cycle Rows",
       "target": "Meta-Council"
     },
     {
-      "source": "Project Intelligence",
+      "source": "Meta Council Scheduler Hardening",
       "target": "Meta-Council"
     },
     {
-      "source": "Meta Council Sales Immutable Stage History",
+      "source": "Workflow Template Revision CAS",
       "target": "Meta-Council"
     },
     {
-      "source": "Ship dedupe tool",
+      "source": "Pitch Library Provenance",
       "target": "Meta-Council"
     },
     {
-      "source": "Meta Council Deploy Readiness Hardening",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council \u2014 Retire country_profile + Keyless Tool-Suite Arc",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council iter-299 histogram tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Atomic ADI Failure Deduplication",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ticket MCP Parity Promotion",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Ship case_convert tool",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Meta Council Workflow Control Room and Enterprise Platform",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "Consulting Evidence Authority",
-      "target": "Meta-Council"
-    },
-    {
-      "source": "ADI Derived Bucket Privacy",
+      "source": "Meta Council Backlog Resolution and MCP Expansion",
       "target": "Meta-Council"
     },
     {
@@ -7184,15 +7689,27 @@
       "target": "Meta-Council"
     },
     {
-      "source": "Model Catalog Refresh \u2014 July 2026 Flagships",
+      "source": "Recoverable Account Deletion Saga",
       "target": "Meta-Council"
     },
     {
-      "source": "Surface finance family in llms.txt",
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
       "target": "Meta-Council"
     },
     {
-      "source": "Meta-Council Salesforce-Killer Doctrine",
+      "source": "Re-sync CLAUDE.md tool count to 120+",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Complete GFM ingestion across inline-parser table tools",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Honest has_header coaching across table tools",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Mann-Whitney U Tool (iter 281)",
       "target": "Meta-Council"
     },
     {
@@ -7204,7 +7721,631 @@
       "target": "Meta-Council"
     },
     {
+      "source": "SES Guard and Codex MCP",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Surface table-transform tools in llms.txt",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council legal service and self-improving guardrail loop",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship WACC tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Sales Pipeline Reconcile and Merge",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ticket Dependency and BDD Promotion",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship color_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship pivot crosstab tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Surface finance family in llms.txt",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council tool loop \u2014 iter 287 dilution tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Consulting Accounting Handoff",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship dedupe tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Exact Incident History Contract",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council financial_ratios tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Atomic Completion",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "MCP HTTP Parity for Outsiders",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter 291 \u2014 llms.txt finance-tool surfacing",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Workflow Control Room and Enterprise Platform",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "CI Pipeline Cost and Reliability Fixes",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Ticket Operations and Incident Platform",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Idempotent Ticket Plans",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Marketing Source Governance",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Consulting Approved SOW Work Graphs",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Project Intelligence",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Marketing Sales Attribution",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Workflow Page UX Loop",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Solo Backlog Sweep",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Lead Sets Ship",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council linear_regression tool (iter 277)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "ADI Artifact Privacy",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Forecast Tool + Iter 297 Ship",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Verify-Before-Send Merge and Deploy",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Hypothesis-Tree Protocol First Real Run",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship capital_budget DCF tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship text_normalize tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Atomic ADI Failure Deduplication",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Business Suite Command Center",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship config_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship group_by GROUP BY tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Business Suite Foundation Release",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Landing Privacy and Developer Quickstarts",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Invoicing and Workflow Template Marketplace",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council chi_square tool (iter 278)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Atomic ADI Ledger Sequencing",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council MicroLaunch Submission",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Credits and Data Brokerage Rail",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship toml_query tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship table_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "PR 64 Ship, LOCUS Pricing, Google OAuth",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Rank Correlation Tool (iter 280)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Markdown-table ingestion in shared _parse_table",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Enterprise Ticket Integrations and Fable Review",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Dense Rows and Structured Ticket Detail",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council MCP Enterprise Readiness",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship number_format tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Secure Database Export Design",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council platform-spend safeguards",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship table_diff tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Workflow Adapter Backend Matrix",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Desktop Accounting Ingest Skill",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Is It Legal Section (Themis Phase A)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Feedback Tool Rename \u2014 Merged, Deploy Blocked",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter 289 \u2014 black_scholes option-pricing tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship redact PII/DLP masking tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Sign in with Google",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Lifecycle Convergence",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Structured Ticket MCP and Plan Reconciliation",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Ticket Labels",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Model Catalog Refresh \u2014 July 2026 Flagships",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Plain-Language Summaries for PR and Ticket Notes",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter-299 histogram tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 294 (xirr)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Sales Held Queue Lands on Main",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Consulting Foundation Security Hardening",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council runway tool (iter 286)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council bond tool (iter 288)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Surface unpivot in llms.txt + live-status UI",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Stable Accounting Ticket Synchronization",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta-Council Salesforce-Killer Doctrine",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship case_convert tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 296 (surface decision_matrix)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Enterprise Compliance Hardening",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Relay Cutover Preflight Doctor",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Marketing MCP Final Hardening",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Approved Lead Adapters",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship filter_rows tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council llms.txt Inference-Stats Sync (iter 282)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Consulting Evidence Authority",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Opus-Ready Ticket Lane",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Explicit Ticket Lifecycle Authority",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Structured Core Ticket Mutation Receipts",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Deploy Readiness Hardening",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council \u2014 Retire country_profile + Keyless Tool-Suite Arc",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council ALT-017 Effect Operations",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Dead Copy Email Button Fix",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council saas_metrics tool (iter 284)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Bounded Incident Attention",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Ticket MCP Parity",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Secure Accounting Ingest",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Droplet GCS Backup Fix",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Trace-Safe ADI Ledger Retention",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council iter-300 surface histogram in llms.txt",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ticket Sync Lifecycle",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ticketing Platform Phase A",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Legal Matter History",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Refunds, Chargebacks, and the OpenAPI Fix",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Bounded Runtime Singleton Shutdown",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Public Leak Audit",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council API Key Authority Settings",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 295 (decision_matrix)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council saas_metrics llms.txt (iter 285)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Laws and Regulations Workflows",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Verified Accounting Agent Proposals",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Incident Center and Delivery Hardening",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "sql_query multi-table (data2)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Validation Evidence Services",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Polish Batch Ship (Content Filter + Redirects + Header)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "ADI Diagnostics Consent",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council ANOVA Tool (iter 279)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship amortization tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Tool-Calling Enhancement Loop",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Workflow Page UX Overhaul",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Outreach Business Suite Lifecycle",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Ticket Authority End-to-End Proof",
+      "target": "Meta-Council"
+    },
+    {
       "source": "Durable Scheduler Run Claims",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "ADI Derived Bucket Privacy",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Attention Policy Authority",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Backlog Review, Merge, and Deploy",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "PR 65 Ship and Email Relay Decision",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Business Suite Validation and Lifecycle Promotion",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "MC-016 AI-Sales Recommendation Brain",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Enterprise Security Ticket Lane",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Dependency and BDD Services",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Outreach Sending Diagnosis & Lead Base Overview",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Redaction Agents",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ticket MCP Parity Promotion",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Profitability Avenues and Contract Wins",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Resumable Delivery Cycle Reads",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship diff_stat tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Sales Immutable Stage History",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta-Council Prod Regression Recovery + Deploy Guardrail",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "SES Email Relay Cutover Plan",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Google OAuth Lifecycle",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Workflow Admission and Deletion Authority",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Lead Sets Ship (2) \u2014 Catalog v2 + main CI unbreak",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Ticket Authority Parity",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Funnel, LOCUS Pilot, MCP Viz",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Durable Council Execution",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Ticket Backlog Slices",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Tool-Calling Fix + Enhancement Loop",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Mobile Sidebar Overlay Tap Bug",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship break_even CVP tool",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Codex MCP validation + registry publish prep",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Lead Sets Premium (2)",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Outreach Bounce Safety",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Meta Council Grounded Legal Spend Breaker",
+      "target": "Meta-Council"
+    },
+    {
+      "source": "Ship sql_query tool",
       "target": "Meta-Council"
     },
     {
@@ -7212,7 +8353,7 @@
       "target": "Metis (Legal ML)"
     },
     {
-      "source": "Arbor Paper and Metis Integration",
+      "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
       "target": "Metis (Legal ML)"
     },
     {
@@ -7220,83 +8361,27 @@
       "target": "Metis (Legal ML)"
     },
     {
-      "source": "Metis \u2014 Self-Improving Legal Judgment Prediction",
-      "target": "Metis (Legal ML)"
-    },
-    {
       "source": "Metis Resolution Estimation \u2014 Settlements, Timelines, Amounts",
       "target": "Metis (Legal ML)"
     },
     {
-      "source": "MPRC Functions Dependency Patch",
+      "source": "Arbor Paper and Metis Integration",
+      "target": "Metis (Legal ML)"
+    },
+    {
+      "source": "MPRC Strava Disconnect Token Validation",
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Membership and Webhook Atomic Audit",
+      "source": "MPRC Keyboard Focus Visibility",
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Firestore Rules Tests and Security Hardening",
+      "source": "MPRC Privacy and Security Baseline Tickets",
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Shop, Events, and Officer Access",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Verified Role Grants and Exposure Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC CI Privacy and Discount Coordination",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Public Events Error Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Member Directory Backend",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Refresh Response Validation",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Unused Functions Test Dependency Removal",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Officer Continuity Documentation",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Exchange Atomicity Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Institutional Mission Statement",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Pickup Shop and Protected Events",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Stripe Checkout Session Projection",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Activity Response Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "Production Header Layout Hotfix",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC AdminMembers Lint Debt Reduction",
+      "source": "Run-MPRC Event Registration with Stripe",
       "target": "Run-MPRC"
     },
     {
@@ -7304,11 +8389,7 @@
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Membership Authority Contract",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Disconnect Read Boundary",
+      "source": "MPRC Admin Event Registrations Privacy Audit",
       "target": "Run-MPRC"
     },
     {
@@ -7316,83 +8397,7 @@
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Strava Exchange Response Validation",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Public Events Calendar Error Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Admin Order Action Privacy Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Corrupt Rate Limit Design Review",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Events, Account UX, and Waiver Boundary",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Authorization Code Bound",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Verification Resend Design Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Frontend Lint Debt Reduction",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Callback Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Disconnect Browser Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Admin Product Load Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC issue loop \u2014 Instagram approval-gated social-post contract",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Dual-Method Member Sign-In",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Public Shop Error Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Race Price Boundary Review",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Profile Recovery and Protected Release",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC PR queue merge \u2014 membership + secure-commerce contracts",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Frontend Privacy Candidate Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Login Return Ticket Delivery",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Callback History Audit",
+      "source": "MPRC App Check Release Blocker",
       "target": "Run-MPRC"
     },
     {
@@ -7404,111 +8409,15 @@
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Frontend Test Baseline and Queue Repair",
+      "source": "MPRC Membership Sync Log Privacy",
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Issue Loop \u2014 Email Honesty Slice and Backlog Exhaustion",
+      "source": "MPRC Functions Dependency Patch",
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC GitHub Identity and Hosting Consolidation",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Activity Browser Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Priority Issue Sweep",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Disconnect Token Validation",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Profile Photo and People Finder",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Admin Event Registrations Privacy Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC App Check Release Blocker",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Brace Expansion and Release Coordination",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "Production permissions incident and rollback",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Admin Products Error Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Annual Paid Membership and Roster",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Security Audit Truth Correction",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Event Detail Lifecycle Integrity",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Event Registration Load Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Stored Strava Token Validation",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Members-Only Rules Coverage",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Browser Verified-Role Projection Review",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Root Form Data Tooling Patch",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Privacy and Security Baseline Tickets",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Strava Account Lifecycle Officer Review",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Password Reset Review",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "Run-MPRC Event Registration with Stripe",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Purchase Confirmation Route Audit",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Community Integration Tickets",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Shop Checkout Error Privacy",
+      "source": "MPRC issue loop \u2014 Instagram approval-gated social-post contract",
       "target": "Run-MPRC"
     },
     {
@@ -7516,43 +8425,11 @@
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Strava Disconnect Log Redaction",
+      "source": "MPRC Dual-Method Member Sign-In",
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Registration Window Validation",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Commerce Lease Ownership Design",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Membership Sync Log Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Public Event Detail Error Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Event Registration Lifecycle Integrity",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Keyboard Focus Visibility",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Event Registration Submit Privacy",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC My Account Membership Truth",
-      "target": "Run-MPRC"
-    },
-    {
-      "source": "MPRC Firebase Cutover Reassessment",
+      "source": "MPRC Institutional Mission Statement",
       "target": "Run-MPRC"
     },
     {
@@ -7560,11 +8437,99 @@
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Strava Exchange Error Redaction",
+      "source": "MPRC Event Registration Submit Privacy",
       "target": "Run-MPRC"
     },
     {
-      "source": "MPRC Security Foundations and Verification Delivery",
+      "source": "MPRC Frontend Lint Debt Reduction",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC AdminMembers Lint Debt Reduction",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Priority Issue Sweep",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Activity Response Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC My Account Membership Truth",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Members-Only Rules Coverage",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Admin Product Load Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Exchange Response Validation",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Frontend Privacy Candidate Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Admin Products Error Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Preview Promotion Incident",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC CI Privacy and Discount Coordination",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Root Form Data Tooling Patch",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Disconnect Read Boundary",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Membership and Webhook Atomic Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Event Registration Lifecycle Integrity",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Brace Expansion and Release Coordination",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Firebase Cutover Reassessment",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Pickup Shop and Protected Events",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Stored Strava Token Validation",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Unused Functions Test Dependency Removal",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Shop Checkout Error Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Stripe Checkout Session Projection",
       "target": "Run-MPRC"
     },
     {
@@ -7572,35 +8537,191 @@
       "target": "Run-MPRC"
     },
     {
-      "source": "Prediction Methodology Audit + Salvage Analysis",
-      "target": "Patterns of Choice"
+      "source": "MPRC Firestore Rules Tests and Security Hardening",
+      "target": "Run-MPRC"
     },
     {
-      "source": "Patterns of Choice \u2014 Review and Hardening",
-      "target": "Patterns of Choice"
+      "source": "Production Header Layout Hotfix",
+      "target": "Run-MPRC"
     },
     {
-      "source": "ETF Pullback Exit-Rule Study",
-      "target": "Patterns of Choice"
+      "source": "MPRC Password Reset Review",
+      "target": "Run-MPRC"
     },
     {
-      "source": "daliu.github.io \u2014 Expose the Full Patterns of Choice Experiment",
-      "target": "Patterns of Choice"
+      "source": "MPRC Login Return Ticket Delivery",
+      "target": "Run-MPRC"
     },
     {
-      "source": "Patterns of Choice \u2014 Self-Calibration (H9) and Validity Reframe",
-      "target": "Patterns of Choice"
+      "source": "MPRC Strava Refresh Response Validation",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC GitHub Identity and Hosting Consolidation",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Race Price Boundary Review",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Disconnect Browser Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Public Events Calendar Error Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Activity Browser Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Security Foundations and Verification Delivery",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Callback History Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Frontend Test Baseline and Queue Repair",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Account Lifecycle Officer Review",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Profile Photo and People Finder",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Event Detail Lifecycle Integrity",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Public Events Error Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "Production permissions incident and rollback",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Corrupt Rate Limit Design Review",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Public Shop Error Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Callback Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Disconnect Log Redaction",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Annual Paid Membership and Roster",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Verified Role Grants and Exposure Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Admin Order Action Privacy Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC PR queue merge \u2014 membership + secure-commerce contracts",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Public Event Detail Error Privacy",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Member Directory Backend",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Verification Resend Design Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Registration Window Validation",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Purchase Confirmation Route Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Browser Verified-Role Projection Review",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Profile Recovery and Protected Release",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Security Audit Truth Correction",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Authorization Code Bound",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Commerce Lease Ownership Design",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Events, Account UX, and Waiver Boundary",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Exchange Atomicity Audit",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Membership Authority Contract",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Shop, Events, and Officer Access",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Community Integration Tickets",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Strava Exchange Error Redaction",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Issue Loop \u2014 Email Honesty Slice and Backlog Exhaustion",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Officer Continuity Documentation",
+      "target": "Run-MPRC"
+    },
+    {
+      "source": "MPRC Event Registration Load Privacy",
+      "target": "Run-MPRC"
     },
     {
       "source": "Broker MCPs, Conviction Ledger, Event-Shock Battery",
       "target": "Patterns of Choice"
     },
     {
-      "source": "Patterns of Choice Max-Effort Build",
-      "target": "Patterns of Choice"
-    },
-    {
-      "source": "Chatbot Data Collector build",
+      "source": "Prediction Methodology Audit + Salvage Analysis",
       "target": "Patterns of Choice"
     },
     {
@@ -7608,19 +8729,11 @@
       "target": "Patterns of Choice"
     },
     {
-      "source": "ETF Horizon Signal Battery",
-      "target": "Patterns of Choice"
-    },
-    {
       "source": "Bond ETF Backfill + Signal Battery",
       "target": "Patterns of Choice"
     },
     {
-      "source": "Patterns of Choice design",
-      "target": "Patterns of Choice"
-    },
-    {
-      "source": "Values-Based Matchmaking Product Assessment",
+      "source": "Chatbot Data Collector build",
       "target": "Patterns of Choice"
     },
     {
@@ -7628,7 +8741,47 @@
       "target": "Patterns of Choice"
     },
     {
-      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
+      "source": "ETF Pullback Exit-Rule Study",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "ETF Horizon Signal Battery",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice \u2014 Review and Hardening",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "daliu.github.io \u2014 Expose the Full Patterns of Choice Experiment",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice Max-Effort Build",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice \u2014 Four Decisions Ratified",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice \u2014 R4a Moral Attentiveness Built",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Values-Based Matchmaking Product Assessment",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice design",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Patterns of Choice \u2014 Self-Calibration (H9) and Validity Reframe",
+      "target": "Patterns of Choice"
+    },
+    {
+      "source": "Offensive Bias \u2014 Conflicting Directives, Selection Pressure, and the Logic Plague",
       "target": "Philosophy & Ethics"
     },
     {
@@ -7640,151 +8793,11 @@
       "target": "Philosophy & Ethics"
     },
     {
-      "source": "MPRC Browser Verified-Role Projection Review",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Functions Dependency Patch",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Membership and Webhook Atomic Audit",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Firestore Rules Tests and Security Hardening",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Root Form Data Tooling Patch",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Privacy and Security Baseline Tickets",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Verified Role Grants and Exposure Audit",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC CI Privacy and Discount Coordination",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Secure Commerce Architecture and Hardening",
-      "target": "Security"
-    },
-    {
-      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Refresh Response Validation",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Member Directory Backend",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Unused Functions Test Dependency Removal",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Membership Authority Contract",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Callback History Audit",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Disconnect Read Boundary",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Officer Continuity Documentation",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Account Lifecycle Officer Review",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Exchange Atomicity Audit",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Password Reset Review",
-      "target": "Security"
-    },
-    {
-      "source": "Consulting Foundation Security Hardening",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Activity Data Error Redaction",
-      "target": "Security"
-    },
-    {
-      "source": "Commodity Supply Chain Optimization",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Frontend Test Baseline and Queue Repair",
-      "target": "Security"
-    },
-    {
-      "source": "Cross-Host Owner Fencing",
-      "target": "Security"
-    },
-    {
-      "source": "Meta Council Secure Accounting Ingest",
-      "target": "Security"
-    },
-    {
-      "source": "Membership Phone Privacy Incident",
-      "target": "Security"
-    },
-    {
-      "source": "Google OAuth Lifecycle",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Activity Browser Privacy",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC GitHub Identity and Hosting Consolidation",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Shop Checkout Error Privacy",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Exchange Response Validation",
-      "target": "Security"
+      "source": "No Single Valuer \u2014 From AI Monopoly to Self-Discovered Fit",
+      "target": "Philosophy & Ethics"
     },
     {
       "source": "Meta Council Validation Evidence Services",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Admin Order Action Privacy Audit",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Corrupt Rate Limit Design Review",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Priority Issue Sweep",
-      "target": "Security"
-    },
-    {
-      "source": "Marketing MCP Final Hardening",
       "target": "Security"
     },
     {
@@ -7792,63 +8805,15 @@
       "target": "Security"
     },
     {
-      "source": "MPRC Strava Disconnect Token Validation",
+      "source": "MPRC Strava Refresh Response Validation",
       "target": "Security"
     },
     {
-      "source": "MPRC Strava Authorization Code Bound",
+      "source": "Consulting Foundation Security Hardening",
       "target": "Security"
     },
     {
-      "source": "MPRC Strava Disconnect Log Redaction",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC App Check Release Blocker",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Verification Resend Design Audit",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Callback Privacy",
-      "target": "Security"
-    },
-    {
-      "source": "Governed Outreach Writes over Hosted MCP",
-      "target": "Security"
-    },
-    {
-      "source": "Stripe Webhook Repair + Unsubscribe Enforcement",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Registration Window Validation",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Commerce Lease Ownership Design",
-      "target": "Security"
-    },
-    {
-      "source": "Ship text_normalize tool",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Disconnect Browser Privacy",
-      "target": "Security"
-    },
-    {
-      "source": "Meta Council MCP Enterprise Readiness",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Brace Expansion and Release Coordination",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Admin Products Error Privacy",
+      "source": "Cross-Host Owner Fencing",
       "target": "Security"
     },
     {
@@ -7856,7 +8821,231 @@
       "target": "Security"
     },
     {
+      "source": "MPRC Admin Products Error Privacy",
+      "target": "Security"
+    },
+    {
+      "source": "Receipt Folder Accounting Ledger",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Disconnect Token Validation",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC GitHub Identity and Hosting Consolidation",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Member Directory Backend",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC CI Privacy and Discount Coordination",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Verification Resend Design Audit",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Registration Window Validation",
+      "target": "Security"
+    },
+    {
+      "source": "Governed Outreach Writes over Hosted MCP",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Privacy and Security Baseline Tickets",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Root Form Data Tooling Patch",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Disconnect Read Boundary",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Membership and Webhook Atomic Audit",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Race Price Boundary Review",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Disconnect Browser Privacy",
+      "target": "Security"
+    },
+    {
+      "source": "Marketing MCP Final Hardening",
+      "target": "Security"
+    },
+    {
+      "source": "Meta Council Enterprise Security Ticket Lane",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Secure Commerce Architecture and Hardening",
+      "target": "Security"
+    },
+    {
+      "source": "Ship text_normalize tool",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Brace Expansion and Release Coordination",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Admin Event Registrations Privacy Audit",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Activity Browser Privacy",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Security Foundations and Verification Delivery",
+      "target": "Security"
+    },
+    {
+      "source": "Stripe Webhook Repair + Unsubscribe Enforcement",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC App Check Release Blocker",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Callback History Audit",
+      "target": "Security"
+    },
+    {
+      "source": "Meta Council Redaction Agents",
+      "target": "Security"
+    },
+    {
+      "source": "Membership Phone Privacy Incident",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Frontend Test Baseline and Queue Repair",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Account Lifecycle Officer Review",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Browser Verified-Role Projection Review",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Profile Recovery and Protected Release",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Security Audit Truth Correction",
+      "target": "Security"
+    },
+    {
       "source": "MPRC Pickup Shop and Protected Events",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Stored Strava Token Validation",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Authorization Code Bound",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Activity Data Error Redaction",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Commerce Lease Ownership Design",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Unused Functions Test Dependency Removal",
+      "target": "Security"
+    },
+    {
+      "source": "Security Audit \u2014 Miasma npm Scare & openclaw Decommission",
+      "target": "Security"
+    },
+    {
+      "source": "Commodity Supply Chain Optimization",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Shop Checkout Error Privacy",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Stripe Checkout Session Projection",
+      "target": "Security"
+    },
+    {
+      "source": "Meta Council Secure Accounting Ingest",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Corrupt Rate Limit Design Review",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Membership Sync Log Privacy",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Firestore Rules Tests and Security Hardening",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Public Shop Error Privacy",
+      "target": "Security"
+    },
+    {
+      "source": "Google OAuth Lifecycle",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Functions Dependency Patch",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Callback Privacy",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Exchange Atomicity Audit",
+      "target": "Security"
+    },
+    {
+      "source": "Meta Council MCP Enterprise Readiness",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Membership Authority Contract",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Password Reset Review",
+      "target": "Security"
+    },
+    {
+      "source": "Meta Council Sign in with Google",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Strava Disconnect Log Redaction",
       "target": "Security"
     },
     {
@@ -7864,7 +9053,7 @@
       "target": "Security"
     },
     {
-      "source": "MPRC Annual Paid Membership and Roster",
+      "source": "MPRC Strava Refresh Error Redaction",
       "target": "Security"
     },
     {
@@ -7876,15 +9065,23 @@
       "target": "Security"
     },
     {
-      "source": "MPRC Security Audit Truth Correction",
+      "source": "MPRC Strava Exchange Error Redaction",
       "target": "Security"
     },
     {
-      "source": "MPRC Public Shop Error Privacy",
+      "source": "MPRC Annual Paid Membership and Roster",
       "target": "Security"
     },
     {
-      "source": "MPRC Stripe Checkout Session Projection",
+      "source": "MPRC Priority Issue Sweep",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Verified Role Grants and Exposure Audit",
+      "target": "Security"
+    },
+    {
+      "source": "MPRC Officer Continuity Documentation",
       "target": "Security"
     },
     {
@@ -7892,31 +9089,7 @@
       "target": "Security"
     },
     {
-      "source": "MPRC Profile Recovery and Protected Release",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Race Price Boundary Review",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Membership Sync Log Privacy",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Refresh Error Redaction",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Strava Exchange Error Redaction",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Admin Event Registrations Privacy Audit",
-      "target": "Security"
-    },
-    {
-      "source": "MPRC Stored Strava Token Validation",
+      "source": "MPRC Admin Order Action Privacy Audit",
       "target": "Security"
     },
     {
@@ -7924,11 +9097,11 @@
       "target": "Security"
     },
     {
-      "source": "MPRC Security Foundations and Verification Delivery",
+      "source": "MPRC Strava Exchange Response Validation",
       "target": "Security"
     },
     {
-      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
+      "source": "Argus \u2014 Portable, Configurable PR Reviewer",
       "target": "Autonomous Adaptive Intelligence"
     },
     {
@@ -7936,7 +9109,7 @@
       "target": "Autonomous Adaptive Intelligence"
     },
     {
-      "source": "Arbor Paper and Metis Integration",
+      "source": "Hypothesis-Tree Protocol First Real Run",
       "target": "Autonomous Adaptive Intelligence"
     },
     {
@@ -7944,31 +9117,19 @@
       "target": "Autonomous Adaptive Intelligence"
     },
     {
-      "source": "MPRC Browser Verified-Role Projection Review",
-      "target": "Testing & Review"
+      "source": "Hypothesis-Tree Research Protocols",
+      "target": "Autonomous Adaptive Intelligence"
     },
     {
-      "source": "MPRC Firestore Rules Tests and Security Hardening",
-      "target": "Testing & Review"
+      "source": "Meta-Council Self-Improving Evaluation Harness (idea)",
+      "target": "Autonomous Adaptive Intelligence"
     },
     {
-      "source": "Patterns of Choice \u2014 Review and Hardening",
-      "target": "Testing & Review"
+      "source": "Arbor Paper and Metis Integration",
+      "target": "Autonomous Adaptive Intelligence"
     },
     {
-      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
-      "target": "Testing & Review"
-    },
-    {
-      "source": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
-      "target": "Testing & Review"
-    },
-    {
-      "source": "MPRC Frontend Test Baseline and Queue Repair",
-      "target": "Testing & Review"
-    },
-    {
-      "source": "Meta Council Backlog Review, Merge, and Deploy",
+      "source": "Agentic Skills and Workflows",
       "target": "Testing & Review"
     },
     {
@@ -7978,11 +9139,39 @@
     {
       "source": "Hierarchical Signal Tests and Adversarial Review",
       "target": "Testing & Review"
+    },
+    {
+      "source": "Seasonality \u2014 PR #1101 Review (serendipity 3-arm A/B wiring)",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "MPRC Firestore Rules Tests and Security Hardening",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "MPRC Frontend Test Baseline and Queue Repair",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "MPRC Browser Verified-Role Projection Review",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "Patterns of Choice \u2014 Review and Hardening",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "Meta Council Tool-Calling Loop \u2014 iter 292 finance-cluster tests",
+      "target": "Testing & Review"
+    },
+    {
+      "source": "Meta Council Backlog Review, Merge, and Deploy",
+      "target": "Testing & Review"
     }
   ],
   "meta": {
     "generated": "auto",
-    "node_count": 452,
-    "edge_count": 631
+    "node_count": 510,
+    "edge_count": 739
   }
 }
