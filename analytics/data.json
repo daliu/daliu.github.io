@@ -1,38 +1,28 @@
 {
-  "updated": "2026-08-10T07:13:50Z",
+  "updated": "2026-08-11T06:51:46Z",
   "date_range": {
-    "start": "2026-05-13",
-    "end": "2026-08-10"
+    "start": "2026-05-14",
+    "end": "2026-08-11"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-05-13",
+    "start": "2026-05-14",
     "end": "2026-08-04",
-    "days_with_data": 53
+    "days_with_data": 52
   },
   "totals": {
-    "total_users": 356,
-    "total_sessions": 400,
-    "total_pageviews": 827,
+    "total_users": 350,
+    "total_sessions": 394,
+    "total_pageviews": 821,
     "total_engaged_sessions": 71,
-    "engagement_rate": 0.1775,
-    "avg_session_duration_seconds": 128.7,
-    "bounce_rate": 0.8225
+    "engagement_rate": 0.1802,
+    "avg_session_duration_seconds": 130.6,
+    "bounce_rate": 0.8198
   },
   "daily": [
-    {
-      "date": "2026-05-13",
-      "users": 6,
-      "sessions": 6,
-      "pageviews": 6,
-      "new_users": 6,
-      "avg_session_duration": 0.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
     {
       "date": "2026-05-14",
       "users": 10,
@@ -558,12 +548,12 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 297,
-      "users": 225,
-      "avg_time_on_page": 71.0,
-      "sessions": 273,
+      "pageviews": 293,
+      "users": 221,
+      "avg_time_on_page": 72.0,
+      "sessions": 269,
       "engaged": 51,
-      "engagement_rate": 0.187,
+      "engagement_rate": 0.19,
       "class": "mixed"
     },
     {
@@ -780,10 +770,10 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 358,
-      "users": 308,
+      "sessions": 352,
+      "users": 302,
       "engaged": 46,
-      "engagement_rate": 0.128,
+      "engagement_rate": 0.131,
       "class": "automated"
     },
     {
@@ -853,7 +843,7 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 379,
+      "sessions": 373,
       "percentage": 94.0
     },
     {
@@ -865,13 +855,13 @@
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 367,
-      "percentage": 90.4
+      "sessions": 360,
+      "percentage": 90.2
     },
     {
       "browser": "Safari",
       "sessions": 25,
-      "percentage": 6.2
+      "percentage": 6.3
     },
     {
       "browser": "Edge",
@@ -886,39 +876,39 @@
     {
       "browser": "Firefox",
       "sessions": 1,
-      "percentage": 0.2
+      "percentage": 0.3
     },
     {
       "browser": "Internet Explorer",
       "sessions": 1,
-      "percentage": 0.2
+      "percentage": 0.3
     },
     {
       "browser": "Maxthon",
       "sessions": 1,
-      "percentage": 0.2
+      "percentage": 0.3
     },
     {
       "browser": "Mozilla Compatible Agent",
       "sessions": 1,
-      "percentage": 0.2
+      "percentage": 0.3
     },
     {
       "browser": "Opera",
       "sessions": 1,
-      "percentage": 0.2
+      "percentage": 0.3
     },
     {
       "browser": "Vivaldi",
       "sessions": 1,
-      "percentage": 0.2
+      "percentage": 0.3
     }
   ],
   "countries": [
     {
       "country": "Singapore",
-      "sessions": 268,
-      "users": 268
+      "sessions": 262,
+      "users": 262
     },
     {
       "country": "United States",
@@ -962,7 +952,7 @@
     }
   ],
   "user_types": {
-    "new": 315,
+    "new": 309,
     "returning": 78
   },
   "hourly": [
@@ -1065,10 +1055,10 @@
   ],
   "quality": {
     "engaged_sessions": 71,
-    "non_engaged_sessions": 329,
-    "likely_automated_sessions": 272,
+    "non_engaged_sessions": 323,
+    "likely_automated_sessions": 266,
     "likely_human_sessions": 128,
-    "automated_pct": 68.0,
+    "automated_pct": 67.5,
     "est_human_users": 46,
     "thresholds": {
       "human": 0.4,
@@ -1078,10 +1068,10 @@
   "country_quality": [
     {
       "country": "Singapore",
-      "sessions": 268,
+      "sessions": 262,
       "engaged": 1,
-      "users": 268,
-      "pageviews": 268,
+      "users": 262,
+      "pageviews": 262,
       "avg_duration": 0.5,
       "engagement_rate": 0.004,
       "class": "automated"
@@ -1260,25 +1250,25 @@
         10,
         1,
         0,
-        7,
+        6,
         0,
         0,
+        1,
+        1,
+        0,
+        13,
+        9,
+        9,
+        1,
+        0,
+        3,
+        6,
         2,
-        1,
-        0,
-        14,
-        9,
-        9,
-        1,
-        0,
-        3,
-        7,
-        3,
         9,
         0,
         0,
         12,
-        9,
+        8,
         2,
         1
       ],
@@ -1375,25 +1365,25 @@
         5,
         5,
         4,
-        49,
+        48,
         3,
         0,
-        7,
+        6,
         3,
         3,
-        49,
+        48,
         2,
         3,
         0,
         2,
         0,
-        49,
-        7,
+        48,
+        6,
         6,
         1,
         1,
         9,
-        53,
+        52,
         2,
         5
       ],
@@ -1483,8 +1473,8 @@
       "lat": 1.2899175,
       "lng": 103.8519072,
       "label": "Singapore, Singapore",
-      "sessions": 268,
-      "users": 268,
+      "sessions": 262,
+      "users": 262,
       "engaged": 1,
       "engagement_rate": 0.004
     },
@@ -1760,8 +1750,8 @@
       }
     },
     "baseline": {
-      "mean_pageviews": 15.6,
-      "std_pageviews": 17.4
+      "mean_pageviews": 15.8,
+      "std_pageviews": 17.5
     },
     "anomalies": [
       {
@@ -1772,7 +1762,7 @@
       {
         "date": "2026-06-18",
         "pageviews": 99,
-        "z": 4.8
+        "z": 4.7
       }
     ]
   },
