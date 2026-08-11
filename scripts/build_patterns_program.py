@@ -19,8 +19,16 @@ Usage:
     python scripts/build_patterns_program.py            # regenerate + write
     python scripts/build_patterns_program.py --check    # verify in sync; exit 1 if the site has drifted
 
-Run manually for now; could be wired into publish_daily.py (or a CI check)
-later, the same way build_status.py is.
+--check also confirms every card's spec file exists — a dangling `The spec →`
+link is a live 404 on the public page. That part runs only against a local
+checkout (the spec files live in the sibling patterns-of-choice repo, next to
+the manifest); over --remote there are no local files to stat, so it's skipped.
+
+Wired into the daily publish: publish_daily.py:refresh_patterns_program runs
+this with --remote (best-effort — a failure there never aborts the run) and
+stages the regenerated index.html, so the public grid tracks the manifest with
+zero hand-editing. Run --check locally or from CI to catch drift or a dangling
+spec link before it ships.
 """
 
 import argparse
@@ -69,6 +77,24 @@ def esc(text):
     """Minimal HTML-text escaping. Unicode dashes/quotes are emitted as-is
     (the page is UTF-8); only the structural characters need escaping."""
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def missing_spec_files(manifest, src):
+    """Return [(id, spec), ...] for cards whose linked spec file is absent.
+
+    Only meaningful when the manifest came from a local checkout — the spec
+    files are siblings of the manifest. When it was fetched over the network
+    (the daily run's --remote path) there is nothing local to stat, so this
+    returns [] and the caller treats the check as skipped."""
+    if not os.path.isfile(src):  # remote URL (or vanished) — no local files to verify
+        return []
+    base_dir = os.path.dirname(os.path.abspath(src))
+    missing = []
+    for c in manifest["cards"]:
+        spec = c.get("spec")
+        if spec and not os.path.isfile(os.path.join(base_dir, spec)):
+            missing.append((c.get("id", "?"), spec))
+    return missing
 
 
 def render_grid(manifest):
@@ -124,6 +150,7 @@ def main():
     args = ap.parse_args()
 
     manifest, src = load_manifest(remote=args.remote)
+    missing = missing_spec_files(manifest, src)
     block = build_block(manifest)
     with open(TARGET, encoding="utf-8") as fh:
         html = fh.read()
@@ -131,12 +158,22 @@ def main():
     n = len(manifest["cards"])
 
     if args.check:
+        if missing:
+            for cid, spec in missing:
+                print(f"MISSING SPEC: card {cid!r} links {spec}, "
+                      f"but no such file next to {src}", file=sys.stderr)
+            return 1
         if new_html != html:
             print(f"DRIFT: {TARGET} is out of sync with {src}. "
                   f"Run `python scripts/build_patterns_program.py` to regenerate.", file=sys.stderr)
             return 1
         print(f"in sync: {n} cards, source {src}")
         return 0
+
+    if missing:  # regenerate anyway, but never let a broken spec link ship silently
+        for cid, spec in missing:
+            print(f"WARNING: card {cid!r} links {spec}, but no such file "
+                  f"next to {src}", file=sys.stderr)
 
     if new_html == html:
         print(f"no change: {n} cards already current ({src})")
