@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-12T08:00:15.065700-07:00",
+  "updated": "2026-08-12T14:00:13.765725-07:00",
   "window_days": 90,
   "date_range": {
     "start": "2026-05-15",
@@ -7,86 +7,86 @@
     "days_with_data": 89
   },
   "intraday": {
-    "n_episodes": 260,
-    "n_observed": 260,
+    "n_episodes": 261,
+    "n_observed": 261,
     "episodes_per_day": 2.9,
     "days_with_data": 89,
     "median_peak": 81,
     "settle": {
       "median_min": 24,
-      "p75_min": 55,
+      "p75_min": 54,
       "p90_min": 111,
       "within_60min_pct": 78,
       "within_120min_pct": 92,
       "to_rest_median_min": 12
     },
-    "half_life_min": 3,
+    "half_life_min": 4,
     "decay_curve": [
       {
         "t": -30,
-        "mean": 39.3,
-        "sem": 1.53,
-        "n": 138
-      },
-      {
-        "t": -27,
-        "mean": 40.9,
-        "sem": 1.47,
-        "n": 143
-      },
-      {
-        "t": -24,
-        "mean": 41.0,
-        "sem": 1.47,
+        "mean": 39.2,
+        "sem": 1.52,
         "n": 139
       },
       {
+        "t": -27,
+        "mean": 40.8,
+        "sem": 1.47,
+        "n": 144
+      },
+      {
+        "t": -24,
+        "mean": 40.8,
+        "sem": 1.47,
+        "n": 140
+      },
+      {
         "t": -21,
-        "mean": 40.4,
+        "mean": 40.3,
         "sem": 1.28,
-        "n": 148
-      },
-      {
-        "t": -18,
-        "mean": 43.6,
-        "sem": 1.42,
-        "n": 148
-      },
-      {
-        "t": -15,
-        "mean": 45.8,
-        "sem": 1.41,
         "n": 149
       },
       {
+        "t": -18,
+        "mean": 43.4,
+        "sem": 1.42,
+        "n": 149
+      },
+      {
+        "t": -15,
+        "mean": 45.7,
+        "sem": 1.41,
+        "n": 150
+      },
+      {
         "t": -12,
-        "mean": 44.7,
+        "mean": 44.6,
         "sem": 1.45,
-        "n": 131
+        "n": 132
       },
       {
         "t": -9,
-        "mean": 46.8,
-        "sem": 1.41,
-        "n": 125
+        "mean": 46.5,
+        "sem": 1.42,
+        "n": 126
       },
       {
         "t": -6,
-        "mean": 50.1,
-        "sem": 1.49,
-        "n": 115
+        "mean": 49.8,
+        "sem": 1.5,
+        "n": 116
       },
       {
         "t": -3,
-        "mean": 57.5,
-        "sem": 1.24,
-        "n": 120
+        "mean": 57.2,
+        "sem": 1.26,
+        "n": 121
       },
       {
         "t": 0,
         "mean": 81.2,
-        "sem": 0.36,
-        "n": 205
+        "sem": 0.35,
+        "n": 206
       },
       {
         "t": 3,
@@ -97,50 +97,50 @@
       {
         "t": 6,
         "mean": 51.6,
-        "sem": 1.6,
-        "n": 149
+        "sem": 1.59,
+        "n": 150
       },
       {
         "t": 9,
         "mean": 51.1,
-        "sem": 1.55,
-        "n": 154
-      },
-      {
-        "t": 12,
-        "mean": 49.9,
-        "sem": 1.5,
+        "sem": 1.54,
         "n": 155
       },
       {
+        "t": 12,
+        "mean": 50.1,
+        "sem": 1.5,
+        "n": 156
+      },
+      {
         "t": 15,
-        "mean": 51.4,
-        "sem": 1.68,
-        "n": 150
+        "mean": 51.5,
+        "sem": 1.67,
+        "n": 151
       },
       {
         "t": 18,
         "mean": 49.5,
-        "sem": 1.68,
-        "n": 144
+        "sem": 1.67,
+        "n": 145
       },
       {
         "t": 21,
         "mean": 47.4,
-        "sem": 1.63,
-        "n": 153
+        "sem": 1.62,
+        "n": 154
       },
       {
         "t": 24,
-        "mean": 47.4,
+        "mean": 47.6,
         "sem": 1.56,
-        "n": 155
+        "n": 156
       },
       {
         "t": 27,
         "mean": 48.9,
-        "sem": 1.61,
-        "n": 145
+        "sem": 1.6,
+        "n": 146
       },
       {
         "t": 30,
@@ -336,7 +336,7 @@
       },
       {
         "bin": 15,
-        "count": 49
+        "count": 50
       },
       {
         "bin": 30,
@@ -393,7 +393,7 @@
         "key": "bb_at_wake",
         "label": "Body Battery @ wake",
         "good": 1,
-        "baseline": 75.7,
+        "baseline": 75.8,
         "epoch": [
           {
             "off": -2,
@@ -404,56 +404,56 @@
           {
             "off": -1,
             "z": 0.39,
-            "delta": 5.5,
+            "delta": 5.4,
             "n": 29
           },
           {
             "off": 0,
             "z": -0.18,
-            "delta": -2.5,
+            "delta": -2.6,
             "n": 30
           },
           {
             "off": 1,
-            "z": -0.53,
-            "delta": -7.4,
-            "n": 26
+            "z": -0.48,
+            "delta": -6.8,
+            "n": 27
           },
           {
             "off": 2,
-            "z": 0.24,
-            "delta": 3.4,
+            "z": 0.23,
+            "delta": 3.3,
             "n": 24
           },
           {
             "off": 3,
-            "z": 0.02,
-            "delta": 0.3,
-            "n": 23
+            "z": 0.05,
+            "delta": 0.7,
+            "n": 24
           },
           {
             "off": 4,
-            "z": -0.27,
-            "delta": -3.9,
+            "z": -0.28,
+            "delta": -4.0,
             "n": 24
           },
           {
             "off": 5,
-            "z": -0.14,
-            "delta": -2.0,
+            "z": -0.15,
+            "delta": -2.1,
             "n": 21
           },
           {
             "off": 6,
-            "z": -0.19,
-            "delta": -2.7,
+            "z": -0.2,
+            "delta": -2.8,
             "n": 19
           },
           {
             "off": 7,
-            "z": -0.31,
-            "delta": -4.3,
-            "n": 20
+            "z": -0.26,
+            "delta": -3.6,
+            "n": 21
           }
         ]
       },
@@ -529,31 +529,31 @@
         "key": "sleep_score",
         "label": "Sleep score",
         "good": 1,
-        "baseline": 72.0,
+        "baseline": 72.1,
         "epoch": [
           {
             "off": -2,
             "z": 0.23,
-            "delta": 3.0,
+            "delta": 2.9,
             "n": 24
           },
           {
             "off": -1,
-            "z": 0.25,
+            "z": 0.24,
             "delta": 3.2,
             "n": 29
           },
           {
             "off": 0,
-            "z": -0.29,
-            "delta": -3.8,
+            "z": -0.3,
+            "delta": -3.9,
             "n": 30
           },
           {
             "off": 1,
-            "z": -0.01,
-            "delta": -0.1,
-            "n": 26
+            "z": 0.02,
+            "delta": 0.2,
+            "n": 27
           },
           {
             "off": 2,
@@ -563,14 +563,14 @@
           },
           {
             "off": 3,
-            "z": 0.02,
-            "delta": 0.2,
-            "n": 23
+            "z": 0.04,
+            "delta": 0.6,
+            "n": 24
           },
           {
             "off": 4,
-            "z": -0.33,
-            "delta": -4.3,
+            "z": -0.34,
+            "delta": -4.4,
             "n": 24
           },
           {
@@ -581,15 +581,15 @@
           },
           {
             "off": 6,
-            "z": -0.03,
-            "delta": -0.4,
+            "z": -0.04,
+            "delta": -0.5,
             "n": 19
           },
           {
             "off": 7,
-            "z": -0.2,
-            "delta": -2.6,
-            "n": 20
+            "z": -0.16,
+            "delta": -2.1,
+            "n": 21
           }
         ]
       }
@@ -599,11 +599,11 @@
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>78%</strong> of 260 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>78%</strong> of 261 episodes gone within an hour."
     },
     {
       "impact": "neutral",
-      "text": "Peak-aligned, stress decays with a <strong>~3-min half-life</strong> back to baseline \u2014 no elevated plateau once the peak passes."
+      "text": "Peak-aligned, stress decays with a <strong>~4-min half-life</strong> back to baseline \u2014 no elevated plateau once the peak passes."
     },
     {
       "impact": "positive",
