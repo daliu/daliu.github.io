@@ -110,10 +110,19 @@ def render_grid(manifest):
         header = esc(f"{c['id']} · {c['question']}")
         status = esc(c["status"])
         blurb = esc(c["blurb"])
+        # A ratified design decision (a DECISIONS.md lock): the card stays
+        # design-stage for build/validation, but its design is settled. Render a
+        # distinct accent marker beside the muted status so "design locked" reads
+        # as progress, not as the card being frozen or stuck.
+        locked = (
+            ' <span style="color: var(--accent); font-weight: 600;">'
+            '&#10003; design locked</span>'
+            if c.get("design_locked") else ""
+        )
         lines.append('    <div class="domain">')
         lines.append(
             f'      <strong>{header}</strong> '
-            f'<span style="color: var(--muted); font-weight: 400;">— {status}</span>'
+            f'<span style="color: var(--muted); font-weight: 400;">— {status}</span>{locked}'
         )
         lines.append(
             f'      <p>{blurb} <a href="{base}{c["spec"]}">The spec →</a></p>'
