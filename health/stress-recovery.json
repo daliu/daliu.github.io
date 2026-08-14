@@ -1,21 +1,21 @@
 {
-  "updated": "2026-08-14T08:00:14.757194-07:00",
+  "updated": "2026-08-14T14:00:13.446115-07:00",
   "window_days": 90,
   "date_range": {
     "start": "2026-05-17",
-    "end": "2026-08-13",
+    "end": "2026-08-14",
     "days_with_data": 88
   },
   "intraday": {
-    "n_episodes": 262,
-    "n_observed": 262,
-    "episodes_per_day": 3.0,
+    "n_episodes": 263,
+    "n_observed": 263,
+    "episodes_per_day": 2.9,
     "days_with_data": 88,
     "median_peak": 81,
     "settle": {
       "median_min": 24,
       "p75_min": 54,
-      "p90_min": 111,
+      "p90_min": 110,
       "within_60min_pct": 78,
       "within_120min_pct": 92,
       "to_rest_median_min": 12
@@ -282,57 +282,57 @@
       },
       {
         "t": 99,
-        "mean": 41.9,
+        "mean": 41.7,
         "sem": 1.76,
-        "n": 148
+        "n": 149
       },
       {
         "t": 102,
-        "mean": 40.1,
-        "sem": 1.58,
-        "n": 159
+        "mean": 40.0,
+        "sem": 1.57,
+        "n": 160
       },
       {
         "t": 105,
         "mean": 39.3,
-        "sem": 1.52,
-        "n": 159
+        "sem": 1.51,
+        "n": 160
       },
       {
         "t": 108,
-        "mean": 40.8,
-        "sem": 1.55,
-        "n": 162
+        "mean": 40.9,
+        "sem": 1.54,
+        "n": 163
       },
       {
         "t": 111,
         "mean": 42.7,
-        "sem": 1.58,
-        "n": 160
+        "sem": 1.57,
+        "n": 161
       },
       {
         "t": 114,
         "mean": 42.4,
-        "sem": 1.67,
-        "n": 154
+        "sem": 1.66,
+        "n": 155
       },
       {
         "t": 117,
-        "mean": 42.1,
-        "sem": 1.57,
-        "n": 159
+        "mean": 42.0,
+        "sem": 1.56,
+        "n": 160
       },
       {
         "t": 120,
         "mean": 40.7,
-        "sem": 1.57,
-        "n": 159
+        "sem": 1.56,
+        "n": 160
       }
     ],
     "settle_hist": [
       {
         "bin": 0,
-        "count": 100
+        "count": 101
       },
       {
         "bin": 15,
@@ -387,7 +387,7 @@
   },
   "daily": {
     "n_spikes": 31,
-    "load_p80_min": 248,
+    "load_p80_min": 247,
     "markers": [
       {
         "key": "bb_at_wake",
@@ -599,7 +599,7 @@
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>78%</strong> of 262 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>78%</strong> of 263 episodes gone within an hour."
     },
     {
       "impact": "neutral",
