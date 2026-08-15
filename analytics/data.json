@@ -1,38 +1,28 @@
 {
-  "updated": "2026-08-14T07:11:21Z",
+  "updated": "2026-08-15T06:22:20Z",
   "date_range": {
-    "start": "2026-05-17",
-    "end": "2026-08-14"
+    "start": "2026-05-18",
+    "end": "2026-08-15"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-05-17",
+    "start": "2026-05-18",
     "end": "2026-08-04",
-    "days_with_data": 49
+    "days_with_data": 48
   },
   "totals": {
-    "total_users": 327,
-    "total_sessions": 370,
-    "total_pageviews": 777,
+    "total_users": 321,
+    "total_sessions": 364,
+    "total_pageviews": 772,
     "total_engaged_sessions": 67,
-    "engagement_rate": 0.1811,
-    "avg_session_duration_seconds": 138.7,
-    "bounce_rate": 0.8189
+    "engagement_rate": 0.1841,
+    "avg_session_duration_seconds": 141.0,
+    "bounce_rate": 0.8159
   },
   "daily": [
-    {
-      "date": "2026-05-17",
-      "users": 6,
-      "sessions": 6,
-      "pageviews": 5,
-      "new_users": 5,
-      "avg_session_duration": 0.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
     {
       "date": "2026-05-18",
       "users": 7,
@@ -518,12 +508,12 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 276,
-      "users": 208,
-      "avg_time_on_page": 76.5,
-      "sessions": 253,
+      "pageviews": 272,
+      "users": 203,
+      "avg_time_on_page": 78.0,
+      "sessions": 248,
       "engaged": 47,
-      "engagement_rate": 0.186,
+      "engagement_rate": 0.19,
       "class": "mixed"
     },
     {
@@ -740,10 +730,10 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 328,
-      "users": 281,
+      "sessions": 323,
+      "users": 276,
       "engaged": 42,
-      "engagement_rate": 0.128,
+      "engagement_rate": 0.13,
       "class": "automated"
     },
     {
@@ -767,8 +757,8 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 4,
-      "users": 4,
+      "sessions": 3,
+      "users": 3,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -813,25 +803,25 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 349,
-      "percentage": 93.8
+      "sessions": 343,
+      "percentage": 93.7
     },
     {
       "category": "mobile",
       "sessions": 23,
-      "percentage": 6.2
+      "percentage": 6.3
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 338,
-      "percentage": 90.1
+      "sessions": 333,
+      "percentage": 90.0
     },
     {
       "browser": "Safari",
       "sessions": 24,
-      "percentage": 6.4
+      "percentage": 6.5
     },
     {
       "browser": "Safari (in-app)",
@@ -845,11 +835,6 @@
     },
     {
       "browser": "Firefox",
-      "sessions": 1,
-      "percentage": 0.3
-    },
-    {
-      "browser": "Internet Explorer",
       "sessions": 1,
       "percentage": 0.3
     },
@@ -872,13 +857,18 @@
       "browser": "Vivaldi",
       "sessions": 1,
       "percentage": 0.3
+    },
+    {
+      "browser": "YaBrowser",
+      "sessions": 1,
+      "percentage": 0.3
     }
   ],
   "countries": [
     {
       "country": "Singapore",
-      "sessions": 243,
-      "users": 243
+      "sessions": 238,
+      "users": 238
     },
     {
       "country": "United States",
@@ -891,12 +881,12 @@
       "users": 6
     },
     {
-      "country": "China",
-      "sessions": 4,
-      "users": 4
+      "country": "Canada",
+      "sessions": 3,
+      "users": 3
     },
     {
-      "country": "Canada",
+      "country": "China",
       "sessions": 3,
       "users": 3
     },
@@ -917,7 +907,7 @@
     }
   ],
   "user_types": {
-    "new": 289,
+    "new": 283,
     "returning": 75
   },
   "hourly": [
@@ -1020,11 +1010,11 @@
   ],
   "quality": {
     "engaged_sessions": 67,
-    "non_engaged_sessions": 303,
-    "likely_automated_sessions": 247,
-    "likely_human_sessions": 123,
-    "automated_pct": 66.8,
-    "est_human_users": 44,
+    "non_engaged_sessions": 297,
+    "likely_automated_sessions": 242,
+    "likely_human_sessions": 122,
+    "automated_pct": 66.5,
+    "est_human_users": 43,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -1033,10 +1023,10 @@
   "country_quality": [
     {
       "country": "Singapore",
-      "sessions": 243,
+      "sessions": 238,
       "engaged": 1,
-      "users": 243,
-      "pageviews": 243,
+      "users": 238,
+      "pageviews": 238,
       "avg_duration": 0.5,
       "engagement_rate": 0.004,
       "class": "automated"
@@ -1062,16 +1052,6 @@
       "class": "mixed"
     },
     {
-      "country": "China",
-      "sessions": 4,
-      "engaged": 1,
-      "users": 4,
-      "pageviews": 7,
-      "avg_duration": 557.9,
-      "engagement_rate": 0.25,
-      "class": "mixed"
-    },
-    {
       "country": "Canada",
       "sessions": 3,
       "engaged": 0,
@@ -1080,6 +1060,16 @@
       "avg_duration": 0.0,
       "engagement_rate": 0.0,
       "class": "automated"
+    },
+    {
+      "country": "China",
+      "sessions": 3,
+      "engaged": 1,
+      "users": 3,
+      "pageviews": 7,
+      "avg_duration": 743.8,
+      "engagement_rate": 0.333,
+      "class": "mixed"
     },
     {
       "country": "Hong Kong",
@@ -1127,25 +1117,25 @@
         3,
         1,
         1,
-        7,
+        6,
         2,
         0,
         1,
         1,
         3,
-        14,
+        12,
         1,
         0,
         0,
         0,
         0,
-        7,
+        6,
         1,
         0,
         0,
         0,
         13,
-        13,
+        12,
         0,
         5
       ],
@@ -1312,33 +1302,33 @@
     "countries": [
       "Singapore",
       "United States",
-      "China",
-      "Canada"
+      "Canada",
+      "China"
     ],
     "matrix": [
       [
         5,
         4,
         4,
-        45,
+        44,
         3,
         0,
         6,
         1,
         3,
-        45,
+        43,
         2,
         3,
         0,
         2,
         0,
-        44,
+        43,
         4,
         6,
         1,
         1,
         9,
-        48,
+        47,
         2,
         5
       ],
@@ -1372,21 +1362,21 @@
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
         1,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        2,
         0,
         0,
         0,
@@ -1398,21 +1388,21 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
         1,
         0,
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
         0,
         0,
         0,
@@ -1428,8 +1418,8 @@
       "lat": 1.2899175,
       "lng": 103.8519072,
       "label": "Singapore, Singapore",
-      "sessions": 243,
-      "users": 243,
+      "sessions": 238,
+      "users": 238,
       "engaged": 1,
       "engagement_rate": 0.004
     },
@@ -1488,15 +1478,6 @@
       "engagement_rate": 0.0
     },
     {
-      "lat": 35.8617,
-      "lng": 104.1954,
-      "label": "China",
-      "sessions": 3,
-      "users": 3,
-      "engaged": 1,
-      "engagement_rate": 0.333
-    },
-    {
       "lat": 37.6535403,
       "lng": -122.4168664,
       "label": "South San Francisco, United States",
@@ -1504,6 +1485,15 @@
       "users": 1,
       "engaged": 1,
       "engagement_rate": 0.333
+    },
+    {
+      "lat": 35.8617,
+      "lng": 104.1954,
+      "label": "China",
+      "sessions": 2,
+      "users": 2,
+      "engaged": 1,
+      "engagement_rate": 0.5
     },
     {
       "lat": 39.1911128,
@@ -1696,14 +1686,14 @@
       }
     },
     "baseline": {
-      "mean_pageviews": 15.9,
-      "std_pageviews": 17.9
+      "mean_pageviews": 16.1,
+      "std_pageviews": 18.0
     },
     "anomalies": [
       {
         "date": "2026-06-05",
         "pageviews": 60,
-        "z": 2.5
+        "z": 2.4
       },
       {
         "date": "2026-06-18",
