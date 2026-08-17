@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-16T21:00:13.855900+00:00",
+  "generated_at": "2026-08-17T03:00:04.059338+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "0113c53",
-      "date": "2026-08-16T08:57:39-07:00",
-      "message": "Update health data 2026-08-16 08:57"
+      "hash": "d85e84b",
+      "date": "2026-08-16T14:00:14-07:00",
+      "message": "Update health data 2026-08-16 14:00"
     },
     "branch": "master"
   },
@@ -29,9 +29,9 @@
         "date_range": null
       },
       "last_commit": {
-        "hash": "0113c53",
-        "date": "2026-08-16T08:57:39-07:00",
-        "message": "Update health data 2026-08-16 08:57"
+        "hash": "d85e84b",
+        "date": "2026-08-16T14:00:14-07:00",
+        "message": "Update health data 2026-08-16 14:00"
       }
     },
     "knowledge_graph": {
@@ -40,8 +40,8 @@
       "schedule": "manual (run scripts/build_graph.py)",
       "graph": {
         "generated": "auto",
-        "node_count": 510,
-        "edge_count": 739
+        "node_count": 570,
+        "edge_count": 828
       },
       "last_commit": {
         "hash": "6db99a9",
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "d85e84b",
+      "date": "2026-08-16T14:00:14-07:00",
+      "message": "Update health data 2026-08-16 14:00"
+    },
     {
       "hash": "0113c53",
       "date": "2026-08-16T08:57:39-07:00",
@@ -158,11 +163,6 @@
       "hash": "3755979",
       "date": "2026-08-14T06:40:09-07:00",
       "message": "health: refresh calendar density 2026-08-14 06:40"
-    },
-    {
-      "hash": "7191197",
-      "date": "2026-08-14T06:05:31-04:00",
-      "message": "blog: 2026-08-14 \u2014 Defensive & Value Rotation Underway"
     }
   ]
 }
