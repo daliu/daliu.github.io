@@ -1,16 +1,16 @@
 {
-  "updated": "2026-08-18T08:00:12.663046-07:00",
+  "updated": "2026-08-18T14:00:16.452337-07:00",
   "window_days": 90,
   "date_range": {
     "start": "2026-05-21",
-    "end": "2026-08-16",
-    "days_with_data": 87
+    "end": "2026-08-18",
+    "days_with_data": 89
   },
   "intraday": {
-    "n_episodes": 258,
+    "n_episodes": 259,
     "n_observed": 258,
     "episodes_per_day": 2.9,
-    "days_with_data": 87,
+    "days_with_data": 89,
     "median_peak": 81,
     "settle": {
       "median_min": 21,
@@ -54,51 +54,51 @@
       },
       {
         "t": -15,
-        "mean": 46.0,
-        "sem": 1.41,
-        "n": 148
+        "mean": 45.9,
+        "sem": 1.4,
+        "n": 149
       },
       {
         "t": -12,
-        "mean": 44.5,
-        "sem": 1.47,
-        "n": 128
+        "mean": 44.4,
+        "sem": 1.46,
+        "n": 129
       },
       {
         "t": -9,
-        "mean": 46.4,
-        "sem": 1.42,
-        "n": 122
+        "mean": 46.3,
+        "sem": 1.41,
+        "n": 123
       },
       {
         "t": -6,
         "mean": 50.1,
-        "sem": 1.51,
-        "n": 114
+        "sem": 1.5,
+        "n": 115
       },
       {
         "t": -3,
-        "mean": 57.1,
-        "sem": 1.26,
-        "n": 119
+        "mean": 57.2,
+        "sem": 1.25,
+        "n": 120
       },
       {
         "t": 0,
         "mean": 81.3,
         "sem": 0.36,
-        "n": 203
+        "n": 204
       },
       {
         "t": 3,
         "mean": 60.8,
-        "sem": 1.41,
-        "n": 133
+        "sem": 1.4,
+        "n": 134
       },
       {
         "t": 6,
         "mean": 51.6,
-        "sem": 1.6,
-        "n": 149
+        "sem": 1.59,
+        "n": 150
       },
       {
         "t": 9,
@@ -386,8 +386,8 @@
     ]
   },
   "daily": {
-    "n_spikes": 31,
-    "load_p80_min": 246,
+    "n_spikes": 32,
+    "load_p80_min": 245,
     "markers": [
       {
         "key": "bb_at_wake",
@@ -397,63 +397,63 @@
         "epoch": [
           {
             "off": -2,
-            "z": 0.39,
-            "delta": 5.4,
-            "n": 24
-          },
-          {
-            "off": -1,
-            "z": 0.39,
-            "delta": 5.4,
-            "n": 29
-          },
-          {
-            "off": 0,
-            "z": -0.19,
-            "delta": -2.6,
-            "n": 30
-          },
-          {
-            "off": 1,
-            "z": -0.49,
-            "delta": -6.8,
-            "n": 27
-          },
-          {
-            "off": 2,
-            "z": 0.25,
-            "delta": 3.6,
+            "z": 0.38,
+            "delta": 5.2,
             "n": 25
           },
           {
-            "off": 3,
-            "z": 0.05,
-            "delta": 0.7,
-            "n": 24
+            "off": -1,
+            "z": 0.36,
+            "delta": 5.0,
+            "n": 30
           },
           {
-            "off": 4,
-            "z": -0.25,
-            "delta": -3.4,
+            "off": 0,
+            "z": -0.16,
+            "delta": -2.2,
+            "n": 31
+          },
+          {
+            "off": 1,
+            "z": -0.5,
+            "delta": -6.9,
+            "n": 28
+          },
+          {
+            "off": 2,
+            "z": 0.26,
+            "delta": 3.7,
             "n": 26
           },
           {
+            "off": 3,
+            "z": 0.09,
+            "delta": 1.2,
+            "n": 25
+          },
+          {
+            "off": 4,
+            "z": -0.31,
+            "delta": -4.3,
+            "n": 27
+          },
+          {
             "off": 5,
-            "z": -0.16,
-            "delta": -2.2,
-            "n": 22
+            "z": -0.18,
+            "delta": -2.5,
+            "n": 23
           },
           {
             "off": 6,
-            "z": -0.21,
-            "delta": -2.9,
-            "n": 20
+            "z": -0.15,
+            "delta": -2.1,
+            "n": 21
           },
           {
             "off": 7,
-            "z": -0.27,
-            "delta": -3.7,
-            "n": 22
+            "z": -0.25,
+            "delta": -3.4,
+            "n": 24
           }
         ]
       },
@@ -465,63 +465,63 @@
         "epoch": [
           {
             "off": -2,
-            "z": -0.16,
-            "delta": -0.4,
-            "n": 27
+            "z": -0.18,
+            "delta": -0.5,
+            "n": 28
           },
           {
             "off": -1,
-            "z": -0.22,
-            "delta": -0.6,
-            "n": 31
+            "z": -0.19,
+            "delta": -0.5,
+            "n": 32
           },
           {
             "off": 0,
             "z": -0.24,
             "delta": -0.6,
-            "n": 31
+            "n": 32
           },
           {
             "off": 1,
-            "z": 0.08,
+            "z": 0.09,
             "delta": 0.2,
-            "n": 30
+            "n": 31
           },
           {
             "off": 2,
-            "z": 0.0,
-            "delta": 0.0,
-            "n": 28
+            "z": -0.02,
+            "delta": -0.1,
+            "n": 29
           },
           {
             "off": 3,
-            "z": -0.04,
-            "delta": -0.1,
-            "n": 28
+            "z": -0.06,
+            "delta": -0.2,
+            "n": 29
           },
           {
             "off": 4,
-            "z": -0.16,
-            "delta": -0.4,
-            "n": 28
+            "z": -0.1,
+            "delta": -0.3,
+            "n": 29
           },
           {
             "off": 5,
-            "z": 0.34,
-            "delta": 0.9,
-            "n": 26
+            "z": 0.4,
+            "delta": 1.0,
+            "n": 27
           },
           {
             "off": 6,
             "z": 0.1,
             "delta": 0.2,
-            "n": 25
+            "n": 26
           },
           {
             "off": 7,
-            "z": 0.04,
+            "z": 0.03,
             "delta": 0.1,
-            "n": 23
+            "n": 25
           }
         ]
       },
@@ -529,72 +529,72 @@
         "key": "sleep_score",
         "label": "Sleep score",
         "good": 1,
-        "baseline": 72.0,
+        "baseline": 71.9,
         "epoch": [
           {
             "off": -2,
-            "z": 0.23,
-            "delta": 3.0,
-            "n": 24
-          },
-          {
-            "off": -1,
-            "z": 0.24,
-            "delta": 3.2,
-            "n": 29
-          },
-          {
-            "off": 0,
-            "z": -0.29,
-            "delta": -3.8,
-            "n": 30
-          },
-          {
-            "off": 1,
-            "z": 0.02,
-            "delta": 0.3,
-            "n": 27
-          },
-          {
-            "off": 2,
-            "z": 0.11,
-            "delta": 1.5,
+            "z": 0.21,
+            "delta": 2.8,
             "n": 25
           },
           {
-            "off": 3,
-            "z": 0.05,
-            "delta": 0.6,
-            "n": 24
+            "off": -1,
+            "z": 0.22,
+            "delta": 2.9,
+            "n": 30
           },
           {
-            "off": 4,
-            "z": -0.34,
-            "delta": -4.5,
+            "off": 0,
+            "z": -0.25,
+            "delta": -3.3,
+            "n": 31
+          },
+          {
+            "off": 1,
+            "z": 0.03,
+            "delta": 0.3,
+            "n": 28
+          },
+          {
+            "off": 2,
+            "z": 0.12,
+            "delta": 1.6,
             "n": 26
           },
           {
+            "off": 3,
+            "z": 0.07,
+            "delta": 0.9,
+            "n": 25
+          },
+          {
+            "off": 4,
+            "z": -0.38,
+            "delta": -5.1,
+            "n": 27
+          },
+          {
             "off": 5,
-            "z": 0.14,
-            "delta": 1.9,
-            "n": 22
+            "z": 0.15,
+            "delta": 2.0,
+            "n": 23
           },
           {
             "off": 6,
-            "z": -0.14,
-            "delta": -1.8,
-            "n": 20
+            "z": -0.07,
+            "delta": -0.9,
+            "n": 21
           },
           {
             "off": 7,
-            "z": -0.13,
-            "delta": -1.7,
-            "n": 22
+            "z": -0.16,
+            "delta": -2.0,
+            "n": 24
           }
         ]
       }
     ],
-    "recovered_by_day": 2
+    "recovered_by_day": 3
   },
   "insights": [
     {
@@ -607,7 +607,7 @@
     },
     {
       "impact": "positive",
-      "text": "At the daily scale, a high-stress day (n=31) leaves only a same-day dip that recovers to baseline by <strong>day +2</strong> \u2014 no multi-day residue on independent markers."
+      "text": "At the daily scale, a high-stress day (n=32) leaves only a same-day dip that recovers to baseline by <strong>day +3</strong> \u2014 no multi-day residue on independent markers."
     },
     {
       "impact": "neutral",
