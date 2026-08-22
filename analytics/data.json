@@ -1,38 +1,28 @@
 {
-  "updated": "2026-08-21T06:31:15Z",
+  "updated": "2026-08-22T06:24:03Z",
   "date_range": {
-    "start": "2026-05-24",
-    "end": "2026-08-21"
+    "start": "2026-05-25",
+    "end": "2026-08-22"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-05-24",
+    "start": "2026-05-25",
     "end": "2026-08-04",
-    "days_with_data": 42
+    "days_with_data": 41
   },
   "totals": {
-    "total_users": 286,
-    "total_sessions": 329,
-    "total_pageviews": 737,
+    "total_users": 282,
+    "total_sessions": 325,
+    "total_pageviews": 733,
     "total_engaged_sessions": 66,
-    "engagement_rate": 0.2006,
-    "avg_session_duration_seconds": 155.9,
-    "bounce_rate": 0.7994
+    "engagement_rate": 0.2031,
+    "avg_session_duration_seconds": 157.8,
+    "bounce_rate": 0.7969
   },
   "daily": [
-    {
-      "date": "2026-05-24",
-      "users": 4,
-      "sessions": 4,
-      "pageviews": 4,
-      "new_users": 4,
-      "avg_session_duration": 0.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
     {
       "date": "2026-05-25",
       "users": 5,
@@ -448,12 +438,12 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 246,
-      "users": 177,
-      "avg_time_on_page": 87.1,
-      "sessions": 222,
+      "pageviews": 242,
+      "users": 173,
+      "avg_time_on_page": 88.6,
+      "sessions": 218,
       "engaged": 46,
-      "engagement_rate": 0.207,
+      "engagement_rate": 0.211,
       "class": "mixed"
     },
     {
@@ -670,10 +660,10 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 288,
-      "users": 241,
+      "sessions": 284,
+      "users": 237,
       "engaged": 41,
-      "engagement_rate": 0.142,
+      "engagement_rate": 0.144,
       "class": "automated"
     },
     {
@@ -743,7 +733,7 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 308,
+      "sessions": 304,
       "percentage": 93.3
     },
     {
@@ -755,13 +745,13 @@
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 298,
-      "percentage": 89.2
+      "sessions": 294,
+      "percentage": 89.1
     },
     {
       "browser": "Safari",
       "sessions": 23,
-      "percentage": 6.9
+      "percentage": 7.0
     },
     {
       "browser": "Safari (in-app)",
@@ -807,8 +797,8 @@
   "countries": [
     {
       "country": "Singapore",
-      "sessions": 206,
-      "users": 206
+      "sessions": 202,
+      "users": 202
     },
     {
       "country": "United States",
@@ -847,7 +837,7 @@
     }
   ],
   "user_types": {
-    "new": 248,
+    "new": 244,
     "returning": 75
   },
   "hourly": [
@@ -950,10 +940,10 @@
   ],
   "quality": {
     "engaged_sessions": 66,
-    "non_engaged_sessions": 263,
-    "likely_automated_sessions": 210,
+    "non_engaged_sessions": 259,
+    "likely_automated_sessions": 206,
     "likely_human_sessions": 119,
-    "automated_pct": 63.8,
+    "automated_pct": 63.4,
     "est_human_users": 40,
     "thresholds": {
       "human": 0.4,
@@ -963,10 +953,10 @@
   "country_quality": [
     {
       "country": "Singapore",
-      "sessions": 206,
+      "sessions": 202,
       "engaged": 1,
-      "users": 206,
-      "pageviews": 206,
+      "users": 202,
+      "pageviews": 202,
       "avg_duration": 0.6,
       "engagement_rate": 0.005,
       "class": "automated"
@@ -1057,25 +1047,25 @@
         3,
         1,
         1,
-        6,
+        5,
         2,
         0,
         1,
         1,
         3,
-        12,
+        11,
         1,
         0,
         0,
         0,
         0,
-        6,
+        5,
         1,
         0,
         0,
         0,
         13,
-        12,
+        11,
         0,
         5
       ],
@@ -1250,25 +1240,25 @@
         4,
         3,
         4,
-        38,
+        37,
         2,
         0,
         4,
         1,
         3,
-        37,
+        36,
         2,
         3,
         0,
         2,
         0,
-        37,
+        36,
         4,
         5,
         1,
         1,
         9,
-        40,
+        39,
         1,
         5
       ],
@@ -1358,8 +1348,8 @@
       "lat": 1.2899175,
       "lng": 103.8519072,
       "label": "Singapore, Singapore",
-      "sessions": 206,
-      "users": 206,
+      "sessions": 202,
+      "users": 202,
       "engaged": 1,
       "engagement_rate": 0.005
     },
@@ -1617,14 +1607,14 @@
       }
     },
     "baseline": {
-      "mean_pageviews": 17.5,
-      "std_pageviews": 18.8
+      "mean_pageviews": 17.9,
+      "std_pageviews": 18.9
     },
     "anomalies": [
       {
         "date": "2026-06-05",
         "pageviews": 60,
-        "z": 2.3
+        "z": 2.2
       },
       {
         "date": "2026-06-18",
