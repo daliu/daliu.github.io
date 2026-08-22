@@ -300,18 +300,16 @@
         <span class="role-title">Senior Data Scientist <span class="role-company">— Shipt</span> (Personalization Team)</span>
         <span class="role-dates">Sep 2024 — Present</span>
       </div>
-      <p class="role-context">Lead data scientist on Shipt's Personalization team; recommender systems behind every personalized shelf on the platform. Mentored 4 data scientists including 2 direct reports.</p>
+      <p class="role-context">Lead data scientist on Shipt's Personalization team; architected recommender and eligibility systems behind personalized shelves for millions of grocery shoppers. Mentored 4 data scientists, including 2 direct reports.</p>
       <ul>
-        <li>Delivered up to <strong>23% Personalized GMV lift</strong> across A/B-tested shelves (Trending Items, Similar Items, Deals For You, Complementary Items) over 90 days.</li>
-        <li>Designed and built a two-tower deep-retrieval model replacing the legacy ALS recommender; <strong>3–15% lift</strong> on Deals shelves and <strong>11% higher CTR</strong>; offline +406% NDCG, +87% novelty, +19% long-tail coverage vs. baseline.</li>
-        <li>Designed user/product embeddings going beyond text matching (descriptions, categories, pricing, retailer info, dietary preferences, behavioral signals); FAISS ANN infrastructure on GCS for low-latency retrieval at scale.</li>
-        <li>Created the Personalization Interaction Score — a composite funnel metric (views → clicks → ATC → purchases, weighted by depth) that replaced single-metric optimization. Adopted by teammates for next-gen real-time recommenders.</li>
-        <li>Developed a price-weighted ATC approach for coldstart users; <strong>47% engagement lift</strong> and <strong>8% more first-time orders</strong> over 90 days; technique adopted across other shelves.</li>
-        <li>Built an automated Shelf Attribution pipeline using fuzzy-string matching; identified previously reported 5% attribution figures were irreproducible (actual: 1–4%); transparent reporting catalyzed a shift to defensible success metrics.</li>
-        <li>Designed and built a Customer Intelligence Platform (CIP) and an "Essentials" recommender shelf usable as both a standalone shelf and a relevance filter for others.</li>
-        <li>Partnered with Engineering to replace brittle CSV-based recommendation delivery with Kafka-based pipelines across all legacy recommenders.</li>
-        <li>Designed a Retrieval-Augmented Generation system over Shipt's internal retailer catalogs and built the business case that secured agentic-AI investment.</li>
-        <li>Served as the team's sole data scientist for its first four months — maintained 16 Discovery Science repos while designing next-generation infrastructure.</li>
+        <li>Built and launched Deals For You V2, replacing matrix factorization with two-tower retrieval and precision reranking; a CUPED-corrected A/B test drove <strong>+91% shelf engagement</strong>, <strong>+1.76% order incidence</strong>, and <strong>+1.41% orders per user</strong>.</li>
+        <li>Audited pre-treatment imbalance and a variant activation gap before SVP planning, correcting the annualized estimate from +83K to <strong>~50K incremental orders (95% CI: 20K–80K)</strong> and <strong>~$3.7M directional GMV</strong>; preserved a real win while retiring an inflated topline.</li>
+        <li>The validated result prompted leadership to re-plan H2 around Deals as a potential <strong>~$6M contributor to Shipt's $20M incremental-GMV target</strong>, prioritizing scale-up, holdback measurement, and reuse of the eligibility platform.</li>
+        <li>Architected a reusable real-time Eligibility platform: a store-scoped hard pre-filter before ANN with swappable content tables; reduced an initial <strong>448M-row design by ~95%</strong> to ~20M store-specific rows plus a compact global set, with zero-downtime refreshes and p99 &lt;750 ms serving.</li>
+        <li>Across the broader personalization portfolio, delivered up to <strong>23% Personalized GMV lift</strong> across A/B-tested shelves and a cold-start strategy with <strong>+47% engagement</strong> and <strong>+8% first-time orders</strong>.</li>
+        <li>Created the Personalization Interaction Score (views → clicks → ATC → purchases) and an automated Shelf Attribution pipeline; challenged an irreproducible 5% attribution claim, established the defensible 1–4% range, and raised the organization's measurement standard.</li>
+        <li>Partnered with Engineering to replace CSV-based recommendation delivery with Kafka pipelines across legacy recommenders; served as the team's sole data scientist for its first four months while maintaining 16 repositories.</li>
+        <li>Designed a Retrieval-Augmented Generation system over Shipt's retailer catalogs and built the business case that secured investment in an agentic-AI framework.</li>
       </ul>
     </div>
 
