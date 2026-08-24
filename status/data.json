@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-23T21:00:14.987793+00:00",
+  "generated_at": "2026-08-24T03:00:03.299817+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "8d1148d",
-      "date": "2026-08-23T08:00:17-07:00",
-      "message": "Update health data 2026-08-23 08:00"
+      "hash": "1eeb86c",
+      "date": "2026-08-23T14:00:15-07:00",
+      "message": "Update health data 2026-08-23 14:00"
     },
     "branch": "master"
   },
@@ -29,9 +29,9 @@
         "date_range": null
       },
       "last_commit": {
-        "hash": "8d1148d",
-        "date": "2026-08-23T08:00:17-07:00",
-        "message": "Update health data 2026-08-23 08:00"
+        "hash": "1eeb86c",
+        "date": "2026-08-23T14:00:15-07:00",
+        "message": "Update health data 2026-08-23 14:00"
       }
     },
     "knowledge_graph": {
@@ -40,8 +40,8 @@
       "schedule": "manual (run scripts/build_graph.py)",
       "graph": {
         "generated": "auto",
-        "node_count": 570,
-        "edge_count": 828
+        "node_count": 627,
+        "edge_count": 907
       },
       "last_commit": {
         "hash": "f043761",
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "1eeb86c",
+      "date": "2026-08-23T14:00:15-07:00",
+      "message": "Update health data 2026-08-23 14:00"
+    },
     {
       "hash": "8d1148d",
       "date": "2026-08-23T08:00:17-07:00",
@@ -158,11 +163,6 @@
       "hash": "496645a",
       "date": "2026-08-21T06:31:16+00:00",
       "message": "Update analytics data 2026-08-21"
-    },
-    {
-      "hash": "175d26b",
-      "date": "2026-08-20T21:00:15-07:00",
-      "message": "Update health data 2026-08-20 21:00"
     }
   ]
 }
