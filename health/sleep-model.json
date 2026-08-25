@@ -1,60 +1,60 @@
 {
-  "updated": "2026-08-24T21:57:21.783405",
-  "n": 70,
+  "updated": "2026-08-25T08:00:08.736769",
+  "n": 71,
   "bedtime": {
-    "recommended_norm": 5.502,
-    "recommended_label": "11:30 PM",
+    "recommended_norm": 5.4,
+    "recommended_label": "11:24 PM",
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
     "ci_label": "10:42 PM \u2013 12:32 AM",
-    "median_label": "1:42 AM",
-    "pct10_label": "11:30 PM",
+    "median_label": "1:38 AM",
+    "pct10_label": "11:24 PM",
     "pct90_label": "3:46 AM",
     "stats": {
       "sleep_score": {
         "kind": "quadratic",
-        "cv_r2": 0.255,
-        "r": -0.17,
-        "p": 0.1718,
-        "per_hour_earlier": 0.8
+        "cv_r2": 0.191,
+        "r": -0.14,
+        "p": 0.231,
+        "per_hour_earlier": 0.7
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": 0.154,
-        "r": -0.73,
+        "cv_r2": 0.035,
+        "r": -0.72,
         "p": 0.0,
-        "per_hour_earlier": 0.61
+        "per_hour_earlier": 0.6
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": 0.03,
-        "r": -0.47,
+        "cv_r2": 0.003,
+        "r": -0.48,
         "p": 0.0,
-        "per_hour_earlier": 2.45
+        "per_hour_earlier": 2.5
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 80.4,
+      "sleep_score": 79.7,
       "sleep_hours": 8.1,
-      "battery": 88.2
+      "battery": 88.6
     },
     "pred_at_median": {
-      "sleep_score": 77.4,
+      "sleep_score": 77.2,
       "sleep_hours": 6.7,
-      "battery": 82.8
+      "battery": 83.0
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.07,
-        "sleep_hours": -0.01,
-        "battery": -0.18
+        "sleep_score": 0.08,
+        "sleep_hours": -0.0,
+        "battery": -0.19
       },
       "weekly_frequency": {
-        "sleep_score": 0.14,
-        "sleep_hours": -0.25,
-        "battery": 0.09
+        "sleep_score": 0.15,
+        "sleep_hours": -0.24,
+        "battery": 0.07
       }
     },
     "typical_weekly_freq": 3,

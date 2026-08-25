@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-24T21:57:08.426273",
+  "updated": "2026-08-25T08:00:04.065111",
   "daily": [
     {
       "date": "2026-06-03",
@@ -2156,6 +2156,34 @@
       "bb_drained": 2,
       "bb_at_wake": null,
       "sedentary_seconds": 30399
+    },
+    {
+      "date": "2026-08-25",
+      "avg_body_battery": 54.0,
+      "min_body_battery": 38,
+      "max_body_battery": 97,
+      "avg_stress": 24.0,
+      "total_steps": 2164,
+      "sleep_score": 58,
+      "sleep_hours": 5.82,
+      "hrv_weekly": 67,
+      "hrv_last_night": 58,
+      "hrv_status": "UNBALANCED",
+      "resting_hr": 41,
+      "sleep_start": "23:24",
+      "sleep_end": "06:24",
+      "active_calories": 25.0,
+      "intensity_minutes": 0,
+      "vigorous_minutes": 0,
+      "distance_meters": 1821.0,
+      "rest_stress_pct": 82.96,
+      "low_stress_pct": 18.18,
+      "medium_stress_pct": 10.99,
+      "high_stress_pct": 1.74,
+      "bb_charged": 29,
+      "bb_drained": 55,
+      "bb_at_wake": 67,
+      "sedentary_seconds": 75148
     }
   ],
   "hr_zones": {
@@ -2284,6 +2312,42 @@
       "steps": 57,
       "sleep_score": null,
       "hrv_weekly_avg": 67
+    },
+    {
+      "timestamp": "2026-08-25 05:56:50",
+      "body_battery_current": 42,
+      "resting_hr": 41,
+      "stress_avg": 32,
+      "steps": 2164,
+      "sleep_score": null,
+      "hrv_weekly_avg": 67
+    },
+    {
+      "timestamp": "2026-08-25 08:56:54",
+      "body_battery_current": 46,
+      "resting_hr": 46,
+      "stress_avg": 20,
+      "steps": null,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-08-25 13:57:01",
+      "body_battery_current": 66,
+      "resting_hr": 46,
+      "stress_avg": 21,
+      "steps": 118,
+      "sleep_score": 58,
+      "hrv_weekly_avg": 64
+    },
+    {
+      "timestamp": "2026-08-25 14:57:03",
+      "body_battery_current": 62,
+      "resting_hr": 46,
+      "stress_avg": 22,
+      "steps": 151,
+      "sleep_score": 58,
+      "hrv_weekly_avg": 64
     }
   ],
   "vo2max": [
