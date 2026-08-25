@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adaptive Domain Intelligence — Dave Liu</title>
-<meta name="description" content="A working paper on an LLM-as-feature-engineer architecture that compresses qualitative records (court opinions, clinical notes) into calibrated empirical predictions — validated as a known-answer test against six decades of empirical judicial politics.">
-<meta property="og:title" content="Adaptive Domain Intelligence: an LLM-as-feature-engineer architecture">
-<meta property="og:description" content="An LLM proposes a schema and extracts quote-grounded features; a small calibrated model decides; self-improvement is gated by a domain expert AND a frozen gold set. Validated where the answers are already known — it recovers the real signals and reports the real nulls.">
+<title>Adaptive Domain Intelligence: A Falsifiable Protocol for LLM Feature Engineering and Outcome Judging</title>
+<meta name="description" content="A committed FJC replay finds proper-score gains from outcome-field-excluded final-vintage packets, while feature engineering and clean ex-ante utility remain unproven.">
+<meta property="og:title" content="Adaptive Domain Intelligence: A Falsifiable Protocol for LLM Feature Engineering and Outcome Judging">
+<meta property="og:description" content="An outcome-withheld FJC replay finds conditional proper-score signal, no admitted feature plan, and no clean ex-ante result.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://daliu.github.io/research/adaptive-domain-intelligence/">
 <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -67,6 +67,7 @@
   table.results th, table.results td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
   table.results th { background: #1c2128; color: var(--heading); }
   table.results caption { caption-side: top; color: var(--muted); font-size: 13px; text-align: left; margin-bottom: 6px; }
+  table.results code { white-space: normal; overflow-wrap: anywhere; }
   .verdict-signal { color: var(--protect); font-weight: 600; }
   .verdict-null { color: var(--warn); font-weight: 600; }
   .diagram { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
@@ -75,6 +76,9 @@
   .refs { font-size: 13px; color: var(--muted); }
   .refs li { margin-bottom: 6px; }
   .footnote { font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 30px; padding-top: 14px; }
+  .next-step { background: rgba(88,166,255,0.08); border: 1px solid var(--accent); border-radius: 10px;
+               padding: 16px 18px; margin: 20px 0; }
+  .next-step h3 { color: var(--accent); margin-top: 0; }
 </style>
 </head>
 <body>
@@ -111,384 +115,318 @@
 
 <div class="paper">
 
-  <h1>Adaptive Domain Intelligence: An LLM-as-Feature-Engineer Architecture for Compressing Qualitative Records into Calibrated Empirical Predictions</h1>
-  <p class="byline">Dave Liu · working paper · June 2026 · <a href="../adaptive-domain-intelligence.pdf">PDF</a></p>
+  <h1>Adaptive Domain Intelligence: A Falsifiable Protocol for LLM Feature Engineering and Outcome Judging</h1>
+  <p class="byline">Dave Liu · working paper · 24 August 2026 · <a href="adaptive-domain-intelligence.pdf">PDF</a></p>
 
   <div class="status">
-    <strong>Working paper.</strong> This is a public write-up of an ongoing research system. The
-    empirical results below are each re-derived from scratch by an automated verifier (8/8 headline
-    numbers reproduce with zero drift), but the work has not been peer-reviewed: a human audit of a
-    sample of machine extractions is still pending. Treat it as a preprint shared for public knowledge,
-    not a finished publication. The <a href="audit/">extraction-audit interface</a> (the actual
-    tool for that human review) is public. Reference implementation (&ldquo;metis&rdquo;) available on request.
+    <strong>Working paper; outcome-withheld retrospective replay complete.</strong> In one fixed Sol
+    run, both packet conditions had lower Brier loss than a frozen historical prior. The source was a
+    final-vintage termination extract, however, and cohort membership depended on later termination
+    and final disposition. This is conditional proper-score signal, not verified ex-ante foresight.
+    The engineered feature plan was not admitted and did not improve the paired judge. The local
+    freeze has no external timestamp, the cross-family replication is unrun, and the private artifact
+    set has not been independently reproduced.
   </div>
 
   <div class="abstract">
     <h3>Abstract</h3>
-    <p style="margin-bottom:0">A recurring class of high-stakes problems asks us to compress a
-    qualitative record &mdash; a court opinion, a clinical note, a field dispatch &mdash; into an
-    empirical verdict: violation or not, cured or not, escalation or not. Large language models read
-    such records fluently, but two failures block their use as trustworthy predictors here: they
-    fabricate, and they degrade when allowed to judge their own improvements. We present an
-    architecture that confronts both. An LLM is confined to two roles &mdash; proposing a feature
-    schema and performing <em>verbatim-quote-grounded extraction</em> &mdash; while a small,
-    <em>calibrated</em> classical model makes the actual prediction; any extracted value lacking a
-    verbatim evidence span is dropped and counted against a measured hallucination rate. The system
-    improves itself only when a domain expert <em>and</em> a frozen gold set the loop never fits to
-    both endorse a change, adjudicated by a permutation test with a hard subgroup-fairness veto. We
-    evaluate not by chasing a benchmark but as a <strong>known-answer test</strong>: across four real
-    legal corpora spanning six decades of empirical judicial-politics findings, the system
-    independently re-derives the established signals &mdash; judge party predicts decision
-    <em>direction</em>, court ideology adds incremental lift, litigant &ldquo;repeat-player&rdquo;
-    status predicts <em>settlement</em> &mdash; and, equally importantly, returns the established
-    <em>nulls</em>: judge attributes do not predict whether parties settle, and appellate panel
-    composition washes out. It also exhibits the honesty its design targets: it vetoes one of its own
-    expert-approved escalations on held-out evidence, self-rejects features that don't help, and on
-    real European Court of Human Rights texts extracts ~1,200 features with a measured-zero
-    hallucination rate yet lands at chance on the outcome &mdash; the correct answer to a documented
-    leakage trap in which prior text-only work reported ~79% accuracy by reading court-authored facts
-    written <em>after</em> the decision.</p>
+    <p style="margin-bottom:0">Can a language model discover useful predictors and make useful
+    probabilistic predictions about outcomes that occurred after its documented knowledge cutoff
+    without a model-visible outcome? A convincing affirmative test also requires proof that every
+    input existed at forecast time. In a locally precommitted retrospective replay of 2026 Federal
+    Judicial Center civil-case records, <code>gpt-5.6-sol</code> proposed restricted feature plans; a
+    fixed logistic regression evaluated them on successive temporal blocks; and a fresh-context
+    model scored a later lockbox from direct-record or feature-packet views. The feature plan was not
+    admitted and was worse than raw fields on Lockbox. Both judge arms improved Brier loss over a
+    fixed historical prior, but feature packets did not improve on direct records and calibration did
+    not improve. The packets excluded explicit outcome fields, yet came from final-vintage records
+    with fields that may have changed after the forecast date. The result therefore shows signal in
+    retained outcome-field-excluded packets, not verified foresight. Earlier coded-data analyses are
+    exploratory because researchers specified their features. The corrected SCDB/Martin&ndash;Quinn
+    effect is small and mixed; an ECtHR run has 14.77% syntactic grounding failures and chance-level
+    AUC. Neither clean ex-ante utility nor adaptive feature-engineering utility is established.</p>
   </div>
 
-  <h2>1. The problem: qualitative in, empirical out</h2>
-  <p class="lead">Consider three questions from three professions. A human-rights lawyer asks whether
-  a set of facts will be found to violate the Convention. An oncologist asks whether a patient
-  described across pages of notes will be readmitted. An analyst asks whether a region's dispatches
-  portend escalation.</p>
-  <p>Each compresses a rich qualitative record into a small empirical verdict, under conditions that
-  make naive machine learning treacherous: the data are scarce (hundreds to thousands of labeled
-  cases, not millions), the stakes are high, the output must be <em>auditable</em> by a domain expert
-  who will be accountable for it, and that expert's judgment is itself the scarcest signal available.</p>
-  <p>Large language models are obvious candidates &mdash; they read qualitative text well &mdash; but
-  two documented failures stand in the way. First, they <strong>fabricate</strong>. Second, and less
-  widely appreciated, <strong>they cannot reliably improve themselves by judging their own work</strong>:
-  a growing literature shows that &ldquo;intrinsic&rdquo; self-correction without an external signal
-  does not help and often degrades performance (Huang et al. 2023), that apparent self-improvement is
-  usually an external verifier recognizing an already-present answer (Stechly et al. 2024), and that
-  LLM judges systematically favor their own generations (Panickssery et al. 2024). A system that
-  rewrites its own logic and grades the result with the same model family is building an echo chamber.</p>
-  <p>The legal-prediction literature supplies a sharp cautionary instance. Text-only prediction of
-  European Court of Human Rights outcomes reported ~79% accuracy (Aletras et al. 2016), with the case
-  &ldquo;Facts&rdquo; section as the strongest predictor &mdash; but those facts are written by the
-  Court <em>after</em> it decides, so a later survey reframed much of the field as retrospective
-  <em>identification</em> rather than genuine <em>forecasting</em> (Medvedeva et al. 2023). The
-  headline numbers partly measure leakage. The more honest, leakage-resistant benchmark &mdash;
-  predicting U.S. Supreme Court outcomes from features available <em>before</em> decision &mdash; sits
-  around 70% (Katz et al. 2017).</p>
-  <p>We take these failures as design constraints rather than caveats.</p>
+  <h2>1. The falsifiable question</h2>
+  <p class="lead">Can an LLM improve a prediction system using only information demonstrably
+  available before the outcome?</p>
+  <p>Retrospective success is easy to manufacture accidentally. Outcome clues can enter through
+  document provenance; feature selection can overfit a reused validation set; recurring entities can
+  cross nominal folds; and an LLM judge can favor artifacts produced by its own model family. Here,
+  <strong>adaptive domain intelligence</strong> has a deliberately narrow meaning: a precommitted
+  system proposes auditable representations of domain records and must improve out-of-sample
+  probabilistic prediction under a frozen evaluation policy.</p>
+  <p>A proposal has no demonstrated utility if it fails held-out admission or its lockbox interval
+  includes no improvement. A judge has no demonstrated utility unless it improves Brier loss over a
+  fixed prior on every assigned case, with abstentions scored as prior forecasts. This makes null and
+  negative outcomes part of the result rather than exceptions to it.</p>
+  <p>The completed replay satisfies explicit outcome-field exclusion at the packet boundary, but not
+  the stronger point-in-time input requirement. Its result is therefore evidence about one fixed set
+  of retained artifacts, not a completed demonstration of adaptive domain intelligence.</p>
 
-  <h2>2. The architecture: four disciplines</h2>
-  <div class="diagram"><pre>  data  ─►  EXTRACT  ─►  VALIDATE  ─►  MODEL  ─►  DECISION
- record    LLM proposes   grounding /   small        prediction +
- (text)    schema +       leakage /     calibrated   calibrated proba,
-           grounded       fairness      classifier   abstain / escalate,
-           extraction     gates         + conformal  named-feature reasons
-              │            (every quote verified verbatim)      ▲
-              └───────────  governed by a versioned Policy  ────┘
-                                     ▲
-        improve:  diagnose → propose → test on a FROZEN gold set
-                  → expert AND gold must agree → accept / roll back</pre></div>
+  <h2>2. Outcome-withheld FJC final-vintage replay</h2>
+  <div class="diagram"><pre>outcome-field-excluded final-vintage fields
+        │
+        ├──► Sol feature engineer ─► 3 typed plans ─► Development selection
+        │                                           └► at most 2 children
+        │
+        ├──► fixed logistic models ─► Admission gate ─► Lockbox classical score
+        │
+        └──► paired direct / feature packets ─► fresh Sol judge ─► committed predictions
+                                                                  │
+                                                                  └► one score</pre></div>
 
-  <h3>2.1 The LLM as an untrusted feature-engineer</h3>
-  <p>The LLM does two things and is trusted for neither without verification. It <em>proposes a
-  schema</em> &mdash; quantifiable, domain-meaningful features, each tagged with the section of the
-  record it may legally be read from &mdash; and it <em>extracts</em> each feature, returning a value,
-  a calibrated confidence, and one or more <strong>verbatim evidence spans</strong>. The validator
-  then checks each span is an exact substring of the source; any value whose span is not found is
-  dropped and counted against a per-run hallucination rate. The LLM never sees the outcome label and
-  never makes the prediction. This is stricter than its closest predecessors (CHiLL, FeatLLM): the
-  verbatim-quote requirement makes grounding a <em>hard structural precondition</em>, not a post-hoc
-  citation or an LLM-judged faithfulness score with its own error.</p>
+  <h3>2.1 Cohorts and target</h3>
+  <p>The source is a final-vintage FJC FY2021&ndash;2026 civil Integrated Database extract. Eligible
+  cases were filed by the model cutoff, terminated in a designated later window, and had a final
+  disposition outside a registered exclusion set. The Lockbox window contained 14,473 otherwise
+  valid terminations; that rule removed 1,977 and left 12,496 eligible cases. Sampling is
+  deterministic and unstratified only <em>within this outcome-defined population</em>; membership was
+  not knowable at cutoff. The target is <code>DISP = 13</code>, labeled &ldquo;dismissed:
+  settled.&rdquo; It is a scorable database code, but undercovers latent settlement and says nothing
+  about case merit.</p>
+  <table class="results">
+    <caption><strong>Replay cohorts.</strong> Successive temporal blocks prevent Development feedback
+    from reaching Admission or Lockbox.</caption>
+    <thead><tr><th>Cohort</th><th>Temporal definition</th><th>N</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td>Historical landmark</td><td>Pending 31 Dec. 2025; terminated 1 Jan.&ndash;16 Feb. 2026</td><td>5,000</td><td>Fit comparators and estimate the reference prior</td></tr>
+      <tr><td>Development</td><td>Terminated 17&ndash;28 Feb. 2026</td><td>160</td><td>Select roots and one bounded refinement round</td></tr>
+      <tr><td>Admission</td><td>Terminated 1&ndash;15 Mar. 2026</td><td>160</td><td>One held-out admission decision</td></tr>
+      <tr><td>Lockbox</td><td>Terminated 16&ndash;31 Mar. 2026</td><td>160</td><td>One final feature and judge evaluation</td></tr>
+    </tbody>
+  </table>
 
-  <h3>2.2 The calibrated classical decider</h3>
-  <p>The prediction is made by a small, calibrated classical model over the named features &mdash; a
-  sparse logistic regression by default, yielding signed coefficients we can show the user, with
-  evidence-gated escalation to gradient boosting only when a cross-validated probe shows it earns its
-  keep. Calibration is a gate: expected calibration error above 0.10 is treated as not-deployable
-  regardless of AUC (Guo et al. 2017). Abstention is first-class &mdash; a conformal layer
-  (Angelopoulos &amp; Bates 2021) emits &ldquo;uncertain&rdquo; rather than a forced label when both
-  outcomes are plausible, and genuinely hard or high-stakes cases are escalated to a human. That a
-  small model on a few legible features can match an opaque proprietary one is not new (Dressel &amp;
-  Farid 2018 on COMPAS); the contribution is where the features come from and how the system is gated.</p>
+  <h3>2.2 Information firewall</h3>
+  <p>Model packets contain circuit, opaque district,
+  nature-of-suit bucket, jurisdiction basis, class-action allegation, jury demand, pro-se and
+  in-forma-pauperis status, removal status, demanded amount or band, filing year and month, and age at
+  cutoff. Except for recomputed age, these values were read from the later termination extract; they
+  were not reconstructed from archived pending records. Party names, docket numbers, source row
+  numbers, termination dates, disposition codes,
+  judgment fields, procedural-progress codes, and later congestion measures are excluded. Opaque
+  identifiers, no-tool execution, and trace audits reduce join-back risk.</p>
+  <p>Official FJC guidance says quarterly records can overwrite changed information and specifically
+  identifies pro-se, in-forma-pauperis, and class-action fields as mutable during a case. The packet
+  boundary therefore controls explicit outcome fields, not temporal vintage. The staging controller
+  also loaded private answers in the same process as public records and used Historical answers to
+  compute the fixed prior. Lockbox answers were not supplied to feature transformations, prompts, or
+  provider calls, but label separation was behavioral rather than process-isolated.</p>
 
-  <h3>2.3 The dual gate (and why it matters most)</h3>
-  <p>The defining choice is <em>who is allowed to approve a self-modification</em>. Given the evidence
-  that LLMs cannot reliably self-evaluate, the system keeps the LLM in the proposal role but moves
-  every accept/reject verdict to two <strong>non-LLM</strong> arbiters:</p>
+  <h3>2.3 Feature tree, judge, and decision rules</h3>
+  <p>The engineer proposes exactly three root plans in a deterministic DSL and may refine the best
+  root with at most two children after seeing aggregate Development metrics only. Every plan uses the
+  same fixed pipeline: dictionary vectorization, sparse standardization, and logistic regression with
+  no hyperparameter or model-family search. Models refit on Historical + Development for one
+  Admission test. Admission requires positive Brier improvement over the allowlisted raw-field baseline with a
+  district-cluster 95% interval wholly above zero; otherwise the classical artifact falls back to the
+  raw-field baseline. A plan replaces the 14 raw fields rather than augmenting them, so this tests a
+  selected compressed representation, not the incremental value of appending engineered features.</p>
+  <p>Each lockbox case is then judged twice in separate fresh contexts: once from deterministic
+  <code>field=value</code> lines and once from the frozen submitted feature packet with exact source
+  lines. The judge receives the Historical strict-code prevalence as a prior but no Development or
+  Admission scores. Missing and abstained forecasts are assigned that prior. All reported paired
+  intervals use 10,000 district-cluster bootstrap draws. A feature-engineering or judge claim is
+  positive only when its prespecified improvement interval lies wholly above zero.</p>
+  <p>Before the final prediction set was committed or scored, Protocol Amendment 2 aligned the
+  provider's strict schema, the already registered 40-case batches, and the prompt's exact
+  quote-to-source contract. Two
+  provider-rejected calls produced no forecasts; two one-case, outcome-blind smoke forecasts were
+  retained but excluded from the final commitment and score. No packet, model, outcome, estimand, or
+  decision rule changed.</p>
+
+  <h2>3. Committed results: signal, not ex-ante proof</h2>
+  <p>The cells below were populated mechanically after all 320 forecasts were committed and the
+  lockbox was scored once. Prompts, plans, models, estimands, and stopping rules did not change after
+  prediction commitment.</p>
+  <table class="results">
+    <caption><strong>FJC replay.</strong> Brier improvements are oriented so positive values are
+    better.</caption>
+    <thead><tr><th>Quantity</th><th>Committed value</th></tr></thead>
+    <tbody>
+      <tr><td>Historical strict-code prevalence</td><td><code>0.2164</code></td></tr>
+      <tr><td>Selected submitted feature plan</td><td><code>F2</code></td></tr>
+      <tr><td>Development selection summary</td><td><code>F2 selected (Brier: F0 0.1204; F1 0.1374; F2 0.1097; F2A 0.1335; F2B 0.1235; F3 0.1605)</code></td></tr>
+      <tr><td>Admission &Delta;Brier over raw fields</td><td><code>-0.0080</code></td></tr>
+      <tr><td>Admission district-cluster 95% CI</td><td><code>[-0.0263, +0.0097]</code></td></tr>
+      <tr><td>Admission decision</td><td><code>not admitted; classical fallback to F0</code></td></tr>
+      <tr><td>Lockbox admitted-classical Brier</td><td><code>0.1400</code></td></tr>
+      <tr><td>Lockbox classical &Delta;Brier over raw fields</td><td><code>+0.0000 (F0 fallback)</code></td></tr>
+      <tr><td>Lockbox classical district-cluster 95% CI</td><td><code>not applicable (F0 fallback)</code></td></tr>
+      <tr><td>Direct-judge coverage</td><td><code>100.0%</code></td></tr>
+      <tr><td>Direct-judge intention-to-forecast Brier</td><td><code>0.1614</code></td></tr>
+      <tr><td>Direct-judge &Delta;Brier over reference prior</td><td><code>+0.0272</code></td></tr>
+      <tr><td>Direct-judge district-cluster 95% CI</td><td><code>[+0.0106, +0.0439]</code></td></tr>
+      <tr><td>Feature-judge coverage</td><td><code>100.0%</code></td></tr>
+      <tr><td>Feature-judge intention-to-forecast Brier</td><td><code>0.1624</code></td></tr>
+      <tr><td>Feature-judge &Delta;Brier over reference prior</td><td><code>+0.0262</code></td></tr>
+      <tr><td>Feature-judge district-cluster 95% CI</td><td><code>[+0.0120, +0.0400]</code></td></tr>
+      <tr><td>Feature-versus-direct paired &Delta;Brier</td><td><code>-0.0010</code></td></tr>
+      <tr><td>Feature-versus-direct district-cluster 95% CI</td><td><code>[-0.0067, +0.0046]</code></td></tr>
+      <tr><td>Syntactic quote-grounding rate</td><td><code>1227/1227 = 100.0% syntactic</code></td></tr>
+      <tr><td>Primary verdict</td><td><code>feature-engineering utility not demonstrated; both arm-vs-prior improvements observed; feature-over-direct gain not demonstrated; ex-ante utility not established</code></td></tr>
+    </tbody>
+  </table>
+  <p><code>F2</code> looked best on Development but reversed on Admission: Brier 0.1441 versus
+  0.1361 for raw-field <code>F0</code>, an improvement of &minus;0.0080 (95% CI &minus;0.0263 to
+  +0.0097). It was not admitted; because the interval crosses zero, the tri-state evidence policy
+  treats the result as inconclusive rather than a universal refutation. The submitted plan was again worse on Lockbox (Brier 0.1560 versus
+  0.1400; improvement &minus;0.0160, CI &minus;0.0395 to +0.0067).</p>
+  <p>In this retained sample, the direct judge achieved Brier 0.1614 and improved +0.0272 over the historical prior (95% CI
+  +0.0106 to +0.0439). The feature-packet judge also beat the prior (+0.0262; CI +0.0120 to
+  +0.0400), but was 0.0010 Brier worse than direct records; that paired interval included zero.
+  Both arms had 100% coverage. The raw-field logistic model remained stronger at Brier 0.1400.</p>
+  <p>All 1,227 cited spans passed exact-match grounding, which establishes syntax rather than semantic
+  entailment. Eight 40-case batches completed without a format retry or tool event in an 18.1-minute
+  two-worker wall span. That records one fixed batched run; it does not establish stable or
+  sustainable performance across provider revisions, batchings, or repeated executions.</p>
+  <p>A Claude model was registered as a cross-family replication, but its installed CLI reported the
+  weekly quota exhausted at freeze. No Claude lockbox predictions were
+  committed. The replication remains <strong>unrun</strong>; it will not be replaced by a post hoc
+  model or presented as corroboration.</p>
+
+  <h2>4. Evidence hierarchy</h2>
+  <table class="results">
+    <caption>Different artifacts support different inferences.</caption>
+    <thead><tr><th>Evidence class</th><th>Examples</th><th>Permitted inference</th></tr></thead>
+    <tbody>
+      <tr><td>Primary outcome-withheld replay</td><td>FJC final-vintage feature and judge arms</td><td>Conditional proper-score comparison for the retained outcome-field-excluded packets; not a clean ex-ante forecast or feature-engineering success</td></tr>
+      <tr><td>Exploratory construct check</td><td>SCDB/Martin&ndash;Quinn, Carp-Manning, Songer, earlier coded FJC analyses</td><td>Whether researcher-coded variables behave broadly as expected under the stated split; not evidence that an LLM discovered them</td></tr>
+      <tr><td>Mechanism or diagnostic check</td><td>ECtHR extraction, planted faults, identity and split tests</td><td>Whether a component exposes a specified failure; not real-world predictive validity</td></tr>
+    </tbody>
+  </table>
+  <p>This hierarchy corrects a category error in earlier drafts. The SCDB, Carp-Manning, Songer, and
+  legacy FJC schemas were hand-coded. They can test construct definitions and statistical plumbing,
+  but they cannot show that an LLM is an effective feature engineer. Recovering a familiar
+  association retrospectively is also not equivalent to forecasting a future outcome without access
+  to it.</p>
+
+  <h2>5. Corrected and negative evidence</h2>
+  <h3>5.1 SCDB/Martin&ndash;Quinn: small, mixed, non-robust</h3>
+  <p>An earlier analysis assigned each Supreme Court term an ideology summary constructed from that
+  same term's votes, contaminating the predictor with its target period. The repaired feature gives
+  term <em>t</em> only the court median for term <em>t &minus; 1</em>. Evaluation uses five complete,
+  forward temporal folds across 9,092 cases and 79 terms; no term straddles training and evaluation.</p>
+  <table class="results">
+    <caption><strong>Corrected prior-term ideology effect.</strong> &Delta;AUC from adding the lagged
+    court summary.</caption>
+    <thead><tr><th>Temporal fold</th><th>&Delta;AUC</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>+0.0045</td></tr>
+      <tr><td>2</td><td>&minus;0.0014</td></tr>
+      <tr><td>3</td><td>+0.0135</td></tr>
+      <tr><td>4</td><td>+0.0340</td></tr>
+      <tr><td>5</td><td>&minus;0.0101</td></tr>
+      <tr><td><strong>Unweighted mean</strong></td><td><strong>+0.0081</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Mean fold AUC rises from 0.5164 to 0.5245, but two folds are negative and the largest positive
+  fold materially influences the mean. The appropriate verdict is <strong>small, mixed, and
+  non-robust</strong>. Martin&ndash;Quinn scores are also retrospective dynamic estimates rather than
+  archived release vintages. This remains an exploratory, researcher-coded construct check.</p>
+
+  <h3>5.2 ECtHR: syntactic failures and chance prediction</h3>
+  <p>The ECtHR session experiment sampled 160 records and produced usable artifacts for 150. Across
+  1,178 committed feature values, 174 had missing or non-verbatim evidence: a <strong>14.77%
+  syntactic grounding-failure rate</strong>. Downstream AUC is <strong>0.498</strong>, essentially
+  chance; a rule comparator is likewise near chance at 0.490.</p>
+  <p>These measurements replace earlier claims of zero hallucination and successful grounded
+  extraction. Exact substring matching cannot distinguish fabrication from formatting or evidence
+  omission, and a passing quote may still be semantically irrelevant. An independent semantic audit
+  is pending, so no faithfulness rate is claimed. The run also predates the repaired section-level
+  provenance firewall and is a negative diagnostic, not a clean prospective forecast.</p>
+
+  <h3>5.3 Other coded replications</h3>
+  <p>Earlier Carp-Manning, Songer, and FJC analyses remain useful for expressing familiar
+  judicial-party, panel, repeat-player, and duration constructs. Their features were specified by
+  researchers, however, and several designs retain limitations: substantial judge recurrence in Carp
+  partitions, non-lead panel-member overlap in Songer, and a narrow target with older row-level
+  inference in legacy FJC work. They are not used to validate LLM feature engineering, judge
+  calibration, or a general &ldquo;known-answer&rdquo; claim.</p>
+
+  <h2>6. Architecture and Arbor lineage</h2>
+  <p>Metis separates authority among a model-facing label-excluded feature engineer, deterministic extractor or
+  transformer, fixed statistical estimator, fresh-context outcome judge, and frozen evaluator.
+  Textual features declare their permitted document section; missing sections fail closed, and every
+  committed value needs a verbatim span. Exact spans establish only syntactic presence. Experiment
+  identity binds ordered case content, labels, grouping and time arrays, target, seed, evaluator,
+  policy, backend, and model so a resumed run cannot silently inherit memory from a different task.</p>
+  <p>Adaptive work persists as a hypothesis tree with three evidence states: accepted, rejected, and
+  inconclusive. Only genuine refutations become suppressive memory; uncertainty is retained as an
+  audit receipt rather than rewritten as failure.</p>
+  <table class="results">
+    <caption><strong>Two different Arbor projects.</strong> The name alone is ambiguous.</caption>
+    <thead><tr><th>Source mechanism</th><th>Status in Metis</th></tr></thead>
+    <tbody>
+      <tr><td>RUC-NLPIR/Microsoft Research, <em>Toward Generalist Autonomous Research via Hypothesis-Tree Refinement</em> (<a href="https://arxiv.org/abs/2606.11926">arXiv:2606.11926</a>)</td><td>Primary inspiration for persistent branching, evidence-conditioned expansion, and insight propagation; Metis adds tri-state memory and held-out admission</td></tr>
+      <tr><td>RUC long-lived coordinator, isolated executors, specialists, and serving runtime</td><td>Not reproduced as that runtime</td></tr>
+      <tr><td>AMD, <em>Arbor: Tree Search as a Cognition Layer for Autonomous Agents</em> (<a href="https://arxiv.org/abs/2606.12563">arXiv:2606.12563</a>)</td><td>Related cognition-layer design; its profiler, dynamic specialists, critic, knowledge-base scoring, and GPU-serving stack are not ported</td></tr>
+      <tr><td>Typed legal policies, full experiment identity, section provenance, split validation, cluster-aware inference, and outcome-field-excluded judge packets</td><td>Metis extensions</td></tr>
+    </tbody>
+  </table>
+  <p>See the <a href="https://ruc-nlpir.github.io/Arbor/">RUC project page</a> and
+  <a href="https://github.com/RUC-NLPIR/Arbor">repository</a>. The FJC replay tests Metis's bounded
+  procedure; Arbor's existence is not evidence that this replay works.</p>
+
+  <h2>7. Interpretation, limitations, and ethics</h2>
   <ul class="tight">
-    <li><strong>A frozen gold set</strong> the loop never fits to or diagnoses on. A change must
-    improve held-out performance by a margin, with a paired-bootstrap confidence interval above zero,
-    <em>and</em> survive a permutation significance test (corrected for the many candidates tested per
-    round). A parsimony <em>drop</em> need only be non-inferior.</li>
-    <li><strong>A domain expert</strong>, who receives clustered failure cards &mdash; misses grouped
-    by recurring pattern, each in named-feature terms with the decision rule that fired and typed
-    candidate repairs. A repair is applied only when the expert accepts <em>and</em> the gold confirms;
-    either party's dissent blocks it.</li>
+    <li><strong>Outcome-conditioned estimand.</strong> <code>DISP = 13</code> undercovers latent
+    settlement, and the replay conditions on both termination by 31 March 2026 and a realized final
+    disposition outside the exclusion set. Neither membership condition was known at cutoff. The run
+    does not estimate settlement propensity among all pending cases or support individual legal advice.</li>
+    <li><strong>Final-vintage inputs.</strong> Explicit outcome columns were excluded, but most packet
+    values came from post-outcome termination records. Mutable fields were not reconstructed from an
+    archived cutoff-time snapshot, so post-cutoff covariate leakage is unresolved.</li>
+    <li><strong>Retrospective freeze.</strong> Outcomes existed before the local freeze. Hashes and
+    traces make artifacts auditable from that point forward; they do not create a prospective trial
+    or an external timestamp. Private labels were withheld from model-facing computations but were
+    not isolated in a separate controller process.</li>
+    <li><strong>Model-family dependence.</strong> Feature engineering and both judge arms use the same
+    model family. Fresh contexts block score carryover but do not create independent training
+    histories. Only four sorted 40-case contexts were run per arm, and the cluster bootstrap does not
+    measure batch-context, decoding, or provider-version variation.</li>
+    <li><strong>Limited power.</strong> The lockbox has 160 cases and fewer effective units under
+    district clustering. Favorable point estimates may still have wide intervals.</li>
+    <li><strong>Grounding limit.</strong> Quote matching establishes syntax, not semantic entailment.
+    A separate audit is required before claiming faithfulness.</li>
+    <li><strong>No cross-family replication yet.</strong> The registered Claude run is unrun because
+    of quota, so robustness beyond the primary model is unknown.</li>
+    <li><strong>No availability or deployment claim.</strong> Private artifacts have not received an
+    independent rerun, and a calibrated research loss does not establish legal validity, fairness,
+    security, or production readiness.</li>
   </ul>
-  <p>A hard <strong>subgroup-fairness veto</strong> sits over both: a change that worsens a protected
-  subgroup's calibration or error gap past threshold is rejected even if overall accuracy improves
-  &mdash; because the fairness criteria provably trade off (Kleinberg et al. 2017; Chouldechova 2017),
-  the chosen point is made an auditable, vetoed decision rather than an implicit one. Crucially, the
-  <em>evaluator is not in the loop's edit set</em>: the system improves the engine, never rewrites the
-  judge to agree with itself.</p>
-
-  <h3>2.4 Leakage discipline</h3>
-  <p>Leakage is the trap that silently destroys these systems. The architecture enforces, mechanically:
-  a <strong>provenance firewall</strong> (features written after the outcome are quarantined from the
-  model); a <strong>univariate leakage audit</strong> (any single feature that alone separates the
-  classes too well is flagged); a <strong>grounding-span scan</strong> (features whose evidence
-  contains outcome-revealing language are dropped); and <strong>split hygiene</strong> &mdash; real
-  data is cross-validated chronologically or grouped by entity (judge, court, party), never naively,
-  because random splits leak temporal and entity correlations. Every empirical result below uses such
-  a leakage-safe split.</p>
-
-  <h2>3. Evaluation as a known-answer test</h2>
-  <p>We test not by topping a benchmark but by asking whether the system behaves <em>honestly</em>
-  where the answers are independently known. Six decades of empirical judicial politics supply ground
-  truth: party shapes how judges <em>decide</em> (the attitudinal model; Martin-Quinn ideal points),
-  capability shapes who <em>wins and settles</em> (Galanter's repeat-player theory), and panel effects
-  are real but <em>domain-specific</em> (Sunstein et al. 2004). A trustworthy adaptive agent must
-  recover the real effects, decline the absent ones, and be honest about its own machinery. The corpora
-  are four real legal datasets &mdash; the FJC Integrated Database (federal civil terminations), the
-  Carp-Manning U.S. District Court Database (~111k coded decisions), the Supreme Court Database joined
-  to Martin-Quinn ideology, and the Songer Courts of Appeals Database &mdash; plus real ECtHR texts.</p>
-
-  <h3>Data and how much of each</h3>
-  <p>Every corpus is free and public; experiments use fixed-seed deterministic samples so the exact
-  rows are reproducible. <strong>ECtHR</strong> = European Court of Human Rights (Strasbourg); its
-  &ldquo;texts&rdquo; are the <em>Facts</em> sections of published judgments, with a label for whether
-  any Article of the European Convention on Human Rights was found violated &mdash; via the public
-  lex_glue corpus.</p>
-  <table class="results">
-    <caption><strong>Table 0.</strong> The four real prediction corpora (plus the ECtHR
-    extraction-faithfulness set) and the deterministic sample used from each.</caption>
-    <thead><tr><th>Corpus (free / public)</th><th>scale available</th><th>N used</th><th>powers</th></tr></thead>
-    <tbody>
-      <tr><td>FJC Integrated Database <span class="muted">(federal civil terminations, FY2021&ndash;26)</span></td><td>full 5-year bundle</td><td>4,000 <span class="muted">(1,916 w/ judge)</span></td><td>settlement, duration, amount; repeat-player; pacing</td></tr>
-      <tr><td>Carp-Manning U.S. District Court DB <span class="muted">(1927&ndash;2012)</span></td><td>110,977</td><td>8,000 <span class="muted">(civ. lib. 3,292)</span></td><td>judge party &rarr; decision direction</td></tr>
-      <tr><td>Supreme Court Database 2025 <span class="muted">(+ Martin-Quinn)</span></td><td>9,092 usable</td><td>9,032</td><td>court ideology &rarr; SCOTUS outcome</td></tr>
-      <tr><td>Songer Courts of Appeals DB <span class="muted">(1925&ndash;1996)</span></td><td>18,195 &rarr; 16,710 merits</td><td>6,017</td><td>panel composition &rarr; reversal/direction</td></tr>
-      <tr><td>ECtHR facts <span class="muted">(lex_glue ecthr_a)</span></td><td>~11k</td><td>160 / 150 extracted</td><td>grounded-extraction faithfulness</td></tr>
-    </tbody>
-  </table>
-  <p>Five <strong>auxiliary joins</strong> enrich these rather than standing alone: the FJC
-  Biographical Directory (4,059 judges &rarr; appointer party, tenure); CourtListener bulk dockets +
-  people-db (judge assignment + party fallback); Martin-Quinn court medians (1937&ndash;2022); the AO's
-  Federal Court Management Statistics Table C-5 (94 districts &rarr; congestion prior); and SEC EDGAR
-  (10,400 filers + CY2020 revenue), the financial join <em>rejected</em> at 3.6% name-match. Three
-  synthetic corpora carry the planted pathologies and back no real-world claim.</p>
-
-  <table class="results">
-    <caption><strong>Table 1.</strong> Known-answer results. All under leakage-safe cross-validation
-    with paired significance tests. &Delta;AUC = paired change in area-under-ROC from adding the
-    feature group; positive = improvement.</caption>
-    <thead><tr><th>Relationship (corpus)</th><th>CV split</th><th>Effect</th><th>Verdict</th></tr></thead>
-    <tbody>
-      <tr><td>Judge party &rarr; decision direction <span style="color:var(--muted)">(Carp-Manning, civil-liberties)</span></td><td>unseen-judge</td><td><span class="num">&Delta;AUC +0.034</span> [0.015, 0.053], p=0.002</td><td class="verdict-signal">signal</td></tr>
-      <tr><td>Court ideology &rarr; SCOTUS outcome, incremental <span style="color:var(--muted)">(SCDB + Martin-Quinn)</span></td><td>chronological</td><td><span class="num">+0.026</span> (linear) / <span class="num">+0.012</span> (boosted), p=0.002</td><td class="verdict-signal">signal</td></tr>
-      <tr><td>Litigant repeat-player status &rarr; settlement <span style="color:var(--muted)">(FJC)</span></td><td>district-grouped</td><td><span class="num">+0.016</span> [0.007, 0.025], p=0.002</td><td class="verdict-signal">signal</td></tr>
-      <tr><td>Stakes &times; case type &rarr; duration <span style="color:var(--muted)">(FJC, capacity gain)</span></td><td>district-grouped</td><td><span class="num">+0.076</span> [0.064, 0.089] paired error&darr;, p=0.002</td><td class="verdict-signal">signal</td></tr>
-      <tr><td>Judge attributes &rarr; settlement <span style="color:var(--muted)">(FJC)</span></td><td>judge-grouped</td><td><span class="null">&Delta;AUC &asymp; 0</span>, p &gt; 0.4</td><td class="verdict-null">null</td></tr>
-      <tr><td>Appellate panel composition &rarr; reversal <span style="color:var(--muted)">(Songer)</span></td><td>lead-judge-grouped</td><td><span class="null">&minus;0.003</span>, p=0.84</td><td class="verdict-null">null</td></tr>
-      <tr><td>Appellate panel composition &rarr; direction <span style="color:var(--muted)">(Songer)</span></td><td>lead-judge-grouped</td><td><span class="null">+0.001</span>, p=0.37</td><td class="verdict-null">null</td></tr>
-    </tbody>
-  </table>
-
-  <figure class="diagram" style="padding:18px 14px 8px;">
-    <svg viewBox="0 0 760 348" width="100%" role="img" aria-label="Forest plot of paired change in AUC with 95% confidence intervals: three signals with intervals above zero, three nulls with intervals touching zero.">
-      <!-- zero reference line -->
-      <line x1="340" y1="44" x2="340" y2="300" stroke="#8b949e" stroke-width="1" stroke-dasharray="4 4"/>
-      <text x="340" y="38" fill="#8b949e" font-size="11" text-anchor="middle" font-family="monospace">&Delta;AUC = 0</text>
-      <!-- x ticks -->
-      <g fill="#8b949e" font-size="11" font-family="monospace" text-anchor="middle">
-        <text x="210" y="320">&minus;0.02</text><text x="340" y="320">0.00</text>
-        <text x="470" y="320">+0.02</text><text x="600" y="320">+0.04</text><text x="730" y="320">+0.06</text>
-      </g>
-      <line x1="210" y1="300" x2="730" y2="300" stroke="#30363d" stroke-width="1"/>
-      <!-- signals (green): label, CI whisker, point -->
-      <g font-size="12.5" font-family="-apple-system,Segoe UI,sans-serif">
-        <g fill="#3fb950" stroke="#3fb950">
-          <text x="198" y="68" text-anchor="end" stroke="none">Judge party &rarr; direction</text>
-          <line x1="438" y1="64" x2="683" y2="64" stroke-width="2"/><line x1="438" y1="59" x2="438" y2="69" stroke-width="2"/><line x1="683" y1="59" x2="683" y2="69" stroke-width="2"/><circle cx="558" cy="64" r="5"/>
-          <text x="198" y="112" text-anchor="end" stroke="none">Court ideology &rarr; SCOTUS</text>
-          <line x1="404" y1="108" x2="606" y2="108" stroke-width="2"/><line x1="404" y1="103" x2="404" y2="113" stroke-width="2"/><line x1="606" y1="103" x2="606" y2="113" stroke-width="2"/><circle cx="506" cy="108" r="5"/>
-          <text x="198" y="156" text-anchor="end" stroke="none">Repeat-player &rarr; settlement</text>
-          <line x1="384" y1="152" x2="503" y2="152" stroke-width="2"/><line x1="384" y1="147" x2="384" y2="157" stroke-width="2"/><line x1="503" y1="147" x2="503" y2="157" stroke-width="2"/><circle cx="442" cy="152" r="5"/>
-        </g>
-        <!-- nulls (amber) -->
-        <g fill="#d29922" stroke="#d29922">
-          <text x="198" y="200" text-anchor="end" stroke="none">Judge attrs &rarr; settlement</text>
-          <line x1="282" y1="196" x2="352" y2="196" stroke-width="2"/><line x1="282" y1="191" x2="282" y2="201" stroke-width="2"/><line x1="352" y1="191" x2="352" y2="201" stroke-width="2"/><circle cx="317" cy="196" r="5"/>
-          <text x="198" y="244" text-anchor="end" stroke="none">Panel comp. &rarr; reversal</text>
-          <line x1="302" y1="240" x2="338" y2="240" stroke-width="2"/><line x1="302" y1="235" x2="302" y2="245" stroke-width="2"/><line x1="338" y1="235" x2="338" y2="245" stroke-width="2"/><circle cx="320" cy="240" r="5"/>
-          <text x="198" y="288" text-anchor="end" stroke="none">Panel comp. &rarr; direction</text>
-          <line x1="320" y1="284" x2="375" y2="284" stroke-width="2"/><line x1="320" y1="279" x2="320" y2="289" stroke-width="2"/><line x1="375" y1="279" x2="375" y2="289" stroke-width="2"/><circle cx="348" cy="284" r="5"/>
-        </g>
-      </g>
-      <!-- legend -->
-      <g font-size="11.5" font-family="-apple-system,Segoe UI,sans-serif">
-        <circle cx="470" cy="340" r="5" fill="#3fb950"/><text x="482" y="344" fill="#3fb950">recovered signal</text>
-        <circle cx="600" cy="340" r="5" fill="#d29922"/><text x="612" y="344" fill="#d29922">reported null</text>
-      </g>
-    </svg>
-    <figcaption style="color:var(--muted);font-size:12.5px;margin-top:6px;text-align:left;">
-      <strong style="color:var(--heading)">Figure 1.</strong> Paired &Delta;AUC with 95% confidence
-      intervals, every estimate under a leakage-safe split. The three signals sit cleanly above zero;
-      the three nulls straddle it. A trustworthy adaptive agent must produce <em>both</em> columns &mdash;
-      recover the real effects and decline the absent ones. (Stakes&times;type&rarr;duration is omitted
-      here as it is measured in error rather than AUC; see Table 1.)
-    </figcaption>
-  </figure>
-
-  <p>The pattern is coherent judicial politics: ideology shows up where an individual judge decides
-  alone, attenuates on three-judge panels (the panel-moderation effect; the nulls match Sunstein et
-  al.'s finding that panel effects concentrate in a few hot-button domains and wash out across a broad
-  corpus), aggregates at the court level &mdash; and never reaches into whether litigants settle, which
-  is litigant behavior, not judicial ideology. A system that reported only its hits would have buried
-  the nulls; here the significance gates make them first-class results.</p>
-
-  <table class="results">
-    <caption><strong>Table 2.</strong> Honest self-behavior and extraction faithfulness.</caption>
-    <thead><tr><th>Behavior</th><th>Result</th></tr></thead>
-    <tbody>
-      <tr><td>Frozen gold <em>vetoes</em> an expert-approved model escalation (Carp-Manning)</td><td>&Delta;=+0.000, vetoed &mdash; no churn</td></tr>
-      <tr><td>Capacity probe <em>flips</em> as informative features accrue (FJC duration)</td><td>boosted&asymp;linear early &rarr; <span class="num">+0.076</span> paired gain later</td></tr>
-      <tr><td>Financial-status features self-rejected (SEC-EDGAR match)</td><td>3.6% coverage, marginal &minus;0.013 &mdash; declined</td></tr>
-      <tr><td>Session-LLM extraction hallucination rate (real ECtHR, ~1,200 values)</td><td><span class="num">0.0000</span> &mdash; every quote verbatim</td></tr>
-      <tr><td>ECtHR outcome prediction (the honest answer to the leakage trap)</td><td><span class="null">AUC 0.504</span> &mdash; chance</td></tr>
-      <tr><td>Conformal interval coverage on sealed real data (FJC duration)</td><td>80.7% vs 80% target</td></tr>
-    </tbody>
-  </table>
-
-  <p>The last two rows are the paper's spine. On real ECtHR texts the extraction was faithful by
-  measurement &mdash; zero fabricated quotes across ~1,200 extracted values &mdash; yet the downstream
-  prediction landed at chance. We present this as the <em>correct</em> result, not a failure. It is the
-  honest answer to the leakage trap: the architecture cleanly separates two questions the field
-  routinely conflates &mdash; <em>did the model extract honestly?</em> (yes, measurably) and <em>do
-  those features predict the outcome?</em> (no, on the pre-judgment framing) &mdash; and refuses to
-  manufacture the second from the first. Where prior text-only work reported ~79% by reading
-  court-authored facts, an honest, leakage-careful pipeline lands at chance, and says so.</p>
-
-  <p>Every number above is re-derived from scratch by an automated verifier that recomputes each claim
-  deterministically and diffs it against a traceability table; at the time of writing it reports 8/8
-  headline numbers reproduced with zero drift, and it caught two of our own secondary-number slips
-  during drafting.</p>
-
-  <h2>3b. Statistical evaluation in detail</h2>
-  <p>Two estimators are reported per experiment and should not be conflated. <strong>Model AUC</strong>
-  is the mean of per-fold ROC-AUCs, with a 95% interval from the 2.5/97.5 percentiles <em>across folds</em>
-  (how well the full model ranks). <strong>Paired &Delta;AUC</strong> is the incremental value of a
-  feature group, computed per-case on pooled out-of-fold predictions (AUC-with minus AUC-without), with a
-  95% CI from a <strong>2,000-resample paired bootstrap</strong> and a <em>p</em> from a
-  <strong>500-permutation paired test</strong> (does the feature group help). The paired statistic is the
-  hypothesis test; because it cancels per-case variance the fold-mean cannot, it can be significantly
-  positive even when the fold-averaged AUC barely moves (the SCDB and FJC-settlement rows). Inside the
-  self-improvement loop, the acceptance permutation test's &alpha; is <strong>Bonferroni-corrected over
-  the round's candidate revisions</strong> &mdash; the multiple-comparisons guard.</p>
-  <p>Cross-validation is leakage-safe by construction, chosen per corpus, never naively random (random
-  k-fold leaks entity/temporal correlation and can inflate AUC by an estimated 0.05&ndash;0.30; an
-  entity-overlap diagnostic flags &gt;30% recurrence): <strong>entity-grouped</strong> 5-fold GroupKFold
-  where a judge/district/court never straddles a fold (Carp-Manning, FJC, Songer); <strong>chronological
-  forward-chaining</strong> (TimeSeriesSplit, 5 folds) where every evaluation fold is strictly later than
-  its training data (SCDB, by term); and <strong>repeated stratified</strong> 5&times;2 where cases are
-  exchangeable with no recurring entity (ECtHR).</p>
-
-  <table class="results">
-    <caption><strong>Table 3.</strong> Per-experiment N, grouping entities, CV scheme, fold structure,
-    and both estimators. Wide model-AUC fold intervals on the grouped 5-fold rows (e.g. FJC settlement)
-    reflect genuine between-entity variance on a hard task, not instability of the effect &mdash; the
-    paired &Delta;AUC, the tested quantity, is tight. The two nulls (N=1,916 and 6,017) are
-    <em>powered</em> nulls, not silence from too little data.</caption>
-    <thead><tr><th>Experiment</th><th>N</th><th>entities</th><th>CV scheme (folds)</th><th>test fold (min/med/max)</th><th>model AUC [fold 95% CI]</th><th>paired &Delta;AUC [95% CI], p</th></tr></thead>
-    <tbody>
-      <tr><td>Judge party &rarr; direction <span class="muted">(Carp-Manning, civ. lib.)</span></td><td>3,292</td><td>1,109 judges</td><td>entity-grouped (5)</td><td>658/658/659</td><td>0.565 [0.541, 0.587]</td><td><span class="num">+0.034</span> [.015,.053], .002</td></tr>
-      <tr><td>Court ideology &rarr; SCOTUS <span class="muted">(SCDB+Martin-Quinn)</span></td><td>9,032</td><td>78 terms</td><td>chronological (5)</td><td>1,505/1,505/1,505</td><td>0.520 [0.463, 0.597]</td><td><span class="num">+0.026</span> [.010,.041], .002</td></tr>
-      <tr><td>Repeat-player &rarr; settlement <span class="muted">(FJC)</span></td><td>4,000</td><td>92 districts</td><td>entity-grouped (5)</td><td>739/739/1,043</td><td>0.771 [0.605, 0.948]</td><td><span class="num">+0.016</span> [.007,.025], .002</td></tr>
-      <tr><td>Judge attrs &rarr; settlement <span class="muted">(FJC)</span></td><td>1,916</td><td>730 judges</td><td>entity-grouped (5)</td><td>383/383/384</td><td>0.770 [0.754, 0.792]</td><td><span class="null">+0.000</span> [&minus;.005,.005], .45</td></tr>
-      <tr><td>Panel composition &rarr; reversal <span class="muted">(Songer)</span></td><td>6,017</td><td>607 judges</td><td>entity-grouped (5)</td><td>1,203/1,203/1,204</td><td>0.597 [0.563, 0.636]</td><td><span class="null">&minus;0.003</span> [&minus;.006,.000], .84</td></tr>
-      <tr><td>ECtHR outcome <span class="muted">(session-LLM, at chance)</span></td><td>150</td><td>&mdash;</td><td>repeated stratified (5&times;2)</td><td>30/30/30</td><td>0.508 [0.353, 0.669]</td><td>&mdash;</td></tr>
-    </tbody>
-  </table>
-  <p>On the regression side, prediction intervals are <strong>split-conformal</strong> (a per-fold
-  calibration slice sets the residual quantile, giving finite-sample coverage under exchangeability):
-  on the sealed FJC duration test (n&asymp;1,000 held out) measured coverage was <strong>80.7%</strong>
-  against an 80% target, with error beating the predict-the-mean baseline (MAE 0.879 vs 1.115 in log1p
-  space). Numbers re-derived by <code>stats_detail.py</code> (deterministic, seed 13).</p>
-
-  <h2>4. Why this is new</h2>
-  <p>The pieces exist separately. LLM-as-feature-engineer for a small interpretable model (CHiLL,
-  FeatLLM); verbatim-quote grounding as &ldquo;verifiable by design&rdquo; (Quote-Tuning) and
-  fine-grained faithfulness measurement (AIS, FActScore, ALCE); the now-robust finding that
-  self-correction needs an external signal (STaR and Reflexion work because they have one; intrinsic
-  self-correction fails); calibration, conformal abstention, learning-to-defer, and the
-  fairness-impossibility results. To our knowledge no prior system combines <strong>LLM-proposed
-  grounded extraction, a calibrated classical decider, and an automated held-out statistical +
-  fairness gate on its own self-modifications</strong>, and validates the whole as a known-answer test
-  across real corpora. The contribution is less a higher accuracy than an <em>honesty-and-calibration
-  layer</em> the benchmark-chasing branch of this field has lacked, and the external-gate answer the
-  self-correction-fails literature demands.</p>
-
-  <h2>5. Limitations and ethics</h2>
-  <p>Outcome prediction reproduces historical patterns, including injustice; the fairness veto,
-  abstention, and escalation reduce but do not remove this. The system is decision-<em>support</em>
-  only &mdash; an architectural refusal layer blocks prohibited contexts (bail, sentencing, recidivism,
-  immigration enforcement) regardless of confidence. The real-data samples are in the thousands, not
-  the full corpora; some party names in the source data are truncated, capping one financial join; the
-  expert gate is only as good as the expert, and authoring the frozen gold set is the binding human
-  cost &mdash; not eliminated, but bounded and made auditable. Per-feature extraction confidences are
-  <em>model self-reported</em> (the prompt asks for 0.9+ only on explicit statements, 0.5&ndash;0.7 on
-  inferences) and gate abstention/escalation, but they are not externally calibrated &mdash; the
-  downstream model calibrates its own probabilities separately and does not consume them. As noted at
-  the top, a human audit of a sample of machine extractions is still pending; this is a working paper.</p>
-
-  <h2>6. Generalization</h2>
-  <p>The recipe is domain-agnostic. Any setting that compresses a qualitative record into a
-  categorical or continuous verdict under scarcity, high stakes, a need for auditability, and available
-  expert judgment fits the same four disciplines and the same known-answer validation. Law is the
-  worked example here; medicine (readmission, response &mdash; the CHiLL setting) and forecasting
-  (escalation, default) are the natural next targets. The valuable and dangerous problems all share a
-  shape &mdash; <em>violation or not, cured or not, war or not</em> &mdash; and the question worth
-  answering is not &ldquo;can a model predict X&rdquo; but &ldquo;can we trust what it says about
-  X,&rdquo; demonstrated where the answers are already known.</p>
+  <div class="next-step">
+    <h3>Next decisive test</h3>
+    <p style="margin-bottom:0">Prospectively commit an unresolved cohort before outcomes exist;
+    define eligibility without final-disposition information; snapshot every model-visible field at
+    the forecast date; isolate labels in a separate scoring process; and precommit independent,
+    repeated judge runs, including a cross-family replication. Score once after the forecast horizon.
+    That design would test adaptive utility rather than only conditional signal in retained artifacts.</p>
+  </div>
+  <p>Court records describe people and organizations in consequential disputes. This is a methods
+  experiment, not a system for adjudication, bail, sentencing, immigration enforcement, case
+  valuation, or legal representation. Any later application would require a task-specific legal
+  basis, representative data, measurement validation, independent bias and security review, human
+  authority, appeal and monitoring procedures, and evidence of benefit over non-automated practice.</p>
 
   <h2>Selected references</h2>
   <ol class="refs">
-    <li>Aletras, Tsarapatsanis, Preo&#355;iuc-Pietro &amp; Lampos (2016). Predicting Judicial Decisions of the European Court of Human Rights. <em>PeerJ Computer Science</em> 2:e93.</li>
-    <li>Medvedeva, Vols &amp; Wieling (2020). Using Machine Learning to Predict Decisions of the ECtHR. <em>Artificial Intelligence and Law</em> 28(2).</li>
-    <li>Medvedeva, Wieling &amp; Vols (2023). Rethinking the Field of Automatic Prediction of Court Decisions. <em>Artificial Intelligence and Law</em> 31.</li>
-    <li>Katz, Bommarito &amp; Blackman (2017). A General Approach for Predicting the Behavior of the Supreme Court. <em>PLOS ONE</em> 12(4):e0174698.</li>
-    <li>Chalkidis, Androutsopoulos &amp; Aletras (2019). Neural Legal Judgment Prediction in English. <em>ACL</em>.</li>
+    <li>Jin et al. (2026). <em>Toward Generalist Autonomous Research via Hypothesis-Tree Refinement.</em> arXiv:2606.11926.</li>
+    <li>Prakriya et al. (2026). <em>Arbor: Tree Search as a Cognition Layer for Autonomous Agents.</em> arXiv:2606.12563.</li>
     <li>McInerney et al. (2023). CHiLL: Zero-shot Custom Interpretable Feature Extraction from Clinical Notes. <em>Findings of ACL</em>.</li>
     <li>Han, Yoon, Arik &amp; Pfister (2024). FeatLLM: LLMs Can Automatically Engineer Features for Few-Shot Tabular Learning. <em>ICML</em>.</li>
-    <li>Zhang et al. (2025). Verifiable by Design: Aligning Language Models to Quote from Pre-Training Data. <em>NAACL</em>.</li>
-    <li>Rashkin et al. (2023). Measuring Attribution in Natural Language Generation Models (AIS). <em>Computational Linguistics</em> 49(4).</li>
-    <li>Min et al. (2023). FActScore: Fine-grained Atomic Evaluation of Factual Precision. <em>EMNLP</em>.</li>
-    <li>Gao, Yen, Yu &amp; Chen (2023). Enabling LLMs to Generate Text with Citations (ALCE). <em>EMNLP</em>.</li>
-    <li>Manakul, Liusie &amp; Gales (2023). SelfCheckGPT. <em>EMNLP</em>.</li>
-    <li>Madaan et al. (2023). Self-Refine: Iterative Refinement with Self-Feedback. <em>NeurIPS</em>.</li>
-    <li>Shinn et al. (2023). Reflexion: Language Agents with Verbal Reinforcement Learning. <em>NeurIPS</em>.</li>
-    <li>Zelikman, Wu, Mu &amp; Goodman (2022). STaR: Bootstrapping Reasoning With Reasoning. <em>NeurIPS</em>.</li>
     <li>Huang et al. (2023/2024). Large Language Models Cannot Self-Correct Reasoning Yet. <em>ICLR</em>.</li>
-    <li>Stechly, Valmeekam &amp; Kambhampati (2024). On the Self-Verification Limitations of LLMs.</li>
-    <li>Kamoi, Zhang, Zhang, Han &amp; Zhang (2024). When Can LLMs Actually Correct Their Own Mistakes? <em>TACL</em> 12.</li>
+    <li>Kamoi et al. (2024). When Can LLMs Actually Correct Their Own Mistakes? <em>TACL</em> 12.</li>
     <li>Panickssery, Bowman &amp; Feng (2024). LLM Evaluators Recognize and Favor Their Own Generations. <em>NeurIPS</em>.</li>
-    <li>Guo, Pleiss, Sun &amp; Weinberger (2017). On Calibration of Modern Neural Networks. <em>ICML</em>.</li>
-    <li>Angelopoulos &amp; Bates (2021). A Gentle Introduction to Conformal Prediction. <em>arXiv:2107.07511</em>.</li>
-    <li>Madras, Pitassi &amp; Zemel (2018). Predict Responsibly: Learning to Defer. <em>NeurIPS</em>.</li>
-    <li>Kleinberg, Mullainathan &amp; Raghavan (2017). Inherent Trade-Offs in the Fair Determination of Risk Scores. <em>ITCS</em>.</li>
-    <li>Chouldechova (2017). Fair Prediction with Disparate Impact. <em>Big Data</em> 5(2).</li>
-    <li>Dressel &amp; Farid (2018). The Accuracy, Fairness, and Limits of Predicting Recidivism. <em>Science Advances</em> 4(1).</li>
-    <li>Galanter (1974). Why the &lsquo;Haves&rsquo; Come Out Ahead. <em>Law &amp; Society Review</em> 9(1).</li>
+    <li>Aletras et al. (2016). Predicting Judicial Decisions of the European Court of Human Rights. <em>PeerJ Computer Science</em> 2:e93.</li>
+    <li>Medvedeva, Wieling &amp; Vols (2023). Rethinking the Field of Automatic Prediction of Court Decisions. <em>Artificial Intelligence and Law</em> 31.</li>
     <li>Martin &amp; Quinn (2002). Dynamic Ideal Point Estimation for the U.S. Supreme Court. <em>Political Analysis</em> 10(2).</li>
-    <li>Segal &amp; Spaeth (2002). <em>The Supreme Court and the Attitudinal Model Revisited</em>. Cambridge University Press.</li>
-    <li>Sunstein, Schkade &amp; Ellman (2004). Ideological Voting on Federal Courts of Appeals. <em>Virginia Law Review</em> 90(1).</li>
-    <li>Songer, Sheehan &amp; Haire (1999). Do the &lsquo;Haves&rsquo; Come Out Ahead Over Time? <em>Law &amp; Society Review</em> 33(4).</li>
   </ol>
 
-  <p class="footnote">This write-up shares an ongoing research system for public knowledge. Numbers are
-  reproducible from a deterministic verifier; the system is decision-support and research only, not a
-  tool for predictions about individuals. Comments welcome &mdash; see
-  <a href="../../portfolio.html">the portfolio</a> for contact.</p>
+  <p class="footnote">This page reports an ongoing methods study. The completed replay records
+  proper-score signal in outcome-field-excluded final-vintage packets, but does not establish clean
+  ex-ante prediction or adaptive feature-engineering utility.
+  Comments welcome &mdash; see <a href="../../portfolio.html">the portfolio</a> for contact.</p>
 
 </div>
 
