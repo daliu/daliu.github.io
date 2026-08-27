@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-27T04:00:16.689166+00:00",
+  "generated_at": "2026-08-27T15:00:16.178125+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "911306c",
-      "date": "2026-08-26T14:00:18-07:00",
-      "message": "Update health data 2026-08-26 14:00"
+      "hash": "c7f1a76",
+      "date": "2026-08-27T06:40:06-07:00",
+      "message": "health: refresh calendar density 2026-08-27 06:40"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 136,
+      "page_count": 137,
       "last_commit": {
-        "hash": "d2e3866",
-        "date": "2026-08-26T12:31:53-07:00",
-        "message": "social: embed Short for 2026-08-26 (WH8IIwOQkrc)"
+        "hash": "c25ef72",
+        "date": "2026-08-27T05:51:14-04:00",
+        "message": "daily: 2026-08-27 market update"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-08-26T21:00:04.018148",
+        "updated": "2026-08-27T08:00:04.500016",
         "date_range": null
       },
       "last_commit": {
-        "hash": "911306c",
-        "date": "2026-08-26T14:00:18-07:00",
-        "message": "Update health data 2026-08-26 14:00"
+        "hash": "c7f1a76",
+        "date": "2026-08-27T06:40:06-07:00",
+        "message": "health: refresh calendar density 2026-08-27 06:40"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,26 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "c7f1a76",
+      "date": "2026-08-27T06:40:06-07:00",
+      "message": "health: refresh calendar density 2026-08-27 06:40"
+    },
+    {
+      "hash": "e0e869e",
+      "date": "2026-08-27T05:51:17-04:00",
+      "message": "blog: 2026-08-27 \u2014 Defensive & Value Rotation Underway"
+    },
+    {
+      "hash": "c25ef72",
+      "date": "2026-08-27T05:51:14-04:00",
+      "message": "daily: 2026-08-27 market update"
+    },
+    {
+      "hash": "ed92eed",
+      "date": "2026-08-26T21:00:17-07:00",
+      "message": "Update health data 2026-08-26 21:00"
+    },
     {
       "hash": "911306c",
       "date": "2026-08-26T14:00:18-07:00",
@@ -143,26 +163,6 @@
       "hash": "2a9582a",
       "date": "2026-08-25T07:02:15-07:00",
       "message": "social: embed Short for 2026-08-25 (j6fFp3xV-H4)"
-    },
-    {
-      "hash": "c181fcd",
-      "date": "2026-08-25T07:00:35-07:00",
-      "message": "social: 2026-08-25 MoneySignals deck (6 cards)"
-    },
-    {
-      "hash": "bce2427",
-      "date": "2026-08-25T06:40:04-07:00",
-      "message": "health: refresh calendar density 2026-08-25 06:40"
-    },
-    {
-      "hash": "a8ea383",
-      "date": "2026-08-25T05:50:08-04:00",
-      "message": "blog: 2026-08-25 \u2014 Defensive & Value Rotation Underway"
-    },
-    {
-      "hash": "0074841",
-      "date": "2026-08-25T05:50:06-04:00",
-      "message": "daily: 2026-08-25 market update"
     }
   ]
 }
