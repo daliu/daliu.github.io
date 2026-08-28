@@ -1,38 +1,28 @@
 {
-  "updated": "2026-08-27T17:09:18Z",
+  "updated": "2026-08-28T17:57:46Z",
   "date_range": {
-    "start": "2026-05-30",
-    "end": "2026-08-27"
+    "start": "2026-05-31",
+    "end": "2026-08-28"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-05-30",
+    "start": "2026-05-31",
     "end": "2026-08-27",
-    "days_with_data": 38
+    "days_with_data": 37
   },
   "totals": {
-    "total_users": 256,
-    "total_sessions": 299,
-    "total_pageviews": 707,
-    "total_engaged_sessions": 66,
-    "engagement_rate": 0.2207,
-    "avg_session_duration_seconds": 171.5,
-    "bounce_rate": 0.7793
+    "total_users": 250,
+    "total_sessions": 293,
+    "total_pageviews": 697,
+    "total_engaged_sessions": 65,
+    "engagement_rate": 0.2218,
+    "avg_session_duration_seconds": 174.9,
+    "bounce_rate": 0.7782
   },
   "daily": [
-    {
-      "date": "2026-05-30",
-      "users": 6,
-      "sessions": 6,
-      "pageviews": 10,
-      "new_users": 5,
-      "avg_session_duration": 4.6,
-      "bounce_rate": 0.8333,
-      "engaged_sessions": 1
-    },
     {
       "date": "2026-05-31",
       "users": 7,
@@ -389,7 +379,7 @@
       "sessions": 1,
       "pageviews": 1,
       "new_users": 1,
-      "avg_session_duration": 0.0,
+      "avg_session_duration": 4.9,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     },
@@ -408,12 +398,12 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 223,
-      "users": 154,
-      "avg_time_on_page": 97.1,
-      "sessions": 199,
-      "engaged": 46,
-      "engagement_rate": 0.231,
+      "pageviews": 218,
+      "users": 150,
+      "avg_time_on_page": 99.6,
+      "sessions": 194,
+      "engaged": 45,
+      "engagement_rate": 0.232,
       "class": "mixed"
     },
     {
@@ -428,17 +418,6 @@
       "class": "human"
     },
     {
-      "path": "/health/",
-      "title": "Health Dashboard \u2014 Dave Liu",
-      "pageviews": 37,
-      "users": 3,
-      "avg_time_on_page": 339.7,
-      "sessions": 21,
-      "engaged": 16,
-      "engagement_rate": 0.762,
-      "class": "human"
-    },
-    {
       "path": "/patterns-of-choice/",
       "title": "Patterns of Choice \u2014 Dave Liu",
       "pageviews": 34,
@@ -447,6 +426,17 @@
       "sessions": 18,
       "engaged": 15,
       "engagement_rate": 0.833,
+      "class": "human"
+    },
+    {
+      "path": "/health/",
+      "title": "Health Dashboard \u2014 Dave Liu",
+      "pageviews": 33,
+      "users": 3,
+      "avg_time_on_page": 355.5,
+      "sessions": 20,
+      "engaged": 15,
+      "engagement_rate": 0.75,
       "class": "human"
     },
     {
@@ -630,9 +620,9 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 258,
-      "users": 211,
-      "engaged": 41,
+      "sessions": 252,
+      "users": 206,
+      "engaged": 40,
       "engagement_rate": 0.159,
       "class": "mixed"
     },
@@ -703,25 +693,25 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 278,
-      "percentage": 92.7
+      "sessions": 272,
+      "percentage": 92.5
     },
     {
       "category": "mobile",
       "sessions": 22,
-      "percentage": 7.3
+      "percentage": 7.5
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 268,
-      "percentage": 88.2
+      "sessions": 262,
+      "percentage": 87.9
     },
     {
       "browser": "Safari",
       "sessions": 23,
-      "percentage": 7.6
+      "percentage": 7.7
     },
     {
       "browser": "Safari (in-app)",
@@ -767,12 +757,12 @@
   "countries": [
     {
       "country": "Singapore",
-      "sessions": 174,
-      "users": 174
+      "sessions": 169,
+      "users": 169
     },
     {
       "country": "United States",
-      "sessions": 110,
+      "sessions": 109,
       "users": 31
     },
     {
@@ -817,8 +807,8 @@
     }
   ],
   "user_types": {
-    "new": 218,
-    "returning": 75
+    "new": 213,
+    "returning": 74
   },
   "hourly": [
     {
@@ -919,11 +909,11 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 66,
-    "non_engaged_sessions": 233,
-    "likely_automated_sessions": 180,
-    "likely_human_sessions": 119,
-    "automated_pct": 60.2,
+    "engaged_sessions": 65,
+    "non_engaged_sessions": 228,
+    "likely_automated_sessions": 175,
+    "likely_human_sessions": 118,
+    "automated_pct": 59.7,
     "est_human_users": 40,
     "thresholds": {
       "human": 0.4,
@@ -933,22 +923,22 @@
   "country_quality": [
     {
       "country": "Singapore",
-      "sessions": 174,
+      "sessions": 169,
       "engaged": 1,
-      "users": 174,
-      "pageviews": 174,
+      "users": 169,
+      "pageviews": 169,
       "avg_duration": 0.7,
       "engagement_rate": 0.006,
       "class": "automated"
     },
     {
       "country": "United States",
-      "sessions": 110,
-      "engaged": 60,
+      "sessions": 109,
+      "engaged": 59,
       "users": 31,
-      "pageviews": 515,
-      "avg_duration": 444.1,
-      "engagement_rate": 0.545,
+      "pageviews": 510,
+      "avg_duration": 448.0,
+      "engagement_rate": 0.541,
       "class": "human"
     },
     {
@@ -987,7 +977,7 @@
       "engaged": 0,
       "users": 1,
       "pageviews": 1,
-      "avg_duration": 0.0,
+      "avg_duration": 4.9,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -1203,25 +1193,25 @@
         0,
         37,
         4,
-        7,
+        5,
         0,
         0,
         0,
         1,
         7,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
         5,
-        0,
-        0,
-        0,
-        0,
-        0,
-        6,
         0,
         2,
         4,
         0,
-        6,
-        15,
+        1,
+        14,
         1,
         2
       ]
@@ -1240,25 +1230,25 @@
         4,
         3,
         4,
-        31,
+        29,
         2,
         0,
         4,
         1,
         3,
+        29,
+        2,
+        2,
+        0,
+        2,
+        0,
         30,
-        2,
-        2,
-        0,
-        2,
-        0,
-        31,
         4,
         3,
         0,
         1,
         9,
-        34,
+        33,
         1,
         3
       ],
@@ -1283,7 +1273,7 @@
         5,
         7,
         2,
-        12,
+        11,
         9,
         7,
         8
@@ -1348,8 +1338,8 @@
       "lat": 1.2899175,
       "lng": 103.8519072,
       "label": "Singapore, Singapore",
-      "sessions": 174,
-      "users": 174,
+      "sessions": 169,
+      "users": 169,
       "engaged": 1,
       "engagement_rate": 0.006
     },
@@ -1357,10 +1347,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 71,
+      "sessions": 70,
       "users": 3,
-      "engaged": 47,
-      "engagement_rate": 0.662
+      "engaged": 46,
+      "engagement_rate": 0.657
     },
     {
       "lat": 37.3361663,
@@ -1625,8 +1615,8 @@
       }
     },
     "baseline": {
-      "mean_pageviews": 18.6,
-      "std_pageviews": 19.5
+      "mean_pageviews": 18.8,
+      "std_pageviews": 19.7
     },
     "anomalies": [
       {
@@ -1655,9 +1645,9 @@
         "engagement_rate": 0.3,
         "class": "mixed"
       },
-      "baseline_pageviews": 12.3,
+      "baseline_pageviews": 12.8,
       "after_pageviews": 27.0,
-      "lift_pct": 118.9
+      "lift_pct": 110.9
     },
     {
       "date": "2026-06-18",
