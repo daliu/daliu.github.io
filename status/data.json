@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-27T15:00:16.178125+00:00",
+  "generated_at": "2026-08-29T04:00:23.477274+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "c7f1a76",
-      "date": "2026-08-27T06:40:06-07:00",
-      "message": "health: refresh calendar density 2026-08-27 06:40"
+      "hash": "a384e38",
+      "date": "2026-08-28T17:57:47+00:00",
+      "message": "Update analytics data 2026-08-28"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 137,
+      "page_count": 138,
       "last_commit": {
-        "hash": "c25ef72",
-        "date": "2026-08-27T05:51:14-04:00",
-        "message": "daily: 2026-08-27 market update"
+        "hash": "dbd1301",
+        "date": "2026-08-28T05:52:19-04:00",
+        "message": "daily: 2026-08-28 market update"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-08-27T08:00:04.500016",
+        "updated": "2026-08-29T14:00:08.228317",
         "date_range": null
       },
       "last_commit": {
-        "hash": "c7f1a76",
-        "date": "2026-08-27T06:40:06-07:00",
-        "message": "health: refresh calendar density 2026-08-27 06:40"
+        "hash": "8dacddb",
+        "date": "2026-08-27T08:00:16-07:00",
+        "message": "Update health data 2026-08-27 08:00"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,41 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-08-26T06:32:35Z"
+        "updated": "2026-08-28T17:57:46Z"
       },
       "last_commit": {
-        "hash": "f20d5e9",
-        "date": "2026-08-26T06:32:35+00:00",
-        "message": "Update analytics data 2026-08-26"
+        "hash": "a384e38",
+        "date": "2026-08-28T17:57:47+00:00",
+        "message": "Update analytics data 2026-08-28"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "a384e38",
+      "date": "2026-08-28T17:57:47+00:00",
+      "message": "Update analytics data 2026-08-28"
+    },
+    {
+      "hash": "799c036",
+      "date": "2026-08-28T05:52:21-04:00",
+      "message": "blog: 2026-08-28 \u2014 Defensive & Value Rotation Underway"
+    },
+    {
+      "hash": "dbd1301",
+      "date": "2026-08-28T05:52:19-04:00",
+      "message": "daily: 2026-08-28 market update"
+    },
+    {
+      "hash": "3670e7c",
+      "date": "2026-08-27T17:09:19+00:00",
+      "message": "Update analytics data 2026-08-27"
+    },
+    {
+      "hash": "8dacddb",
+      "date": "2026-08-27T08:00:16-07:00",
+      "message": "Update health data 2026-08-27 08:00"
+    },
     {
       "hash": "c7f1a76",
       "date": "2026-08-27T06:40:06-07:00",
@@ -138,31 +163,6 @@
       "hash": "59e0ff1",
       "date": "2026-08-25T21:00:17-07:00",
       "message": "Update health data 2026-08-25 21:00"
-    },
-    {
-      "hash": "39b6d16",
-      "date": "2026-08-25T14:00:16-07:00",
-      "message": "Update health data 2026-08-25 14:00"
-    },
-    {
-      "hash": "3de2de0",
-      "date": "2026-08-25T12:30:27-07:00",
-      "message": "social: 2026-08-25 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "06a8635",
-      "date": "2026-08-25T09:05:24-07:00",
-      "message": "research: publish adaptive domain intelligence audit paper"
-    },
-    {
-      "hash": "726fa64",
-      "date": "2026-08-25T08:00:14-07:00",
-      "message": "Update health data 2026-08-25 08:00"
-    },
-    {
-      "hash": "2a9582a",
-      "date": "2026-08-25T07:02:15-07:00",
-      "message": "social: embed Short for 2026-08-25 (j6fFp3xV-H4)"
     }
   ]
 }
