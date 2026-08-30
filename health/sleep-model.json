@@ -1,58 +1,58 @@
 {
-  "updated": "2026-08-30T14:00:12.403269",
-  "n": 75,
+  "updated": "2026-08-31T01:00:11.135516",
+  "n": 76,
   "bedtime": {
-    "recommended_norm": 4.041,
-    "recommended_label": "10:02 PM",
+    "recommended_norm": 3.376,
+    "recommended_label": "9:23 PM",
     "kind": "interior-optimum",
     "monotonic_earlier_better": false,
-    "ci_label": "8:44 PM \u2013 10:39 PM",
-    "median_label": "1:38 AM",
-    "pct10_label": "11:12 PM",
+    "ci_label": "9:01 PM \u2013 12:00 AM",
+    "median_label": "1:37 AM",
+    "pct10_label": "11:00 PM",
     "pct90_label": "3:51 AM",
     "stats": {
       "sleep_score": {
         "kind": "quadratic",
-        "cv_r2": 0.039,
-        "r": -0.06,
-        "p": 0.614,
-        "per_hour_earlier": 0.32
+        "cv_r2": 0.097,
+        "r": 0.04,
+        "p": 0.7559,
+        "per_hour_earlier": -0.2
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": -0.03,
-        "r": -0.63,
+        "cv_r2": -0.102,
+        "r": -0.57,
         "p": 0.0,
-        "per_hour_earlier": 0.51
+        "per_hour_earlier": 0.45
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.067,
-        "r": -0.25,
-        "p": 0.0284,
-        "per_hour_earlier": 1.57
+        "cv_r2": -0.22,
+        "r": -0.1,
+        "p": 0.4092,
+        "per_hour_earlier": 0.65
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 76.6,
+      "sleep_score": 72.6,
       "sleep_hours": 8.5,
-      "battery": 87.0
+      "battery": 83.2
     },
     "pred_at_median": {
-      "sleep_score": 76.9,
-      "sleep_hours": 6.7,
-      "battery": 81.3
+      "sleep_score": 76.8,
+      "sleep_hours": 6.6,
+      "battery": 80.5
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.11,
-        "sleep_hours": 0.01,
-        "battery": -0.09
+        "sleep_score": 0.12,
+        "sleep_hours": 0.02,
+        "battery": -0.05
       },
       "weekly_frequency": {
-        "sleep_score": 0.09,
+        "sleep_score": 0.08,
         "sleep_hours": -0.25,
         "battery": -0.01
       }

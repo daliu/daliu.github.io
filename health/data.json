@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-30T14:00:06.489720",
+  "updated": "2026-08-31T01:00:05.042298",
   "daily": [
     {
       "date": "2026-06-03",
@@ -2296,15 +2296,43 @@
       "bb_drained": 8,
       "bb_at_wake": 10,
       "sedentary_seconds": 53346
+    },
+    {
+      "date": "2026-08-30",
+      "avg_body_battery": 5.0,
+      "min_body_battery": 5,
+      "max_body_battery": 13,
+      "avg_stress": 73.0,
+      "total_steps": 60117,
+      "sleep_score": 32,
+      "sleep_hours": 4.17,
+      "hrv_weekly": 53,
+      "hrv_last_night": 47,
+      "hrv_status": "LOW",
+      "resting_hr": 48,
+      "sleep_start": "19:33",
+      "sleep_end": "00:12",
+      "active_calories": 3551.0,
+      "intensity_minutes": 100,
+      "vigorous_minutes": 268,
+      "distance_meters": 51169.0,
+      "rest_stress_pct": 0.44,
+      "low_stress_pct": 7.68,
+      "medium_stress_pct": 15.07,
+      "high_stress_pct": 25.85,
+      "bb_charged": 3,
+      "bb_drained": 8,
+      "bb_at_wake": 10,
+      "sedentary_seconds": 30214
     }
   ],
   "hr_zones": {
-    "z1": 21325.89,
-    "z2": 43963.443,
-    "z3": 42848.462999999996,
-    "z4": 30513.74,
+    "z1": 22945.848,
+    "z2": 47707.349,
+    "z3": 55164.176999999996,
+    "z4": 32673.199,
     "z5": 6580.767,
-    "n": 44,
+    "n": 45,
     "days": 90
   },
   "hourly": [
@@ -2521,6 +2549,33 @@
       "resting_hr": 48,
       "stress_avg": 72,
       "steps": 5314,
+      "sleep_score": 32,
+      "hrv_weekly_avg": 53
+    },
+    {
+      "timestamp": "2026-08-30 04:11:23",
+      "body_battery_current": 5,
+      "resting_hr": 48,
+      "stress_avg": 72,
+      "steps": 34362,
+      "sleep_score": 32,
+      "hrv_weekly_avg": 53
+    },
+    {
+      "timestamp": "2026-08-30 06:11:30",
+      "body_battery_current": 5,
+      "resting_hr": 48,
+      "stress_avg": 73,
+      "steps": 58652,
+      "sleep_score": 32,
+      "hrv_weekly_avg": 53
+    },
+    {
+      "timestamp": "2026-08-30 07:11:33",
+      "body_battery_current": 5,
+      "resting_hr": 48,
+      "stress_avg": 74,
+      "steps": 60117,
       "sleep_score": 32,
       "hrv_weekly_avg": 53
     }
@@ -2785,6 +2840,10 @@
     {
       "date": "2026-08-22",
       "vo2max": 54.0
+    },
+    {
+      "date": "2026-08-30",
+      "vo2max": 53.0
     }
   ]
 }
