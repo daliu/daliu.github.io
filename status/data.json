@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-04T04:00:16.047174+00:00",
+  "generated_at": "2026-09-04T10:41:07.745319+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "11080b2",
-      "date": "2026-09-03T19:08:46-07:00",
-      "message": "Update health data 2026-09-03 19:08"
+      "hash": "b5757df",
+      "date": "2026-09-04T10:13:46+00:00",
+      "message": "Update analytics data 2026-09-04"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-09-03T21:00:03.127726",
+        "updated": "2026-09-04T03:40:41.137436",
         "date_range": null
       },
       "last_commit": {
-        "hash": "11080b2",
-        "date": "2026-09-03T19:08:46-07:00",
-        "message": "Update health data 2026-09-03 19:08"
+        "hash": "d01357d",
+        "date": "2026-09-03T21:00:16-07:00",
+        "message": "Update health data 2026-09-03 21:00"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,26 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-09-03T10:26:19Z"
+        "updated": "2026-09-04T10:13:45Z"
       },
       "last_commit": {
-        "hash": "516147d",
-        "date": "2026-09-03T10:26:20+00:00",
-        "message": "Update analytics data 2026-09-03"
+        "hash": "b5757df",
+        "date": "2026-09-04T10:13:46+00:00",
+        "message": "Update analytics data 2026-09-04"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "b5757df",
+      "date": "2026-09-04T10:13:46+00:00",
+      "message": "Update analytics data 2026-09-04"
+    },
+    {
+      "hash": "d01357d",
+      "date": "2026-09-03T21:00:16-07:00",
+      "message": "Update health data 2026-09-03 21:00"
+    },
     {
       "hash": "11080b2",
       "date": "2026-09-03T19:08:46-07:00",
@@ -153,16 +163,6 @@
       "hash": "a79dc35",
       "date": "2026-09-01T10:50:38+00:00",
       "message": "Update analytics data 2026-09-01"
-    },
-    {
-      "hash": "9923455",
-      "date": "2026-09-01T06:12:27-04:00",
-      "message": "blog: 2026-09-01 \u2014 Energy Dominance"
-    },
-    {
-      "hash": "decf8c6",
-      "date": "2026-09-01T06:12:23-04:00",
-      "message": "daily: 2026-09-01 market update"
     }
   ]
 }
