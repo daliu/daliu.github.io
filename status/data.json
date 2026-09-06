@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-06T04:00:16.985875+00:00",
+  "generated_at": "2026-09-06T15:00:17.004339+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "cc72c09",
-      "date": "2026-09-05T14:00:14-07:00",
-      "message": "Update health data 2026-09-05 14:00"
+      "hash": "eb8bccc",
+      "date": "2026-09-06T06:40:07-07:00",
+      "message": "health: refresh calendar density 2026-09-06 06:40"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-09-05T21:00:07.017756",
+        "updated": "2026-09-06T08:00:03.718445",
         "date_range": null
       },
       "last_commit": {
-        "hash": "cc72c09",
-        "date": "2026-09-05T14:00:14-07:00",
-        "message": "Update health data 2026-09-05 14:00"
+        "hash": "eb8bccc",
+        "date": "2026-09-06T06:40:07-07:00",
+        "message": "health: refresh calendar density 2026-09-06 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-09-05T09:42:27Z"
+        "updated": "2026-09-06T09:57:56Z"
       },
       "last_commit": {
-        "hash": "d288cc7",
-        "date": "2026-09-05T09:42:28+00:00",
-        "message": "Update analytics data 2026-09-05"
+        "hash": "730d3aa",
+        "date": "2026-09-06T09:57:56+00:00",
+        "message": "Update analytics data 2026-09-06"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "eb8bccc",
+      "date": "2026-09-06T06:40:07-07:00",
+      "message": "health: refresh calendar density 2026-09-06 06:40"
+    },
+    {
+      "hash": "730d3aa",
+      "date": "2026-09-06T09:57:56+00:00",
+      "message": "Update analytics data 2026-09-06"
+    },
+    {
+      "hash": "df0bd9d",
+      "date": "2026-09-05T21:00:17-07:00",
+      "message": "Update health data 2026-09-05 21:00"
+    },
     {
       "hash": "cc72c09",
       "date": "2026-09-05T14:00:14-07:00",
@@ -148,21 +163,6 @@
       "hash": "9a0ee17",
       "date": "2026-09-04T01:00:41+10:00",
       "message": "Update health data 2026-09-04 01:00"
-    },
-    {
-      "hash": "8e120d3",
-      "date": "2026-09-03T23:40:26+10:00",
-      "message": "health: refresh calendar density 2026-09-03 23:40"
-    },
-    {
-      "hash": "516147d",
-      "date": "2026-09-03T10:26:20+00:00",
-      "message": "Update analytics data 2026-09-03"
-    },
-    {
-      "hash": "2f658f1",
-      "date": "2026-09-03T06:14:30-04:00",
-      "message": "blog: 2026-09-03 \u2014 Geopolitical Risk & Hard Asset Rally"
     }
   ]
 }
