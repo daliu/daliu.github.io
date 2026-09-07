@@ -1,38 +1,28 @@
 {
-  "updated": "2026-09-06T09:57:56Z",
+  "updated": "2026-09-07T11:08:08Z",
   "date_range": {
-    "start": "2026-06-09",
-    "end": "2026-09-06"
+    "start": "2026-06-10",
+    "end": "2026-09-07"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-06-09",
-    "end": "2026-08-28",
+    "start": "2026-06-10",
+    "end": "2026-09-06",
     "days_with_data": 29
   },
   "totals": {
-    "total_users": 178,
-    "total_sessions": 211,
-    "total_pageviews": 510,
-    "total_engaged_sessions": 49,
-    "engagement_rate": 0.2322,
-    "avg_session_duration_seconds": 198.5,
-    "bounce_rate": 0.7678
+    "total_users": 171,
+    "total_sessions": 202,
+    "total_pageviews": 482,
+    "total_engaged_sessions": 46,
+    "engagement_rate": 0.2277,
+    "avg_session_duration_seconds": 201.8,
+    "bounce_rate": 0.7723
   },
   "daily": [
-    {
-      "date": "2026-06-09",
-      "users": 8,
-      "sessions": 10,
-      "pageviews": 30,
-      "new_users": 6,
-      "avg_session_duration": 152.5,
-      "bounce_rate": 0.7,
-      "engaged_sessions": 3
-    },
     {
       "date": "2026-06-10",
       "users": 6,
@@ -312,29 +302,39 @@
       "avg_session_duration": 39.6,
       "bounce_rate": 0.0,
       "engaged_sessions": 1
+    },
+    {
+      "date": "2026-09-06",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 2,
+      "new_users": 1,
+      "avg_session_duration": 416.1,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     }
   ],
   "pages": [
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 165,
-      "users": 113,
-      "avg_time_on_page": 106.9,
-      "sessions": 146,
-      "engaged": 33,
-      "engagement_rate": 0.226,
+      "pageviews": 161,
+      "users": 109,
+      "avg_time_on_page": 113.6,
+      "sessions": 141,
+      "engaged": 32,
+      "engagement_rate": 0.227,
       "class": "mixed"
     },
     {
       "path": "/knowledge/",
       "title": "Knowledge Graph \u2014 Dave Liu",
-      "pageviews": 83,
+      "pageviews": 63,
       "users": 2,
-      "avg_time_on_page": 261.0,
-      "sessions": 20,
-      "engaged": 13,
-      "engagement_rate": 0.65,
+      "avg_time_on_page": 232.8,
+      "sessions": 17,
+      "engaged": 11,
+      "engagement_rate": 0.647,
       "class": "human"
     },
     {
@@ -362,12 +362,12 @@
     {
       "path": "/patterns-of-choice/",
       "title": "Patterns of Choice \u2014 Dave Liu",
-      "pageviews": 19,
-      "users": 2,
-      "avg_time_on_page": 201.9,
-      "sessions": 9,
-      "engaged": 8,
-      "engagement_rate": 0.889,
+      "pageviews": 17,
+      "users": 1,
+      "avg_time_on_page": 213.6,
+      "sessions": 8,
+      "engaged": 7,
+      "engagement_rate": 0.875,
       "class": "human"
     },
     {
@@ -540,11 +540,11 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 172,
-      "users": 143,
-      "engaged": 26,
-      "engagement_rate": 0.151,
-      "class": "mixed"
+      "sessions": 163,
+      "users": 138,
+      "engaged": 23,
+      "engagement_rate": 0.141,
+      "class": "automated"
     },
     {
       "source": "linkedin.com",
@@ -567,8 +567,8 @@
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 3,
-      "users": 3,
+      "sessions": 4,
+      "users": 4,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -595,25 +595,25 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 190,
-      "percentage": 90.0
+      "sessions": 182,
+      "percentage": 90.1
     },
     {
       "category": "mobile",
-      "sessions": 21,
-      "percentage": 10.0
+      "sessions": 20,
+      "percentage": 9.9
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 183,
-      "percentage": 84.7
+      "sessions": 175,
+      "percentage": 84.5
     },
     {
       "browser": "Safari",
-      "sessions": 22,
-      "percentage": 10.2
+      "sessions": 21,
+      "percentage": 10.1
     },
     {
       "browser": "Safari (in-app)",
@@ -659,13 +659,13 @@
   "countries": [
     {
       "country": "Singapore",
-      "sessions": 107,
-      "users": 107
+      "sessions": 102,
+      "users": 102
     },
     {
       "country": "United States",
-      "sessions": 92,
-      "users": 31
+      "sessions": 89,
+      "users": 32
     },
     {
       "country": "Unknown",
@@ -673,12 +673,12 @@
       "users": 3
     },
     {
-      "country": "Canada",
-      "sessions": 3,
-      "users": 3
+      "country": "Brazil",
+      "sessions": 2,
+      "users": 2
     },
     {
-      "country": "Brazil",
+      "country": "Canada",
       "sessions": 2,
       "users": 2
     },
@@ -704,8 +704,8 @@
     }
   ],
   "user_types": {
-    "new": 147,
-    "returning": 58
+    "new": 142,
+    "returning": 54
   },
   "hourly": [
     {
@@ -798,7 +798,7 @@
     },
     {
       "hour": 22,
-      "pageviews": 0
+      "pageviews": 2
     },
     {
       "hour": 23,
@@ -806,12 +806,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 49,
-    "non_engaged_sessions": 162,
-    "likely_automated_sessions": 113,
-    "likely_human_sessions": 98,
-    "automated_pct": 53.6,
-    "est_human_users": 37,
+    "engaged_sessions": 46,
+    "non_engaged_sessions": 156,
+    "likely_automated_sessions": 107,
+    "likely_human_sessions": 95,
+    "automated_pct": 53.0,
+    "est_human_users": 38,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -820,22 +820,22 @@
   "country_quality": [
     {
       "country": "Singapore",
-      "sessions": 107,
+      "sessions": 102,
       "engaged": 0,
-      "users": 107,
-      "pageviews": 107,
+      "users": 102,
+      "pageviews": 102,
       "avg_duration": 0.4,
       "engagement_rate": 0.0,
       "class": "automated"
     },
     {
       "country": "United States",
-      "sessions": 92,
-      "engaged": 45,
-      "users": 31,
-      "pageviews": 391,
-      "avg_duration": 453.7,
-      "engagement_rate": 0.489,
+      "sessions": 89,
+      "engaged": 42,
+      "users": 32,
+      "pageviews": 369,
+      "avg_duration": 456.5,
+      "engagement_rate": 0.472,
       "class": "human"
     },
     {
@@ -849,16 +849,6 @@
       "class": "mixed"
     },
     {
-      "country": "Canada",
-      "sessions": 3,
-      "engaged": 0,
-      "users": 3,
-      "pageviews": 3,
-      "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
       "country": "Brazil",
       "sessions": 2,
       "engaged": 1,
@@ -867,6 +857,16 @@
       "avg_duration": 22.3,
       "engagement_rate": 0.5,
       "class": "human"
+    },
+    {
+      "country": "Canada",
+      "sessions": 2,
+      "engaged": 0,
+      "users": 2,
+      "pageviews": 2,
+      "avg_duration": 0.0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     },
     {
       "country": "China",
@@ -943,7 +943,7 @@
         0,
         13,
         8,
-        0,
+        2,
         5
       ],
       [
@@ -973,30 +973,30 @@
         8
       ],
       [
-        18,
+        2,
         0,
         1,
-        3,
+        2,
         0,
         0,
         0,
         1,
         0,
-        5,
+        4,
         3,
         6,
         11,
-        8,
+        7,
         0,
+        2,
         3,
-        3,
-        6,
+        2,
         0,
         0,
-        6,
-        9,
+        4,
         8,
-        4
+        8,
+        1
       ],
       [
         9,
@@ -1109,38 +1109,38 @@
     "countries": [
       "Singapore",
       "United States",
-      "Canada",
-      "Brazil"
+      "Brazil",
+      "Canada"
     ],
     "matrix": [
       [
         2,
         3,
         4,
-        20,
+        19,
         1,
         0,
         3,
         1,
         1,
+        18,
+        2,
+        2,
+        0,
+        0,
+        0,
         19,
-        2,
-        2,
-        0,
-        0,
-        0,
-        20,
         1,
         1,
         0,
         1,
-        1,
-        23,
+        0,
+        22,
         1,
         1
       ],
       [
-        5,
+        4,
         6,
         3,
         1,
@@ -1157,13 +1157,13 @@
         2,
         1,
         5,
-        4,
+        3,
         6,
         2,
-        11,
+        10,
         5,
-        5,
-        6
+        6,
+        5
       ],
       [
         0,
@@ -1174,18 +1174,18 @@
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
         1,
         0,
         0,
         0,
+        0,
+        0,
+        0,
         1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
         0,
         0,
         0,
@@ -1200,7 +1200,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -1211,7 +1211,7 @@
         0,
         0,
         0,
-        1,
+        0,
         0,
         0,
         0,
@@ -1225,8 +1225,8 @@
       "lat": 1.2899175,
       "lng": 103.8519072,
       "label": "Singapore, Singapore",
-      "sessions": 107,
-      "users": 107,
+      "sessions": 102,
+      "users": 102,
       "engaged": 0,
       "engagement_rate": 0.0
     },
@@ -1234,10 +1234,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 54,
-      "users": 3,
-      "engaged": 33,
-      "engagement_rate": 0.611
+      "sessions": 52,
+      "users": 4,
+      "engaged": 31,
+      "engagement_rate": 0.596
     },
     {
       "lat": 37.3361663,
@@ -1267,29 +1267,20 @@
       "engagement_rate": 0.0
     },
     {
-      "lat": 39.8283,
-      "lng": -98.5795,
-      "label": "United States",
-      "sessions": 4,
-      "users": 3,
-      "engaged": 2,
-      "engagement_rate": 0.5
-    },
-    {
-      "lat": 51.0456064,
-      "lng": -114.057541,
-      "label": "Calgary, Canada",
-      "sessions": 3,
-      "users": 3,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
       "lat": 37.6535403,
       "lng": -122.4168664,
       "label": "South San Francisco, United States",
       "sessions": 3,
       "users": 1,
+      "engaged": 1,
+      "engagement_rate": 0.333
+    },
+    {
+      "lat": 39.8283,
+      "lng": -98.5795,
+      "label": "United States",
+      "sessions": 3,
+      "users": 3,
       "engaged": 1,
       "engagement_rate": 0.333
     },
@@ -1301,6 +1292,15 @@
       "users": 2,
       "engaged": 1,
       "engagement_rate": 0.5
+    },
+    {
+      "lat": 51.0456064,
+      "lng": -114.057541,
+      "label": "Calgary, Canada",
+      "sessions": 2,
+      "users": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0
     },
     {
       "lat": 39.1911128,
@@ -1468,23 +1468,23 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 15,
-        "previous": 39,
-        "change_pct": -61.5
+        "current": 11,
+        "previous": 38,
+        "change_pct": -71.1
       },
       "sessions": {
-        "current": 15,
-        "previous": 49,
-        "change_pct": -69.4
+        "current": 11,
+        "previous": 46,
+        "change_pct": -76.1
       },
       "pageviews": {
-        "current": 17,
-        "previous": 93,
-        "change_pct": -81.7
+        "current": 13,
+        "previous": 85,
+        "change_pct": -84.7
       }
     },
     "baseline": {
-      "mean_pageviews": 17.6,
+      "mean_pageviews": 16.6,
       "std_pageviews": 20.1
     },
     "anomalies": [
