@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-08T14:00:07.131421",
+  "updated": "2026-09-08T21:00:06.341892",
   "daily": [
     {
       "date": "2026-06-11",
@@ -2352,27 +2352,46 @@
       "bb_drained": 54,
       "bb_at_wake": 65,
       "sedentary_seconds": 46617
+    },
+    {
+      "date": "2026-09-09",
+      "avg_body_battery": 7.0,
+      "min_body_battery": 7,
+      "max_body_battery": 47,
+      "avg_stress": 36.0,
+      "total_steps": 3837,
+      "sleep_score": 40,
+      "sleep_hours": 2.9,
+      "hrv_weekly": 68,
+      "hrv_last_night": 67,
+      "hrv_status": "BALANCED",
+      "resting_hr": 46,
+      "sleep_start": "06:52",
+      "sleep_end": "09:47",
+      "active_calories": 233.0,
+      "intensity_minutes": 1,
+      "vigorous_minutes": 17,
+      "distance_meters": 3830.0,
+      "rest_stress_pct": 36.01,
+      "low_stress_pct": 11.14,
+      "medium_stress_pct": 11.32,
+      "high_stress_pct": 7.13,
+      "bb_charged": 44,
+      "bb_drained": 29,
+      "bb_at_wake": 47,
+      "sedentary_seconds": 55372
     }
   ],
   "hr_zones": {
-    "z1": 19929.479,
-    "z2": 44531.125,
-    "z3": 52627.737,
-    "z4": 30677.267,
-    "z5": 5777.881,
-    "n": 40,
+    "z1": 19955.482,
+    "z2": 44973.121,
+    "z3": 53574.731,
+    "z4": 32870.23,
+    "z5": 6331.867,
+    "n": 41,
     "days": 90
   },
   "hourly": [
-    {
-      "timestamp": "2026-09-02 00:49:37",
-      "body_battery_current": null,
-      "resting_hr": null,
-      "stress_avg": -2,
-      "steps": 416,
-      "sleep_score": null,
-      "hrv_weekly_avg": 44
-    },
     {
       "timestamp": "2026-09-02 08:52:51",
       "body_battery_current": 35,
@@ -2633,6 +2652,15 @@
       "steps": 607,
       "sleep_score": 40,
       "hrv_weekly_avg": 68
+    },
+    {
+      "timestamp": "2026-09-09 03:06:08",
+      "body_battery_current": 7,
+      "resting_hr": 46,
+      "stress_avg": 36,
+      "steps": 3837,
+      "sleep_score": 40,
+      "hrv_weekly_avg": 68
     }
   ],
   "vo2max": [
@@ -2890,6 +2918,10 @@
     },
     {
       "date": "2026-08-30",
+      "vo2max": 53.0
+    },
+    {
+      "date": "2026-09-08",
       "vo2max": 53.0
     }
   ]
