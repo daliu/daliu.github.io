@@ -1,10 +1,10 @@
 {
-  "updated": "2026-09-16T08:00:07.996354",
+  "updated": "2026-09-16T14:00:11.117316",
   "date_range": {
     "start": "2026-01-12",
-    "end": "2026-09-15",
-    "nights": 157,
-    "consecutive_pairs": 125
+    "end": "2026-09-16",
+    "nights": 158,
+    "consecutive_pairs": 126
   },
   "variables": [
     {
@@ -52,490 +52,490 @@
   ],
   "autocorr": {
     "sleep_score": {
-      "rho": -0.184,
-      "p": 0.0401,
-      "n": 125
+      "rho": -0.175,
+      "p": 0.0502,
+      "n": 126
     },
     "sleep_hours": {
-      "rho": -0.305,
-      "p": 0.0005,
-      "n": 125
+      "rho": -0.303,
+      "p": 0.0006,
+      "n": 126
     },
     "deep_mins": {
-      "rho": 0.06,
-      "p": 0.5096,
-      "n": 125
+      "rho": 0.063,
+      "p": 0.4863,
+      "n": 126
     },
     "rem_mins": {
-      "rho": -0.23,
-      "p": 0.01,
-      "n": 125
+      "rho": -0.227,
+      "p": 0.0107,
+      "n": 126
     },
     "light_mins": {
-      "rho": -0.123,
-      "p": 0.1702,
-      "n": 125
+      "rho": -0.122,
+      "p": 0.1733,
+      "n": 126
     },
     "awake_count": {
-      "rho": -0.233,
-      "p": 0.009,
-      "n": 125
+      "rho": -0.225,
+      "p": 0.0114,
+      "n": 126
     },
     "bedtime": {
-      "rho": 0.05,
-      "p": 0.5779,
-      "n": 125
+      "rho": 0.054,
+      "p": 0.5495,
+      "n": 126
     }
   },
   "cross_lag": [
     {
       "from": "sleep_score",
       "to": "sleep_score",
-      "rho": -0.184,
-      "p": 0.0401,
-      "n": 125,
-      "fdr_sig": true
+      "rho": -0.175,
+      "p": 0.0502,
+      "n": 126,
+      "fdr_sig": false
     },
     {
       "from": "sleep_score",
       "to": "sleep_hours",
-      "rho": -0.29,
-      "p": 0.001,
-      "n": 125,
+      "rho": -0.287,
+      "p": 0.0011,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "sleep_score",
       "to": "deep_mins",
-      "rho": 0.076,
-      "p": 0.3966,
-      "n": 125,
+      "rho": 0.081,
+      "p": 0.3655,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "sleep_score",
       "to": "rem_mins",
-      "rho": -0.267,
-      "p": 0.0026,
-      "n": 125,
+      "rho": -0.263,
+      "p": 0.0029,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "sleep_score",
       "to": "light_mins",
-      "rho": -0.285,
-      "p": 0.0013,
-      "n": 125,
+      "rho": -0.281,
+      "p": 0.0014,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "sleep_score",
       "to": "awake_count",
-      "rho": -0.0,
-      "p": 0.9999,
-      "n": 125,
+      "rho": -0.01,
+      "p": 0.914,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "sleep_score",
       "to": "bedtime",
-      "rho": 0.235,
-      "p": 0.0082,
-      "n": 125,
+      "rho": 0.248,
+      "p": 0.0051,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "sleep_hours",
       "to": "sleep_score",
-      "rho": -0.194,
-      "p": 0.0298,
-      "n": 125,
+      "rho": -0.19,
+      "p": 0.0332,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "sleep_hours",
+      "to": "sleep_hours",
+      "rho": -0.303,
+      "p": 0.0006,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "sleep_hours",
+      "to": "deep_mins",
+      "rho": 0.059,
+      "p": 0.5083,
+      "n": 126,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "rem_mins",
+      "rho": -0.256,
+      "p": 0.0038,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "sleep_hours",
+      "to": "light_mins",
+      "rho": -0.28,
+      "p": 0.0015,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "sleep_hours",
+      "to": "awake_count",
+      "rho": -0.062,
+      "p": 0.4927,
+      "n": 126,
+      "fdr_sig": false
+    },
+    {
+      "from": "sleep_hours",
+      "to": "bedtime",
+      "rho": 0.294,
+      "p": 0.0008,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "deep_mins",
+      "to": "sleep_score",
+      "rho": -0.135,
+      "p": 0.1312,
+      "n": 126,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "sleep_hours",
+      "rho": -0.326,
+      "p": 0.0002,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "deep_mins",
+      "to": "deep_mins",
+      "rho": 0.063,
+      "p": 0.4863,
+      "n": 126,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "rem_mins",
+      "rho": -0.152,
+      "p": 0.0899,
+      "n": 126,
+      "fdr_sig": false
+    },
+    {
+      "from": "deep_mins",
+      "to": "light_mins",
+      "rho": -0.383,
+      "p": 0.0,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "deep_mins",
+      "to": "awake_count",
+      "rho": -0.301,
+      "p": 0.0006,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "deep_mins",
+      "to": "bedtime",
+      "rho": 0.298,
+      "p": 0.0007,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "rem_mins",
+      "to": "sleep_score",
+      "rho": -0.184,
+      "p": 0.0395,
+      "n": 126,
+      "fdr_sig": true
+    },
+    {
+      "from": "rem_mins",
       "to": "sleep_hours",
       "rho": -0.305,
       "p": 0.0005,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "sleep_hours",
-      "to": "deep_mins",
-      "rho": 0.056,
-      "p": 0.5354,
-      "n": 125,
-      "fdr_sig": false
-    },
-    {
-      "from": "sleep_hours",
-      "to": "rem_mins",
-      "rho": -0.258,
-      "p": 0.0036,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "sleep_hours",
-      "to": "light_mins",
-      "rho": -0.282,
-      "p": 0.0014,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "sleep_hours",
-      "to": "awake_count",
-      "rho": -0.057,
-      "p": 0.5274,
-      "n": 125,
-      "fdr_sig": false
-    },
-    {
-      "from": "sleep_hours",
-      "to": "bedtime",
-      "rho": 0.287,
-      "p": 0.0012,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "deep_mins",
-      "to": "sleep_score",
-      "rho": -0.141,
-      "p": 0.1178,
-      "n": 125,
-      "fdr_sig": false
-    },
-    {
-      "from": "deep_mins",
-      "to": "sleep_hours",
-      "rho": -0.327,
-      "p": 0.0002,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "deep_mins",
-      "to": "deep_mins",
-      "rho": 0.06,
-      "p": 0.5096,
-      "n": 125,
-      "fdr_sig": false
-    },
-    {
-      "from": "deep_mins",
-      "to": "rem_mins",
-      "rho": -0.153,
-      "p": 0.0885,
-      "n": 125,
-      "fdr_sig": false
-    },
-    {
-      "from": "deep_mins",
-      "to": "light_mins",
-      "rho": -0.385,
-      "p": 0.0,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "deep_mins",
-      "to": "awake_count",
-      "rho": -0.296,
-      "p": 0.0008,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "deep_mins",
-      "to": "bedtime",
-      "rho": 0.291,
-      "p": 0.001,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "rem_mins",
-      "to": "sleep_score",
-      "rho": -0.191,
-      "p": 0.033,
-      "n": 125,
-      "fdr_sig": true
-    },
-    {
-      "from": "rem_mins",
-      "to": "sleep_hours",
-      "rho": -0.308,
-      "p": 0.0005,
-      "n": 125,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "rem_mins",
       "to": "deep_mins",
-      "rho": 0.005,
-      "p": 0.9528,
-      "n": 125,
+      "rho": 0.01,
+      "p": 0.9095,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "rem_mins",
       "to": "rem_mins",
-      "rho": -0.23,
-      "p": 0.01,
-      "n": 125,
+      "rho": -0.227,
+      "p": 0.0107,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "rem_mins",
       "to": "light_mins",
-      "rho": -0.3,
+      "rho": -0.297,
       "p": 0.0007,
-      "n": 125,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "rem_mins",
       "to": "awake_count",
-      "rho": -0.037,
-      "p": 0.685,
-      "n": 125,
+      "rho": -0.043,
+      "p": 0.634,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "rem_mins",
       "to": "bedtime",
-      "rho": 0.226,
-      "p": 0.0112,
-      "n": 125,
+      "rho": 0.236,
+      "p": 0.0077,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "light_mins",
       "to": "sleep_score",
-      "rho": -0.068,
-      "p": 0.454,
-      "n": 125,
+      "rho": -0.066,
+      "p": 0.4655,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "light_mins",
       "to": "sleep_hours",
-      "rho": -0.15,
-      "p": 0.0941,
-      "n": 125,
+      "rho": -0.149,
+      "p": 0.0963,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "light_mins",
       "to": "deep_mins",
-      "rho": 0.082,
-      "p": 0.3627,
-      "n": 125,
+      "rho": 0.083,
+      "p": 0.356,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "light_mins",
       "to": "rem_mins",
-      "rho": -0.156,
-      "p": 0.0819,
-      "n": 125,
+      "rho": -0.154,
+      "p": 0.0846,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "light_mins",
       "to": "light_mins",
-      "rho": -0.123,
-      "p": 0.1702,
-      "n": 125,
+      "rho": -0.122,
+      "p": 0.1733,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "light_mins",
       "to": "awake_count",
       "rho": -0.03,
-      "p": 0.7422,
-      "n": 125,
+      "p": 0.7425,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "light_mins",
       "to": "bedtime",
-      "rho": 0.137,
-      "p": 0.1267,
-      "n": 125,
+      "rho": 0.139,
+      "p": 0.1202,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "awake_count",
       "to": "sleep_score",
-      "rho": 0.034,
-      "p": 0.7039,
-      "n": 125,
+      "rho": 0.03,
+      "p": 0.7423,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "awake_count",
       "to": "sleep_hours",
       "rho": -0.064,
-      "p": 0.4784,
-      "n": 125,
+      "p": 0.4796,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "awake_count",
       "to": "deep_mins",
-      "rho": 0.028,
-      "p": 0.757,
-      "n": 125,
+      "rho": 0.025,
+      "p": 0.7808,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "awake_count",
       "to": "rem_mins",
-      "rho": -0.056,
-      "p": 0.5372,
-      "n": 125,
+      "rho": -0.057,
+      "p": 0.5288,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "awake_count",
       "to": "light_mins",
       "rho": -0.064,
-      "p": 0.4798,
-      "n": 125,
+      "p": 0.4748,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "awake_count",
       "to": "awake_count",
-      "rho": -0.233,
-      "p": 0.009,
-      "n": 125,
+      "rho": -0.225,
+      "p": 0.0114,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "awake_count",
       "to": "bedtime",
-      "rho": 0.112,
-      "p": 0.2128,
-      "n": 125,
+      "rho": 0.103,
+      "p": 0.2497,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "bedtime",
       "to": "sleep_score",
-      "rho": 0.109,
-      "p": 0.2266,
-      "n": 125,
+      "rho": 0.113,
+      "p": 0.2097,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "bedtime",
       "to": "sleep_hours",
       "rho": 0.12,
-      "p": 0.1837,
-      "n": 125,
+      "p": 0.1818,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "bedtime",
       "to": "deep_mins",
-      "rho": -0.004,
-      "p": 0.9632,
-      "n": 125,
+      "rho": -0.002,
+      "p": 0.9824,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "bedtime",
       "to": "rem_mins",
       "rho": 0.184,
-      "p": 0.0402,
-      "n": 125,
+      "p": 0.0388,
+      "n": 126,
       "fdr_sig": true
     },
     {
       "from": "bedtime",
       "to": "light_mins",
-      "rho": 0.051,
-      "p": 0.5692,
-      "n": 125,
+      "rho": 0.052,
+      "p": 0.5624,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "bedtime",
       "to": "awake_count",
-      "rho": 0.03,
-      "p": 0.7362,
-      "n": 125,
+      "rho": 0.026,
+      "p": 0.7692,
+      "n": 126,
       "fdr_sig": false
     },
     {
       "from": "bedtime",
       "to": "bedtime",
-      "rho": 0.05,
-      "p": 0.5779,
-      "n": 125,
+      "rho": 0.054,
+      "p": 0.5495,
+      "n": 126,
       "fdr_sig": false
     }
   ],
   "rebound": {
     "sleep_score": {
       "after_high": {
-        "mean": 66.7,
-        "n": 46
+        "mean": 67.2,
+        "n": 42
       },
       "after_low": {
         "mean": 71.5,
         "n": 42
       },
       "baseline": 69.8,
-      "delta": -4.7,
-      "p": 0.0988,
+      "delta": -4.2,
+      "p": 0.1248,
       "direction": "rebound"
     },
     "sleep_hours": {
       "after_high": {
         "mean": 5.6,
-        "n": 43
+        "n": 42
       },
       "after_low": {
         "mean": 7.0,
         "n": 42
       },
       "baseline": 6.2,
-      "delta": -1.4,
-      "p": 0.0003,
+      "delta": -1.3,
+      "p": 0.0007,
       "direction": "rebound"
     },
     "deep_mins": {
       "after_high": {
-        "mean": 96.1,
-        "n": 42
+        "mean": 96.3,
+        "n": 43
       },
       "after_low": {
         "mean": 92.0,
         "n": 43
       },
       "baseline": 95.6,
-      "delta": 4.1,
-      "p": 0.4736,
+      "delta": 4.3,
+      "p": 0.4368,
       "direction": "persistence"
     },
     "rem_mins": {
       "after_high": {
-        "mean": 62.2,
-        "n": 44
+        "mean": 61.0,
+        "n": 42
       },
       "after_low": {
         "mean": 85.5,
         "n": 44
       },
-      "baseline": 78.4,
-      "delta": -23.3,
-      "p": 0.0063,
+      "baseline": 78.5,
+      "delta": -24.5,
+      "p": 0.0034,
       "direction": "rebound"
     },
     "light_mins": {
@@ -547,7 +547,7 @@
         "mean": 217.5,
         "n": 42
       },
-      "baseline": 196.4,
+      "baseline": 196.3,
       "delta": -23.3,
       "p": 0.4104,
       "direction": "rebound"
@@ -559,11 +559,11 @@
       },
       "after_low": {
         "mean": 1.2,
-        "n": 67
+        "n": 68
       },
       "baseline": 0.9,
       "delta": -0.6,
-      "p": 0.0144,
+      "p": 0.018,
       "direction": "rebound"
     },
     "bedtime": {
@@ -582,28 +582,28 @@
     }
   },
   "bedtime_effect": {
-    "median_bedtime": 25.58,
-    "n_late": 62,
+    "median_bedtime": 25.59,
+    "n_late": 63,
     "n_early": 63,
     "sleep_score": {
-      "late_mean": 71.4,
+      "late_mean": 71.5,
       "early_mean": 68.2,
-      "p": 0.2387
+      "p": 0.215
     },
     "sleep_hours": {
       "late_mean": 6.4,
       "early_mean": 5.9,
-      "p": 0.2509
+      "p": 0.2535
     },
     "deep_mins": {
-      "late_mean": 95.4,
+      "late_mean": 95.5,
       "early_mean": 95.7,
-      "p": 0.9842
+      "p": 0.9572
     },
     "awake_count": {
       "late_mean": 1.0,
       "early_mean": 0.9,
-      "p": 0.8714
+      "p": 0.934
     }
   },
   "series": [
@@ -2333,23 +2333,30 @@
       "awake_mins": 1,
       "awake_count": 0,
       "bedtime": 26.47
+    },
+    {
+      "date": "2026-09-16",
+      "sleep_score": 79,
+      "sleep_hours": 6.27,
+      "deep_mins": 104,
+      "light_mins": 189,
+      "rem_mins": 83,
+      "awake_mins": 6,
+      "awake_count": 0,
+      "bedtime": 28.02
     }
   ],
   "insights": [
     {
-      "text": "Total sleep rebounds night-to-night: a high night is usually followed by a lower one (rho=-0.30, p=0.001, n=125). After a top-third total sleep night it averages 5.6 vs 7.0 after a bottom-third night. Classic sleep homeostasis \u2014 your body corrects toward balance.",
+      "text": "Total sleep rebounds night-to-night: a high night is usually followed by a lower one (rho=-0.30, p=0.001, n=126). After a top-third total sleep night it averages 5.6 vs 7.0 after a bottom-third night. Classic sleep homeostasis \u2014 your body corrects toward balance.",
       "impact": "neutral"
     },
     {
-      "text": "REM sleep shows a suggestive rebound: 62.2min after a high night vs 85.5min after a low one (p=0.006, n=44+44).",
+      "text": "REM sleep shows a suggestive rebound: 61.0min after a high night vs 85.5min after a low one (p=0.003, n=42+44).",
       "impact": "neutral"
     },
     {
-      "text": "Interruptions shows a suggestive rebound: 0.6 after a high night vs 1.2 after a low one (p=0.014, n=58+67).",
-      "impact": "neutral"
-    },
-    {
-      "text": "Sleep score shows a suggestive rebound: 66.7 after a high night vs 71.5 after a low one (p=0.099, n=46+42).",
+      "text": "Interruptions shows a suggestive rebound: 0.6 after a high night vs 1.2 after a low one (p=0.018, n=58+68).",
       "impact": "neutral"
     },
     {
@@ -2357,15 +2364,15 @@
       "impact": "positive"
     },
     {
-      "text": "More deep sleep one night \u2192 less light sleep the next (rho=-0.39, p=0.000, n=125; survives multiple-comparison correction).",
+      "text": "More deep sleep one night \u2192 less light sleep the next (rho=-0.38, p=0.000, n=126; survives multiple-comparison correction).",
       "impact": "neutral"
     },
     {
-      "text": "More deep sleep one night \u2192 less total sleep the next (rho=-0.33, p=0.000, n=125; survives multiple-comparison correction).",
+      "text": "More deep sleep one night \u2192 less total sleep the next (rho=-0.33, p=0.000, n=126; survives multiple-comparison correction).",
       "impact": "neutral"
     },
     {
-      "text": "More rem sleep one night \u2192 less total sleep the next (rho=-0.31, p=0.001, n=125; survives multiple-comparison correction).",
+      "text": "More rem sleep one night \u2192 less total sleep the next (rho=-0.30, p=0.001, n=126; survives multiple-comparison correction).",
       "impact": "neutral"
     },
     {
