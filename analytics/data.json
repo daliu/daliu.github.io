@@ -1,38 +1,28 @@
 {
-  "updated": "2026-09-16T10:32:35Z",
+  "updated": "2026-09-17T10:42:19Z",
   "date_range": {
-    "start": "2026-06-19",
-    "end": "2026-09-16"
+    "start": "2026-06-20",
+    "end": "2026-09-17"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-06-19",
+    "start": "2026-06-20",
     "end": "2026-09-16",
-    "days_with_data": 25
+    "days_with_data": 24
   },
   "totals": {
-    "total_users": 106,
-    "total_sessions": 124,
-    "total_pageviews": 222,
-    "total_engaged_sessions": 27,
-    "engagement_rate": 0.2177,
-    "avg_session_duration_seconds": 190.5,
-    "bounce_rate": 0.7823
+    "total_users": 102,
+    "total_sessions": 118,
+    "total_pageviews": 216,
+    "total_engaged_sessions": 28,
+    "engagement_rate": 0.2373,
+    "avg_session_duration_seconds": 186.7,
+    "bounce_rate": 0.7627
   },
   "daily": [
-    {
-      "date": "2026-06-19",
-      "users": 6,
-      "sessions": 8,
-      "pageviews": 10,
-      "new_users": 4,
-      "avg_session_duration": 198.9,
-      "bounce_rate": 0.875,
-      "engaged_sessions": 1
-    },
     {
       "date": "2026-06-20",
       "users": 6,
@@ -260,16 +250,16 @@
       "pageviews": 5,
       "new_users": 5,
       "avg_session_duration": 0.8,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
+      "bounce_rate": 0.3333,
+      "engaged_sessions": 2
     },
     {
       "date": "2026-09-16",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 0,
-      "new_users": 0,
-      "avg_session_duration": 0.0,
+      "users": 3,
+      "sessions": 3,
+      "pageviews": 4,
+      "new_users": 4,
+      "avg_session_duration": 0.9,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -278,12 +268,12 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 92,
-      "users": 70,
-      "avg_time_on_page": 94.5,
-      "sessions": 87,
-      "engaged": 18,
-      "engagement_rate": 0.207,
+      "pageviews": 89,
+      "users": 68,
+      "avg_time_on_page": 101.3,
+      "sessions": 81,
+      "engaged": 19,
+      "engagement_rate": 0.235,
       "class": "mixed"
     },
     {
@@ -300,12 +290,12 @@
     {
       "path": "/health/",
       "title": "Health Dashboard \u2014 Dave Liu",
-      "pageviews": 28,
+      "pageviews": 26,
       "users": 3,
-      "avg_time_on_page": 431.6,
-      "sessions": 16,
-      "engaged": 11,
-      "engagement_rate": 0.688,
+      "avg_time_on_page": 356.0,
+      "sessions": 15,
+      "engaged": 10,
+      "engagement_rate": 0.667,
       "class": "human"
     },
     {
@@ -322,12 +312,12 @@
     {
       "path": "/patterns-of-choice/",
       "title": "Patterns of Choice \u2014 Dave Liu",
-      "pageviews": 11,
+      "pageviews": 10,
       "users": 1,
-      "avg_time_on_page": 12.8,
-      "sessions": 5,
-      "engaged": 4,
-      "engagement_rate": 0.8,
+      "avg_time_on_page": 14.7,
+      "sessions": 4,
+      "engaged": 3,
+      "engagement_rate": 0.75,
       "class": "human"
     },
     {
@@ -500,28 +490,19 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 91,
-      "users": 84,
-      "engaged": 10,
-      "engagement_rate": 0.11,
+      "sessions": 90,
+      "users": 83,
+      "engaged": 12,
+      "engagement_rate": 0.133,
       "class": "automated"
     },
     {
       "source": "linkedin.com",
       "medium": "referral",
-      "sessions": 17,
+      "sessions": 16,
       "users": 1,
-      "engaged": 13,
-      "engagement_rate": 0.765,
-      "class": "human"
-    },
-    {
-      "source": "daliu.github.io",
-      "medium": "referral",
-      "sessions": 6,
-      "users": 1,
-      "engaged": 3,
-      "engagement_rate": 0.5,
+      "engaged": 12,
+      "engagement_rate": 0.75,
       "class": "human"
     },
     {
@@ -532,6 +513,15 @@
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
+    },
+    {
+      "source": "daliu.github.io",
+      "medium": "referral",
+      "sessions": 3,
+      "users": 1,
+      "engaged": 3,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "source": "lnkd.in",
@@ -564,25 +554,25 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 105,
-      "percentage": 84.7
+      "sessions": 97,
+      "percentage": 82.2
     },
     {
       "category": "mobile",
-      "sessions": 19,
-      "percentage": 15.3
+      "sessions": 21,
+      "percentage": 17.8
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 103,
-      "percentage": 83.1
+      "sessions": 95,
+      "percentage": 80.5
     },
     {
       "browser": "Safari",
-      "sessions": 20,
-      "percentage": 16.1
+      "sessions": 22,
+      "percentage": 18.6
     },
     {
       "browser": "Mozilla Compatible Agent",
@@ -593,13 +583,13 @@
   "countries": [
     {
       "country": "United States",
-      "sessions": 59,
-      "users": 27
+      "sessions": 57,
+      "users": 29
     },
     {
       "country": "Singapore",
-      "sessions": 54,
-      "users": 54
+      "sessions": 50,
+      "users": 50
     },
     {
       "country": "Brazil",
@@ -633,13 +623,13 @@
     }
   ],
   "user_types": {
-    "new": 85,
-    "returning": 33
+    "new": 84,
+    "returning": 32
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 1,
@@ -655,7 +645,7 @@
     },
     {
       "hour": 4,
-      "pageviews": 0
+      "pageviews": 3
     },
     {
       "hour": 5,
@@ -735,12 +725,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 27,
-    "non_engaged_sessions": 97,
-    "likely_automated_sessions": 58,
-    "likely_human_sessions": 66,
-    "automated_pct": 46.8,
-    "est_human_users": 32,
+    "engaged_sessions": 28,
+    "non_engaged_sessions": 90,
+    "likely_automated_sessions": 54,
+    "likely_human_sessions": 64,
+    "automated_pct": 45.8,
+    "est_human_users": 34,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -749,21 +739,21 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 59,
-      "engaged": 24,
-      "users": 27,
-      "pageviews": 156,
-      "avg_duration": 393.6,
-      "engagement_rate": 0.407,
+      "sessions": 57,
+      "engaged": 25,
+      "users": 29,
+      "pageviews": 154,
+      "avg_duration": 379.6,
+      "engagement_rate": 0.439,
       "class": "human"
     },
     {
       "country": "Singapore",
-      "sessions": 54,
+      "sessions": 50,
       "engaged": 0,
-      "users": 54,
-      "pageviews": 54,
-      "avg_duration": 0.2,
+      "users": 50,
+      "pageviews": 50,
+      "avg_duration": 0.1,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -918,11 +908,11 @@
         2
       ],
       [
-        0,
+        1,
         0,
         0,
         1,
-        0,
+        3,
         0,
         0,
         1,
@@ -973,25 +963,25 @@
         0,
         1,
         1,
-        2,
+        1,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0,
         0,
         0,
         1,
-        1,
-        5,
         0,
         1,
         0,
+        0,
+        0,
         2,
         0,
-        0,
-        0,
-        2,
-        0,
-        2,
+        1,
         0,
         0
       ],
@@ -1037,15 +1027,15 @@
         5,
         2,
         1,
-        0,
-        0,
-        0,
-        3,
-        0,
-        3,
         2,
-        5,
-        5,
+        0,
+        0,
+        3,
+        0,
+        3,
+        1,
+        3,
+        4,
         3,
         0,
         1,
@@ -1062,25 +1052,25 @@
         1,
         1,
         2,
-        10,
-        0,
-        0,
-        1,
-        1,
-        1,
         9,
+        0,
+        0,
+        1,
+        1,
+        1,
+        8,
         0,
         2,
         0,
         0,
         0,
-        10,
+        9,
         1,
         1,
         0,
         0,
         0,
-        12,
+        11,
         1,
         1
       ],
@@ -1144,8 +1134,8 @@
       "lat": 1.2899175,
       "lng": 103.8519072,
       "label": "Singapore, Singapore",
-      "sessions": 54,
-      "users": 54,
+      "sessions": 50,
+      "users": 50,
       "engaged": 0,
       "engagement_rate": 0.0
     },
@@ -1153,19 +1143,19 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 28,
+      "sessions": 24,
       "users": 3,
-      "engaged": 17,
-      "engagement_rate": 0.607
+      "engaged": 16,
+      "engagement_rate": 0.667
     },
     {
       "lat": 39.029784,
       "lng": -77.4744148,
       "label": "Ashburn, United States",
-      "sessions": 12,
-      "users": 12,
-      "engaged": 1,
-      "engagement_rate": 0.083
+      "sessions": 14,
+      "users": 14,
+      "engaged": 3,
+      "engagement_rate": 0.214
     },
     {
       "lat": -14.235,
@@ -1297,30 +1287,30 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 10,
+        "current": 12,
         "previous": 15,
-        "change_pct": -33.3
+        "change_pct": -20.0
       },
       "sessions": {
-        "current": 10,
+        "current": 12,
         "previous": 15,
-        "change_pct": -33.3
+        "change_pct": -20.0
       },
       "pageviews": {
-        "current": 14,
+        "current": 18,
         "previous": 16,
-        "change_pct": -12.5
+        "change_pct": 12.5
       }
     },
     "baseline": {
-      "mean_pageviews": 8.9,
-      "std_pageviews": 11.2
+      "mean_pageviews": 9.0,
+      "std_pageviews": 11.3
     },
     "anomalies": [
       {
         "date": "2026-06-22",
         "pageviews": 40,
-        "z": 2.8
+        "z": 2.7
       },
       {
         "date": "2026-06-23",
@@ -1343,9 +1333,9 @@
         "engagement_rate": 0.125,
         "class": "automated"
       },
-      "baseline_pageviews": 8.0,
+      "baseline_pageviews": 7.0,
       "after_pageviews": 30.0,
-      "lift_pct": 275.0
+      "lift_pct": 328.6
     },
     {
       "date": "2026-06-23",
@@ -1360,9 +1350,9 @@
         "engagement_rate": 0.214,
         "class": "mixed"
       },
-      "baseline_pageviews": 16.0,
+      "baseline_pageviews": 18.0,
       "after_pageviews": 25.0,
-      "lift_pct": 56.2
+      "lift_pct": 38.9
     }
   ]
 }
