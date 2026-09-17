@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-17T04:00:16.927253+00:00",
+  "generated_at": "2026-09-17T15:00:15.747292+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "1460555",
-      "date": "2026-09-16T14:00:18-07:00",
-      "message": "Update health data 2026-09-16 14:00"
+      "hash": "e470071",
+      "date": "2026-09-17T07:03:10-07:00",
+      "message": "social: embed Short for 2026-09-17 (5W9kBtxxAtc)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 150,
+      "page_count": 151,
       "last_commit": {
-        "hash": "666bea7",
-        "date": "2026-09-16T12:32:31-07:00",
-        "message": "social: embed Short for 2026-09-16 (SbsPqf6jARs)"
+        "hash": "e470071",
+        "date": "2026-09-17T07:03:10-07:00",
+        "message": "social: embed Short for 2026-09-17 (5W9kBtxxAtc)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-09-16T21:00:05.511292",
+        "updated": "2026-09-17T08:00:04.639936",
         "date_range": null
       },
       "last_commit": {
-        "hash": "1460555",
-        "date": "2026-09-16T14:00:18-07:00",
-        "message": "Update health data 2026-09-16 14:00"
+        "hash": "2d458ca",
+        "date": "2026-09-17T06:40:10-07:00",
+        "message": "health: refresh calendar density 2026-09-17 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,51 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-09-16T10:32:35Z"
+        "updated": "2026-09-17T10:42:19Z"
       },
       "last_commit": {
-        "hash": "66f6e5c",
-        "date": "2026-09-16T10:32:35+00:00",
-        "message": "Update analytics data 2026-09-16"
+        "hash": "767f5eb",
+        "date": "2026-09-17T10:42:19+00:00",
+        "message": "Update analytics data 2026-09-17"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "e470071",
+      "date": "2026-09-17T07:03:10-07:00",
+      "message": "social: embed Short for 2026-09-17 (5W9kBtxxAtc)"
+    },
+    {
+      "hash": "e638f2b",
+      "date": "2026-09-17T07:01:19-07:00",
+      "message": "social: 2026-09-17 MoneySignals deck (6 cards)"
+    },
+    {
+      "hash": "2d458ca",
+      "date": "2026-09-17T06:40:10-07:00",
+      "message": "health: refresh calendar density 2026-09-17 06:40"
+    },
+    {
+      "hash": "767f5eb",
+      "date": "2026-09-17T10:42:19+00:00",
+      "message": "Update analytics data 2026-09-17"
+    },
+    {
+      "hash": "4c2d0c6",
+      "date": "2026-09-17T05:43:14-04:00",
+      "message": "blog: 2026-09-17 \u2014 Tech Hardware & Semiconductor Resurgence"
+    },
+    {
+      "hash": "64fb4a3",
+      "date": "2026-09-17T05:43:11-04:00",
+      "message": "daily: 2026-09-17 market update"
+    },
+    {
+      "hash": "5ed3d0e",
+      "date": "2026-09-16T21:00:17-07:00",
+      "message": "Update health data 2026-09-16 21:00"
+    },
     {
       "hash": "1460555",
       "date": "2026-09-16T14:00:18-07:00",
@@ -128,41 +163,6 @@
       "hash": "4f752de",
       "date": "2026-09-15T12:32:22-07:00",
       "message": "social: embed Short for 2026-09-15 (4DbFL5PX068)"
-    },
-    {
-      "hash": "c3f3c0b",
-      "date": "2026-09-15T12:31:18-07:00",
-      "message": "social: 2026-09-15 MoneySignals deck (5 cards)"
-    },
-    {
-      "hash": "5d0cfc8",
-      "date": "2026-09-15T08:00:23-07:00",
-      "message": "Update health data 2026-09-15 08:00"
-    },
-    {
-      "hash": "30b999a",
-      "date": "2026-09-15T07:02:55-07:00",
-      "message": "social: embed Short for 2026-09-15 (HDjdlhliUj0)"
-    },
-    {
-      "hash": "e70a667",
-      "date": "2026-09-15T07:01:20-07:00",
-      "message": "social: 2026-09-15 MoneySignals deck (6 cards)"
-    },
-    {
-      "hash": "342165d",
-      "date": "2026-09-15T06:40:05-07:00",
-      "message": "health: refresh calendar density 2026-09-15 06:40"
-    },
-    {
-      "hash": "849ccac",
-      "date": "2026-09-15T10:44:14+00:00",
-      "message": "Update analytics data 2026-09-15"
-    },
-    {
-      "hash": "40e78b5",
-      "date": "2026-09-15T05:43:21-04:00",
-      "message": "blog: 2026-09-15 \u2014 Tech Hardware & Semiconductor Resurgence"
     }
   ]
 }
