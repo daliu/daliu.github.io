@@ -215,17 +215,17 @@
     }
     a { color: var(--ink) !important; text-decoration: none !important; }
     .page a[href]:after { content: "" !important; } /* Bootstrap print styles append the raw URL */
-    section { margin: 10px 0 0; }
-    section h2 { font-size: 12px; margin-bottom: 5px; padding-bottom: 2px; }
+    section { margin: 8px 0 0; }
+    section h2 { font-size: 12px; margin-bottom: 4px; padding-bottom: 2px; }
     .resume-header h1 { font-size: 28px; }
-    .resume-header { margin-bottom: 12px; padding-bottom: 8px; }
-    .role { margin-bottom: 8px; }
-    .project { margin-bottom: 7px; }
-    .pub { margin-bottom: 5px; }
+    .resume-header { margin-bottom: 10px; padding-bottom: 6px; }
+    .role { margin-bottom: 7px; }
+    .project { margin-bottom: 6px; }
+    .pub { margin-bottom: 4px; }
     .role li, .compact-list li, .project p, .pub-title, .skill-row, .edu-row {
       font-size: 11px;
       margin-bottom: 1px;
-      line-height: 1.35;
+      line-height: 1.3;
     }
     .role-title, .project-title { font-size: 12.5px; }
     .role-context { font-size: 11px; }
@@ -289,11 +289,26 @@
 
   <section>
     <h2>Summary</h2>
-    <p>I build production machine learning systems end-to-end — from data ingestion and feature engineering through model training, serving, and measurement — and I instrument them to verify their own claims. My work has a consistent pattern: question the accepted metric, find the architectural gap, build the system others extend into production. Currently leading personalization at Shipt for millions of grocery shoppers; previously a Machine Learning Research Engineer at Freenome (multiomics cancer detection) and a Sr. ML Engineer at Change Healthcare. I also run an independent AI research program — three papers spanning multi-agent synthesis, model selection under distribution shift, and LLM-grounded feature extraction — with evaluation designed so the system that produces a number is never the one that grades it.</p>
+    <p>I build production machine learning systems end-to-end — from data ingestion and feature engineering through model training, serving, and measurement — and I instrument them to verify their own claims. My work has a consistent pattern: question the accepted metric, find the architectural gap, build the system others extend into production. Currently leading personalization at Shipt for millions of grocery shoppers, and concurrently the lead AI engineer at a healthcare stealth startup building LLM-driven behavioral-health systems — agentic evaluation, PHI-compliant validation, and auditable prompt experimentation. Previously a Machine Learning Research Engineer at Freenome (multiomics cancer detection) and a Sr. ML Engineer at Change Healthcare. I also run an independent AI research program — three papers spanning multi-agent synthesis, model selection under distribution shift, and LLM-grounded feature extraction — with evaluation designed so the system that produces a number is never the one that grades it.</p>
   </section>
 
   <section>
     <h2>Experience</h2>
+
+    <div class="role">
+      <div class="role-head">
+        <span class="role-title">Lead AI Engineer <span class="role-company">— Stealth Startup</span> (Behavioral Health AI)</span>
+        <span class="role-dates">Mar 2026 — Present</span>
+      </div>
+      <p class="role-context">Lead AI engineer (concurrent with Shipt) at a healthcare startup building behavioral-health solutions with LLMs; own the agentic evaluation, orchestration, and experimentation stack.</p>
+      <ul>
+        <li>Standardized agentic outputs across the product and validate them in a <strong>PHI-compliant AI Sandbox</strong>, with cross-agent orchestration on AWS Bedrock under a zero-retention configuration.</li>
+        <li>Building an agentic review framework that scores agent decisions and escalates uncertain or high-stakes cases to subject-matter experts, converting SME rulings into reusable development signal.</li>
+        <li>Standardized heterogeneous visual elements across clinical documents into a streamlined <strong>LLM-as-judge</strong> determination pipeline.</li>
+        <li>Built SMOTE-inspired synthetic test-case generation — controlled perturbations of real examples — to expand regression coverage of already-observed failure modes and error classes without fabricating novel behavior claims.</li>
+        <li>Formalizing an experimentation process for prompt changes: configurable candidate boards and A/B tests across multiple prompt variants, integrated with <strong>Langfuse</strong> for prompt registration and auditable, reproducible results.</li>
+      </ul>
+    </div>
 
     <div class="role">
       <div class="role-head">
@@ -446,8 +461,8 @@
     <h2>Technical Skills</h2>
     <div class="skill-row"><span class="skill-label">Languages</span><span class="skill-vals">Python · SQL · Bash · Java · C/C++</span></div>
     <div class="skill-row"><span class="skill-label">ML &amp; Data</span><span class="skill-vals">PyTorch · XGBoost · Scikit-learn · Pandas · MLFlow · FAISS · Gensim · NLTK · SpaCy</span></div>
-    <div class="skill-row"><span class="skill-label">LLM &amp; Agents</span><span class="skill-vals">Claude &amp; GPT APIs · multi-agent orchestration · RAG · grounded extraction · LLM evaluation &amp; hallucination measurement · agentic coding workflows</span></div>
-    <div class="skill-row"><span class="skill-label">Evaluation &amp; Testing</span><span class="skill-vals">evaluation harnesses &amp; known-answer tests · benchmark design · A/B testing · walk-forward validation · permutation tests · calibration · pre-registered hypotheses</span></div>
+    <div class="skill-row"><span class="skill-label">LLM &amp; Agents</span><span class="skill-vals">Claude &amp; GPT APIs · AWS Bedrock · multi-agent orchestration · RAG · grounded extraction · LLM-as-judge · LLM evaluation &amp; hallucination measurement · Langfuse · agentic coding workflows</span></div>
+    <div class="skill-row"><span class="skill-label">Evaluation &amp; Testing</span><span class="skill-vals">evaluation harnesses &amp; known-answer tests · benchmark design · A/B testing · prompt experimentation · synthetic test-case generation · walk-forward validation · permutation tests · calibration · pre-registered hypotheses</span></div>
     <div class="skill-row"><span class="skill-label">Cloud</span><span class="skill-vals">GCP · AWS · Azure</span></div>
     <div class="skill-row"><span class="skill-label">Data Infrastructure</span><span class="skill-vals">PostgreSQL · Snowflake · MySQL · Spark · Kafka</span></div>
     <div class="skill-row"><span class="skill-label">Orchestration</span><span class="skill-vals">Airflow · Flyte · Metaflow · GitHub Actions</span></div>
