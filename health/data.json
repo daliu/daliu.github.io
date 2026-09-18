@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-18T08:00:05.198328",
+  "updated": "2026-09-18T14:00:03.857956",
   "daily": [
     {
       "date": "2026-06-21",
@@ -2299,31 +2299,31 @@
     },
     {
       "date": "2026-09-18",
-      "avg_body_battery": 19.0,
-      "min_body_battery": 19,
-      "max_body_battery": 21,
-      "avg_stress": 43.0,
-      "total_steps": null,
-      "sleep_score": null,
-      "sleep_hours": null,
-      "hrv_weekly": null,
-      "hrv_last_night": null,
-      "hrv_status": null,
-      "resting_hr": 51,
-      "sleep_start": null,
-      "sleep_end": null,
+      "avg_body_battery": 39.0,
+      "min_body_battery": 17,
+      "max_body_battery": 80,
+      "avg_stress": 27.0,
+      "total_steps": 157,
+      "sleep_score": 82,
+      "sleep_hours": 6.73,
+      "hrv_weekly": 63,
+      "hrv_last_night": 57,
+      "hrv_status": "BALANCED",
+      "resting_hr": 40,
+      "sleep_start": "02:59",
+      "sleep_end": "09:45",
       "active_calories": 0.0,
       "intensity_minutes": 0,
       "vigorous_minutes": 0,
-      "distance_meters": null,
-      "rest_stress_pct": 2.27,
+      "distance_meters": 132.0,
+      "rest_stress_pct": 81.2,
       "low_stress_pct": 70.45,
       "medium_stress_pct": 27.27,
-      "high_stress_pct": 0.0,
-      "bb_charged": 0,
-      "bb_drained": 2,
-      "bb_at_wake": null,
-      "sedentary_seconds": 2640
+      "high_stress_pct": 0.17,
+      "bb_charged": 63,
+      "bb_drained": 5,
+      "bb_at_wake": 80,
+      "sedentary_seconds": 11167
     }
   ],
   "hr_zones": {
@@ -2515,6 +2515,24 @@
       "steps": null,
       "sleep_score": null,
       "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-09-18 16:47:13",
+      "body_battery_current": 19,
+      "resting_hr": 40,
+      "stress_avg": 19,
+      "steps": 134,
+      "sleep_score": 82,
+      "hrv_weekly_avg": 63
+    },
+    {
+      "timestamp": "2026-09-18 17:47:15",
+      "body_battery_current": 79,
+      "resting_hr": 40,
+      "stress_avg": 19,
+      "steps": 157,
+      "sleep_score": 82,
+      "hrv_weekly_avg": 63
     }
   ],
   "vo2max": [
