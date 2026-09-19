@@ -1,14 +1,14 @@
 {
-  "updated": "2026-09-18T14:00:06.194132",
+  "updated": "2026-09-18T21:00:07.427867",
   "date_range": {
     "start": "2026-01-12",
-    "end": "2026-09-18",
-    "days": 181
+    "end": "2026-09-19",
+    "days": 182
   },
   "baseline": {
     "avg_body_battery": 38.3,
     "avg_stress": 28.1,
-    "sleep_score": 73.9,
+    "sleep_score": 74.0,
     "sleep_hours": 6.7
   },
   "day_of_week": {
@@ -61,12 +61,12 @@
       "sample_size": 29
     },
     "Sat": {
-      "battery": 31.6,
-      "stress": 29.2,
-      "sleep_score": 68.6,
+      "battery": 32.0,
+      "stress": 29.1,
+      "sleep_score": 69.2,
       "sleep_hours": 6.4,
-      "steps": 11961.2,
-      "sample_size": 23
+      "steps": 11516.4,
+      "sample_size": 24
     }
   },
   "activity_levels": {
@@ -74,8 +74,8 @@
       "battery": 42.9,
       "battery_delta": 4.6,
       "stress": 28.5,
-      "sleep": 72.0,
-      "sample_size": 66
+      "sleep": 72.2,
+      "sample_size": 67
     },
     "light": {
       "battery": 40.2,
@@ -126,7 +126,7 @@
         "battery": 37.2,
         "battery_delta": -1.8,
         "stress": 27.7,
-        "sample_size": 66
+        "sample_size": 67
       }
     },
     "high_steps": {
@@ -138,7 +138,7 @@
       },
       "+2d": {
         "battery": 42.0,
-        "battery_delta": 4.2,
+        "battery_delta": 4.1,
         "stress": 26.4,
         "sample_size": 20
       },
@@ -163,16 +163,16 @@
         "sample_size": 36
       },
       "+3d": {
-        "battery": 35.7,
-        "battery_delta": -3.3,
-        "stress": 29.2,
-        "sample_size": 35
+        "battery": 35.8,
+        "battery_delta": -3.2,
+        "stress": 29.1,
+        "sample_size": 36
       }
     },
     "sleep_poor": {
       "+1d": {
         "battery": 29.6,
-        "battery_delta": -9.2,
+        "battery_delta": -9.3,
         "stress": 37.0,
         "sample_size": 10
       },
@@ -194,7 +194,7 @@
     "no_streak": {
       "battery": 40.0,
       "stress": 27.8,
-      "sample_size": 114
+      "sample_size": 115
     },
     "1-2_days": {
       "battery": 33.4,
@@ -221,7 +221,7 @@
     "good": {
       "next_day_battery": 40.8,
       "next_day_stress": 26.9,
-      "sample_size": 80
+      "sample_size": 81
     },
     "fair": {
       "next_day_battery": 37.5,
@@ -242,7 +242,7 @@
     },
     {
       "type": "sleep_lag",
-      "text": "Great sleep benefits peak at +3 days: -3.3 body battery vs non-great sleep days",
+      "text": "Great sleep benefits peak at +3 days: -3.2 body battery vs non-great sleep days",
       "impact": "negative"
     },
     {
