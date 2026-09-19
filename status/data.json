@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-19T15:00:15.652021+00:00",
+  "generated_at": "2026-09-19T21:00:15.859123+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "79f1bdb",
-      "date": "2026-09-19T06:40:06-07:00",
-      "message": "health: refresh calendar density 2026-09-19 06:40"
+      "hash": "3c91cce",
+      "date": "2026-09-19T08:00:15-07:00",
+      "message": "Update health data 2026-09-19 08:00"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-09-19T08:00:04.634850",
+        "updated": "2026-09-19T14:00:06.258357",
         "date_range": null
       },
       "last_commit": {
-        "hash": "79f1bdb",
-        "date": "2026-09-19T06:40:06-07:00",
-        "message": "health: refresh calendar density 2026-09-19 06:40"
+        "hash": "3c91cce",
+        "date": "2026-09-19T08:00:15-07:00",
+        "message": "Update health data 2026-09-19 08:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "3c91cce",
+      "date": "2026-09-19T08:00:15-07:00",
+      "message": "Update health data 2026-09-19 08:00"
+    },
     {
       "hash": "79f1bdb",
       "date": "2026-09-19T06:40:06-07:00",
@@ -158,11 +163,6 @@
       "hash": "fb23436",
       "date": "2026-09-17T08:00:15-07:00",
       "message": "Update health data 2026-09-17 08:00"
-    },
-    {
-      "hash": "e470071",
-      "date": "2026-09-17T07:03:10-07:00",
-      "message": "social: embed Short for 2026-09-17 (5W9kBtxxAtc)"
     }
   ]
 }
