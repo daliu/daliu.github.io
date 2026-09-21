@@ -1,60 +1,60 @@
 {
-  "updated": "2026-09-20T14:00:11.015183",
-  "n": 76,
+  "updated": "2026-09-20T21:00:09.890081",
+  "n": 77,
   "bedtime": {
-    "recommended_norm": 4.992,
+    "recommended_norm": 5.007,
     "recommended_label": "11:00 PM",
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
-    "ci_label": "10:38 PM \u2013 11:58 PM",
+    "ci_label": "10:39 PM \u2013 12:19 AM",
     "median_label": "2:00 AM",
     "pct10_label": "11:00 PM",
     "pct90_label": "4:15 AM",
     "stats": {
       "sleep_score": {
         "kind": "quadratic",
-        "cv_r2": -0.094,
-        "r": 0.14,
-        "p": 0.2175,
-        "per_hour_earlier": -0.77
+        "cv_r2": -0.218,
+        "r": 0.13,
+        "p": 0.2582,
+        "per_hour_earlier": -0.71
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": -0.204,
-        "r": -0.44,
-        "p": 0.0001,
+        "cv_r2": -0.186,
+        "r": -0.45,
+        "p": 0.0,
         "per_hour_earlier": 0.33
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.181,
-        "r": -0.08,
-        "p": 0.4686,
-        "per_hour_earlier": 0.59
+        "cv_r2": -0.222,
+        "r": -0.09,
+        "p": 0.4369,
+        "per_hour_earlier": 0.63
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 73.3,
+      "sleep_score": 73.7,
       "sleep_hours": 7.9,
-      "battery": 80.1
+      "battery": 80.3
     },
     "pred_at_median": {
-      "sleep_score": 75.9,
+      "sleep_score": 76.2,
       "sleep_hours": 6.9,
-      "battery": 78.3
+      "battery": 78.5
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.12,
-        "sleep_hours": 0.04,
-        "battery": -0.03
+        "sleep_score": 0.11,
+        "sleep_hours": 0.03,
+        "battery": -0.04
       },
       "weekly_frequency": {
         "sleep_score": 0.09,
         "sleep_hours": -0.2,
-        "battery": 0.04
+        "battery": 0.05
       }
     },
     "typical_weekly_freq": 3,
