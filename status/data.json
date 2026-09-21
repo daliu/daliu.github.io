@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-20T21:00:18.451756+00:00",
+  "generated_at": "2026-09-21T03:00:04.045396+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "f57c118",
-      "date": "2026-09-20T08:00:18-07:00",
-      "message": "Update health data 2026-09-20 08:00"
+      "hash": "da30ff2",
+      "date": "2026-09-20T14:00:18-07:00",
+      "message": "Update health data 2026-09-20 14:00"
     },
     "branch": "master"
   },
@@ -29,9 +29,9 @@
         "date_range": null
       },
       "last_commit": {
-        "hash": "f57c118",
-        "date": "2026-09-20T08:00:18-07:00",
-        "message": "Update health data 2026-09-20 08:00"
+        "hash": "da30ff2",
+        "date": "2026-09-20T14:00:18-07:00",
+        "message": "Update health data 2026-09-20 14:00"
       }
     },
     "knowledge_graph": {
@@ -40,8 +40,8 @@
       "schedule": "manual (run scripts/build_graph.py)",
       "graph": {
         "generated": "auto",
-        "node_count": 1141,
-        "edge_count": 1545
+        "node_count": 1190,
+        "edge_count": 1598
       },
       "last_commit": {
         "hash": "c3debe8",
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "da30ff2",
+      "date": "2026-09-20T14:00:18-07:00",
+      "message": "Update health data 2026-09-20 14:00"
+    },
     {
       "hash": "f57c118",
       "date": "2026-09-20T08:00:18-07:00",
@@ -158,11 +163,6 @@
       "hash": "0ebb355",
       "date": "2026-09-18T05:44:15-04:00",
       "message": "blog: 2026-09-18 \u2014 Tech Hardware & Semiconductor Resurgence"
-    },
-    {
-      "hash": "3282b1b",
-      "date": "2026-09-18T05:44:13-04:00",
-      "message": "daily: 2026-09-18 market update"
     }
   ]
 }
