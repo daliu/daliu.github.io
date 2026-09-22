@@ -1,38 +1,28 @@
 {
-  "updated": "2026-09-21T11:32:58Z",
+  "updated": "2026-09-22T10:38:59Z",
   "date_range": {
-    "start": "2026-06-24",
-    "end": "2026-09-21"
+    "start": "2026-06-25",
+    "end": "2026-09-22"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-06-24",
+    "start": "2026-06-25",
     "end": "2026-09-18",
-    "days_with_data": 21
+    "days_with_data": 20
   },
   "totals": {
-    "total_users": 66,
-    "total_sessions": 76,
-    "total_pageviews": 127,
-    "total_engaged_sessions": 20,
-    "engagement_rate": 0.2632,
-    "avg_session_duration_seconds": 178.9,
-    "bounce_rate": 0.7368
+    "total_users": 60,
+    "total_sessions": 68,
+    "total_pageviews": 113,
+    "total_engaged_sessions": 17,
+    "engagement_rate": 0.25,
+    "avg_session_duration_seconds": 151.6,
+    "bounce_rate": 0.75
   },
   "daily": [
-    {
-      "date": "2026-06-24",
-      "users": 6,
-      "sessions": 8,
-      "pageviews": 14,
-      "new_users": 4,
-      "avg_session_duration": 411.3,
-      "bounce_rate": 0.625,
-      "engaged_sessions": 3
-    },
     {
       "date": "2026-06-25",
       "users": 8,
@@ -238,45 +228,23 @@
     {
       "path": "/",
       "title": "Dave Liu \u2014 Senior Data Scientist & ML Engineer",
-      "pageviews": 61,
-      "users": 46,
-      "avg_time_on_page": 115.4,
-      "sessions": 52,
-      "engaged": 14,
-      "engagement_rate": 0.269,
+      "pageviews": 55,
+      "users": 42,
+      "avg_time_on_page": 70.7,
+      "sessions": 46,
+      "engaged": 12,
+      "engagement_rate": 0.261,
       "class": "mixed"
     },
     {
       "path": "/patterns-of-choice/app.html",
       "title": "Patterns of Choice \u2014 the practice (local-first)",
-      "pageviews": 13,
+      "pageviews": 12,
       "users": 2,
-      "avg_time_on_page": 232.3,
-      "sessions": 9,
-      "engaged": 5,
-      "engagement_rate": 0.556,
-      "class": "human"
-    },
-    {
-      "path": "/health/",
-      "title": "Health Dashboard \u2014 Dave Liu",
-      "pageviews": 10,
-      "users": 3,
-      "avg_time_on_page": 197.6,
+      "avg_time_on_page": 260.4,
       "sessions": 8,
-      "engaged": 6,
-      "engagement_rate": 0.75,
-      "class": "human"
-    },
-    {
-      "path": "/patterns-of-choice/",
-      "title": "Patterns of Choice \u2014 Dave Liu",
-      "pageviews": 10,
-      "users": 1,
-      "avg_time_on_page": 14.7,
-      "sessions": 4,
-      "engaged": 3,
-      "engagement_rate": 0.75,
+      "engaged": 4,
+      "engagement_rate": 0.5,
       "class": "human"
     },
     {
@@ -291,13 +259,35 @@
       "class": "mixed"
     },
     {
+      "path": "/patterns-of-choice/",
+      "title": "Patterns of Choice \u2014 Dave Liu",
+      "pageviews": 8,
+      "users": 1,
+      "avg_time_on_page": 8.6,
+      "sessions": 3,
+      "engaged": 2,
+      "engagement_rate": 0.667,
+      "class": "human"
+    },
+    {
+      "path": "/health/",
+      "title": "Health Dashboard \u2014 Dave Liu",
+      "pageviews": 7,
+      "users": 2,
+      "avg_time_on_page": 220.9,
+      "sessions": 5,
+      "engaged": 4,
+      "engagement_rate": 0.8,
+      "class": "human"
+    },
+    {
       "path": "/knowledge/",
       "title": "Knowledge Graph \u2014 Dave Liu",
-      "pageviews": 8,
+      "pageviews": 6,
       "users": 2,
-      "avg_time_on_page": 584.6,
-      "sessions": 3,
-      "engaged": 3,
+      "avg_time_on_page": 862.8,
+      "sessions": 2,
+      "engaged": 2,
       "engagement_rate": 1.0,
       "class": "human"
     },
@@ -460,19 +450,19 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 55,
-      "users": 54,
-      "engaged": 9,
-      "engagement_rate": 0.164,
+      "sessions": 50,
+      "users": 49,
+      "engaged": 8,
+      "engagement_rate": 0.16,
       "class": "mixed"
     },
     {
       "source": "linkedin.com",
       "medium": "referral",
-      "sessions": 11,
+      "sessions": 8,
       "users": 1,
-      "engaged": 8,
-      "engagement_rate": 0.727,
+      "engaged": 6,
+      "engagement_rate": 0.75,
       "class": "human"
     },
     {
@@ -515,37 +505,37 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 57,
-      "percentage": 75.0
+      "sessions": 50,
+      "percentage": 73.5
     },
     {
       "category": "mobile",
-      "sessions": 19,
-      "percentage": 25.0
+      "sessions": 18,
+      "percentage": 26.5
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 57,
-      "percentage": 75.0
+      "sessions": 49,
+      "percentage": 72.1
     },
     {
       "browser": "Safari",
       "sessions": 19,
-      "percentage": 25.0
+      "percentage": 27.9
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 42,
-      "users": 26
+      "sessions": 38,
+      "users": 25
     },
     {
       "country": "Singapore",
-      "sessions": 24,
-      "users": 24
+      "sessions": 20,
+      "users": 20
     },
     {
       "country": "Brazil",
@@ -569,8 +559,8 @@
     }
   ],
   "user_types": {
-    "new": 53,
-    "returning": 21
+    "new": 49,
+    "returning": 17
   },
   "hourly": [
     {
@@ -671,12 +661,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 20,
-    "non_engaged_sessions": 56,
-    "likely_automated_sessions": 26,
-    "likely_human_sessions": 49,
-    "automated_pct": 34.7,
-    "est_human_users": 31,
+    "engaged_sessions": 17,
+    "non_engaged_sessions": 51,
+    "likely_automated_sessions": 22,
+    "likely_human_sessions": 45,
+    "automated_pct": 32.8,
+    "est_human_users": 30,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -685,20 +675,20 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 42,
-      "engaged": 17,
-      "users": 26,
-      "pageviews": 92,
-      "avg_duration": 314.7,
-      "engagement_rate": 0.405,
-      "class": "human"
+      "sessions": 38,
+      "engaged": 14,
+      "users": 25,
+      "pageviews": 82,
+      "avg_duration": 261.2,
+      "engagement_rate": 0.368,
+      "class": "mixed"
     },
     {
       "country": "Singapore",
-      "sessions": 24,
+      "sessions": 20,
       "engaged": 0,
-      "users": 24,
-      "pageviews": 24,
+      "users": 20,
+      "pageviews": 20,
       "avg_duration": 0.0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -837,13 +827,10 @@
         1,
         0,
         0,
-        1,
+        0,
         3,
         0,
         0,
-        1,
-        0,
-        7,
         0,
         0,
         1,
@@ -854,8 +841,11 @@
         0,
         0,
         0,
-        4,
-        1,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0
       ],
@@ -956,11 +946,11 @@
         2,
         0,
         0,
-        3,
-        0,
         2,
         0,
-        2,
+        1,
+        0,
+        1,
         1,
         4,
         0,
@@ -969,7 +959,7 @@
         0,
         4,
         2,
-        6,
+        5,
         4,
         2,
         3
@@ -978,25 +968,25 @@
         0,
         1,
         2,
-        4,
+        3,
         0,
         0,
         0,
         0,
         1,
-        4,
+        3,
         0,
         1,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
         0,
         0,
         0,
         5,
-        0,
-        0,
-        0,
-        0,
-        0,
-        6,
         0,
         0
       ],
@@ -1060,8 +1050,8 @@
       "lat": 1.2899175,
       "lng": 103.8519072,
       "label": "Singapore, Singapore",
-      "sessions": 24,
-      "users": 24,
+      "sessions": 20,
+      "users": 20,
       "engaged": 0,
       "engagement_rate": 0.0
     },
@@ -1069,10 +1059,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 18,
+      "sessions": 15,
       "users": 3,
-      "engaged": 11,
-      "engagement_rate": 0.611
+      "engaged": 9,
+      "engagement_rate": 0.6
     },
     {
       "lat": 39.029784,
@@ -1118,15 +1108,6 @@
       "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0
-    },
-    {
-      "lat": 37.6535403,
-      "lng": -122.4168664,
-      "label": "South San Francisco, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0
     },
     {
       "lat": 39.1911128,
@@ -1202,7 +1183,7 @@
       }
     },
     "baseline": {
-      "mean_pageviews": 6.0,
+      "mean_pageviews": 5.7,
       "std_pageviews": 7.7
     },
     "anomalies": [
@@ -1232,9 +1213,9 @@
         "engagement_rate": 0.167,
         "class": "mixed"
       },
-      "baseline_pageviews": 14.0,
+      "baseline_pageviews": 0,
       "after_pageviews": 17.0,
-      "lift_pct": 21.4
+      "lift_pct": null
     },
     {
       "date": "2026-06-28",
@@ -1249,9 +1230,9 @@
         "engagement_rate": 0.0,
         "class": "automated"
       },
-      "baseline_pageviews": 16.2,
+      "baseline_pageviews": 17.0,
       "after_pageviews": 9.3,
-      "lift_pct": -42.6
+      "lift_pct": -45.1
     }
   ]
 }
