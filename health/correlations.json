@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22T21:00:07.264928",
+  "updated": "2026-09-23T08:00:07.459801",
   "date_range": {
     "start": "2026-01-12",
     "end": "2026-09-23",
@@ -37,11 +37,11 @@
       "sample_size": 27
     },
     "Wed": {
-      "battery": 42.4,
+      "battery": 42.3,
       "stress": 26.1,
       "sleep_score": 79.2,
       "sleep_hours": 7.1,
-      "steps": 9597.4,
+      "steps": 9619.7,
       "sample_size": 27
     },
     "Thu": {
@@ -112,13 +112,13 @@
     "exercise": {
       "+1d": {
         "battery": 36.2,
-        "battery_delta": -3.8,
+        "battery_delta": -3.7,
         "stress": 28.3,
         "sample_size": 70
       },
       "+2d": {
-        "battery": 36.6,
-        "battery_delta": -3.1,
+        "battery": 36.5,
+        "battery_delta": -3.2,
         "stress": 27.2,
         "sample_size": 70
       },
@@ -163,8 +163,8 @@
         "sample_size": 38
       },
       "+3d": {
-        "battery": 35.5,
-        "battery_delta": -3.8,
+        "battery": 35.4,
+        "battery_delta": -3.9,
         "stress": 29.3,
         "sample_size": 37
       }
@@ -172,7 +172,7 @@
     "sleep_poor": {
       "+1d": {
         "battery": 29.6,
-        "battery_delta": -9.5,
+        "battery_delta": -9.4,
         "stress": 37.0,
         "sample_size": 10
       },
@@ -219,7 +219,7 @@
       "sample_size": 38
     },
     "good": {
-      "next_day_battery": 40.8,
+      "next_day_battery": 40.7,
       "next_day_stress": 26.8,
       "sample_size": 83
     },
@@ -242,7 +242,7 @@
     },
     {
       "type": "sleep_lag",
-      "text": "Great sleep benefits peak at +3 days: -3.8 body battery vs non-great sleep days",
+      "text": "Great sleep benefits peak at +3 days: -3.9 body battery vs non-great sleep days",
       "impact": "negative"
     },
     {
@@ -252,7 +252,7 @@
     },
     {
       "type": "exercise_recovery",
-      "text": "Active days (10K+ steps) lower next-day battery by 3.8",
+      "text": "Active days (10K+ steps) lower next-day battery by 3.7",
       "impact": "negative"
     },
     {
