@@ -1,38 +1,28 @@
 {
-  "updated": "2026-09-23T10:31:09Z",
+  "updated": "2026-09-24T10:48:43Z",
   "date_range": {
-    "start": "2026-06-26",
-    "end": "2026-09-23"
+    "start": "2026-06-27",
+    "end": "2026-09-24"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-06-26",
+    "start": "2026-06-27",
     "end": "2026-09-22",
-    "days_with_data": 20
+    "days_with_data": 19
   },
   "totals": {
-    "total_users": 53,
-    "total_sessions": 59,
-    "total_pageviews": 89,
-    "total_engaged_sessions": 13,
-    "engagement_rate": 0.2203,
-    "avg_session_duration_seconds": 125.6,
-    "bounce_rate": 0.7797
+    "total_users": 47,
+    "total_sessions": 53,
+    "total_pageviews": 83,
+    "total_engaged_sessions": 12,
+    "engagement_rate": 0.2264,
+    "avg_session_duration_seconds": 138.4,
+    "bounce_rate": 0.7736
   },
   "daily": [
-    {
-      "date": "2026-06-26",
-      "users": 6,
-      "sessions": 6,
-      "pageviews": 6,
-      "new_users": 5,
-      "avg_session_duration": 12.9,
-      "bounce_rate": 0.8333,
-      "engaged_sessions": 1
-    },
     {
       "date": "2026-06-27",
       "users": 10,
@@ -228,12 +218,12 @@
     {
       "path": "/",
       "title": "MoneySignals \u2014 Audited Market Signals for Humans and AI Agents",
-      "pageviews": 48,
-      "users": 39,
-      "avg_time_on_page": 68.8,
-      "sessions": 40,
-      "engaged": 9,
-      "engagement_rate": 0.225,
+      "pageviews": 44,
+      "users": 35,
+      "avg_time_on_page": 74.3,
+      "sessions": 36,
+      "engaged": 8,
+      "engagement_rate": 0.222,
       "class": "mixed"
     },
     {
@@ -303,17 +293,6 @@
       "class": "human"
     },
     {
-      "path": "/autotrader/daily/2026-04-17.html",
-      "title": "Daily Update \u2014 Apr 17, 2026 \u2014 AutoTrader",
-      "pageviews": 1,
-      "users": 1,
-      "avg_time_on_page": 0.0,
-      "sessions": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
       "path": "/autotrader/daily/2026-05-04.html",
       "title": "Daily Update \u2014 May 4, 2026 \u2014 AutoTrader",
       "pageviews": 1,
@@ -327,17 +306,6 @@
     {
       "path": "/autotrader/daily/2026-05-08.html",
       "title": "Daily Update \u2014 May 8, 2026 \u2014 AutoTrader",
-      "pageviews": 1,
-      "users": 1,
-      "avg_time_on_page": 0.0,
-      "sessions": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "path": "/autotrader/daily/2026-05-13.html",
-      "title": "Daily Update \u2014 May 13, 2026 \u2014 AutoTrader",
       "pageviews": 1,
       "users": 1,
       "avg_time_on_page": 0.0,
@@ -406,10 +374,10 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 45,
-      "users": 45,
+      "sessions": 40,
+      "users": 40,
       "engaged": 7,
-      "engagement_rate": 0.156,
+      "engagement_rate": 0.175,
       "class": "mixed"
     },
     {
@@ -440,15 +408,6 @@
       "class": "automated"
     },
     {
-      "source": "daliu.github.io",
-      "medium": "referral",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
       "source": "google",
       "medium": "organic",
       "sessions": 1,
@@ -461,37 +420,37 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 41,
-      "percentage": 69.5
+      "sessions": 35,
+      "percentage": 66.0
     },
     {
       "category": "mobile",
       "sessions": 18,
-      "percentage": 30.5
+      "percentage": 34.0
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 41,
-      "percentage": 69.5
+      "sessions": 35,
+      "percentage": 66.0
     },
     {
       "browser": "Safari",
       "sessions": 18,
-      "percentage": 30.5
+      "percentage": 34.0
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 34,
-      "users": 26
+      "sessions": 33,
+      "users": 25
     },
     {
       "country": "Singapore",
-      "sessions": 15,
-      "users": 15
+      "sessions": 10,
+      "users": 10
     },
     {
       "country": "Brazil",
@@ -515,8 +474,8 @@
     }
   ],
   "user_types": {
-    "new": 45,
-    "returning": 12
+    "new": 40,
+    "returning": 11
   },
   "hourly": [
     {
@@ -617,12 +576,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 13,
-    "non_engaged_sessions": 46,
-    "likely_automated_sessions": 17,
-    "likely_human_sessions": 41,
-    "automated_pct": 29.3,
-    "est_human_users": 31,
+    "engaged_sessions": 12,
+    "non_engaged_sessions": 41,
+    "likely_automated_sessions": 12,
+    "likely_human_sessions": 40,
+    "automated_pct": 23.1,
+    "est_human_users": 30,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -631,20 +590,20 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 34,
-      "engaged": 10,
-      "users": 26,
-      "pageviews": 63,
-      "avg_duration": 206.7,
-      "engagement_rate": 0.294,
+      "sessions": 33,
+      "engaged": 9,
+      "users": 25,
+      "pageviews": 62,
+      "avg_duration": 210.6,
+      "engagement_rate": 0.273,
       "class": "mixed"
     },
     {
       "country": "Singapore",
-      "sessions": 15,
+      "sessions": 10,
       "engaged": 0,
-      "users": 15,
-      "pageviews": 15,
+      "users": 10,
+      "pageviews": 10,
       "avg_duration": 0.0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -833,13 +792,19 @@
       ],
       [
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         1,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
         0,
         0,
         0,
@@ -847,13 +812,7 @@
         0,
         2,
         0,
-        1,
         0,
-        0,
-        0,
-        2,
-        0,
-        1,
         0,
         0
       ],
@@ -908,7 +867,7 @@
         0,
         0,
         0,
-        4,
+        3,
         0,
         1,
         0,
@@ -922,14 +881,20 @@
       ],
       [
         0,
-        1,
-        2,
-        2,
-        0,
-        0,
-        0,
         0,
         1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
         2,
         0,
         0,
@@ -937,12 +902,6 @@
         0,
         0,
         3,
-        0,
-        0,
-        0,
-        0,
-        0,
-        4,
         0,
         0
       ],
@@ -1003,15 +962,6 @@
   },
   "geo_points": [
     {
-      "lat": 1.2899175,
-      "lng": 103.8519072,
-      "label": "Singapore, Singapore",
-      "sessions": 15,
-      "users": 15,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
       "lat": 39.029784,
       "lng": -77.4744148,
       "label": "Ashburn, United States",
@@ -1024,10 +974,19 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 12,
-      "users": 4,
-      "engaged": 6,
-      "engagement_rate": 0.5
+      "sessions": 11,
+      "users": 3,
+      "engaged": 5,
+      "engagement_rate": 0.455
+    },
+    {
+      "lat": 1.2899175,
+      "lng": 103.8519072,
+      "label": "Singapore, Singapore",
+      "sessions": 10,
+      "users": 10,
+      "engaged": 0,
+      "engagement_rate": 0.0
     },
     {
       "lat": -14.235,
@@ -1139,19 +1098,19 @@
       }
     },
     "baseline": {
-      "mean_pageviews": 4.5,
-      "std_pageviews": 6.3
+      "mean_pageviews": 4.4,
+      "std_pageviews": 6.4
     },
     "anomalies": [
       {
         "date": "2026-06-27",
         "pageviews": 20,
-        "z": 2.5
+        "z": 2.4
       },
       {
         "date": "2026-06-28",
         "pageviews": 25,
-        "z": 3.3
+        "z": 3.2
       }
     ]
   },
@@ -1169,9 +1128,9 @@
         "engagement_rate": 0.0,
         "class": "automated"
       },
-      "baseline_pageviews": 6.0,
+      "baseline_pageviews": 0,
       "after_pageviews": 15.7,
-      "lift_pct": 161.1
+      "lift_pct": null
     },
     {
       "date": "2026-06-28",
@@ -1186,9 +1145,9 @@
         "engagement_rate": 0.0,
         "class": "automated"
       },
-      "baseline_pageviews": 13.0,
+      "baseline_pageviews": 20.0,
       "after_pageviews": 9.3,
-      "lift_pct": -28.2
+      "lift_pct": -53.3
     }
   ]
 }
