@@ -1,38 +1,28 @@
 {
-  "updated": "2026-09-25T10:52:42Z",
+  "updated": "2026-09-26T10:33:19Z",
   "date_range": {
-    "start": "2026-06-28",
-    "end": "2026-09-25"
+    "start": "2026-06-29",
+    "end": "2026-09-26"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-06-28",
-    "end": "2026-09-22",
+    "start": "2026-06-29",
+    "end": "2026-09-25",
     "days_with_data": 18
   },
   "totals": {
-    "total_users": 37,
-    "total_sessions": 42,
-    "total_pageviews": 63,
-    "total_engaged_sessions": 11,
-    "engagement_rate": 0.2619,
-    "avg_session_duration_seconds": 162.4,
-    "bounce_rate": 0.7381
+    "total_users": 32,
+    "total_sessions": 34,
+    "total_pageviews": 40,
+    "total_engaged_sessions": 8,
+    "engagement_rate": 0.2353,
+    "avg_session_duration_seconds": 56.8,
+    "bounce_rate": 0.7647
   },
   "daily": [
-    {
-      "date": "2026-06-28",
-      "users": 7,
-      "sessions": 10,
-      "pageviews": 25,
-      "new_users": 6,
-      "avg_session_duration": 489.0,
-      "bounce_rate": 0.7,
-      "engaged_sessions": 3
-    },
     {
       "date": "2026-06-29",
       "users": 1,
@@ -202,30 +192,29 @@
       "avg_session_duration": 0.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
+    },
+    {
+      "date": "2026-09-25",
+      "users": 2,
+      "sessions": 2,
+      "pageviews": 2,
+      "new_users": 2,
+      "avg_session_duration": 0.0,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     }
   ],
   "pages": [
     {
       "path": "/",
       "title": "MoneySignals \u2014 Audited Market Signals for Humans and AI Agents",
-      "pageviews": 36,
-      "users": 27,
-      "avg_time_on_page": 95.5,
-      "sessions": 28,
-      "engaged": 8,
-      "engagement_rate": 0.286,
+      "pageviews": 29,
+      "users": 24,
+      "avg_time_on_page": 19.4,
+      "sessions": 24,
+      "engaged": 6,
+      "engagement_rate": 0.25,
       "class": "mixed"
-    },
-    {
-      "path": "/patterns-of-choice/app.html",
-      "title": "Patterns of Choice \u2014 the practice (local-first)",
-      "pageviews": 12,
-      "users": 2,
-      "avg_time_on_page": 297.6,
-      "sessions": 7,
-      "engaged": 3,
-      "engagement_rate": 0.429,
-      "class": "human"
     },
     {
       "path": "/confirm",
@@ -239,58 +228,25 @@
       "class": "mixed"
     },
     {
-      "path": "/patterns-of-choice/",
-      "title": "Patterns of Choice \u2014 Dave Liu",
-      "pageviews": 5,
+      "path": "/patterns-of-choice/app.html",
+      "title": "Patterns of Choice \u2014 the practice (local-first)",
+      "pageviews": 3,
       "users": 1,
-      "avg_time_on_page": 11.4,
-      "sessions": 2,
+      "avg_time_on_page": 277.1,
+      "sessions": 4,
       "engaged": 1,
-      "engagement_rate": 0.5,
-      "class": "human"
-    },
-    {
-      "path": "/autotrader/daily/2026-05-08.html",
-      "title": "Daily Update \u2014 May 8, 2026 \u2014 AutoTrader",
-      "pageviews": 1,
-      "users": 1,
-      "avg_time_on_page": 0.0,
-      "sessions": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "path": "/publications.html",
-      "title": "Publications \u2014 Dave Liu",
-      "pageviews": 1,
-      "users": 1,
-      "avg_time_on_page": 129.3,
-      "sessions": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "path": "/analytics/",
-      "title": "",
-      "pageviews": 0,
-      "users": 1,
-      "avg_time_on_page": 0,
-      "sessions": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "engagement_rate": 0.25,
+      "class": "mixed"
     }
   ],
   "sources": [
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 31,
-      "users": 31,
+      "sessions": 27,
+      "users": 27,
       "engaged": 7,
-      "engagement_rate": 0.226,
+      "engagement_rate": 0.259,
       "class": "mixed"
     },
     {
@@ -301,15 +257,6 @@
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
-    },
-    {
-      "source": "linkedin.com",
-      "medium": "referral",
-      "sessions": 3,
-      "users": 1,
-      "engaged": 3,
-      "engagement_rate": 1.0,
-      "class": "human"
     },
     {
       "source": "lnkd.in",
@@ -328,42 +275,46 @@
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
+    },
+    {
+      "source": "linkedin.com",
+      "medium": "referral",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 1,
+      "engagement_rate": 1.0,
+      "class": "human"
     }
   ],
   "devices": [
     {
-      "category": "desktop",
-      "sessions": 24,
-      "percentage": 57.1
+      "category": "mobile",
+      "sessions": 19,
+      "percentage": 54.3
     },
     {
-      "category": "mobile",
-      "sessions": 18,
-      "percentage": 42.9
+      "category": "desktop",
+      "sessions": 16,
+      "percentage": 45.7
     }
   ],
   "browsers": [
     {
-      "browser": "Chrome",
-      "sessions": 25,
-      "percentage": 59.5
+      "browser": "Safari",
+      "sessions": 18,
+      "percentage": 51.4
     },
     {
-      "browser": "Safari",
+      "browser": "Chrome",
       "sessions": 17,
-      "percentage": 40.5
+      "percentage": 48.6
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 27,
-      "users": 21
-    },
-    {
-      "country": "Singapore",
-      "sessions": 6,
-      "users": 6
+      "sessions": 26,
+      "users": 23
     },
     {
       "country": "Brazil",
@@ -382,8 +333,8 @@
     }
   ],
   "user_types": {
-    "new": 32,
-    "returning": 9
+    "new": 28,
+    "returning": 6
   },
   "hourly": [
     {
@@ -416,7 +367,7 @@
     },
     {
       "hour": 7,
-      "pageviews": 1
+      "pageviews": 0
     },
     {
       "hour": 8,
@@ -464,7 +415,7 @@
     },
     {
       "hour": 19,
-      "pageviews": 5
+      "pageviews": 6
     },
     {
       "hour": 20,
@@ -472,7 +423,7 @@
     },
     {
       "hour": 21,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 22,
@@ -484,12 +435,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 11,
-    "non_engaged_sessions": 31,
-    "likely_automated_sessions": 7,
-    "likely_human_sessions": 34,
-    "automated_pct": 17.1,
-    "est_human_users": 26,
+    "engaged_sessions": 8,
+    "non_engaged_sessions": 26,
+    "likely_automated_sessions": 1,
+    "likely_human_sessions": 33,
+    "automated_pct": 2.9,
+    "est_human_users": 28,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -498,23 +449,13 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 27,
-      "engaged": 8,
-      "users": 21,
-      "pageviews": 47,
-      "avg_duration": 238.5,
-      "engagement_rate": 0.296,
+      "sessions": 26,
+      "engaged": 6,
+      "users": 23,
+      "pageviews": 30,
+      "avg_duration": 59.6,
+      "engagement_rate": 0.231,
       "class": "mixed"
-    },
-    {
-      "country": "Singapore",
-      "sessions": 6,
-      "engaged": 0,
-      "users": 6,
-      "pageviews": 6,
-      "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
     },
     {
       "country": "Brazil",
@@ -562,27 +503,27 @@
         1,
         1,
         0,
-        1,
         0,
         0,
         0,
-        1,
-        1,
-        1,
-        0,
-        0,
-        0,
-        1,
         0,
         1,
         0,
         0,
         0,
         0,
-        13,
-        5,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
         2,
-        4
+        0
       ],
       [
         1,
@@ -708,9 +649,9 @@
         0,
         0,
         0,
-        2,
+        3,
         0,
-        0,
+        1,
         0,
         0
       ],
@@ -746,7 +687,6 @@
   "hour_by_country": {
     "countries": [
       "United States",
-      "Singapore",
       "Brazil",
       "Germany"
     ],
@@ -771,37 +711,11 @@
         0,
         0,
         1,
-        2,
         3,
         2,
         2,
-        4
-      ],
-      [
-        0,
-        0,
-        0,
         1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        0,
-        0
+        3
       ],
       [
         0,
@@ -863,28 +777,19 @@
       "lat": 39.029784,
       "lng": -77.4744148,
       "label": "Ashburn, United States",
-      "sessions": 15,
-      "users": 15,
+      "sessions": 16,
+      "users": 16,
       "engaged": 4,
-      "engagement_rate": 0.267
+      "engagement_rate": 0.25
     },
     {
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 9,
-      "users": 3,
-      "engaged": 4,
-      "engagement_rate": 0.444
-    },
-    {
-      "lat": 1.2899175,
-      "lng": 103.8519072,
-      "label": "Singapore, Singapore",
-      "sessions": 6,
-      "users": 6,
-      "engaged": 0,
-      "engagement_rate": 0.0
+      "sessions": 7,
+      "users": 4,
+      "engaged": 2,
+      "engagement_rate": 0.286
     },
     {
       "lat": -14.235,
@@ -936,49 +841,49 @@
     "wow": {
       "users": {
         "current": 12,
-        "previous": 11,
-        "change_pct": 9.1
+        "previous": 9,
+        "change_pct": 33.3
       },
       "sessions": {
         "current": 12,
-        "previous": 11,
-        "change_pct": 9.1
+        "previous": 9,
+        "change_pct": 33.3
       },
       "pageviews": {
-        "current": 16,
-        "previous": 13,
-        "change_pct": 23.1
+        "current": 15,
+        "previous": 12,
+        "change_pct": 25.0
       }
     },
     "baseline": {
-      "mean_pageviews": 3.5,
-      "std_pageviews": 5.4
+      "mean_pageviews": 2.2,
+      "std_pageviews": 1.5
     },
     "anomalies": [
       {
-        "date": "2026-06-28",
-        "pageviews": 25,
-        "z": 4.0
+        "date": "2026-07-18",
+        "pageviews": 6,
+        "z": 2.5
       }
     ]
   },
   "events": [
     {
-      "date": "2026-06-28",
-      "label": "\u2191 Direct surge \u2014 likely automated",
+      "date": "2026-07-18",
+      "label": "\u2191 Direct traffic spike",
       "url": "",
       "origin": "auto",
       "cause": {
         "top_source": "Direct",
         "top_medium": "\u2014",
-        "top_source_pct": 60,
+        "top_source_pct": 100,
         "top_page": "/",
-        "engagement_rate": 0.0,
-        "class": "automated"
+        "engagement_rate": 0.4,
+        "class": "human"
       },
-      "baseline_pageviews": 0,
-      "after_pageviews": 9.3,
-      "lift_pct": null
+      "baseline_pageviews": 1.5,
+      "after_pageviews": 4.0,
+      "lift_pct": 166.7
     }
   ]
 }
