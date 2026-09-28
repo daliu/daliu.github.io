@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-27T14:00:16.148522-07:00",
+  "updated": "2026-09-27T21:00:19.940997-07:00",
   "window_days": 90,
   "date_range": {
     "start": "2026-06-30",
@@ -7,15 +7,15 @@
     "days_with_data": 87
   },
   "intraday": {
-    "n_episodes": 275,
-    "n_observed": 274,
+    "n_episodes": 277,
+    "n_observed": 276,
     "episodes_per_day": 3.1,
     "days_with_data": 87,
     "median_peak": 81,
     "settle": {
       "median_min": 24,
       "p75_min": 57,
-      "p90_min": 131,
+      "p90_min": 132,
       "within_60min_pct": 76,
       "within_120min_pct": 88,
       "to_rest_median_min": 12
@@ -86,7 +86,7 @@
         "t": 0,
         "mean": 81.1,
         "sem": 0.33,
-        "n": 221
+        "n": 222
       },
       {
         "t": 3,
@@ -96,15 +96,15 @@
       },
       {
         "t": 6,
-        "mean": 53.9,
-        "sem": 1.47,
-        "n": 160
+        "mean": 54.1,
+        "sem": 1.48,
+        "n": 161
       },
       {
         "t": 9,
-        "mean": 54.3,
-        "sem": 1.41,
-        "n": 167
+        "mean": 54.6,
+        "sem": 1.42,
+        "n": 168
       },
       {
         "t": 12,
@@ -150,33 +150,33 @@
       },
       {
         "t": 33,
-        "mean": 48.9,
-        "sem": 1.46,
-        "n": 161
+        "mean": 49.1,
+        "sem": 1.47,
+        "n": 162
       },
       {
         "t": 36,
-        "mean": 47.0,
-        "sem": 1.44,
-        "n": 165
-      },
-      {
-        "t": 39,
-        "mean": 48.6,
-        "sem": 1.39,
+        "mean": 47.2,
+        "sem": 1.46,
         "n": 166
       },
       {
+        "t": 39,
+        "mean": 48.8,
+        "sem": 1.41,
+        "n": 167
+      },
+      {
         "t": 42,
-        "mean": 49.3,
-        "sem": 1.38,
-        "n": 176
+        "mean": 49.5,
+        "sem": 1.39,
+        "n": 177
       },
       {
         "t": 45,
-        "mean": 46.7,
-        "sem": 1.32,
-        "n": 160
+        "mean": 47.0,
+        "sem": 1.33,
+        "n": 161
       },
       {
         "t": 48,
@@ -204,15 +204,15 @@
       },
       {
         "t": 60,
-        "mean": 45.9,
-        "sem": 1.51,
-        "n": 156
+        "mean": 46.3,
+        "sem": 1.53,
+        "n": 157
       },
       {
         "t": 63,
-        "mean": 47.7,
-        "sem": 1.49,
-        "n": 166
+        "mean": 47.9,
+        "sem": 1.51,
+        "n": 167
       },
       {
         "t": 66,
@@ -222,45 +222,45 @@
       },
       {
         "t": 69,
-        "mean": 47.3,
-        "sem": 1.46,
-        "n": 163
+        "mean": 47.5,
+        "sem": 1.47,
+        "n": 164
       },
       {
         "t": 72,
-        "mean": 48.5,
+        "mean": 48.7,
         "sem": 1.55,
-        "n": 164
+        "n": 165
       },
       {
         "t": 75,
-        "mean": 48.4,
+        "mean": 48.6,
         "sem": 1.57,
-        "n": 164
+        "n": 165
       },
       {
         "t": 78,
-        "mean": 47.6,
-        "sem": 1.5,
-        "n": 158
+        "mean": 47.8,
+        "sem": 1.51,
+        "n": 159
       },
       {
         "t": 81,
-        "mean": 47.1,
+        "mean": 47.3,
         "sem": 1.56,
-        "n": 156
+        "n": 157
       },
       {
         "t": 84,
-        "mean": 47.1,
-        "sem": 1.54,
-        "n": 161
+        "mean": 47.3,
+        "sem": 1.55,
+        "n": 162
       },
       {
         "t": 87,
-        "mean": 46.8,
-        "sem": 1.65,
-        "n": 157
+        "mean": 47.0,
+        "sem": 1.66,
+        "n": 158
       },
       {
         "t": 90,
@@ -294,15 +294,15 @@
       },
       {
         "t": 105,
-        "mean": 44.2,
-        "sem": 1.51,
-        "n": 165
+        "mean": 44.5,
+        "sem": 1.52,
+        "n": 166
       },
       {
         "t": 108,
-        "mean": 45.9,
-        "sem": 1.43,
-        "n": 173
+        "mean": 46.1,
+        "sem": 1.44,
+        "n": 174
       },
       {
         "t": 111,
@@ -340,7 +340,7 @@
       },
       {
         "bin": 30,
-        "count": 32
+        "count": 33
       },
       {
         "bin": 45,
@@ -380,7 +380,7 @@
       },
       {
         "bin": 180,
-        "count": 18,
+        "count": 19,
         "overflow": true
       }
     ]
@@ -599,7 +599,7 @@
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>76%</strong> of 274 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>76%</strong> of 276 episodes gone within an hour."
     },
     {
       "impact": "neutral",
