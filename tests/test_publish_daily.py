@@ -127,7 +127,7 @@ class TestExtractDescription:
     def test_default_description_when_no_matches(self):
         html = "<p>Nothing useful here</p>"
         result = publish_daily.extract_description(html)
-        assert result == "Daily market predictions and analysis"
+        assert result == "Archived market report and research context"
 
     def test_multiple_stats_joined(self):
         html = (
@@ -363,6 +363,17 @@ class TestGenerateWrapperPage:
     def test_iframe_source_correct(self):
         assert f'src="emails/{self.date_str}.html"' in self.html
 
+    def test_archive_keeps_report_without_live_performance_or_video_inserts(self):
+        assert self.html.count("<iframe") == 1
+        assert 'id="emailFrame" title="Archived market report for February 18, 2026"' in self.html
+        assert "resizeIframe" in self.html
+        assert "xhrPrev.open('HEAD', prevUrl, true)" in self.html
+        assert "xhr.open('HEAD', nextUrl, true)" in self.html
+        for removed in ("tr-badge", "api.moneysignals.us", "short.json", "short-iframe", "youtube.com/embed/"):
+            assert removed not in self.html
+        assert "earlier forecast editions" in self.html
+        assert "historical picks are not current instructions" in self.html
+
     def test_title_contains_date(self):
         assert "Feb 18, 2026" in self.html
 
@@ -394,6 +405,12 @@ class TestGeneratePlaceholderWrapperPage:
     def test_placeholder_message_present(self):
         assert publish_daily.PLACEHOLDER_MESSAGE in self.html
 
+    def test_missing_archive_does_not_claim_outage_or_recovery(self):
+        assert "No report is available in this archive for this date." in self.html
+        for unsupported in ("pipeline outage", "system was restored", "predictions resumed", "no predictions generated"):
+            assert unsupported not in self.html.lower()
+            assert unsupported not in publish_daily.PLACEHOLDER_DESCRIPTION.lower()
+
     def test_no_iframe(self):
         assert "<iframe" not in self.html
 
@@ -424,163 +441,7 @@ class TestGeneratePlaceholderWrapperPage:
 # git_commit_and_push
 # ---------------------------------------------------------------------------
 
-class TestGitCommitAndPush:
-    """Tests for git_commit_and_push(commit_msg) with mocked subprocess."""
-
-    @patch("publish_daily.subprocess.run")
-    @patch("publish_daily.os.chdir")
-    def test_stash_popped_in_finally_on_success(self, mock_chdir, mock_run):
-        """Stash pop must happen even when the push succeeds."""
-        def side_effect(cmd, **kwargs):
-            result = MagicMock()
-            if cmd == ["git", "diff", "--cached", "--quiet"]:
-                result.returncode = 1  # There are staged changes
-            elif cmd == ["git", "stash"]:
-                result.stdout = "Saved working directory"
-                result.returncode = 0
-            elif cmd == ["git", "pull", "--rebase"]:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            else:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            return result
-
-        mock_run.side_effect = side_effect
-        publish_daily.git_commit_and_push("test commit")
-
-        # Verify stash pop was called
-        stash_pop_calls = [
-            c for c in mock_run.call_args_list
-            if c[0][0] == ["git", "stash", "pop"]
-        ]
-        assert len(stash_pop_calls) == 1
-
-    @patch("publish_daily.subprocess.run")
-    @patch("publish_daily.os.chdir")
-    def test_stash_popped_in_finally_on_rebase_failure(self, mock_chdir, mock_run):
-        """Stash pop must happen even when rebase fails and merge is attempted."""
-        call_log = []
-
-        def side_effect(cmd, **kwargs):
-            call_log.append(cmd)
-            result = MagicMock()
-            if cmd == ["git", "diff", "--cached", "--quiet"]:
-                result.returncode = 1
-            elif cmd == ["git", "stash"]:
-                result.stdout = "Saved working directory"
-                result.returncode = 0
-            elif cmd == ["git", "pull", "--rebase"]:
-                result.returncode = 1
-                result.stderr = "CONFLICT"
-                result.stdout = ""
-            elif cmd == ["git", "pull", "--no-rebase"]:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            else:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            return result
-
-        mock_run.side_effect = side_effect
-        publish_daily.git_commit_and_push("test commit")
-
-        stash_pop_calls = [c for c in call_log if c == ["git", "stash", "pop"]]
-        assert len(stash_pop_calls) == 1
-
-    @patch("publish_daily.subprocess.run")
-    @patch("publish_daily.os.chdir")
-    def test_stash_popped_on_push_exception(self, mock_chdir, mock_run):
-        """Stash pop must happen even when push raises an exception."""
-        def side_effect(cmd, **kwargs):
-            result = MagicMock()
-            if cmd == ["git", "diff", "--cached", "--quiet"]:
-                result.returncode = 1
-            elif cmd == ["git", "stash"]:
-                result.stdout = "Saved working directory"
-                result.returncode = 0
-            elif cmd == ["git", "pull", "--rebase"]:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            elif cmd == ["git", "push"]:
-                raise RuntimeError("push failed")
-            elif cmd == ["git", "stash", "pop"]:
-                result.returncode = 0
-            else:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            return result
-
-        mock_run.side_effect = side_effect
-
-        with pytest.raises(RuntimeError, match="push failed"):
-            publish_daily.git_commit_and_push("test commit")
-
-        stash_pop_calls = [
-            c for c in mock_run.call_args_list
-            if c[0][0] == ["git", "stash", "pop"]
-        ]
-        assert len(stash_pop_calls) == 1
-
-    @patch("publish_daily.subprocess.run")
-    @patch("publish_daily.os.chdir")
-    def test_no_commit_when_no_changes(self, mock_chdir, mock_run):
-        """When there are no staged changes, skip commit entirely."""
-        def side_effect(cmd, **kwargs):
-            result = MagicMock()
-            if cmd == ["git", "diff", "--cached", "--quiet"]:
-                result.returncode = 0  # No staged changes
-            else:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            return result
-
-        mock_run.side_effect = side_effect
-        publish_daily.git_commit_and_push("test commit")
-
-        # Verify commit was never called
-        commit_calls = [
-            c for c in mock_run.call_args_list
-            if len(c[0]) > 0 and c[0][0][:2] == ["git", "commit"]
-        ]
-        assert len(commit_calls) == 0
-
-    @patch("publish_daily.subprocess.run")
-    @patch("publish_daily.os.chdir")
-    def test_stash_not_popped_when_nothing_stashed(self, mock_chdir, mock_run):
-        """When git stash reports no local changes, don't pop."""
-        def side_effect(cmd, **kwargs):
-            result = MagicMock()
-            if cmd == ["git", "diff", "--cached", "--quiet"]:
-                result.returncode = 1
-            elif cmd == ["git", "stash"]:
-                result.stdout = "No local changes to save"
-                result.returncode = 0
-            elif cmd == ["git", "pull", "--rebase"]:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            else:
-                result.returncode = 0
-                result.stdout = ""
-                result.stderr = ""
-            return result
-
-        mock_run.side_effect = side_effect
-        publish_daily.git_commit_and_push("test commit")
-
-        stash_pop_calls = [
-            c for c in mock_run.call_args_list
-            if c[0][0] == ["git", "stash", "pop"]
-        ]
-        assert len(stash_pop_calls) == 0
+# Real Git synchronization and recovery cases: test_publish_git_sync.py.
 
 
 # ---------------------------------------------------------------------------
@@ -753,7 +614,7 @@ class TestGenerateCard:
         assert 'class="update-card"' in card
         assert 'href="2026-03-02.html"' in card
         assert "My desc" in card
-        assert "Daily Market Update" in card
+        assert "Archived Market Report" in card
 
 
 # ---------------------------------------------------------------------------
@@ -942,6 +803,40 @@ class TestCheckPublishFreshness:
         src.write_bytes(b"\xff\xfe\x00binary junk")
         warnings = publish_daily.check_publish_freshness("2026-06-02", src, d)
         assert isinstance(warnings, list)
+
+
+class TestResearchArchivePublishing:
+    def test_publish_preserves_source_and_historical_descriptions(self, tmp_path, monkeypatch):
+        daily = tmp_path / "autotrader" / "daily"
+        emails = daily / "emails"
+        emails.mkdir(parents=True)
+        old_bytes = b"<p>Earlier forecast edition, retained verbatim.</p>"
+        (emails / "2026-09-28.html").write_bytes(old_bytes)
+        old_description = "Daily market predictions and analysis &middot; historical context"
+        index = daily / "index.html"
+        index.write_text(_make_index_html(_make_card_html("2026-09-28", old_description)))
+        payload = "<h1>Research report for 2026-09-29</h1><p>Four-week loss: −2.82%; monthly pending.</p>"
+        source = _write_source(tmp_path, payload, "2026-09-29")
+        monkeypatch.setattr(publish_daily, "SCRIPT_DIR", str(tmp_path))
+        monkeypatch.setattr(publish_daily, "DAILY_DIR", str(daily))
+        monkeypatch.setattr(publish_daily, "EMAILS_DIR", str(emails))
+        monkeypatch.setattr(publish_daily, "INDEX_PATH", str(index))
+        def reject_process(*args, **kwargs):
+            pytest.fail("Offline publishing must not run subprocesses or push")
+        monkeypatch.setattr(publish_daily.subprocess, "run", reject_process)
+        monkeypatch.setattr(sys, "argv", ["publish_daily.py", "--date", "2026-09-29", "--source", str(source), "--no-push", "--strict-freshness"])
+
+        publish_daily.main()
+
+        assert (emails / "2026-09-29.html").read_bytes() == source.read_bytes()
+        assert (emails / "2026-09-28.html").read_bytes() == old_bytes
+        entries = publish_daily.parse_existing_entries(index.read_text())
+        assert entries == {
+            "2026-09-28": {"description": old_description},
+            "2026-09-29": {"description": "Archived market report and research context"},
+        }
+        assert 'src="emails/2026-09-29.html"' in (daily / "2026-09-29.html").read_text()
+        assert "2026-09-29.html" in (tmp_path / "sitemap.xml").read_text()
 
 
 class TestMainFreshnessIsNonFatal:

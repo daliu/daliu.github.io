@@ -24,6 +24,7 @@ INDEX_PATH = os.path.join(DAILY_DIR, "index.html")
 
 ENTRY_START = "<!-- DAILY-ENTRIES -->"
 ENTRY_END = "<!-- /DAILY-ENTRIES -->"
+DEFAULT_DESCRIPTION = "Archived market report and research context"
 
 # Grep-able marker for the daily chain / log review. Detection only: a warning
 # never blocks a publish unless --strict-freshness is passed explicitly.
@@ -108,7 +109,7 @@ def extract_description(email_html):
     return (
         " &middot; ".join(parts)
         if parts
-        else "Daily market predictions and analysis"
+        else DEFAULT_DESCRIPTION
     )
 
 
@@ -132,12 +133,12 @@ def generate_wrapper_page(date_str, date_obj):
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Daily Update — {short_month} {day}, {year} — MoneySignals</title>
+  <title>Archived Report — {short_month} {day}, {year} — MoneySignals</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
-  <meta property="og:title" content="MoneySignals — {month_name} {day}, {year} Market Update">
-  <meta property="og:description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
+  <meta name="description" content="MoneySignals archived market report for {month_name} {day}, {year}">
+  <meta property="og:title" content="MoneySignals — {month_name} {day}, {year} Archived Report">
+  <meta property="og:description" content="MoneySignals archived market report for {month_name} {day}, {year}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -253,9 +254,9 @@ def generate_wrapper_page(date_str, date_obj):
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="index.html">Daily Reports</a></li>
+        <li><a href="index.html">Research Archive</a></li>
         <li><a href="https://moneysignals.us/#pricing">Pricing</a></li>
-        <li><a href="https://moneysignals.us/#track-record">Track Record</a></li>
+        <li><a href="https://moneysignals.us/track-record">Research Evidence</a></li>
         <li><a href="https://www.youtube.com/@investwithdave" target="_blank" rel="noopener noreferrer"><span class="fa fa-youtube-play"></span></a></li>
       </ul>
     </div>
@@ -266,55 +267,18 @@ def generate_wrapper_page(date_str, date_obj):
 
 <div class="container-fluid">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-    <a href="index.html" class="back-link">&larr; All Updates</a>
+    <a href="index.html" class="back-link">&larr; Research Archive</a>
     <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
       <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px; display: none;">&larr; Prev</a>
       <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none; display: none;">Next &rarr;</a>
     </div>
   </div>
   <div class="date-heading">{month_name} {day}, {year}</div>
-  <h2>Daily Market Update</h2>
+  <h2>Archived Market Report</h2>
   <div class="section-divider"></div>
-  <p>MoneySignals' daily predictions and market analysis for the upcoming trading day. This report includes top bullish and bearish picks, market sentiment indicators, economic calendar events, and social sentiment data.</p>
+  <p>This dated report is preserved for reference. The archive includes research briefs and earlier forecast editions. Read each report with its original date, methods and limitations; historical picks are not current instructions or evidence of investment returns.</p>
 
-  <!-- Live event-signal track record — fetched client-side from the public API.
-       Hidden on fetch failure or a small sample, so it never shows a broken claim. -->
-  <a id="tr-badge" href="https://moneysignals.us/track-record" target="_blank" rel="noopener"
-     style="display:none; text-decoration:none; margin: 4px 0 22px; padding: 12px 18px;
-            border:1px solid rgba(26,188,156,0.35); border-radius:10px;
-            background: rgba(26,188,156,0.06); align-items:center; gap:12px;">
-    <span style="font-size:20px;">&#128202;</span>
-    <span style="color:#34495e; font-size:14px; line-height:1.4;">
-      <strong style="color:#16a085;" id="tr-badge-rate"></strong> win rate on our event signals
-      <span style="color:#95a5a6;" id="tr-badge-n"></span>
-      &nbsp;<span style="color:#1abc9c; font-weight:600;">see the live ledger &rarr;</span>
-    </span>
-  </a>
-
-  <!-- Day's 60-second YouTube Short — populated client-side from
-       social/{date_str}/short.json (the social pipeline writes it after posting,
-       ~10am ET). Stays hidden until/unless a Short exists for this date, so the
-       page never shows a broken player. -->
-  <div id="short-embed" style="display:none; margin: 24px 0 8px;">
-    <h2 style="margin-bottom: 4px;">&#128250; Today's 60-Second Recap</h2>
-    <p id="short-meta" style="color:#95a5a6; font-size:13px; margin:0 0 14px;"></p>
-    <div style="max-width:330px;">
-      <div style="position:relative; width:100%; padding-bottom:177.78%; border-radius:14px; overflow:hidden; background:#000;">
-        <iframe id="short-iframe" src="" title="MoneySignals daily market recap"
-                frameborder="0" loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-                style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
-      </div>
-      <a id="short-yt-link" href="#" target="_blank" rel="noopener"
-         style="display:inline-block; margin-top:10px; color:#1abc9c; text-decoration:none; font-size:13px; font-weight:600;">
-        &#9654; Watch &amp; subscribe on YouTube
-      </a>
-    </div>
-    <div class="section-divider" style="margin-top: 24px;"></div>
-  </div>
-
-  <iframe src="emails/{date_str}.html" class="email-iframe" id="emailFrame"></iframe>
+  <iframe src="emails/{date_str}.html" class="email-iframe" id="emailFrame" title="Archived market report for {month_name} {day}, {year}"></iframe>
 </div>
 
 <footer class="container-fluid text-center" style="background: #2f2f2f; padding: 40px 50px; color: #95a5a6;">
@@ -340,38 +304,6 @@ function resizeIframe() {{
   }}
 }}
 document.getElementById('emailFrame').addEventListener('load', resizeIframe);
-
-// Live event-signal track record badge (public API; hidden on failure or small n).
-(function() {{
-  fetch('https://api.moneysignals.us/track-record')
-    .then(function(r) {{ return r.ok ? r.json() : null; }})
-    .then(function(d) {{
-      var so = d && d.second_order;
-      if (!so || !so.n || so.n < 30) return;
-      document.getElementById('tr-badge-rate').textContent = Math.round(so.win_rate * 100) + '%';
-      document.getElementById('tr-badge-n').textContent =
-        '(' + so.n + ' resolved calls' + (so.since ? ' since ' + so.since : '') + ')';
-      document.getElementById('tr-badge').style.display = 'inline-flex';
-    }})
-    .catch(function() {{ /* no badge if unavailable */ }});
-}})();
-
-// Embed this date's YouTube Short if the social pipeline has published one.
-(function() {{
-  fetch('social/{date_str}/short.json?_=' + Date.now())
-    .then(function(r) {{ return r.ok ? r.json() : null; }})
-    .then(function(s) {{
-      if (!s || !s.video_id) return;
-      document.getElementById('short-iframe').src =
-        'https://www.youtube.com/embed/' + s.video_id + '?rel=0';
-      var link = document.getElementById('short-yt-link');
-      link.href = s.youtube_url || ('https://youtu.be/' + s.video_id);
-      document.getElementById('short-meta').textContent =
-        'Our 60-second market recap' + (s.date ? ' · ' + s.date : '');
-      document.getElementById('short-embed').style.display = 'block';
-    }})
-    .catch(function() {{ /* no Short for this date — leave hidden */ }});
-}})();
 
 // Prev/Next day navigation
 (function() {{
@@ -419,11 +351,12 @@ document.getElementById('emailFrame').addEventListener('load', resizeIframe);
 """
 
 
-PLACEHOLDER_DESCRIPTION = "Pipeline outage &mdash; no predictions generated"
+PLACEHOLDER_DESCRIPTION = "Report unavailable in this archive"
 
 PLACEHOLDER_MESSAGE = (
-    "No predictions were generated for this date due to a pipeline outage. "
-    "The automated system was restored and predictions resumed on the next trading day."
+    "No report is available in this archive for this date. "
+    "This gap does not establish whether a report was generated or delivered elsewhere, "
+    "why it is missing, or when publication resumed."
 )
 
 
@@ -637,12 +570,12 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Daily Update — {short_month} {day}, {year} — MoneySignals</title>
+  <title>Report Unavailable — {short_month} {day}, {year} — MoneySignals</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
-  <meta property="og:title" content="MoneySignals — {month_name} {day}, {year} Market Update">
-  <meta property="og:description" content="MoneySignals daily market predictions for {month_name} {day}, {year}">
+  <meta name="description" content="MoneySignals archive: report unavailable for {month_name} {day}, {year}">
+  <meta property="og:title" content="MoneySignals — {month_name} {day}, {year} Report Unavailable">
+  <meta property="og:description" content="MoneySignals archive: report unavailable for {month_name} {day}, {year}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://daliu.github.io/autotrader/daily/{date_str}.html">
   <meta property="og:image" content="https://daliu.github.io/images/og-card.png">
@@ -768,9 +701,9 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="index.html">Daily Reports</a></li>
+        <li><a href="index.html">Research Archive</a></li>
         <li><a href="https://moneysignals.us/#pricing">Pricing</a></li>
-        <li><a href="https://moneysignals.us/#track-record">Track Record</a></li>
+        <li><a href="https://moneysignals.us/track-record">Research Evidence</a></li>
         <li><a href="https://www.youtube.com/@investwithdave" target="_blank" rel="noopener noreferrer"><span class="fa fa-youtube-play"></span></a></li>
       </ul>
     </div>
@@ -781,14 +714,14 @@ def generate_placeholder_wrapper_page(date_str, date_obj):
 
 <div class="container-fluid">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-    <a href="index.html" class="back-link">&larr; All Updates</a>
+    <a href="index.html" class="back-link">&larr; Research Archive</a>
     <div id="day-nav" style="font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: 1px;">
       <a id="prev-day" href="#" style="color: #1abc9c; text-decoration: none; margin-right: 15px; display: none;">&larr; Prev</a>
       <a id="next-day" href="#" style="color: #1abc9c; text-decoration: none; display: none;">Next &rarr;</a>
     </div>
   </div>
   <div class="date-heading">{month_name} {day}, {year}</div>
-  <h2>Daily Market Update</h2>
+  <h2>Report Unavailable</h2>
   <div class="section-divider"></div>
 
   <div class="placeholder-message">
@@ -913,7 +846,7 @@ def generate_card(date_str, date_obj, description):
         f'  <div class="update-card">\n'
         f'    <a href="{date_str}.html">\n'
         f'      <div class="update-date">{date_display}</div>\n'
-        f'      <div class="update-title">Daily Market Update</div>\n'
+        f'      <div class="update-title">Archived Market Report</div>\n'
         f'      <p class="update-desc">{description}</p>\n'
         f"    </a>\n"
         f"  </div>"
@@ -945,7 +878,7 @@ def generate_entries_html(entries):
             current_month = month_key
 
         description = entries[date_str].get(
-            "description", "Daily market predictions and analysis"
+            "description", DEFAULT_DESCRIPTION
         )
         lines.append("")
         lines.append(generate_card(date_str, date_obj, description))
@@ -1104,65 +1037,57 @@ def refresh_patterns_program():
 
 
 def git_commit_and_push(commit_msg):
-    """Stage autotrader/daily/ changes, commit, rebase, and push."""
+    """Commit publication files and sync without discarding local work/history."""
     os.chdir(SCRIPT_DIR)
+
+    def checked(*args):
+        return subprocess.run(["git", *args], check=True, capture_output=True, text=True)
+
+    # This checkout feeds the public master branch. Refuse an unfinished or
+    # differently configured checkout rather than publishing the wrong branch.
+    if checked("symbolic-ref", "--short", "HEAD").stdout.strip() != "master":
+        raise RuntimeError("Publish requires the master branch; checkout left unchanged")
+    if checked("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}").stdout.strip() != "origin/master":
+        raise RuntimeError("Publish requires origin/master upstream; checkout left unchanged")
+    for marker in ("MERGE_HEAD", "CHERRY_PICK_HEAD", "REVERT_HEAD", "rebase-merge", "rebase-apply"):
+        path = checked("rev-parse", "--git-path", marker).stdout.strip()
+        if os.path.exists(path):
+            raise RuntimeError("Publish refused an unfinished Git operation; resolve it first")
+    staged = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
+    if staged.returncode == 1:
+        raise RuntimeError("Publish refused pre-existing staged changes; index left unchanged")
+    staged.check_returncode()
+    dirty = checked("diff", "--name-only", "-z").stdout.split("\0")
+    if any(name and name != "sitemap.xml" and not name.startswith("autotrader/daily/") for name in dirty):
+        raise RuntimeError("Publish refused unrelated tracked edits; no stash or reset performed")
+
     add_paths = ["autotrader/daily/", "sitemap.xml"]
-    if refresh_patterns_program():  # keep the public PoC writeup in sync, zero-touch
+    if refresh_patterns_program():
         add_paths.append("patterns-of-choice/index.html")
-    subprocess.run(["git", "add"] + add_paths, check=True)
-
-    result = subprocess.run(
-        ["git", "diff", "--cached", "--quiet"], capture_output=True
-    )
-    if result.returncode != 0:  # There are staged changes
-        subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-        # Stash any unstaged changes before rebase
-        stash_result = subprocess.run(
-            ["git", "stash"], capture_output=True, text=True
-        )
-        stashed = "No local changes" not in stash_result.stdout
-
-        try:
-            # Try rebase first
-            rebase_result = subprocess.run(
-                ["git", "pull", "--rebase"], capture_output=True, text=True
-            )
-            if rebase_result.returncode != 0:
-                print(f"  Rebase failed: {rebase_result.stderr[:200]}")
-                # Abort failed rebase
-                subprocess.run(["git", "rebase", "--abort"], capture_output=True)
-                # Fallback: merge instead of rebase
-                merge_result = subprocess.run(
-                    ["git", "pull", "--no-rebase"], capture_output=True, text=True
-                )
-                if merge_result.returncode != 0:
-                    print(f"  Merge also failed: {merge_result.stderr[:200]}")
-                    # Last resort: force-reset to remote and re-apply our commit
-                    print("  Using force-reset recovery...")
-                    subprocess.run(["git", "fetch", "origin"], check=True)
-                    # Save our commit hash
-                    our_commit = subprocess.run(
-                        ["git", "rev-parse", "HEAD"],
-                        capture_output=True, text=True
-                    ).stdout.strip()
-                    subprocess.run(["git", "reset", "--hard", "origin/master"], check=True)
-                    # Cherry-pick our commit on top
-                    cherry_result = subprocess.run(
-                        ["git", "cherry-pick", our_commit],
-                        capture_output=True, text=True
-                    )
-                    if cherry_result.returncode != 0:
-                        print(f"  Cherry-pick failed, skipping publish: {cherry_result.stderr[:200]}")
-                        subprocess.run(["git", "cherry-pick", "--abort"], capture_output=True)
-                        return
-
-            subprocess.run(["git", "push"], check=True)
-            print("  Pushed to GitHub!")
-        finally:
-            if stashed:
-                subprocess.run(["git", "stash", "pop"], check=False)
+    checked("add", "--", *add_paths)
+    staged = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
+    if staged.returncode == 1:
+        checked("commit", "-m", commit_msg)
     else:
-        print("  No changes to commit (already up to date)")
+        staged.check_returncode()
+        print("  No new publication changes; checking synchronization")
+    # A writer may have changed another tracked file after preflight. Never stash
+    # it to make the rebase proceed. Untracked files are left to Git's collision checks.
+    checked("diff", "--quiet")
+    before_sync = checked("rev-parse", "HEAD").stdout.strip()
+    rebased = subprocess.run(["git", "pull", "--rebase"], capture_output=True, text=True)
+    if rebased.returncode != 0:
+        active = any(os.path.exists(checked("rev-parse", "--git-path", marker).stdout.strip())
+                     for marker in ("rebase-merge", "rebase-apply"))
+        if active:
+            checked("rebase", "--abort")
+        restored = checked("rev-parse", "HEAD").stdout.strip() == before_sync
+        detail = "local commits retained" if restored else "HEAD changed; inspect the checkout before retrying"
+        raise RuntimeError(f"Publish synchronization failed ({detail}): {rebased.stderr[:200]}")
+    # Retry a previously committed but unpushed report even when there is no new
+    # diff. A push failure is a nonzero failure, never a successful publication.
+    checked("push", "origin", "HEAD:refs/heads/master")
+    print("  Pushed to GitHub!")
 
 
 def main():
@@ -1245,7 +1170,7 @@ def main():
         # Git commit and push
         if not args.no_push:
             print("  Committing and pushing...")
-            git_commit_and_push(f"daily: backfill {len(gaps)} placeholder(s) for pipeline outage")
+            git_commit_and_push(f"daily: backfill {len(gaps)} archive gap placeholder(s)")
         else:
             print("  Skipping git (--no-push)")
 
@@ -1268,7 +1193,7 @@ def main():
         # Git commit and push
         if not args.no_push:
             print("  Committing and pushing...")
-            git_commit_and_push(f"daily: placeholder for {date_str} (pipeline outage)")
+            git_commit_and_push(f"daily: placeholder for {date_str} (archive gap)")
         else:
             print("  Skipping git (--no-push)")
 
