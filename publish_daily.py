@@ -1037,65 +1037,57 @@ def refresh_patterns_program():
 
 
 def git_commit_and_push(commit_msg):
-    """Stage autotrader/daily/ changes, commit, rebase, and push."""
+    """Commit publication files and sync without discarding local work/history."""
     os.chdir(SCRIPT_DIR)
+
+    def checked(*args):
+        return subprocess.run(["git", *args], check=True, capture_output=True, text=True)
+
+    # This checkout feeds the public master branch. Refuse an unfinished or
+    # differently configured checkout rather than publishing the wrong branch.
+    if checked("symbolic-ref", "--short", "HEAD").stdout.strip() != "master":
+        raise RuntimeError("Publish requires the master branch; checkout left unchanged")
+    if checked("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}").stdout.strip() != "origin/master":
+        raise RuntimeError("Publish requires origin/master upstream; checkout left unchanged")
+    for marker in ("MERGE_HEAD", "CHERRY_PICK_HEAD", "REVERT_HEAD", "rebase-merge", "rebase-apply"):
+        path = checked("rev-parse", "--git-path", marker).stdout.strip()
+        if os.path.exists(path):
+            raise RuntimeError("Publish refused an unfinished Git operation; resolve it first")
+    staged = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
+    if staged.returncode == 1:
+        raise RuntimeError("Publish refused pre-existing staged changes; index left unchanged")
+    staged.check_returncode()
+    dirty = checked("diff", "--name-only", "-z").stdout.split("\0")
+    if any(name and name != "sitemap.xml" and not name.startswith("autotrader/daily/") for name in dirty):
+        raise RuntimeError("Publish refused unrelated tracked edits; no stash or reset performed")
+
     add_paths = ["autotrader/daily/", "sitemap.xml"]
-    if refresh_patterns_program():  # keep the public PoC writeup in sync, zero-touch
+    if refresh_patterns_program():
         add_paths.append("patterns-of-choice/index.html")
-    subprocess.run(["git", "add"] + add_paths, check=True)
-
-    result = subprocess.run(
-        ["git", "diff", "--cached", "--quiet"], capture_output=True
-    )
-    if result.returncode != 0:  # There are staged changes
-        subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-        # Stash any unstaged changes before rebase
-        stash_result = subprocess.run(
-            ["git", "stash"], capture_output=True, text=True
-        )
-        stashed = "No local changes" not in stash_result.stdout
-
-        try:
-            # Try rebase first
-            rebase_result = subprocess.run(
-                ["git", "pull", "--rebase"], capture_output=True, text=True
-            )
-            if rebase_result.returncode != 0:
-                print(f"  Rebase failed: {rebase_result.stderr[:200]}")
-                # Abort failed rebase
-                subprocess.run(["git", "rebase", "--abort"], capture_output=True)
-                # Fallback: merge instead of rebase
-                merge_result = subprocess.run(
-                    ["git", "pull", "--no-rebase"], capture_output=True, text=True
-                )
-                if merge_result.returncode != 0:
-                    print(f"  Merge also failed: {merge_result.stderr[:200]}")
-                    # Last resort: force-reset to remote and re-apply our commit
-                    print("  Using force-reset recovery...")
-                    subprocess.run(["git", "fetch", "origin"], check=True)
-                    # Save our commit hash
-                    our_commit = subprocess.run(
-                        ["git", "rev-parse", "HEAD"],
-                        capture_output=True, text=True
-                    ).stdout.strip()
-                    subprocess.run(["git", "reset", "--hard", "origin/master"], check=True)
-                    # Cherry-pick our commit on top
-                    cherry_result = subprocess.run(
-                        ["git", "cherry-pick", our_commit],
-                        capture_output=True, text=True
-                    )
-                    if cherry_result.returncode != 0:
-                        print(f"  Cherry-pick failed, skipping publish: {cherry_result.stderr[:200]}")
-                        subprocess.run(["git", "cherry-pick", "--abort"], capture_output=True)
-                        return
-
-            subprocess.run(["git", "push"], check=True)
-            print("  Pushed to GitHub!")
-        finally:
-            if stashed:
-                subprocess.run(["git", "stash", "pop"], check=False)
+    checked("add", "--", *add_paths)
+    staged = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
+    if staged.returncode == 1:
+        checked("commit", "-m", commit_msg)
     else:
-        print("  No changes to commit (already up to date)")
+        staged.check_returncode()
+        print("  No new publication changes; checking synchronization")
+    # A writer may have changed another tracked file after preflight. Never stash
+    # it to make the rebase proceed. Untracked files are left to Git's collision checks.
+    checked("diff", "--quiet")
+    before_sync = checked("rev-parse", "HEAD").stdout.strip()
+    rebased = subprocess.run(["git", "pull", "--rebase"], capture_output=True, text=True)
+    if rebased.returncode != 0:
+        active = any(os.path.exists(checked("rev-parse", "--git-path", marker).stdout.strip())
+                     for marker in ("rebase-merge", "rebase-apply"))
+        if active:
+            checked("rebase", "--abort")
+        restored = checked("rev-parse", "HEAD").stdout.strip() == before_sync
+        detail = "local commits retained" if restored else "HEAD changed; inspect the checkout before retrying"
+        raise RuntimeError(f"Publish synchronization failed ({detail}): {rebased.stderr[:200]}")
+    # Retry a previously committed but unpushed report even when there is no new
+    # diff. A push failure is a nonzero failure, never a successful publication.
+    checked("push", "origin", "HEAD:refs/heads/master")
+    print("  Pushed to GitHub!")
 
 
 def main():
