@@ -1,60 +1,60 @@
 {
-  "updated": "2026-09-29T14:00:07.721114",
-  "n": 77,
+  "updated": "2026-09-29T21:00:11.666777",
+  "n": 76,
   "bedtime": {
-    "recommended_norm": 5.007,
+    "recommended_norm": 4.992,
     "recommended_label": "11:00 PM",
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
-    "ci_label": "10:39 PM \u2013 2:59 AM",
-    "median_label": "2:14 AM",
+    "ci_label": "10:38 PM \u2013 2:31 AM",
+    "median_label": "2:20 AM",
     "pct10_label": "11:00 PM",
-    "pct90_label": "4:23 AM",
+    "pct90_label": "4:24 AM",
     "stats": {
       "sleep_score": {
         "kind": "quadratic",
-        "cv_r2": -0.053,
+        "cv_r2": -0.152,
         "r": 0.18,
-        "p": 0.1241,
-        "per_hour_earlier": -0.95
+        "p": 0.1183,
+        "per_hour_earlier": -0.97
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": -0.151,
-        "r": -0.42,
+        "cv_r2": -0.222,
+        "r": -0.43,
         "p": 0.0001,
         "per_hour_earlier": 0.31
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.182,
+        "cv_r2": -0.202,
         "r": -0.04,
-        "p": 0.7234,
-        "per_hour_earlier": 0.29
+        "p": 0.7441,
+        "per_hour_earlier": 0.26
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 73.2,
-      "sleep_hours": 7.8,
-      "battery": 79.9
+      "sleep_score": 73.0,
+      "sleep_hours": 7.9,
+      "battery": 79.8
     },
     "pred_at_median": {
-      "sleep_score": 76.3,
+      "sleep_score": 76.2,
       "sleep_hours": 6.8,
-      "battery": 79.0
+      "battery": 78.9
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.15,
+        "sleep_score": 0.16,
         "sleep_hours": 0.09,
         "battery": -0.03
       },
       "weekly_frequency": {
-        "sleep_score": 0.04,
-        "sleep_hours": -0.17,
-        "battery": -0.03
+        "sleep_score": 0.02,
+        "sleep_hours": -0.16,
+        "battery": -0.04
       }
     },
     "typical_weekly_freq": 3,
