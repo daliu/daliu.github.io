@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-03T04:00:21.001577+00:00",
+  "generated_at": "2026-10-03T15:00:18.614068+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "2fc5878",
-      "date": "2026-10-02T14:00:19-07:00",
-      "message": "Update health data 2026-10-02 14:00"
+      "hash": "b287919",
+      "date": "2026-10-03T06:40:07-07:00",
+      "message": "health: refresh calendar density 2026-10-03 06:40"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-02T21:00:06.211347",
+        "updated": "2026-10-03T08:00:06.051092",
         "date_range": null
       },
       "last_commit": {
-        "hash": "2fc5878",
-        "date": "2026-10-02T14:00:19-07:00",
-        "message": "Update health data 2026-10-02 14:00"
+        "hash": "b287919",
+        "date": "2026-10-03T06:40:07-07:00",
+        "message": "health: refresh calendar density 2026-10-03 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-10-02T11:38:08Z"
+        "updated": "2026-10-03T10:51:46Z"
       },
       "last_commit": {
-        "hash": "1991517",
-        "date": "2026-10-02T11:38:09+00:00",
-        "message": "Update analytics data 2026-10-02"
+        "hash": "19bb3fc",
+        "date": "2026-10-03T10:51:46+00:00",
+        "message": "Update analytics data 2026-10-03"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "b287919",
+      "date": "2026-10-03T06:40:07-07:00",
+      "message": "health: refresh calendar density 2026-10-03 06:40"
+    },
+    {
+      "hash": "19bb3fc",
+      "date": "2026-10-03T10:51:46+00:00",
+      "message": "Update analytics data 2026-10-03"
+    },
+    {
+      "hash": "ece19ad",
+      "date": "2026-10-02T21:00:21-07:00",
+      "message": "Update health data 2026-10-02 21:00"
+    },
     {
       "hash": "2fc5878",
       "date": "2026-10-02T14:00:19-07:00",
@@ -148,21 +163,6 @@
       "hash": "5551afc",
       "date": "2026-10-01T12:07:27+00:00",
       "message": "Update analytics data 2026-10-01"
-    },
-    {
-      "hash": "f567fb6",
-      "date": "2026-10-01T05:36:08-04:00",
-      "message": "blog: 2026-10-01 \u2014 Research evidence and economic schedules"
-    },
-    {
-      "hash": "f8b6bdb",
-      "date": "2026-10-01T05:36:05-04:00",
-      "message": "daily: 2026-10-01 market update"
-    },
-    {
-      "hash": "04510ef",
-      "date": "2026-09-30T21:00:17-07:00",
-      "message": "Update health data 2026-09-30 21:00"
     }
   ]
 }
