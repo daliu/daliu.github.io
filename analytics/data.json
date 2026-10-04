@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-03T10:51:46Z",
+  "updated": "2026-10-04T11:33:57Z",
   "date_range": {
-    "start": "2026-07-06",
-    "end": "2026-10-03"
+    "start": "2026-07-07",
+    "end": "2026-10-04"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-07-18",
-    "end": "2026-09-29",
-    "days_with_data": 18
+    "end": "2026-10-03",
+    "days_with_data": 19
   },
   "totals": {
-    "total_users": 32,
-    "total_sessions": 32,
-    "total_pageviews": 39,
+    "total_users": 35,
+    "total_sessions": 36,
+    "total_pageviews": 51,
     "total_engaged_sessions": 8,
-    "engagement_rate": 0.25,
-    "avg_session_duration_seconds": 39.2,
-    "bounce_rate": 0.75
+    "engagement_rate": 0.2222,
+    "avg_session_duration_seconds": 49.9,
+    "bounce_rate": 0.7778
   },
   "daily": [
     {
@@ -202,19 +202,40 @@
       "avg_session_duration": 426.1,
       "bounce_rate": 0.0,
       "engaged_sessions": 1
+    },
+    {
+      "date": "2026-10-03",
+      "users": 3,
+      "sessions": 4,
+      "pageviews": 12,
+      "new_users": 3,
+      "avg_session_duration": 135.6,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     }
   ],
   "pages": [
     {
       "path": "/",
       "title": "MoneySignals \u2014 Audited Market Signals for Humans and AI Agents",
-      "pageviews": 30,
-      "users": 25,
-      "avg_time_on_page": 35.7,
-      "sessions": 25,
+      "pageviews": 32,
+      "users": 27,
+      "avg_time_on_page": 33.1,
+      "sessions": 27,
       "engaged": 7,
-      "engagement_rate": 0.28,
+      "engagement_rate": 0.259,
       "class": "mixed"
+    },
+    {
+      "path": "/calendar.html",
+      "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
+      "pageviews": 10,
+      "users": 2,
+      "avg_time_on_page": 271.2,
+      "sessions": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     },
     {
       "path": "/confirm",
@@ -232,17 +253,17 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 28,
-      "users": 28,
+      "sessions": 31,
+      "users": 31,
       "engaged": 8,
-      "engagement_rate": 0.286,
+      "engagement_rate": 0.258,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 3,
-      "users": 2,
+      "sessions": 6,
+      "users": 5,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -260,32 +281,32 @@
   "devices": [
     {
       "category": "mobile",
-      "sessions": 19,
-      "percentage": 57.6
+      "sessions": 20,
+      "percentage": 52.6
     },
     {
       "category": "desktop",
-      "sessions": 14,
-      "percentage": 42.4
+      "sessions": 18,
+      "percentage": 47.4
     }
   ],
   "browsers": [
     {
-      "browser": "Safari",
-      "sessions": 18,
-      "percentage": 54.5
+      "browser": "Chrome",
+      "sessions": 19,
+      "percentage": 51.4
     },
     {
-      "browser": "Chrome",
-      "sessions": 15,
-      "percentage": 45.5
+      "browser": "Safari",
+      "sessions": 18,
+      "percentage": 48.6
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 24,
-      "users": 24
+      "sessions": 27,
+      "users": 26
     },
     {
       "country": "Brazil",
@@ -298,13 +319,18 @@
       "users": 3
     },
     {
+      "country": "China",
+      "sessions": 1,
+      "users": 1
+    },
+    {
       "country": "Germany",
       "sessions": 1,
       "users": 1
     }
   ],
   "user_types": {
-    "new": 30,
+    "new": 34,
     "returning": 2
   },
   "hourly": [
@@ -322,11 +348,11 @@
     },
     {
       "hour": 3,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 4,
-      "pageviews": 3
+      "pageviews": 13
     },
     {
       "hour": 5,
@@ -390,7 +416,7 @@
     },
     {
       "hour": 20,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 21,
@@ -407,11 +433,11 @@
   ],
   "quality": {
     "engaged_sessions": 8,
-    "non_engaged_sessions": 24,
-    "likely_automated_sessions": 1,
-    "likely_human_sessions": 31,
-    "automated_pct": 3.1,
-    "est_human_users": 29,
+    "non_engaged_sessions": 28,
+    "likely_automated_sessions": 2,
+    "likely_human_sessions": 34,
+    "automated_pct": 5.6,
+    "est_human_users": 31,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -420,12 +446,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 24,
+      "sessions": 27,
       "engaged": 6,
-      "users": 24,
-      "pageviews": 29,
-      "avg_duration": 36.4,
-      "engagement_rate": 0.25,
+      "users": 26,
+      "pageviews": 40,
+      "avg_duration": 52.4,
+      "engagement_rate": 0.222,
       "class": "mixed"
     },
     {
@@ -447,6 +473,16 @@
       "avg_duration": 9.8,
       "engagement_rate": 0.333,
       "class": "mixed"
+    },
+    {
+      "country": "China",
+      "sessions": 1,
+      "engaged": 0,
+      "users": 1,
+      "pageviews": 1,
+      "avg_duration": 0.0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     },
     {
       "country": "Germany",
@@ -630,8 +666,8 @@
         0,
         1,
         1,
-        0,
-        0,
+        1,
+        10,
         0,
         0,
         0,
@@ -647,7 +683,7 @@
         1,
         1,
         0,
-        1,
+        2,
         0,
         1,
         2
@@ -659,6 +695,7 @@
     "countries": [
       "United States",
       "Brazil",
+      "China",
       "Germany"
     ],
     "matrix": [
@@ -666,8 +703,8 @@
         1,
         2,
         1,
-        0,
-        2,
+        1,
+        4,
         0,
         0,
         2,
@@ -722,6 +759,32 @@
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         1,
         0,
         0,
@@ -754,6 +817,15 @@
       "engagement_rate": 0.25
     },
     {
+      "lat": 37.5164926,
+      "lng": -122.2941914,
+      "label": "Belmont, United States",
+      "sessions": 7,
+      "users": 6,
+      "engaged": 2,
+      "engagement_rate": 0.286
+    },
+    {
       "lat": -14.235,
       "lng": -51.9253,
       "label": "Brazil",
@@ -763,20 +835,20 @@
       "engagement_rate": 0.25
     },
     {
-      "lat": 37.5164926,
-      "lng": -122.2941914,
-      "label": "Belmont, United States",
-      "sessions": 4,
-      "users": 4,
-      "engaged": 2,
-      "engagement_rate": 0.5
-    },
-    {
       "lat": 40.7127281,
       "lng": -74.0060152,
       "label": "New York, United States",
       "sessions": 2,
       "users": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 35.8617,
+      "lng": 104.1954,
+      "label": "China",
+      "sessions": 1,
+      "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0
     },
@@ -812,49 +884,49 @@
     "wow": {
       "users": {
         "current": 12,
-        "previous": 8,
-        "change_pct": 50.0
+        "previous": 10,
+        "change_pct": 20.0
       },
       "sessions": {
-        "current": 12,
-        "previous": 8,
-        "change_pct": 50.0
+        "current": 13,
+        "previous": 10,
+        "change_pct": 30.0
       },
       "pageviews": {
-        "current": 15,
-        "previous": 11,
-        "change_pct": 36.4
+        "current": 22,
+        "previous": 15,
+        "change_pct": 46.7
       }
     },
     "baseline": {
-      "mean_pageviews": 2.2,
-      "std_pageviews": 1.5
+      "mean_pageviews": 2.7,
+      "std_pageviews": 2.7
     },
     "anomalies": [
       {
-        "date": "2026-07-18",
-        "pageviews": 6,
-        "z": 2.5
+        "date": "2026-10-03",
+        "pageviews": 12,
+        "z": 3.5
       }
     ]
   },
   "events": [
     {
-      "date": "2026-07-18",
-      "label": "\u2191 Direct traffic spike",
+      "date": "2026-10-03",
+      "label": "\u2191 Direct surge \u2014 likely automated",
       "url": "",
       "origin": "auto",
       "cause": {
         "top_source": "Direct",
         "top_medium": "\u2014",
-        "top_source_pct": 100,
-        "top_page": "/",
-        "engagement_rate": 0.4,
-        "class": "human"
+        "top_source_pct": 50,
+        "top_page": "/calendar.html",
+        "engagement_rate": 0.0,
+        "class": "automated"
       },
-      "baseline_pageviews": 0,
-      "after_pageviews": 4.0,
-      "lift_pct": null
+      "baseline_pageviews": 2.1,
+      "after_pageviews": 12.0,
+      "lift_pct": 460.0
     }
   ]
 }
