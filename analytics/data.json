@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-04T11:33:57Z",
+  "updated": "2026-10-05T13:07:34Z",
   "date_range": {
-    "start": "2026-07-07",
-    "end": "2026-10-04"
+    "start": "2026-07-08",
+    "end": "2026-10-05"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-07-18",
-    "end": "2026-10-03",
-    "days_with_data": 19
+    "end": "2026-10-04",
+    "days_with_data": 20
   },
   "totals": {
-    "total_users": 35,
-    "total_sessions": 36,
-    "total_pageviews": 51,
-    "total_engaged_sessions": 8,
-    "engagement_rate": 0.2222,
-    "avg_session_duration_seconds": 49.9,
-    "bounce_rate": 0.7778
+    "total_users": 36,
+    "total_sessions": 37,
+    "total_pageviews": 58,
+    "total_engaged_sessions": 11,
+    "engagement_rate": 0.2973,
+    "avg_session_duration_seconds": 90.2,
+    "bounce_rate": 0.7027
   },
   "daily": [
     {
@@ -207,9 +207,19 @@
       "date": "2026-10-03",
       "users": 3,
       "sessions": 4,
-      "pageviews": 12,
+      "pageviews": 18,
       "new_users": 3,
-      "avg_session_duration": 135.6,
+      "avg_session_duration": 520.5,
+      "bounce_rate": 0.25,
+      "engaged_sessions": 3
+    },
+    {
+      "date": "2026-10-04",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 1,
+      "new_users": 1,
+      "avg_session_duration": 0.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -220,22 +230,22 @@
       "title": "MoneySignals \u2014 Audited Market Signals for Humans and AI Agents",
       "pageviews": 32,
       "users": 27,
-      "avg_time_on_page": 33.1,
+      "avg_time_on_page": 33.3,
       "sessions": 27,
-      "engaged": 7,
-      "engagement_rate": 0.259,
+      "engaged": 8,
+      "engagement_rate": 0.296,
       "class": "mixed"
     },
     {
       "path": "/calendar.html",
       "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
-      "pageviews": 10,
+      "pageviews": 16,
       "users": 2,
-      "avg_time_on_page": 271.2,
-      "sessions": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "avg_time_on_page": 691.9,
+      "sessions": 3,
+      "engaged": 3,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "path": "/confirm",
@@ -247,23 +257,34 @@
       "engaged": 1,
       "engagement_rate": 0.143,
       "class": "automated"
+    },
+    {
+      "path": "/calendar",
+      "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
+      "pageviews": 1,
+      "users": 1,
+      "avg_time_on_page": 0.0,
+      "sessions": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     }
   ],
   "sources": [
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 31,
-      "users": 31,
-      "engaged": 8,
-      "engagement_rate": 0.258,
+      "sessions": 33,
+      "users": 32,
+      "engaged": 11,
+      "engagement_rate": 0.333,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 6,
-      "users": 5,
+      "sessions": 3,
+      "users": 2,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -281,32 +302,32 @@
   "devices": [
     {
       "category": "mobile",
-      "sessions": 20,
-      "percentage": 52.6
+      "sessions": 22,
+      "percentage": 53.7
     },
     {
       "category": "desktop",
-      "sessions": 18,
-      "percentage": 47.4
+      "sessions": 19,
+      "percentage": 46.3
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 19,
-      "percentage": 51.4
+      "sessions": 20,
+      "percentage": 52.6
     },
     {
       "browser": "Safari",
       "sessions": 18,
-      "percentage": 48.6
+      "percentage": 47.4
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 27,
-      "users": 26
+      "sessions": 28,
+      "users": 27
     },
     {
       "country": "Brazil",
@@ -331,7 +352,7 @@
   ],
   "user_types": {
     "new": 34,
-    "returning": 2
+    "returning": 3
   },
   "hourly": [
     {
@@ -348,11 +369,11 @@
     },
     {
       "hour": 3,
-      "pageviews": 1
+      "pageviews": 4
     },
     {
       "hour": 4,
-      "pageviews": 13
+      "pageviews": 16
     },
     {
       "hour": 5,
@@ -404,7 +425,7 @@
     },
     {
       "hour": 17,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 18,
@@ -432,12 +453,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 8,
-    "non_engaged_sessions": 28,
+    "engaged_sessions": 11,
+    "non_engaged_sessions": 26,
     "likely_automated_sessions": 2,
-    "likely_human_sessions": 34,
-    "automated_pct": 5.6,
-    "est_human_users": 31,
+    "likely_human_sessions": 35,
+    "automated_pct": 5.4,
+    "est_human_users": 32,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -446,12 +467,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 27,
-      "engaged": 6,
-      "users": 26,
-      "pageviews": 40,
-      "avg_duration": 52.4,
-      "engagement_rate": 0.222,
+      "sessions": 28,
+      "engaged": 9,
+      "users": 27,
+      "pageviews": 47,
+      "avg_duration": 105.3,
+      "engagement_rate": 0.321,
       "class": "mixed"
     },
     {
@@ -480,7 +501,7 @@
       "engaged": 0,
       "users": 1,
       "pageviews": 1,
-      "avg_duration": 0.0,
+      "avg_duration": 6.2,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -524,7 +545,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -666,8 +687,8 @@
         0,
         1,
         1,
-        1,
-        10,
+        4,
+        13,
         0,
         0,
         0,
@@ -717,7 +738,7 @@
         0,
         0,
         0,
-        0,
+        1,
         1,
         3,
         1,
@@ -822,8 +843,8 @@
       "label": "Belmont, United States",
       "sessions": 7,
       "users": 6,
-      "engaged": 2,
-      "engagement_rate": 0.286
+      "engaged": 5,
+      "engagement_rate": 0.714
     },
     {
       "lat": -14.235,
@@ -862,6 +883,15 @@
       "engagement_rate": 0.0
     },
     {
+      "lat": 41.258841,
+      "lng": -95.8519484,
+      "label": "Council Bluffs, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 40.735657,
       "lng": -74.1723667,
       "label": "Newark, United States",
@@ -883,50 +913,50 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 12,
-        "previous": 10,
-        "change_pct": 20.0
+        "current": 10,
+        "previous": 12,
+        "change_pct": -16.7
       },
       "sessions": {
-        "current": 13,
-        "previous": 10,
-        "change_pct": 30.0
+        "current": 11,
+        "previous": 12,
+        "change_pct": -8.3
       },
       "pageviews": {
-        "current": 22,
-        "previous": 15,
-        "change_pct": 46.7
+        "current": 25,
+        "previous": 18,
+        "change_pct": 38.9
       }
     },
     "baseline": {
-      "mean_pageviews": 2.7,
-      "std_pageviews": 2.7
+      "mean_pageviews": 2.9,
+      "std_pageviews": 3.8
     },
     "anomalies": [
       {
         "date": "2026-10-03",
-        "pageviews": 12,
-        "z": 3.5
+        "pageviews": 18,
+        "z": 4.0
       }
     ]
   },
   "events": [
     {
       "date": "2026-10-03",
-      "label": "\u2191 Direct surge \u2014 likely automated",
+      "label": "\u2191 Direct traffic spike",
       "url": "",
       "origin": "auto",
       "cause": {
         "top_source": "Direct",
         "top_medium": "\u2014",
-        "top_source_pct": 50,
+        "top_source_pct": 100,
         "top_page": "/calendar.html",
-        "engagement_rate": 0.0,
-        "class": "automated"
+        "engagement_rate": 0.75,
+        "class": "human"
       },
       "baseline_pageviews": 2.1,
-      "after_pageviews": 12.0,
-      "lift_pct": 460.0
+      "after_pageviews": 9.5,
+      "lift_pct": 343.3
     }
   ]
 }
