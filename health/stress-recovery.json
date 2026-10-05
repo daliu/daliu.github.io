@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-04T14:00:14.259294-07:00",
+  "updated": "2026-10-04T21:00:17.599041-07:00",
   "window_days": 90,
   "date_range": {
     "start": "2026-07-07",
@@ -7,14 +7,14 @@
     "days_with_data": 87
   },
   "intraday": {
-    "n_episodes": 285,
-    "n_observed": 284,
+    "n_episodes": 286,
+    "n_observed": 285,
     "episodes_per_day": 3.2,
     "days_with_data": 87,
     "median_peak": 81,
     "settle": {
       "median_min": 24,
-      "p75_min": 58,
+      "p75_min": 57,
       "p90_min": 134,
       "within_60min_pct": 76,
       "within_120min_pct": 88,
@@ -336,7 +336,7 @@
       },
       {
         "bin": 15,
-        "count": 52
+        "count": 53
       },
       {
         "bin": 30,
@@ -599,7 +599,7 @@
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>76%</strong> of 284 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>76%</strong> of 285 episodes gone within an hour."
     },
     {
       "impact": "neutral",
