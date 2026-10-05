@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MoneySignals Complete Report — 2026-10-05 (Monday)</title>
+    <style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 20px;
+    background: #0a0a0f;
+    color: #e4e4e7;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #12121a;
+    padding: 0 0 30px 0;
+    border-radius: 12px;
+    border: 1px solid #1e1e2e;
+    border-top: 3px solid #3b82f6;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.container-inner {
+    padding: 0 30px;
+}
+h1 {
+    color: #e4e4e7;
+    border-bottom: 1px solid #1e1e2e;
+    padding-bottom: 15px;
+    font-size: 1.4rem;
+}
+h2 {
+    color: #a5b4fc;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+}
+h3 {
+    color: #a5b4fc;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+}
+.summary {
+    background-color: #0f0f1a;
+    color: #e4e4e7;
+    padding: 0;
+    border-radius: 0;
+    margin-bottom: 20px;
+}
+.summary strong, .summary b {
+    color: #e4e4e7;
+}
+.summary p { margin: 8px 0; }
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+}
+th {
+    background-color: #1e1b4b;
+    color: #c4b5fd;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+}
+th.ticker { text-align: left; }
+td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #1e1e2e;
+    text-align: center;
+    color: #d4d4d8;
+}
+td:nth-child(2) { text-align: left; }
+tr:hover td { background: rgba(59,130,246,0.05); }
+.bullish { color: #22c55e; font-weight: bold; }
+.bearish { color: #ef4444; font-weight: bold; }
+.neutral { color: #71717a; }
+.neutral-direction { color: #71717a; }
+.high-confidence { background: rgba(34,197,94,0.08) !important; }
+.low-confidence { background: rgba(239,68,68,0.08) !important; }
+.auc-cell { color: #818cf8; font-size: 0.9em; }
+.issues-section {
+    background: #1a1208;
+    border-left: 4px solid #f59e0b;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #d4d4d8;
+}
+.legend {
+    font-size: 0.9em;
+    color: #a1a1aa;
+    margin-top: 20px;
+    padding: 15px;
+    background: #0f0f1a;
+    border: 1px solid #1e1e2e;
+    border-radius: 8px;
+}
+.footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #1e1e2e;
+    color: #71717a;
+    font-size: 0.85em;
+}
+.info-section {
+    background: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #3b82f6;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.info-section h3 {
+    margin-top: 0;
+    color: #a5b4fc;
+}
+.info-section pre {
+    background: #0a0a0f;
+    border: 1px solid #1e1e2e;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+    color: #d4d4d8;
+}
+.events-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.events-section strong, .events-section b {
+    color: #fbbf24;
+}
+.events-section a { color: #3b82f6; }
+.calendar-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #3b82f6;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.calendar-section strong, .calendar-section b {
+    color: #93c5fd;
+}
+.calendar-section a { color: #3b82f6; }
+.pcr-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #a78bfa;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.pcr-section strong, .pcr-section b {
+    color: #c4b5fd;
+}
+.pcr-section a { color: #3b82f6; }
+.content-body {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: inherit;
+}
+.content-body strong {
+    color: inherit;
+    font-weight: 700;
+}
+.content-body ul {
+    margin: 8px 0;
+    padding-left: 25px;
+}
+.content-body li {
+    margin: 4px 0;
+    color: inherit;
+}
+.news-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #6366f1;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.news-section strong, .news-section b {
+    color: #a5b4fc;
+}
+.news-section a { color: #3b82f6; }
+.signals-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.signals-section strong, .signals-section b {
+    color: #86efac;
+}
+.signals-section a { color: #3b82f6; }
+.synthesis-section {
+    background-color: #0f0f1a;
+    border: 1px solid #2d2a5e;
+    border-left: 3px solid #a78bfa;
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 10px;
+    color: #e0e7ff;
+}
+.synthesis-section strong, .synthesis-section b {
+    color: #c4b5fd;
+}
+.synthesis-section .content-body {
+    font-size: 0.98em;
+    line-height: 1.7;
+}
+.fear-greed-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #eab308;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.fear-greed-section strong, .fear-greed-section b {
+    color: #fde047;
+}
+.fear-greed-section a { color: #3b82f6; }
+.social-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.social-section strong, .social-section b {
+    color: #86efac;
+}
+.social-section a { color: #3b82f6; }
+.congress-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #d97706;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.congress-section strong, .congress-section b {
+    color: #fbbf24;
+}
+.congress-section a { color: #3b82f6; }
+.yesterdays-picks-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.yesterdays-picks-section strong, .yesterdays-picks-section b {
+    color: #86efac;
+}
+.yesterdays-picks-section td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #1e1e2e;
+    text-align: center;
+    color: #d4d4d8;
+}
+.yesterdays-picks-section td:first-child {
+    text-align: left;
+}
+.yesterdays-picks-section tr:last-child td {
+    border-bottom: none;
+}
+.yesterdays-picks-section tr:hover td {
+    background: rgba(34,197,94,0.06);
+}
+.mr-badge {
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-weight: 700;
+    font-size: 0.82em;
+    display: inline-block;
+}
+.mr-q5 { background: #15803d; color: #dcfce7; }
+.mr-q4 { background: #166534; color: #bbf7d0; }
+.mr-q3 { background: #27272a; color: #a1a1aa; }
+.mr-q2 { background: #7f1d1d; color: #fecaca; }
+.mr-q1 { background: #ef4444; color: #fff; }
+.regime-bull  { color: #22c55e; font-weight: 600; font-size: 0.85em; }
+.regime-bear  { color: #ef4444; font-weight: 600; font-size: 0.85em; }
+.regime-neutral { color: #71717a; font-size: 0.85em; }
+.mr-summary-section {
+    background-color: #12121a;
+    border: 1px solid #1e1e2e;
+    border-left: 3px solid #22c55e;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #d4d4d8;
+}
+.mr-summary-section strong, .mr-summary-section b {
+    color: #86efac;
+}
+.disclaimer {
+    background: #0d0d14;
+    border: 1px solid #1e1e2e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 0.85em;
+    color: #71717a;
+    line-height: 1.6;
+}
+.disclaimer h3 {
+    color: #ef4444;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+.disclaimer p {
+    margin: 10px 0;
+}
+.disclaimer strong {
+    color: #a1a1aa;
+}
+</style>
+</head>
+<body style="background:#0a0a0f;margin:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#e4e4e7;">
+    <div class="container">
+        <div style="background:#0d0d1a;border-bottom:1px solid #1e1e2e;padding:20px 30px;">
+            <strong style="font-size:20px;">MoneySignals</strong>
+            <div style="color:#a1a1aa;margin-top:6px;">Market Research &middot; Complete Report</div>
+            <div style="color:#a1a1aa;font-size:12px;margin-top:6px;">2026-10-05 (Monday)</div>
+        </div>
+        <div style="padding:20px 30px;">
+            <div class="research-purpose">
+                <h1 style="font-size:22px;">Understand the evidence. Make your own decisions.</h1>
+                <p>Explore sourced news, upcoming economic events and our recorded model results.
+                Assess what changed, what was already expected and what could challenge your interpretation.</p>
+            </div>
+            <p style="color:#a1a1aa;font-size:12px;"><strong>Generated:</strong> 2026-10-05 09:35 UTC</p>
+
+            <div class="research-evidence-status" style="padding:16px;border-left:3px solid #3b82f6;background:#0f0f1a;">
+                <h2 style="font-size:17px;margin-top:0;">Research over weeks and months</h2>
+                <div class="historical-holding-study">
+        <p><strong>Historical study: exploratory, hypothetical and not qualified.</strong>
+        Archived daily forecasts held longer; not weekly/monthly model performance or actual account returns.</p>
+        <p>20 issue dates: 2026-08-28 through 2026-09-25.
+        Outcomes through 2026-09-25 20:00 UTC; reviewed 2026-09-27.
+        Fixed snapshot; pending cases do not update automatically.</p>
+        <p class="table-scroll-hint">Scroll the table horizontally on narrow screens to see every comparison.</p>
+        <div role="region" aria-label="Historical holding basket comparisons" tabindex="0" style="max-width:100%;overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+        <caption>Mean complete-basket returns after 0.10% costs per side</caption>
+        <thead><tr><th scope="col">Sessions held</th><th scope="col">Basket</th><th scope="col">SPY</th><th scope="col">Random baskets</th></tr></thead>
+        <tbody><tr><th scope="row">5</th><td>-0.80%</td><td>+0.39%</td><td>-0.33%</td></tr><tr><th scope="row">10</th><td>+1.36%</td><td>+0.82%</td><td>-0.53%</td></tr><tr><th scope="row">20</th><td>Pending</td><td>Pending</td><td>Pending</td></tr><tr><th scope="row">60</th><td>Pending</td><td>Pending</td><td>Pending</td></tr></tbody></table></div><ul><li>5 sessions: 9 complete, 5 incomplete, 6 pending. Positive: 3/9; beat SPY: 2/9.</li><li>10 sessions: 4 complete, 5 incomplete, 11 pending. Positive: 3/4; beat SPY: 2/4.</li><li>20 sessions: 0 complete, 0 incomplete, 20 pending.</li><li>60 sessions: 0 complete, 0 incomplete, 20 pending.</li></ul>
+        <p><strong>5 of 20 original comparison universes are invalid</strong>
+        because they include outdated security identities, affecting every horizon, including pending cases.
+        Matured comparisons remain incomplete; no names were dropped or replaced. Complete-subset averages may be biased.</p>
+        <p>These are separate, overlapping baskets, not independent trials or a compounded account return.
+        On the same 4 issue dates, mean returns were -0.50% at five sessions
+        and +1.36% at ten. This comparison was added after viewing the first aggregate results;
+        four overlapping observations cannot establish that longer holds work better.</p>
+        <p>Selection: up to ten bullish daily forecasts by saved score, then ticker; equal weights;
+        next NYSE session open; fixed holding period. Scores are not calibrated probabilities.
+        SPY and 100 random baskets use the same complete dates and costs. Random selections come from eligible
+        forecast rows, not the whole market; sector and market sensitivity are not matched.
+        Splits and dividend receivables are included, without reinvestment or cash interest.</p>
+        <p>Cost sensitivity at 0% / 0.10% / 0.25% per side: 5 sessions: -0.60% / -0.80% / -1.10%; 10 sessions: +1.56% / +1.36% / +1.06%.
+        Original publication times and feature availability remain unverified; this new rule does not reconstruct
+        the original email portfolio. This basket study does not measure a continuously funded calendar account.</p>
+        </div><section class="calendar-extension-study">
+    <h2>Four-week follow-up — separate data snapshot, not qualified</h2>
+    <p>August 31–September 28, 2026: research returned <strong>-2.82%</strong>,
+    versus SPY +0.18% and random accounts averaging -4.95%,
+    after 0.10% per purchase/sale. It lost money and trailed SPY; beating random baskets does not establish an edge.
+    Monthly results remain pending until the October 1 endpoint is measured. This is not this edition's return.</p>
+    <p>The provider changed 335 historical rows, including
+    115 with raw-price changes. The strict extension therefore withholds returns.
+    The separately planned calculation below uses the complete new data snapshot and the same frozen baskets.
+    It does not replace the earlier report. Earlier-window net-return differences are
+    0.00 percentage points across all 18 comparisons.</p>
+    <p class="table-scroll-hint">Scroll the table horizontally on narrow screens to see every comparison.</p>
+    <div role="region" aria-label="Four-week funded calendar comparisons" tabindex="0" style="max-width:100%;overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;text-align:left;">
+    <caption>Four completed periods: costs per purchase/sale, including final liquidation</caption>
+    <thead><tr><th scope="col">Account</th><th scope="col">0%</th><th scope="col">0.10%</th>
+    <th scope="col">0.25%</th></tr></thead><tbody><tr><th scope="row">Research baskets</th><td>-2.04%</td><td>-2.82%</td><td>-3.98%</td></tr><tr><th scope="row">SPY buy-and-hold</th><td>+0.38%</td><td>+0.18%</td><td>-0.12%</td></tr><tr><th scope="row">Fixed-universe buy-and-hold</th><td>-3.82%</td><td>-4.01%</td><td>-4.30%</td></tr><tr><th scope="row">SPY with research allocation/rebalancing</th><td>+0.38%</td><td>-0.42%</td><td>-1.61%</td></tr><tr><th scope="row">Fixed universe with research allocation/rebalancing</th><td>-3.83%</td><td>-4.59%</td><td>-5.73%</td></tr><tr><th scope="row">100 random funded accounts, mean</th><td>-4.18%</td><td>-4.95%</td><td>-6.08%</td></tr></tbody></table></div>
+    <p>The $10,000 research account ends at $9,717.59:
+    $9,711.27 cash plus $6.32 unpaid dividends.
+    Costs total $78.40; drawdown at observed marks is -3.89%.
+    All books now include final sale costs. No actual fills or subscriber performance are claimed.</p>
+    <p>Cutoff: 2026-09-28 20:00 UTC; observed: 2026-09-29 01:53 UTC.
+    This fixed snapshot does not mature automatically. Both plans are post-inspection; the revised population
+    excludes three known identity conflicts. Publication, original inputs and complete eligibility are unverified.
+    Four periods are insufficient to establish durable skill. Controls are not sector- or beta-matched;
+    related random draws are not independent evidence. Tariff, rate, inflation and dip timing were not tested.</p>
+    <p><strong>Both complete twelve-case records, including rejected and pending results.
+    Each line covers 0%, 0.10% and 0.25% costs per side:</strong></p>
+    <ul><li>Strict extension; Original (238 names); weekly; all three costs: <strong>incomplete</strong>; 4/4 periods matured, 0 pending; 3 known identity conflicts.</li><li>Strict extension; Original (238 names); monthly; all three costs: <strong>pending</strong>; 0/1 periods matured, 1 pending; 3 known identity conflicts.</li><li>Strict extension; Revised (235 names); weekly; all three costs: <strong>incomplete</strong>; 4/4 periods matured, 0 pending; 0 known identity conflicts.</li><li>Strict extension; Revised (235 names); monthly; all three costs: <strong>pending</strong>; 0/1 periods matured, 1 pending; 0 known identity conflicts.</li><li>Separate new data snapshot; Original (238 names); weekly; all three costs: <strong>incomplete</strong>; 4/4 periods matured, 0 pending; 3 known identity conflicts.</li><li>Separate new data snapshot; Original (238 names); monthly; all three costs: <strong>pending</strong>; 0/1 periods matured, 1 pending; 3 known identity conflicts.</li><li>Separate new data snapshot; Revised (235 names); weekly; all three costs: <strong>measured; not qualified</strong>; 4/4 periods matured, 0 pending; 0 known identity conflicts.</li><li>Separate new data snapshot; Revised (235 names); monthly; all three costs: <strong>pending</strong>; 0/1 periods matured, 1 pending; 0 known identity conflicts.</li></ul></section><section class="historical-calendar-study">
+    <h2>Funded weekly/monthly study — exploratory, hypothetical, not qualified</h2>
+    <p>The revised weekly research account returned <strong>-1.79%</strong>
+    after 0.10% costs per purchase and sale, versus SPY buy-and-hold +0.01%.
+    This short study does not establish a profitable or predictive edge. Monthly results remain pending.</p>
+    <p>Measured window: 2026-08-31 13:30 UTC to 2026-09-21 13:30 UTC;
+    3 of 4 weekly periods completed.
+    Fixed outcome cutoff: 2026-09-25 20:00 UTC; evidence observed 2026-09-28 00:17 UTC.
+    Pending cases do not update automatically. This is a historical appendix, not this edition's weekly return.</p>
+    <p>Each account starts with $10,000.00 once, with no later contributions,
+    borrowing or shorting. Research selects up to ten bullish daily forecasts by saved score within a fixed
+    population, equally weighted, entering at the next session open and holding to the next calendar boundary.
+    Scores are not calibrated probabilities. These are not weekly/monthly model forecasts or actual subscriber returns.</p>
+    <p class="table-scroll-hint">Scroll the table horizontally on narrow screens to see every comparison.</p>
+    <div role="region" aria-label="Earlier funded calendar comparisons" tabindex="0" style="max-width:100%;overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;text-align:left;">
+    <caption>Same-window funded returns at three costs per side</caption>
+    <thead><tr><th scope="col">Account</th><th scope="col">0%</th><th scope="col">0.10%</th>
+    <th scope="col">0.25%</th></tr></thead><tbody><tr><th scope="row">Research baskets</th><td>-1.20%</td><td>-1.79%</td><td>-2.67%</td></tr><tr><th scope="row">SPY buy-and-hold</th><td>+0.11%</td><td>+0.01%</td><td>-0.14%</td></tr><tr><th scope="row">Fixed-universe buy-and-hold</th><td>-2.59%</td><td>-2.69%</td><td>-2.84%</td></tr><tr><th scope="row">SPY with research allocation/rebalancing</th><td>+0.11%</td><td>-0.49%</td><td>-1.38%</td></tr><tr><th scope="row">Fixed universe with research allocation/rebalancing</th><td>-2.55%</td><td>-3.13%</td><td>-4.00%</td></tr><tr><th scope="row">100 random funded accounts, mean</th><td>-2.91%</td><td>-3.49%</td><td>-4.36%</td></tr></tbody></table></div>
+    <p>Ending research value at primary costs: $9,821.21, comprising
+    $9,811.16 spendable cash and $10.05
+    unpaid dividend receivables. Modeled costs: $58.88; maximum drawdown
+    at observed marks: -3.89%, not every intraday trough.
+    Splits and dividend payment timing are included; cash earns zero interest.</p>
+    <p>The partial valuation follows the September 21 research sale and precedes its next purchase.
+    Buy-and-hold controls remain invested and have not paid a final exit cost. September 21–25 performance
+    is excluded. Allocation-matched controls use the research trading schedule. Random accounts use the same
+    period and costs; their mean is not a probability of success. Controls are not sector- or beta-matched.</p>
+    <p><strong>All twelve cases, including incomplete and pending results:</strong></p><ul><li>Original, 238 names; weekly; 10 bps per side: <strong>incomplete</strong>; 3/4 periods matured, 1 pending; 3 known identity conflicts.</li><li>Original, 238 names; weekly; 0 bps per side: <strong>incomplete</strong>; 3/4 periods matured, 1 pending; 3 known identity conflicts.</li><li>Original, 238 names; weekly; 25 bps per side: <strong>incomplete</strong>; 3/4 periods matured, 1 pending; 3 known identity conflicts.</li><li>Original, 238 names; monthly; 10 bps per side: <strong>pending</strong>; 0/1 periods matured, 1 pending; 3 known identity conflicts.</li><li>Original, 238 names; monthly; 0 bps per side: <strong>pending</strong>; 0/1 periods matured, 1 pending; 3 known identity conflicts.</li><li>Original, 238 names; monthly; 25 bps per side: <strong>pending</strong>; 0/1 periods matured, 1 pending; 3 known identity conflicts.</li><li>Revised, 235 names; weekly; 10 bps per side: <strong>partial</strong>; 3/4 periods matured, 1 pending; 0 known identity conflicts.</li><li>Revised, 235 names; weekly; 0 bps per side: <strong>partial</strong>; 3/4 periods matured, 1 pending; 0 known identity conflicts.</li><li>Revised, 235 names; weekly; 25 bps per side: <strong>partial</strong>; 3/4 periods matured, 1 pending; 0 known identity conflicts.</li><li>Revised, 235 names; monthly; 10 bps per side: <strong>pending</strong>; 0/1 periods matured, 1 pending; 0 known identity conflicts.</li><li>Revised, 235 names; monthly; 0 bps per side: <strong>pending</strong>; 0/1 periods matured, 1 pending; 0 known identity conflicts.</li><li>Revised, 235 names; monthly; 25 bps per side: <strong>pending</strong>; 0/1 periods matured, 1 pending; 0 known identity conflicts.</li></ul>
+    <p>The revised population excludes three documented identity conflicts from the original 238 names.
+    Original cases remain visible; this does not certify eligibility of the other 235 names. The plan was
+    fixed before these funded calculations but after viewing earlier cohort results and identity findings.
+    This post-inspection amendment, small sample and related observations prevent a skill claim.
+    Original publication timing, input availability and complete historical eligibility remain unverified.
+    Longer holding and dip timing still require separate prospective tests.</p>
+    </section><section class="classifier-holding-study">
+    <h3>Separate SPY study: longer holds did not establish an edge</h3>
+    <p>December 31, 2024–December 16, 2025. All 16 model/holding combinations lagged
+    SPY buy-and-hold (+15.81%) after 0.10% per purchase/sale.
+    Model ranges: 5 sessions: +2.34% to +4.86%; 10 sessions: +5.71% to +8.83%; 20 sessions: +8.47% to +13.11%; 60 sessions: +12.50% to +15.16%. None improved measured drawdown.</p><p>Each account starts with $10,000 once; no borrowing or later deposits.
+    Four saved weekly/monthly model variants choose SPY when the preceding session's score exceeds 0.5,
+    otherwise cash. Scores are not established probabilities of profit.
+    A/B use different historical VWAP target formulas (typical-price/midpoint), not quality grades.
+    Session holds approximate weeks/months; they are not calendar-month portfolios.
+    Tables scroll horizontally on narrow screens.</p><div role="region" aria-label="Holding results at 0 basis points per side" tabindex="0" style="max-width:100%;overflow-x:auto;">
+        <table style="width:100%;min-width:560px;border-collapse:collapse;text-align:left;">
+        <caption>0.00% costs per side; SPY buy-and-hold +16.04%; cash 0%</caption>
+        <thead><tr><th scope="col">Model / sessions</th><th scope="col">Model return</th>
+        <th scope="col">Always SPY, same trades</th><th scope="col">Random timing mean</th>
+        <th scope="col">Model drawdown</th></tr></thead><tbody><tr><th scope="row">Weekly A / 5</th><td>+10.41%</td><td>+16.13%</td><td>+13.91%</td><td>19.91%</td></tr><tr><th scope="row">Weekly A / 10</th><td>+9.58%</td><td>+16.11%</td><td>+13.31%</td><td>19.91%</td></tr><tr><th scope="row">Weekly A / 20</th><td>+10.66%</td><td>+16.11%</td><td>+13.60%</td><td>19.91%</td></tr><tr><th scope="row">Weekly A / 60</th><td>+13.18%</td><td>+16.08%</td><td>+10.98%</td><td>19.91%</td></tr><tr><th scope="row">Monthly A / 5</th><td>+11.40%</td><td>+16.13%</td><td>+11.89%</td><td>19.91%</td></tr><tr><th scope="row">Monthly A / 10</th><td>+13.27%</td><td>+16.11%</td><td>+14.54%</td><td>19.91%</td></tr><tr><th scope="row">Monthly A / 20</th><td>+15.62%</td><td>+16.11%</td><td>+14.50%</td><td>19.91%</td></tr><tr><th scope="row">Monthly A / 60</th><td>+16.08%</td><td>+16.08%</td><td>+16.08%</td><td>19.91%</td></tr><tr><th scope="row">Weekly B / 5</th><td>+14.03%</td><td>+16.13%</td><td>+15.43%</td><td>19.91%</td></tr><tr><th scope="row">Weekly B / 10</th><td>+12.91%</td><td>+16.11%</td><td>+14.80%</td><td>19.91%</td></tr><tr><th scope="row">Weekly B / 20</th><td>+15.62%</td><td>+16.11%</td><td>+15.34%</td><td>19.91%</td></tr><tr><th scope="row">Weekly B / 60</th><td>+16.08%</td><td>+16.08%</td><td>+16.08%</td><td>19.91%</td></tr><tr><th scope="row">Monthly B / 5</th><td>+10.09%</td><td>+16.13%</td><td>+15.45%</td><td>19.91%</td></tr><tr><th scope="row">Monthly B / 10</th><td>+12.61%</td><td>+16.11%</td><td>+13.91%</td><td>19.91%</td></tr><tr><th scope="row">Monthly B / 20</th><td>+15.62%</td><td>+16.11%</td><td>+14.35%</td><td>19.91%</td></tr><tr><th scope="row">Monthly B / 60</th><td>+16.08%</td><td>+16.08%</td><td>+16.08%</td><td>19.91%</td></tr></tbody></table></div><div role="region" aria-label="Holding results at 10 basis points per side" tabindex="0" style="max-width:100%;overflow-x:auto;">
+        <table style="width:100%;min-width:560px;border-collapse:collapse;text-align:left;">
+        <caption>0.10% costs per side; SPY buy-and-hold +15.81%; cash 0%</caption>
+        <thead><tr><th scope="col">Model / sessions</th><th scope="col">Model return</th>
+        <th scope="col">Always SPY, same trades</th><th scope="col">Random timing mean</th>
+        <th scope="col">Model drawdown</th></tr></thead><tbody><tr><th scope="row">Weekly A / 5</th><td>+2.34%</td><td>+5.51%</td><td>+5.58%</td><td>21.25%</td></tr><tr><th scope="row">Weekly A / 10</th><td>+5.71%</td><td>+10.67%</td><td>+9.31%</td><td>20.39%</td></tr><tr><th scope="row">Weekly A / 20</th><td>+8.47%</td><td>+13.36%</td><td>+11.36%</td><td>20.23%</td></tr><tr><th scope="row">Weekly A / 60</th><td>+12.50%</td><td>+15.16%</td><td>+10.32%</td><td>20.07%</td></tr><tr><th scope="row">Monthly A / 5</th><td>+3.87%</td><td>+5.51%</td><td>+4.34%</td><td>21.25%</td></tr><tr><th scope="row">Monthly A / 10</th><td>+8.83%</td><td>+10.67%</td><td>+10.05%</td><td>20.39%</td></tr><tr><th scope="row">Monthly A / 20</th><td>+13.11%</td><td>+13.36%</td><td>+12.01%</td><td>20.23%</td></tr><tr><th scope="row">Monthly A / 60</th><td>+15.16%</td><td>+15.16%</td><td>+15.16%</td><td>20.07%</td></tr><tr><th scope="row">Weekly B / 5</th><td>+4.86%</td><td>+5.51%</td><td>+6.14%</td><td>21.25%</td></tr><tr><th scope="row">Weekly B / 10</th><td>+8.49%</td><td>+10.67%</td><td>+10.30%</td><td>20.39%</td></tr><tr><th scope="row">Weekly B / 20</th><td>+13.11%</td><td>+13.36%</td><td>+12.83%</td><td>20.23%</td></tr><tr><th scope="row">Weekly B / 60</th><td>+15.16%</td><td>+15.16%</td><td>+15.16%</td><td>20.07%</td></tr><tr><th scope="row">Monthly B / 5</th><td>+2.45%</td><td>+5.51%</td><td>+7.44%</td><td>21.25%</td></tr><tr><th scope="row">Monthly B / 10</th><td>+8.42%</td><td>+10.67%</td><td>+9.67%</td><td>20.39%</td></tr><tr><th scope="row">Monthly B / 20</th><td>+13.11%</td><td>+13.36%</td><td>+11.87%</td><td>20.23%</td></tr><tr><th scope="row">Monthly B / 60</th><td>+15.16%</td><td>+15.16%</td><td>+15.16%</td><td>20.07%</td></tr></tbody></table></div><div role="region" aria-label="Holding results at 25 basis points per side" tabindex="0" style="max-width:100%;overflow-x:auto;">
+        <table style="width:100%;min-width:560px;border-collapse:collapse;text-align:left;">
+        <caption>0.25% costs per side; SPY buy-and-hold +15.46%; cash 0%</caption>
+        <thead><tr><th scope="col">Model / sessions</th><th scope="col">Model return</th>
+        <th scope="col">Always SPY, same trades</th><th scope="col">Random timing mean</th>
+        <th scope="col">Model drawdown</th></tr></thead><tbody><tr><th scope="row">Weekly A / 5</th><td>-8.68%</td><td>-8.63%</td><td>-5.78%</td><td>23.81%</td></tr><tr><th scope="row">Weekly A / 10</th><td>+0.15%</td><td>+2.99%</td><td>+3.57%</td><td>21.49%</td></tr><tr><th scope="row">Weekly A / 20</th><td>+5.27%</td><td>+9.36%</td><td>+8.07%</td><td>20.71%</td></tr><tr><th scope="row">Weekly A / 60</th><td>+11.50%</td><td>+13.79%</td><td>+9.33%</td><td>20.31%</td></tr><tr><th scope="row">Monthly A / 5</th><td>-6.48%</td><td>-8.63%</td><td>-6.06%</td><td>23.81%</td></tr><tr><th scope="row">Monthly A / 10</th><td>+2.50%</td><td>+2.99%</td><td>+3.65%</td><td>21.49%</td></tr><tr><th scope="row">Monthly A / 20</th><td>+9.45%</td><td>+9.36%</td><td>+8.38%</td><td>20.71%</td></tr><tr><th scope="row">Monthly A / 60</th><td>+13.79%</td><td>+13.79%</td><td>+13.79%</td><td>20.31%</td></tr><tr><th scope="row">Weekly B / 5</th><td>-7.55%</td><td>-8.63%</td><td>-6.41%</td><td>23.81%</td></tr><tr><th scope="row">Weekly B / 10</th><td>+2.18%</td><td>+2.99%</td><td>+3.89%</td><td>21.49%</td></tr><tr><th scope="row">Weekly B / 20</th><td>+9.45%</td><td>+9.36%</td><td>+9.17%</td><td>20.71%</td></tr><tr><th scope="row">Weekly B / 60</th><td>+13.79%</td><td>+13.79%</td><td>+13.79%</td><td>20.31%</td></tr><tr><th scope="row">Monthly B / 5</th><td>-8.02%</td><td>-8.63%</td><td>-3.55%</td><td>23.81%</td></tr><tr><th scope="row">Monthly B / 10</th><td>+2.42%</td><td>+2.99%</td><td>+3.60%</td><td>21.49%</td></tr><tr><th scope="row">Monthly B / 20</th><td>+9.45%</td><td>+9.36%</td><td>+8.24%</td><td>20.71%</td></tr><tr><th scope="row">Monthly B / 60</th><td>+13.79%</td><td>+13.79%</td><td>+13.79%</td><td>20.31%</td></tr></tbody></table></div>
+    <p>Source: retained EODHD raw daily prices and dividend/payment records observed September 30, 2026 UTC;
+    retrospectively fitted SPY classifiers. These are hypothetical fractional-share references, not fills
+    or subscriber returns. At 0.10% costs, SPY buy-and-hold ends at $11,580.77 with $21.49 costs
+    and 19.91% marked drawdown; five-session model costs range about $690–$830.</p>
+    <p>Every scheduled boundary sells and repurchases, even if SPY remains selected. Actual position
+    netting was not tested in this original study. Cash earns no interest; dividends become spendable on payment
+    date. Buy-and-hold retains dividends as cash; scheduled accounts can reinvest them.
+    This explains the small zero-cost advantage of always-long sixty-session cases, not selection skill.
+    Drawdown uses open/close and trading marks, not every intraday trough.</p>
+    <p>All 48 cases resolved. Score coverage is 46/48, 23/24, 12/12 and 4/4 slots for 5/10/20/60 sessions;
+    missing scores stay cash. Each case includes 100 frozen random timing draws preserving invested-block
+    counts and missing slots. Draws repeat and share one market path, so they are not independent evidence
+    or probabilities of success. Three sixty-session variants always hold SPY: their random controls are identical.</p>
+    <p>Post-inspection research, not prospective validation. The original calendar omitted the January 9, 2025
+    market closure; the corrected schedule was frozen after initial prices were observed but before returns
+    were calculated. Original records remain retained. Historical feature availability and publication timing
+    remain unverified; current vendor history is not a historical-vintage archive. The underlying classifier
+    labels overlap. No durable predictive skill is established. Tariff, rate, inflation and dip timing were
+    not separately tested. This is historical SPY timing research, not the earlier stock-basket study,
+    this edition's return, or a current trade list. Results remain not qualified.</p></section><section class="endpoint-research-update"><h3>Follow-up: timing skill remains unproven</h3>
+    <p>Retaining unchanged positions improved the original study, but none of those models beat buy-and-hold.
+    Separate models trained on actual holding-period outcomes had mixed results. One favorable monthly
+    result depended on a single cash interval; a later check did not establish repeatable timing skill.</p><p>Later funded window: February 27–June 9, 2026, 70 session intervals.
+    Each account starts with $10,000, holds SPY or cash, retains unchanged shares, pays dividends
+    into cash and assumes zero cash interest and 0.10% per purchase/sale.
+    SPY buy-and-hold returned +8.91%, with
+    7.67% measured maximum drawdown.</p>
+    <div role="region" aria-label="Later funded holding comparison" tabindex="0" style="max-width:100%;overflow-x:auto;">
+    <table style="width:100%;min-width:600px;border-collapse:collapse;text-align:left;">
+    <caption>Later simulated investment returns and risk</caption>
+    <thead><tr><th scope="col">Hold</th><th scope="col">Net return</th>
+    <th scope="col">Maximum drawdown</th><th scope="col">Random timing mean</th>
+    <th scope="col">Invested blocks</th></tr></thead><tbody><tr><th scope="row">5 sessions</th><td>+7.65%</td><td>4.28%</td><td>+2.74%</td><td>5/14</td></tr><tr><th scope="row">10 sessions</th><td>+8.91%</td><td>7.67%</td><td>+8.91%</td><td>7/7</td></tr><tr><th scope="row">20 sessions</th><td>+8.91%</td><td>7.67%</td><td>+8.91%</td><td>4/4</td></tr><tr><th scope="row">21 sessions</th><td>+8.91%</td><td>7.67%</td><td>+8.91%</td><td>4/4</td></tr></tbody></table></div>
+    <p>The 5-session model earned less than buy-and-hold but had a smaller measured drawdown.
+    The 10-, 20- and 21-session models stayed invested throughout, so their returns and random
+    timing controls equal buy-and-hold. No additional timing skill is demonstrated by those ties.
+    Random timing means use 100 saved permutations per horizon on the same price path;
+    they are not independent trials or confidence levels. The final 20- and 21-session blocks
+    contain only 10 and 7 sessions. Matching invested-block counts does not match invested days
+    for these partial blocks. Drawdowns use sampled prices, not intraday extremes.</p>
+    <p>Earlier funded window: December 31, 2024–December 16, 2025, $10,000 once,
+    SPY or cash, unchanged shares retained, 0.10% per purchase/sale. SPY buy-and-hold returned
+    +15.81%. Later direction check: 71 signal dates, February 26–June 8, 2026,
+    using frozen models without retraining. Later accuracy is not a portfolio return.</p>
+    <div role="region" aria-label="Endpoint models and later checks" tabindex="0" style="max-width:100%;overflow-x:auto;">
+    <table style="width:100%;min-width:600px;border-collapse:collapse;text-align:left;">
+    <caption>Separate earlier funded returns and later direction diagnostics</caption>
+    <thead><tr><th scope="col">Hold</th><th scope="col">Earlier return</th>
+    <th scope="col">Later accuracy</th><th scope="col">Always-positive accuracy</th>
+    <th scope="col">Later positive forecasts</th></tr></thead><tbody><tr><th scope="row">5 sessions</th><td>+15.86%</td><td>43.66%</td><td>61.97%</td><td>28/71</td></tr><tr><th scope="row">10 sessions</th><td>+16.26%</td><td>59.15%</td><td>59.15%</td><td>71/71</td></tr><tr><th scope="row">20 sessions</th><td>+27.38%</td><td>69.01%</td><td>69.01%</td><td>71/71</td></tr><tr><th scope="row">21 sessions</th><td>+14.31%</td><td>71.83%</td><td>71.83%</td><td>71/71</td></tr></tbody></table></div>
+    <p>The 20-session advantage came from one uninterrupted cash period, January 31–March 31, 2025.
+    The 10-session gain came from missing forecasts forcing cash, not negative model signals.
+    The 5-session advantage disappeared at higher assumed costs (0.25% each side).
+    The 21-session schedule ends with a shortened nine-session block. The 60-session model failed
+    a training/evaluation class requirement and remains excluded from performance claims.</p>
+    <p>Hypothetical raw-open prices and assumed costs are not fills or subscriber returns.
+    Historical feature availability remains unverified; overlapping labels and repeatedly inspected history
+    limit the evidence. No tariff, rate or inflation forecasting skill is established.
+    This is SPY timing research, not the full emailed stock portfolio or a current trade list.
+    Results remain not qualified.</p></section><section class="stock-holding-study"><h3>Stock holds: no qualified selection edge</h3>
+    <p>The declared two-week account returned +10.55%,
+    versus SPY +15.81% and matched random mean
+    +17.78%. Positive returns alone did not establish selection value.</p>
+    <p>Retrospective, post-inspection three-stock availability subset; not representative or subscriber returns.
+    All 180 combinations remain: 72 measured, 108 incomplete, including the original six-stock population
+    and 60-session models. Fixed $10,000, zero cash yield, next-open prices, dividends and costs.</p>
+    <p>Five/ten/twenty sessions: December 31, 2024–December 16, 2025; twenty-one ends December 3.
+    These are trading-session holds, not calendar weeks/months. Scores are not validated probabilities
+    of profit. Historical feature availability and causality remain unverified; tariffs, rates,
+    inflation and dip timing were not tested. Random draws share history and are not independent trials.</p><div role="region" aria-label="Complete stock holding cases" tabindex="0" style="max-width:100%;overflow-x:auto;">
+    <table style="width:100%;min-width:1000px;border-collapse:collapse;text-align:left;">
+    <caption>All 180 fixed stock-account cases; costs per purchase/sale, including final liquidation</caption>
+    <thead><tr><th>Population</th><th>Sessions</th><th>Score threshold</th><th>Cost per side</th><th>Status</th>
+    <th>Research</th><th>SPY passive</th><th>Universe passive</th><th>Matched SPY</th><th>Matched universe</th>
+    <th>Random mean</th><th>Research drawdown</th><th>End date</th></tr></thead><tbody><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>-3.15%</td><td>+16.04%</td><td>+13.42%</td><td>+16.04%</td><td>+13.42%</td><td>+13.64%</td><td>-33.32%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>-8.05%</td><td>+15.81%</td><td>+13.20%</td><td>+15.81%</td><td>+13.20%</td><td>+6.05%</td><td>-33.59%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>-14.95%</td><td>+15.46%</td><td>+12.86%</td><td>+15.46%</td><td>+12.86%</td><td>-4.39%</td><td>-33.99%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>+1.89%</td><td>+16.04%</td><td>+13.42%</td><td>+5.57%</td><td>+3.78%</td><td>+4.69%</td><td>-8.35%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>+0.67%</td><td>+15.81%</td><td>+13.20%</td><td>+4.94%</td><td>+3.16%</td><td>+3.29%</td><td>-8.90%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>-1.13%</td><td>+15.46%</td><td>+12.86%</td><td>+4.00%</td><td>+2.24%</td><td>+1.23%</td><td>-9.72%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+16.04%</td><td>+13.42%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+15.81%</td><td>+13.20%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+15.46%</td><td>+12.86%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>+4.48%</td><td>+16.04%</td><td>+13.42%</td><td>+11.03%</td><td>+10.35%</td><td>+7.96%</td><td>-32.36%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>+3.44%</td><td>+15.81%</td><td>+13.20%</td><td>+10.59%</td><td>+9.91%</td><td>+1.13%</td><td>-32.36%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>+1.91%</td><td>+15.46%</td><td>+12.86%</td><td>+9.93%</td><td>+9.25%</td><td>-8.30%</td><td>-32.36%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>-12.02%</td><td>+16.04%</td><td>+13.42%</td><td>+7.70%</td><td>+10.79%</td><td>+10.84%</td><td>-20.10%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>-13.59%</td><td>+15.81%</td><td>+13.20%</td><td>+6.84%</td><td>+9.91%</td><td>+6.87%</td><td>-20.90%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>-15.89%</td><td>+15.46%</td><td>+12.86%</td><td>+5.57%</td><td>+8.60%</td><td>+1.19%</td><td>-22.08%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>+1.13%</td><td>+16.04%</td><td>+13.42%</td><td>-0.57%</td><td>+2.59%</td><td>+2.14%</td><td>-0.98%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>+0.92%</td><td>+15.81%</td><td>+13.20%</td><td>-0.77%</td><td>+2.39%</td><td>+1.94%</td><td>-0.98%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>5</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>+0.62%</td><td>+15.46%</td><td>+12.86%</td><td>-1.07%</td><td>+2.08%</td><td>+1.63%</td><td>-0.98%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>+20.76%</td><td>+16.04%</td><td>+13.42%</td><td>+16.04%</td><td>+13.42%</td><td>+13.37%</td><td>-28.82%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>+19.08%</td><td>+15.81%</td><td>+13.20%</td><td>+15.81%</td><td>+13.20%</td><td>+10.30%</td><td>-29.10%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>+16.61%</td><td>+15.46%</td><td>+12.86%</td><td>+15.46%</td><td>+12.86%</td><td>+5.85%</td><td>-29.53%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>-14.47%</td><td>+16.04%</td><td>+13.42%</td><td>-5.16%</td><td>+0.68%</td><td>+0.61%</td><td>-36.41%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>-15.32%</td><td>+15.81%</td><td>+13.20%</td><td>-5.91%</td><td>-0.13%</td><td>-1.03%</td><td>-36.54%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>-16.58%</td><td>+15.46%</td><td>+12.86%</td><td>-7.03%</td><td>-1.32%</td><td>-3.43%</td><td>-36.73%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+16.04%</td><td>+13.42%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+15.81%</td><td>+13.20%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+15.46%</td><td>+12.86%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>+5.68%</td><td>+16.04%</td><td>+13.42%</td><td>+16.27%</td><td>+17.49%</td><td>+16.33%</td><td>-29.06%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>+3.59%</td><td>+15.81%</td><td>+13.20%</td><td>+15.81%</td><td>+17.02%</td><td>+13.60%</td><td>-29.34%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>+0.53%</td><td>+15.46%</td><td>+12.86%</td><td>+15.12%</td><td>+16.33%</td><td>+9.61%</td><td>-29.76%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>+12.11%</td><td>+16.04%</td><td>+13.42%</td><td>+24.60%</td><td>+24.18%</td><td>+21.26%</td><td>-23.20%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>+10.55%</td><td>+15.81%</td><td>+13.20%</td><td>+23.86%</td><td>+23.44%</td><td>+17.78%</td><td>-23.20%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>+8.26%</td><td>+15.46%</td><td>+12.86%</td><td>+22.75%</td><td>+22.34%</td><td>+12.75%</td><td>-23.20%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>+15.09%</td><td>+16.04%</td><td>+13.42%</td><td>+2.79%</td><td>+9.91%</td><td>+8.25%</td><td>-23.20%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>+14.17%</td><td>+15.81%</td><td>+13.20%</td><td>+1.97%</td><td>+9.04%</td><td>+6.83%</td><td>-23.20%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>10</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>+12.81%</td><td>+15.46%</td><td>+12.86%</td><td>+0.75%</td><td>+7.74%</td><td>+4.74%</td><td>-23.20%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>+14.14%</td><td>+16.04%</td><td>+13.42%</td><td>+16.04%</td><td>+13.42%</td><td>+13.36%</td><td>-28.67%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>+13.23%</td><td>+15.81%</td><td>+13.20%</td><td>+15.81%</td><td>+13.20%</td><td>+12.16%</td><td>-28.81%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>+11.88%</td><td>+15.46%</td><td>+12.86%</td><td>+15.46%</td><td>+12.86%</td><td>+10.39%</td><td>-29.03%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>+9.98%</td><td>+16.04%</td><td>+13.42%</td><td>+2.57%</td><td>+5.86%</td><td>+6.36%</td><td>-4.96%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>+9.76%</td><td>+15.81%</td><td>+13.20%</td><td>+2.37%</td><td>+5.65%</td><td>+5.86%</td><td>-4.96%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>+9.43%</td><td>+15.46%</td><td>+12.86%</td><td>+2.06%</td><td>+5.33%</td><td>+5.10%</td><td>-4.96%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+16.04%</td><td>+13.42%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+15.81%</td><td>+13.20%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+15.46%</td><td>+12.86%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>+14.31%</td><td>+16.04%</td><td>+13.42%</td><td>+16.04%</td><td>+13.42%</td><td>+12.12%</td><td>-28.67%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>+13.40%</td><td>+15.81%</td><td>+13.20%</td><td>+15.81%</td><td>+13.20%</td><td>+10.66%</td><td>-28.81%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>+12.05%</td><td>+15.46%</td><td>+12.86%</td><td>+15.46%</td><td>+12.86%</td><td>+8.50%</td><td>-29.03%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>+10.85%</td><td>+16.04%</td><td>+13.42%</td><td>+6.79%</td><td>+10.91%</td><td>+11.49%</td><td>-7.52%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>+10.19%</td><td>+15.81%</td><td>+13.20%</td><td>+6.58%</td><td>+10.69%</td><td>+10.69%</td><td>-7.52%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>+9.20%</td><td>+15.46%</td><td>+12.86%</td><td>+6.26%</td><td>+10.36%</td><td>+9.51%</td><td>-7.52%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>+3.82%</td><td>+16.04%</td><td>+13.42%</td><td>+6.79%</td><td>+10.91%</td><td>+11.22%</td><td>-14.55%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>+3.61%</td><td>+15.81%</td><td>+13.20%</td><td>+6.58%</td><td>+10.69%</td><td>+10.54%</td><td>-14.55%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>20</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>+3.30%</td><td>+15.46%</td><td>+12.86%</td><td>+6.26%</td><td>+10.36%</td><td>+9.52%</td><td>-14.55%</td><td>2025-12-16</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>+11.43%</td><td>+16.27%</td><td>+11.43%</td><td>+16.27%</td><td>+11.43%</td><td>+11.43%</td><td>-26.03%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>+11.20%</td><td>+16.03%</td><td>+11.20%</td><td>+16.03%</td><td>+11.20%</td><td>+11.20%</td><td>-26.03%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>+10.87%</td><td>+15.69%</td><td>+10.87%</td><td>+15.69%</td><td>+10.87%</td><td>+10.87%</td><td>-26.03%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>+22.98%</td><td>+16.27%</td><td>+11.43%</td><td>+5.89%</td><td>+7.24%</td><td>+7.87%</td><td>-6.64%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>+22.24%</td><td>+16.03%</td><td>+11.20%</td><td>+5.68%</td><td>+7.02%</td><td>+7.35%</td><td>-6.83%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>+21.15%</td><td>+15.69%</td><td>+10.87%</td><td>+5.37%</td><td>+6.70%</td><td>+6.58%</td><td>-7.10%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+16.27%</td><td>+11.43%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+16.03%</td><td>+11.20%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>+0.00%</td><td>+15.69%</td><td>+10.87%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>+0.00%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Measured; not qualified</td><td>+0.36%</td><td>+16.27%</td><td>+11.43%</td><td>+16.27%</td><td>+11.43%</td><td>+13.42%</td><td>-32.36%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Measured; not qualified</td><td>-0.24%</td><td>+16.03%</td><td>+11.20%</td><td>+16.03%</td><td>+11.20%</td><td>+11.82%</td><td>-32.36%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Measured; not qualified</td><td>-1.13%</td><td>+15.69%</td><td>+10.87%</td><td>+15.69%</td><td>+10.87%</td><td>+9.46%</td><td>-32.36%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Measured; not qualified</td><td>-13.60%</td><td>+16.27%</td><td>+11.43%</td><td>+1.29%</td><td>+2.98%</td><td>-0.29%</td><td>-31.79%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Measured; not qualified</td><td>-14.29%</td><td>+16.03%</td><td>+11.20%</td><td>+0.89%</td><td>+2.57%</td><td>-1.51%</td><td>-31.85%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Measured; not qualified</td><td>-15.31%</td><td>+15.69%</td><td>+10.87%</td><td>+0.28%</td><td>+1.96%</td><td>-3.30%</td><td>-31.96%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Measured; not qualified</td><td>-23.58%</td><td>+16.27%</td><td>+11.43%</td><td>+1.29%</td><td>+2.98%</td><td>+0.91%</td><td>-31.79%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Measured; not qualified</td><td>-23.88%</td><td>+16.03%</td><td>+11.20%</td><td>+0.89%</td><td>+2.57%</td><td>-0.21%</td><td>-31.85%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>21</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Measured; not qualified</td><td>-24.34%</td><td>+15.69%</td><td>+10.87%</td><td>+0.28%</td><td>+1.96%</td><td>-1.86%</td><td>-31.96%</td><td>2025-12-03</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Availability subset (3)</th><td>60</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>5</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>10</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>20</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>21</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Raw ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.5</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.5</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.5</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.7</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.7</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.7</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.9</td><td>0 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.9</td><td>10 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr><tr><th scope="row">Original population (6)</th><td>60</td><td>Calibrated ≥ 0.9</td><td>25 bps</td><td>Incomplete: missing or failed models</td><td colspan="8">Not computed</td></tr></tbody></table></div>
+    <p>Passing stocks receive equal target weights; no passing scores means cash, while missing models stay incomplete.
+    Unchanged targets retain actual shares and dividend cash; changed targets sell then buy. All books include final
+    liquidation. Dividend receivables cannot fund purchases before payment. References and fees are assumptions, not fills.
+    The primary incurred $144.97 costs and a
+    -23.20% drawdown at observed marks, not intraday lows.</p>
+    <p>The 100 random paths match dates, cash, holding counts, slot weights and costs, not sector, beta or volatility.
+    Their means and quantiles are descriptive. Twenty- and twenty-one-session specifications use different targets,
+    models, allocations and endpoints; do not attribute their difference to one extra day or promote a winner after inspection.
+    Current-vintage source observed 2026-09-30T20:31:42.225802+00:00; reviewed 2026-09-30T22:24:00.597260+00:00.
+    Separate Decimal reconstruction checked 7,560 books; this is not an independent organizational audit or prospective validation.
+    No qualified investment edge is established.</p></section><section class="prospective-coverage"><h3>Prospective holding research</h3><p>Coverage checked 2026-10-05 09:35 UTC. Eight hypothetical accounts track 5-, 10-, 20- and 21-session holding periods at two assumed trading-cost levels. Rules were registered before the October 1, 2026 start. The two-week, lower-cost account is the primary comparison; all variants remain in the record. Counts cover the full registered window through June 2, 2028, not just this edition.</p><p>Scheduled account-periods: 326 awaiting capture; 0 missed their capture cutoff; 8 have a captured decision and await their outcome date; 0 have reached their outcome date. Rejected capture attempts retained: 0.</p><div role="region" aria-label="Prospective account coverage" tabindex="0" style="max-width:100%;overflow-x:auto;"><table style="width:100%;min-width:600px;text-align:left;"><caption>All registered variants; costs are assumptions per purchase/sale</caption><thead><tr><th scope="col">Hold</th><th scope="col">Costs</th><th scope="col">Awaiting capture</th><th scope="col">Missing capture</th><th scope="col">Awaiting outcome</th><th scope="col">Outcome date reached</th></tr></thead><tbody><tr><th scope="row">5 sessions</th><td>10/10 bps</td><td>83</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">5 sessions</th><td>25/25 bps</td><td>83</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">10 sessions</th><td>10/10 bps</td><td>41</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">10 sessions</th><td>25/25 bps</td><td>41</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">20 sessions</th><td>10/10 bps</td><td>20</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">20 sessions</th><td>25/25 bps</td><td>20</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">21 sessions</th><td>10/10 bps</td><td>19</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">21 sessions</th><td>25/25 bps</td><td>19</td><td>0</td><td>1</td><td>0</td></tr></tbody></table></div><p>Coverage is not performance. Reaching an outcome date does not establish complete prices or a verified return. Missing captures are not valid cash signals. Cost variants are dependent comparisons, not independent trials. No investment edge or probability of profit is established; results remain not qualified.</p></section><section class="prospective-outcomes"><h3>Prospective holding outcomes</h3><p>Checked 2026-10-05 09:35 UTC. No holding-period outcome is ready for assessment. This is not a zero return or evidence of investment skill. No qualified finding.</p></section>
+                <p style="margin-bottom:0;">For tariffs, interest rates and inflation, separate the announcement
+                from its effective date and compare the news with prior expectations. A price reaction
+                can reverse; a known event does not establish a safe exit or re-entry.</p>
+            </div>
+
+            
+<div class="model-scorecard-section">
+    <h2>Daily model record &mdash; Friday, Oct 2, 2026</h2>
+    <p><strong>143/280 correct &mdash; 51.1%</strong></p>
+    <p>BULLISH 91/161 (56.5%) vs BEARISH 52/119 (43.7%)</p>
+    <p>Source: stored model predictions and graded outcomes, latest per ticker for this session.
+    Accuracy covers all 280 graded tickers, including incorrect calls. Ungraded outcomes are excluded.</p>
+    <p>This is one session's direction accuracy, not portfolio performance or a weekly/monthly
+    buy-and-hold result. A 50% coin flip is only one baseline; class balance, a same-window
+    benchmark and costs are also needed to assess value. Tickers can move together.</p>
+</div>
+
+<div class="news-section"><h2>News and sources</h2><p>Headlines report source views; they are not MoneySignals trade instructions.</p><div class="content-body"><div style="margin:3px 0;color:#d4d4d8;">News relevance review is unavailable for this edition. Source headlines have been withheld; this does not mean no market events occurred.</div></div></div>
+<strong>Important events — next trading day (2026-10-06)</strong><p>No matching important events in the reviewed coverage for this date.</p><p>US release schedule pins through 2026-12-31; selected releases only.</p><p>Importance is MoneySignals editorial classification; schedules can change.</p><p>Selected agency and company schedules and exchange-calendar rules; not a complete global calendar. Congressional hearings are not included.</p>
+<strong>Economic calendar — 2026-10-06</strong><p>Selected global economic and policy events.</p><p>No matching events in the reviewed coverage for this date.</p><p>US release schedule pins through 2026-12-31; selected releases only.</p><p>Importance is MoneySignals editorial classification. These are schedule facts; actual, forecast and previous values are not supplied. Source review dates are not live update times. Schedules can change.</p>
+
+            <div class="research-coverage" style="color:#a1a1aa;font-size:12px;margin-top:24px;">
+                <strong>Model data coverage</strong><br>
+                Tickers examined: 366; with model outputs: 366.<br>
+                Daily: 366; weekly: 0; monthly: 0.
+                These counts describe available outputs, not qualified findings or demonstrated returns.
+            </div>
+            
+            
+    
+    
+    
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 8px; padding: 24px; margin: 20px 0; text-align: center; border: 1px solid #2a2a4a;">
+        <div style="font-size: 16px; font-weight: 600; color: #e0e0e0; margin-bottom: 8px;">
+            Know someone who'd find this useful?
+        </div>
+        <div style="font-size: 13px; color: #999; margin-bottom: 16px;">
+            Share MoneySignals' market research with your network
+        </div>
+        <a href="https://moneysignals.us/" style="display: inline-block; background: #3498db; color: #fff; text-decoration: none; padding: 10px 28px; border-radius: 6px; font-size: 14px; font-weight: 600; margin-bottom: 12px;">
+            Subscribe at MoneySignals.us
+        </a>
+        <div style="margin-top: 12px; font-size: 12px; color: #666;">
+            Free and paid research plans &middot; See current features and pricing
+        </div>
+        <div style="margin-top: 8px; font-size: 12px; color: #777;">
+            Share this link: <a href="https://moneysignals.us/" style="color: #3498db;">moneysignals.us</a>
+        </div>
+    </div>
+    
+    
+    <div style="background: linear-gradient(135deg, #1a0f12 0%, #2a1015 100%); border-radius: 8px; padding: 22px; margin: 20px 0; text-align: center; border: 1px solid #3a1a20;">
+        <div style="font-size: 13px; color: #ff4e45; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px;">
+            &#9654;&#65039; New on YouTube
+        </div>
+        <div style="font-size: 17px; font-weight: 700; color: #e0e0e0; margin-bottom: 6px;">
+            The Daily Market Recap
+        </div>
+        <div style="font-size: 13px; color: #a0a0b0; margin-bottom: 16px; line-height: 1.5;">
+            Explore the news, economic context and questions behind market movements,
+            explained in plain language.
+        </div>
+        <a href="https://www.youtube.com/@investwithdave/shorts" style="display: inline-block; background: #ff0000; color: #fff; text-decoration: none; padding: 11px 30px; border-radius: 6px; font-size: 14px; font-weight: 700;">
+            &#9654;&#65039; Watch &amp; Subscribe
+        </a>
+        <div style="margin-top: 12px; font-size: 12px; color: #777;">
+            @investwithdave &middot; new Shorts weekday mornings
+        </div>
+    </div>
+    
+    
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border-radius: 8px; padding: 20px; margin: 20px 0; border: 1px solid #374151;">
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 20px; margin-right: 8px;">&#x1f4a1;</span>
+            <span style="font-size: 15px; font-weight: 600; color: #c4b5fd;">Sponsored</span>
+        </div>
+        <div style="font-size: 16px; font-weight: 600; color: #e0e0e0; margin-bottom: 6px;">
+            Meta Council &mdash; AI-Powered Decision Intelligence
+        </div>
+        <div style="font-size: 13px; color: #a0a0b0; margin-bottom: 14px; line-height: 1.5;">
+            Run any decision past a council of AI experts before you commit.
+            Meta Council assembles specialized AI agents&mdash;finance, strategy, risk,
+            contrarian&mdash;to stress-test your ideas from every angle. Think of it as
+            a boardroom you can summon on demand.
+        </div>
+        <a href="https://meta-council.com/" style="display: inline-block; background: #7c3aed; color: #fff; text-decoration: none; padding: 9px 24px; border-radius: 6px; font-size: 13px; font-weight: 600;">
+            Try Meta Council &rarr;
+        </a>
+        <div style="margin-top: 12px; background: #1e1b4b; border: 1px dashed #7c3aed; border-radius: 4px; padding: 8px 14px; display: inline-block;">
+            <span style="font-size: 11px; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.5px;">Promo Code</span>
+            <span style="font-size: 14px; font-weight: 700; color: #e0e0e0; margin-left: 8px; font-family: monospace;">INVESTOR2026</span>
+            <span style="font-size: 11px; color: #9ca3af; margin-left: 8px;">&mdash; exclusive extended trial</span>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin: 25px 0; padding: 18px 20px; background: linear-gradient(135deg, #0d1117, #161b22); border: 1px solid #30363d; border-radius: 10px;">
+        <p style="color: #e6edf3; font-size: 1.05em; margin: 0 0 8px 0;">🚀 <strong>Want programmatic access?</strong></p>
+        <p style="color: #8b949e; font-size: 0.95em; margin: 0 0 12px 0;">Explore market data, statistical analytics and model diagnostics through the REST API</p>
+        <a href="https://moneysignals.us" style="display: inline-block; background: #58a6ff; color: #0d1117; font-weight: bold; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em;">Explore moneysignals.us &rarr;</a>
+    </div>
+    <div class="footer">
+        <p><a href="https://moneysignals.us/" style="color:#71717a;text-decoration:none;">MoneySignals.us</a> &mdash; Powered by AutoTrader ML System</p>
+        <p>📺 YouTube: <a href="https://www.youtube.com/@investwithdave" style="color:#71717a;">@investwithdave</a></p>
+        <p style="margin-top:8px;font-size:11px;">
+            <a href="https://moneysignals.us/terms" style="color:#52525b;text-decoration:none;">Terms of Service</a> &middot;
+            <a href="https://moneysignals.us/privacy" style="color:#52525b;text-decoration:none;">Privacy Policy</a>
+        </p>
+        <p style="margin-top:8px;">
+            <a href="https://moneysignals.us/#pricing" style="color:#52525b;text-decoration:none;">Basic (Free)</a> &middot;
+            <a href="https://buy.stripe.com/eVq9AUbLse2CdQ53Ir5c404" style="color:#52525b;text-decoration:none;">Premium</a> &middot;
+            <a href="https://buy.stripe.com/4gM00k4j0gaK27n3Ir5c403" style="color:#52525b;text-decoration:none;">Professional</a>
+        </p>
+    </div>
+    
+            
+    <div class="disclaimer">
+        <h3>⚠️ IMPORTANT DISCLAIMERS</h3>
+
+        <p><strong>📊 RESEARCH CONTEXT:</strong><br>
+        News, economic schedules and model results are inputs to your own investigation.
+        A source's opinion is not a verified finding, and a scheduled event does not establish
+        the direction of the market's response.</p>
+
+        <p><strong>💰 FINANCIAL DISCLAIMER:</strong><br>
+        This analysis is for informational and educational purposes only. It does not constitute investment advice, financial advice, trading advice, or any other sort of advice. The information provided is not intended to be used as the sole basis for any investment decisions. Past performance does not guarantee future results. All investments involve risk, including the potential loss of principal.</p>
+
+        <p><strong>🚫 NO INVESTMENT RECOMMENDATIONS:</strong><br>
+        We do not recommend, endorse, or suggest any specific investments, securities, or trading strategies. The analysis provided is based on historical data and statistical models that may not accurately predict future market movements. Market conditions change rapidly and unpredictably.</p>
+
+        <p><strong>🤖 AUTOMATED ANALYSIS:</strong><br>
+        This report is generated by automated systems using machine learning models. These models have limitations and may produce inaccurate results. Always conduct your own research and consult with qualified financial professionals before making investment decisions.</p>
+
+        <p><strong>📈 PERFORMANCE CONTEXT:</strong><br>
+        Direction accuracy measures correct direction labels. It is not a return on invested capital.
+        A holding-period study must separately account for entry and exit timing, distributions,
+        costs, cash and a comparable benchmark. Model scores alone do not establish profitable returns.</p>
+
+        <p><strong>📊 DATA ACCURACY:</strong><br>
+        While we strive for accuracy, we do not guarantee the accuracy, completeness, or timeliness of any information provided. Data sources may have errors, delays, or other issues that could affect the analysis.</p>
+
+        <p><strong>⚖️ LEGAL DISCLAIMER:</strong><br>
+        This service is provided 'as is' without warranties of any kind. We disclaim all warranties, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+        <p><strong>👤 INDIVIDUAL RESPONSIBILITY:</strong><br>
+        You are solely responsible for your investment decisions and their outcomes. You should conduct your own research and due diligence before making any investment decisions. Never invest more than you can afford to lose.</p>
+
+        <p style="font-size: 0.85em; margin-top: 15px;">
+        By using this service, you acknowledge that you have read, understood, and agree to these disclaimers.<br>
+        For questions or concerns, contact: dave@moneysignals.us
+        </p>
+    </div>
+    
+        </div>
+    </div>
+    
+</body>
+</html>
+    
