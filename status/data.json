@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-06T04:00:18.445347+00:00",
+  "generated_at": "2026-10-06T16:19:59.990260+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "ec08386",
-      "date": "2026-10-05T14:00:17-07:00",
-      "message": "Update health data 2026-10-05 14:00"
+      "hash": "2e34e60",
+      "date": "2026-10-06T09:17:25-07:00",
+      "message": "health: refresh calendar density 2026-10-06 09:17"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 163,
+      "page_count": 164,
       "last_commit": {
-        "hash": "20e8a15",
-        "date": "2026-10-05T12:34:02-07:00",
-        "message": "social: embed Short for 2026-10-05 (zrWTVQ-Fk4U)"
+        "hash": "4092e02",
+        "date": "2026-10-06T05:36:46-04:00",
+        "message": "daily: 2026-10-06 market update"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-05T21:00:04.576126",
+        "updated": "2026-10-06T09:17:01.966210",
         "date_range": null
       },
       "last_commit": {
-        "hash": "ec08386",
-        "date": "2026-10-05T14:00:17-07:00",
-        "message": "Update health data 2026-10-05 14:00"
+        "hash": "2e34e60",
+        "date": "2026-10-06T09:17:25-07:00",
+        "message": "health: refresh calendar density 2026-10-06 09:17"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,41 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-10-05T13:07:34Z"
+        "updated": "2026-10-06T12:29:01Z"
       },
       "last_commit": {
-        "hash": "627c84f",
-        "date": "2026-10-05T13:07:34+00:00",
-        "message": "Update analytics data 2026-10-05"
+        "hash": "464729e",
+        "date": "2026-10-06T12:29:01+00:00",
+        "message": "Update analytics data 2026-10-06"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "2e34e60",
+      "date": "2026-10-06T09:17:25-07:00",
+      "message": "health: refresh calendar density 2026-10-06 09:17"
+    },
+    {
+      "hash": "464729e",
+      "date": "2026-10-06T12:29:01+00:00",
+      "message": "Update analytics data 2026-10-06"
+    },
+    {
+      "hash": "7183b0c",
+      "date": "2026-10-06T05:36:49-04:00",
+      "message": "blog: 2026-10-06 \u2014 Research evidence and economic schedules"
+    },
+    {
+      "hash": "4092e02",
+      "date": "2026-10-06T05:36:46-04:00",
+      "message": "daily: 2026-10-06 market update"
+    },
+    {
+      "hash": "87ec78d",
+      "date": "2026-10-05T21:00:18-07:00",
+      "message": "Update health data 2026-10-05 21:00"
+    },
     {
       "hash": "ec08386",
       "date": "2026-10-05T14:00:17-07:00",
@@ -138,31 +163,6 @@
       "hash": "d24afd0",
       "date": "2026-10-04T06:40:07-07:00",
       "message": "health: refresh calendar density 2026-10-04 06:40"
-    },
-    {
-      "hash": "b72ec92",
-      "date": "2026-10-04T11:33:57+00:00",
-      "message": "Update analytics data 2026-10-04"
-    },
-    {
-      "hash": "f139ced",
-      "date": "2026-10-03T21:00:16-07:00",
-      "message": "Update health data 2026-10-03 21:00"
-    },
-    {
-      "hash": "25cf266",
-      "date": "2026-10-03T14:00:14-07:00",
-      "message": "Update health data 2026-10-03 14:00"
-    },
-    {
-      "hash": "ee72c4c",
-      "date": "2026-10-03T08:00:18-07:00",
-      "message": "Update health data 2026-10-03 08:00"
-    },
-    {
-      "hash": "b287919",
-      "date": "2026-10-03T06:40:07-07:00",
-      "message": "health: refresh calendar density 2026-10-03 06:40"
     }
   ]
 }
