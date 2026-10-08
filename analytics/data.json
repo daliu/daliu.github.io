@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-07T12:22:14Z",
+  "updated": "2026-10-08T12:31:40Z",
   "date_range": {
-    "start": "2026-07-10",
-    "end": "2026-10-07"
+    "start": "2026-07-11",
+    "end": "2026-10-08"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-07-18",
-    "end": "2026-10-07",
-    "days_with_data": 23
+    "end": "2026-10-08",
+    "days_with_data": 24
   },
   "totals": {
-    "total_users": 46,
-    "total_sessions": 49,
-    "total_pageviews": 70,
-    "total_engaged_sessions": 12,
-    "engagement_rate": 0.2449,
-    "avg_session_duration_seconds": 72.3,
-    "bounce_rate": 0.7551
+    "total_users": 53,
+    "total_sessions": 56,
+    "total_pageviews": 81,
+    "total_engaged_sessions": 13,
+    "engagement_rate": 0.2321,
+    "avg_session_duration_seconds": 82.8,
+    "bounce_rate": 0.7679
   },
   "daily": [
     {
@@ -240,16 +240,26 @@
       "pageviews": 3,
       "new_users": 3,
       "avg_session_duration": 10.7,
+      "bounce_rate": 0.6667,
+      "engaged_sessions": 1
+    },
+    {
+      "date": "2026-10-07",
+      "users": 4,
+      "sessions": 4,
+      "pageviews": 4,
+      "new_users": 4,
+      "avg_session_duration": 0.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     },
     {
-      "date": "2026-10-07",
-      "users": 2,
-      "sessions": 2,
-      "pageviews": 2,
-      "new_users": 2,
-      "avg_session_duration": 0.0,
+      "date": "2026-10-08",
+      "users": 5,
+      "sessions": 5,
+      "pageviews": 9,
+      "new_users": 4,
+      "avg_session_duration": 218.8,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -258,12 +268,12 @@
     {
       "path": "/",
       "title": "MoneySignals \u2014 Audited Market Signals for Humans and AI Agents",
-      "pageviews": 43,
-      "users": 36,
-      "avg_time_on_page": 24.8,
-      "sessions": 38,
-      "engaged": 8,
-      "engagement_rate": 0.211,
+      "pageviews": 50,
+      "users": 42,
+      "avg_time_on_page": 44.2,
+      "sessions": 45,
+      "engaged": 9,
+      "engagement_rate": 0.2,
       "class": "mixed"
     },
     {
@@ -286,6 +296,17 @@
       "sessions": 7,
       "engaged": 1,
       "engagement_rate": 0.143,
+      "class": "automated"
+    },
+    {
+      "path": "/favicon.ico",
+      "title": "404 \u2014 Page Not Found | MoneySignals",
+      "pageviews": 4,
+      "users": 4,
+      "avg_time_on_page": 11.2,
+      "sessions": 4,
+      "engaged": 0,
+      "engagement_rate": 0.0,
       "class": "automated"
     },
     {
@@ -315,33 +336,42 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 43,
-      "users": 39,
+      "sessions": 49,
+      "users": 45,
       "engaged": 12,
-      "engagement_rate": 0.279,
+      "engagement_rate": 0.245,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 3,
-      "users": 2,
+      "sessions": 6,
+      "users": 5,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
     },
     {
-      "source": "Unknown",
-      "medium": "Unknown",
-      "sessions": 2,
-      "users": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "source": "facebook.com",
+      "medium": "referral",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 1,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "source": "google",
       "medium": "organic",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
+      "source": "m.facebook.com",
+      "medium": "referral",
       "sessions": 1,
       "users": 1,
       "engaged": 0,
@@ -352,32 +382,32 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 30,
-      "percentage": 56.6
+      "sessions": 35,
+      "percentage": 58.3
     },
     {
       "category": "mobile",
-      "sessions": 23,
-      "percentage": 43.4
+      "sessions": 25,
+      "percentage": 41.7
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 32,
-      "percentage": 64.0
+      "sessions": 37,
+      "percentage": 64.9
     },
     {
       "browser": "Safari",
-      "sessions": 18,
-      "percentage": 36.0
+      "sessions": 20,
+      "percentage": 35.1
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 38,
-      "users": 34
+      "sessions": 45,
+      "users": 40
     },
     {
       "country": "Brazil",
@@ -411,8 +441,8 @@
     }
   ],
   "user_types": {
-    "new": 41,
-    "returning": 6
+    "new": 47,
+    "returning": 7
   },
   "hourly": [
     {
@@ -425,7 +455,7 @@
     },
     {
       "hour": 2,
-      "pageviews": 0
+      "pageviews": 9
     },
     {
       "hour": 3,
@@ -453,7 +483,7 @@
     },
     {
       "hour": 9,
-      "pageviews": 1
+      "pageviews": 0
     },
     {
       "hour": 10,
@@ -461,7 +491,7 @@
     },
     {
       "hour": 11,
-      "pageviews": 1
+      "pageviews": 3
     },
     {
       "hour": 12,
@@ -513,12 +543,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 12,
-    "non_engaged_sessions": 37,
-    "likely_automated_sessions": 4,
-    "likely_human_sessions": 45,
-    "automated_pct": 8.2,
-    "est_human_users": 39,
+    "engaged_sessions": 13,
+    "non_engaged_sessions": 43,
+    "likely_automated_sessions": 3,
+    "likely_human_sessions": 53,
+    "automated_pct": 5.4,
+    "est_human_users": 46,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -527,12 +557,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 38,
+      "sessions": 45,
       "engaged": 10,
-      "users": 34,
-      "pageviews": 57,
-      "avg_duration": 82.1,
-      "engagement_rate": 0.263,
+      "users": 40,
+      "pageviews": 68,
+      "avg_duration": 93.7,
+      "engagement_rate": 0.222,
       "class": "mixed"
     },
     {
@@ -588,12 +618,12 @@
     {
       "country": "Sweden",
       "sessions": 1,
-      "engaged": 0,
+      "engaged": 1,
       "users": 1,
       "pageviews": 1,
       "avg_duration": 32.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "engagement_rate": 1.0,
+      "class": "human"
     }
   ],
   "punchcard": {
@@ -697,7 +727,7 @@
         0,
         0,
         0,
-        0,
+        2,
         1,
         0,
         0,
@@ -714,7 +744,7 @@
       [
         0,
         0,
-        0,
+        9,
         0,
         0,
         0,
@@ -803,16 +833,16 @@
       [
         1,
         3,
-        1,
-        1,
-        4,
+        5,
+        2,
+        5,
         0,
         0,
         2,
         0,
         0,
         1,
-        1,
+        3,
         0,
         4,
         0,
@@ -912,19 +942,19 @@
       "lat": 39.029784,
       "lng": -77.4744148,
       "label": "Ashburn, United States",
-      "sessions": 16,
-      "users": 16,
+      "sessions": 20,
+      "users": 20,
       "engaged": 4,
-      "engagement_rate": 0.25
+      "engagement_rate": 0.2
     },
     {
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 15,
+      "sessions": 16,
       "users": 11,
       "engaged": 6,
-      "engagement_rate": 0.4
+      "engagement_rate": 0.375
     },
     {
       "lat": -14.235,
@@ -977,6 +1007,15 @@
       "label": "Lulea, Sweden",
       "sessions": 1,
       "users": 1,
+      "engaged": 1,
+      "engagement_rate": 1.0
+    },
+    {
+      "lat": 41.8755616,
+      "lng": -87.6244212,
+      "label": "Chicago, United States",
+      "sessions": 1,
+      "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0
     },
@@ -993,6 +1032,15 @@
       "lat": 41.258841,
       "lng": -95.8519484,
       "label": "Council Bluffs, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 42.5006243,
+      "lng": -90.6647985,
+      "label": "Dubuque, United States",
       "sessions": 1,
       "users": 1,
       "engaged": 0,
@@ -1029,30 +1077,30 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 16,
+        "current": 22,
         "previous": 12,
-        "change_pct": 33.3
+        "change_pct": 83.3
       },
       "sessions": {
-        "current": 19,
+        "current": 25,
         "previous": 12,
-        "change_pct": 58.3
+        "change_pct": 108.3
       },
       "pageviews": {
-        "current": 33,
+        "current": 43,
         "previous": 15,
-        "change_pct": 120.0
+        "change_pct": 186.7
       }
     },
     "baseline": {
-      "mean_pageviews": 3.0,
-      "std_pageviews": 3.6
+      "mean_pageviews": 3.4,
+      "std_pageviews": 3.7
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 4.1
+        "z": 3.9
       }
     ]
   },
