@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-08T12:31:40Z",
+  "updated": "2026-10-09T12:20:09Z",
   "date_range": {
-    "start": "2026-07-11",
-    "end": "2026-10-08"
+    "start": "2026-07-12",
+    "end": "2026-10-09"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-07-18",
-    "end": "2026-10-08",
-    "days_with_data": 24
+    "end": "2026-10-09",
+    "days_with_data": 25
   },
   "totals": {
-    "total_users": 53,
-    "total_sessions": 56,
-    "total_pageviews": 81,
+    "total_users": 58,
+    "total_sessions": 61,
+    "total_pageviews": 87,
     "total_engaged_sessions": 13,
-    "engagement_rate": 0.2321,
-    "avg_session_duration_seconds": 82.8,
-    "bounce_rate": 0.7679
+    "engagement_rate": 0.2131,
+    "avg_session_duration_seconds": 77.5,
+    "bounce_rate": 0.7869
   },
   "daily": [
     {
@@ -245,21 +245,31 @@
     },
     {
       "date": "2026-10-07",
-      "users": 4,
-      "sessions": 4,
-      "pageviews": 4,
-      "new_users": 4,
+      "users": 6,
+      "sessions": 6,
+      "pageviews": 6,
+      "new_users": 6,
       "avg_session_duration": 0.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     },
     {
       "date": "2026-10-08",
-      "users": 5,
-      "sessions": 5,
-      "pageviews": 9,
-      "new_users": 4,
-      "avg_session_duration": 218.8,
+      "users": 7,
+      "sessions": 7,
+      "pageviews": 12,
+      "new_users": 6,
+      "avg_session_duration": 156.5,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
+    },
+    {
+      "date": "2026-10-09",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 1,
+      "new_users": 0,
+      "avg_session_duration": 88.8,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -268,12 +278,12 @@
     {
       "path": "/",
       "title": "MoneySignals \u2014 Audited Market Signals for Humans and AI Agents",
-      "pageviews": 50,
-      "users": 42,
-      "avg_time_on_page": 44.2,
-      "sessions": 45,
+      "pageviews": 56,
+      "users": 47,
+      "avg_time_on_page": 41.6,
+      "sessions": 50,
       "engaged": 9,
-      "engagement_rate": 0.2,
+      "engagement_rate": 0.18,
       "class": "mixed"
     },
     {
@@ -336,17 +346,17 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 49,
-      "users": 45,
+      "sessions": 53,
+      "users": 49,
       "engaged": 12,
-      "engagement_rate": 0.245,
+      "engagement_rate": 0.226,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 6,
-      "users": 5,
+      "sessions": 7,
+      "users": 6,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -382,32 +392,32 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 35,
-      "percentage": 58.3
+      "sessions": 39,
+      "percentage": 60.0
     },
     {
       "category": "mobile",
-      "sessions": 25,
-      "percentage": 41.7
+      "sessions": 26,
+      "percentage": 40.0
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 37,
-      "percentage": 64.9
+      "sessions": 41,
+      "percentage": 66.1
     },
     {
       "browser": "Safari",
-      "sessions": 20,
-      "percentage": 35.1
+      "sessions": 21,
+      "percentage": 33.9
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 45,
-      "users": 40
+      "sessions": 47,
+      "users": 42
     },
     {
       "country": "Brazil",
@@ -420,6 +430,16 @@
       "users": 3
     },
     {
+      "country": "Russia",
+      "sessions": 3,
+      "users": 3
+    },
+    {
+      "country": "Belgium",
+      "sessions": 1,
+      "users": 1
+    },
+    {
       "country": "China",
       "sessions": 1,
       "users": 1
@@ -430,24 +450,19 @@
       "users": 1
     },
     {
-      "country": "Russia",
-      "sessions": 1,
-      "users": 1
-    },
-    {
       "country": "Sweden",
       "sessions": 1,
       "users": 1
     }
   ],
   "user_types": {
-    "new": 47,
+    "new": 51,
     "returning": 7
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 1
+      "pageviews": 2
     },
     {
       "hour": 1,
@@ -463,7 +478,7 @@
     },
     {
       "hour": 4,
-      "pageviews": 16
+      "pageviews": 19
     },
     {
       "hour": 5,
@@ -503,11 +518,11 @@
     },
     {
       "hour": 14,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 15,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 16,
@@ -544,11 +559,11 @@
   ],
   "quality": {
     "engaged_sessions": 13,
-    "non_engaged_sessions": 43,
-    "likely_automated_sessions": 3,
-    "likely_human_sessions": 53,
-    "automated_pct": 5.4,
-    "est_human_users": 46,
+    "non_engaged_sessions": 48,
+    "likely_automated_sessions": 6,
+    "likely_human_sessions": 55,
+    "automated_pct": 9.8,
+    "est_human_users": 48,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -557,12 +572,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 45,
+      "sessions": 47,
       "engaged": 10,
-      "users": 40,
-      "pageviews": 68,
-      "avg_duration": 93.7,
-      "engagement_rate": 0.222,
+      "users": 42,
+      "pageviews": 71,
+      "avg_duration": 91.6,
+      "engagement_rate": 0.213,
       "class": "mixed"
     },
     {
@@ -586,6 +601,26 @@
       "class": "mixed"
     },
     {
+      "country": "Russia",
+      "sessions": 3,
+      "engaged": 0,
+      "users": 3,
+      "pageviews": 3,
+      "avg_duration": 0.0,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
+      "country": "Belgium",
+      "sessions": 1,
+      "engaged": 0,
+      "users": 1,
+      "pageviews": 1,
+      "avg_duration": 0.0,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
       "country": "China",
       "sessions": 1,
       "engaged": 0,
@@ -602,16 +637,6 @@
       "users": 1,
       "pageviews": 1,
       "avg_duration": 1.5,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "Russia",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 0.0,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -730,8 +755,8 @@
         2,
         1,
         0,
-        0,
-        0,
+        1,
+        1,
         0,
         0,
         0,
@@ -746,7 +771,7 @@
         0,
         9,
         0,
-        0,
+        3,
         0,
         0,
         1,
@@ -768,7 +793,7 @@
         0
       ],
       [
-        0,
+        1,
         0,
         0,
         0,
@@ -826,12 +851,12 @@
     "countries": [
       "United States",
       "Brazil",
-      "China",
-      "Germany"
+      "Russia",
+      "Belgium"
     ],
     "matrix": [
       [
-        1,
+        2,
         3,
         5,
         2,
@@ -845,7 +870,7 @@
         3,
         0,
         4,
-        0,
+        1,
         0,
         0,
         1,
@@ -886,13 +911,8 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        1,
+        1,
         0,
         0,
         0,
@@ -904,6 +924,11 @@
         0,
         0,
         1,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0
@@ -913,10 +938,10 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
         1,
+        0,
+        0,
+        0,
         0,
         0,
         0,
@@ -966,11 +991,38 @@
       "engagement_rate": 0.25
     },
     {
+      "lat": 55.7505412,
+      "lng": 37.6174782,
+      "label": "Moscow, Russia",
+      "sessions": 3,
+      "users": 3,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 41.8755616,
+      "lng": -87.6244212,
+      "label": "Chicago, United States",
+      "sessions": 2,
+      "users": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 40.7127281,
       "lng": -74.0060152,
       "label": "New York, United States",
       "sessions": 2,
       "users": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 50.8435652,
+      "lng": 4.3673865,
+      "label": "Brussels, Belgium",
+      "sessions": 1,
+      "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0
     },
@@ -993,15 +1045,6 @@
       "engagement_rate": 0.0
     },
     {
-      "lat": 55.7505412,
-      "lng": 37.6174782,
-      "label": "Moscow, Russia",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
       "lat": 65.5831187,
       "lng": 22.1459535,
       "label": "Lulea, Sweden",
@@ -1009,15 +1052,6 @@
       "users": 1,
       "engaged": 1,
       "engagement_rate": 1.0
-    },
-    {
-      "lat": 41.8755616,
-      "lng": -87.6244212,
-      "label": "Chicago, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
     },
     {
       "lat": 42.0700662,
@@ -1065,6 +1099,24 @@
       "engagement_rate": 0.0
     },
     {
+      "lat": 35.2017495,
+      "lng": -83.8240676,
+      "label": "Andrews, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 39.9527237,
+      "lng": -75.1635262,
+      "label": "Philadelphia, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 32.753177,
       "lng": -97.3327459,
       "label": "Fort Worth, United States",
@@ -1077,30 +1129,35 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 22,
+        "current": 26,
         "previous": 12,
-        "change_pct": 83.3
+        "change_pct": 116.7
       },
       "sessions": {
-        "current": 25,
+        "current": 29,
         "previous": 12,
-        "change_pct": 108.3
+        "change_pct": 141.7
       },
       "pageviews": {
-        "current": 43,
+        "current": 48,
         "previous": 15,
-        "change_pct": 186.7
+        "change_pct": 220.0
       }
     },
     "baseline": {
-      "mean_pageviews": 3.4,
-      "std_pageviews": 3.7
+      "mean_pageviews": 3.5,
+      "std_pageviews": 3.9
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 3.9
+        "z": 3.7
+      },
+      {
+        "date": "2026-10-08",
+        "pageviews": 12,
+        "z": 2.2
       }
     ]
   },
@@ -1121,6 +1178,23 @@
       "baseline_pageviews": 2.1,
       "after_pageviews": 8.7,
       "lift_pct": 304.4
+    },
+    {
+      "date": "2026-10-08",
+      "label": "\u2191 Direct surge \u2014 likely automated",
+      "url": "",
+      "origin": "auto",
+      "cause": {
+        "top_source": "Direct",
+        "top_medium": "\u2014",
+        "top_source_pct": 67,
+        "top_page": "/",
+        "engagement_rate": 0.0,
+        "class": "automated"
+      },
+      "baseline_pageviews": 5.3,
+      "after_pageviews": 6.5,
+      "lift_pct": 23.0
     }
   ]
 }
