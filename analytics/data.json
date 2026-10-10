@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-09T12:20:09Z",
+  "updated": "2026-10-10T11:38:30Z",
   "date_range": {
-    "start": "2026-07-12",
-    "end": "2026-10-09"
+    "start": "2026-07-13",
+    "end": "2026-10-10"
   },
   "windows": {
     "main_days": 90,
@@ -14,13 +14,13 @@
     "days_with_data": 25
   },
   "totals": {
-    "total_users": 58,
-    "total_sessions": 61,
-    "total_pageviews": 87,
+    "total_users": 62,
+    "total_sessions": 65,
+    "total_pageviews": 92,
     "total_engaged_sessions": 13,
-    "engagement_rate": 0.2131,
-    "avg_session_duration_seconds": 77.5,
-    "bounce_rate": 0.7869
+    "engagement_rate": 0.2,
+    "avg_session_duration_seconds": 72.7,
+    "bounce_rate": 0.8
   },
   "daily": [
     {
@@ -265,11 +265,11 @@
     },
     {
       "date": "2026-10-09",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 0,
-      "avg_session_duration": 88.8,
+      "users": 5,
+      "sessions": 5,
+      "pageviews": 6,
+      "new_users": 3,
+      "avg_session_duration": 18.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -277,13 +277,13 @@
   "pages": [
     {
       "path": "/",
-      "title": "MoneySignals \u2014 Audited Market Signals for Humans and AI Agents",
-      "pageviews": 56,
-      "users": 47,
-      "avg_time_on_page": 41.6,
-      "sessions": 50,
+      "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
+      "pageviews": 61,
+      "users": 49,
+      "avg_time_on_page": 38.5,
+      "sessions": 54,
       "engaged": 9,
-      "engagement_rate": 0.18,
+      "engagement_rate": 0.167,
       "class": "mixed"
     },
     {
@@ -346,17 +346,26 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 53,
-      "users": 49,
+      "sessions": 57,
+      "users": 51,
       "engaged": 12,
-      "engagement_rate": 0.226,
+      "engagement_rate": 0.211,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 7,
-      "users": 6,
+      "sessions": 9,
+      "users": 8,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
+      "source": "duckduckgo",
+      "medium": "organic",
+      "sessions": 1,
+      "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -392,32 +401,37 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 39,
-      "percentage": 60.0
+      "sessions": 43,
+      "percentage": 62.3
     },
     {
       "category": "mobile",
       "sessions": 26,
-      "percentage": 40.0
+      "percentage": 37.7
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 41,
-      "percentage": 66.1
+      "sessions": 44,
+      "percentage": 66.7
     },
     {
       "browser": "Safari",
       "sessions": 21,
-      "percentage": 33.9
+      "percentage": 31.8
+    },
+    {
+      "browser": "Firefox",
+      "sessions": 1,
+      "percentage": 1.5
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 47,
-      "users": 42
+      "sessions": 50,
+      "users": 43
     },
     {
       "country": "Brazil",
@@ -450,19 +464,24 @@
       "users": 1
     },
     {
+      "country": "Netherlands",
+      "sessions": 1,
+      "users": 1
+    },
+    {
       "country": "Sweden",
       "sessions": 1,
       "users": 1
     }
   ],
   "user_types": {
-    "new": 51,
-    "returning": 7
+    "new": 54,
+    "returning": 8
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 2
+      "pageviews": 3
     },
     {
       "hour": 1,
@@ -506,11 +525,11 @@
     },
     {
       "hour": 11,
-      "pageviews": 3
+      "pageviews": 4
     },
     {
       "hour": 12,
-      "pageviews": 0
+      "pageviews": 1
     },
     {
       "hour": 13,
@@ -530,7 +549,7 @@
     },
     {
       "hour": 17,
-      "pageviews": 1
+      "pageviews": 2
     },
     {
       "hour": 18,
@@ -538,7 +557,7 @@
     },
     {
       "hour": 19,
-      "pageviews": 5
+      "pageviews": 6
     },
     {
       "hour": 20,
@@ -559,11 +578,11 @@
   ],
   "quality": {
     "engaged_sessions": 13,
-    "non_engaged_sessions": 48,
-    "likely_automated_sessions": 6,
-    "likely_human_sessions": 55,
-    "automated_pct": 9.8,
-    "est_human_users": 48,
+    "non_engaged_sessions": 52,
+    "likely_automated_sessions": 7,
+    "likely_human_sessions": 58,
+    "automated_pct": 10.8,
+    "est_human_users": 49,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -572,12 +591,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 47,
+      "sessions": 50,
       "engaged": 10,
-      "users": 42,
-      "pageviews": 71,
-      "avg_duration": 91.6,
-      "engagement_rate": 0.213,
+      "users": 43,
+      "pageviews": 75,
+      "avg_duration": 86.1,
+      "engagement_rate": 0.2,
       "class": "mixed"
     },
     {
@@ -637,6 +656,16 @@
       "users": 1,
       "pageviews": 1,
       "avg_duration": 1.5,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
+      "country": "Netherlands",
+      "sessions": 1,
+      "engaged": 0,
+      "users": 1,
+      "pageviews": 1,
+      "avg_duration": 0.0,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -793,9 +822,7 @@
         0
       ],
       [
-        1,
-        0,
-        0,
+        2,
         0,
         0,
         0,
@@ -807,12 +834,14 @@
         0,
         0,
         1,
+        1,
+        1,
         0,
         0,
         0,
+        1,
         0,
-        0,
-        3,
+        4,
         0,
         1,
         0,
@@ -867,15 +896,15 @@
         0,
         0,
         1,
-        3,
+        4,
         0,
         4,
         1,
         0,
         0,
-        1,
         2,
-        4,
+        2,
+        5,
         2,
         3,
         5,
@@ -976,10 +1005,10 @@
       "lat": 37.5164926,
       "lng": -122.2941914,
       "label": "Belmont, United States",
-      "sessions": 16,
+      "sessions": 18,
       "users": 11,
       "engaged": 6,
-      "engagement_rate": 0.375
+      "engagement_rate": 0.333
     },
     {
       "lat": -14.235,
@@ -1003,6 +1032,15 @@
       "lat": 41.8755616,
       "lng": -87.6244212,
       "label": "Chicago, United States",
+      "sessions": 2,
+      "users": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 42.0700662,
+      "lng": -87.8114044,
+      "label": "Glenview, United States",
       "sessions": 2,
       "users": 2,
       "engaged": 0,
@@ -1045,6 +1083,15 @@
       "engagement_rate": 0.0
     },
     {
+      "lat": 52.1570577,
+      "lng": 4.5433786,
+      "label": "Leiderdorp, Netherlands",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 65.5831187,
       "lng": 22.1459535,
       "label": "Lulea, Sweden",
@@ -1052,15 +1099,6 @@
       "users": 1,
       "engaged": 1,
       "engagement_rate": 1.0
-    },
-    {
-      "lat": 42.0700662,
-      "lng": -87.8114044,
-      "label": "Glenview, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
     },
     {
       "lat": 41.258841,
@@ -1129,35 +1167,35 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 26,
+        "current": 30,
         "previous": 12,
-        "change_pct": 116.7
+        "change_pct": 150.0
       },
       "sessions": {
-        "current": 29,
+        "current": 33,
         "previous": 12,
-        "change_pct": 141.7
+        "change_pct": 175.0
       },
       "pageviews": {
-        "current": 48,
+        "current": 53,
         "previous": 15,
-        "change_pct": 220.0
+        "change_pct": 253.3
       }
     },
     "baseline": {
-      "mean_pageviews": 3.5,
+      "mean_pageviews": 3.7,
       "std_pageviews": 3.9
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 3.7
+        "z": 3.6
       },
       {
         "date": "2026-10-08",
         "pageviews": 12,
-        "z": 2.2
+        "z": 2.1
       }
     ]
   },
@@ -1193,8 +1231,8 @@
         "class": "automated"
       },
       "baseline_pageviews": 5.3,
-      "after_pageviews": 6.5,
-      "lift_pct": 23.0
+      "after_pageviews": 9.0,
+      "lift_pct": 70.3
     }
   ]
 }
