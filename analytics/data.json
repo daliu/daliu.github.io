@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-10T11:38:30Z",
+  "updated": "2026-10-11T11:51:41Z",
   "date_range": {
-    "start": "2026-07-13",
-    "end": "2026-10-10"
+    "start": "2026-07-14",
+    "end": "2026-10-11"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-07-18",
-    "end": "2026-10-09",
-    "days_with_data": 25
+    "end": "2026-10-10",
+    "days_with_data": 26
   },
   "totals": {
-    "total_users": 62,
-    "total_sessions": 65,
-    "total_pageviews": 92,
-    "total_engaged_sessions": 13,
-    "engagement_rate": 0.2,
-    "avg_session_duration_seconds": 72.7,
-    "bounce_rate": 0.8
+    "total_users": 64,
+    "total_sessions": 67,
+    "total_pageviews": 96,
+    "total_engaged_sessions": 21,
+    "engagement_rate": 0.3134,
+    "avg_session_duration_seconds": 86.3,
+    "bounce_rate": 0.6866
   },
   "daily": [
     {
@@ -257,11 +257,11 @@
       "date": "2026-10-08",
       "users": 7,
       "sessions": 7,
-      "pageviews": 12,
+      "pageviews": 14,
       "new_users": 6,
-      "avg_session_duration": 156.5,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
+      "avg_session_duration": 175.1,
+      "bounce_rate": 0.2857,
+      "engaged_sessions": 5
     },
     {
       "date": "2026-10-09",
@@ -269,7 +269,17 @@
       "sessions": 5,
       "pageviews": 6,
       "new_users": 3,
-      "avg_session_duration": 18.0,
+      "avg_session_duration": 203.5,
+      "bounce_rate": 0.4,
+      "engaged_sessions": 3
+    },
+    {
+      "date": "2026-10-10",
+      "users": 2,
+      "sessions": 2,
+      "pageviews": 2,
+      "new_users": 1,
+      "avg_session_duration": 0.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -278,12 +288,12 @@
     {
       "path": "/",
       "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
-      "pageviews": 61,
-      "users": 49,
-      "avg_time_on_page": 38.5,
-      "sessions": 54,
-      "engaged": 9,
-      "engagement_rate": 0.167,
+      "pageviews": 64,
+      "users": 50,
+      "avg_time_on_page": 57.2,
+      "sessions": 55,
+      "engaged": 17,
+      "engagement_rate": 0.309,
       "class": "mixed"
     },
     {
@@ -313,19 +323,19 @@
       "title": "404 \u2014 Page Not Found | MoneySignals",
       "pageviews": 4,
       "users": 4,
-      "avg_time_on_page": 11.2,
+      "avg_time_on_page": 9.2,
       "sessions": 4,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "engaged": 4,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "path": "/calendar",
       "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
-      "pageviews": 1,
-      "users": 1,
+      "pageviews": 2,
+      "users": 2,
       "avg_time_on_page": 0.0,
-      "sessions": 1,
+      "sessions": 2,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -346,17 +356,17 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 57,
-      "users": 51,
-      "engaged": 12,
-      "engagement_rate": 0.211,
+      "sessions": 59,
+      "users": 52,
+      "engaged": 19,
+      "engagement_rate": 0.322,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 9,
-      "users": 8,
+      "sessions": 4,
+      "users": 3,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -366,9 +376,9 @@
       "medium": "organic",
       "sessions": 1,
       "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "engaged": 1,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "source": "facebook.com",
@@ -401,28 +411,38 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 43,
-      "percentage": 62.3
+      "sessions": 45,
+      "percentage": 63.4
     },
     {
       "category": "mobile",
       "sessions": 26,
-      "percentage": 37.7
+      "percentage": 36.6
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
       "sessions": 44,
-      "percentage": 66.7
+      "percentage": 64.7
     },
     {
       "browser": "Safari",
       "sessions": 21,
-      "percentage": 31.8
+      "percentage": 30.9
+    },
+    {
+      "browser": "Edge",
+      "sessions": 1,
+      "percentage": 1.5
     },
     {
       "browser": "Firefox",
+      "sessions": 1,
+      "percentage": 1.5
+    },
+    {
+      "browser": "Opera",
       "sessions": 1,
       "percentage": 1.5
     }
@@ -430,8 +450,8 @@
   "countries": [
     {
       "country": "United States",
-      "sessions": 50,
-      "users": 43
+      "sessions": 52,
+      "users": 45
     },
     {
       "country": "Brazil",
@@ -475,8 +495,8 @@
     }
   ],
   "user_types": {
-    "new": 54,
-    "returning": 8
+    "new": 55,
+    "returning": 9
   },
   "hourly": [
     {
@@ -493,11 +513,11 @@
     },
     {
       "hour": 3,
-      "pageviews": 5
+      "pageviews": 6
     },
     {
       "hour": 4,
-      "pageviews": 19
+      "pageviews": 20
     },
     {
       "hour": 5,
@@ -529,11 +549,11 @@
     },
     {
       "hour": 12,
-      "pageviews": 1
+      "pageviews": 2
     },
     {
       "hour": 13,
-      "pageviews": 3
+      "pageviews": 4
     },
     {
       "hour": 14,
@@ -577,12 +597,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 13,
-    "non_engaged_sessions": 52,
-    "likely_automated_sessions": 7,
-    "likely_human_sessions": 58,
-    "automated_pct": 10.8,
-    "est_human_users": 49,
+    "engaged_sessions": 21,
+    "non_engaged_sessions": 46,
+    "likely_automated_sessions": 6,
+    "likely_human_sessions": 61,
+    "automated_pct": 9.0,
+    "est_human_users": 52,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -591,12 +611,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 50,
-      "engaged": 10,
-      "users": 43,
-      "pageviews": 75,
-      "avg_duration": 86.1,
-      "engagement_rate": 0.2,
+      "sessions": 52,
+      "engaged": 17,
+      "users": 45,
+      "pageviews": 79,
+      "avg_duration": 93.0,
+      "engagement_rate": 0.327,
       "class": "mixed"
     },
     {
@@ -662,12 +682,12 @@
     {
       "country": "Netherlands",
       "sessions": 1,
-      "engaged": 0,
+      "engaged": 1,
       "users": 1,
       "pageviews": 1,
-      "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "avg_duration": 529.1,
+      "engagement_rate": 1.0,
+      "class": "human"
     },
     {
       "country": "Sweden",
@@ -799,8 +819,8 @@
         0,
         0,
         9,
-        0,
-        3,
+        1,
+        4,
         0,
         0,
         1,
@@ -860,8 +880,8 @@
         0,
         0,
         1,
-        0,
-        0,
+        1,
+        1,
         0,
         0,
         0,
@@ -897,8 +917,8 @@
         0,
         1,
         4,
-        0,
-        4,
+        1,
+        5,
         1,
         0,
         0,
@@ -998,8 +1018,8 @@
       "label": "Ashburn, United States",
       "sessions": 20,
       "users": 20,
-      "engaged": 4,
-      "engagement_rate": 0.2
+      "engaged": 8,
+      "engagement_rate": 0.4
     },
     {
       "lat": 37.5164926,
@@ -1007,8 +1027,8 @@
       "label": "Belmont, United States",
       "sessions": 18,
       "users": 11,
-      "engaged": 6,
-      "engagement_rate": 0.333
+      "engaged": 8,
+      "engagement_rate": 0.444
     },
     {
       "lat": -14.235,
@@ -1034,13 +1054,22 @@
       "label": "Chicago, United States",
       "sessions": 2,
       "users": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0
+      "engaged": 1,
+      "engagement_rate": 0.5
     },
     {
       "lat": 42.0700662,
       "lng": -87.8114044,
       "label": "Glenview, United States",
+      "sessions": 2,
+      "users": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 41.258841,
+      "lng": -95.8519484,
+      "label": "Council Bluffs, United States",
       "sessions": 2,
       "users": 2,
       "engaged": 0,
@@ -1088,8 +1117,8 @@
       "label": "Leiderdorp, Netherlands",
       "sessions": 1,
       "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
+      "engaged": 1,
+      "engagement_rate": 1.0
     },
     {
       "lat": 65.5831187,
@@ -1099,15 +1128,6 @@
       "users": 1,
       "engaged": 1,
       "engagement_rate": 1.0
-    },
-    {
-      "lat": 41.258841,
-      "lng": -95.8519484,
-      "label": "Council Bluffs, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
     },
     {
       "lat": 42.5006243,
@@ -1151,8 +1171,8 @@
       "label": "Philadelphia, United States",
       "sessions": 1,
       "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
+      "engaged": 1,
+      "engagement_rate": 1.0
     },
     {
       "lat": 32.753177,
@@ -1162,40 +1182,49 @@
       "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0
+    },
+    {
+      "lat": 40.5247777,
+      "lng": -111.8627989,
+      "label": "Draper, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
     }
   ],
   "trends": {
     "wow": {
       "users": {
-        "current": 30,
+        "current": 29,
         "previous": 12,
-        "change_pct": 150.0
+        "change_pct": 141.7
       },
       "sessions": {
-        "current": 33,
-        "previous": 12,
-        "change_pct": 175.0
+        "current": 31,
+        "previous": 13,
+        "change_pct": 138.5
       },
       "pageviews": {
-        "current": 53,
-        "previous": 15,
-        "change_pct": 253.3
+        "current": 39,
+        "previous": 28,
+        "change_pct": 39.3
       }
     },
     "baseline": {
       "mean_pageviews": 3.7,
-      "std_pageviews": 3.9
+      "std_pageviews": 4.1
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 3.6
+        "z": 3.5
       },
       {
         "date": "2026-10-08",
-        "pageviews": 12,
-        "z": 2.1
+        "pageviews": 14,
+        "z": 2.5
       }
     ]
   },
@@ -1219,20 +1248,20 @@
     },
     {
       "date": "2026-10-08",
-      "label": "\u2191 Direct surge \u2014 likely automated",
+      "label": "\u2191 Direct traffic spike",
       "url": "",
       "origin": "auto",
       "cause": {
         "top_source": "Direct",
         "top_medium": "\u2014",
-        "top_source_pct": 67,
+        "top_source_pct": 100,
         "top_page": "/",
-        "engagement_rate": 0.0,
-        "class": "automated"
+        "engagement_rate": 0.714,
+        "class": "human"
       },
       "baseline_pageviews": 5.3,
-      "after_pageviews": 9.0,
-      "lift_pct": 70.3
+      "after_pageviews": 7.3,
+      "lift_pct": 38.7
     }
   ]
 }
