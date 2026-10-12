@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-11T11:51:41Z",
+  "updated": "2026-10-12T13:58:54Z",
   "date_range": {
-    "start": "2026-07-14",
-    "end": "2026-10-11"
+    "start": "2026-07-15",
+    "end": "2026-10-12"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-07-18",
-    "end": "2026-10-10",
-    "days_with_data": 26
+    "end": "2026-10-11",
+    "days_with_data": 27
   },
   "totals": {
-    "total_users": 64,
-    "total_sessions": 67,
-    "total_pageviews": 96,
+    "total_users": 65,
+    "total_sessions": 68,
+    "total_pageviews": 97,
     "total_engaged_sessions": 21,
-    "engagement_rate": 0.3134,
-    "avg_session_duration_seconds": 86.3,
-    "bounce_rate": 0.6866
+    "engagement_rate": 0.3088,
+    "avg_session_duration_seconds": 93.2,
+    "bounce_rate": 0.6912
   },
   "daily": [
     {
@@ -279,6 +279,16 @@
       "sessions": 2,
       "pageviews": 2,
       "new_users": 1,
+      "avg_session_duration": 275.2,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
+    },
+    {
+      "date": "2026-10-11",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 1,
+      "new_users": 0,
       "avg_session_duration": 0.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
@@ -332,10 +342,10 @@
     {
       "path": "/calendar",
       "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
-      "pageviews": 2,
-      "users": 2,
-      "avg_time_on_page": 0.0,
-      "sessions": 2,
+      "pageviews": 3,
+      "users": 3,
+      "avg_time_on_page": 183.4,
+      "sessions": 3,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -356,10 +366,10 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 59,
-      "users": 52,
+      "sessions": 60,
+      "users": 53,
       "engaged": 19,
-      "engagement_rate": 0.322,
+      "engagement_rate": 0.317,
       "class": "mixed"
     },
     {
@@ -411,47 +421,47 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 45,
-      "percentage": 63.4
+      "sessions": 46,
+      "percentage": 63.9
     },
     {
       "category": "mobile",
       "sessions": 26,
-      "percentage": 36.6
+      "percentage": 36.1
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
       "sessions": 44,
-      "percentage": 64.7
+      "percentage": 63.8
     },
     {
       "browser": "Safari",
       "sessions": 21,
-      "percentage": 30.9
+      "percentage": 30.4
+    },
+    {
+      "browser": "Firefox",
+      "sessions": 2,
+      "percentage": 2.9
     },
     {
       "browser": "Edge",
       "sessions": 1,
-      "percentage": 1.5
-    },
-    {
-      "browser": "Firefox",
-      "sessions": 1,
-      "percentage": 1.5
+      "percentage": 1.4
     },
     {
       "browser": "Opera",
       "sessions": 1,
-      "percentage": 1.5
+      "percentage": 1.4
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 52,
-      "users": 45
+      "sessions": 53,
+      "users": 46
     },
     {
       "country": "Brazil",
@@ -496,7 +506,7 @@
   ],
   "user_types": {
     "new": 55,
-    "returning": 9
+    "returning": 10
   },
   "hourly": [
     {
@@ -577,7 +587,7 @@
     },
     {
       "hour": 19,
-      "pageviews": 6
+      "pageviews": 7
     },
     {
       "hour": 20,
@@ -598,11 +608,11 @@
   ],
   "quality": {
     "engaged_sessions": 21,
-    "non_engaged_sessions": 46,
+    "non_engaged_sessions": 47,
     "likely_automated_sessions": 6,
-    "likely_human_sessions": 61,
-    "automated_pct": 9.0,
-    "est_human_users": 52,
+    "likely_human_sessions": 62,
+    "automated_pct": 8.8,
+    "est_human_users": 53,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -611,12 +621,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 52,
+      "sessions": 53,
       "engaged": 17,
-      "users": 45,
-      "pageviews": 79,
-      "avg_duration": 93.0,
-      "engagement_rate": 0.327,
+      "users": 46,
+      "pageviews": 80,
+      "avg_duration": 101.6,
+      "engagement_rate": 0.321,
       "class": "mixed"
     },
     {
@@ -731,7 +741,7 @@
         0,
         1,
         0,
-        0,
+        1,
         0,
         1,
         2,
@@ -924,7 +934,7 @@
         0,
         2,
         2,
-        5,
+        6,
         2,
         3,
         5,
@@ -1130,6 +1140,15 @@
       "engagement_rate": 1.0
     },
     {
+      "lat": 33.1216751,
+      "lng": -117.0814849,
+      "label": "Escondido, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 42.5006243,
       "lng": -90.6647985,
       "label": "Dubuque, United States",
@@ -1197,34 +1216,34 @@
     "wow": {
       "users": {
         "current": 29,
-        "previous": 12,
-        "change_pct": 141.7
+        "previous": 10,
+        "change_pct": 190.0
       },
       "sessions": {
         "current": 31,
-        "previous": 13,
-        "change_pct": 138.5
+        "previous": 11,
+        "change_pct": 181.8
       },
       "pageviews": {
         "current": 39,
-        "previous": 28,
-        "change_pct": 39.3
+        "previous": 25,
+        "change_pct": 56.0
       }
     },
     "baseline": {
-      "mean_pageviews": 3.7,
-      "std_pageviews": 4.1
+      "mean_pageviews": 3.6,
+      "std_pageviews": 4.0
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 3.5
+        "z": 3.6
       },
       {
         "date": "2026-10-08",
         "pageviews": 14,
-        "z": 2.5
+        "z": 2.6
       }
     ]
   },
