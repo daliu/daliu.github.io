@@ -1,22 +1,22 @@
 {
-  "updated": "2026-10-12T14:00:44.859260-07:00",
+  "updated": "2026-10-13T08:00:20.057472-07:00",
   "window_days": 90,
   "date_range": {
-    "start": "2026-07-15",
+    "start": "2026-07-16",
     "end": "2026-10-12",
-    "days_with_data": 84
+    "days_with_data": 83
   },
   "intraday": {
-    "n_episodes": 263,
-    "n_observed": 262,
-    "episodes_per_day": 2.9,
-    "days_with_data": 84,
+    "n_episodes": 264,
+    "n_observed": 263,
+    "episodes_per_day": 3.0,
+    "days_with_data": 83,
     "median_peak": 81,
     "settle": {
       "median_min": 24,
-      "p75_min": 56,
-      "p90_min": 132,
-      "within_60min_pct": 77,
+      "p75_min": 57,
+      "p90_min": 131,
+      "within_60min_pct": 76,
       "within_120min_pct": 88,
       "to_rest_median_min": 12
     },
@@ -348,7 +348,7 @@
       },
       {
         "bin": 60,
-        "count": 12
+        "count": 13
       },
       {
         "bin": 75,
@@ -477,7 +477,7 @@
           },
           {
             "off": 0,
-            "z": 0.14,
+            "z": 0.15,
             "delta": 0.5,
             "n": 41
           },
@@ -495,7 +495,7 @@
           },
           {
             "off": 3,
-            "z": 0.43,
+            "z": 0.44,
             "delta": 1.4,
             "n": 37
           },
@@ -519,7 +519,7 @@
           },
           {
             "off": 7,
-            "z": 0.32,
+            "z": 0.33,
             "delta": 1.0,
             "n": 32
           }
@@ -599,7 +599,7 @@
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>77%</strong> of 262 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>24 min</strong> to settle, <strong>76%</strong> of 263 episodes gone within an hour."
     },
     {
       "impact": "neutral",
