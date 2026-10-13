@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-12T13:58:54Z",
+  "updated": "2026-10-13T13:14:36Z",
   "date_range": {
-    "start": "2026-07-15",
-    "end": "2026-10-12"
+    "start": "2026-07-16",
+    "end": "2026-10-13"
   },
   "windows": {
     "main_days": 90,
@@ -10,17 +10,17 @@
   },
   "data_span": {
     "start": "2026-07-18",
-    "end": "2026-10-11",
-    "days_with_data": 27
+    "end": "2026-10-13",
+    "days_with_data": 29
   },
   "totals": {
-    "total_users": 65,
-    "total_sessions": 68,
-    "total_pageviews": 97,
+    "total_users": 67,
+    "total_sessions": 70,
+    "total_pageviews": 102,
     "total_engaged_sessions": 21,
-    "engagement_rate": 0.3088,
-    "avg_session_duration_seconds": 93.2,
-    "bounce_rate": 0.6912
+    "engagement_rate": 0.3,
+    "avg_session_duration_seconds": 90.8,
+    "bounce_rate": 0.7
   },
   "daily": [
     {
@@ -292,18 +292,38 @@
       "avg_session_duration": 0.0,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
+    },
+    {
+      "date": "2026-10-12",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 4,
+      "new_users": 1,
+      "avg_session_duration": 21.8,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
+    },
+    {
+      "date": "2026-10-13",
+      "users": 1,
+      "sessions": 1,
+      "pageviews": 1,
+      "new_users": 1,
+      "avg_session_duration": 0.0,
+      "bounce_rate": 1.0,
+      "engaged_sessions": 0
     }
   ],
   "pages": [
     {
       "path": "/",
       "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
-      "pageviews": 64,
-      "users": 50,
-      "avg_time_on_page": 57.2,
-      "sessions": 55,
+      "pageviews": 67,
+      "users": 51,
+      "avg_time_on_page": 56.6,
+      "sessions": 56,
       "engaged": 17,
-      "engagement_rate": 0.309,
+      "engagement_rate": 0.304,
       "class": "mixed"
     },
     {
@@ -329,6 +349,17 @@
       "class": "automated"
     },
     {
+      "path": "/calendar",
+      "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
+      "pageviews": 4,
+      "users": 4,
+      "avg_time_on_page": 137.6,
+      "sessions": 4,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
       "path": "/favicon.ico",
       "title": "404 \u2014 Page Not Found | MoneySignals",
       "pageviews": 4,
@@ -340,17 +371,6 @@
       "class": "human"
     },
     {
-      "path": "/calendar",
-      "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
-      "pageviews": 3,
-      "users": 3,
-      "avg_time_on_page": 183.4,
-      "sessions": 3,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
       "path": "/coherent.html",
       "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
       "pageviews": 1,
@@ -360,23 +380,34 @@
       "engaged": 1,
       "engagement_rate": 1.0,
       "class": "human"
+    },
+    {
+      "path": "/contact",
+      "title": "Contact MoneySignals \u2014 Questions, Feedback, Partnerships",
+      "pageviews": 1,
+      "users": 1,
+      "avg_time_on_page": 0.1,
+      "sessions": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0,
+      "class": "automated"
     }
   ],
   "sources": [
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 60,
-      "users": 53,
+      "sessions": 62,
+      "users": 55,
       "engaged": 19,
-      "engagement_rate": 0.317,
+      "engagement_rate": 0.306,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 4,
-      "users": 3,
+      "sessions": 5,
+      "users": 4,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -421,30 +452,30 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 46,
-      "percentage": 63.9
+      "sessions": 47,
+      "percentage": 63.5
     },
     {
       "category": "mobile",
-      "sessions": 26,
-      "percentage": 36.1
+      "sessions": 27,
+      "percentage": 36.5
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 44,
-      "percentage": 63.8
+      "sessions": 46,
+      "percentage": 64.8
     },
     {
       "browser": "Safari",
       "sessions": 21,
-      "percentage": 30.4
+      "percentage": 29.6
     },
     {
       "browser": "Firefox",
       "sessions": 2,
-      "percentage": 2.9
+      "percentage": 2.8
     },
     {
       "browser": "Edge",
@@ -460,8 +491,8 @@
   "countries": [
     {
       "country": "United States",
-      "sessions": 53,
-      "users": 46
+      "sessions": 54,
+      "users": 47
     },
     {
       "country": "Brazil",
@@ -499,19 +530,24 @@
       "users": 1
     },
     {
+      "country": "Singapore",
+      "sessions": 1,
+      "users": 1
+    },
+    {
       "country": "Sweden",
       "sessions": 1,
       "users": 1
     }
   ],
   "user_types": {
-    "new": 55,
+    "new": 57,
     "returning": 10
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 3
+      "pageviews": 4
     },
     {
       "hour": 1,
@@ -559,11 +595,11 @@
     },
     {
       "hour": 12,
-      "pageviews": 2
+      "pageviews": 6
     },
     {
       "hour": 13,
-      "pageviews": 4
+      "pageviews": 3
     },
     {
       "hour": 14,
@@ -608,11 +644,11 @@
   ],
   "quality": {
     "engaged_sessions": 21,
-    "non_engaged_sessions": 47,
-    "likely_automated_sessions": 6,
-    "likely_human_sessions": 62,
-    "automated_pct": 8.8,
-    "est_human_users": 53,
+    "non_engaged_sessions": 49,
+    "likely_automated_sessions": 7,
+    "likely_human_sessions": 63,
+    "automated_pct": 10.0,
+    "est_human_users": 54,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -621,12 +657,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 53,
+      "sessions": 54,
       "engaged": 17,
-      "users": 46,
-      "pageviews": 80,
-      "avg_duration": 101.6,
-      "engagement_rate": 0.321,
+      "users": 47,
+      "pageviews": 84,
+      "avg_duration": 100.1,
+      "engagement_rate": 0.315,
       "class": "mixed"
     },
     {
@@ -700,6 +736,16 @@
       "class": "human"
     },
     {
+      "country": "Singapore",
+      "sessions": 1,
+      "engaged": 0,
+      "users": 1,
+      "pageviews": 1,
+      "avg_duration": 0.0,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
       "country": "Sweden",
       "sessions": 1,
       "engaged": 1,
@@ -760,7 +806,7 @@
         0,
         0,
         0,
-        0,
+        4,
         4,
         0,
         0,
@@ -774,7 +820,7 @@
         0
       ],
       [
-        0,
+        1,
         0,
         0,
         0,
@@ -927,7 +973,7 @@
         0,
         1,
         4,
-        1,
+        2,
         5,
         1,
         0,
@@ -1131,6 +1177,15 @@
       "engagement_rate": 1.0
     },
     {
+      "lat": 1.2899175,
+      "lng": 103.8519072,
+      "label": "Singapore, Singapore",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 65.5831187,
       "lng": 22.1459535,
       "label": "Lulea, Sweden",
@@ -1143,6 +1198,15 @@
       "lat": 33.1216751,
       "lng": -117.0814849,
       "label": "Escondido, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 37.3688301,
+      "lng": -122.036349,
+      "label": "Sunnyvale, United States",
       "sessions": 1,
       "users": 1,
       "engaged": 0,
@@ -1215,35 +1279,35 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 29,
-        "previous": 10,
-        "change_pct": 190.0
+        "current": 23,
+        "previous": 16,
+        "change_pct": 43.8
       },
       "sessions": {
-        "current": 31,
-        "previous": 11,
-        "change_pct": 181.8
+        "current": 23,
+        "previous": 19,
+        "change_pct": 21.1
       },
       "pageviews": {
-        "current": 39,
-        "previous": 25,
-        "change_pct": 56.0
+        "current": 34,
+        "previous": 33,
+        "change_pct": 3.0
       }
     },
     "baseline": {
-      "mean_pageviews": 3.6,
-      "std_pageviews": 4.0
+      "mean_pageviews": 3.5,
+      "std_pageviews": 3.9
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 3.6
+        "z": 3.7
       },
       {
         "date": "2026-10-08",
         "pageviews": 14,
-        "z": 2.6
+        "z": 2.7
       }
     ]
   },
