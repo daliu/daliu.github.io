@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-13T13:14:36Z",
+  "updated": "2026-10-14T10:54:24Z",
   "date_range": {
-    "start": "2026-07-16",
-    "end": "2026-10-13"
+    "start": "2026-07-17",
+    "end": "2026-10-14"
   },
   "windows": {
     "main_days": 90,
@@ -14,13 +14,13 @@
     "days_with_data": 29
   },
   "totals": {
-    "total_users": 67,
-    "total_sessions": 70,
-    "total_pageviews": 102,
-    "total_engaged_sessions": 21,
-    "engagement_rate": 0.3,
-    "avg_session_duration_seconds": 90.8,
-    "bounce_rate": 0.7
+    "total_users": 71,
+    "total_sessions": 74,
+    "total_pageviews": 108,
+    "total_engaged_sessions": 22,
+    "engagement_rate": 0.2973,
+    "avg_session_duration_seconds": 86.0,
+    "bounce_rate": 0.7027
   },
   "daily": [
     {
@@ -299,17 +299,17 @@
       "sessions": 1,
       "pageviews": 4,
       "new_users": 1,
-      "avg_session_duration": 21.8,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
+      "avg_session_duration": 21.7,
+      "bounce_rate": 0.0,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-10-13",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 0.0,
+      "users": 5,
+      "sessions": 5,
+      "pageviews": 7,
+      "new_users": 4,
+      "avg_session_duration": 1.2,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -318,12 +318,12 @@
     {
       "path": "/",
       "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
-      "pageviews": 67,
-      "users": 51,
-      "avg_time_on_page": 56.6,
-      "sessions": 56,
-      "engaged": 17,
-      "engagement_rate": 0.304,
+      "pageviews": 70,
+      "users": 55,
+      "avg_time_on_page": 52.8,
+      "sessions": 60,
+      "engaged": 18,
+      "engagement_rate": 0.3,
       "class": "mixed"
     },
     {
@@ -349,6 +349,17 @@
       "class": "automated"
     },
     {
+      "path": "/favicon.ico",
+      "title": "404 \u2014 Page Not Found | MoneySignals",
+      "pageviews": 7,
+      "users": 7,
+      "avg_time_on_page": 5.8,
+      "sessions": 7,
+      "engaged": 4,
+      "engagement_rate": 0.571,
+      "class": "human"
+    },
+    {
       "path": "/calendar",
       "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
       "pageviews": 4,
@@ -358,17 +369,6 @@
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
-    },
-    {
-      "path": "/favicon.ico",
-      "title": "404 \u2014 Page Not Found | MoneySignals",
-      "pageviews": 4,
-      "users": 4,
-      "avg_time_on_page": 9.2,
-      "sessions": 4,
-      "engaged": 4,
-      "engagement_rate": 1.0,
-      "class": "human"
     },
     {
       "path": "/coherent.html",
@@ -386,28 +386,28 @@
       "title": "Contact MoneySignals \u2014 Questions, Feedback, Partnerships",
       "pageviews": 1,
       "users": 1,
-      "avg_time_on_page": 0.1,
+      "avg_time_on_page": 5.4,
       "sessions": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
+      "engaged": 1,
+      "engagement_rate": 1.0,
+      "class": "human"
     }
   ],
   "sources": [
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 62,
-      "users": 55,
-      "engaged": 19,
-      "engagement_rate": 0.306,
+      "sessions": 65,
+      "users": 58,
+      "engaged": 20,
+      "engagement_rate": 0.308,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 5,
-      "users": 4,
+      "sessions": 6,
+      "users": 5,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -452,47 +452,47 @@
   "devices": [
     {
       "category": "desktop",
-      "sessions": 47,
-      "percentage": 63.5
+      "sessions": 51,
+      "percentage": 65.4
     },
     {
       "category": "mobile",
       "sessions": 27,
-      "percentage": 36.5
+      "percentage": 34.6
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 46,
-      "percentage": 64.8
+      "sessions": 50,
+      "percentage": 66.7
     },
     {
       "browser": "Safari",
       "sessions": 21,
-      "percentage": 29.6
+      "percentage": 28.0
     },
     {
       "browser": "Firefox",
       "sessions": 2,
-      "percentage": 2.8
+      "percentage": 2.7
     },
     {
       "browser": "Edge",
       "sessions": 1,
-      "percentage": 1.4
+      "percentage": 1.3
     },
     {
       "browser": "Opera",
       "sessions": 1,
-      "percentage": 1.4
+      "percentage": 1.3
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 54,
-      "users": 47
+      "sessions": 57,
+      "users": 50
     },
     {
       "country": "Brazil",
@@ -510,17 +510,17 @@
       "users": 3
     },
     {
+      "country": "Germany",
+      "sessions": 2,
+      "users": 2
+    },
+    {
       "country": "Belgium",
       "sessions": 1,
       "users": 1
     },
     {
       "country": "China",
-      "sessions": 1,
-      "users": 1
-    },
-    {
-      "country": "Germany",
       "sessions": 1,
       "users": 1
     },
@@ -541,7 +541,7 @@
     }
   ],
   "user_types": {
-    "new": 57,
+    "new": 60,
     "returning": 10
   },
   "hourly": [
@@ -555,7 +555,7 @@
     },
     {
       "hour": 2,
-      "pageviews": 9
+      "pageviews": 10
     },
     {
       "hour": 3,
@@ -603,7 +603,7 @@
     },
     {
       "hour": 14,
-      "pageviews": 1
+      "pageviews": 6
     },
     {
       "hour": 15,
@@ -643,12 +643,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 21,
-    "non_engaged_sessions": 49,
-    "likely_automated_sessions": 7,
-    "likely_human_sessions": 63,
-    "automated_pct": 10.0,
-    "est_human_users": 54,
+    "engaged_sessions": 22,
+    "non_engaged_sessions": 52,
+    "likely_automated_sessions": 8,
+    "likely_human_sessions": 66,
+    "automated_pct": 10.8,
+    "est_human_users": 57,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -657,12 +657,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 54,
-      "engaged": 17,
-      "users": 47,
-      "pageviews": 84,
-      "avg_duration": 100.1,
-      "engagement_rate": 0.315,
+      "sessions": 57,
+      "engaged": 18,
+      "users": 50,
+      "pageviews": 89,
+      "avg_duration": 95.0,
+      "engagement_rate": 0.316,
       "class": "mixed"
     },
     {
@@ -696,6 +696,16 @@
       "class": "automated"
     },
     {
+      "country": "Germany",
+      "sessions": 2,
+      "engaged": 0,
+      "users": 2,
+      "pageviews": 2,
+      "avg_duration": 0.8,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
       "country": "Belgium",
       "sessions": 1,
       "engaged": 0,
@@ -712,16 +722,6 @@
       "users": 1,
       "pageviews": 1,
       "avg_duration": 6.2,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "Germany",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 1.5,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -822,7 +822,7 @@
       [
         1,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -834,7 +834,7 @@
         0,
         0,
         0,
-        0,
+        5,
         0,
         0,
         0,
@@ -957,7 +957,7 @@
       "United States",
       "Brazil",
       "Russia",
-      "Belgium"
+      "Germany"
     ],
     "matrix": [
       [
@@ -975,7 +975,7 @@
         4,
         2,
         5,
-        1,
+        4,
         0,
         0,
         2,
@@ -1041,12 +1041,12 @@
       [
         0,
         0,
-        0,
-        0,
         1,
         0,
         0,
         0,
+        0,
+        1,
         0,
         0,
         0,
@@ -1072,10 +1072,10 @@
       "lat": 39.029784,
       "lng": -77.4744148,
       "label": "Ashburn, United States",
-      "sessions": 20,
-      "users": 20,
+      "sessions": 23,
+      "users": 23,
       "engaged": 8,
-      "engagement_rate": 0.4
+      "engagement_rate": 0.348
     },
     {
       "lat": 37.5164926,
@@ -1141,6 +1141,15 @@
       "engagement_rate": 0.0
     },
     {
+      "lat": 51.1657,
+      "lng": 10.4515,
+      "label": "Germany",
+      "sessions": 2,
+      "users": 2,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 50.8435652,
       "lng": 4.3673865,
       "label": "Brussels, Belgium",
@@ -1153,15 +1162,6 @@
       "lat": 35.8617,
       "lng": 104.1954,
       "label": "China",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 51.1657,
-      "lng": 10.4515,
-      "label": "Germany",
       "sessions": 1,
       "users": 1,
       "engaged": 0,
@@ -1209,8 +1209,8 @@
       "label": "Sunnyvale, United States",
       "sessions": 1,
       "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
+      "engaged": 1,
+      "engagement_rate": 1.0
     },
     {
       "lat": 42.5006243,
@@ -1279,35 +1279,35 @@
   "trends": {
     "wow": {
       "users": {
-        "current": 23,
+        "current": 27,
         "previous": 16,
-        "change_pct": 43.8
+        "change_pct": 68.8
       },
       "sessions": {
-        "current": 23,
+        "current": 27,
         "previous": 19,
-        "change_pct": 21.1
+        "change_pct": 42.1
       },
       "pageviews": {
-        "current": 34,
+        "current": 40,
         "previous": 33,
-        "change_pct": 3.0
+        "change_pct": 21.2
       }
     },
     "baseline": {
-      "mean_pageviews": 3.5,
+      "mean_pageviews": 3.7,
       "std_pageviews": 3.9
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 3.7
+        "z": 3.6
       },
       {
         "date": "2026-10-08",
         "pageviews": 14,
-        "z": 2.7
+        "z": 2.6
       }
     ]
   },
