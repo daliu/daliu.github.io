@@ -1,12 +1,12 @@
 {
-  "updated": "2026-10-15T21:00:04.121677",
+  "updated": "2026-10-16T08:00:09.005336",
   "daily": [
     {
       "date": "2026-07-18",
-      "avg_body_battery": 39.0,
+      "avg_body_battery": 65.0,
       "min_body_battery": 11,
       "max_body_battery": 65,
-      "avg_stress": 27.0,
+      "avg_stress": 21.0,
       "total_steps": 142,
       "sleep_score": 71,
       "sleep_hours": 6.15,
@@ -21,7 +21,7 @@
       "vigorous_minutes": 0,
       "distance_meters": 120.0,
       "rest_stress_pct": 81.26,
-      "low_stress_pct": 47.06,
+      "low_stress_pct": 9.03,
       "medium_stress_pct": 2.48,
       "high_stress_pct": 3.84,
       "bb_charged": 56,
@@ -2275,7 +2275,7 @@
       "min_body_battery": 10,
       "max_body_battery": 75,
       "avg_stress": 36.0,
-      "total_steps": 15010,
+      "total_steps": 19583,
       "sleep_score": 79,
       "sleep_hours": 6.32,
       "hrv_weekly": 67,
@@ -2284,10 +2284,10 @@
       "resting_hr": 45,
       "sleep_start": "01:14",
       "sleep_end": "07:39",
-      "active_calories": 906.0,
-      "intensity_minutes": 7,
+      "active_calories": 1034.0,
+      "intensity_minutes": 40,
       "vigorous_minutes": 63,
-      "distance_meters": 14641.0,
+      "distance_meters": 18490.0,
       "rest_stress_pct": 39.22,
       "low_stress_pct": 17.22,
       "medium_stress_pct": 18.76,
@@ -2295,16 +2295,16 @@
       "bb_charged": 65,
       "bb_drained": 63,
       "bb_at_wake": 75,
-      "sedentary_seconds": 37026
+      "sedentary_seconds": 48403
     }
   ],
   "hr_zones": {
-    "z1": 14668.09,
-    "z2": 38721.675,
-    "z3": 58971.061,
-    "z4": 37080.431,
-    "z5": 5316.836,
-    "n": 32,
+    "z1": 12860.139000000001,
+    "z2": 37319.756,
+    "z3": 57766.157,
+    "z4": 36294.499,
+    "z5": 4623.866,
+    "n": 31,
     "days": 90
   },
   "hourly": [
@@ -2424,13 +2424,18 @@
       "steps": 15010,
       "sleep_score": 79,
       "hrv_weekly_avg": 67
+    },
+    {
+      "timestamp": "2026-10-16 06:21:50",
+      "body_battery_current": 14,
+      "resting_hr": 45,
+      "stress_avg": 36,
+      "steps": 19583,
+      "sleep_score": 79,
+      "hrv_weekly_avg": 67
     }
   ],
   "vo2max": [
-    {
-      "date": "2026-04-19",
-      "vo2max": 54.0
-    },
     {
       "date": "2026-04-22",
       "vo2max": 54.0
