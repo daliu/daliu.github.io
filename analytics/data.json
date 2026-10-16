@@ -1,38 +1,28 @@
 {
-  "updated": "2026-10-15T10:36:26Z",
+  "updated": "2026-10-16T10:23:20Z",
   "date_range": {
-    "start": "2026-07-18",
-    "end": "2026-10-15"
+    "start": "2026-07-19",
+    "end": "2026-10-16"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-07-18",
+    "start": "2026-07-19",
     "end": "2026-10-15",
-    "days_with_data": 31
+    "days_with_data": 30
   },
   "totals": {
-    "total_users": 75,
-    "total_sessions": 78,
-    "total_pageviews": 115,
-    "total_engaged_sessions": 26,
-    "engagement_rate": 0.3333,
-    "avg_session_duration_seconds": 83.7,
-    "bounce_rate": 0.6667
+    "total_users": 73,
+    "total_sessions": 76,
+    "total_pageviews": 119,
+    "total_engaged_sessions": 25,
+    "engagement_rate": 0.3289,
+    "avg_session_duration_seconds": 94.7,
+    "bounce_rate": 0.671
   },
   "daily": [
-    {
-      "date": "2026-07-18",
-      "users": 5,
-      "sessions": 5,
-      "pageviews": 6,
-      "new_users": 6,
-      "avg_session_duration": 5.5,
-      "bounce_rate": 0.6,
-      "engaged_sessions": 2
-    },
     {
       "date": "2026-07-19",
       "users": 4,
@@ -319,17 +309,17 @@
       "sessions": 2,
       "pageviews": 3,
       "new_users": 2,
-      "avg_session_duration": 75.2,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
+      "avg_session_duration": 75.3,
+      "bounce_rate": 0.5,
+      "engaged_sessions": 1
     },
     {
       "date": "2026-10-15",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 0,
-      "avg_session_duration": 0.0,
+      "users": 4,
+      "sessions": 4,
+      "pageviews": 11,
+      "new_users": 2,
+      "avg_session_duration": 175.3,
       "bounce_rate": 1.0,
       "engaged_sessions": 0
     }
@@ -338,12 +328,12 @@
     {
       "path": "/",
       "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
-      "pageviews": 74,
-      "users": 57,
-      "avg_time_on_page": 51.0,
-      "sessions": 63,
-      "engaged": 22,
-      "engagement_rate": 0.349,
+      "pageviews": 73,
+      "users": 53,
+      "avg_time_on_page": 55.7,
+      "sessions": 59,
+      "engaged": 21,
+      "engagement_rate": 0.356,
       "class": "mixed"
     },
     {
@@ -360,12 +350,12 @@
     {
       "path": "/confirm",
       "title": "MoneySignals \u2014 Email Confirmation",
-      "pageviews": 9,
-      "users": 5,
-      "avg_time_on_page": 51.7,
-      "sessions": 7,
+      "pageviews": 13,
+      "users": 7,
+      "avg_time_on_page": 107.5,
+      "sessions": 9,
       "engaged": 1,
-      "engagement_rate": 0.143,
+      "engagement_rate": 0.111,
       "class": "automated"
     },
     {
@@ -382,12 +372,12 @@
     {
       "path": "/calendar",
       "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
-      "pageviews": 6,
-      "users": 6,
-      "avg_time_on_page": 109.3,
-      "sessions": 6,
-      "engaged": 0,
-      "engagement_rate": 0.0,
+      "pageviews": 7,
+      "users": 7,
+      "avg_time_on_page": 93.7,
+      "sessions": 7,
+      "engaged": 1,
+      "engagement_rate": 0.143,
       "class": "automated"
     },
     {
@@ -417,26 +407,35 @@
     {
       "source": "Direct",
       "medium": "\u2014",
-      "sessions": 68,
-      "users": 60,
-      "engaged": 24,
-      "engagement_rate": 0.353,
+      "sessions": 65,
+      "users": 57,
+      "engaged": 22,
+      "engagement_rate": 0.338,
       "class": "mixed"
     },
     {
       "source": "Unknown",
       "medium": "Unknown",
-      "sessions": 6,
-      "users": 5,
+      "sessions": 8,
+      "users": 7,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
     },
     {
-      "source": "Unknown",
+      "source": "copilot.com",
       "medium": "Unknown",
-      "sessions": 2,
-      "users": 2,
+      "sessions": 1,
+      "users": 1,
+      "engaged": 1,
+      "engagement_rate": 1.0,
+      "class": "human"
+    },
+    {
+      "source": "copilot.com",
+      "medium": "ai-assistant",
+      "sessions": 1,
+      "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0,
       "class": "automated"
@@ -482,24 +481,24 @@
     {
       "category": "desktop",
       "sessions": 55,
-      "percentage": 67.1
+      "percentage": 68.8
     },
     {
       "category": "mobile",
-      "sessions": 27,
-      "percentage": 32.9
+      "sessions": 25,
+      "percentage": 31.2
     }
   ],
   "browsers": [
     {
       "browser": "Chrome",
-      "sessions": 53,
-      "percentage": 66.2
+      "sessions": 52,
+      "percentage": 66.7
     },
     {
       "browser": "Safari",
-      "sessions": 21,
-      "percentage": 26.2
+      "sessions": 20,
+      "percentage": 25.6
     },
     {
       "browser": "Firefox",
@@ -509,29 +508,24 @@
     {
       "browser": "Edge",
       "sessions": 2,
-      "percentage": 2.5
+      "percentage": 2.6
     },
     {
       "browser": "Opera",
       "sessions": 1,
-      "percentage": 1.2
+      "percentage": 1.3
     }
   ],
   "countries": [
     {
       "country": "United States",
-      "sessions": 61,
-      "users": 53
+      "sessions": 60,
+      "users": 52
     },
     {
       "country": "Brazil",
       "sessions": 4,
       "users": 2
-    },
-    {
-      "country": "Unknown",
-      "sessions": 3,
-      "users": 3
     },
     {
       "country": "Russia",
@@ -544,12 +538,22 @@
       "users": 2
     },
     {
+      "country": "Unknown",
+      "sessions": 1,
+      "users": 1
+    },
+    {
       "country": "Belgium",
       "sessions": 1,
       "users": 1
     },
     {
       "country": "China",
+      "sessions": 1,
+      "users": 1
+    },
+    {
+      "country": "India",
       "sessions": 1,
       "users": 1
     },
@@ -570,13 +574,13 @@
     }
   ],
   "user_types": {
-    "new": 64,
+    "new": 61,
     "returning": 11
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 5
+      "pageviews": 4
     },
     {
       "hour": 1,
@@ -588,11 +592,11 @@
     },
     {
       "hour": 3,
-      "pageviews": 6
+      "pageviews": 7
     },
     {
       "hour": 4,
-      "pageviews": 20
+      "pageviews": 17
     },
     {
       "hour": 5,
@@ -640,7 +644,7 @@
     },
     {
       "hour": 16,
-      "pageviews": 0
+      "pageviews": 9
     },
     {
       "hour": 17,
@@ -672,12 +676,12 @@
     }
   ],
   "quality": {
-    "engaged_sessions": 26,
-    "non_engaged_sessions": 52,
-    "likely_automated_sessions": 8,
-    "likely_human_sessions": 70,
-    "automated_pct": 10.3,
-    "est_human_users": 60,
+    "engaged_sessions": 25,
+    "non_engaged_sessions": 51,
+    "likely_automated_sessions": 10,
+    "likely_human_sessions": 66,
+    "automated_pct": 13.2,
+    "est_human_users": 56,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
@@ -686,12 +690,12 @@
   "country_quality": [
     {
       "country": "United States",
-      "sessions": 61,
+      "sessions": 60,
       "engaged": 22,
-      "users": 53,
-      "pageviews": 96,
-      "avg_duration": 91.4,
-      "engagement_rate": 0.361,
+      "users": 52,
+      "pageviews": 101,
+      "avg_duration": 104.5,
+      "engagement_rate": 0.367,
       "class": "mixed"
     },
     {
@@ -702,16 +706,6 @@
       "pageviews": 6,
       "avg_duration": 87.8,
       "engagement_rate": 0.25,
-      "class": "mixed"
-    },
-    {
-      "country": "Unknown",
-      "sessions": 3,
-      "engaged": 1,
-      "users": 3,
-      "pageviews": 3,
-      "avg_duration": 9.8,
-      "engagement_rate": 0.333,
       "class": "mixed"
     },
     {
@@ -735,6 +729,16 @@
       "class": "automated"
     },
     {
+      "country": "Unknown",
+      "sessions": 1,
+      "engaged": 0,
+      "users": 1,
+      "pageviews": 1,
+      "avg_duration": 6.9,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
       "country": "Belgium",
       "sessions": 1,
       "engaged": 0,
@@ -751,6 +755,16 @@
       "users": 1,
       "pageviews": 1,
       "avg_duration": 6.2,
+      "engagement_rate": 0.0,
+      "class": "automated"
+    },
+    {
+      "country": "India",
+      "sessions": 1,
+      "engaged": 0,
+      "users": 1,
+      "pageviews": 1,
+      "avg_duration": 0.0,
       "engagement_rate": 0.0,
       "class": "automated"
     },
@@ -904,7 +918,7 @@
         1,
         0,
         9,
-        1,
+        2,
         4,
         0,
         0,
@@ -917,7 +931,7 @@
         0,
         0,
         0,
-        0,
+        9,
         0,
         0,
         0,
@@ -970,13 +984,13 @@
         0,
         0,
         0,
-        1,
-        1,
         0,
-        2,
+        0,
         0,
         1,
-        2
+        0,
+        0,
+        0
       ]
     ],
     "metric": "pageviews"
@@ -1006,14 +1020,14 @@
         5,
         5,
         0,
-        0,
         2,
         2,
+        1,
         6,
-        4,
+        3,
         3,
         5,
-        3
+        2
       ],
       [
         0,
@@ -1101,10 +1115,10 @@
       "lat": 39.029784,
       "lng": -77.4744148,
       "label": "Ashburn, United States",
-      "sessions": 24,
-      "users": 24,
-      "engaged": 12,
-      "engagement_rate": 0.5
+      "sessions": 21,
+      "users": 21,
+      "engaged": 11,
+      "engagement_rate": 0.524
     },
     {
       "lat": 37.5164926,
@@ -1157,8 +1171,8 @@
       "label": "Round Lake Beach, United States",
       "sessions": 2,
       "users": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0
+      "engaged": 1,
+      "engagement_rate": 0.5
     },
     {
       "lat": 41.258841,
@@ -1206,6 +1220,15 @@
       "engagement_rate": 0.0
     },
     {
+      "lat": 19.054999,
+      "lng": 72.8692035,
+      "label": "Mumbai, India",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
       "lat": 52.1570577,
       "lng": 4.5433786,
       "label": "Leiderdorp, Netherlands",
@@ -1236,6 +1259,15 @@
       "lat": 33.1216751,
       "lng": -117.0814849,
       "label": "Escondido, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
+    },
+    {
+      "lat": 34.0536923,
+      "lng": -118.2427676,
+      "label": "Los Angeles, United States",
       "sessions": 1,
       "users": 1,
       "engaged": 0,
@@ -1321,40 +1353,49 @@
       "users": 1,
       "engaged": 0,
       "engagement_rate": 0.0
+    },
+    {
+      "lat": 38.953282,
+      "lng": -77.3464516,
+      "label": "Reston, United States",
+      "sessions": 1,
+      "users": 1,
+      "engaged": 0,
+      "engagement_rate": 0.0
     }
   ],
   "trends": {
     "wow": {
       "users": {
-        "current": 18,
+        "current": 21,
         "previous": 26,
-        "change_pct": -30.8
+        "change_pct": -19.2
       },
       "sessions": {
-        "current": 18,
+        "current": 21,
         "previous": 29,
-        "change_pct": -37.9
+        "change_pct": -27.6
       },
       "pageviews": {
-        "current": 27,
+        "current": 37,
         "previous": 50,
-        "change_pct": -46.0
+        "change_pct": -26.0
       }
     },
     "baseline": {
-      "mean_pageviews": 3.7,
-      "std_pageviews": 3.9
+      "mean_pageviews": 4.0,
+      "std_pageviews": 4.2
     },
     "anomalies": [
       {
         "date": "2026-10-03",
         "pageviews": 18,
-        "z": 3.6
+        "z": 3.4
       },
       {
         "date": "2026-10-08",
         "pageviews": 14,
-        "z": 2.6
+        "z": 2.4
       }
     ]
   },
