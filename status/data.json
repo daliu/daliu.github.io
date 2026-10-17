@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-17T01:01:47.047936+00:00",
+  "generated_at": "2026-10-17T04:00:14.640327+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "18eeef2",
-      "date": "2026-10-16T14:00:20-07:00",
-      "message": "Update health data 2026-10-16 14:00"
+      "hash": "41ee6a5",
+      "date": "2026-10-17T01:22:38+00:00",
+      "message": "Update analytics data 2026-10-17"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-16T18:01:11.405445",
+        "updated": "2026-10-16T21:00:03.836145",
         "date_range": null
       },
       "last_commit": {
-        "hash": "18eeef2",
-        "date": "2026-10-16T14:00:20-07:00",
-        "message": "Update health data 2026-10-16 14:00"
+        "hash": "7c78543",
+        "date": "2026-10-16T18:01:47-07:00",
+        "message": "Update health data 2026-10-16 18:01"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,36 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-10-16T10:23:20Z"
+        "updated": "2026-10-17T01:22:38Z"
       },
       "last_commit": {
-        "hash": "4d139c8",
-        "date": "2026-10-16T10:23:20+00:00",
-        "message": "Update analytics data 2026-10-16"
+        "hash": "41ee6a5",
+        "date": "2026-10-17T01:22:38+00:00",
+        "message": "Update analytics data 2026-10-17"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "41ee6a5",
+      "date": "2026-10-17T01:22:38+00:00",
+      "message": "Update analytics data 2026-10-17"
+    },
+    {
+      "hash": "8942af7",
+      "date": "2026-10-16T18:22:07-07:00",
+      "message": "Analytics: publish only daliu.github.io traffic"
+    },
+    {
+      "hash": "293055a",
+      "date": "2026-10-16T18:07:09-07:00",
+      "message": "Analytics map: use OpenStreetMap tiles (CARTO basemaps now need an API key)"
+    },
+    {
+      "hash": "7c78543",
+      "date": "2026-10-16T18:01:47-07:00",
+      "message": "Update health data 2026-10-16 18:01"
+    },
     {
       "hash": "18eeef2",
       "date": "2026-10-16T14:00:20-07:00",
@@ -143,26 +163,6 @@
       "hash": "63a2fe2",
       "date": "2026-10-15T05:37:59-04:00",
       "message": "daily: 2026-10-15 market update"
-    },
-    {
-      "hash": "a072861",
-      "date": "2026-10-14T21:00:23-07:00",
-      "message": "Update health data 2026-10-14 21:00"
-    },
-    {
-      "hash": "089cd7d",
-      "date": "2026-10-14T14:00:28-07:00",
-      "message": "Update health data 2026-10-14 14:00"
-    },
-    {
-      "hash": "480dc83",
-      "date": "2026-10-14T13:11:00-07:00",
-      "message": "social: 2026-10-14 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "c3d299a",
-      "date": "2026-10-14T08:00:21-07:00",
-      "message": "Update health data 2026-10-14 08:00"
     }
   ]
 }
