@@ -268,7 +268,9 @@
         .hm-legend .scale { display: inline-block; width: 110px; height: 10px; border-radius: 5px; background: linear-gradient(90deg, #161b22, #58a6ff); }
 
         /* Visitor map */
-        #map { height: 440px; border-radius: 8px; }
+        #map { height: 440px; border-radius: 8px; background: #0d1117; }
+        /* OSM's standard tiles are light; invert only the tile layer so the circles keep their colors. */
+        #map .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9); }
         .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #161b22; color: #e6edf3; }
         .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
         .leaflet-container a.leaflet-popup-close-button { color: #8b949e; }
@@ -1051,8 +1053,10 @@ function buildMap(points) {
     var el = document.getElementById('map');
     if (!el) return;
     var map = L.map('map', { scrollWheelZoom: false, worldCopyJump: true }).setView([25, 5], 2);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
+    // OpenStreetMap's own tiles need no API key (CARTO's basemaps started requiring one in Oct 2026).
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
     }).addTo(map);
     var maxS = Math.max.apply(null, points.map(function(p) { return p.sessions; })) || 1;
     points.forEach(function(p) {
