@@ -18,6 +18,8 @@ from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import (
     DateRange,
     Dimension,
+    Filter,
+    FilterExpression,
     Metric,
     OrderBy,
     RunReportRequest,
@@ -31,6 +33,11 @@ EVENTS_PATH = os.path.join(REPO_ROOT, "analytics", "events.json")
 GEOCODE_CACHE_PATH = os.path.join(SCRIPT_DIR, "geocode_cache.json")
 
 SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
+
+# Only this site's own traffic is published here. The GA4 property behind
+# GA4_PROPERTY_ID has at times been the MoneySignals one, whose traffic is
+# private, so every report is limited to this hostname.
+SITE_HOSTNAME = "daliu.github.io"
 
 # Windows (in days) each section is computed over. Surfaced in data.json so the
 # dashboard can label exactly what interval every breakdown covers.
@@ -134,6 +141,15 @@ def run_report(client, property_id, dimensions, metrics, date_range, order_bys=N
         date_ranges=[DateRange(start_date=date_range[0], end_date=date_range[1])],
         order_bys=order_bys or [],
         limit=limit,
+        dimension_filter=FilterExpression(
+            filter=Filter(
+                field_name="hostName",
+                string_filter=Filter.StringFilter(
+                    match_type=Filter.StringFilter.MatchType.EXACT,
+                    value=SITE_HOSTNAME,
+                ),
+            )
+        ),
     )
     return client.run_report(request)
 

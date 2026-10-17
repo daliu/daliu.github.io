@@ -1,602 +1,57 @@
 {
-  "updated": "2026-10-16T10:23:20Z",
+  "updated": "2026-10-17T01:21:43Z",
   "date_range": {
-    "start": "2026-07-19",
-    "end": "2026-10-16"
+    "start": "2026-07-20",
+    "end": "2026-10-17"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-07-19",
-    "end": "2026-10-15",
-    "days_with_data": 30
+    "start": "2026-07-20",
+    "end": "2026-10-17",
+    "days_with_data": 0
   },
   "totals": {
-    "total_users": 73,
-    "total_sessions": 76,
-    "total_pageviews": 119,
-    "total_engaged_sessions": 25,
-    "engagement_rate": 0.3289,
-    "avg_session_duration_seconds": 94.7,
-    "bounce_rate": 0.671
+    "total_users": 0,
+    "total_sessions": 0,
+    "total_pageviews": 0,
+    "total_engaged_sessions": 0,
+    "engagement_rate": 0,
+    "avg_session_duration_seconds": 0,
+    "bounce_rate": 0
   },
-  "daily": [
-    {
-      "date": "2026-07-19",
-      "users": 4,
-      "sessions": 4,
-      "pageviews": 4,
-      "new_users": 4,
-      "avg_session_duration": 3.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-08-01",
-      "users": 2,
-      "sessions": 2,
-      "pageviews": 2,
-      "new_users": 2,
-      "avg_session_duration": 0.8,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-08-04",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 1.7,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-08-26",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 4.9,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-08-27",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 1.5,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-08-28",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 2,
-      "new_users": 1,
-      "avg_session_duration": 39.6,
-      "bounce_rate": 0.0,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-09-06",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 2,
-      "new_users": 1,
-      "avg_session_duration": 412.6,
-      "bounce_rate": 0.0,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-09-07",
-      "users": 2,
-      "sessions": 2,
-      "pageviews": 3,
-      "new_users": 1,
-      "avg_session_duration": 153.4,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-09-08",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 0,
-      "avg_session_duration": 4.8,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-09-13",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 0.5,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-09-15",
-      "users": 3,
-      "sessions": 3,
-      "pageviews": 5,
-      "new_users": 5,
-      "avg_session_duration": 0.8,
-      "bounce_rate": 0.3333,
-      "engaged_sessions": 2
-    },
-    {
-      "date": "2026-09-16",
-      "users": 3,
-      "sessions": 3,
-      "pageviews": 4,
-      "new_users": 4,
-      "avg_session_duration": 1.5,
-      "bounce_rate": 0.6667,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-09-18",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 1.9,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-09-22",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 0.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-09-25",
-      "users": 2,
-      "sessions": 2,
-      "pageviews": 2,
-      "new_users": 2,
-      "avg_session_duration": 0.9,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-09-26",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 0,
-      "avg_session_duration": 5.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-09-29",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 426.1,
-      "bounce_rate": 0.0,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-10-03",
-      "users": 3,
-      "sessions": 4,
-      "pageviews": 18,
-      "new_users": 3,
-      "avg_session_duration": 520.5,
-      "bounce_rate": 0.25,
-      "engaged_sessions": 3
-    },
-    {
-      "date": "2026-10-04",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 1,
-      "avg_session_duration": 0.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-10-05",
-      "users": 5,
-      "sessions": 7,
-      "pageviews": 7,
-      "new_users": 2,
-      "avg_session_duration": 24.7,
-      "bounce_rate": 0.8571,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-10-06",
-      "users": 3,
-      "sessions": 3,
-      "pageviews": 3,
-      "new_users": 3,
-      "avg_session_duration": 10.7,
-      "bounce_rate": 0.6667,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-10-07",
-      "users": 6,
-      "sessions": 6,
-      "pageviews": 6,
-      "new_users": 6,
-      "avg_session_duration": 0.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-10-08",
-      "users": 7,
-      "sessions": 7,
-      "pageviews": 14,
-      "new_users": 6,
-      "avg_session_duration": 175.1,
-      "bounce_rate": 0.2857,
-      "engaged_sessions": 5
-    },
-    {
-      "date": "2026-10-09",
-      "users": 5,
-      "sessions": 5,
-      "pageviews": 6,
-      "new_users": 3,
-      "avg_session_duration": 203.5,
-      "bounce_rate": 0.4,
-      "engaged_sessions": 3
-    },
-    {
-      "date": "2026-10-10",
-      "users": 2,
-      "sessions": 2,
-      "pageviews": 2,
-      "new_users": 1,
-      "avg_session_duration": 275.2,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-10-11",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 1,
-      "new_users": 0,
-      "avg_session_duration": 0.0,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    },
-    {
-      "date": "2026-10-12",
-      "users": 1,
-      "sessions": 1,
-      "pageviews": 4,
-      "new_users": 1,
-      "avg_session_duration": 21.7,
-      "bounce_rate": 0.0,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-10-13",
-      "users": 6,
-      "sessions": 6,
-      "pageviews": 10,
-      "new_users": 6,
-      "avg_session_duration": 3.0,
-      "bounce_rate": 0.3333,
-      "engaged_sessions": 4
-    },
-    {
-      "date": "2026-10-14",
-      "users": 2,
-      "sessions": 2,
-      "pageviews": 3,
-      "new_users": 2,
-      "avg_session_duration": 75.3,
-      "bounce_rate": 0.5,
-      "engaged_sessions": 1
-    },
-    {
-      "date": "2026-10-15",
-      "users": 4,
-      "sessions": 4,
-      "pageviews": 11,
-      "new_users": 2,
-      "avg_session_duration": 175.3,
-      "bounce_rate": 1.0,
-      "engaged_sessions": 0
-    }
-  ],
-  "pages": [
-    {
-      "path": "/",
-      "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
-      "pageviews": 73,
-      "users": 53,
-      "avg_time_on_page": 55.7,
-      "sessions": 59,
-      "engaged": 21,
-      "engagement_rate": 0.356,
-      "class": "mixed"
-    },
-    {
-      "path": "/calendar.html",
-      "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
-      "pageviews": 16,
-      "users": 2,
-      "avg_time_on_page": 691.9,
-      "sessions": 3,
-      "engaged": 3,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "path": "/confirm",
-      "title": "MoneySignals \u2014 Email Confirmation",
-      "pageviews": 13,
-      "users": 7,
-      "avg_time_on_page": 107.5,
-      "sessions": 9,
-      "engaged": 1,
-      "engagement_rate": 0.111,
-      "class": "automated"
-    },
-    {
-      "path": "/favicon.ico",
-      "title": "404 \u2014 Page Not Found | MoneySignals",
-      "pageviews": 8,
-      "users": 8,
-      "avg_time_on_page": 6.0,
-      "sessions": 8,
-      "engaged": 8,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "path": "/calendar",
-      "title": "Market Events Calendar \u2014 FOMC, Triple Witching, OPEX, Tariff Dates \u2014 MoneySignals",
-      "pageviews": 7,
-      "users": 7,
-      "avg_time_on_page": 93.7,
-      "sessions": 7,
-      "engaged": 1,
-      "engagement_rate": 0.143,
-      "class": "automated"
-    },
-    {
-      "path": "/coherent.html",
-      "title": "MoneySignals \u2014 Market Evidence for Independent Investors",
-      "pageviews": 1,
-      "users": 1,
-      "avg_time_on_page": 163.4,
-      "sessions": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "path": "/contact",
-      "title": "Contact MoneySignals \u2014 Questions, Feedback, Partnerships",
-      "pageviews": 1,
-      "users": 1,
-      "avg_time_on_page": 5.4,
-      "sessions": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    }
-  ],
-  "sources": [
-    {
-      "source": "Direct",
-      "medium": "\u2014",
-      "sessions": 65,
-      "users": 57,
-      "engaged": 22,
-      "engagement_rate": 0.338,
-      "class": "mixed"
-    },
-    {
-      "source": "Unknown",
-      "medium": "Unknown",
-      "sessions": 8,
-      "users": 7,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "source": "copilot.com",
-      "medium": "Unknown",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "source": "copilot.com",
-      "medium": "ai-assistant",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "source": "duckduckgo",
-      "medium": "organic",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "source": "facebook.com",
-      "medium": "referral",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "source": "google",
-      "medium": "organic",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "source": "m.facebook.com",
-      "medium": "referral",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    }
-  ],
-  "devices": [
-    {
-      "category": "desktop",
-      "sessions": 55,
-      "percentage": 68.8
-    },
-    {
-      "category": "mobile",
-      "sessions": 25,
-      "percentage": 31.2
-    }
-  ],
-  "browsers": [
-    {
-      "browser": "Chrome",
-      "sessions": 52,
-      "percentage": 66.7
-    },
-    {
-      "browser": "Safari",
-      "sessions": 20,
-      "percentage": 25.6
-    },
-    {
-      "browser": "Firefox",
-      "sessions": 3,
-      "percentage": 3.8
-    },
-    {
-      "browser": "Edge",
-      "sessions": 2,
-      "percentage": 2.6
-    },
-    {
-      "browser": "Opera",
-      "sessions": 1,
-      "percentage": 1.3
-    }
-  ],
-  "countries": [
-    {
-      "country": "United States",
-      "sessions": 60,
-      "users": 52
-    },
-    {
-      "country": "Brazil",
-      "sessions": 4,
-      "users": 2
-    },
-    {
-      "country": "Russia",
-      "sessions": 3,
-      "users": 3
-    },
-    {
-      "country": "Germany",
-      "sessions": 2,
-      "users": 2
-    },
-    {
-      "country": "Unknown",
-      "sessions": 1,
-      "users": 1
-    },
-    {
-      "country": "Belgium",
-      "sessions": 1,
-      "users": 1
-    },
-    {
-      "country": "China",
-      "sessions": 1,
-      "users": 1
-    },
-    {
-      "country": "India",
-      "sessions": 1,
-      "users": 1
-    },
-    {
-      "country": "Netherlands",
-      "sessions": 1,
-      "users": 1
-    },
-    {
-      "country": "Singapore",
-      "sessions": 1,
-      "users": 1
-    },
-    {
-      "country": "Sweden",
-      "sessions": 1,
-      "users": 1
-    }
-  ],
+  "daily": [],
+  "pages": [],
+  "sources": [],
+  "devices": [],
+  "browsers": [],
+  "countries": [],
   "user_types": {
-    "new": 61,
-    "returning": 11
+    "new": 0,
+    "returning": 0
   },
   "hourly": [
     {
       "hour": 0,
-      "pageviews": 4
+      "pageviews": 0
     },
     {
       "hour": 1,
-      "pageviews": 1
+      "pageviews": 0
     },
     {
       "hour": 2,
-      "pageviews": 10
+      "pageviews": 0
     },
     {
       "hour": 3,
-      "pageviews": 7
+      "pageviews": 0
     },
     {
       "hour": 4,
-      "pageviews": 17
+      "pageviews": 0
     },
     {
       "hour": 5,
@@ -620,185 +75,74 @@
     },
     {
       "hour": 10,
-      "pageviews": 1
+      "pageviews": 0
     },
     {
       "hour": 11,
-      "pageviews": 4
+      "pageviews": 0
     },
     {
       "hour": 12,
-      "pageviews": 6
+      "pageviews": 0
     },
     {
       "hour": 13,
-      "pageviews": 3
+      "pageviews": 0
     },
     {
       "hour": 14,
-      "pageviews": 9
+      "pageviews": 0
     },
     {
       "hour": 15,
-      "pageviews": 1
+      "pageviews": 0
     },
     {
       "hour": 16,
-      "pageviews": 9
+      "pageviews": 0
     },
     {
       "hour": 17,
-      "pageviews": 2
+      "pageviews": 0
     },
     {
       "hour": 18,
-      "pageviews": 1
+      "pageviews": 0
     },
     {
       "hour": 19,
-      "pageviews": 4
+      "pageviews": 0
     },
     {
       "hour": 20,
-      "pageviews": 6
+      "pageviews": 0
     },
     {
       "hour": 21,
-      "pageviews": 2
+      "pageviews": 0
     },
     {
       "hour": 22,
-      "pageviews": 4
+      "pageviews": 0
     },
     {
       "hour": 23,
-      "pageviews": 1
+      "pageviews": 0
     }
   ],
   "quality": {
-    "engaged_sessions": 25,
-    "non_engaged_sessions": 51,
-    "likely_automated_sessions": 10,
-    "likely_human_sessions": 66,
-    "automated_pct": 13.2,
-    "est_human_users": 56,
+    "engaged_sessions": 0,
+    "non_engaged_sessions": 0,
+    "likely_automated_sessions": 0,
+    "likely_human_sessions": 0,
+    "automated_pct": 0,
+    "est_human_users": 0,
     "thresholds": {
       "human": 0.4,
       "mixed": 0.15
     }
   },
-  "country_quality": [
-    {
-      "country": "United States",
-      "sessions": 60,
-      "engaged": 22,
-      "users": 52,
-      "pageviews": 101,
-      "avg_duration": 104.5,
-      "engagement_rate": 0.367,
-      "class": "mixed"
-    },
-    {
-      "country": "Brazil",
-      "sessions": 4,
-      "engaged": 1,
-      "users": 2,
-      "pageviews": 6,
-      "avg_duration": 87.8,
-      "engagement_rate": 0.25,
-      "class": "mixed"
-    },
-    {
-      "country": "Russia",
-      "sessions": 3,
-      "engaged": 0,
-      "users": 3,
-      "pageviews": 3,
-      "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "Germany",
-      "sessions": 2,
-      "engaged": 0,
-      "users": 2,
-      "pageviews": 2,
-      "avg_duration": 0.8,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "Unknown",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 6.9,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "Belgium",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "China",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 6.2,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "India",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "Netherlands",
-      "sessions": 1,
-      "engaged": 1,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 529.1,
-      "engagement_rate": 1.0,
-      "class": "human"
-    },
-    {
-      "country": "Singapore",
-      "sessions": 1,
-      "engaged": 0,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 0.0,
-      "engagement_rate": 0.0,
-      "class": "automated"
-    },
-    {
-      "country": "Sweden",
-      "sessions": 1,
-      "engaged": 1,
-      "users": 1,
-      "pageviews": 1,
-      "avg_duration": 32.0,
-      "engagement_rate": 1.0,
-      "class": "human"
-    }
-  ],
+  "country_quality": [],
   "punchcard": {
     "dow_labels": [
       "Sun",
@@ -811,29 +155,29 @@
     ],
     "matrix": [
       [
-        1,
-        1,
         0,
         0,
         0,
         0,
         0,
-        1,
         0,
         0,
         0,
         0,
         0,
-        1,
         0,
         0,
         0,
-        1,
         0,
-        1,
         0,
-        1,
-        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0
       ],
       [
@@ -849,80 +193,51 @@
         0,
         0,
         0,
-        4,
-        4,
         0,
         0,
         0,
         0,
-        1,
-        1,
         0,
-        1,
-        3,
-        0
-      ],
-      [
-        1,
         0,
-        1,
         0,
         0,
         0,
         0,
-        1,
+        0,
+        0
+      ],
+      [
         0,
-        1,
-        1,
         0,
         0,
         0,
-        8,
         0,
         0,
         0,
         0,
-        3,
-        2,
         0,
-        1,
-        3
-      ],
-      [
-        1,
-        1,
         0,
-        1,
-        3,
         0,
         0,
         0,
         0,
         0,
         0,
-        2,
-        1,
         0,
-        1,
-        1,
         0,
         0,
         0,
         0,
-        3,
         0,
         0,
         0
       ],
       [
-        1,
+        0,
+        0,
         0,
-        9,
-        2,
-        4,
         0,
         0,
-        1,
         0,
         0,
         0,
@@ -931,17 +246,26 @@
         0,
         0,
         0,
-        9,
         0,
         0,
         0,
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
         0
       ],
       [
-        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0,
@@ -952,42 +276,62 @@
         0,
         0,
         0,
-        1,
-        1,
-        1,
         0,
         0,
         0,
-        1,
         0,
-        4,
         0,
-        1,
         0,
         0
       ],
       [
         0,
-        1,
-        1,
-        4,
-        13,
         0,
         0,
         0,
         0,
         0,
         0,
-        1,
-        1,
-        1,
         0,
         0,
         0,
         0,
         0,
         0,
-        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0
@@ -996,443 +340,11 @@
     "metric": "pageviews"
   },
   "hour_by_country": {
-    "countries": [
-      "United States",
-      "Brazil",
-      "Russia",
-      "Germany"
-    ],
-    "matrix": [
-      [
-        3,
-        3,
-        5,
-        2,
-        5,
-        0,
-        0,
-        2,
-        0,
-        0,
-        1,
-        4,
-        2,
-        5,
-        5,
-        0,
-        2,
-        2,
-        1,
-        6,
-        3,
-        3,
-        5,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
-    ],
+    "countries": [],
+    "matrix": [],
     "metric": "sessions"
   },
-  "geo_points": [
-    {
-      "lat": 39.029784,
-      "lng": -77.4744148,
-      "label": "Ashburn, United States",
-      "sessions": 21,
-      "users": 21,
-      "engaged": 11,
-      "engagement_rate": 0.524
-    },
-    {
-      "lat": 37.5164926,
-      "lng": -122.2941914,
-      "label": "Belmont, United States",
-      "sessions": 18,
-      "users": 11,
-      "engaged": 8,
-      "engagement_rate": 0.444
-    },
-    {
-      "lat": -14.235,
-      "lng": -51.9253,
-      "label": "Brazil",
-      "sessions": 4,
-      "users": 2,
-      "engaged": 1,
-      "engagement_rate": 0.25
-    },
-    {
-      "lat": 55.7505412,
-      "lng": 37.6174782,
-      "label": "Moscow, Russia",
-      "sessions": 3,
-      "users": 3,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 41.8755616,
-      "lng": -87.6244212,
-      "label": "Chicago, United States",
-      "sessions": 2,
-      "users": 2,
-      "engaged": 1,
-      "engagement_rate": 0.5
-    },
-    {
-      "lat": 42.0700662,
-      "lng": -87.8114044,
-      "label": "Glenview, United States",
-      "sessions": 2,
-      "users": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 42.3716881,
-      "lng": -88.0900806,
-      "label": "Round Lake Beach, United States",
-      "sessions": 2,
-      "users": 2,
-      "engaged": 1,
-      "engagement_rate": 0.5
-    },
-    {
-      "lat": 41.258841,
-      "lng": -95.8519484,
-      "label": "Council Bluffs, United States",
-      "sessions": 2,
-      "users": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 40.7127281,
-      "lng": -74.0060152,
-      "label": "New York, United States",
-      "sessions": 2,
-      "users": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 51.1657,
-      "lng": 10.4515,
-      "label": "Germany",
-      "sessions": 2,
-      "users": 2,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 50.8435652,
-      "lng": 4.3673865,
-      "label": "Brussels, Belgium",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 35.8617,
-      "lng": 104.1954,
-      "label": "China",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 19.054999,
-      "lng": 72.8692035,
-      "label": "Mumbai, India",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 52.1570577,
-      "lng": 4.5433786,
-      "label": "Leiderdorp, Netherlands",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0
-    },
-    {
-      "lat": 1.2899175,
-      "lng": 103.8519072,
-      "label": "Singapore, Singapore",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 65.5831187,
-      "lng": 22.1459535,
-      "label": "Lulea, Sweden",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0
-    },
-    {
-      "lat": 33.1216751,
-      "lng": -117.0814849,
-      "label": "Escondido, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 34.0536923,
-      "lng": -118.2427676,
-      "label": "Los Angeles, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 37.6535403,
-      "lng": -122.4168664,
-      "label": "South San Francisco, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 37.3688301,
-      "lng": -122.036349,
-      "label": "Sunnyvale, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0
-    },
-    {
-      "lat": 42.5006243,
-      "lng": -90.6647985,
-      "label": "Dubuque, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 40.735657,
-      "lng": -74.1723667,
-      "label": "Newark, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 39.8283,
-      "lng": -98.5795,
-      "label": "United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 35.2017495,
-      "lng": -83.8240676,
-      "label": "Andrews, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 39.9527237,
-      "lng": -75.1635262,
-      "label": "Philadelphia, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 1,
-      "engagement_rate": 1.0
-    },
-    {
-      "lat": 32.753177,
-      "lng": -97.3327459,
-      "label": "Fort Worth, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 40.5247777,
-      "lng": -111.8627989,
-      "label": "Draper, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    },
-    {
-      "lat": 38.953282,
-      "lng": -77.3464516,
-      "label": "Reston, United States",
-      "sessions": 1,
-      "users": 1,
-      "engaged": 0,
-      "engagement_rate": 0.0
-    }
-  ],
-  "trends": {
-    "wow": {
-      "users": {
-        "current": 21,
-        "previous": 26,
-        "change_pct": -19.2
-      },
-      "sessions": {
-        "current": 21,
-        "previous": 29,
-        "change_pct": -27.6
-      },
-      "pageviews": {
-        "current": 37,
-        "previous": 50,
-        "change_pct": -26.0
-      }
-    },
-    "baseline": {
-      "mean_pageviews": 4.0,
-      "std_pageviews": 4.2
-    },
-    "anomalies": [
-      {
-        "date": "2026-10-03",
-        "pageviews": 18,
-        "z": 3.4
-      },
-      {
-        "date": "2026-10-08",
-        "pageviews": 14,
-        "z": 2.4
-      }
-    ]
-  },
-  "events": [
-    {
-      "date": "2026-10-03",
-      "label": "\u2191 Direct traffic spike",
-      "url": "",
-      "origin": "auto",
-      "cause": {
-        "top_source": "Direct",
-        "top_medium": "\u2014",
-        "top_source_pct": 100,
-        "top_page": "/calendar.html",
-        "engagement_rate": 0.75,
-        "class": "human"
-      },
-      "baseline_pageviews": 2.1,
-      "after_pageviews": 8.7,
-      "lift_pct": 304.4
-    },
-    {
-      "date": "2026-10-08",
-      "label": "\u2191 Direct traffic spike",
-      "url": "",
-      "origin": "auto",
-      "cause": {
-        "top_source": "Direct",
-        "top_medium": "\u2014",
-        "top_source_pct": 100,
-        "top_page": "/",
-        "engagement_rate": 0.714,
-        "class": "human"
-      },
-      "baseline_pageviews": 5.3,
-      "after_pageviews": 7.3,
-      "lift_pct": 38.7
-    }
-  ]
+  "geo_points": [],
+  "trends": {},
+  "events": []
 }
