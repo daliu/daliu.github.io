@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-18T04:00:14.523907+00:00",
+  "generated_at": "2026-10-18T15:00:39.463043+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "11d63b1",
-      "date": "2026-10-17T14:00:15-07:00",
-      "message": "Update health data 2026-10-17 14:00"
+      "hash": "9658cf0",
+      "date": "2026-10-18T06:40:05-07:00",
+      "message": "health: refresh calendar density 2026-10-18 06:40"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-17T21:00:03.664572",
+        "updated": "2026-10-18T08:00:06.839989",
         "date_range": null
       },
       "last_commit": {
-        "hash": "11d63b1",
-        "date": "2026-10-17T14:00:15-07:00",
-        "message": "Update health data 2026-10-17 14:00"
+        "hash": "9658cf0",
+        "date": "2026-10-18T06:40:05-07:00",
+        "message": "health: refresh calendar density 2026-10-18 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-10-17T09:55:50Z"
+        "updated": "2026-10-18T10:08:09Z"
       },
       "last_commit": {
-        "hash": "07476e4",
-        "date": "2026-10-17T09:55:51+00:00",
-        "message": "Update analytics data 2026-10-17"
+        "hash": "ef99dbe",
+        "date": "2026-10-18T10:08:09+00:00",
+        "message": "Update analytics data 2026-10-18"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "9658cf0",
+      "date": "2026-10-18T06:40:05-07:00",
+      "message": "health: refresh calendar density 2026-10-18 06:40"
+    },
+    {
+      "hash": "ef99dbe",
+      "date": "2026-10-18T10:08:09+00:00",
+      "message": "Update analytics data 2026-10-18"
+    },
+    {
+      "hash": "fe3484f",
+      "date": "2026-10-17T21:00:14-07:00",
+      "message": "Update health data 2026-10-17 21:00"
+    },
     {
       "hash": "11d63b1",
       "date": "2026-10-17T14:00:15-07:00",
@@ -148,21 +163,6 @@
       "hash": "5d106a5",
       "date": "2026-10-15T21:00:18-07:00",
       "message": "Update health data 2026-10-15 21:00"
-    },
-    {
-      "hash": "c64501a",
-      "date": "2026-10-15T14:00:18-07:00",
-      "message": "Update health data 2026-10-15 14:00"
-    },
-    {
-      "hash": "79bbf2b",
-      "date": "2026-10-15T08:00:33-07:00",
-      "message": "Update health data 2026-10-15 08:00"
-    },
-    {
-      "hash": "585753c",
-      "date": "2026-10-15T07:04:36-07:00",
-      "message": "social: embed Short for 2026-10-15 (rEDTnZLMiMQ)"
     }
   ]
 }
