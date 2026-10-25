@@ -11,11 +11,14 @@ import {campaignPhase,campaignCognition} from './campaign.mjs';
 import {ExpeditionArena,POWERS as MODULES} from './expedition.mjs';
 import {scrollView,roomShell,drawStructure,drawEvasion,drawExpeditionExtras} from './expedition-view.mjs';
 import {ExpeditionStore as CampaignStore,EXPEDITION_SAVE_KEY,campaignSaveFrom,retuneCheckpoint} from './expedition-saves.mjs';
-let savedMode='demo';try{savedMode=localStorage.getItem('countermeasure.mode.v1')??'demo';}catch{}
+// Marked collection tests use separate local records, preserving player saves.
+const nativeStorage=window.localStorage,analyticsTestMode=new URLSearchParams(location.search).get('analytics_test')==='1';
+const storage=analyticsTestMode?{getItem:key=>nativeStorage.getItem('countermeasure.qa.'+key),setItem:(key,value)=>nativeStorage.setItem('countermeasure.qa.'+key,value)}:nativeStorage;
+let savedMode='demo';try{savedMode=storage.getItem('countermeasure.mode.v1')??'demo';}catch{}
 const campaign=(new URLSearchParams(location.search).get('mode')??savedMode)==='campaign';
 const BOSS_WAVE=campaign?49:DEMO_BOSS,FINAL_WAVE=campaign?50:DEMO_FINAL,phaseFor=campaign?campaignPhase:demoPhase,cognitionAt=campaign?campaignCognition:demoCognition;
 const progressKey=campaign?EXPEDITION_SAVE_KEY:'countermeasure.progress.v1';
-try{localStorage.setItem('countermeasure.mode.v1',campaign?'campaign':'demo');}catch{}
+try{storage.setItem('countermeasure.mode.v1',campaign?'campaign':'demo');}catch{}
 document.body.classList.toggle('campaign',campaign);
 for(const link of document.querySelectorAll('[data-mode]'))link.setAttribute('aria-current',String((link.dataset.mode==='campaign')===campaign));
 $('mode-label').textContent=campaign?'50-WAVE CAMPAIGN':'DEMO';$('level-heading').textContent=(campaign?'Campaign':'Demo')+' · level select';
@@ -25,19 +28,19 @@ import {HeldControls,bindPointerControl,bindAttackControl,bindWeaponSwitch} from
 import {PlayMode,LoadoutMenu,arenaView,worldAt,screenAt} from './play-mode.mjs';
 import {InstallSupport} from './install.mjs';
 import {SubjectRegister,NAME_COUNT} from './subjects.mjs';
-let savedRegister=null;try{savedRegister=JSON.parse(localStorage.getItem('countermeasure.subjects.v1'));}catch{}
+let savedRegister=null;try{savedRegister=JSON.parse(storage.getItem('countermeasure.subjects.v1'));}catch{}
 const register=new SubjectRegister(savedRegister);let registerRevision=-1;
-let selectedDifficulty='normal';try{const saved=localStorage.getItem('countermeasure.difficulty.v1');if(validDifficulty(saved))selectedDifficulty=saved;}catch{}
+let selectedDifficulty='normal';try{const saved=storage.getItem('countermeasure.difficulty.v1');if(validDifficulty(saved))selectedDifficulty=saved;}catch{}
 const game=new (campaign?ExpeditionArena:Arena)({register,difficulty:campaign?selectedDifficulty:'normal'}), controls=new HeldControls(),input=controls.state;
 const touchUI=matchMedia('(max-width:800px), (any-pointer:coarse), (orientation:landscape) and (max-height:550px) and (max-width:1100px)');
-let savedProgress=null;try{savedProgress=campaign?campaignSaveFrom(localStorage):localStorage.getItem(progressKey);}catch{}
+let savedProgress=null;try{savedProgress=campaign?campaignSaveFrom(storage):storage.getItem(progressKey);}catch{}
 const progress=new (campaign?CampaignStore:ProgressStore)(savedProgress),music=new Chiptune();game.runDeaths=progress.deaths;if(campaign&&game.runDeaths>0)game.journey.flawless=false;
-if(campaign)try{const unlocked=JSON.parse(localStorage.getItem('countermeasure.finale.v1'));if(unlocked)progress.unlockFinale(unlocked);}catch{}
+if(campaign)try{const unlocked=JSON.parse(storage.getItem('countermeasure.finale.v1'));if(unlocked)progress.unlockFinale(unlocked);}catch{}
 let hudText='',hudUntil=0,pointNoticeUntil=0;
 function announce(text){hudText=text;hudUntil=performance.now()+3200;}
-const telemetry=new Telemetry({window,document,navigator,storage:localStorage,onChange:text=>$('statistics-status').textContent=text});
-const statistics=new Statistics({storage:localStorage,mode:campaign?'campaign':'demo',release:RELEASE,onEvent:(name,value)=>telemetry.send(name,value)});
-const options=readOptions(localStorage);music.setVolume(options.volume);
+const telemetry=new Telemetry({window,document,navigator,storage:storage,onChange:text=>$('statistics-status').textContent=text});
+const statistics=new Statistics({storage:storage,mode:campaign?'campaign':'demo',release:RELEASE,onEvent:(name,value)=>telemetry.send(name,value)});
+const options=readOptions(storage);music.setVolume(options.volume);
 let uiState='',uiWave=-1,last=0,sound=false,lastHits=0,dialogWasPlaying=false,menuWasActive=false,progressRevision=-1,updateRegistration=null,escapeSound=0;
 const icons=[`<path d="M8 27h19M17 27V14l9-8M22 6l8 7-12 5z"/>`,`<path d="m8 28 8-8M11 17l10 10M16 20 29 6l-2 12-8 6M6 26l5 5"/>`,`<path d="M7 18h15v8H7zM12 26v6M22 19h5M22 24h5M26 8l-6 7h7l-5 7"/>`,`<path d="M8 19h15v12H8zM14 19v-7h13M18 12V8h9M27 10h3M31 17v2M29 23v2"/>`];
 function icon(i){return `<svg width="34" height="34" viewBox="0 0 36 36" fill="none" stroke="${WEAPONS[i].color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[i]}</svg>`;}
@@ -70,12 +73,12 @@ function togglePauseMenu(){if(touchUI.matches||playMode.active){if($('loadout-di
 function pause(){game.pause();clearInput();if(['playing','escaping','traveling'].includes(game.state))canvas.focus({preventScroll:true});sync();}
 $('pause').onclick=togglePauseMenu;$('tree-pause').onclick=togglePauseMenu;$('tree-shortcut').onclick=()=>{if(touchUI.matches||playMode.active){loadout.open();return;}if(['playing','escaping','traveling'].includes(game.state))pause();$('skill-panel').classList.remove('flash-panel');requestAnimationFrame(()=>$('skill-panel').classList.add('flash-panel'));if(innerWidth<800)$('skill-panel').scrollIntoView({behavior:'smooth',block:'start'});};
 $('reset').onclick=()=>{statistics.startFrom('new_run',game);if(campaign)game.difficulty=selectedDifficulty;game.reset();if(campaign)progress.beginRun(game.snapshot(1));else progress.setDeaths(0);clearInput();uiState='';lastHits=0;selectWeapon(0);renderSkills();sync();if($('menu-dialog').open)$('menu-dialog').close();canvas.focus({preventScroll:true});};
-async function setAudio(value){sound=await music.setEnabled(value);options.audio=sound;saveOptions(localStorage,options);$('option-audio').checked=sound;$('sound').textContent=sound?'♫ On':'♫ Off';$('sound').setAttribute('aria-pressed',String(sound));}
+async function setAudio(value){sound=await music.setEnabled(value);options.audio=sound;saveOptions(storage,options);$('option-audio').checked=sound;$('sound').textContent=sound?'♫ On':'♫ Off';$('sound').setAttribute('aria-pressed',String(sound));}
 $('sound').onclick=()=>setAudio(!sound);
 $('option-audio').checked=options.audio;$('option-volume').value=Math.round(options.volume*100);$('volume-value').textContent=Math.round(options.volume*100)+'%';$('option-aim').checked=options.touchAim;$('release-label').textContent='RELEASE '+RELEASE;
 $('option-audio').onchange=()=>setAudio($('option-audio').checked);
-$('option-volume').oninput=()=>{options.volume=+$('option-volume').value/100;music.setVolume(options.volume);$('volume-value').textContent=$('option-volume').value+'%';saveOptions(localStorage,options);};
-$('option-aim').onchange=()=>{options.touchAim=$('option-aim').checked;game.touchAimEnabled=options.touchAim;saveOptions(localStorage,options);};game.touchAimEnabled=options.touchAim;
+$('option-volume').oninput=()=>{options.volume=+$('option-volume').value/100;music.setVolume(options.volume);$('volume-value').textContent=$('option-volume').value+'%';saveOptions(storage,options);};
+$('option-aim').onchange=()=>{options.touchAim=$('option-aim').checked;game.touchAimEnabled=options.touchAim;saveOptions(storage,options);};game.touchAimEnabled=options.touchAim;
 $('option-fullscreen').onclick=()=>{closeMenu();playMode.active?playMode.leave():playMode.enter();};
 // Restore audio only following an ordinary user gesture, respecting browser autoplay rules.
 window.addEventListener('pointerdown',e=>{if(!e.target.closest('#option-audio,#sound')&&options.audio&&!sound)setAudio(true);},{once:true});
@@ -94,10 +97,10 @@ const canControl=()=>['playing','escaping','traveling'].includes(game.state);
 bindPointerControl(canvas,{controls,action:'attack',canStart:canControl,onPress:e=>{canvas.focus({preventScroll:true});const x=worldAt((e.clientX-canvas.getBoundingClientRect().left)/canvas.clientWidth,cameraView())-(campaign?game.roomOffset:0);game.player.facing=Math.sign(x-game.player.x)||game.player.facing;game.attack();}});
 bindAttackControl($('touch-attack'),{controls,canStart:canControl,canFly:()=>game.player.mecha,onJump:()=>game.jump(),onPress:()=>{game.aimAssist=options.touchAim;game.attack();}});
 for(const b of document.querySelectorAll('[data-hold],[data-action]'))if(b.id!=='touch-attack')bindPointerControl(b,{controls,aim:b.dataset.hold==='module',action:b.dataset.hold??b.dataset.action,canStart:canControl,onPress:()=>{if(b.dataset.hold==='left'||b.dataset.hold==='right')game.player.facing=b.dataset.hold==='left'?-1:1;if(b.dataset.hold==='up')game.jump();else if(b.dataset.hold==='attack')game.attack();else if(b.dataset.action==='dash'){game.player.crouching=input.down&&game.player.grounded;game.player.facing=input.right?1:input.left?-1:game.player.facing;game.dash();}else if(b.dataset.hold==='module'){game.aimAssist=options.touchAim;announce(MODULES[game.module].name);game.useModule?.();}}});
-function persistProgress(){if(progressRevision===progress.revision)return;progressRevision=progress.revision;try{localStorage.setItem(progressKey,progress.export());if(campaign&&progress.finale)localStorage.setItem('countermeasure.finale.v1',JSON.stringify(progress.finale));$('save-status').textContent='Saved in this browser';}catch{$('save-status').textContent='Session only · export to keep';}}
+function persistProgress(){if(progressRevision===progress.revision)return;progressRevision=progress.revision;try{storage.setItem(progressKey,progress.export());if(campaign&&progress.finale)storage.setItem('countermeasure.finale.v1',JSON.stringify(progress.finale));$('save-status').textContent='Saved in this browser';}catch{$('save-status').textContent='Session only · export to keep';}}
 function difficultyHint(){const p=profileFor(selectedDifficulty);$('difficulty-hint').textContent=`${p.health} HP · ${p.fuel} fuel · ${p.ammo} AP`+(selectedDifficulty==='terminator'?' · NO REGEN · ULTRA L10':'');}
 $('difficulty-panel').hidden=!campaign;$('difficulty').value=selectedDifficulty;difficultyHint();
-$('difficulty').onchange=()=>{selectedDifficulty=$('difficulty').value;try{localStorage.setItem('countermeasure.difficulty.v1',selectedDifficulty);}catch{}difficultyHint();$('apply-difficulty').disabled=!canRetune()||selectedDifficulty===game.difficulty;};
+$('difficulty').onchange=()=>{selectedDifficulty=$('difficulty').value;try{storage.setItem('countermeasure.difficulty.v1',selectedDifficulty);}catch{}difficultyHint();$('apply-difficulty').disabled=!canRetune()||selectedDifficulty===game.difficulty;};
 $('apply-difficulty').onclick=()=>{statistics.startFrom('difficulty_change',game);const c=game.snapshot();c.carry={hp:game.player.hp,shield:game.player.mechaShield};const adjusted=retuneCheckpoint(c,selectedDifficulty);if(adjusted&&game.resume(adjusted,game.runDeaths)){$('menu-dialog').close();clearInput();expeditionKey='';sync();canvas.focus({preventScroll:true});}};
 $('replay-finale').onclick=()=>{statistics.startFrom('finale_replay',game);const saved=progress.finaleFor(selectedDifficulty);if(saved&&game.resume(saved,0)){progress.setDeaths(0);$('menu-dialog').close();clearInput();expeditionKey='';selectWeapon(game.weapon);sync();}};
 const canRetune=()=>campaign&&game.wave>0&&game.player.hp>0&&(game.state==='playing'||game.state==='paused'&&game.pausedFrom==='playing');
@@ -130,7 +133,7 @@ const installation=new InstallSupport({window,navigator,document,onChange:state=
 $('install-game').onclick=async()=>{const outcome=await installation.install();if(outcome==='manual')$('install-dialog').showModal();};
 $('close-install').onclick=()=>$('install-dialog').close();$('install-done').onclick=()=>$('install-dialog').close();
 offlineSupport(text=>$('offline-status').textContent=text,reg=>{updateRegistration=reg;$('update-game').hidden=false;$('update-banner').hidden=false;});
-function syncRegister(){if(registerRevision===register.revision)return;registerRevision=register.revision;try{localStorage.setItem('countermeasure.subjects.v1',JSON.stringify(register.snapshot()));}catch{}const person=game.subject;$('subject-name').textContent=person.name;$('subject-id').textContent=person.id;$('subject-story').textContent='';const deaths=register.records.filter(r=>r.status==='terminated').length;$('register-count').textContent=`${deaths} ${deaths===1?'casualty':'casualties'} on record ↗`;const list=$('subject-records');list.replaceChildren();for(const record of register.records.slice().reverse()){const item=document.createElement('li'),name=document.createElement('strong'),meta=document.createElement('span'),line=document.createElement('p');name.textContent=record.name;meta.textContent=`${record.id} · ${record.status.toUpperCase()} · ${record.wave===FINAL_WAVE?'EMERGENCY':record.wave===BOSS_WAVE?'MIRROR':`WAVE ${record.wave}`} · ${record.cause}`;line.textContent=record.epitaph;item.append(name,meta,line);list.append(item);}if(!register.records.length){const item=document.createElement('li');item.textContent='No prior subjects on this terminal. The empty roster is not a promise.';list.append(item);}$('name-pool-count').textContent=NAME_COUNT.toLocaleString();}
+function syncRegister(){if(registerRevision===register.revision)return;registerRevision=register.revision;try{storage.setItem('countermeasure.subjects.v1',JSON.stringify(register.snapshot()));}catch{}const person=game.subject;$('subject-name').textContent=person.name;$('subject-id').textContent=person.id;$('subject-story').textContent='';const deaths=register.records.filter(r=>r.status==='terminated').length;$('register-count').textContent=`${deaths} ${deaths===1?'casualty':'casualties'} on record ↗`;const list=$('subject-records');list.replaceChildren();for(const record of register.records.slice().reverse()){const item=document.createElement('li'),name=document.createElement('strong'),meta=document.createElement('span'),line=document.createElement('p');name.textContent=record.name;meta.textContent=`${record.id} · ${record.status.toUpperCase()} · ${record.wave===FINAL_WAVE?'EMERGENCY':record.wave===BOSS_WAVE?'MIRROR':`WAVE ${record.wave}`} · ${record.cause}`;line.textContent=record.epitaph;item.append(name,meta,line);list.append(item);}if(!register.records.length){const item=document.createElement('li');item.textContent='No prior subjects on this terminal. The empty roster is not a promise.';list.append(item);}$('name-pool-count').textContent=NAME_COUNT.toLocaleString();}
 $('register-count').onclick=()=>{dialogWasPlaying=['playing','escaping','traveling'].includes(game.state);if(dialogWasPlaying)pause();$('records-dialog').showModal();clearInput();};
 function closeRecords(){$('records-dialog').close();if(dialogWasPlaying&&game.state==='paused')pause();dialogWasPlaying=false;}
 $('close-records').onclick=closeRecords;$('records-done').onclick=closeRecords;$('records-dialog').addEventListener('cancel',e=>{e.preventDefault();closeRecords();});

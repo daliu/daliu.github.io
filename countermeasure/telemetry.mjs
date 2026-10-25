@@ -13,9 +13,9 @@ export function eventParameters(a,input='unknown'){
 }
 export class Telemetry{
  constructor({window,document,navigator,storage,onChange=()=>{}}){
-  Object.assign(this,{window,document,navigator,storage,onChange});this.enabled=false;this.ready=false;this.pending=[];this.input='unknown';this.status='Sharing off';this.test=new URLSearchParams(window.location.search).get('analytics_test')==='1';
+  Object.assign(this,{window,document,navigator,storage,onChange});this.enabled=false;this.ready=false;this.pending=[];this.input='unknown';this.status='Sharing off';this.test=new URLSearchParams(window.location.search).get('analytics_test')==='1';this.cookiePrefix=this.test?'cmqa':'cm';
   try{this.enabled=storage.getItem(SHARING_KEY)==='on';}catch{}
-  window.addEventListener('online',()=>this.connect());window.addEventListener('storage',e=>{if(e.key===SHARING_KEY)this.setEnabled(e.newValue==='on');});
+  window.addEventListener('online',()=>this.connect());window.addEventListener('storage',e=>{if(!this.test&&e.key===SHARING_KEY)this.setEnabled(e.newValue==='on');});
   this.connect();
  }
  noteInput(kind){this.input=this.input==='unknown'||this.input===kind?kind:'mixed';}
@@ -24,7 +24,7 @@ export class Telemetry{
   if(!this.enabled){this.status='Sharing off';this.eraseCookies();}
   else this.connect();this.onChange(this.status);
  }
- eraseCookies(){for(const cookie of this.document.cookie.split(';')){const key=cookie.trim().split('=')[0];if(!key.startsWith('cm_'))continue;for(const domain of ['',`; Domain=${this.window.location.hostname}`])this.document.cookie=`${key}=; Max-Age=0; Path=/countermeasure/${domain}; SameSite=Lax`;}}
+ eraseCookies(){for(const cookie of this.document.cookie.split(';')){const key=cookie.trim().split('=')[0];if(!key.startsWith(this.cookiePrefix+'_'))continue;for(const domain of ['',`; Domain=${this.window.location.hostname}`])this.document.cookie=`${key}=; Max-Age=0; Path=/countermeasure/${domain}; SameSite=Lax`;}}
  allowed(){return this.enabled&&this.window.location.origin==='https://daliu.github.io'&&this.navigator.onLine!==false&&this.navigator.doNotTrack!=='1'&&!this.navigator.globalPrivacyControl;}
  connect(){
   if(!this.enabled){this.status='Sharing off';return;}
@@ -33,7 +33,7 @@ export class Telemetry{
   if(this.ready){this.status='Sharing enabled · delivery may be blocked';this.onChange(this.status);return;}
   if(this.loading)return;this.loading=true;this.status='Connecting…';this.onChange(this.status);
   const script=this.document.createElement('script');script.async=true;script.src=`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
-  script.onload=()=>{this.loading=false;if(!this.allowed()){this.pending=[];return;}this.window.dataLayer=this.window.dataLayer||[];const layer=this.window.dataLayer;this.gtag=function(){layer.push(arguments);};this.gtag('js',new Date());this.gtag('config',MEASUREMENT_ID,{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false,cookie_prefix:'cm',cookie_path:'/countermeasure/',cookie_expires:90*86400,cookie_update:false,cookie_flags:'SameSite=Lax;Secure',page_location:'https://daliu.github.io/countermeasure/',page_referrer:'',ignore_referrer:true});this.ready=true;this.status='Sharing enabled · delivery may be blocked';const queue=this.pending;this.pending=[];for(const e of queue)this.send(...e);this.onChange(this.status);};
+  script.onload=()=>{this.loading=false;if(!this.allowed()){this.pending=[];return;}this.window.dataLayer=this.window.dataLayer||[];const layer=this.window.dataLayer;this.gtag=function(){layer.push(arguments);};this.gtag('js',new Date());this.gtag('config',MEASUREMENT_ID,{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false,cookie_prefix:this.cookiePrefix,cookie_path:'/countermeasure/',cookie_expires:90*86400,cookie_update:false,cookie_flags:'SameSite=Lax;Secure',page_location:'https://daliu.github.io/countermeasure/',page_referrer:'',ignore_referrer:true});this.ready=true;this.status='Sharing enabled · delivery may be blocked';const queue=this.pending;this.pending=[];for(const e of queue)this.send(...e);this.onChange(this.status);};
   script.onerror=()=>{this.loading=false;this.pending=[];this.status='Analytics unavailable · local only';this.onChange(this.status);};this.document.head.append(script);
  }
  send(name,attempt){

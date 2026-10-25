@@ -109,7 +109,9 @@ observational, not causal tests of weapon effectiveness or exact population size
 ## Validation
 
 Use `?analytics_test=1` on an owned production QA tab to mark sent events `qa`
-and enable DebugView. These events are explicitly excluded from the aggregate
+and enable DebugView. This flag also isolates all game records under a QA
+storage prefix and uses separate `cmqa_` cookies, preserving player saves and
+analytics preferences. These events are explicitly excluded from the aggregate
 export. Local preview always blocks Google requests, even if sharing is enabled.
 Never enable sharing on a player's existing tab to test collection.
 
