@@ -71,3 +71,7 @@ test('EMP/radio cancellation and leg injury interrupt the new committed attacks'
 test('a late projectile still damages an ally that enters its already-fired path',()=>{
  const g=game(41,'gunner'),r=g.robots[0];r.x=750;r.cooldown=0;step(g,.7);assert.ok(g.shots.length);const s=g.shots[0],ally=g.spawn('guard',1);ally.x=s.x-45;ally.y=s.y+26;ally.cooldown=100;g.robots.push(ally);const hp=ally.hp;step(g,.15);assert.ok(ally.hp<hp);
 });
+test('upgraded Mirrors break a sustained disable chain into a visible, damaging learned combo',()=>{
+ const {g,r}=boss();r.radio=5;step(g,1.4);assert.ok(r.controlRecovery>0);assert.equal(r.radio,0);assert.ok(r.combo);const hp=r.hp;g.hit(r,2);assert.ok(r.hp<hp);assert.equal(r.paralyzed,0);assert.equal(r.stun,0);step(g,1.7);assert.ok(r.attacks.some(n=>n>0));assert.ok(r.comboCounts.screen>0);assert.equal(r.combo,null);
+ const h=game(10,'mirror'),m=h.robots[0];m.radio=5;step(h,1.4);assert.ok(m.radio>3);assert.equal(m.controlRecovery,0);
+});

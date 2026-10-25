@@ -23,7 +23,7 @@ Generation II starts at level 11, III at 21, IV at 31 and V at 41. All ordinary 
 - Conductors retain floor shocks and add a committed sliding launch. Grounded standing humans are hit; rolling or jumping avoids it.
 - Drones mark a target, wait 0.72 seconds, then commit to an increasingly fast dive. They can miss. Blast hits leave longer static damage, shrapnel slowing or chemical exposure; later chemical pools persist longer. Disarming/dilution counters remain.
 - More reserves arrive from alternating sides/air. Normal averages 6.8, 9.3, 11.7 and 14.1 robots in sectors II–V; Terminator averages 10.9, 14.7, 18.3 and 21.7, peaking at 23 authored units. There is a safety budget of 30 total and 16 alive; warning gates wait for room under the live cap. Blackouts become more frequent and their radius contracts, while warning marks remain visible.
-- Mirror/Superboss policies now classify evasive, rolling, aerial, air-dash and ranged affinities. Roll/air-dash rates are separately learned and saved, with zero defaults for old saves. New moves are actual low-hitbox rolls, air-dash critical attempts and a brief guard against the learned weapon family. One matching front hit consumes that guard; switching family, flanking or disabling defeats the prediction. No exact input sequence is recorded.
+- Mirror/Superboss policies now classify evasive, rolling, aerial, air-dash and ranged affinities. Roll/air-dash rates are separately learned and saved, with zero defaults for old saves. New moves are actual low-hitbox rolls, air-dash critical attempts and a brief guard against the learned weapon family. One matching front hit consumes that guard; switching family, flanking or disabling defeats the prediction. No exact input sequence is recorded. A final normal-input trace exposed stun chains suppressing every late Mirror combo; Mirror II onward now responds after 1.3 seconds of accumulated disabling with a visible 1.9-second recovery and an immediately telegraphed learned move. Damage, glue grounding and leg trauma still work. Natural-input checks require learned moves in every upgraded duel, alongside the controlled motor-skill tests.
 
 ## Reproduce
 
@@ -37,14 +37,14 @@ The deterministic pilot uses normal combat, movement, skills, powers, gates and 
 
 ## Results and limits
 
-219 focused checks pass, including 18 new generation/affinity mechanics checks and eight full routes. Forty additional runs complete: 20 tuning routes on seeds 11–15 at .20-second decisions and 20 previously unused validation routes on seeds 71–75 at .28 seconds. The controller remains unchanged from Release 17: these results test the stronger enemies with the same strategy. The full-route test budget increases from 50 to 60 deaths because the new attrition intentionally increases retry demand; initial Terminator seed 32 completed with 53 deaths, so it failed the old budget without getting stuck. That is reported as additional retry cost, not a controller win-rate improvement.
+221 focused checks pass, including 19 new generation/affinity mechanics checks and ten full routes. Forty additional runs complete: 20 tuning routes on seeds 11–15 at .20-second decisions and 20 previously unused validation routes on seeds 71–75 at .28 seconds. The controller remains unchanged from Release 17: these results test the stronger enemies with the same strategy. The full-route test budget increases from 50 to 60 deaths because the new attrition intentionally increases retry demand; initial Terminator seed 32 completed with 53 deaths, so it failed the old budget without getting stuck. That is reported as additional retry cost, not a controller win-rate improvement.
 
 | Difficulty | Tuning completion / deaths | Validation completion / deaths | Median total simulated minutes, tuning / validation |
 | --- | --- | --- | ---: |
-| Easy | 5/5 · 2–5 | 5/5 · 1–2 | 9.0 / 9.3 |
-| Normal | 5/5 · 15–18 | 5/5 · 7–11 | 15.1 / 14.5 |
-| Hard | 5/5 · 29–32 | 5/5 · 15–19 | 20.6 / 18.5 |
-| Terminator | 5/5 · 24–48 | 5/5 · 21–44 | 19.4 / 19.2 |
+| Easy | 5/5 · 3–4 | 5/5 · 1–2 | 9.0 / 9.2 |
+| Normal | 5/5 · 14–18 | 5/5 · 8–11 | 14.7 / 14.2 |
+| Hard | 5/5 · 27–32 | 5/5 · 15–21 | 19.6 / 19.3 |
+| Terminator | 5/5 · 25–50 | 5/5 · 20–45 | 19.2 / 18.8 |
 
 Total time includes travel and retries. These routes prove possible completion by a state-aware controller, not human win rates, deathless qualification or fun. Later rooms are intentionally much more demanding; old release tables do not describe them. Browser checks use actual route checkpoints via ordinary Import on a separate local origin: generation-V darkness/plating, Mirror quick weapon/power controls, release/cache update and server-off reload. Native fullscreen in the in-app QA browser was inconclusive; it is not claimed as phone acceptance.
 

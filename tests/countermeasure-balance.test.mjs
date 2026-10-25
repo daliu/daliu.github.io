@@ -51,3 +51,7 @@ test('late populations spawn away from the entry lane instead of on top of the h
 test('seeded tactical inputs clear all fifty levels and boss pairs on every mode without direct HP or win-state edits',()=>{
  for(const difficulty of ['easy','normal','hard','terminator'])for(const seed of [31,32]){const r=play(difficulty,seed,{reaction:.2,maxDeaths:60});assert.equal(r.status,'complete',`${difficulty} seed ${seed} stopped at ${r.level}`);assert.equal(r.level,50);assert.equal(r.rows.filter(row=>row.result==='clear'&&row.phase==='super').length,5);assert.ok(r.rows.some(row=>row.wave===1));}
 });
+
+test('normal inputs actually provoke learned combos in every upgraded Mirror duel',()=>{
+ for(const mode of ['normal','terminator']){const bosses=[];const run=play(mode,11,{reaction:.2,maxDeaths:60,onEntry:g=>{if(g.encounter==='boss'&&g.wave>=20)bosses.push(g.robots[0]);}});assert.equal(run.status,'complete');assert.ok(bosses.length>=4);for(const r of bosses)assert.ok(Object.values(r.comboCounts??{}).some(n=>n>0),mode+' '+r.id);assert.ok(bosses.some(r=>r.attacks.some(n=>n>0)));}
+});

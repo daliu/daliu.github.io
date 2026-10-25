@@ -1,5 +1,5 @@
 import {generationProfile,equipGeneration,updateGenerationRobot,blockGuardCrossing,droneAftermath,updateAftermath} from './enemy-generations.mjs';
-import {comboPolicy,updateBossCombo} from './boss-combos.mjs';
+import {comboPolicy,updateBossCombo,beginCombo,chooseCombo} from './boss-combos.mjs';
 import {profileFor,fullResources,tunedCognition,validDifficulty} from './difficulty.mjs';
 import {Arena,TYPES,weaponAt,emptyStats} from './engine.mjs';
 import {CampaignArena} from './campaign.mjs';
@@ -46,7 +46,7 @@ export class ExpeditionArena extends CampaignArena{
   if(['buttonGuard','antenna'].includes(type)){
    const rules=bossRules(this.wave/10);Object.assign(r,{structure:true,x:type==='antenna'?160:900,y:type==='antenna'?420:170,anchorY:type==='antenna'?420:170,hp:type==='antenna'?rules.antenna:rules.cover,maxHp:type==='antenna'?rules.antenna:rules.cover});
   }if(r.super){r.hp*=(this.ultimate?1.8:1.35+r.cycle*.35)*this.profile.bossHealth;r.controlSpent=0;r.controlRecovery=0;r.objectiveReboot=0;}
-  if(['mirror','overseer'].includes(type)){r.comboPolicy=comboPolicy(type==='mirror'?r.build.style:this.memory,Math.max(1,Math.ceil(this.wave/10)));r.lessonBuild={skills:{...this.skills},tiers:[...this.weaponTiers],mechTier:this.mechTier};r.comboCd=3;}
+  if(['mirror','overseer'].includes(type)){r.comboPolicy=comboPolicy(type==='mirror'?r.build.style:this.memory,Math.max(1,Math.ceil(this.wave/10)));r.lessonBuild={skills:{...this.skills},tiers:[...this.weaponTiers],mechTier:this.mechTier};r.comboCd=type==='mirror'&&this.wave>=20?1.2:3;r.controlSpent=0;r.controlRecovery=0;}
   if(!r.structure&&!['mirror','overseer'].includes(type)){const front=['guard','bulwark','plated','insulated','sealed','lancer','interceptor','feinter'].includes(type);r.x=Math.min(955,(front?380:650)+(i%3)*100+Math.floor(i/3)*32);}
   if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?1.3:1;r.maxHp=r.hp;}equipGeneration(this,r);return r;
  }
@@ -86,7 +86,7 @@ export class ExpeditionArena extends CampaignArena{
   if(r.predictBlock>0&&!r.disabled&&!(r.stun>0||r.paralyzed>0||r.radio>0||r.emp>0)&&r.predictedWeapon===index&&(this.player.x-r.x)*r.facing>0){scale*=.3;r.predictBlock=0;if(r.combo)r.combo.blockUsed=true;this.effects.push({kind:'number',x:r.x,y:r.y-90,text:'PREDICTED BLOCK',life:.55,max:.55,color:'#e9a8d1'});}
   const oldStun=r.stun;const boost=r.boostExposed>0&&index<2?1.8:1;const online=r.type==='overseer'&&!r.disabled;if(online)r.disabled=true;super.hit(r,index,scale*boost);if(online&&r.hp>0)r.disabled=false;
   if(index===3)r.stun=oldStun;
-  if(r.super&&r.controlRecovery>0)for(const k of ['emp','radio','root','paralyzed','stun'])r[k]=0;
+  if((r.super||r.type==='mirror')&&r.controlRecovery>0)for(const k of ['emp','radio','root','paralyzed','stun'])r[k]=0;
   if(index===2&&this.ultimate&&r.channel!=='electric')r.paralyzed=0;
   if(index===2&&r.super&&this.ultimate)this.disable(r,'electric',2.4);
   if(this.ultra&&index===0&&r.hp>0){this.disable(r,'impact',.75);r.x=clamp(r.x+this.player.facing*55,35,965);if(!(r.controlRecovery>0))r.stun=Math.max(r.stun,.8);}
@@ -131,6 +131,12 @@ export class ExpeditionArena extends CampaignArena{
  updateSpecialRobot(r,dt){
   if(r.structure){r.y=r.anchorY;r.vy=0;return true;}
   r.emp=Math.max(0,(r.emp??0)-dt);r.weakness=Math.max(0,(r.weakness??0)-dt);r.boostExposed=Math.max(0,(r.boostExposed??0)-dt);if(r.evasion){r.evasion.age+=dt;if(r.evasion.age>.42)r.evasion=null;}
+  if(r.type==='mirror'&&this.wave>=20){
+   r.controlRecovery=Math.max(0,r.controlRecovery-dt);const controlled=['emp','radio','root','paralyzed','stun'].some(k=>r[k]>0);
+   if(controlled)r.comboCd=Math.max(0,r.comboCd-dt);
+   if(!r.controlRecovery){r.controlSpent=controlled?r.controlSpent+dt:Math.max(0,r.controlSpent-dt*.25);if(r.controlSpent>=1.3){r.controlRecovery=1.9;r.controlSpent=0;r.moduleWindup=0;r.cooldown=.6;r.windup=0;if(r.comboPolicy.weights.length)beginCombo(this,r,chooseCombo(r.comboPolicy,()=>this.random()));}}
+   if(r.controlRecovery>0){for(const k of ['emp','radio','root','paralyzed','stun'])r[k]=0;r.disabled=false;}
+  }
   if(r.emp>0||r.radio>0||r.root>0||r.confused>0){r.windup=0;r.action='';r.dive=null;r.burst=0;r.slide=0;r.shove=0;r.predictBlock=0;r.crouching=false;r.combo=null;}
   const hadGlue=r.glueSlow>0;r.glueGround=Math.max(0,(r.glueGround??0)-dt);r.glueSlow=Math.max(0,(r.glueSlow??0)-dt);if(hadGlue&&r.glueSlow===0){r.glue=0;r.glueTimer=0;}
   const flying=r.flying;if(r.glueGround>0){r.flying=false;r.vy=Math.max(180,r.vy);}const handled=super.updateSpecialRobot(r,dt);r.flying=flying;
