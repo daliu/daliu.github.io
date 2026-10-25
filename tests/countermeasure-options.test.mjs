@@ -5,16 +5,16 @@ import {expeditionCheckpoint,retuneCheckpoint} from '../countermeasure/expeditio
 import {DIFFICULTIES} from '../countermeasure/difficulty.mjs';
 import {readOptions,saveOptions,OPTIONS_KEY} from '../countermeasure/options.mjs';
 import {Chiptune} from '../countermeasure/music.mjs';
-function start(wave=21,difficulty='normal',encounter=null){const g=new ExpeditionArena({difficulty,random:()=>.99});g.mechTier=encounter==='super'?Math.floor(wave/10):Math.floor((wave-1)/10);g.plan=g.makePlan(wave,g.memory,encounter);g.state='between';g.startWave();return g;}
+function start(wave=21,difficulty='normal',encounter=null){const g=new ExpeditionArena({difficulty,random:()=>.99});g.mechTier=difficulty==='terminator'&&(wave>10||encounter==='super')?5:encounter==='super'?Math.floor(wave/10):Math.floor((wave-1)/10);g.plan=g.makePlan(wave,g.memory,encounter);g.state='between';g.startWave();return g;}
 function advance(g,time,input={}){for(let t=0;t<time;t+=.02)g.update(.02,input);}
 function clear(g){g.player.invulnerable=100;for(let t=0;t<10&&g.state==='playing';t+=.02){for(const r of g.robots)if(r.hp>0)g.damageRobot(r,1e8);g.update(.02);}}
 function walk(g){for(let t=0;t<6&&g.state==='traveling';t+=.02)g.update(.02,{right:true});}
 test('all modes carry exact armor damage through ordinary doors and saved checkpoints',()=>{
  for(const difficulty of Object.keys(DIFFICULTIES)){const g=start(21,difficulty);g.player.mechaShield=7.25;clear(g);assert.equal(g.carry.shield,7.25);const c=g.nextCheckpoint();assert.ok(expeditionCheckpoint(c));const h=new ExpeditionArena();assert.ok(h.resume(c));assert.equal(h.player.mechaShield,7.25);walk(g);assert.equal(g.wave,22);assert.equal(g.player.mechaShield,7.25);}
 });
-test('mech upgrades add only new capacity, and later Terminator supplies never repair armor',()=>{
- const g=start(20);g.player.mechaShield=6;const old=g.armorCapacity;g.upgradeMech(2);assert.equal(g.player.mechaShield,6+g.armorCapacity-old);assert.ok(g.player.mechaShield<g.armorCapacity);
- const t=start(20,'terminator','boss');t.player.mechaShield=3;t.player.hp=.25;clear(t);assert.equal(t.carry.shield,3);assert.equal(t.carry.hp,.25);walk(t);assert.equal(t.player.mechaShield,3);assert.equal(t.player.hp,.25);
+test('newer suits provide full armor only after enemies are defeated and the crate is collected',()=>{
+ const g=start(20);g.player.mechaShield=6;g.player.x=500;g.player.y=420;advance(g,.1);assert.equal(g.player.mechaShield,6);assert.equal(g.collectMechReward(),false);clear(g);assert.equal(g.player.mechaShield,6);assert.ok(g.collectMechReward());assert.equal(g.mechTier,2);assert.equal(g.player.mechaShield,96);
+ const t=start(20,'terminator','boss');t.player.mechaShield=3;t.player.hp=.25;clear(t);assert.equal(t.carry.shield,3);assert.equal(t.carry.hp,.25);walk(t);assert.equal(t.player.mechaShield,168);assert.equal(t.player.hp,.25);
 });
 test('every ten-level milestone freezes the actual build and learned jump/dash style, then leads to its superboss',()=>{
  for(const wave of [10,20,30,40,50]){const g=start(wave);g.skills.agility=2;g.skills.voltage=3;g.weapon=2;g.memory.jumpRate=.4;g.memory.dashRate=.4;g.memory.farRatio=.9;g.memory.weapon=[0,0,1,0];g.mirrorBlueprint=null;g.state='between';g.startWave();const r=g.robots[0];assert.equal(r.type,'mirror');assert.deepEqual(r.build.skills,g.skills);assert.deepEqual(r.build.tiers,g.weaponTiers);assert.equal(r.build.style.jumpRate,.4);g.player.invulnerable=100;advance(g,6);assert.ok(r.jumps>0&&r.dashes>0,`level ${wave}: ${r.jumps} jumps ${r.dashes} dashes`);g.skills.voltage=0;assert.equal(r.build.skills.voltage,3);clear(g);walk(g);assert.equal(g.wave,wave);assert.equal(g.encounter,'super');assert.ok(g.robots.some(r=>r.super));}

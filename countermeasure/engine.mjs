@@ -17,7 +17,7 @@ export const UPGRADES = [
   [{}, {name:'Floor lamp',damage:37,range:145,cooldown:.46,short:'Wide blunt sweep',detail:'More reach and impact than the desk lamp, with a slower swing.'}, {name:'Street lamp',damage:49,range:195,cooldown:.58,short:'Heavy crowd control',detail:'An enormous blunt sweep. Long reach and heavy damage, but slow recovery.'}],
   [{}, {name:'Chainsaw',damage:29,range:135,cooldown:.24,short:'Fast armor shredding',detail:'Rapid cutting hits. Excellent against polymer and guards.'}, {name:'Diamond chainsaw',damage:39,range:155,cooldown:.23,short:'Diamond-edged cutting',detail:'Diamond-edged cutting teeth deliver faster, stronger melee hits.'}],
   [{}, {name:'Arc projector',damage:29,range:320,cooldown:.35,short:'Longer electrical reach'}, {name:'Laser',type:'energy',damage:40,range:510,cooldown:.42,color:'#f29c87',short:'Piercing thermal beam',detail:'A piercing energy beam. Does not electrify water or gain the wet-target bonus. Heavy plating resists it.'}],
-  [{}, {name:'Chemical sprayer',damage:14,range:365,corrosive:true,color:'#a9d992',short:'Mild corrosive mixture',detail:'Soaks and corrodes robots. Its conductive pools damage anyone standing in them.'}, {name:'Acid sprayer',damage:19,range:380,corrosive:true,color:'#caed70',short:'Corrode armor & ground',detail:'Stronger corrosive spray. Softens armor and leaves conductive acid pools that burn everyone faster.'}]
+  [{}, {name:'Chemical sprayer',damage:14,range:365,corrosive:true,color:'#a9d992',short:'Mild corrosive mixture',detail:'Soaks and corrodes robots. Its conductive pools damage anyone standing in them.'}, {name:'Acid sprayer',damage:19,range:380,corrosive:true,color:'#caed70',short:'Corrode armor & floor',detail:'Stronger corrosive spray. Softens armor and leaves conductive acid pools that burn everyone faster.'}]
 ];
 export function weaponAt(index,tier=0){return {...WEAPONS[index],...UPGRADES[index][tier],tier};}
 export const SKILLS = [
@@ -263,7 +263,7 @@ export class Arena{
         // Sweep the travelled segment so faster projectiles cannot tunnel through bodies.
         const candidates=[{entity:p,player:true},...this.robots.filter(r=>r.hp>0&&r.id!==s.owner).map(entity=>({entity,player:false}))];const vx=s.x-oldX,vy=s.y-oldY,length=vx*vx+vy*vy;
         const contacts=candidates.map(c=>{const e=c.entity,y=e.y-(e.crouching?9:23),fraction=length?Math.max(0,Math.min(1,((e.x-oldX)*vx+(y-oldY)*vy)/length)):0;return {...c,fraction,hit:Math.abs(oldX+vx*fraction-e.x)<23&&Math.abs(oldY+vy*fraction-y)<(e.crouching?11:27)};}).filter(c=>c.hit).sort((a,b)=>a.fraction-b.fraction);
-        if(contacts.length){const target=contacts[0];if(target.player)this.hurt(12*(s.critical?1.65:1),s.x-Math.sign(s.vx)*20,0,s.kind==='flak'?'anti-air volley':'projectile impact',{critical:s.critical});else this.friendlyDamage(s.owner,target.entity,12,s.critical);s.life=0;}
+        if(contacts.length){const target=contacts[0];if(target.player)this.hurt((s.damage??12)*(s.critical?1.65:1),s.x-Math.sign(s.vx)*20,0,s.kind==='mirror-circuit'?'mirrored circuit combo':s.kind==='flak'?'anti-air volley':'projectile impact',{critical:s.critical});else this.friendlyDamage(s.owner,target.entity,s.damage??12,s.critical);s.life=0;}
       }
     }
     this.shots=this.shots.filter(s=>s.life>0&&s.x>-20&&s.x<1020&&s.y<470);

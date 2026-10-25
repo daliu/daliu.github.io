@@ -8,7 +8,7 @@ export function expeditionCheckpoint(data){try{
  const legacy=data?.version===2;if(!legacy&&data?.version!==3)return null;
  const encounter=legacy?(milestone(data.wave)?'boss':'room'):data.encounter;
  if(!['room','boss','super','hidden'].includes(encounter)||encounter==='room'&&milestone(data.wave)||['boss','super'].includes(encounter)&&!milestone(data.wave)||encounter==='hidden'&&data.wave!==50)return null;
- const difficulty=data.difficulty??'normal';if(!validDifficulty(difficulty))return null;const profile=profileFor(difficulty),earlyUltra=difficulty==='terminator'&&data.wave>=10,ultimate=encounter==='hidden',ultra=ultimate||earlyUltra;
+ const difficulty=data.difficulty??'normal';if(!validDifficulty(difficulty))return null;const profile=profileFor(difficulty),earlyUltra=difficulty==='terminator'&&data.wave>=10&&(data.wave>10||encounter!=='boss'||data.mechTier===5),ultimate=encounter==='hidden',ultra=ultimate||earlyUltra;
  const tierLimit=ultra?3:data.wave>=16?2:data.wave>=6?1:0,regularMech=Math.floor(data.wave/10);if(earlyUltra?data.mechTier!==5:!integer(data.mechTier,Math.floor((data.wave-1)/10),regularMech))return null;
  if(!Array.isArray(data.tiers)||!data.tiers.every(t=>integer(t,0,tierLimit))||!integer(data.module,0,ultra?5:3))return null;
  if(!ultra&&data.module>=Math.max(1,data.mechTier))return null;
@@ -42,7 +42,7 @@ export class ExpeditionStore{
 export function retuneCheckpoint(data,difficulty,{mirror=false}={}){
  const source=expeditionCheckpoint(data);if(!source||!validDifficulty(difficulty))return null;const c=structuredClone(source),p=profileFor(difficulty);
  if(mirror&&milestone(c.wave)){c.encounter='boss';c.journey={cleared:Math.min(c.wave-1,c.journey.cleared),flawless:false,secretQualified:false};}
- c.difficulty=difficulty;const ultra=c.encounter==='hidden'||difficulty==='terminator'&&c.wave>=10;
+ c.difficulty=difficulty;const ultra=c.encounter==='hidden'||difficulty==='terminator'&&c.wave>=10&&(c.wave>10||c.encounter!=='boss'||c.mechTier===5);
  c.mechTier=ultra?5:Math.min(c.mechTier,Math.floor(c.wave/10));const tier=ultra?3:c.wave>=16?2:c.wave>=6?1:0;c.tiers=c.tiers.map(t=>Math.min(t,tier));c.module=Math.min(c.module,ultra?5:Math.min(3,Math.max(0,c.mechTier-1)));c.mirrorBlueprint=null;
  if(c.carry)c.carry={hp:Math.min(c.carry.hp,p.health),shield:Math.min(c.carry.shield,Math.round((ultra?400:c.mechTier?40+c.mechTier*28:0)*p.armor))};
  c.resources.fuel=Math.min(c.resources.fuel,p.fuel);c.resources.ammo=Math.min(c.resources.ammo,p.ammo);return expeditionCheckpoint(c);

@@ -14,7 +14,7 @@ test('service worker serves its entire application offline under a GitHub Pages 
  assert.equal(network,0);
 });
 test('the application has no external font, music, model or API dependency',async()=>{
- const css=await readFile(new URL('../countermeasure/style.css',import.meta.url),'utf8');assert.ok(!css.includes('@import'));const files=['index.html','game.mjs','engine.mjs','subjects.mjs','music.mjs','saves.mjs'];for(const file of files){const text=await readFile(new URL('../countermeasure/'+file,import.meta.url),'utf8');assert.ok(!/https?:\/\//.test(text.replaceAll('http://www.w3.org/2000/svg','')),file);assert.ok(!/\bfetch\(/.test(text),file);}
+ const css=await readFile(new URL('../countermeasure/style.css',import.meta.url),'utf8');assert.ok(!css.includes('@import'));const files=['index.html','game.mjs','engine.mjs','subjects.mjs','music.mjs','saves.mjs'];for(const file of files){const text=await readFile(new URL('../countermeasure/'+file,import.meta.url),'utf8');assert.ok(!/https?:\/\//.test(text.replaceAll('http://www.w3.org/2000/svg','').replace(/<a\b[^>]*href="https:[^"]*"[^>]*>/g,'<a>')),file);assert.ok(!/\bfetch\(/.test(text),file);}
 });
 test('original chiptune scheduling starts only on opt-in, changes phase and mutes while paused',async()=>{
  const gains=[];class Context{constructor(){this.currentTime=0;this.sampleRate=100;this.destination={};}createGain(){return {connect(){},gain:{value:0,setTargetAtTime:v=>gains.push(v)}};}createBuffer(ch,len){return {getChannelData:()=>new Float32Array(len)};}async resume(){}}

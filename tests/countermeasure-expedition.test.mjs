@@ -9,7 +9,7 @@ import {bossRules,roomIndex} from '../countermeasure/expedition-plan.mjs';
 import {scrollView} from '../countermeasure/expedition-view.mjs';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
-function game(wave=1,encounter=null,random=()=>.99){const g=new ExpeditionArena({random});g.mechTier=Math.floor((wave-1)/10);g.plan=g.makePlan(wave,g.memory,encounter);g.state='between';g.startWave();return g;}
+function game(wave=1,encounter=null,random=()=>.99){const g=new ExpeditionArena({random});g.mechTier=encounter==='super'?Math.floor(wave/10):Math.floor((wave-1)/10);g.plan=g.makePlan(wave,g.memory,encounter);g.state='between';g.startWave();return g;}
 function step(g,time,input={}){for(let t=0;t<time;t+=.02)g.update(.02,input);}
 function clear(g){for(let guard=0;guard<600&&g.state==='playing';guard++){for(const r of [...g.robots])if(r.hp>0)g.damageRobot(r,1e8);g.update(.02);}}
 function walk(g){for(let i=0;i<300&&g.state==='traveling';i++)g.update(.02,{right:true});}
@@ -28,7 +28,7 @@ test('room rebasing keeps world positions and camera scrolling continuous',()=>{
  const g=game();clear(g);g.door=1;g.player.x=1018;const before=g.roomOffset+g.player.x;const view=scrollView(g,300,null);g.update(.02,{right:true});const after=g.roomOffset+g.player.x;assert.ok(Math.abs(after-before)<12);const next=scrollView(g,300,view.left,.02);assert.ok(Math.abs(next.left-view.left)<15);assert.equal(roomIndex(10,'boss')+1,roomIndex(10,'super'));
 });
 test('regular boss and superboss pairs occur at every ten-level milestone',()=>{
- for(const wave of [10,20,30,40,50]){const g=game(wave);assert.equal(g.encounter,'boss');assert.equal(g.robots[0].type,'mirror');clear(g);assert.equal(g.next.encounter,'super');assert.equal(g.next.wave,wave);assert.ok(g.player.mecha);assert.equal(g.mechTier,wave/10);walk(g);assert.equal(g.encounter,'super');assert.equal(g.wave,wave);assert.ok(g.robots.some(r=>r.super));}
+ for(const wave of [10,20,30,40,50]){const g=game(wave);assert.equal(g.encounter,'boss');assert.equal(g.robots[0].type,'mirror');clear(g);assert.equal(g.next.encounter,'super');assert.equal(g.next.wave,wave);assert.equal(g.mechaDrop.locked,false);walk(g);assert.ok(g.player.mecha);assert.equal(g.mechTier,wave/10);assert.equal(g.encounter,'super');assert.equal(g.wave,wave);assert.ok(g.robots.some(r=>r.super));}
 });
 test('milestone pairs round-trip both encounter phases without losing current builds',()=>{
  const s=new ExpeditionStore();for(const wave of [10,20,30,40,50]){const g=game(wave);assert.ok(s.save(g.snapshot()));clear(g);const next=g.nextCheckpoint();assert.ok(s.save(next));const h=new ExpeditionArena();assert.ok(h.resume(s.get(wave)));assert.equal(h.encounter,'super');assert.equal(h.player.mecha,true);assert.equal(h.wave,wave);}
@@ -73,8 +73,8 @@ test('hidden checkpoint validation retains resources, qualification and retry de
 test('localized EMP, radio and electric attacks disable their respective cores; EMP locks electric weapons',()=>{
  const g=hidden(),[a,b,c]=g.robots;g.player.x=450;g.player.y=a.y;a.evadeRate=b.evadeRate=c.evadeRate=0;g.selectModule(4);assert.ok(g.useModule());assert.ok(a.emp>5);assert.equal(b.emp,0);assert.equal(c.emp,0);assert.equal(g.resources.electricLock,5);g.selectModule(0);g.useModule();assert.ok(b.emp>3);const hp=c.hp;g.hit(c,2);assert.equal(c.hp,hp);g.resources.electricLock=0;g.hit(c,2);assert.ok(c.emp>2);assert.ok(c.hp<hp);
 });
-test('ultimate lamp is slow and heavy; acid glue slows even a resistant core',()=>{
- const g=hidden(),r=g.robots[0];r.evadeRate=0;assert.ok(weaponAt(0,3).cooldown>1);assert.ok(weaponAt(0,3).range>=300);g.player.x=r.x-50;const x=r.x;g.hit(r,0);assert.ok(r.stun>=.8);assert.ok(r.x>x);r.emp=r.stun=0;const hp=r.hp;g.hit(r,3);assert.ok(r.glue>=1.8);assert.ok(r.hp<hp);assert.equal(r.corrosionTier,2);
+test('ultimate lamp is slow and heavy; acid corrodes a resistant core without glue or root',()=>{
+ const g=hidden(),r=g.robots[0];r.evadeRate=0;assert.ok(weaponAt(0,3).cooldown>1);assert.ok(weaponAt(0,3).range>=300);g.player.x=r.x-50;const x=r.x;g.hit(r,0);assert.ok(r.stun>=.8);assert.ok(r.x>x);r.emp=r.stun=0;const hp=r.hp;g.hit(r,3);assert.equal(r.glue,0);assert.equal(r.root,0);assert.ok(r.hp<hp);assert.equal(r.corrosionTier,2);
 });
 test('double-tap thermite consumes finite fuel and exposes struck armor to physical follow-ups',()=>{
  const g=hidden(),r=g.robots[0];g.player.x=r.x;g.player.y=200;r.y=300;r.evadeRate=0;g.jump();g.update(.1);g.jump();assert.equal(g.resources.fuel,80);assert.ok(g.boostTime>0);g.update(.02);assert.ok(r.boostExposed>0);const hp=r.hp;g.hit(r,1);const exposed=hp-r.hp;r.boostExposed=0;const next=r.hp;g.hit(r,1);assert.ok(exposed>next-r.hp);g.resources.fuel=0;g.lastJumpTap=g.clock;g.jump();assert.equal(g.resources.fuel,0);

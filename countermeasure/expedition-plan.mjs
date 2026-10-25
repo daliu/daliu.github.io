@@ -1,6 +1,6 @@
 import {TYPES,UPGRADES} from './engine.mjs';
 import {campaignPlan,MODULES} from './campaign-plan.mjs';
-export const POWERS=[...MODULES,
+export const POWERS=[...MODULES.map(m=>m.id==='glue'?{...m,name:'Industrial glue bomb',cooldown:10,hint:'2s grounded, then 3s slowed. 10s cooldown.'}:m),
  {id:'emp',name:'Localized EMP',key:'9',unlock:5,cooldown:14,color:'#c0f5ff',hint:'Disables one core. Locks electric weapons for 5s.',ultimate:true},
  {id:'rounds',name:'AP explosive rounds',key:'0',unlock:5,cooldown:.65,color:'#ffbd85',hint:'Armor-piercing blasts. 18 rounds for the entire fight.',ultimate:true}
 ];
@@ -8,7 +8,7 @@ const ultimate=[
  {name:'Highway Lamp',damage:120,cooldown:1.15,range:310,short:'Heavy shutdown sweep',detail:'Slow, enormous sweep. Knocks back and temporarily disables robots.'},
  {name:'Diamond Chain-saw',damage:62,cooldown:.22,range:185,short:'Ultimate diamond cutting',detail:'Diamond teeth expose wiring and exploit thermite-opened armor.'},
  {name:'Tesla laser',type:'electric',damage:48,cooldown:.34,range:470,color:'#b7e77a',short:'Conductive core shutdown',detail:'Electric/laser attacks disable the electric core. Temporarily locked by your localized EMP.'},
- {name:'Acid-glue polymer',damage:33,cooldown:.22,range:400,corrosive:true,color:'#d6b5f5',short:'Corrode & bind',detail:'Acid damage plus a strong slow, even against resistant hardware.'}
+ {name:'Industrial acid',damage:33,cooldown:.22,range:400,corrosive:true,color:'#d6b5f5',short:'Corrode exposed hardware',detail:'Sustained corrosion without glue or grounding. Use the separate industrial glue bomb to interrupt flight.'}
 ];
 for(let i=0;i<4;i++)UPGRADES[i][3]=ultimate[i];
 Object.assign(TYPES,{

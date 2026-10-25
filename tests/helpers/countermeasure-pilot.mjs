@@ -9,7 +9,8 @@ export function decide(g,t,{reckless=false}={}){
  const p=g.player,alive=g.robots.filter(r=>r.hp>0&&!r.structure);if(!alive.length)return {};
  const antenna=g.robots.find(r=>r.type==='antenna'&&r.hp>0),target=antenna??alive.slice().sort((a,b)=>{const score=r=>Math.abs(r.x-p.x)+Math.abs(r.y-p.y)*.8-(r.type==='orchestrator'?250:r.type==='chemDrone'?180:0);return score(a)-score(b);})[0];
  let weapon=2,tier=Math.min(g.maxTier,g.ultra?3:1);
- if(target.structure){weapon=1;tier=g.maxTier;}
+ if(target.type==='mirror'&&!p.mecha){weapon=1;tier=g.maxTier;}
+ else if(target.structure){weapon=1;tier=g.maxTier;}
  else if(target.type==='chemDrone'&&!target.disarmed){weapon=3;tier=0;}
  else if(target.shell){weapon=1;tier=g.maxTier;}
  else if(target.wet<.5){weapon=3;tier=g.maxTier;}
@@ -22,11 +23,11 @@ export function decide(g,t,{reckless=false}={}){
  const warning=g.shots.some(s=>Math.hypot(s.x-p.x,s.y-(p.y-25))<105)||alive.some(r=>r.windup>0&&Math.abs(r.x-p.x)<150);
  if(!p.mecha&&p.grounded&&(warning||floorShock))g.jump();
  // Hover near head height, adjusting only on this controller's delayed decision tick.
- const pod=g.mechaDrop&&!g.mechaDrop.collected?g.mechaDrop:null;
+ const pod=g.mechaDrop&&!g.mechaDrop.locked&&!g.mechaDrop.collected?g.mechaDrop:null;
  if(pod&&pod.landed){move=Math.abs(pod.x-p.x)>30?Math.sign(pod.x-p.x):0;if(p.dashCd===0&&Math.abs(pod.x-p.x)>180){p.facing=move;g.dash();}}
- const up=p.mecha&&p.y>Math.max(105,target.y-35)&&!pod;
- if(p.mecha&&warning&&g.clock%1.6<.24&&p.dashCd===0){g.dash();move=p.x>500?-1:1;}
- if(p.mecha){let module=0;if(target.shell&&g.mechTier>=3)module=2;else if(g.ultimate&&target.channel==='emp'&&g.resources.electricLock===0&&g.moduleCooldowns[4]===0)module=4;else if(g.ultimate&&target.channel==='electric')module=3;else if(g.mechTier>=4&&g.moduleCooldowns[0]>0)module=3;if(g.selectModule(module))g.useModule();}
+ const up=p.mecha&&(warning?p.y>250:p.y>Math.max(105,target.y-35))&&!pod;
+ if(p.mecha&&warning&&p.dashCd===0){move=p.x>500?-1:1;p.facing=move;g.dash();}
+ if(p.mecha){let module=0;if((target.flies||target.build?.mechTier)&&g.mechTier>=2&&g.moduleCooldowns[1]===0&&!(target.glueGround>0))module=1;else if(target.shell&&g.mechTier>=3)module=2;else if(g.ultimate&&target.channel==='emp'&&g.resources.electricLock===0&&g.moduleCooldowns[4]===0)module=4;else if(g.ultimate&&target.channel==='electric')module=3;else if(g.mechTier>=4&&g.moduleCooldowns[0]>0)module=3;if(g.selectModule(module))g.useModule();}
  if(g.nearEmergency())g.pressEmergency();
  return {right:move>0,left:move<0,up,attack:true,aim:true};
 }
