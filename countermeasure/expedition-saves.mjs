@@ -21,7 +21,7 @@ export function expeditionCheckpoint(data){try{
  const j=legacy?{cleared:0,flawless:false,secretQualified:false}:data.journey;
  if(!j||!integer(j.cleared,0,ultimate?50:data.wave-1)||typeof j.flawless!=='boolean'||typeof j.secretQualified!=='boolean'||j.flawless&&data.runDeaths>0||j.secretQualified&&j.cleared!==50||ultimate&&!j.secretQualified)return null;
  c.journey={cleared:j.cleared,flawless:j.flawless,secretQualified:j.secretQualified};
- c.carry=null;if(!legacy&&data.carry){const v=data.carry;if(!finite(v.hp,1,profile.health)||!finite(v.shield,0,Math.round((ultra?400:40+data.mechTier*28)*profile.armor)))return null;c.carry={hp:v.hp,shield:v.shield};}
+ c.carry=null;if(!legacy&&data.carry){const v=data.carry;if(!(v.hp>0)||!finite(v.hp,0,profile.health)||!finite(v.shield,0,Math.round((ultra?400:40+data.mechTier*28)*profile.armor)))return null;c.carry={hp:v.hp,shield:v.shield};}
  c.resources=fullResources(difficulty);if(!legacy&&data.resources){const r=data.resources;if(!finite(r.fuel,0,profile.fuel)||!integer(r.ammo,0,profile.ammo)||!finite(r.electricLock,0,5))return null;c.resources={fuel:r.fuel,ammo:r.ammo,electricLock:r.electricLock};}
  return c;
  }catch{return null;}}

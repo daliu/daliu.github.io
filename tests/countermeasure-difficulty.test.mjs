@@ -49,3 +49,6 @@ test('standalone local unlock can rebuild a transferable save after the run stor
 test('every profile maintains bounded finite coordinated finale combat and reinforcements',()=>{
  for(const difficulty of Object.keys(DIFFICULTIES)){const g=start(difficulty,50,'hidden');g.player.invulnerable=100;for(let n=0;n<2000;n++)g.update(.02,{up:n%250<125,right:n%300<150,left:n%300>=150});assert.ok(g.robots.length<20);assert.ok(g.shots.length<100);assert.ok(g.effects.length<100);for(const r of g.robots)assert.ok([r.hp,r.x,r.y,r.cooldown].every(Number.isFinite));assert.ok(g.syncClock<=5/g.profile.coordination);}
 });
+test('a barely surviving Terminator retains fractional health across gates and reloads',()=>{
+ const g=start('terminator');g.player.hp=.25;clear(g);const c=g.nextCheckpoint();assert.ok(expeditionCheckpoint(c));const s=new ExpeditionStore();assert.ok(s.save(c));const h=new ExpeditionArena();assert.ok(h.resume(new ExpeditionStore(s.export()).get(2)));assert.equal(h.player.hp,.25);
+});
