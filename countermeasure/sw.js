@@ -1,6 +1,6 @@
 // Scope-relative paths also work at /countermeasure/ on GitHub Pages.
-const ROOT=new URL('./',self.location.href),PREFIX=`countermeasure:${ROOT.pathname}:`,CACHE=PREFIX+'v8-2';
-const FILES=['./','./index.html','./style.css','./game.mjs','./engine.mjs','./subjects.mjs','./saves.mjs','./music.mjs','./offline.mjs'];
+const ROOT=new URL('./',self.location.href),PREFIX=`countermeasure:${ROOT.pathname}:`,CACHE=PREFIX+'v9-touch-3';
+const FILES=['./','./index.html','./style.css','./game.mjs','./engine.mjs','./subjects.mjs','./saves.mjs','./music.mjs','./offline.mjs','./controls.mjs'];
 const urls=FILES.map(file=>new URL(file,ROOT).href);
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(urls))));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith(PREFIX)&&key!==CACHE)await caches.delete(key);await self.clients.claim();})()));
