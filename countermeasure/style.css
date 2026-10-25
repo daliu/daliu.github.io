@@ -50,3 +50,38 @@ header{height:76px}.page-title{padding:22px 0}.subject-strip{grid-template-colum
   .touch-weapons button{min-height:44px;display:flex;align-items:center;justify-content:center;gap:4px}.touch-weapons small{font:9px var(--mono)}.touch-weapons svg{width:24px;height:24px}.touch-hint,.control-strip{display:none}
   .weapons,.backup-time,.combat-readout,.finale-objective{grid-column:1/-1}.skill-panel{margin-top:12px}.boss-message{font-size:13px}
 }
+
+/* Fullscreen keeps the same arena coordinates and moves the existing loadout into a dialog. */
+.arena-viewport{display:contents}.play-toggle{display:none;font-size:22px!important}
+@media(max-width:800px),(any-pointer:coarse),(orientation:landscape) and (max-height:550px) and (max-width:1100px){
+  .play-toggle{display:inline-block}.arena-top{gap:4px}.arena-top>span:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.arena-top #pause kbd{display:none}
+}
+body.play-mode{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none;background:#111a15}
+.play-mode .shell{padding:0;max-width:none}.play-mode header,.play-mode .page-title,.play-mode .subject-strip,.play-mode .machine-notes,.play-mode footer,.play-mode .workspace>.skill-panel{display:none}
+.play-mode .workspace{display:block}.play-mode .combat-column{position:fixed;inset:0;z-index:10;display:grid;align-items:stretch;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr) auto;gap:0;padding:max(4px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));height:100vh;height:100dvh;background:#111a15}
+.play-mode .arena-top{grid-column:1;grid-row:1;height:44px;padding:0 8px;gap:4px;letter-spacing:0}.play-mode .arena-top>span:first-child{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.play-mode #enemy-count{display:none}.play-mode .arena-top button{min-height:44px;min-width:44px;font-size:11px}.play-mode .touch-wave,.play-mode .touch-menu,.play-mode .play-toggle{display:inline-block}.play-mode #pause kbd{display:none}
+.play-mode .arena-viewport{grid-column:1;grid-row:2;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#25382a,#111a15 80%)}
+.play-mode .canvas-wrap{grid-column:auto;grid-row:auto;flex:none;width:var(--play-width,100%);height:var(--play-height,auto);max-width:none;aspect-ratio:auto;border:1px solid var(--line)}
+.play-mode .touch-controls{grid-column:1;grid-row:3;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:8px 0 0;margin:0;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.play-mode .touch-controls .touch-weapons{grid-column:1/-1;grid-row:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0}
+.play-mode .touch-controls .touch-move,.play-mode .touch-controls .touch-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;align-self:center}.play-mode .touch-move{grid-column:1;grid-row:2}.play-mode .touch-actions{grid-column:2;grid-row:2}
+.play-mode .touch-controls button{min-width:0;min-height:52px;height:auto;padding:6px 3px;border:1px solid #45533e;border-radius:7px;background:#242d22;color:var(--cream);font:12px var(--mono);touch-action:none}.play-mode .touch-move button{font-size:25px}.play-mode .touch-move [data-hold=down],.play-mode .touch-actions .touch-attack{grid-column:1/-1}
+.play-mode .touch-weapons button{display:flex;align-items:center;justify-content:center;gap:4px;min-height:52px}.play-mode .touch-weapons svg{width:24px;height:24px;flex-shrink:0}.play-mode .touch-weapons small{font:9px/1.2 var(--mono);overflow-wrap:anywhere}
+.play-mode .touch-weapons button[aria-pressed=true],.play-mode .touch-controls button.held{border-color:var(--lime);background:#34452a}.play-mode .touch-controls .touch-attack{background:var(--lime);color:#182014;font-weight:700}.play-mode .touch-controls .touch-attack.held{background:#d0f5a6}
+.play-mode .touch-hint,.play-mode .combat-column>.weapons,.play-mode .control-strip{display:none}.play-mode .emergency-switch{min-width:44px;min-height:44px}.play-mode .arena-tree{min-height:44px}.play-mode .arena-tree kbd{display:none}.play-mode .boss-message{font-size:13px}
+@media(orientation:landscape){
+  .play-mode .combat-column{grid-template-columns:108px minmax(0,1fr) 132px;grid-template-rows:44px minmax(0,1fr) 58px;column-gap:8px}
+  .play-mode .arena-top{grid-column:1/-1}.play-mode .arena-viewport{grid-column:2;grid-row:2}.play-mode .touch-controls{display:contents}
+  .play-mode .touch-controls .touch-move{grid-column:1;grid-row:2}.play-mode .touch-controls .touch-actions{grid-column:3;grid-row:2}.play-mode .touch-controls .touch-weapons{grid-column:2;grid-row:3;align-self:end}
+}
+#loadout-dialog{width:min(760px,calc(100% - 16px));height:min(780px,calc(100vh - 16px));height:min(780px,calc(100dvh - 16px));max-height:none;padding:16px;margin:auto;overflow:hidden}
+#loadout-dialog[open]{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px}.loadout-heading,.loadout-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}.loadout-heading h2{font-size:22px;margin:6px 0}.loadout-heading button{min-width:44px;min-height:44px}
+#loadout-mount{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:0 2px}#loadout-mount .skill-panel{margin:0;padding:16px;display:flex}#loadout-mount #skills{display:block}#loadout-mount .skill{grid-template-columns:1fr auto}#loadout-mount .skill-controls{margin:0}#loadout-mount .skill-controls button{width:44px;height:44px}#loadout-mount .skill-desc{max-width:none}#loadout-mount .panel-copy{display:none}
+#loadout-mount .weapons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 0}#loadout-mount .weapons:before{content:'WEAPONS';grid-column:1/-1;font:10px var(--mono);letter-spacing:1px;color:var(--muted)}#loadout-mount .weapon-tiers{gap:1px}#loadout-mount .weapon-tiers button{min-width:44px;min-height:44px}#loadout-mount .weapon strong{font-size:12px}
+.loadout-footer{border-top:1px solid var(--line);padding-top:12px}.loadout-footer .primary{margin:0;min-width:150px;min-height:48px}.loadout-footer .text-button{min-height:44px}
+
+.camera-edge{position:absolute;top:50%;font:32px var(--mono);color:var(--lime);pointer-events:none;text-shadow:0 1px 4px #000}.camera-edge.left{left:8px}.camera-edge.right{right:8px}.camera-edge[hidden]{display:none}
+.play-mode .arena-tree{z-index:3}
+@media(max-width:350px){#loadout-mount .weapons{grid-template-columns:1fr}}
+
+.play-mode .backup-time:not([hidden]){display:block;position:fixed;z-index:11;top:max(54px,calc(env(safe-area-inset-top) + 50px));left:50%;transform:translateX(-50%);padding:5px 10px;background:#15211fe6;border:1px solid #6c9795;pointer-events:none;font:700 14px var(--mono)}
