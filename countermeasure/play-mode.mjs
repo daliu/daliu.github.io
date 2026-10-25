@@ -16,9 +16,10 @@ export class PlayMode {
       else if(this.native){this.native=false;this.leave();}
     });
   }
-  async enter() {
+  async enter({requestNative=true}={}) {
     if(this.active)return;
     this.active=true;this.onChange(true);
+    if(!requestNative)return;
     // Call directly from the tap, before awaiting anything. CSS mode remains if denied.
     try {
       await this.document.documentElement.requestFullscreen?.({navigationUI:'hide'});
