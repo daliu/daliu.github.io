@@ -1,51 +1,67 @@
 # Countermeasure
 
-Static, offline arena game at https://daliu.github.io/countermeasure/.
-No LLM, API, account, external assets or build step. Original synthesized chiptune music is included.
+Play at https://daliu.github.io/countermeasure/?mode=campaign.
+Static, installable, offline JavaScript game. No LLM, backend, account, external assets or build step. Includes original synthesized chiptune music.
 
-## Modes and saves
+## Modes and saved runs
 
-- **Demo** (`?mode=demo`): the original 9 learning waves, Mirror, then EMP/escape. Its engine rules and `countermeasure.progress.v1` saves are preserved.
-- **Campaign** (`?mode=campaign`): 50 authored encounters; separate `countermeasure.campaign.v1` browser checkpoints and version 2 export files. Imports cannot cross modes. The installed app remembers the last selected mode.
-- The fictional subject register is shared. Trial numbers count deaths within the selected run. Menu → level select resumes unlocked entry checkpoints; export before clearing browser data or moving devices. There is no cloud sync.
+Demo retains its original 11 encounters and version 1 save format. Campaign has 50 levels, with a boss/superboss pair at each ten-level milestone. Their saves remain independent. The installed app reopens the last selected mode.
 
-## Campaign progression
+Campaign version 3 saves track room phase, entry build, resources and a sequential-clear record. Version 2 Campaign files migrate automatically, preserving unlocked levels and builds. The new `countermeasure.campaign.v3` storage key copies the earlier Campaign save on first launch; the original key remains intact so an older running tab cannot overwrite the new format. Existing saves remain playable; start a **new run** to qualify for the new deathless route. Old checkpoints do not establish completion of the newly added boss pairs. Starting a new run keeps level unlocks but retires the older checkpoints from deathless qualification; deaths also invalidate earlier perfect prefixes. A new run saves a fresh level-one checkpoint immediately. Save files are local player data, not an anti-cheat system.
 
-| Waves | Encounter focus | Reward |
-| --- | --- | --- |
-| 1–3 / 4–6 / 7–10 | Defense, movement, then offense | Mech I + jetpack + radio at 10 |
-| 11–20 | Flood pumps, booted floor conductors, early flyers | Mech II + glue at 20 |
-| 21–30 | Metal, shunt-shell and chemical fuse drones | Mech III + flame at 30 |
-| 31–40 | Darkness, airspace and mixed hazards | Mech IV + magnetic scramble at 40 |
-| 41–48 | Orchestrators and coordinated mixed teams | Advanced formations |
-| 49 / 50 | Mirror / emergency encounter | Mech V overdrive, EMP, destroy core, escape left |
+Menu → level select resumes unlocked entry checkpoints. Export before moving devices or clearing browser data. No cloud sync. The fictional subject register is shared; trial numbers count deaths in the selected run.
 
-Weapon stages II / III unlock at 6 / 16. Skill points cap at 12 so the whole tree cannot be equipped at once. Rewiring remains free. Milestone pods arrive near the end of combat; missed pods are salvaged before the next wave so flight cannot be locked out. Chassis upgrades increase armor; overdrive shortens power cooldowns.
+## Rooms and equipment
 
-WASD, Enter attack, Shift dash, 1–4 weapons, Q/E cycle. **5–8 select a mech power; hold F to use it**. Touch: hold arrows / Fly / Attack; tap the separate power button. Pause → skill tree selects powers and weapon stages. Fullscreen uses the same touch controls and paused loadout.
+Clear a chamber and its right-hand gate opens. Walk or fly through to continue; the camera follows across connected rooms. You can pause and rewire while crossing the cleared room. Entry checkpoints are saved before the next fight. Crossing a gate repairs some health/armor; health is at least 70 on entry.
 
-## Counterplay
+All four weapon families automatically equip newly unlocked stages: II / III at Campaign levels 6 / 16 (Demo waves 3 / 5). Earlier stages stay selectable; plain water still dilutes chemical drones. Automatic upgrades happen once per unlock, so choosing an older tool remains meaningful. A visible, clickable unspent-points notice opens the paused loadout; new point grants pulse it and announce availability. Skill points cap at 12 of 15 ranks.
 
-- Sword hits expose wiring; liquids amplify direct taser hits. Boots isolate feet from floor conduction, not wet-body contact. Acid and chemical pools burn both sides.
-- Dash + melee gives one extra contact strike per target and increases crit chance.
-- Dousers flood the floor. Conductors show a long yellow warning before a brief charge. Interrupt them, use radio, or fly above it.
-- Electricity detonates metal drones at range. Plastic-core drones shunt electricity until cut open or their coating is melted. Three **plain water** hits disarm chemical drones; acid does not dilute the fuse. Drone blasts hurt robots too.
-- Radio stops robots and drops flyers. Three glue bursts bind; flame melts plastic and sealed coatings; magnetic corruption is strongest against conductive, exposed hardware.
-- Orchestrators pulse a team attack signal and select resistant cover from visible attack effects after a sensing delay. Killing one interrupts orders and briefly confuses its team. Darkness leaves attack warnings and the player's light visible.
-- Mirror freezes your build, selected power and learned fighting habits at duel entry, and can follow jetpack flight. The emergency machine counters tools and powers while online; it jumps but cannot fly. Reach **DO NOT PRESS**, fire EMP, then destroy its core before the 12-second backup timer expires.
+Normal Campaign rooms retain defenses, movement learning, offensive learning, flood/booted shock teams, metal/plastic/chemical drones, darkness and orchestrators. Mech I–V upgrades arrive with the regular bosses at levels 10, 20, 30, 40 and 50. A missed pod is salvaged before the following superboss, ensuring flight is available.
 
-## Local learning
+## Five boss milestones
 
-Campaign tracks weapon attempts, damage effectiveness, spacing, stationary time, jumping, dashing and ground shocks. Successes **and deaths** update a weighted local model. One bounded hardware slot changes between attempts/waves; active hardware never swaps in response to a held key. Reaction/turning/dodging improve exponentially across the curriculum, with bounded reaction times and attack windups. Authored encounter roles, floor pulses and synchronized attacks provide variety beyond health scaling. Recent history is bounded to 12 records; level checkpoints are bounded to 50.
+Each milestone's regular boss copies your current build, selected power and learned habits. Defeat it and walk through the gate into the superboss room at the same numbered level.
 
-## Development
+| Level | Superboss escalation |
+| --- | --- |
+| 10 | High resistance but vulnerable to every weapon and critical hits. It jumps; flight reaches an exposed EMP button. |
+| 20 | The boss flies. Destructible plating blocks the button. |
+| 30 | More button armor; deterministic anticipation dodges 10% of committed attacks, with animations for impact, cutting, liquid, electric, laser and power attacks. |
+| 40 | 20% anticipation, backup bots, a near-impenetrable button fortress and an obvious sync antenna. Destroy the antenna to force an eight-second reboot and permanently remove synchronization. |
+| 50 | 30% anticipation, heavily reinforced button **and** antenna, and recurring weaker reinforcements. |
 
-Serve the repository root with a static HTTP server; open `/countermeasure/?mode=campaign`. Run:
+The button is optional: the superboss always takes damage. Online cores take 18% of ordinary damage; critical strikes and combos still matter. EMP opens a long vulnerability window without instantly deleting the core. Antenna destruction offers another opening in the last two iterations. Cover collapses when the last superboss core dies. Backup populations are capped.
 
-```sh
-node --test tests/countermeasure*.test.mjs
-```
+## Deathless hidden room
 
-No dependency install or build is needed. New runtime files must be included in `sw.js`; increment its cache version for every release. The worker scopes only `/countermeasure/`. Existing clients can use Menu → Update game to activate a waiting bundle. iOS installation uses Safari → Share → Add to Home Screen; Android uses Install game / Chrome's install menu. Wait for **Ready offline** before disconnecting.
+Clear all 50 levels and all five boss pairs in sequence, with zero deaths, to open the vault instead of ending immediately. Three airborne superbots coordinate attacks. Their shutdown channels are marked **EMP / RADIO / ELECTRIC**. Defeating the trio starts the factory explosions and left-door escape. A revealed vault can be retried; eligibility is earned by the preceding deathless clear.
 
-Automated checks cover Campaign progression, learning, hazards, powers, save isolation, flight, finale, and offline caching, plus touch/fullscreen/install regressions. Browser QA uses imported synthetic checkpoints on a separate local origin. Device installation and long-term difficulty tuning still need real phone/player testing.
+The vault equips the ultimate loadout:
+
+- **Highway Lamp:** long, heavy, slow sweep; knockback and temporary disabling.
+- **Diamond Chain-saw:** stronger cutting and exposed-wiring combos.
+- **Tesla laser / earlier electrical stages:** disable the electric core. Choosing the laser remains available.
+- **Acid-glue polymer:** strong damage and a substantial slow even against resistant hardware; repeated hits bind.
+- **Localized EMP:** disables one core for six seconds, and also locks your electrical weapons and magnetic power for five seconds. Radio shuts down the second channel; electric hits shut down the third.
+- **Ultra thermite boost:** double-tap jump, consuming 20 of 100 fuel. Rocket exhaust damages nearby robots below you and opens their armor to physical follow-ups for four seconds.
+- **Ultra armor:** 400 armor capacity plus broad impact, heat, shock, liquid and projectile damage reduction.
+- **Armor-piercing explosive rounds:** 18 rounds per attempt, with blast damage and partial penetration. Fuel/ammo refill on retry, not during the fight.
+
+## Controls
+
+WASD, Enter/click attack, Shift dash, 1–4 weapons, Q/E cycle weapons. Hold W to fly in a mech. **5–8** select normal powers; hidden gear adds **9 EMP / 0 explosive rounds**. **F** fires the selected power; **G** cycles available powers. **Double-tap W / Jump** for the ultimate boost.
+
+Touch controls support independent movement, Fly, Attack and power holds. The ↻ button cycles powers without opening a menu. Skill tree/Pause opens the freely reconfigurable loadout. Fullscreen preserves the same coordinates and responsive camera.
+
+## Local learning and offline use
+
+The local model tracks attack mix and damage effectiveness, spacing, stationary time, jumps, dashes and ground shocks. Successes and deaths update it. One hardware slot changes between attempts/waves; live hardware does not swap in response to held inputs. Cognition increases across the curriculum with bounded reaction times and readable windups. Recent history is capped at 12 records; saved levels are capped at 50.
+
+Install through Menu → Install game. On iPhone use Safari → Share → Add to Home Screen. Wait for **Ready offline** before disconnecting. The service worker only controls `/countermeasure/`; existing clients use Menu → Update game to activate a waiting release.
+
+## Development and validation
+
+Serve the repository root with a static HTTP server; open `/countermeasure/?mode=campaign`. Run `node --test tests/countermeasure*.test.mjs`. New runtime files must be listed in `sw.js`, with a fresh cache version per release. The room layer lives in `expedition*.mjs` and reuses the existing Campaign combat engine; Demo rules and saves stay separate.
+
+Checks cover migration/save refusal, automatic upgrades, physical gate traversal and camera continuity, five boss pairs, resistance/crits, exact anticipation quotas, destructible defenses, bounded reinforcements, a full sequential route/deathless gate, ultimate resource interactions, real-control first-superboss victory, finite simulations, and offline caching. Late browser QA uses ordinary imported synthetic checkpoints on a separate local origin. Physical-phone acceptance and full-length human balance testing remain follow-ups.

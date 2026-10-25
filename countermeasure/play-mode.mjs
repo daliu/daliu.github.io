@@ -45,7 +45,7 @@ export class LoadoutMenu {
   }
   open() {
     if(this.dialog.open)return;
-    this.wasActive=['playing','escaping'].includes(this.game.state);
+    this.wasActive=['playing','escaping','traveling'].includes(this.game.state);
     this.controls.clear();if(this.wasActive)this.game.pause();
     this.mount.append(...this.panels);this.dialog.showModal();this.onChange();
   }
