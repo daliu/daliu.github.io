@@ -1,5 +1,6 @@
 import {Arena,TYPES,weaponAt} from './engine.mjs';
 import {campaignPlan,campaignPhase,campaignCognition,campaignMemory,learnCampaign,MODULES,CAMPAIGN_MIRROR,CAMPAIGN_FINAL} from './campaign-plan.mjs';
+import {updateMirrorFlight} from './mirror-flight.mjs';
 import {campaignCheckpoint} from './campaign-saves.mjs';
 export {campaignPhase,campaignCognition,MODULES};
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -71,8 +72,7 @@ export class CampaignArena extends Arena{
  updateMirror(r,dt){
   if(r.moduleWindup>0){r.moduleWindup-=dt;if(r.moduleWindup<=0){const module=r.build.module??0;r.moduleCd=(this.powers??MODULES)[module].cooldown;this.effects.push({kind:'module',module,x:r.x,y:r.y-30,dir:r.facing,range:280,life:.55,max:.55,color:'#e9a8d1'});if(Math.abs(r.x-this.player.x)<280&&Math.abs(r.y-this.player.y)<150){if(module===0)this.player.vy=Math.max(140,this.player.vy);else this.botHurt(r,module===1?12:module===2?24:30,r.x,0,'mirrored mech power');}}return;}
   super.updateMirror(r,dt);if(r.stun>0||r.paralyzed>0)return;
-  r.flightSense-=dt;if(r.flightSense<=0){r.flightTarget=this.player.y;r.flightSense=.24;}
-  if(r.build.mechTier&&r.flightTarget<350){r.vy=-235;r.y=Math.max(95,r.y);}
+  updateMirrorFlight(r,this.player,dt);
   r.moduleCd-=dt;if(r.moduleCd<=0&&r.windup<=0&&Math.abs(r.x-this.player.x)<280&&Math.abs(r.y-this.player.y)<150)r.moduleWindup=.7;
  }
  botHurt(r,damage,...args){super.botHurt(r,Math.min(38,damage)*(r.type==='mirror'&&this.wave===10?.82:1),...args);}

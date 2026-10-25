@@ -10,6 +10,7 @@ import {SUPPORT_ICONS} from './boss-support.mjs';
 import {ProgressStore} from './saves.mjs';
 import {campaignPhase,campaignCognition} from './campaign.mjs';
 import {ExpeditionArena,POWERS as MODULES} from './expedition.mjs';
+import {drawFactoryWorld,drawFactoryLore} from './factory-world.mjs';
 import {scrollView,roomShell,drawStructure,drawEvasion,drawExpeditionExtras} from './expedition-view.mjs';
 import {ExpeditionStore as CampaignStore,EXPEDITION_SAVE_KEY,campaignSaveFrom,retuneCheckpoint} from './expedition-saves.mjs';
 // Marked collection tests use separate local records, preserving player saves.
@@ -265,7 +266,7 @@ function drawEscape(){const e=game.escape;if(!e)return;rect(0,275,74,145,'#8ab6b
 function landingRing(x,t){ctx.strokeStyle='#e7a56e';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(Math.max(35,Math.min(965,x)),417,45+Math.sin(t*8)*3,7,0,0,Math.PI*2);ctx.stroke();}
 function draw(t){
  ctx.clearRect(0,0,1000,500);const view=cameraView();ctx.save();ctx.scale(1000/view.width,1);ctx.translate(-view.left,0);
- if(campaign){for(let room=Math.floor(view.left/1000);room<=Math.floor((view.left+view.width)/1000);room++){ctx.save();ctx.translate(room*1000,0);background(t,false);roomShell(ctx,game,room,t);ctx.restore();}ctx.translate(game.roomOffset,0);}else background(t);
+ if(campaign){for(let room=Math.floor(view.left/1000);room<=Math.floor((view.left+view.width)/1000);room++){ctx.save();ctx.translate(room*1000,0);drawFactoryWorld(ctx,game,room,t);roomShell(ctx,game,room,t);ctx.restore();}ctx.translate(game.roomOffset,0);}else background(t);
  drawEscape();drawPools(t);drawMecha(t);drawEmergency(t);
  if(game.state!=='briefing'||campaign){for(const r of game.robots)if(r.hp>0){robot(r,t);if(r.criticalFlash>0){const height=r.crippled?.48:1,y=r.y-({head:58,body:32,legs:9}[r.lastCritical]??32)*height;ctx.strokeStyle=r.lastCritical==='head'?'#fff0a3':r.lastCritical==='legs'?'#ef9b8d':'#b7e77a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(r.x,y,r.lastCritical==='head'?14:20,0,Math.PI*2);ctx.stroke();}}human(game.player,t);}
  for(const s of game.shots){if(s.kind==='mortar'){landingRing(s.targetX,t);ctx.fillStyle='#e7a56e';ctx.beginPath();ctx.arc(s.x,s.y,6,0,Math.PI*2);ctx.fill();line(s.x-s.vx*.04,s.y-s.vy*.04,s.x,s.y,'#e7a56e88',3);}else{rect(s.x-6,s.y-3,12,6,s.kind==='mirror-circuit'?'#e9a8d1':'#e9a165');line(s.x-Math.sign(s.vx)*20,s.y,s.x,s.y,s.kind==='mirror-circuit'?'#e9a8d188':'#e9a16566',2);}}
@@ -294,6 +295,7 @@ function campaignRobot(r,t){
 function campaignAtmosphere(t){
  const p=game.player;
  if(game.plan.dark&&!game.escape){const light=ctx.createRadialGradient(p.x,p.y-35,65,p.x,p.y-35,(game.plan.visionRadius??320)+(game.mechTier>=4?45:0));light.addColorStop(0,'#050a1000');light.addColorStop(.55,'#050a1066');light.addColorStop(1,'#050a10ed');ctx.fillStyle=light;ctx.fillRect(0,0,1000,500);}
+ drawFactoryLore(ctx,game);
  for(const r of game.robots.filter(r=>r.hp>0)){
   if(r.type==='shocker'&&r.action==='floor-shock'&&r.windup>0){for(const pool of game.pools){line(pool.x-pool.radius,416,pool.x+pool.radius,416,Math.sin(t*20)>0?'#eff08a':'#e89066',4);}text('↑',p.x,380,28,'#eff08a','center');}
   if(r.type==='chemDrone'){text(Math.ceil(r.fuse),r.x,r.y-70,17,'#d9f49b','center');}

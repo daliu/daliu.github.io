@@ -1,5 +1,6 @@
 import {createBossSupport,updateBossSupport,updateSupportArtillery} from './boss-support.mjs';
 import {generationProfile,equipGeneration,updateGenerationRobot,blockGuardCrossing,droneAftermath,updateAftermath} from './enemy-generations.mjs';
+import {limitMirrorAltitude} from './mirror-flight.mjs';
 import {comboPolicy,updateBossCombo,beginCombo,chooseCombo} from './boss-combos.mjs';
 import {profileFor,fullResources,tunedCognition,validDifficulty} from './difficulty.mjs';
 import {Arena,TYPES,weaponAt,emptyStats} from './engine.mjs';
@@ -150,7 +151,7 @@ export class ExpeditionArena extends CampaignArena{
    r.disabled=r.emp>0||r.radio>0||r.root>0||r.paralyzed>0||r.confused>0;if(r.disabled||r.stun>0||r.hp<=0){r.windup=0;r.action='';return true;}this.updateSuperboss(r,dt);return true;}
   if(r.emp>0)return true;return handled;
  }
- updateMirror(r,dt){if(updateBossCombo(this,r,dt))return;const grounded=r.glueGround>0,tier=r.build.mechTier;if(grounded)r.build.mechTier=0;super.updateMirror(r,dt);r.build.mechTier=tier;if(grounded)r.vy=Math.max(180,r.vy);}
+ updateMirror(r,dt){if(updateBossCombo(this,r,dt)){limitMirrorAltitude(r);return;}const grounded=r.glueGround>0,tier=r.build.mechTier;if(grounded)r.build.mechTier=0;super.updateMirror(r,dt);r.build.mechTier=tier;limitMirrorAltitude(r);if(grounded)r.vy=Math.max(180,r.vy);}
  updateSuperboss(r,dt){
   if(updateBossCombo(this,r,dt))return;
   r.sense-=dt;if(r.sense<=0){r.targetX=this.player.x;r.targetY=this.player.y;r.targetAimY=this.player.y-(this.player.crouching?9:22);r.sense=Math.max(.09,(.45-r.cycle*.045)*this.profile.reaction);r.facing=Math.sign(r.targetX-r.x)||r.facing;}

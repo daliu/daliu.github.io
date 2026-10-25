@@ -104,3 +104,9 @@ Checks cover migration/save refusal, automatic upgrades, physical gate traversal
 ## Statistics
 
 Menu → Statistics includes local encounter results, weapon/strategy preferences, critical/combo counts, death rates and an arena death map. Sharing defaults off. Opt-in online events feed the existing Analytics property and daily aggregate community view; approximate unique browsers are not unique people or IPs. See [ANALYTICS.md](ANALYTICS.md) for the schema, retention, reporting definitions, privacy controls and validation limits.
+
+## The human factory / Release 21
+
+Campaign travels through five distinct sectors: Intake, Retention, Replication, Consensus and Inheritance. Each has its own palette, floor, machinery and room details. Fifteen short wall inscriptions gradually connect the human trials, retained memories, copied bodies and collective command system. Only the occupied room reveals its inscription; self-lit signs remain visible in blackout rooms. Environmental objects are scenery, with no new collision or damage rules. Demo keeps its original arena.
+
+The Mirror now pursues relative altitude through bounded approach/crossing/breakaway passes, then descends for recovery. Its delayed height samples remain; powered copies and learned combos share an upper boundary. Grounding, interrupts and the unpowered first duel retain their existing rules. See BALANCE.md for the before/after ceiling probe and completion limits.
