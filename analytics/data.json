@@ -1,16 +1,35 @@
 {
-  "updated": "2026-10-24T10:01:39Z",
+  "countermeasure": {
+    "version": 1,
+    "status": "ok",
+    "date_range": {
+      "start": "2026-07-28",
+      "end": "2026-10-25"
+    },
+    "unique_browsers": 0,
+    "events": 0,
+    "outcomes": [],
+    "strategies": [],
+    "deaths": [],
+    "controls": [],
+    "limitations": {
+      "row_limit": false,
+      "thresholded_or_sampled": false
+    },
+    "definition": "GA4 totalUsers for opted-in online cm_ game events; approximate browsers, not people or IPs. QA events excluded."
+  },
+  "updated": "2026-10-25T10:27:09Z",
   "date_range": {
-    "start": "2026-07-27",
-    "end": "2026-10-24"
+    "start": "2026-07-28",
+    "end": "2026-10-25"
   },
   "windows": {
     "main_days": 90,
     "hourly_days": 30
   },
   "data_span": {
-    "start": "2026-07-27",
-    "end": "2026-10-24",
+    "start": "2026-07-28",
+    "end": "2026-10-25",
     "days_with_data": 0
   },
   "totals": {
