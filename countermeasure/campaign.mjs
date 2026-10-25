@@ -83,9 +83,10 @@ export class CampaignArena extends Arena{
   for(const k of ['radio','root','glueTimer','confused'])r[k]=Math.max(0,(r[k]??0)-dt);if(r.glueTimer===0)r.glue=Math.max(0,r.glue-dt*.6);
   if(r.corruption>0){r.corruption-=dt;r.corruptionTick-=dt;if(r.corruptionTick<=0){r.corruptionTick=.35;this.damageRobot(r,7,{color:'#b7e77a'});}}
   if(r.hp<=0)return true;
-  const stopped=r.radio>0||r.root>0||r.confused>0||r.stun>0||r.paralyzed>0;
+  const stopped=r.emp>0||r.radio>0||r.root>0||r.confused>0||r.stun>0||r.paralyzed>0;
   if(r.flying&&!stopped){r.y=Math.max(110,r.y+(r.hoverY+Math.sin(this.clock*2+r.x*.01)*18-r.y)*Math.min(1,dt*8));r.vy=0;}
-  if(stopped){if(r.radio>0||r.root>0){r.windup=0;r.action='';}return true;}
+  if(stopped){if(r.emp>0||r.radio>0||r.root>0){r.windup=0;r.action='';}return true;}
+  if(this.updateEnemyGeneration?.(r,dt))return true;
   // Glue also slows ordinary units without overwriting their delayed senses.
   if(r.glue>0&&!TYPES[r.type].flying){r.slowSkip=(r.slowSkip??0)+dt*(1-r.glue*.23);if(r.slowSkip<dt)return true;r.slowSkip-=dt;}
   const t=TYPES[r.type],special=['douser','shocker','flyer','drone','command'].includes(t.behavior);if(!special){

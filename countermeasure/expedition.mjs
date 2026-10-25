@@ -1,3 +1,4 @@
+import {generationProfile,equipGeneration,updateGenerationRobot,blockGuardCrossing,droneAftermath,updateAftermath} from './enemy-generations.mjs';
 import {comboPolicy,updateBossCombo} from './boss-combos.mjs';
 import {profileFor,fullResources,tunedCognition,validDifficulty} from './difficulty.mjs';
 import {Arena,TYPES,weaponAt,emptyStats} from './engine.mjs';
@@ -15,7 +16,7 @@ export class ExpeditionArena extends CampaignArena{
  get ultra(){return this.ultimate||this.difficulty==='terminator'&&this.mechTier===5;}
  get profile(){return profileFor(this.difficulty);}
  get maxHealth(){return this.profile.health;}
- cognition(w){return tunedCognition(super.cognition(w),this.difficulty);}
+ cognition(w){const c=tunedCognition(super.cognition(w),this.difficulty),u=generationProfile(w);return {...c,speed:c.speed*u.speed,reaction:Math.max(.08,c.reaction/u.speed),windup:c.windup*u.windup};}
  get maxTier(){return this.ultra?3:super.maxTier;}
  get armorCapacity(){return Math.round((this.ultra?400:super.armorCapacity)*this.profile.armor);}
  get powers(){return POWERS;}
@@ -27,7 +28,7 @@ export class ExpeditionArena extends CampaignArena{
  startWave(){
   if(!['briefing','between'].includes(this.state))return false;
   this.encounter=this.plan.encounter??(milestone(this.plan.wave)?'boss':'room');this.room=roomIndex(this.plan.wave,this.encounter);this.next=null;this.door=0;this.command=null;this.confusion=0;this.deathLearned=false;this.ordnance=[];this.glueBombs=[];this.synchronized=this.encounter==='hidden'||this.encounter==='super'&&this.plan.wave>=40;this.syncClock=2.5;this.emergency=null;this.finaleCheckpoint=null;this.events=[];
-  this.autoUpgrade();
+  this.player.blastAftermath=null;this.autoUpgrade();
   if(this.encounter==='boss'&&!this.mirrorBlueprint)this.mirrorBlueprint={skills:{...this.skills},tiers:[...this.weaponTiers],weapon:this.weapon,style:structuredClone(this.memory),subject:{...this.subject},mechTier:this.mechTier,module:this.difficulty==='terminator'?this.module:Math.min(3,this.module)};
   const carry=this.carry,allUnits=this.plan.units;this.deployments=structuredClone(this.plan.deployments??[]);this.deploymentWarning=null;this.deploymentClock=0;if(this.plan.openingUnits)this.plan.units=this.plan.openingUnits;const ok=Arena.prototype.startWave.call(this);this.plan.units=allUnits;if(!ok)return false;if(this.encounter!=='boss')this.mechaDrop=null;
   this.player.hp=this.maxHealth;this.player.x=80;if(this.mechTier){this.player.mecha=true;this.player.mechaShield=carry?.shield??this.armorCapacity;}if(carry)this.player.hp=carry.hp;
@@ -35,6 +36,7 @@ export class ExpeditionArena extends CampaignArena{
   if(this.ultimate){this.player.mecha=true;this.player.mechaShield=carry?.shield??this.armorCapacity;this.mechTier=5;this.module=Math.min(this.module,5);}
   this.player.mechaShield=Math.min(this.armorCapacity,this.player.mechaShield);
   if(['boss','super'].includes(this.encounter))this.events=[{text:(this.encounter==='boss'?'MIRROR DUEL ':'SUPERBOSS ')+this.wave/10,color:this.encounter==='boss'?'#e9a8d1':'#ef9b8d',time:2.5}];
+  if(this.wave>10&&this.wave%10===1)this.event('ENEMY GENERATION '+Math.ceil(this.wave/10),'#e9bc85');
   this.initialHP=this.robots.filter(r=>!r.structure).reduce((n,r)=>n+r.hp,0);this.autoUpgrade();this.checkMechaDrop();this.entryCheckpoint=this.snapshot();this.carry=null;return true;
  }
  spawn(type,i){const r=super.spawn(type,i);if(type==='mirror'){r.hp=r.maxHp=this.wave===10&&this.mechTier===0?450:650+this.wave*27;r.moduleCd=5;}
@@ -46,18 +48,18 @@ export class ExpeditionArena extends CampaignArena{
   }if(r.super){r.hp*=(this.ultimate?1.8:1.35+r.cycle*.35)*this.profile.bossHealth;r.controlSpent=0;r.controlRecovery=0;r.objectiveReboot=0;}
   if(['mirror','overseer'].includes(type)){r.comboPolicy=comboPolicy(type==='mirror'?r.build.style:this.memory,Math.max(1,Math.ceil(this.wave/10)));r.lessonBuild={skills:{...this.skills},tiers:[...this.weaponTiers],mechTier:this.mechTier};r.comboCd=3;}
   if(!r.structure&&!['mirror','overseer'].includes(type)){const front=['guard','bulwark','plated','insulated','sealed','lancer','interceptor','feinter'].includes(type);r.x=Math.min(955,(front?380:650)+(i%3)*100+Math.floor(i/3)*32);}
-  if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?1.3:1;r.maxHp=r.hp;}return r;
+  if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?1.3:1;r.maxHp=r.hp;}equipGeneration(this,r);return r;
  }
  upgradeMech(tier){super.upgradeMech(tier);this.moduleCooldowns=POWERS.map((_,i)=>this.moduleCooldowns[i]??0);}
  get rewardTier(){return this.difficulty==='terminator'?5:this.wave/10;}
  checkMechaDrop(){if(this.encounter!=='boss'||this.mechaDrop)return;this.mechaDrop={x:500,y:260,vy:250,landed:false,collected:false,tier:this.rewardTier,locked:true,reward:true};}
  collectMechReward(){const d=this.mechaDrop;if(!d?.reward||d.collected||d.locked||this.state!=='traveling')return false;this.upgradeMech(d.tier);this.player.mecha=true;this.player.mechaShield=this.armorCapacity;this.moduleCooldowns=POWERS.map(()=>0);this.resources=fullResources(this.difficulty);d.collected=true;if(this.carry)this.carry.shield=this.armorCapacity;this.autoUpgrade();this.event('NEW SUIT / FULL ARMOR','#9ee6ee');return true;}
  updateMecha(dt){const d=this.mechaDrop;if(!d?.reward||d.collected)return;if(d.locked)return;d.y=Math.min(420,d.y+d.vy*dt);d.landed=d.y===420;if(d.landed&&Math.abs(this.player.x-d.x)<70&&this.player.y>320)this.collectMechReward();}
- updateGlueBombs(dt){for(const b of this.glueBombs){b.x=clamp(b.x+b.vx*dt,20,980);b.vy+=650*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.y>=405){b.life=0;this.effects.push({kind:'glue-burst',x:b.x,y:Math.min(b.y,405),life:.6,max:.6,color:'#d8b6f4'});for(const r of this.robots)if(r.hp>0&&!r.structure&&Math.hypot(r.x-b.x,r.y-25-b.y)<185){r.glueGround=2;r.glueSlow=5;r.glue=2;r.glueTimer=5;r.vy=Math.max(180,r.vy);r.windup=0;r.action='';r.combo=null;}}}this.glueBombs=this.glueBombs.filter(b=>b.life>0);}
+ updateGlueBombs(dt){for(const b of this.glueBombs){b.x=clamp(b.x+b.vx*dt,20,980);b.vy+=650*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.y>=405){b.life=0;this.effects.push({kind:'glue-burst',x:b.x,y:Math.min(b.y,405),life:.6,max:.6,color:'#d8b6f4'});for(const r of this.robots)if(r.hp>0&&!r.structure&&Math.hypot(r.x-b.x,r.y-25-b.y)<185){r.glueGround=2;r.glueSlow=5;r.glue=2;r.glueTimer=5;r.vy=Math.max(180,r.vy);r.windup=0;r.action='';r.combo=null;r.dive=null;r.burst=0;r.slide=0;r.shove=0;r.predictBlock=0;r.crouching=false;}}}this.glueBombs=this.glueBombs.filter(b=>b.life>0);}
  signalDeployment(){if(this.deploymentWarning||!this.deployments.length)return;this.deploymentWarning={...this.deployments.shift(),remaining:1.6};}
  updateDeployments(dt){
   this.deploymentClock+=dt;if(!this.deploymentWarning&&this.deployments[0]?.at<=this.deploymentClock)this.signalDeployment();const warning=this.deploymentWarning;if(!warning)return;
-  warning.remaining-=dt;if(warning.remaining>0)return;this.deploymentWarning=null;
+  warning.remaining-=dt;if(warning.remaining>0||this.robots.filter(r=>r.hp>0&&!r.structure).length+warning.units.length>(this.plan.activeCap??30))return;this.deploymentWarning=null;
   for(const [i,type] of warning.units.entries()){const r=this.spawn(type,this.spawnSequence++);r.x=warning.side==='left'?85+i*55:warning.side==='air'?420+i*100:915-i*55;if(warning.side==='air'){r.y=115;r.vy=60;}r.cooldown=1.5+i*.35;r.facing=Math.sign(this.player.x-r.x)||-1;r.boots=!!this.plan.boots&&i%2===0||type==='shocker';this.robots.push(r);}
  }
 
@@ -80,6 +82,8 @@ export class ExpeditionArena extends CampaignArena{
  hit(r,index,scale=1){
   if(r.structure&&r.hp<=0)return;const w=weaponAt(index,this.weaponTiers[index]);if(index===2&&this.resources.electricLock>0)return;
   const kind=index===0?'impact':index===1?'cutting':w.type==='water'?'liquid':w.type==='energy'?'laser':'electric';if(this.anticipate(r,kind))return;
+  if(r.fullArmor){const factor=[.82,.7,1.05,.82][index];scale*=r.corrosion>0?factor+(1-factor)*.6:factor;}
+  if(r.predictBlock>0&&!r.disabled&&!(r.stun>0||r.paralyzed>0||r.radio>0||r.emp>0)&&r.predictedWeapon===index&&(this.player.x-r.x)*r.facing>0){scale*=.3;r.predictBlock=0;if(r.combo)r.combo.blockUsed=true;this.effects.push({kind:'number',x:r.x,y:r.y-90,text:'PREDICTED BLOCK',life:.55,max:.55,color:'#e9a8d1'});}
   const oldStun=r.stun;const boost=r.boostExposed>0&&index<2?1.8:1;const online=r.type==='overseer'&&!r.disabled;if(online)r.disabled=true;super.hit(r,index,scale*boost);if(online&&r.hp>0)r.disabled=false;
   if(index===3)r.stun=oldStun;
   if(r.super&&r.controlRecovery>0)for(const k of ['emp','radio','root','paralyzed','stun'])r[k]=0;
@@ -121,9 +125,13 @@ export class ExpeditionArena extends CampaignArena{
   this.shots=[];this.pools=[];this.player.invulnerable=1.2;this.effects.push({kind:'emp',x:e.x,y:e.y,life:1.2,max:1.2,color:'#b3e9ec'});return true;
  }
  addPool(x,chemical=0){return super.addPool(x,Math.min(2,Number(chemical)||0));}
+ updateEnemyGeneration(r,dt){return updateGenerationRobot(this,r,dt);}
+ explodeDrone(r){const before={hp:this.player.hp,armor:this.player.mechaShield};super.explodeDrone(r);droneAftermath(this,r,before);if(r.type==='chemDrone'&&r.upgrade?.n)for(const pool of this.pools)if(Math.abs(pool.x-r.x)<160&&pool.fluid===2)pool.life=Math.max(pool.life,10+r.upgrade.n*3);}
+ botHurt(r,damage,...args){super.botHurt(r,damage*(['mirror','overseer'].includes(r.type)?1:1+(r.upgrade?.n??0)*.045),...args);}
  updateSpecialRobot(r,dt){
   if(r.structure){r.y=r.anchorY;r.vy=0;return true;}
   r.emp=Math.max(0,(r.emp??0)-dt);r.weakness=Math.max(0,(r.weakness??0)-dt);r.boostExposed=Math.max(0,(r.boostExposed??0)-dt);if(r.evasion){r.evasion.age+=dt;if(r.evasion.age>.42)r.evasion=null;}
+  if(r.emp>0||r.radio>0||r.root>0||r.confused>0){r.windup=0;r.action='';r.dive=null;r.burst=0;r.slide=0;r.shove=0;r.predictBlock=0;r.crouching=false;r.combo=null;}
   const hadGlue=r.glueSlow>0;r.glueGround=Math.max(0,(r.glueGround??0)-dt);r.glueSlow=Math.max(0,(r.glueSlow??0)-dt);if(hadGlue&&r.glueSlow===0){r.glue=0;r.glueTimer=0;}
   const flying=r.flying;if(r.glueGround>0){r.flying=false;r.vy=Math.max(180,r.vy);}const handled=super.updateSpecialRobot(r,dt);r.flying=flying;
   if(r.super){
@@ -180,7 +188,7 @@ export class ExpeditionArena extends CampaignArena{
  }
  updateOrdnance(dt){for(const s of this.ordnance){const old=s.x;s.x+=s.vx*dt;s.life-=dt;const target=this.robots.filter(r=>r.hp>0&&Math.abs(r.y-26-s.y)<65&&(r.x-old)*(r.x-s.x)<=0).sort((a,b)=>Math.abs(a.x-old)-Math.abs(b.x-old))[0];if(target){s.life=0;if(!this.anticipate(target,'explosive')){this.effects.push({kind:'blast',x:target.x,y:target.y-25,life:.5,max:.5,color:'#ffbd85'});for(const r of this.robots)if(r.hp>0&&Math.hypot(r.x-target.x,r.y-target.y)<110){const critical=this.random()<.1;this.damageRobot(r,240*(r.super?3:1)*(critical?1.65:1),{critical,number:true,color:'#ffbd85'});};}}}this.ordnance=this.ordnance.filter(s=>s.life>0&&s.x>0&&s.x<1000);}
  update(dt,input={}){
-  dt=clamp(dt,0,.04);if(this.state==='traveling'){this.updateTravel(dt,input);return;}if(this.state==='playing'){
+  dt=clamp(dt,0,.04);const oldX=this.player.x;if(this.state==='playing')updateAftermath(this,dt);if(this.state==='traveling'){this.updateTravel(dt,input);return;}if(this.state==='playing'){
    this.resources.electricLock=Math.max(0,this.resources.electricLock-dt);this.boostTime=Math.max(0,this.boostTime-dt);
    if(this.boostTime>0){this.player.vy=-670;input={...input,up:false};for(const r of this.robots)if(r.hp>0&&!r.structure&&Math.abs(r.x-this.player.x)<100&&r.y>=this.player.y-10&&r.y<this.player.y+180){r.boostExposed=4;this.damageRobot(r,80*dt,{color:'#ffac65'});}}
    this.updateDeployments(dt);this.updateGlueBombs(dt);this.updateOrdnance(dt);if(this.emergency?.activated){this.emergency.backup=Math.max(0,this.emergency.backup-dt);if(this.emergency.backup===0)this.emergency.activated=false;}
@@ -188,6 +196,7 @@ export class ExpeditionArena extends CampaignArena{
   }
   if(this.state==='playing')for(const r of this.robots)if(r.hp>0&&!r.structure){r.cooldown-=dt*(this.profile.attack-1);if(r.windup>0)r.windup=Math.max(dt*.1,r.windup-dt*(this.profile.attack-1));}
   super.update(dt,input);
+  if(this.state==='playing'){if(this.player.blastAftermath?.kind==='shrapnel'){this.player.x=oldX+(this.player.x-oldX)*.72;this.player.vx*=.72;}blockGuardCrossing(this,oldX);}
   if(this.state==='playing'){const wall=this.robots.find(r=>r.type==='buttonGuard'&&r.hp>0);if(wall&&this.player.x>wall.x-105&&this.player.y<245)this.player.x=wall.x-105;}
  }
 }

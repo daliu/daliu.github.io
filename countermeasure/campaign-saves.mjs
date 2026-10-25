@@ -8,6 +8,7 @@ function memory(m){
  for(const k of ['weapon','effective']){if(!Array.isArray(m[k])||m[k].length!==4||!m[k].every(v=>finite(v,0,1))||Math.abs(m[k].reduce((a,b)=>a+b,0)-1)>.001)return null;out[k]=[...m[k]];}
  for(const k of ['energyShare','groundShockShare','stationaryRatio','duckRatio','farRatio']){if(!finite(m[k],0,1))return null;out[k]=m[k];}
  for(const k of ['groundShockHits','attackRate','jumpRate','dashRate']){if(!finite(m[k],0,1000000))return null;out[k]=m[k];}
+ for(const k of ['rollRate','airDashRate']){if(m[k]!==undefined&&!finite(m[k],0,1000000))return null;out[k]=m[k]??0;}
  if(!Array.isArray(m.history)||m.history.length>12||!m.history.every(h=>h&&finite(h.total,0,1000000))||!Array.isArray(m.outcomes)||m.outcomes.length>12)return null;
  out.history=m.history.map(h=>({total:h.total}));out.outcomes=[];
  for(const h of m.outcomes){if(!h||!integer(h.wave,1,50)||typeof h.won!=='boolean'||!finite(h.damageTaken,0,1000000)||!finite(h.attacks,0,1000000)||!finite(h.seconds,0,1000000))return null;out.outcomes.push({wave:h.wave,won:h.won,damageTaken:h.damageTaken,attacks:h.attacks,seconds:h.seconds});}return out;

@@ -1,3 +1,4 @@
+import {enemyGeneration} from './enemy-generations.mjs';
 import {TYPES,UPGRADES} from './engine.mjs';
 import {campaignPlan,MODULES} from './campaign-plan.mjs';
 export const POWERS=[...MODULES.map(m=>m.id==='glue'?{...m,name:'Industrial glue bomb',cooldown:10,hint:'2s grounded, then 3s slowed. 10s cooldown.'}:m),
@@ -30,10 +31,14 @@ export function expeditionPlan(wave,memory,encounter=null,profile){
   const counter=memory.weapon.indexOf(Math.max(...memory.weapon)),screens=['guard','plated','insulated','sealed'];
   if(extra)units.push(wave>=21&&wave%3===0?'orchestrator':screens[counter]);
   if(extra>1)units.push(memory.jumpRate>.15?'flak':'lancer');
-  const reserve=units.splice(-Math.max(1,Math.ceil(units.length*.4))),deployments=[];
-  if(pattern==='relay'&&reserve.length>1){deployments.push({at:4,side:'right',units:reserve.slice(0,1)},{at:9,side:'left',units:reserve.slice(1)});}
-  else deployments.push({at:4,side:pattern==='pincer'?'left':pattern==='airlift'?'air':'right',units:reserve});
-  return {...base,encounter,pattern,units:[...units,...reserve],openingUnits:units,deployments};
+  const generation=enemyGeneration(wave),n=generation-1,palette=['guard','gunner','bombardier',...(wave>=11?['douser','shocker','flyer']:[]),...(wave>=21?['metalDrone','plasticDrone','chemDrone']:[]),...(wave>=41?['orchestrator']:[])];
+  if(!n){const reserve=units.splice(-Math.max(1,Math.ceil(units.length*.4)));return {...base,encounter,pattern,generation,units:[...units,...reserve],openingUnits:units,deployments:[{at:4,side:'right',units:reserve}]};}
+  const size=Math.min(30,units.length+Math.round(n*2*(profile?.count??1)));
+  while(units.length<size)units.push(palette[(wave+units.length)%palette.length]);
+  const all=[...units],opening=units.splice(0,Math.min(Math.max(2,Math.round((3+n)*(profile?.count??1))),Math.ceil(units.length*.6))),deployments=[],chunk=Math.min(4,2+Math.floor(n/2));
+  for(let i=0;units.length;i++){const side=wave<11?'right':['right','left','air'][(wave+i)%3];deployments.push({at:4+i*4.5,side,units:units.splice(0,chunk)});}
+  const dark=base.dark||generation>=3&&wave%3===0||generation===5&&wave%2===1;
+  return {...base,encounter,pattern,generation,units:all,openingUnits:opening,deployments,dark,visionRadius:Math.max(235,335-n*24),activeCap:Math.min(16,Math.round(8+n*1.4*(profile?.count??1)))};
  }
  return {...base,encounter};
 }

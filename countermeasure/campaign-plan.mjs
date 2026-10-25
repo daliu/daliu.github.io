@@ -38,11 +38,11 @@ const ROOMS=[
 ];
 export const campaignPhase=w=>w===50?'Emergency protocol':w===49?'Mirror protocol':w<=3?'Defensive learning':w<=6?'Movement learning':w<=10?'Offensive learning':w<=20?'Conductive warfare':w<=30?'Drone warfare':w<=40?'Low visibility':'Coordinated warfare';
 export function campaignCognition(w){const g=(Math.exp(.055*(Math.max(1,Math.min(48,w))-1))-1)/(Math.exp(.055*47)-1);return {growth:g,speed:1+1.05*g,reaction:.9-.73*g,turn:1.08-.91*g,windup:1-.32*g,dodge:.03+.72*g,crit:.015+.14*g,discipline:g>.48};}
-export function campaignMemory(){return {...emptyMemory(),attempts:0,failures:0,outcomes:[],effective:[.25,.25,.25,.25]};}
+export function campaignMemory(){return {...emptyMemory(),attempts:0,failures:0,rollRate:0,airDashRate:0,outcomes:[],effective:[.25,.25,.25,.25]};}
 export function learnCampaign(memory,stats,{wave,won,learning=1}){
  const s=summarize(stats),totalDamage=stats.damage.reduce((a,b)=>a+b,0),weight=Math.min(.92,Math.min(.65,Math.max(.12,s.total/18))*learning),mix=(a,b)=>a*(1-weight)+b*weight;
  const m=structuredClone(memory);m.waves+=won?1:0;m.attempts++;m.failures+=won?0:1;
- if(s.total){m.weapon=m.weapon.map((v,i)=>mix(v,s.weapon[i]));m.effective=m.effective.map((v,i)=>mix(v,totalDamage?stats.damage[i]/totalDamage:s.weapon[i]));for(const k of ['energyShare','groundShockShare','stationaryRatio','duckRatio','attackRate','jumpRate','dashRate','farRatio'])m[k]=mix(m[k],s[k]);}
+ if(s.total){m.weapon=m.weapon.map((v,i)=>mix(v,s.weapon[i]));m.effective=m.effective.map((v,i)=>mix(v,totalDamage?stats.damage[i]/totalDamage:s.weapon[i]));for(const k of ['energyShare','groundShockShare','stationaryRatio','duckRatio','attackRate','jumpRate','dashRate','farRatio','rollRate','airDashRate'])m[k]=mix(m[k]??0,s[k]??0);}
  m.groundShockHits+=s.groundShockHits;m.history=[...m.history,{total:s.total}].slice(-12);
  m.outcomes=[...m.outcomes,{wave,won,damageTaken:Math.round(stats.damageTaken),attacks:s.total,seconds:Math.round(stats.time)}].slice(-12);return m;
 }

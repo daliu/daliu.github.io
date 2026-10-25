@@ -1,6 +1,6 @@
 # Campaign tuning — October 25, 2026
 
-Release 17 separates post-victory suit rewards from armor attrition, replaces acid binding with a timed thrown glue bomb, and gives Mirror/Superboss opponents learned weights over authored combo moves. Music continues while crossing cleared rooms. The standalone updater activates the current offline release without deleting saves.
+Release 18 upgrades the whole enemy roster after each ten-level sector and expands learned boss move families. It retains the Release 17 rules, which separate post-victory suit rewards from armor attrition, replace acid binding with a timed thrown glue bomb, and give Mirror/Superboss opponents learned weights over authored combo moves. Music continues while crossing cleared rooms. The standalone updater activates the current offline release without deleting saves.
 
 ## Current rules
 
@@ -13,27 +13,39 @@ Release 17 separates post-victory suit rewards from armor attrition, replaces ac
 - Mirror/Superboss combo selection uses retained weapon effectiveness, jump/dash/spacing habits, successful clear time and sample confidence. Authored moves have a 0.6-second windup and at least a 2.6-second recovery between chains: jumping bilateral circuit fire, slash/electric pursuit, duck/counter and later aerial feints. Lessons freeze on spawn. First-iteration opponents cannot gain flight from the player's suit. The first unarmored Mirror now has 450 base HP and 55% incoming human damage, replacing the prior mid-fight armor award; later boss durability is unchanged.
 - Explicit pause menus still pause; room traversal keeps held movement, animation and the music phrase running. About describes this local statistical model and its limits rather than claiming neural or LLM training.
 
+## Enemy generations
+
+Generation II starts at level 11, III at 21, IV at 31 and V at 41. All ordinary chassis gain 7% base durability and 7.5% movement per completed sector, with quicker attacks and shorter but bounded windups on top of the existing cognition curve. Mech and armor carry rules are unchanged.
+
+- Artillery uses higher and shorter-flight arcs, narrower landing spreads and bounded motion lead. Landing rings commit before launch; an ally entering that area makes it hold fire. Friendly explosions still hurt robots that move into them afterward.
+- Linear shooters fire faster bursts, check intervening allies and hop for a clearer lane. Flak and sky slingers also improve their projectile patterns/tempo. Dousers lay longer-lived water and orchestrators signal more frequently.
+- Guards gain all-around plating and stronger shields, a telegraphed shove and a physical ground barrier. They retain electrical/corrosion weaknesses and leg/disabling counters; jumping passes above the barrier.
+- Conductors retain floor shocks and add a committed sliding launch. Grounded standing humans are hit; rolling or jumping avoids it.
+- Drones mark a target, wait 0.72 seconds, then commit to an increasingly fast dive. They can miss. Blast hits leave longer static damage, shrapnel slowing or chemical exposure; later chemical pools persist longer. Disarming/dilution counters remain.
+- More reserves arrive from alternating sides/air. Normal averages 6.8, 9.3, 11.7 and 14.1 robots in sectors II–V; Terminator averages 10.9, 14.7, 18.3 and 21.7, peaking at 23 authored units. There is a safety budget of 30 total and 16 alive; warning gates wait for room under the live cap. Blackouts become more frequent and their radius contracts, while warning marks remain visible.
+- Mirror/Superboss policies now classify evasive, rolling, aerial, air-dash and ranged affinities. Roll/air-dash rates are separately learned and saved, with zero defaults for old saves. New moves are actual low-hitbox rolls, air-dash critical attempts and a brief guard against the learned weapon family. One matching front hit consumes that guard; switching family, flanking or disabling defeats the prediction. No exact input sequence is recorded.
+
 ## Reproduce
 
 ```sh
 node --test tests/countermeasure*.test.mjs
-node scripts/countermeasure-playtest.mjs --seeds 11,12,13,14,15 --reaction .20 --max-deaths 50 --report /tmp/countermeasure-tuning.json
-node scripts/countermeasure-playtest.mjs --seeds 51,52,53,54,55 --reaction .28 --max-deaths 50 --report /tmp/countermeasure-validation.json
+node scripts/countermeasure-playtest.mjs --seeds 11,12,13,14,15 --reaction .20 --max-deaths 60 --report /tmp/countermeasure-tuning.json
+node scripts/countermeasure-playtest.mjs --seeds 71,72,73,74,75 --reaction .28 --max-deaths 60 --report /tmp/countermeasure-validation.json
 ```
 
-The deterministic pilot uses normal combat, movement, skills, powers, gates and pod collection. It reads arena state and uses touch aim assistance, so it is not a human or physical-phone model. Decision timing is quantized by a 40 ms simulation step. For this release it ignores locked crates, avoids self-electrifying the unarmored first Mirror, reacts to imminent shots with a jump/dash, and uses glue against flyers. These are test-player strategy changes, not edits to health, damage or victory state. Fixing a phantom Demo fallback crate in Superboss rooms also removed a trap in the test controller's pod logic.
+The deterministic pilot uses normal combat, movement, skills, powers, gates and pod collection. It reads arena state and uses touch aim assistance, so it is not a human or physical-phone model. Decision timing is quantized by a 40 ms simulation step. Since Release 17 it ignores locked crates, avoids self-electrifying the unarmored first Mirror, reacts to imminent shots with a jump/dash, and uses glue against flyers. These are test-player strategy changes, not edits to health, damage or victory state. The previous release also fixed a phantom Demo fallback crate in Superboss rooms and removed a trap in the test controller's pod logic.
 
 ## Results and limits
 
-201 focused checks pass, including eight complete routes, the exact glue timers, continuous acid without grounding, post-clear reward checkpoints, music phrase continuity, real bilateral projectiles and actual duck hitboxes. Forty final runs completed: twenty tuning runs followed by twenty previously unused validation seeds after combat calibration. Another twenty calibration cross-checks also completed; those are not called independent validation. The retry budget is now 50 because the pilot needs more attempts under armor attrition and stronger learned offense.
+219 focused checks pass, including 18 new generation/affinity mechanics checks and eight full routes. Forty additional runs complete: 20 tuning routes on seeds 11–15 at .20-second decisions and 20 previously unused validation routes on seeds 71–75 at .28 seconds. The controller remains unchanged from Release 17: these results test the stronger enemies with the same strategy. The full-route test budget increases from 50 to 60 deaths because the new attrition intentionally increases retry demand; initial Terminator seed 32 completed with 53 deaths, so it failed the old budget without getting stuck. That is reported as additional retry cost, not a controller win-rate improvement.
 
-| Difficulty | Tuning completion / deaths | Validation completion / deaths | Median successful superboss combat seconds, tuning / validation |
+| Difficulty | Tuning completion / deaths | Validation completion / deaths | Median total simulated minutes, tuning / validation |
 | --- | --- | --- | ---: |
-| Easy | 5/5 · 0–1 | 5/5 · 0–0 | 10.9 / 13.7 |
-| Normal | 5/5 · 6–7 | 5/5 · 1–4 | 15.7 / 16.7 |
-| Hard | 5/5 · 12–17 | 5/5 · 5–6 | 18.3 / 18.7 |
-| Terminator | 5/5 · 18–39 | 5/5 · 15–35 | 18.2 / 16.6 |
+| Easy | 5/5 · 2–5 | 5/5 · 1–2 | 9.0 / 9.3 |
+| Normal | 5/5 · 15–18 | 5/5 · 7–11 | 15.1 / 14.5 |
+| Hard | 5/5 · 29–32 | 5/5 · 15–19 | 20.6 / 18.5 |
+| Terminator | 5/5 · 24–48 | 5/5 · 21–44 | 19.4 / 19.2 |
 
-Timing/seed resonance means slower decisions can sometimes perform better. These counts demonstrate routes with retries, not human win rates, deathless Terminator proof, or proof that the game is fun. Boss timings exclude travel and failed attempts. Human health still repairs by difficulty outside Terminator; ordinary-room armor does not.
+Total time includes travel and retries. These routes prove possible completion by a state-aware controller, not human win rates, deathless qualification or fun. Later rooms are intentionally much more demanding; old release tables do not describe them. Browser checks use actual route checkpoints via ordinary Import on a separate local origin: generation-V darkness/plating, Mirror quick weapon/power controls, release/cache update and server-off reload. Native fullscreen in the in-app QA browser was inconclusive; it is not claimed as phone acceptance.
 
-Browser acceptance covers the locked suit during a first Mirror, earned level-20 Superboss loaded through ordinary Import, compact touch power switching/firing and the ten-second glue cooldown, a 390-pixel About layout, and a server-off cached reload. Checkpoints came from actual input-driven routes on a separate local origin. Existing input checks cover independent steering/fire/flight, pointer cancellation and pause. Physical iPhone/Android sessions and full human Campaign play remain follow-ups.
+Physical-phone sessions, full human play and judgments of frustration versus satisfying pressure remain required follow-ups. Phone-sized browser checks exercise layout and ordinary UI inputs; they do not prove multitouch ergonomics on iOS/Android.

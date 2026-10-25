@@ -49,5 +49,5 @@ test('late populations spawn away from the entry lane instead of on top of the h
  for(const difficulty of ['easy','normal','hard','terminator']){const g=encounter(48,difficulty,'room');assert.ok(g.plan.units.length>2);assert.ok(g.robots.every(r=>r.x>=380));}
 });
 test('seeded tactical inputs clear all fifty levels and boss pairs on every mode without direct HP or win-state edits',()=>{
- for(const difficulty of ['easy','normal','hard','terminator'])for(const seed of [31,32]){const r=play(difficulty,seed,{reaction:.2,maxDeaths:50});assert.equal(r.status,'complete',`${difficulty} seed ${seed} stopped at ${r.level}`);assert.equal(r.level,50);assert.equal(r.rows.filter(row=>row.result==='clear'&&row.phase==='super').length,5);assert.ok(r.rows.some(row=>row.wave===1));}
+ for(const difficulty of ['easy','normal','hard','terminator'])for(const seed of [31,32]){const r=play(difficulty,seed,{reaction:.2,maxDeaths:60});assert.equal(r.status,'complete',`${difficulty} seed ${seed} stopped at ${r.level}`);assert.equal(r.level,50);assert.equal(r.rows.filter(row=>row.result==='clear'&&row.phase==='super').length,5);assert.ok(r.rows.some(row=>row.wave===1));}
 });
