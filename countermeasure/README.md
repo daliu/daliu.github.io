@@ -1,7 +1,7 @@
 # Countermeasure
 
 Play at https://daliu.github.io/countermeasure/?mode=campaign.
-Static, installable, offline JavaScript game. No LLM, backend, account, external assets or build step. Includes original synthesized chiptune music.
+Static, installable, offline JavaScript game. No LLM, game backend, account, external game assets or build step. Optional opt-in gameplay reporting uses the site’s existing Google Analytics; it is separate from offline play and opponent learning. Includes original synthesized chiptune music.
 
 ## Modes and saved runs
 
@@ -90,3 +90,7 @@ Serve the repository root with a static HTTP server; open `/countermeasure/?mode
 Power cooldowns carry through doorways, tick while traveling, and survive checkpoints. Fresh retries, new suits and direct finale replays reset them. Superbosses recover briefly after sustained disabling; the amber CONTROL RESIST ring marks this window. Emergency-button and antenna EMPs retain their full eight-second reboot. Armor damage carries exactly through ordinary rooms in every mode; collecting an earned new suit after a boss is the full-armor exception; booster flight remains usable at zero armor. See [BALANCE.md](BALANCE.md) for reproducible input-driven runs and their limits.
 
 Checks cover migration/save refusal, automatic upgrades, physical gate traversal and camera continuity, five boss pairs, resistance/crits, exact anticipation quotas, destructible defenses, bounded reinforcements, a full sequential route/deathless gate, ultimate resource interactions, real-control first-superboss victory, finite simulations, and offline caching. Late browser QA uses ordinary imported checkpoints reached by the input-driven pilot on a separate local origin. Physical-phone acceptance and full-length human balance testing remain follow-ups.
+
+## Statistics
+
+Menu → Statistics includes local encounter results, weapon/strategy preferences, critical/combo counts, death rates and an arena death map. Sharing defaults off. Opt-in online events feed the existing Analytics property and daily aggregate community view; approximate unique browsers are not unique people or IPs. See [ANALYTICS.md](ANALYTICS.md) for the schema, retention, reporting definitions, privacy controls and validation limits.

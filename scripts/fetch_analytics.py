@@ -788,8 +788,12 @@ def main():
     merged = sorted(manual + auto_events, key=lambda e: e.get("date", ""))
     events = compute_event_impact(daily, merged)
 
+    from countermeasure_analytics import fetch_game_analytics
+    game_statistics = fetch_game_analytics(client, date_range)
+
     # Build output
     output = {
+        "countermeasure": game_statistics,
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "date_range": {"start": start_date, "end": end_date},
         "windows": {

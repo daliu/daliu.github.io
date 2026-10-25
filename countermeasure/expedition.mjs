@@ -105,7 +105,7 @@ export class ExpeditionArena extends CampaignArena{
  useModule(){
   if(this.state!=='playing'||!this.player.mecha||this.moduleCooldowns[this.module]>0||!this.selectModule(this.module))return false;
   if(this.aimAssist)this.aimAtNearest(this.module===3?350:265,false);const p=this.player,m=POWERS[this.module];if(this.module===3&&this.resources.electricLock>0||this.module===5&&this.resources.ammo===0)return false;
-  this.moduleCooldowns[this.module]=m.cooldown*(this.module===1?1:this.mechTier===5?.65:1);this.effects.push({kind:'module',module:this.module,x:p.x,y:p.y-30,dir:p.facing,range:this.module===0?1000:350,life:.55,max:.55,color:m.color});
+  this.stats.modules[this.module]++;this.moduleCooldowns[this.module]=m.cooldown*(this.module===1?1:this.mechTier===5?.65:1);this.effects.push({kind:'module',module:this.module,x:p.x,y:p.y-30,dir:p.facing,range:this.module===0?1000:350,life:.55,max:.55,color:m.color});
   if(this.module===1){this.glueBombs.push({x:p.x+p.facing*20,y:p.y-35,vx:p.facing*270,vy:-160,life:.65});return true;}
   if(this.module===5){this.resources.ammo--;this.ordnance.push({x:p.x+p.facing*28,y:p.y-27,vx:p.facing*640,life:1.5});return true;}
   if(this.module===4){this.resources.electricLock=5;const targets=this.robots.filter(r=>r.hp>0&&!r.structure&&(!r.channel||r.channel==='emp')&&Math.hypot(r.x-p.x,r.y-p.y)<480).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x));if(targets[0])this.disable(targets[0],'emp',6);return true;}

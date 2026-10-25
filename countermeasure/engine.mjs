@@ -44,7 +44,7 @@ export const TYPES = {
   overseer:{name:'Overseer',color:'#ef796b',hp:900,speed:410,resistance:{},flaw:'Every weapon is countered. It can jump, but cannot fly. Reach the elevated red EMP button, then destroy the disabled core before backup reroutes.',behavior:'overseer'},
   mirror:{name:'Mirror',color:'#e9a8d1',hp:600,speed:320,resistance:{},flaw:'It learned your habits. Break them. The build freezes when the duel starts.',behavior:'mirror'}
 };
-export const emptyStats=()=>({attacks:[0,0,0,0],hits:[0,0,0,0],damage:[0,0,0,0],energyAttacks:0,electricalHits:0,groundShockHits:0,stationaryTime:0,duckTime:0,jumps:0,dashes:0,rolls:0,airDashes:0,close:0,far:0,samples:0,time:0,damageTaken:0});
+export const emptyStats=()=>({attacks:[0,0,0,0],hits:[0,0,0,0],damage:[0,0,0,0],criticals:{head:0,body:0,legs:0},combos:{wetElectric:0,exposedLiquid:0,dentedElectric:0},modules:[0,0,0,0,0,0],energyAttacks:0,electricalHits:0,groundShockHits:0,stationaryTime:0,duckTime:0,jumps:0,dashes:0,rolls:0,airDashes:0,close:0,far:0,samples:0,time:0,damageTaken:0});
 export const emptyMemory=()=>({waves:0,weapon:[.25,.25,.25,.25],energyShare:0,groundShockShare:0,groundShockHits:0,stationaryRatio:0,duckRatio:0,attackRate:1,jumpRate:0,dashRate:0,farRatio:.5,history:[]});
 export function summarize(s){
   const total=s.attacks.reduce((a,b)=>a+b,0);
@@ -183,6 +183,10 @@ export class Arena{
     if(weapon===1)r.exposed=6;
     if(weapon===0){r.dented=5;r.x=Math.max(30,Math.min(970,r.x+p.facing*24));r.stun=Math.max(r.stun,.18);}
     if(front){r.shield=Math.max(0,r.shield-w.damage*scale*(weapon===0?1.4:weapon===1?.85:.2));if(r.shield===0){this.event('SHIELD BROKEN — guard exposed.','#f2b966');this.effects.push({kind:'shield-drop',x:r.x+r.facing*26,y:r.y-30,life:.8,max:.8,color:'#d8ad68'});}}
+    if(critical)this.stats.criticals[zone]++;
+    if(w.type==='electric'&&r.wet>0&&!(r.boots&&r.y>=414))this.stats.combos.wetElectric++;
+    if(w.type==='electric'&&r.dented>0)this.stats.combos.dentedElectric++;
+    if(weapon===3&&r.exposed>0)this.stats.combos.exposedLiquid++;
     this.stats.hits[weapon]++;this.stats.damage[weapon]+=damage;if(r.type==='mirror')r.stun=Math.min(r.stun,.18);this.damageRobot(r,damage,{color:w.color,critical,number:true});
   }
   botHurt(r,damage,fromX=r.x,penetration=0,cause='combat trauma',critical=null){critical??=this.random()<r.cognition.crit;this.hurt(damage*(critical?1.65:1),fromX,penetration,cause,{critical});}
