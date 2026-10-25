@@ -69,7 +69,7 @@ export class CampaignArena extends Arena{
   for(const o of this.robots)if(o!==r&&o.hp>0&&Math.hypot(o.x-r.x,o.y-r.y)<125)this.friendlyDamage(r.id,o,70);
  }
  updateMirror(r,dt){
-  if(r.moduleWindup>0){r.moduleWindup-=dt;if(r.moduleWindup<=0){const module=r.build.module??0;r.moduleCd=MODULES[module].cooldown;this.effects.push({kind:'module',module,x:r.x,y:r.y-30,dir:r.facing,range:280,life:.55,max:.55,color:'#e9a8d1'});if(Math.abs(r.x-this.player.x)<280&&Math.abs(r.y-this.player.y)<150){if(module===0)this.player.vy=Math.max(140,this.player.vy);else this.botHurt(r,module===1?12:module===2?24:30,r.x,0,'mirrored mech power');}}return;}
+  if(r.moduleWindup>0){r.moduleWindup-=dt;if(r.moduleWindup<=0){const module=r.build.module??0;r.moduleCd=(this.powers??MODULES)[module].cooldown;this.effects.push({kind:'module',module,x:r.x,y:r.y-30,dir:r.facing,range:280,life:.55,max:.55,color:'#e9a8d1'});if(Math.abs(r.x-this.player.x)<280&&Math.abs(r.y-this.player.y)<150){if(module===0)this.player.vy=Math.max(140,this.player.vy);else this.botHurt(r,module===1?12:module===2?24:30,r.x,0,'mirrored mech power');}}return;}
   super.updateMirror(r,dt);if(r.stun>0||r.paralyzed>0)return;
   r.flightSense-=dt;if(r.flightSense<=0){r.flightTarget=this.player.y;r.flightSense=.24;}
   if(r.build.mechTier&&r.flightTarget<350){r.vy=-235;r.y=Math.max(95,r.y);}
@@ -91,10 +91,10 @@ export class CampaignArena extends Arena{
   const t=TYPES[r.type],special=['douser','shocker','flyer','drone','command'].includes(t.behavior);if(!special){
    if(this.command&&['guard','bulwark','plated','insulated','sealed'].includes(r.type)&&r.windup<=0){
     this.senseRobot(r,dt);const leader=this.robots.find(o=>o.type==='orchestrator'&&o.hp>0),ranged=this.robots.find(o=>o.hp>0&&['gunner','flyer','flak'].includes(o.type));
-    const protectedBot=ranged??leader;if((!this.command.coverId||this.command.coverId===r.id)&&protectedBot&&r.targetX!==undefined&&Math.abs(r.targetX-r.x)>100){const desired=clamp(protectedBot.x+Math.sign(r.targetX-protectedBot.x)*100,35,965);if(this.command.coverId===r.id&&this.command.air&&r.y>=420&&r.cooldown<=0){r.vy=-520;r.cooldown=2;}r.x+=Math.sign(desired-r.x)*Math.min(Math.abs(desired-r.x),t.speed*r.cognition.speed*dt);return true;}
+    const protectedBot=ranged??leader;if((!this.command.coverId||this.command.coverId===r.id)&&protectedBot&&r.targetX!==undefined&&Math.abs(r.targetX-r.x)>100){const desired=clamp(protectedBot.x+Math.sign(r.targetX-protectedBot.x)*100,35,965);if(this.command.coverId===r.id&&this.command.air&&!r.crippled&&r.y>=420&&r.cooldown<=0){r.vy=-520;r.cooldown=2;}r.x+=Math.sign(desired-r.x)*Math.min(Math.abs(desired-r.x),t.speed*r.cognition.speed*(r.crippled?.3:1)*dt);return true;}
    }return false;
   }
-  this.senseRobot(r,dt);const p=this.player,dx=r.targetX-r.x,dy=r.targetY-r.y,dist=Math.abs(dx),speed=t.speed*r.cognition.speed*(1-r.glue*.23);
+  this.senseRobot(r,dt);const p=this.player,dx=r.targetX-r.x,dy=r.targetY-r.y,dist=Math.abs(dx),speed=t.speed*r.cognition.speed*(r.crippled?.3:1)*(1-r.glue*.23);
   if(t.behavior==='drone'){
    r.x=clamp(r.x+Math.sign(dx)*speed*dt,25,975);r.hoverY=clamp(r.targetY,150,400);
    if(r.type==='chemDrone'){r.fuse=Math.max(0,r.fuse-dt);if(r.fuse===0){this.damageRobot(r,r.hp);return true;}}
@@ -110,7 +110,7 @@ export class CampaignArena extends Arena{
   }return true;}
   if(t.behavior==='command'){
    if(r.sense===r.cognition.reaction){const attack=this.effects.find(e=>e.kind==='attack'&&e.color!=='#e9a8d1'&&e.weapon!==undefined);if(attack){const type=attack.energy?'energy':weaponAt(attack.weapon,0).type,covers=this.robots.filter(o=>o!==r&&o.hp>0&&!o.flying);covers.sort((a,b)=>(TYPES[a.type].resistance[type]??1)-(TYPES[b.type].resistance[type]??1));r.coverId=covers[0]?.id;r.coverAir=attack.y<340;}}
-   r.orderCd-=dt;if(r.orderCd<=0){r.orderCd=4.6;this.command={time:1.3,x:r.x,y:r.y,coverId:r.coverId,air:r.coverAir};for(const o of this.robots)if(o!==r&&o.hp>0&&o.radio<=0&&o.confused<=0)o.cooldown=Math.min(o.cooldown,0);this.effects.push({kind:'module',module:0,x:r.x,y:r.y-30,range:900,life:.6,max:.6,color:'#f1c778'});}
+   r.orderCd-=dt;if(r.orderCd<=0){r.orderCd=4.6/(this.profile?.coordination??1);this.command={time:1.3,x:r.x,y:r.y,coverId:r.coverId,air:r.coverAir};for(const o of this.robots)if(o!==r&&o.hp>0&&o.radio<=0&&o.confused<=0)o.cooldown=Math.min(o.cooldown,0);this.effects.push({kind:'module',module:0,x:r.x,y:r.y-30,range:900,life:.6,max:.6,color:'#f1c778'});}
    if(dist<210)r.x-=Math.sign(dx)*speed*dt;else if(dist>400)r.x+=Math.sign(dx)*speed*dt;
   }else if(t.behavior==='douser'){
    if(dist<240)r.x-=Math.sign(dx)*speed*dt;if(r.cooldown<=0){r.action='flood';r.windup=1.2;r.cooldown=7;}
@@ -122,7 +122,7 @@ export class CampaignArena extends Arena{
    if(r.cooldown<=0&&this.robots.filter(o=>o.windup>0&&o.hp>0).length<3){r.lockX=r.targetX;r.lockY=r.targetY-20;r.action='sky-shot';r.windup=.8;r.cooldown=2.4;}
   }r.x=clamp(r.x,25,975);return true;
  }
- hurt(...args){const before=this.state;super.hurt(...args);if(before==='playing'&&this.state==='dead'&&!this.deathLearned){this.memory=learnCampaign(this.memory,this.stats,{wave:this.wave,won:false});this.deathLearned=true;this.plan=this.makePlan(this.wave,this.memory);this.entryCheckpoint=this.snapshot();}}
+ hurt(...args){const before=this.state;super.hurt(...args);if(before==='playing'&&this.state==='dead'&&!this.deathLearned){this.memory=learnCampaign(this.memory,this.stats,{wave:this.wave,won:false,learning:this.profile?.learning??1});this.deathLearned=true;this.plan=this.makePlan(this.wave,this.memory);this.entryCheckpoint=this.snapshot();}}
  finishWave(){
   if(this.wave===50){this.upgradeMech(5);this.beginEscape();return;}
   if(this.wave%10===0)this.upgradeMech(this.wave/10); // Salvage a missed pod before mandatory flight.

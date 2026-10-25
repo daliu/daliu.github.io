@@ -7,15 +7,15 @@ Static, installable, offline JavaScript game. No LLM, backend, account, external
 
 Demo retains its original 11 encounters and version 1 save format. Campaign has 50 levels, with a boss/superboss pair at each ten-level milestone. Their saves remain independent. The installed app reopens the last selected mode.
 
-Campaign version 3 saves track room phase, entry build, resources and a sequential-clear record. Version 2 Campaign files migrate automatically, preserving unlocked levels and builds. The new `countermeasure.campaign.v3` storage key copies the earlier Campaign save on first launch; the original key remains intact so an older running tab cannot overwrite the new format. Existing saves remain playable; start a **new run** to qualify for the new deathless route. Old checkpoints do not establish completion of the newly added boss pairs. Starting a new run keeps level unlocks but retires the older checkpoints from deathless qualification; deaths also invalidate earlier perfect prefixes. A new run saves a fresh level-one checkpoint immediately. Save files are local player data, not an anti-cheat system.
+Campaign version 3 saves track room phase, entry build, resources and a sequential-clear record. Version 2 Campaign files migrate automatically, preserving unlocked levels and builds. The `countermeasure.campaign.v4` storage key copies earlier v3/v2 Campaign data on first launch; the original key remains intact so an older running tab cannot overwrite the new format. Existing saves remain playable; start a **new run** to qualify for the new deathless route. Old checkpoints do not establish completion of the newly added boss pairs. Starting a new run keeps level unlocks but retires the older checkpoints from deathless qualification; deaths also invalidate earlier perfect prefixes. A new run saves a fresh level-one checkpoint immediately. Save files are local player data, not an anti-cheat system.
 
-Menu → level select resumes unlocked entry checkpoints. Export before moving devices or clearing browser data. No cloud sync. The fictional subject register is shared; trial numbers count deaths in the selected run.
+Menu → level select resumes unlocked entry checkpoints with their saved difficulty. The difficulty selector applies to new Campaign runs and direct finale replays; Demo keeps its original Normal tuning. Export before moving devices or clearing browser data. No cloud sync. The fictional subject register is shared; trial numbers count deaths in the selected run.
 
 ## Rooms and equipment
 
-Clear a chamber and its right-hand gate opens. Walk or fly through to continue; the camera follows across connected rooms. You can pause and rewire while crossing the cleared room. Entry checkpoints are saved before the next fight. Crossing a gate repairs some health/armor; health is at least 70 on entry.
+Clear a chamber and its right-hand gate opens. Walk or fly through to continue; the camera follows across connected rooms. You can pause and rewire while crossing the cleared room. Entry checkpoints are saved before the next fight. Room repairs and health floors depend on difficulty. Terminator carries exact remaining health and armor through ordinary gates and boss transitions. The newly unlocked hidden encounter grants its ultimate armor while preserving Terminator health.
 
-All four weapon families automatically equip newly unlocked stages: II / III at Campaign levels 6 / 16 (Demo waves 3 / 5). Earlier stages stay selectable; plain water still dilutes chemical drones. Automatic upgrades happen once per unlock, so choosing an older tool remains meaningful. A visible, clickable unspent-points notice opens the paused loadout; new point grants pulse it and announce availability. Skill points cap at 12 of 15 ranks.
+All four weapon families automatically equip newly unlocked stages: II / III at Campaign levels 6 / 16 (Demo waves 3 / 5). Earlier stages stay selectable; plain water still dilutes chemical drones. Automatic upgrades happen once per unlock, so choosing an older tool remains meaningful. A translucent overhead unspent-points notice opens the paused loadout, then disappears after four seconds. The Skills button retains a small available-point count. Power names appear briefly overhead when selected; compact translucent icon controls remain stable for touch. Skill points cap at 12 of 15 ranks.
 
 Normal Campaign rooms retain defenses, movement learning, offensive learning, flood/booted shock teams, metal/plastic/chemical drones, darkness and orchestrators. Mech I–V upgrades arrive with the regular bosses at levels 10, 20, 30, 40 and 50. A missed pod is salvaged before the following superboss, ensuring flight is available.
 
@@ -35,7 +35,7 @@ The button is optional: the superboss always takes damage. Online cores take 18%
 
 ## Deathless hidden room
 
-Clear all 50 levels and all five boss pairs in sequence, with zero deaths, to open the vault instead of ending immediately. Three airborne superbots coordinate attacks. Their shutdown channels are marked **EMP / RADIO / ELECTRIC**. Defeating the trio starts the factory explosions and left-door escape. A revealed vault can be retried; eligibility is earned by the preceding deathless clear.
+Clear all 50 levels and all five boss pairs in sequence, with zero deaths, to open the vault instead of ending immediately. Three airborne superbots coordinate attacks. Their shutdown channels are marked **EMP / RADIO / ELECTRIC**. Defeating the trio starts the factory explosions and left-door escape. The first deathless clear permanently unlocks **Menu → Triple-core finale**. This independent unlock survives deaths, new runs, older-save imports, level selection and reloads, and is included in Campaign exports. A separate monotonic browser key (`countermeasure.finale.v1`) protects it from older running clients. Replay directly with the selected difficulty and full attempt resources. Clearing browser data still removes local unlocks; export for backup or another device.
 
 The vault equips the ultimate loadout:
 
@@ -44,19 +44,36 @@ The vault equips the ultimate loadout:
 - **Tesla laser / earlier electrical stages:** disable the electric core. Choosing the laser remains available.
 - **Acid-glue polymer:** strong damage and a substantial slow even against resistant hardware; repeated hits bind.
 - **Localized EMP:** disables one core for six seconds, and also locks your electrical weapons and magnetic power for five seconds. Radio shuts down the second channel; electric hits shut down the third.
-- **Ultra thermite boost:** double-tap jump, consuming 20 of 100 fuel. Rocket exhaust damages nearby robots below you and opens their armor to physical follow-ups for four seconds.
-- **Ultra armor:** 400 armor capacity plus broad impact, heat, shock, liquid and projectile damage reduction.
-- **Armor-piercing explosive rounds:** 18 rounds per attempt, with blast damage and partial penetration. Fuel/ammo refill on retry, not during the fight.
+- **Ultra thermite boost:** double-tap jump, consuming 20 of the profile’s fuel reserve. Rocket exhaust damages nearby robots below you and opens their armor to physical follow-ups for four seconds.
+- **Ultra armor:** 400 base armor capacity, scaled by difficulty, plus broad impact, heat, shock, liquid and projectile damage reduction.
+- **Armor-piercing explosive rounds:** 18 rounds per Normal attempt, scaled by difficulty, with blast damage and partial penetration. Fuel/ammo refill on retry, not during the fight.
+
+## Campaign difficulty
+
+| Mode | Health | Armor scale | Boost fuel | AP rounds | Learning / adaptation | Room repairs |
+| --- | ---: | ---: | ---: | ---: | --- | --- |
+| Easy | 140 | 135% | 160 | 30 | Slower updates, fewer counters/robots, longer reactions and coordination intervals | +35 HP, floor 95 |
+| Normal | 100 | 100% | 100 | 18 | Original learning and population | +20 HP, floor 70 |
+| Hard | 85 | 80% | 80 | 12 | Faster learning, up to two counter slots, more robots and faster attacks | +10 HP, floor 55 |
+| Terminator | 70 | 42% | 65 | 9 | Fastest updates, up to three counter slots, largest bounded teams and fastest coordination | No health regeneration or ordinary room repairs |
+
+Fuel is the finite thermite-boost reserve; ordinary booster flight remains available without it. AP/fuel amounts apply when ultra gear is available. Terminator grants the complete ultra mech and all four ultimate weapon stages at the start of level 10, plus EMP/AP powers, so it can be used throughout the remaining Campaign. Its ultra armor capacity is 168. Replays/retries are fresh attempts with full profile resources; walking into the next chamber never refills Terminator health. Existing saved checkpoints keep their own mode.
+
+## Rolls, anatomy and lost armor
+
+Crouch + dash performs a grounded rolling animation with a low hitbox and a longer evasive movement. Jumping or flying lines up head hits; standing usually hits the body, crouching/rolling targets legs. Critical multipliers are 2.65× head, 1.85× legs and 1.65× body. Leg crits may disable locomotion; repeated leg crits guarantee it (three for a superboss). Grounded robots drag themselves with their arms at 30% movement speed and lose leg-driven jumps/dodges. Drones have no leg injury.
+
+When armor reaches zero, plates scatter and the protective mech shell disappears. Foot boosters remain visible and usable. Armor damage reduction ends with the armor; flight and upgraded weapon functions remain available. Background observation cells, human silhouettes, camera arrays, data displays and industrial machinery grow more ominous across five Campaign sectors, without covering enemies or introducing flashing effects.
 
 ## Controls
 
-WASD, Enter/click attack, Shift dash, 1–4 weapons, Q/E cycle weapons. Hold W to fly in a mech. **5–8** select normal powers; hidden gear adds **9 EMP / 0 explosive rounds**. **F** fires the selected power; **G** cycles available powers. **Double-tap W / Jump** for the ultimate boost.
+WASD, Enter/click attack, Shift dash (S + Shift rolls), 1–4 weapons, Q/E cycle weapons. Hold W to fly in a mech. **5–8** select normal powers; hidden gear adds **9 EMP / 0 explosive rounds**. **F** fires the selected power; **G** cycles available powers. **Double-tap W / Jump** for the ultimate boost.
 
 Touch controls support independent movement, Fly, Attack and power holds. The ↻ button cycles powers without opening a menu. Skill tree/Pause opens the freely reconfigurable loadout. Fullscreen preserves the same coordinates and responsive camera.
 
 ## Local learning and offline use
 
-The local model tracks attack mix and damage effectiveness, spacing, stationary time, jumps, dashes and ground shocks. Successes and deaths update it. One hardware slot changes between attempts/waves; live hardware does not swap in response to held inputs. Cognition increases across the curriculum with bounded reaction times and readable windups. Recent history is capped at 12 records; saved levels are capped at 50.
+The local model tracks attack mix and damage effectiveness, spacing, stationary time, jumps, dashes and ground shocks. Successes and deaths update it. Difficulty bounds the number of hardware slots that change between attempts/waves; live hardware does not swap in response to held inputs. Cognition increases across the curriculum with bounded reaction times and readable windups. Recent history is capped at 12 records; saved levels are capped at 50.
 
 Install through Menu → Install game. On iPhone use Safari → Share → Add to Home Screen. Wait for **Ready offline** before disconnecting. The service worker only controls `/countermeasure/`; existing clients use Menu → Update game to activate a waiting release.
 

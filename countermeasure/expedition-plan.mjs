@@ -18,8 +18,8 @@ Object.assign(TYPES,{
 export const milestone=w=>w>=10&&w<=50&&w%10===0;
 export const roomIndex=(w,encounter)=>w-1+Math.floor((w-1)/10)+(encounter==='super'?1:encounter==='hidden'?2:0);
 export const bossRules=cycle=>({cycle,flies:cycle>=2,dodge:cycle>=3?(cycle-2)*.1:0,cover:[0,0,450,1400,8500,14000][cycle],antenna:cycle>=4?(cycle===4?850:5500):0,backup:cycle>=4,hp:900+cycle*420});
-export function expeditionPlan(wave,memory,encounter=null){
- encounter??=milestone(wave)?'boss':'room';const base=campaignPlan(wave,memory);
+export function expeditionPlan(wave,memory,encounter=null,profile){
+ encounter??=milestone(wave)?'boss':'room';const base=campaignPlan(wave,memory,profile);
  if(encounter==='room'&&wave===49){Object.assign(base,{units:['orchestrator','bulwark','flyer','chemDrone','gunner'],title:'The last corridor',phase:'Coordinated warfare'});}
  if(encounter==='boss')return {...base,encounter,units:['mirror'],title:`Mirror ${wave/10}`,phase:'Boss / copied build',boots:false,dark:false};
  if(encounter==='super'){const rules=bossRules(wave/10);return {...base,encounter,rules,units:['overseer',...(rules.cover?['buttonGuard']:[]),...(rules.antenna?['antenna']:[])],title:`Countermeasure ${wave/10}`,phase:'Superboss',boots:false,dark:false,flaw:rules.antenna?TYPES.antenna.flaw:rules.cover?TYPES.buttonGuard.flaw:'High resistance, not immunity. Flight reaches the red EMP button.'};}

@@ -39,24 +39,25 @@ const ROOMS=[
 export const campaignPhase=w=>w===50?'Emergency protocol':w===49?'Mirror protocol':w<=3?'Defensive learning':w<=6?'Movement learning':w<=10?'Offensive learning':w<=20?'Conductive warfare':w<=30?'Drone warfare':w<=40?'Low visibility':'Coordinated warfare';
 export function campaignCognition(w){const g=(Math.exp(.055*(Math.max(1,Math.min(48,w))-1))-1)/(Math.exp(.055*47)-1);return {growth:g,speed:1+1.05*g,reaction:.9-.73*g,turn:1.08-.91*g,windup:1-.32*g,dodge:.03+.72*g,crit:.015+.14*g,discipline:g>.48};}
 export function campaignMemory(){return {...emptyMemory(),attempts:0,failures:0,outcomes:[],effective:[.25,.25,.25,.25]};}
-export function learnCampaign(memory,stats,{wave,won}){
- const s=summarize(stats),totalDamage=stats.damage.reduce((a,b)=>a+b,0),weight=Math.min(.65,Math.max(.12,s.total/18)),mix=(a,b)=>a*(1-weight)+b*weight;
+export function learnCampaign(memory,stats,{wave,won,learning=1}){
+ const s=summarize(stats),totalDamage=stats.damage.reduce((a,b)=>a+b,0),weight=Math.min(.92,Math.min(.65,Math.max(.12,s.total/18))*learning),mix=(a,b)=>a*(1-weight)+b*weight;
  const m=structuredClone(memory);m.waves+=won?1:0;m.attempts++;m.failures+=won?0:1;
  if(s.total){m.weapon=m.weapon.map((v,i)=>mix(v,s.weapon[i]));m.effective=m.effective.map((v,i)=>mix(v,totalDamage?stats.damage[i]/totalDamage:s.weapon[i]));for(const k of ['energyShare','groundShockShare','stationaryRatio','duckRatio','attackRate','jumpRate','dashRate','farRatio'])m[k]=mix(m[k],s[k]);}
  m.groundShockHits+=s.groundShockHits;m.history=[...m.history,{total:s.total}].slice(-12);
  m.outcomes=[...m.outcomes,{wave,won,damageTaken:Math.round(stats.damageTaken),attacks:s.total,seconds:Math.round(stats.time)}].slice(-12);return m;
 }
-export function campaignPlan(wave,memory){
+export function campaignPlan(wave,memory,profile={adaptation:1,slots:1,count:1}){
  const [title,...authored]=ROOMS[wave-1],units=[...authored],phase=campaignPhase(wave);
- const confidence=Math.min(1,memory.history.reduce((n,h)=>n+h.total,0)/30);
+ const confidence=Math.min(1,memory.history.reduce((n,h)=>n+h.total,0)*profile.adaptation/30);
  const scores=memory.weapon.map((v,i)=>v*.35+memory.effective[i]*.65),dominant=scores.indexOf(Math.max(...scores));
  let counter=['guard','plated',memory.energyShare>.5?'bulwark':'insulated','sealed'][dominant];
  if(wave>=4&&memory.jumpRate>.13)counter=wave>=7?'flak':'interceptor';
  else if(wave>=7&&memory.stationaryRatio>.55)counter='bombardier';
  else if(wave>=4&&memory.dashRate>.12)counter='feinter';
- // A single replacement slot: the factory cannot rebuild all hardware for one habit.
- if(wave<49&&wave>1&&confidence>.2)units[units.length-1]=counter;
+ // Difficulty bounds replacement slots; the authored lead role stays intact.
+ if(wave<49&&wave>1&&confidence>.2)for(let slot=0;slot<Math.min(profile.slots,units.length-1);slot++)units[units.length-1-slot]=counter;
+ if(wave<49){const size=Math.max(1,Math.min(9,Math.round(units.length*profile.count)));while(units.length>size)units.pop();while(units.length<size)units.push(confidence>.2?counter:units.length%2?'probe':'gunner');}
  const boots=wave>=12||memory.groundShockHits>=2&&memory.groundShockShare>.25;
  const dark=wave>=31&&wave<=40||[46,48].includes(wave);
- return {wave,phase,title,units,boots,dark,tactic:title,reason:confidence>.2?`Effective ${WEAPONS[dominant].name.toLowerCase()} attacks prompted ${TYPES[counter].name.toLowerCase()}.`:'Factory trial in progress.',adaptation:confidence>.2?TYPES[counter].name:'Gathering evidence',flaw:[...new Set(units)].map(t=>TYPES[t].flaw).join(' '),observations:[`${memory.attempts} attempts analyzed, including ${memory.failures} failures.`,confidence>.2?`One hardware slot adapted; other roles retain their jobs.`:'Not enough evidence to select a counter.'],sampleAttacks:memory.history.reduce((n,h)=>n+h.total,0),confidence};
+ return {wave,phase,title,units,boots,dark,tactic:title,reason:confidence>.2?`Effective ${WEAPONS[dominant].name.toLowerCase()} attacks prompted ${TYPES[counter].name.toLowerCase()}.`:'Factory trial in progress.',adaptation:confidence>.2?TYPES[counter].name:'Gathering evidence',flaw:[...new Set(units)].map(t=>TYPES[t].flaw).join(' '),observations:[`${memory.attempts} attempts analyzed, including ${memory.failures} failures.`,confidence>.2?`${profile.slots} counter slot${profile.slots===1?'':'s'} available; the lead role retains its job.`:'Not enough evidence to select a counter.'],sampleAttacks:memory.history.reduce((n,h)=>n+h.total,0),confidence};
 }

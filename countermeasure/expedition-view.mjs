@@ -9,8 +9,24 @@ export function roomShell(ctx,game,index,t){
  const current=index===game.room,open=index<game.room||current&&game.state==='traveling'||current&&game.pausedFrom==='traveling',amount=index<game.room?1:open?game.door:0;
  ctx.fillStyle=index%2?'#63a9b4':'#adbb72';ctx.globalAlpha=.16;ctx.fillRect(0,0,1000,3);ctx.globalAlpha=1;
  ctx.fillStyle='#718a7b';ctx.font='12px ui-monospace,monospace';ctx.textAlign='left';ctx.fillText('CHAMBER '+String(index+1).padStart(2,'0'),35,45);
+ drawTrainingFactory(ctx,game,index,t);
  ctx.fillStyle='#28372f';ctx.fillRect(974,58,26,362);ctx.fillStyle=open?'#9de7b2':'#d88d77';ctx.fillRect(980,60,3,360);ctx.fillStyle='#4d6256';ctx.fillRect(984,60,16,360*(1-amount));
  if(open){ctx.fillStyle='#b7e77a';ctx.font='28px ui-monospace,monospace';ctx.textAlign='center';for(let x=810;x<=950;x+=65)ctx.fillText('→',x,365);}
+}
+function drawTrainingFactory(ctx,game,index,t){
+ const stage=Math.min(4,Math.floor(index/11)),ink=['#67796c','#778776','#7f7771','#767482','#85717b'][stage];
+ ctx.save();ctx.globalAlpha=.62;ctx.fillStyle='#0c1513';ctx.fillRect(48,125,116,142);ctx.strokeStyle=ink;ctx.lineWidth=2;ctx.strokeRect(48,125,116,142);
+ // Retained human silhouettes sit behind observation glass, never in combat space.
+ for(let n=0;n<3;n++){const x=67+n*34;ctx.fillStyle='#26342f';ctx.fillRect(x,160,20,92);ctx.fillStyle=ink;ctx.beginPath();ctx.arc(x+10,181,5,0,Math.PI*2);ctx.fill();ctx.fillRect(x+5,189,10,25);ctx.fillRect(x+4,214,4,22);ctx.fillRect(x+12,214,4,22);ctx.strokeStyle='#627f7a';ctx.beginPath();ctx.moveTo(x+8,160);ctx.lineTo(x+8,174);ctx.stroke();}
+ ctx.fillStyle=ink;ctx.font='8px ui-monospace,monospace';ctx.textAlign='left';ctx.fillText(['RETAIN SAMPLES','HUMAN DATASET','ERROR CORRECTION','REPEAT UNTIL LEARNED','NO SAMPLE WASTED'][stage],50,118);
+ // The same camera becomes a larger array as the experiment progresses.
+ for(let n=0;n<=stage;n++){const x=690+n*46;ctx.fillStyle='#384740';ctx.fillRect(x,85,23,12);ctx.fillStyle=Math.sin(t*(1+n*.2)+n)>-.25?'#d67e72':'#65473f';ctx.fillRect(x+15,89,5,4);ctx.strokeStyle='#56665c';ctx.beginPath();ctx.moveTo(x+6,85);ctx.lineTo(x+6,70);ctx.lineTo(x-5,70);ctx.stroke();}
+ ctx.fillStyle='#15211d';ctx.fillRect(700,152,195,108);ctx.strokeStyle=ink;ctx.strokeRect(700,152,195,108);
+ for(let n=0;n<14;n++){const height=8+((n*29+index*13)%57);ctx.fillStyle=n%3===0?'#925f5a':'#49695b';ctx.fillRect(712+n*12,236-height,6,height);}
+ ctx.fillStyle=ink;ctx.fillText('TRAINING / '+String(Math.max(1,game.trial)).padStart(3,'0'),712,171);ctx.fillText(['OBSERVE','CLASSIFY','PREDICT','SYNCHRONIZE','REPLACE'][stage],712,251);
+ if(stage>=2){ctx.strokeStyle='#714e4d';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(220,60);ctx.lineTo(220,115);ctx.lineTo(310,115);ctx.lineTo(310,165);ctx.stroke();for(let n=0;n<stage;n++){ctx.fillStyle='#26332e';ctx.fillRect(242+n*40,310,28,103);ctx.fillStyle='#9c6e69';ctx.fillRect(248+n*40,320+(Math.floor(t+n)%4)*16,16,4);}}
+ // A slow scan stays in the background, with no flashes or obstruction.
+ ctx.globalAlpha=.07;ctx.fillStyle='#e1a59b';ctx.fillRect(0,75+(t*9+index*17)%260,970,2);ctx.restore();
 }
 export function drawStructure(ctx,r,t){
  if(!r.structure)return false;ctx.save();ctx.translate(r.x,r.y);

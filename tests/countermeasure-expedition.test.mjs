@@ -83,7 +83,7 @@ test('armor-piercing explosive rounds have finite ammunition and damage the resi
  const g=hidden(),r=g.robots[0];r.x=300;r.y=420;r.evadeRate=0;g.player.x=200;g.player.y=420;g.player.facing=1;g.selectModule(5);const hp=r.hp;assert.ok(g.useModule());assert.equal(g.resources.ammo,17);step(g,.2);assert.ok(r.hp<hp);g.resources.ammo=0;g.moduleCooldowns[5]=0;assert.equal(g.useModule(),false);
 });
 test('ultra armor reduces impact, heat, shock, liquid and projectile damage',()=>{
- for(const cause of ['impact','heat','shock','liquid','projectile']){const g=hidden();g.player.mechaShield=0;g.player.invulnerable=0;g.hurt(30,900,0,cause);assert.ok(g.player.hp>85);}
+ for(const cause of ['impact','heat','shock','liquid','projectile']){const g=hidden();g.player.invulnerable=0;g.hurt(30,900,0,cause);assert.equal(g.player.hp,100);assert.ok(g.player.mechaShield>385);g.player.mechaShield=0;g.player.invulnerable=0;g.hurt(30,900,0,cause);assert.equal(g.player.hp,70);}
 });
 test('new runtime files and mode URLs all reload offline without touching other site paths',async()=>{
  const root='https://example.test/countermeasure/',handlers={},files=new Map();let pending,fetches=0;const caches={open:async()=>({addAll:async urls=>{for(const u of urls)files.set(u,await readFile(new URL('../countermeasure/'+(new URL(u).pathname.slice('/countermeasure/'.length)||'index.html'),import.meta.url)));},match:async key=>files.get(key)}),keys:async()=>[],delete:async()=>{}};
