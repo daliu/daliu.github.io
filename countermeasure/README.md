@@ -122,4 +122,10 @@ Hard has a 1.35s charge, 2.5s recharge and 9s cooldown after recharge; Terminato
 
 ## Backup power / Release 23
 
-Antenna and button armor are neutral structures: player and enemy attacks can damage them in every difficulty, including Terminator. Their collision bounds match the visible armor, including upper panels. Hard/Terminator core lasers damage a structure once per blast for 25% of its maximum health (minimum 180), making baiting a committed beam useful. Mobile robots retain the difficulty-specific friendly-fire rules above. Retries begin a fresh encounter with a fresh switch.
+Antenna and button armor are neutral structures: player and enemy attacks can damage them in every difficulty, including Terminator. Their collision bounds match the visible armor, including upper panels. Core lasers damage a structure once per blast for 25% of its maximum health on Hard, or 50% on Terminator (minimum 180), making baiting a committed beam useful. Mobile robots retain the difficulty-specific friendly-fire rules above. Retries begin a fresh encounter with a fresh switch.
+
+## Baiting balance / Release 24
+
+Terminator charged beams now remove half of an objective’s maximum armor per hit, making two well-aligned beams enough. This only affects neutral structures: laser damage to the human, boss HP, learning, support budgets and backup shields retain Release23 values. Hard structural damage remains25%. Reposition during the visible charge, clear support, then use the one-use switch and finish the weakened core. The eight-second shutdown is an attack window; early cores can die before backup, while later cores still require fighting on backup power.
+
+The repeatable objective pilot is `node scripts/countermeasure-bait-playtest.mjs`; use `--report`, `--checkpoints`, `--save-dir`, `--seeds` and `--reaction` for bounded comparisons. It preserves entry health/armor, uses ordinary controls and limited AP ammunition, and never edits enemy health or victory state. These are state-aware simulations, not human win rates.

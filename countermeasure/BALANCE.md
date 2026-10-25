@@ -114,3 +114,29 @@ Antenna/button defenses bypass robot friendly-fire eligibility in every mode, in
 276 focused checks pass, including nine new objective regressions. Eight full input-driven routes complete with the unchanged controller (seeds11/71, .28s decisions,60-death budget): Easy1/2 deaths, Normal9/9, Hard15/16, Terminator19/17. Prior Release22 paired deaths were2/2,9/9,16/21,19/20. These verify possible completion, not human win rates.
 
 Six input-only Terminator50 probes use normally reached checkpoints, three seeds per target, with no player attacks or state edits. All six bait a real charged laser into the antenna/fortress within about7.7 seconds while preserving human HP. Extended movement-only probes destroy four of six targets; two humans die with armor remaining on the objective. Baiting is viable and remains dangerous. Phone-width UI checks import a normally reached Hard10 superboss save through the ordinary local save menu, fly to and press the switch, observe the full shutdown and backup handoff, and verify a second press is disabled. Server-off reload checks cover the final cached build; physical iOS/Android feel remains unproven. Bounded evidence is retained outside the published site.
+
+## Release 24 / full Terminator bait sequence
+
+The scoped change doubles Terminator charged-laser structural damage from25% to50% maximum armor (minimum180); Hard stays25%. Two aligned beams can now clear a full antenna/fortress. Human laser damage, core HP/resistance, learning, support caps/timing and player resources are unchanged. This follows passive and active bait probes that repeatedly failed before reaching backup, while direct combat was faster. The target’s existing damage flash/armor bar shows the payoff.
+
+A dedicated input-driven pilot compares direct combat, baited cover→button→backup, and (levels40/50) baited antenna→cover→button→backup. It uses normally reached **entry** checkpoints from the unchanged Terminator pilot, seeds11/71, preserving incoming human health, armor and limited resources. An ordinary snapshot after startWave clears the carry field and is unsuitable for this comparison. Decisions occur every.28s; the finisher uses available AP rounds, acid/electric combinations and existing powers. Damage observers record enemy objective kills, one button use and real core damage after rerouting. No health/enemy/victory edits occur.
+
+There are144 paired attempts per build: six previously unused encounter seeds12/72/84/98/211/401, two route checkpoints and the same strategies/controller. The two routes use the same pilot style and have similar builds; these are not144 independent players.
+
+| Level | Cover clears before→after /12 | Both defenses before→after /12 | After median successful cover / both seconds |
+| --- | --- | --- | --- |
+|10|12→12|No armor/antenna|5.3 / —|
+|20|12→12|No antenna|22.7 / —|
+|30|10→12|No antenna|29.5 / —|
+|40|7→12|4→10|34.1 /54.9|
+|50|2→6|0→5|42.0 /70.9|
+
+All revised level40/50 bait clears meet the complete sequence: required defenses destroyed by enemy attacks, switch used once, and core damage dealt on backup before clearing. Early cores can die during the eight-second shutdown, which is a legitimate attack window rather than a forced wait. All five successful level50 two-defense attempts expend their nine AP rounds and end with zero armor,32.7–52.7 human HP. Direct combat remains12/12 at every milestone for this.28s controller; efficient AP burst still makes early cores easy and is a separate balance concern.
+
+A further144 final-build attempts use fresh seeds19/79/109/199/271/307 and slower.4s decisions. Level50 direct combat clears9/12, cover2/12, both3/12; every bait clear completes the backup sequence. Level40 cover9/12 and both7/12. Level20 has one stalled attempt from an extended missed-bait exchange, even though11/12 clear. The route is viable in these models, remains slower/riskier than efficient direct combat, and is sensitive to timing; these are not human win rates or proof of broad/deathless balance.
+
+276 focused tests pass, including actual Hard quarter/Terminator half structural beam damage once per blast. Eight standard full routes, unchanged pilot/seeds11/71/.28s/60-death cap, complete with unchanged Release23 death counts: Easy1/2,Normal9/9,Hard15/16,Terminator19/17. No other difficulty tuning was needed.
+
+Phone-width390px local UI checks import normally reached Terminator10/20/50 checkpoints through ordinary save transfer. Movement/flight, held attack, acid/electric switching and a real level10 switch→backup→core/support clear pass, with damaged armor carried throughout. Sequenced manual level20/50 bait attempts do not establish a complete late bait clear; the complete late sequence is model-verified. Existing multi-pointer control tests pass. Final cached build is checked after stopping its owned preview server. Physical iOS/Android feel and a human late-boss bait clear remain follow-ups. `ROADMAP.md` separately records future systems without implementing payments or companions.
+
+Separate follow-up: [early Terminator AP/core balance](https://github.com/daliu/daliu.github.io/issues/51).
