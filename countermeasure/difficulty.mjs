@@ -1,9 +1,9 @@
 // All settings are local. Profiles change the opponent model as well as resources.
 export const DIFFICULTIES={
- easy:{name:'Easy',health:140,armor:1.35,fuel:160,ammo:30,learning:.45,adaptation:.55,slots:1,count:.72,reaction:1.35,speed:.85,attack:.75,coordination:.45,repair:35,healthFloor:95},
- normal:{name:'Normal',health:100,armor:1,fuel:100,ammo:18,learning:1,adaptation:1,slots:1,count:1,reaction:1,speed:1,attack:1,coordination:1,repair:20,healthFloor:70},
- hard:{name:'Hard',health:85,armor:.8,fuel:80,ammo:12,learning:1.3,adaptation:1.5,slots:2,count:1.25,reaction:.8,speed:1.13,attack:1.25,coordination:1.35,repair:10,healthFloor:55},
- terminator:{name:'Terminator',health:70,armor:.42,fuel:65,ammo:9,learning:1.7,adaptation:2,slots:3,count:1.5,reaction:.6,speed:1.24,attack:1.55,coordination:1.8,repair:0,healthFloor:0}
+ easy:{name:'Easy',ultraMitigation:.42,bossHealth:1,health:140,armor:1.35,fuel:160,ammo:30,learning:.45,adaptation:.55,slots:1,count:.72,reaction:1.35,speed:.85,attack:.75,coordination:.45,repair:35,healthFloor:95},
+ normal:{name:'Normal',ultraMitigation:.48,bossHealth:1,health:100,armor:1,fuel:100,ammo:18,learning:1,adaptation:1,slots:1,count:1,reaction:1,speed:1,attack:1,coordination:1,repair:20,healthFloor:70},
+ hard:{name:'Hard',ultraMitigation:.58,bossHealth:1,health:85,armor:.8,fuel:80,ammo:12,learning:1.3,adaptation:1.5,slots:2,count:1.25,reaction:.8,speed:1.13,attack:1.25,coordination:1.35,repair:10,healthFloor:55},
+ terminator:{name:'Terminator',ultraMitigation:.8,bossHealth:1.45,health:70,armor:.42,fuel:65,ammo:9,learning:1.7,adaptation:2,slots:3,count:1.5,reaction:.6,speed:1.24,attack:1.55,coordination:1.8,repair:0,healthFloor:0}
 };
 export const validDifficulty=value=>Object.hasOwn(DIFFICULTIES,value);
 export const profileFor=value=>DIFFICULTIES[value]??DIFFICULTIES.normal;

@@ -1,6 +1,6 @@
 import {profileFor,fullResources,validDifficulty} from './difficulty.mjs';
-export const EXPEDITION_SAVE_KEY='countermeasure.campaign.v4';
-export function campaignSaveFrom(storage){try{return storage.getItem(EXPEDITION_SAVE_KEY)??storage.getItem('countermeasure.campaign.v3')??storage.getItem('countermeasure.campaign.v1');}catch{return null;}}
+export const EXPEDITION_SAVE_KEY='countermeasure.campaign.v5';
+export function campaignSaveFrom(storage){try{return storage.getItem(EXPEDITION_SAVE_KEY)??storage.getItem('countermeasure.campaign.v4')??storage.getItem('countermeasure.campaign.v3')??storage.getItem('countermeasure.campaign.v1');}catch{return null;}}
 import {campaignCheckpoint} from './campaign-saves.mjs';
 import {milestone} from './expedition-plan.mjs';
 const integer=(v,a,b)=>Number.isInteger(v)&&v>=a&&v<=b,finite=(v,a,b)=>Number.isFinite(v)&&v>=a&&v<=b;
@@ -22,6 +22,7 @@ export function expeditionCheckpoint(data){try{
  if(!j||!integer(j.cleared,0,ultimate?50:data.wave-1)||typeof j.flawless!=='boolean'||typeof j.secretQualified!=='boolean'||j.flawless&&data.runDeaths>0||j.secretQualified&&j.cleared!==50||ultimate&&!j.secretQualified)return null;
  c.journey={cleared:j.cleared,flawless:j.flawless,secretQualified:j.secretQualified};
  c.carry=null;if(!legacy&&data.carry){const v=data.carry;if(!(v.hp>0)||!finite(v.hp,0,profile.health)||!finite(v.shield,0,Math.round((ultra?400:40+data.mechTier*28)*profile.armor)))return null;c.carry={hp:v.hp,shield:v.shield};}
+ c.cooldowns=[0,0,0,0,0,0];if(data.cooldowns!==undefined){if(!Array.isArray(data.cooldowns)||data.cooldowns.length!==6||!data.cooldowns.every(n=>finite(n,0,30)))return null;c.cooldowns=[...data.cooldowns];}
  c.resources=fullResources(difficulty);if(!legacy&&data.resources){const r=data.resources;if(!finite(r.fuel,0,profile.fuel)||!integer(r.ammo,0,profile.ammo)||!finite(r.electricLock,0,5))return null;c.resources={fuel:r.fuel,ammo:r.ammo,electricLock:r.electricLock};}
  return c;
  }catch{return null;}}
@@ -31,7 +32,7 @@ export class ExpeditionStore{
  setDeaths(n){if(integer(n,0,1000000)&&n!==this.deaths){if(n>this.deaths)for(const c of this.entries.values())c.journey.flawless=false;this.deaths=n;this.revision++;}}
  beginRun(checkpoint){const fresh=expeditionCheckpoint(checkpoint);if(!fresh||fresh.wave!==1||fresh.journey.cleared!==0)return false;for(const c of this.entries.values())c.journey.flawless=false;this.deaths=0;return this.save(fresh);}
  unlockFinale(data){const c=expeditionCheckpoint(data);if(!c||c.encounter!=='hidden')return false;if(!this.finale){this.finale=c;if(!this.entries.size){this.entries.set(50,structuredClone(c));this.latest=50;this.deaths=c.runDeaths;}this.revision++;}return true;}
- finaleFor(difficulty=this.finale?.difficulty){if(!this.finale||!validDifficulty(difficulty))return null;const c=structuredClone(this.finale),p=profileFor(difficulty);c.difficulty=difficulty;c.carry={hp:p.health,shield:Math.round(400*p.armor)};c.resources=fullResources(difficulty);c.runDeaths=0;c.mechTier=5;c.tiers=[3,3,3,3];return c;}
+ finaleFor(difficulty=this.finale?.difficulty){if(!this.finale||!validDifficulty(difficulty))return null;const c=structuredClone(this.finale),p=profileFor(difficulty);c.difficulty=difficulty;c.carry={hp:p.health,shield:Math.round(400*p.armor)};c.resources=fullResources(difficulty);c.cooldowns=[0,0,0,0,0,0];c.runDeaths=0;c.mechTier=5;c.tiers=[3,3,3,3];return c;}
  get(w){return this.entries.has(w)?structuredClone(this.entries.get(w)):null;}
  export(){return JSON.stringify({mode:'campaign',version:3,latest:this.latest,deaths:this.deaths,finale:this.finale,levels:[...this.entries.values()].sort((a,b)=>a.wave-b.wave)});}
  import(text){if(typeof text!=='string'||text.length>600000)throw Error('Invalid Campaign save');const s=JSON.parse(text);if(s?.mode!=='campaign'||![2,3].includes(s.version)||!Array.isArray(s.levels)||!integer(s.levels.length,1,50)||!integer(s.latest,1,50)||!integer(s.deaths,0,1000000))throw Error('Invalid Campaign save');const levels=s.levels.map(expeditionCheckpoint);if(levels.some(c=>!c)||new Set(levels.map(c=>c.wave)).size!==levels.length||!levels.some(c=>c.wave===s.latest))throw Error('Invalid Campaign checkpoint');const finale=s.finale?expeditionCheckpoint(s.finale):levels.find(c=>c.encounter==='hidden');if(s.finale&&(!finale||finale.encounter!=='hidden'))throw Error('Invalid finale unlock');this.entries=new Map(levels.map(c=>[c.wave,c]));this.latest=s.latest;this.deaths=s.deaths;if(finale)this.unlockFinale(finale);this.revision++;return true;}

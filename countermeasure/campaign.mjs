@@ -29,7 +29,7 @@ export class CampaignArena extends Arena{
   const milestone=this.wave%10===0&&this.wave<=50?this.wave/10:0;
   if(!milestone||this.mechTier>=milestone||this.mechaDrop)return;
   const remaining=this.robots.reduce((n,r)=>n+Math.max(0,r.hp),0);
-  if(remaining<=this.initialHP*.4)this.mechaDrop={x:500,y:-70,vy:340,landed:false,collected:false,tier:milestone};
+  if(remaining<=this.initialHP*(this.wave===10?.55:.4))this.mechaDrop={x:500,y:-70,vy:340,landed:false,collected:false,tier:milestone};
  }
  updateMecha(dt){this.checkMechaDrop();const d=this.mechaDrop;if(!d||d.collected)return;if(!d.landed){d.y=Math.min(420,d.y+d.vy*dt);d.landed=d.y===420;}
   if(d.landed&&Math.abs(this.player.x-d.x)<48&&this.player.y>370){d.collected=true;this.upgradeMech(d.tier??Math.max(1,this.mechTier));this.player.invulnerable=Math.max(.8,this.player.invulnerable);}
@@ -75,7 +75,7 @@ export class CampaignArena extends Arena{
   if(r.build.mechTier&&r.flightTarget<350){r.vy=-235;r.y=Math.max(95,r.y);}
   r.moduleCd-=dt;if(r.moduleCd<=0&&r.windup<=0&&Math.abs(r.x-this.player.x)<280&&Math.abs(r.y-this.player.y)<150)r.moduleWindup=.7;
  }
- botHurt(r,damage,...args){super.botHurt(r,Math.min(38,damage),...args);}
+ botHurt(r,damage,...args){super.botHurt(r,Math.min(38,damage)*(r.type==='mirror'&&this.wave===10?.82:1),...args);}
  senseRobot(r,dt){super.senseRobot(r,dt);if(this.confusion>0||r.confused>0){r.cognition={...r.cognition,discipline:false};return;}r.cognition=this.cognition(this.wave);
   const busy=this.robots.filter(o=>o!==r&&o.hp>0&&o.windup>0).length;if(busy>=3)r.cooldown=Math.max(r.cooldown,.25);
  }
