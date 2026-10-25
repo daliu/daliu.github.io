@@ -1,6 +1,6 @@
 # Countermeasure: later development
 
-Requested October 25, 2026. These are future systems after further gameplay polish; they are not part of Release 24. Payment implementation, pricing and purchase rules are deferred. Earned unlocks and any later purchase path must be designed separately from the present combat balance.
+Requested October 25, 2026. These gameplay systems remain future work after further polish. Release25 adds the containment/laboratory environmental story and visible survivor scenes; recruitment, hacking, workshops and the scientist’s usable wireless device remain future work. Payment implementation, pricing and purchase rules are deferred. Earned unlocks and any later purchase path must be designed separately from the present combat balance.
 
 ## Existing powers and progression
 

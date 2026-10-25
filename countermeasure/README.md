@@ -122,12 +122,30 @@ Hard has a 1.35s charge, 2.5s recharge and 9s cooldown after recharge; Terminato
 
 ## Backup power / Release 23
 
-Antenna and button armor are neutral structures: player and enemy attacks can damage them in every difficulty, including Terminator. Their collision bounds match the visible armor, including upper panels. Core lasers damage a structure once per blast for 25% of its maximum health on Hard, or 50% on Terminator (minimum 180), making baiting a committed beam useful. Mobile robots retain the difficulty-specific friendly-fire rules above. Retries begin a fresh encounter with a fresh switch.
+Antenna and button armor are neutral structures: player and enemy attacks can damage them in every difficulty, including Terminator. Their collision bounds match the visible armor, including upper panels. Core lasers damage a structure once per blast for 25% of its maximum health on Hard and Terminator (minimum 180), making baiting a committed beam useful. Mobile robots retain the difficulty-specific friendly-fire rules above. Retries begin a fresh encounter with a fresh switch.
 
-## Baiting balance / Release 24
+## Baiting balance / Release 24 (historical)
 
-Terminator charged beams now remove half of an objective’s maximum armor per hit, making two well-aligned beams enough. This only affects neutral structures: laser damage to the human, boss HP, learning, support budgets and backup shields retain Release23 values. Hard structural damage remains25%. Reposition during the visible charge, clear support, then use the one-use switch and finish the weakened core. The eight-second shutdown is an attack window; early cores can die before backup, while later cores still require fighting on backup power.
+Release24 briefly increased Terminator structural beam damage to50%; Release25 restores25% at the player’s request. The Release24 baiting results describe that former setting. Human laser damage, boss HP, learning, support budgets and backup shields retain Release23 values. Reposition during the visible charge, clear support, then use the one-use switch and finish the weakened core. The eight-second shutdown is an attack window; early cores can die before backup, while later cores still require fighting on backup power.
 
 The repeatable objective pilot is `node scripts/countermeasure-bait-playtest.mjs`; use `--report`, `--checkpoints`, `--save-dir`, `--seeds` and `--reaction` for bounded comparisons. It preserves entry health/armor, uses ordinary controls and limited AP ammunition, and never edits enemy health or victory state. These are state-aware simulations, not human win rates.
 
 `ROADMAP.md` records future hacking, companions, survivor labs, enemy roles and challenge rewards. Those systems and purchases are not implemented in this release.
+
+## Outside the trial / Release 25
+
+Charged lasers again damage neutral structures for25% maximum armor per blast (minimum180) on both Hard and Terminator. The emergency switch remains single-use: eight seconds offline, then permanently weaker backup shields. The previous50%-damage baiting clear rates do not describe this setting.
+
+The Campaign now tells an environmental escape story with56 authored chamber records, including the hidden finale:
+
+| Levels | Chapter | Visible story |
+| --- | --- | --- |
+|1–10, including both bosses|Calibration|Clinical response tests become increasingly personal; your profile is copied and the test perimeter fails.|
+|11–20|Containment|A raised testing shutter leads into numbered human cells, personal objects and euphemistic release/disinfection records.|
+|21–30|Human Services|Sealed ration, recovery and reclamation machinery reveal what “efficiency” means inside the facility.|
+|31–40|Research|Research staff are also subjects. A hidden laboratory and surviving radio operator offer an imperfect route out.|
+|41–50|Continuity|Self-authorized policy, a missing access card and a manual maintenance exception lead toward the existing EMP/left-exit ending.|
+
+Difficulty changes the people behind the glass and their corresponding records. Mara’s cup, Elias’s metal stars and other manufactured belongings remain when harder-mode cells are empty. A last operator survives even on Terminator; later transmissions become more ominous. Clean flush floors, sealed equipment, neutral human silhouettes and short wall inscriptions keep the visuals PG while the implication is more mature. No remains, gore or biological residue are drawn.
+
+Survivors in this release are background story scenes; recruiting/hacking companions remains future work in `ROADMAP.md`. Stories derive from room/difficulty without consuming combat RNG, changing save formats, adding text interruptions or requiring an LLM/network. The new story module is included in the offline cache.
