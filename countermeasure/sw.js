@@ -1,6 +1,6 @@
 // Scope-relative paths also work at /countermeasure/ on GitHub Pages.
-const ROOT=new URL('./',self.location.href),PREFIX=`countermeasure:${ROOT.pathname}:`,CACHE=PREFIX+'v11-install-2';
-const FILES=['./','./index.html','./style.css','./game.mjs','./engine.mjs','./subjects.mjs','./saves.mjs','./music.mjs','./offline.mjs','./controls.mjs','./play-mode.mjs','./install.mjs','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./icons/apple-touch-icon.png'];
+const ROOT=new URL('./',self.location.href),PREFIX=`countermeasure:${ROOT.pathname}:`,CACHE=PREFIX+'v12-campaign-3';
+const FILES=['./','./index.html','./style.css','./game.mjs','./engine.mjs','./campaign.mjs','./campaign-plan.mjs','./campaign-saves.mjs','./subjects.mjs','./saves.mjs','./music.mjs','./offline.mjs','./controls.mjs','./play-mode.mjs','./install.mjs','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./icons/apple-touch-icon.png'];
 const urls=FILES.map(file=>new URL(file,ROOT).href);
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(urls))));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith(PREFIX)&&key!==CACHE)await caches.delete(key);await self.clients.claim();})()));

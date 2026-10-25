@@ -1,6 +1,6 @@
 // Keep every finger and keyboard key independent, including overlapping holds.
 export class HeldControls {
-  state = {left:false,right:false,down:false,up:false,attack:false,dash:false};
+  state = {left:false,right:false,down:false,up:false,attack:false,dash:false,module:false};
   sources = new Map();
   listeners = new Set();
   hold(source,action) {
