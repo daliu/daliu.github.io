@@ -23,7 +23,7 @@ function circuit(g,r,spread=false){
  if(r.attacks)r.attacks[2]++;g.effects.push({kind:'arc',x:r.x-48,y:r.y-26,x2:r.x+48,y2:r.y-26,life:.2,max:.2,color:'#e9a8d1'});
 }
 export function beginCombo(g,r,id){
- if(!COMBO_NAMES[id])return false;const p=g.player;r.combo={id,age:0,fired:0,target:{x:clamp(p.x+p.vx*.15,35,965),y:p.y},approach:Math.sign(p.x-r.x)||r.facing,direction:Math.sign(r.x-p.x)||1};r.windup=.6;r.action='combo-'+id;r.comboCounts??={};r.comboCounts[id]=(r.comboCounts[id]??0)+1;return true;
+ if(!COMBO_NAMES[id])return false;const p=g.player;r.combo={id,windup:g.difficulty==='hard'?.72:.6,age:0,fired:0,target:{x:clamp(p.x+p.vx*.15,35,965),y:p.y},approach:Math.sign(p.x-r.x)||r.facing,direction:Math.sign(r.x-p.x)||1};r.windup=r.combo.windup;r.action='combo-'+id;r.comboCounts??={};r.comboCounts[id]=(r.comboCounts[id]??0)+1;return true;
 }
 export function updateBossCombo(g,r,dt){
  if(!r.comboPolicy?.weights.length)return false;r.comboCd=Math.max(0,(r.comboCd??3)-dt);
@@ -32,7 +32,7 @@ export function updateBossCombo(g,r,dt){
   const id=chooseCombo(r.comboPolicy,()=>g.random());if(!id)return false;beginCombo(g,r,id);
  }
  const c=r.combo,p=g.player,slow=1-(r.glue??0)*.23;c.age+=dt;
- const windup=.6,active=c.age-windup;r.windup=Math.max(0,windup-c.age);r.action='combo-'+c.id;r.predictBlock=Math.max(0,(r.predictBlock??0)-dt);r.rollTime=Math.max(0,(r.rollTime??0)-dt);
+ const windup=c.windup??.6,active=c.age-windup;r.windup=Math.max(0,windup-c.age);r.action='combo-'+c.id;r.predictBlock=Math.max(0,(r.predictBlock??0)-dt);r.rollTime=Math.max(0,(r.rollTime??0)-dt);
  if(active<0){r.crouching=c.id==='riposte'&&r.y>=414;if(canFly(r)&&r.y<380)r.vy=0;return true;}
  if(c.id==='rebound'){
   if(c.fired===0){if(canFly(r))r.vy=-260;else if(r.y>=414&&!r.crippled&&!(r.glueGround>0)){r.vy=-500;r.jumps=(r.jumps??0)+1;}}
@@ -64,6 +64,6 @@ export function updateBossCombo(g,r,dt){
   if(active>=.85&&c.fired===2){strike(g,r,2);circuit(g,r);c.fired++;}
  }
  if(r.glueGround>0)r.vy=Math.max(180,r.vy);
- if(active>1.1){r.combo=null;r.windup=0;r.action='';r.crouching=false;r.rollTime=0;r.predictBlock=0;r.cooldown=.9;r.comboCd=Math.max(2.6,5.5-r.comboPolicy.cycle*.45)/Math.sqrt(g.profile.attack);}
+ if(active>1.1){r.combo=null;r.windup=0;r.action='';r.crouching=false;r.rollTime=0;r.predictBlock=0;r.cooldown=g.difficulty==='hard'?1.2:.9;r.comboCd=(g.difficulty==='hard'?1.12:1)*Math.max(2.6,5.5-r.comboPolicy.cycle*.45)/Math.sqrt(g.profile.attack);}
  return true;
 }

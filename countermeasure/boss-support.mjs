@@ -22,7 +22,7 @@ export function updateBossSupport(g,dt,input={}){
  const d=g.bossSupport;if(!d||g.state!=='playing')return;const alive=bosses(g);
  if(!alive.length){d.warning=null;return;}
  // Objective EMPs and radio shutdowns remain real windows of relief.
- if(alive.every(r=>r.objectiveReboot>0||r.emp>0||r.radio>0))return;
+ if(alive.every(r=>r.objectiveReboot>0||r.emp>0||r.radio>0||r.laser?.phase==='recharge'))return;
  d.elapsed+=dt;d.cooldown=Math.max(0,d.cooldown-dt);d.sampleClock+=dt;
  if(d.sampleClock>=.25){d.sampleClock-=.25;const p=g.player;d.samples.push({x:p.x,y:p.y,crouch:p.grounded&&!!input.down&&!(p.rollTime>0),air:!p.grounded&&p.y<365});if(d.samples.length>32)d.samples.shift();d.observed=observedHabit(d.samples);}
  const w=d.warning;if(w){w.remaining-=dt;if(w.remaining>0)return;const available=budgetLeft(g,d);if(available<=0){d.warning=null;d.cooldown=2;return;}

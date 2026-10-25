@@ -64,7 +64,7 @@ The vault equips the ultimate loadout:
 | --- | ---: | ---: | ---: | ---: | --- | --- |
 | Easy | 140 | 135% | 160 | 30 | Slower updates, fewer counters/robots, longer reactions and coordination intervals | +35 HP, floor 95 |
 | Normal | 100 | 100% | 100 | 18 | Original learning and population | +20 HP, floor 70 |
-| Hard | 85 | 80% | 80 | 12 | Faster learning, up to two counter slots, more robots and faster attacks | +10 HP, floor 55 |
+| Hard | 85 | 90% | 80 | 12 | Faster learning, up to two counter slots, more robots and faster attacks | +16 HP, floor 65 |
 | Terminator | 70 | 42% | 65 | 9 | Fastest updates, up to three counter slots, largest bounded teams and fastest coordination | No health regeneration or ordinary room repairs |
 
 Fuel is the finite thermite-boost reserve; ordinary booster flight remains available without it. AP/fuel amounts apply when ultra gear is available. Terminator grants the complete ultra mech and all four ultimate weapon stages after clearing the first Mirror duel at level 10, plus EMP/AP powers, so it can be used throughout the remaining Campaign. Its ultra armor capacity is 168; later milestone suit rewards restore armor/fuel/ammunition after victory while preserving human health. Replays/retries are fresh attempts with full profile resources; walking into the next chamber never refills Terminator health. Existing saved checkpoints keep their own mode.
@@ -110,3 +110,12 @@ Menu → Statistics includes local encounter results, weapon/strategy preference
 Campaign travels through five distinct sectors: Intake, Retention, Replication, Consensus and Inheritance. Each has its own palette, floor, machinery and room details. Fifteen short wall inscriptions gradually connect the human trials, retained memories, copied bodies and collective command system. Only the occupied room reveals its inscription; self-lit signs remain visible in blackout rooms. Environmental objects are scenery, with no new collision or damage rules. Demo keeps its original arena.
 
 The Mirror now pursues relative altitude through bounded approach/crossing/breakaway passes, then descends for recovery. Its delayed height samples remain; powered copies and learned combos share an upper boundary. Grounding, interrupts and the unpowered first duel retain their existing rules. See BALANCE.md for the before/after ceiling probe and completion limits.
+
+
+## Charged countermeasures / Release 22
+
+Campaign robot friendly-fire eligibility is 100% Easy, 70% Normal, 30% Hard and zero on Terminator, in addition to existing ally-aware aiming. A projectile rolls once and either can hit allies or passes through them; ignoring allies does not absorb the shot before it reaches you. Melee, explosions, floor shocks and robot-owned chemical residue follow the same difficulty policy. Your acid and electric attacks still damage robots normally. Demo retains its original friendly-fire rules.
+
+Hard and Terminator superbosses can charge a long-range laser. A dashed orange ray locks its direction at the start; jump, fly or move across it before the blast. The beam fires once per target, then the robot drops and vents, unable to attack and taking increased damage. Charges can be interrupted; extra stuns cannot cancel an already-earned venting window. The existing HUD shows the warning and venting countdown even when the core is offscreen.
+
+Hard has a 1.35s charge, 2.5s recharge and 9s cooldown after recharge; Terminator has 1.05s, 1.65s and 6.5s respectively. Hard's learned combos have a 0.72s warning and longer recovery, 90% armor capacity and +16 HP / floor65 repairs between cleared chambers. Armor damage still carries between rooms. Terminator keeps no HP regeneration, 42% armor, early ultra gear and its boss health; its ordinary-unit health multiplier is now1.15 instead of1.3 and population factor1.35 instead of1.5, compensating for the loss of allied damage. BALANCE.md records paired/fresh simulations and phone-test limits.

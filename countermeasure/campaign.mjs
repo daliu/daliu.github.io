@@ -45,7 +45,7 @@ export class CampaignArena extends Arena{
    const inCone=(r.x-p.x)*p.facing>=-30&&Math.abs(r.x-p.x)<265&&Math.abs(r.y-p.y)<140;
    if(this.module===0){r.radio=Math.max(r.radio,2.6);r.windup=0;r.moduleWindup=0;r.action='';r.cooldown=Math.max(r.cooldown,1);r.vy=Math.max(r.vy,100);}
    if(this.module===1&&inCone){r.glue=Math.min(3,r.glue+1);r.glueTimer=10;if(r.glue===3){r.root=3.4;r.windup=0;r.action='';}this.damageRobot(r,7,{color:m.color,number:true});}
-   if(this.module===2&&inCone){const plastic=r.shell;r.shell=false;if(plastic){r.exposed=8;r.corrosion=6;}this.damageRobot(r,plastic?125:32,{color:m.color,number:true});}
+   if(this.module===2&&inCone){const plastic=r.shell;r.shell=false;if(plastic){r.exposed=8;r.corrosion=6;r.corrosionOwner=null;}this.damageRobot(r,plastic?125:32,{color:m.color,number:true});}
    if(this.module===3&&Math.abs(r.x-p.x)<350&&Math.abs(r.y-p.y)<220){let susceptibility=TYPES[r.type].resistance.electric??1;if(r.shell)susceptibility=Math.min(susceptibility,.25);if(r.exposed>0)susceptibility=Math.max(1.3,susceptibility);r.corruption=Math.max(r.corruption,4*susceptibility);this.damageRobot(r,50*susceptibility,{color:m.color,number:true});}
   }return true;
  }
@@ -65,7 +65,7 @@ export class CampaignArena extends Arena{
   if(['metalDrone','plasticDrone','chemDrone'].includes(r.type)&&!r.disarmed)this.explodeDrone(r);
  }
  explodeDrone(r){if(r.exploded)return;r.exploded=true;this.effects.push({kind:'blast',x:r.x,y:r.y-20,life:.6,max:.6,color:TYPES[r.type].color});
-  if(r.type==='chemDrone'){for(let x=r.x-100;x<=r.x+100;x+=70)this.addPool(x,2);}
+  if(r.type==='chemDrone'){for(let x=r.x-100;x<=r.x+100;x+=70)this.addPool(x,2,r.id);}
   if(Math.hypot(this.player.x-r.x,this.player.y-r.y)<105)this.hurt(r.type==='chemDrone'?22:30,r.x,0,'drone detonation');
   for(const o of this.robots)if(o!==r&&o.hp>0&&Math.hypot(o.x-r.x,o.y-r.y)<125)this.friendlyDamage(r.id,o,70);
  }

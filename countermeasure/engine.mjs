@@ -118,7 +118,7 @@ export class Arena{
   event(text,color='#b7e77a'){this.events.push({text,color,time:3});if(this.events.length>4)this.events.shift();}
   jump(){if(this.state!=='playing'||!this.player.grounded||this.player.rollTime>0)return;this.player.vy=this.player.mecha?-620:-510;this.player.grounded=false;this.stats.jumps++;}
   dash(){const p=this.player;if(this.state!=='playing'||p.dashCd>0)return;const rolling=p.grounded&&p.crouching;p.rollTime=rolling?.34:0;p.dashTime=rolling?.34:.16;p.dashCrit=.4;p.dashCd=1.25*(1-.12*this.skills.agility);p.invulnerable=.23;this.stats.dashes++;if(rolling)this.stats.rolls++;else if(!p.grounded)this.stats.airDashes++;this.effects.push({kind:'dash',x:p.x,y:p.y,life:.22,max:.22,color:'#b7e77a'});}
-  addPool(x,chemical=0){const fluid=chemical===true?1:Number(chemical)||0;x=Math.max(25,Math.min(975,x));const near=this.pools.find(p=>p.fluid===fluid&&Math.abs(p.x-x)<55);if(near){near.life=10;return near;}const pool={x,radius:48,life:10,charged:0,fluid,corrosive:fluid>0};this.pools.push(pool);if(this.pools.length>18)this.pools.shift();return pool;}
+  addPool(x,chemical=0,owner=null){const fluid=chemical===true?1:Number(chemical)||0;x=Math.max(25,Math.min(975,x));const near=this.pools.find(p=>p.fluid===fluid&&(p.owner??null)===owner&&Math.abs(p.x-x)<55);if(near){near.life=10;return near;}const pool={x,radius:48,life:10,charged:0,fluid,owner,corrosive:fluid>0};this.pools.push(pool);if(this.pools.length>18)this.pools.shift();return pool;}
   poolAt(entity,pool){return entity.y>=414&&Math.abs(entity.x-pool.x)<pool.radius+12;}
   conducts(entity,pool){return this.poolAt(entity,pool)&&!entity.boots;}
   conductiveNetwork(entities){const connected=new Set(this.pools.filter(pool=>entities.some(e=>this.conducts(e,pool))));let grew=true;while(grew){grew=false;for(const pool of this.pools)if(!connected.has(pool)&&[...connected].some(p=>Math.abs(p.x-pool.x)<=p.radius+pool.radius)){connected.add(pool);grew=true;}}return [...connected];}
@@ -179,7 +179,7 @@ export class Arena{
     let damage=w.damage*resistance*scale*(1+(weapon<2?.16*this.skills.force:.2*this.skills.voltage))*(p.mecha?1.65:1)*(critical?CRITICAL_MULTIPLIER[zone]:1);
     if(critical){r.lastCritical=zone;r.criticalFlash=.55;if(zone==='legs'&&!r.structure&&!TYPES[r.type].flying){r.legTrauma=(r.legTrauma??0)+1;if(r.legTrauma>=(r.super?3:2)||!r.super&&this.random()<.4){r.crippled=true;r.stun=Math.max(r.stun,1.2);r.vy=Math.max(0,r.vy);r.dodgeTime=0;r.dashTime=0;r.windup=0;r.action='';}}}
     if(w.type==='electric'){this.stats.electricalHits++;if(this.pools.some(pool=>this.poolAt(r,pool)))this.stats.groundShockHits++;const conductive=r.wet>0&&!(r.boots&&r.y>=414);if(conductive)damage*=3;if(r.dented>0)damage*=1.08;if(this.random()<(conductive?.5:.18))r.paralyzed=Math.max(r.paralyzed,r.type==='mirror'?.45:.95);r.stun=Math.max(r.stun,r.type==='insulated'?.08:.2);}
-    if(weapon===3){if(r.exposed>0)damage*=1.75;r.wet=5;if(w.corrosive){r.corrosion=4;r.corrosionTier=w.tier;}r.stun=Math.max(r.stun,.08);}
+    if(weapon===3){if(r.exposed>0)damage*=1.75;r.wet=5;if(w.corrosive){r.corrosion=4;r.corrosionTier=w.tier;r.corrosionOwner=null;}r.stun=Math.max(r.stun,.08);}
     if(weapon===1)r.exposed=6;
     if(weapon===0){r.dented=5;r.x=Math.max(30,Math.min(970,r.x+p.facing*24));r.stun=Math.max(r.stun,.18);}
     if(front){r.shield=Math.max(0,r.shield-w.damage*scale*(weapon===0?1.4:weapon===1?.85:.2));if(r.shield===0){this.event('SHIELD BROKEN — guard exposed.','#f2b966');this.effects.push({kind:'shield-drop',x:r.x+r.facing*26,y:r.y-30,life:.8,max:.8,color:'#d8ad68'});}}
@@ -190,6 +190,7 @@ export class Arena{
     this.stats.hits[weapon]++;this.stats.damage[weapon]+=damage;if(r.type==='mirror')r.stun=Math.min(r.stun,.18);this.damageRobot(r,damage,{color:w.color,critical,number:true});
   }
   botHurt(r,damage,fromX=r.x,penetration=0,cause='combat trauma',critical=null){critical??=this.random()<r.cognition.crit;this.hurt(damage*(critical?1.65:1),fromX,penetration,cause,{critical});}
+  robotShotHitsAlly(){return true;}
   friendlyDamage(source,target,damage,critical=false){if(target.hp<=0||source===target.id)return;this.damageRobot(target,damage*(critical?1.65:1),{color:'#e9a165',critical,number:true});}
   friendlyRisk(r,range=600){return this.robots.some(o=>o!==r&&o.hp>0&&(o.x-r.x)*r.facing>0&&Math.abs(o.x-r.x)<range&&Math.abs(o.y-r.y)<55);}
   senseRobot(r,dt){const p=this.player,c=r.cognition;r.sense-=dt;r.dodgeCd=Math.max(0,r.dodgeCd-dt);if(r.sense>0)return;r.sense=c.reaction;r.targetX=p.x;r.targetY=p.y;r.targetVX=p.vx;
@@ -199,8 +200,8 @@ export class Arena{
   }
   statusDamage(entity,dt,isPlayer=false){entity.wet=Math.max(0,entity.wet-dt);entity.corrosion=Math.max(0,entity.corrosion-dt);entity.exposed=Math.max(0,entity.exposed-dt);entity.dented=Math.max(0,entity.dented-dt);entity.paralyzed=Math.max(0,entity.paralyzed-dt);entity.hazardCd=Math.max(0,entity.hazardCd-dt);
     const touching=this.pools.filter(pool=>pool.life>0&&this.poolAt(entity,pool));for(const pool of touching){if(!entity.boots)entity.wet=Math.max(entity.wet,.5);}
-    const chemical=Math.max(0,...touching.map(pool=>pool.fluid||0));if(chemical){entity.corrosion=Math.max(entity.corrosion,.6);entity.corrosionTier=Math.max(entity.corrosionTier||0,chemical);}
-    if(entity.hazardCd===0&&(chemical||entity.corrosion>0)){const tier=Math.max(chemical,entity.corrosionTier||1),damage=chemical?(tier===2?5:4):(tier===2?2:1);entity.hazardCd=tier===2?.25:.65;if(isPlayer)this.hurt(damage,entity.x,0,'corrosive exposure',{hazard:true});else{this.stats.damage[3]+=damage;this.damageRobot(entity,damage);}}
+    const corrosive=touching.filter(p=>p.fluid>0).sort((a,b)=>b.fluid-a.fluid||Number(!!a.owner)-Number(!!b.owner))[0],chemical=corrosive?.fluid??0;if(chemical){entity.corrosionOwner=corrosive.owner??null;entity.corrosion=Math.max(entity.corrosion,.6);entity.corrosionTier=Math.max(entity.corrosionTier||0,chemical);}
+    if(entity.hazardCd===0&&(chemical||entity.corrosion>0)){const tier=Math.max(chemical,entity.corrosionTier||1),damage=chemical?(tier===2?5:4):(tier===2?2:1);entity.hazardCd=tier===2?.25:.65;if(isPlayer)this.hurt(damage,entity.x,0,'corrosive exposure',{hazard:true});else if(entity.corrosionOwner)this.friendlyDamage(entity.corrosionOwner,entity,damage);else{this.stats.damage[3]+=damage;this.damageRobot(entity,damage);}}
     if(entity.corrosion===0)entity.corrosionTier=0;
   }
   hurt(damage,fromX,penetration=0,cause='combat trauma',{hazard=false,critical=false}={}){const p=this.player;if(p.hp<=0||!hazard&&p.invulnerable>0)return;const armorBefore=p.mechaShield,incoming=damage*(1-.15*this.skills.plating*(1-penetration))*(p.mecha&&p.mechaShield>0?.7:1),absorbed=Math.min(p.mechaShield,incoming);p.mechaShield-=absorbed;if(armorBefore>0&&p.mechaShield===0){this.event('ARMOR LOST / BOOSTERS ONLINE','#ef9b8d');this.effects.push({kind:'armor-break',x:p.x,y:p.y-35,life:.9,max:.9,color:'#b7e77a'});}const healthDamage=incoming-absorbed;p.hp=Math.max(0,p.hp-healthDamage);if(!hazard){p.invulnerable=.65;p.x=Math.max(22,Math.min(978,p.x+Math.sign(p.x-fromX)*18));}this.stats.damageTaken+=healthDamage;this.effects.push({kind:'number',x:p.x,y:p.y-65,text:absorbed?`ARMOR −${Math.round(absorbed)}`:(critical?'CRIT −':'−')+Math.round(healthDamage),life:.65,max:.65,color:absorbed?'#b7e77a':'#f07f66'});if(p.hp===0){this.runDeaths++;this.register.close('terminated',this.wave,cause);this.subject=this.register.current;this.state='dead';this.event('Human down. Retry the same wave.','#f07f66');}}
@@ -266,9 +267,9 @@ export class Arena{
         else if(s.y>=412){s.x=s.targetX;s.life=0;this.effects.push({kind:'blast',x:s.x,y:415,life:.45,max:.45,color:'#e7a56e'});if(Math.abs(s.x-p.x)<52&&p.y>350)this.hurt(20*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&Math.abs(s.x-r.x)<52&&r.y>350)this.friendlyDamage(s.owner,r,20,s.critical);}
       }else{
         // Sweep the travelled segment so faster projectiles cannot tunnel through bodies.
-        const candidates=[{entity:p,player:true},...this.robots.filter(r=>r.hp>0&&r.id!==s.owner).map(entity=>({entity,player:false}))];const vx=s.x-oldX,vy=s.y-oldY,length=vx*vx+vy*vy;
+        const candidates=[{entity:p,player:true},...this.robots.filter(r=>r.hp>0&&r.id!==s.owner&&this.robotShotHitsAlly(s,r)).map(entity=>({entity,player:false}))];const vx=s.x-oldX,vy=s.y-oldY,length=vx*vx+vy*vy;
         const contacts=candidates.map(c=>{const e=c.entity,y=e.y-(e.crouching?9:23),fraction=length?Math.max(0,Math.min(1,((e.x-oldX)*vx+(y-oldY)*vy)/length)):0;return {...c,fraction,hit:Math.abs(oldX+vx*fraction-e.x)<23&&Math.abs(oldY+vy*fraction-y)<(e.crouching?11:27)};}).filter(c=>c.hit).sort((a,b)=>a.fraction-b.fraction);
-        if(contacts.length){const target=contacts[0];if(target.player)this.hurt((s.damage??12)*(s.critical?1.65:1),s.x-Math.sign(s.vx)*20,0,s.kind==='mirror-circuit'?'mirrored circuit combo':s.kind==='flak'?'anti-air volley':'projectile impact',{critical:s.critical});else this.friendlyDamage(s.owner,target.entity,s.damage??12,s.critical);s.life=0;}
+        if(contacts.length){const target=contacts[0];if(target.player)this.hurt((s.damage??12)*(s.critical?1.65:1),s.x-Math.sign(s.vx)*20,0,s.kind==='mirror-circuit'?'mirrored circuit combo':s.kind==='flak'?'anti-air volley':'projectile impact',{critical:s.critical});else this.friendlyDamage(s.owner,target.entity,s.damage??12,s.critical,true);s.life=0;}
       }
     }
     this.shots=this.shots.filter(s=>s.life>0&&s.x>-20&&s.x<1020&&s.y<470);

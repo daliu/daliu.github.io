@@ -76,3 +76,31 @@ The old flight loop applied upward velocity whenever the sampled human height wa
 A paired probe uses the same normally reached Normal level20 Mirror checkpoint and seed123. For20s it holds flight and alternates horizontal direction every2s, without attacking or editing health. Time with Mirror feet above130px falls from10.44s to0s; longest ceiling streak falls from3.90s to0s. Both probes remain alive. This tests the reported ceiling behavior, not every player strategy.
 
 254 focused checks pass. Eight full input-driven routes (seeds11/71, .28s decisions,60-death budget) complete with the unchanged controller: Easy2/2 deaths, Normal7/9, Hard25/33, Terminator30/45. Hard seed71 rises from18 to33 deaths compared with Release20, a material retry-cost increase; these are state-aware simulations rather than human win rates. Sector drawing checks cover all56 chambers, finite geometry, trial labels, lore progression and offline precaching. Browser QA uses ordinary imported route saves on an owned local origin; physical-phone ergonomics remain unproven.
+
+## Release 22 / friendly fire, charged lasers and Hard retry cost
+
+Campaign allied-damage eligibility is now Easy1.0, Normal0.7, Hard0.3, Terminator0. A projectile samples once and either collides with allies or passes through them, so Terminator robots cannot become harmless bullet sponges for the human. Melee contacts, blasts, floor shocks, laser beams and robot-owned chemical residue use the same policy. Pool/source ownership is the adjacent required change: robot chemistry cannot bypass zero friendly fire, while human acid remains damaging. Existing ally-aware aiming still avoids unsafe lanes. Demo keeps its original policy.
+
+Hard/Terminator superbosses gain a1200px locked-direction laser with dashed orange charge, brief beam and cyan venting ring/countdown. The boss stops during the charge/blast, then drops and cannot attack while recharging. Damage scales with the existing core weakness multiplier0.85 rather than active resistance0.18 during recharge. Charges can be interrupted by disabling powers; a subsequent stun does not cancel the earned recharge window. Player contact is limited to one hit per blast. Existing objective EMPs and pause rules remain. Enemy support observation pauses while all cores are venting or shut down.
+
+| Mode | Charge | Beam | Recharge vulnerability | Cooldown after recharge | Base human damage |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Hard | 1.35s | .32s | 2.5s | 9s | 28 |
+| Terminator | 1.05s | .30s | 1.65s | 6.5s | 32 |
+
+Hard combo warnings grow from0.60s to0.72s, ordinary post-combo recovery from0.9s to1.2s, and combo cooldowns by12%. Hard armor capacity grows from80% to90%; human chamber repairs grow from+10/floor55 to+16/floor65. Armor damage still carries exactly between ordinary rooms; only earned post-clear suits refill it. Enemy learning, adaptation slots, quantities, speed and damage remain Hard's existing values.
+
+Initial removal of friendly fire produced two Terminator death-limit failures by levels33/39 on the four paired seeds. To compensate, ordinary Terminator enemy health changes from1.30 to1.15 and population factor1.50 to1.35. Mirror/core health, no HP regeneration,42% armor, faster cognition and early ultra suit remain. The controller is unchanged throughout; no health or victory edits and no raised death budget were used to obtain completion.
+
+267 focused checks pass. Final explicit model validation includes32 complete full routes:16 paired (seeds11/71/83/97) and16 fresh for this change (12/72/84/98), .28s decisions,60-death limit. Two additional read-only traced routes verify learned moves in completed Mirror20/30/40/50 fights, zero ceiling time above130px, real laser shots and venting in the final superboss. Many earlier charges are interrupted by the controller's powers; availability does not guarantee every attempt fires a laser.
+
+| Difficulty | Previous paired deaths | New paired deaths | Fresh deaths | New paired/fresh median total minutes |
+| --- | --- | --- | --- | ---: |
+| Easy | 2,2,2,1 | 2,2,2,1 | 2,2,2,1 | 9.1 /9.5 |
+| Normal | 7,9,9,9 | 9,9,10,8 | 9,10,11,9 | 14.6 /14.7 |
+| Hard | 25,33,19,20 | 16,21,17,18 | 18,16,15,18 | 20.5 /20.1 |
+| Terminator | 30,45,21,22 | 19,20,20,22 | 19,17,18,18 | 17.0 /16.5 |
+
+Hard's paired average decreases24.25→18 deaths (about26%), worst33→21. Those are state-aware model results, not human win rates, physical-phone acceptance or deathless balance. The prior every-attempt Mirror-combo assertion incorrectly included brief losing human attempts; it now requires each completed upgraded duel to show a learned combo, plus all four milestones and actual attacks. The old ally-projectile regression forces an eligible friendly-fire sample rather than assuming every Normal shot hits allies.
+
+Phone checks use ordinary imported checkpoints reached by the pilot on an owned local origin: revised Hard Mirror20/50 weapon/Fly/Attack/Dash actions, visible locked-ray warning, an evasive flight input and venting countdown. Multi-pointer control tests exercise simultaneous steering, firing, flight and weapon switching at every boss milestone.390px and320px portraits and844×390 landscape control bounds are checked; native fullscreen screenshot capture remains inconclusive in the in-app browser. Offline verification reloads with the preview server stopped and resumes the new attack. Physical iOS/Android feel and human run balance remain follow-ups.

@@ -53,5 +53,5 @@ test('seeded tactical inputs clear all fifty levels and boss pairs on every mode
 });
 
 test('normal inputs actually provoke learned combos in every upgraded Mirror duel',()=>{
- for(const mode of ['normal','terminator']){const bosses=[];const run=play(mode,11,{reaction:.2,maxDeaths:60,onEntry:g=>{if(g.encounter==='boss'&&g.wave>=20)bosses.push(g.robots[0]);}});assert.equal(run.status,'complete');assert.ok(bosses.length>=4);for(const r of bosses)assert.ok(Object.values(r.comboCounts??{}).some(n=>n>0),mode+' '+r.id);assert.ok(bosses.some(r=>r.attacks.some(n=>n>0)));}
+ for(const mode of ['normal','terminator']){const bosses=[];const run=play(mode,11,{reaction:.2,maxDeaths:60,onEntry:g=>{if(g.encounter==='boss'&&g.wave>=20)bosses.push(g.robots[0]);}});assert.equal(run.status,'complete');const defeated=bosses.filter(r=>r.hp<=0);for(const wave of [20,30,40,50])assert.ok(defeated.some(r=>r.id.startsWith(wave+'-')),mode+' completed '+wave);for(const r of defeated)assert.ok(Object.values(r.comboCounts??{}).some(n=>n>0),mode+' '+r.id);assert.ok(defeated.some(r=>r.attacks.some(n=>n>0)));}
 });

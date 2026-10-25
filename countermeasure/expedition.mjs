@@ -1,3 +1,4 @@
+import {updateSuperLaser} from './boss-laser.mjs';
 import {createBossSupport,updateBossSupport,updateSupportArtillery} from './boss-support.mjs';
 import {generationProfile,equipGeneration,updateGenerationRobot,blockGuardCrossing,droneAftermath,updateAftermath} from './enemy-generations.mjs';
 import {limitMirrorAltitude} from './mirror-flight.mjs';
@@ -51,7 +52,7 @@ export class ExpeditionArena extends CampaignArena{
   }if(r.super){r.hp*=(this.ultimate?1.8:1.35+r.cycle*.35)*this.profile.bossHealth;r.controlSpent=0;r.controlRecovery=0;r.objectiveReboot=0;}
   if(['mirror','overseer'].includes(type)){r.comboPolicy=comboPolicy(type==='mirror'?r.build.style:this.memory,Math.max(1,Math.ceil(this.wave/10)));r.lessonBuild={skills:{...this.skills},tiers:[...this.weaponTiers],mechTier:this.mechTier};r.comboCd=type==='mirror'&&this.wave>=20?1.2:3;r.controlSpent=0;r.controlRecovery=0;}
   if(!r.structure&&!['mirror','overseer'].includes(type)){const front=['guard','bulwark','plated','insulated','sealed','lancer','interceptor','feinter'].includes(type);r.x=Math.min(955,(front?380:650)+(i%3)*100+Math.floor(i/3)*32);}
-  if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?1.3:1;r.maxHp=r.hp;}equipGeneration(this,r);return r;
+  if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?(['mirror','overseer'].includes(type)?1.3:1.15):1;r.maxHp=r.hp;}equipGeneration(this,r);return r;
  }
  upgradeMech(tier){super.upgradeMech(tier);this.moduleCooldowns=POWERS.map((_,i)=>this.moduleCooldowns[i]??0);}
  get rewardTier(){return this.difficulty==='terminator'?5:this.wave/10;}
@@ -93,12 +94,12 @@ export class ExpeditionArena extends CampaignArena{
   if(index===2&&this.ultimate&&r.channel!=='electric')r.paralyzed=0;
   if(index===2&&r.super&&this.ultimate)this.disable(r,'electric',2.4);
   if(this.ultra&&index===0&&r.hp>0){this.disable(r,'impact',.75);r.x=clamp(r.x+this.player.facing*55,35,965);if(!(r.controlRecovery>0))r.stun=Math.max(r.stun,.8);}
-  if(this.ultra&&index===3&&r.hp>0){r.corrosion=6;r.corrosionTier=2;}
+  if(this.ultra&&index===3&&r.hp>0){r.corrosion=6;r.corrosionTier=2;r.corrosionOwner=null;}
  }
  damageRobot(r,damage,options={}){
   const alive=r.hp>0;if(!alive)return;
   // The old emergency robot was immune. Expedition cores always take damage.
-  if(r.super){const weak=r.emp>0||r.radio>0||r.root>0||r.paralyzed>0||r.weakness>0;damage*=weak?.85:.18;}
+  if(r.super){const weak=r.emp>0||r.radio>0||r.root>0||r.paralyzed>0||r.weakness>0||r.laser?.phase==='recharge';damage*=weak?.85:.18;}
   const online=r.type==='overseer'&&!r.disabled;if(online)r.disabled=true;super.damageRobot(r,damage,options);if(online&&r.hp>0)r.disabled=false;
   if(alive&&r.hp<=0&&r.type==='antenna'){
    this.synchronized=false;this.command=null;if(this.bossSupport)this.bossSupport.warning=null;for(const [i,o] of this.robots.entries())if(!o.structure&&o.hp>0){o.emp=Math.max(o.emp??0,8);o.objectiveReboot=8;o.controlRecovery=0;o.controlSpent=0;o.radio=8;o.weakness=9;o.desynchronized=true;o.windup=0;o.action='';o.cooldown=1+i*.7;}this.event('SYNC LOST / REBOOT 8s', '#9ee6ee');
@@ -117,7 +118,7 @@ export class ExpeditionArena extends CampaignArena{
    if(this.module!==0&&!cone&&!(this.module===3&&Math.hypot(r.x-p.x,r.y-p.y)<350))continue;
    if(this.anticipate(r,m.id))continue;
    if(this.module===0){if(r.super)this.disable(r,'radio',this.ultimate?4:2.6);else{r.radio=2.6;r.windup=0;r.action='';r.vy=Math.max(r.vy,100);}}
-   if(this.module===2){const plastic=r.shell;r.shell=false;if(plastic){r.exposed=8;r.corrosion=6;}this.damageRobot(r,plastic?125:32,{color:m.color,number:true});}
+   if(this.module===2){const plastic=r.shell;r.shell=false;if(plastic){r.exposed=8;r.corrosion=6;r.corrosionOwner=null;}this.damageRobot(r,plastic?125:32,{color:m.color,number:true});}
    if(this.module===3){let susceptibility=TYPES[r.type].resistance.electric??1;if(r.shell)susceptibility=Math.min(.25,susceptibility);if(r.exposed>0)susceptibility=Math.max(1.3,susceptibility);r.corruption=Math.max(r.corruption,4*susceptibility);this.damageRobot(r,50*susceptibility,{color:m.color,number:true});}
   }return true;
  }
@@ -127,9 +128,11 @@ export class ExpeditionArena extends CampaignArena{
   const e=this.emergency;e.activated=true;e.pulse=1.2;e.backup=12;e.uses++;for(const r of this.robots)if(!r.structure&&r.hp>0){this.disable(r,'button',8);r.objectiveReboot=8;r.controlSpent=0;r.controlRecovery=0;}
   this.shots=[];this.pools=[];if(this.bossSupport)this.bossSupport.warning=null;this.player.invulnerable=1.2;this.effects.push({kind:'emp',x:e.x,y:e.y,life:1.2,max:1.2,color:'#b3e9ec'});return true;
  }
- addPool(x,chemical=0){return super.addPool(x,Math.min(2,Number(chemical)||0));}
+ addPool(x,chemical=0,owner=null){return super.addPool(x,Math.min(2,Number(chemical)||0),owner);}
  updateEnemyGeneration(r,dt){return updateSupportArtillery(this,r,dt)||updateGenerationRobot(this,r,dt);}
  explodeDrone(r){const before={hp:this.player.hp,armor:this.player.mechaShield};super.explodeDrone(r);droneAftermath(this,r,before);if(r.type==='chemDrone'&&r.upgrade?.n)for(const pool of this.pools)if(Math.abs(pool.x-r.x)<160&&pool.fluid===2)pool.life=Math.max(pool.life,10+r.upgrade.n*3);}
+ robotShotHitsAlly(shot){shot.friendlyFire??=this.profile.friendlyFire===1||this.profile.friendlyFire>0&&this.random()<this.profile.friendlyFire;return shot.friendlyFire;}
+ friendlyDamage(source,target,damage,critical=false,confirmed=false){const chance=this.profile.friendlyFire;if(!chance||!confirmed&&chance<1&&this.random()>=chance)return;super.friendlyDamage(source,target,damage,critical);}
  botHurt(r,damage,...args){super.botHurt(r,damage*(['mirror','overseer'].includes(r.type)?1:1+(r.upgrade?.n??0)*.045),...args);}
  updateSpecialRobot(r,dt){
   if(r.structure){r.y=r.anchorY;r.vy=0;return true;}
@@ -148,7 +151,7 @@ export class ExpeditionArena extends CampaignArena{
    const controlled=['emp','radio','root','paralyzed','stun'].some(k=>r[k]>0);
    if(r.objectiveReboot>0)r.controlSpent=0;else if(r.controlRecovery===0){r.controlSpent=controlled?r.controlSpent+dt:Math.max(0,r.controlSpent-dt*.2);if(r.controlSpent>4/Math.sqrt(this.profile.attack)){r.controlRecovery=2.2*Math.sqrt(this.profile.attack);r.controlSpent=0;r.action='';r.windup=0;r.cooldown=Math.max(.6,r.cooldown);}}
    if(r.controlRecovery>0)for(const k of ['emp','radio','root','paralyzed','stun'])r[k]=0;
-   r.disabled=r.emp>0||r.radio>0||r.root>0||r.paralyzed>0||r.confused>0;if(r.disabled||r.stun>0||r.hp<=0){r.windup=0;r.action='';return true;}this.updateSuperboss(r,dt);return true;}
+   const laserActive=updateSuperLaser(this,r,dt);r.disabled=r.emp>0||r.radio>0||r.root>0||r.paralyzed>0||r.confused>0||r.laser?.phase==='recharge';if(laserActive)return true;if(r.disabled||r.stun>0||r.hp<=0){r.windup=0;r.action='';return true;}this.updateSuperboss(r,dt);return true;}
   if(r.emp>0)return true;return handled;
  }
  updateMirror(r,dt){if(updateBossCombo(this,r,dt)){limitMirrorAltitude(r);return;}const grounded=r.glueGround>0,tier=r.build.mechTier;if(grounded)r.build.mechTier=0;super.updateMirror(r,dt);r.build.mechTier=tier;limitMirrorAltitude(r);if(grounded)r.vy=Math.max(180,r.vy);}
