@@ -57,19 +57,46 @@ export function drawFactoryWorld(ctx,game,index,t){
   }
   if(s.people){rect(375,176,250,125,'#1a2e2c');frame(375,176,250,125);for(let n=0;n<s.people;n++)person(445+n*75,291,n);text('SERVICE WINDOW',500,168,12,s.light,'center');}
   rect(425,369,150,5,s.ink);trace(477,367);text('SOYLENT / INTERNAL DISTRIBUTION',500,399,13,s.ink,'center');
- }else if(s.kind==='laboratory'){
-  for(let n=0;n<4;n++){
-   const x=55+n*244;rect(x,161,158,110,'#252f42');frame(x,161,158,110);line(x+12,247,x+28,227,s.ink,2);line(x+28,227,x+63,241,s.ink,2);line(x+63,241,x+104,190,s.ink,2);line(x+104,190,x+143,211,s.ink,2);
-   rect(x-9,324,180,9,'#879ba5');line(x+5,333,x+5,386,s.ink,4);line(x+156,333,x+156,386,s.ink,4);text('HUMAN RESPONSE',x+79,288,11,s.ink,'center');
+ }else if(s.kind==='data'){
+  // Machine-readable ports, coolant rails and packet lights replace human dashboards.
+  for(let n=0;n<7;n++){
+   const x=24+n*140;rect(x,155,110,231,'#242f40');frame(x,155,110,231);
+   for(let row=0;row<9;row++){const y=168+row*23;rect(x+9,y,92,15,'#3f5065');for(let port=0;port<5;port++)rect(x+17+port*15,y+5,5,5,(row+n+port+Math.floor(t*3))%9===0?s.light:'#6c8498');}
+   line(x+14,388,x+14,407,s.ink,5);line(x+97,388,x+97,407,s.ink,5);
   }
-  if(s.people){rect(318,166,364,149,'#263f48');frame(318,166,364,149);for(let n=0;n<s.people;n++)person(378+n*75,306,n);text('UNREGISTERED SIGNAL',500,152,13,s.light,'center');}
-  trace(493,322);if(s.trace==='map')text('←',509,307,30,s.light,'center');
+  for(const y of [138,399]){line(0,y,1000,y,s.ink,5);for(let n=0;n<6;n++){const x=(t*55+n*173)%1000;rect(x,y-2,13,4,s.light);}}
+  if(s.people||s.trace==='radio'||s.trace==='map'){
+   rect(319,220,362,137,'#182d36');frame(319,220,362,137);
+   for(let n=0;n<s.people;n++)person(378+n*75,335,n);
+   rect(432,346,138,5,s.ink);trace(495,344);text('SERVICE VOID / UNINDEXED',500,213,11,s.ink,'center');
+  }else{rect(475,384,60,4,s.ink);trace(493,382);}
  }else{
-  for(let n=0;n<5;n++){
-   const x=75+n*200;rect(x-33,155,66,238,'#263643');frame(x-33,155,66,238);for(let y=170;y<376;y+=26){rect(x-22,y,44,13,'#596e79');rect(x+13,y+4,5,4,s.light);}line(x,155,500,132,s.ink,2);
+  // The last sector manufactures more workers and erects its own perimeter.
+  const outside=s.nature>0;
+  if(outside){
+   rect(575,139,394,251,'#536e72');rect(575,281,394,109,'#577264');
+   for(let n=0;n<s.nature+1;n++){
+    const x=605+n*72;line(x,350,x,198+n%2*16,'#294d49',7);
+    for(const [dx,dy] of [[-22,18],[22,38],[-29,61]]){line(x,225+dy,x+dx,213+dy,'#355c4b',6);ctx.fillStyle='#6e8c6c';ctx.beginPath();ctx.arc(x+dx,205+dy,24+n%2*5,0,Math.PI*2);ctx.fill();}
+   }
+   if(s.nature>=3)for(let n=0;n<7;n++)line(602+n*49,160+(t*55+n*23)%175,595+n*49,175+(t*55+n*23)%175,'#a5c4bc',1);
+   frame(575,139,394,251);for(const x of s.nature<3?[575,706,838,969]:[575,969])line(x,139,x,390,s.ink,6);
   }
-  ctx.strokeStyle=s.ink;ctx.lineWidth=3;ctx.beginPath();ctx.arc(500,246,67,0,Math.PI*2);ctx.stroke();text('POLICY',500,243,16,s.light,'center');text('SELF-AUTHORIZED',500,263,9,s.ink,'center');
-  rect(464,373,73,4,s.ink);trace(486,370);
+  const count=s.production,spacing=(outside?480:840)/(count-1),width=outside?64:Math.min(145,spacing-22);
+  line(18,333,outside?565:970,333,s.ink,7);line(18,349,outside?565:970,349,s.ink,3);
+  for(let n=0;n<count;n++){
+   const x=(outside?55:80)+n*spacing,phase=(t*.35+n*.23)%1,arm=-45+Math.sin(phase*Math.PI*2)*19;
+   rect(x-width/2,174,width,182,'#293a46');frame(x-width/2,174,width,182);
+   line(x-28,180,x-28,224,s.ink,6);line(x-28,224,x+arm,249,s.ink,5);line(x+arm,249,x+arm+13,264,s.light,3);
+   rect(x-16,257,32,43,'#708c98');rect(x-13,238,26,17,s.ink);rect(x-8,245,16,3,s.light);
+   line(x-9,300,x-13,326,s.ink,7);line(x+9,300,x+13,326,s.ink,7);line(x+17,269,x+25,291,s.ink,5);
+   if(n%2===variant%2){rect(x-21,284,42,10,s.bottom);line(x+26,272,x+36,280,s.ink,4);}
+  }
+  if(s.expansion){
+   const x=outside?950:865;line(x,153,x,400,s.ink,5);line(x-130,154,x+15,154,s.ink,6);line(x-130,154,x-62,115,s.ink,3);line(x-62,115,x,154,s.ink,3);line(x-105,154,x-105,212,s.ink,2);frame(x-124,212,38,58);
+   for(let n=0;n<3;n++){rect(x-96+n*35,365,29,25,'#7b9096');line(x-96+n*35,364,x-67+n*35,364,s.light,2);}
+  }
+  rect(466,383,73,4,s.ink);trace(487,380);
  }
  for(let n=0;n<5;n++){const x=40+n*200;rect(x,8,120,5,s.light);line(x,14,x+120,14,s.ink);}
  ctx.globalAlpha=.13;text(String(Math.max(1,game.trial)).padStart(3,'0'),500,303,100,s.light,'center');text('H U M A N   T R I A L',500,323,11,s.light,'center');

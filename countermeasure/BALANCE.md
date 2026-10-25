@@ -150,3 +150,26 @@ The background follows the trial survivor from Calibration(levels1–10, includi
 278 focused checks pass: all224 room/difficulty combinations render finite geometry, preserve trial/state, withhold future preview records and switch to the exit ending; chapter boundaries match actual roomIndex, and harder modes have monotonically fewer survivor appearances while retaining a final lab operator. Hard/Terminator real-beam checks both confirm25% once per blast. Two unchanged-controller full routes, Normal/Terminator seed11/.28s/60-death budget, complete with9/19 deaths.
 
 Browser QA inspects all five background motifs and Normal/Terminator comparisons in an explicitly labeled local rendering proof. Ordinary UI imports of normally reached level12 checkpoints verify the actual phone-width scene, movement/attacks/flight, and warning priority over ambient records. The final cached build is checked after its preview server is stopped. No physical-device or new full-bait win-rate claim is made. Bounded evidence stays outside the public site.
+
+## Release 26 / autonomous factories and live superboss feedback
+
+Research is now machine computation/routing infrastructure, with survivor belongings restricted to service voids. Continuity shows four-to-six robot assembly stations, conveyors, construction cranes and an expanding perimeter that progressively exposes trees, rain and sky. Background rendering remains independent of combat RNG, plans, damage and saves. Combat populations remain unchanged.
+
+Superbosses now keep per-core live feedback. A successful delivery from the same family queues a warned physical reposition after7/6/5/4 hits on Easy/Normal/Hard/Terminator, with an eight-second inter-hit window. Delivery serials deduplicate chains and splash; ongoing corrosion/rocket exhaust ticks are not new deliveries. Main weapons, dash strikes, AP rounds, flame and magnetic powers participate. Repositions cycle break-range/cross-over/change-height, warn for at least0.6s, last at most0.75s after the warning and retain status/leg penalties. No immunity, HP, resistance or structural-damage values change.
+
+A whole volley or multi-stage combo is one outcome. Actual human HP/armor damage marks success. After4/3/3/3 consecutive misses the core queues a different authored combo, using the current observed position/posture. Ally-safe held fire has no ticket. Recent outcomes cap at12, pending attempts at8. Reactions wait for committed combos, normal combo recovery, beams/recharge and disabling; stale plans expire. Objective EMPs clear outstanding shot outcomes. Button/antenna reboot remains8s; backup shields and Hard/Terminator25% structural beams remain unchanged. Demo and ordinary enemies do not acquire this controller.
+
+289 focused checks pass, including eleven new feedback/factory checks, real primary-hit and projectile attribution, one-ticket spread fire, held-safe volleys, success reset, distinct executed combos, movement warning/bounds/status priority and objective/laser recovery, and eventual replanning through normal recovery even without prior player samples. All224 difficulty/chamber backgrounds render finite geometry without changing combat state.
+
+Eight paired input-driven50-level runs use the unchanged pilot, seeds11/71,0.28s decisions and a60-death limit:
+
+| Mode | Before deaths | Release26 deaths | Actual movement changes | Actual attack switches |
+| --- | --- | --- | --- | --- |
+|Easy|1 /2|2 /1|7 /6|0 /1|
+|Normal|9 /9|6 /10|9 /8|1 /0|
+|Hard|15 /16|18 /17|13 /8|0 /2|
+|Terminator|19 /17|19 /17|14 /11|3 /0|
+
+Every route completes. These are two seeds of one automated strategy per mode, not human win rates, a deathless clear, or fresh proof of the full late bait sequence. A boss that lands attacks regularly need not switch families. Feedback counters were observed on actual spawned cores during these runs; they were not inferred from rule availability. The early AP concern remains separate in issue51.
+
+Browser QA uses normally reached entry checkpoints through ordinary local save import. Hard30 phone-landscape checks cover held flight, attack, weapon switching, flight+pointer fire and the paused skill tree. Environment comparison views are explicitly labeled rendering proofs with no combat or modified save. Existing multi-pointer unit checks pass; physical phone feel remains unverified. Final source is precached under v26-feedback-4 and checked with the owned server stopped.

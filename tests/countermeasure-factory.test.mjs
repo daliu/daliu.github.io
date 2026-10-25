@@ -24,7 +24,7 @@ test('the first Mirror and superboss remain trials; containment starts only afte
  for(let wave=1;wave<10;wave++)assert.equal(factoryRoom(roomIndex(wave,'room')).kind,'trials');
  for(const phase of ['boss','super'])assert.equal(factoryRoom(roomIndex(10,phase)).kind,'trials');
  assert.equal(factoryRoom(roomIndex(11,'room')).kind,'cells');assert.ok(factoryRoom(roomIndex(11,'room')).breach);
- assert.equal(factoryRoom(roomIndex(21,'room')).kind,'processing');assert.equal(factoryRoom(roomIndex(31,'room')).kind,'laboratory');assert.equal(factoryRoom(roomIndex(41,'room')).kind,'core');assert.equal(factoryRoom(roomIndex(50,'hidden')).title,'THREE PERFECT PREDICTIONS');
+ assert.equal(factoryRoom(roomIndex(21,'room')).kind,'processing');assert.equal(factoryRoom(roomIndex(31,'room')).kind,'data');assert.equal(factoryRoom(roomIndex(41,'room')).kind,'foundry');assert.equal(factoryRoom(roomIndex(50,'hidden')).title,'THREE PERFECT PREDICTIONS');
 });
 test('harder stories leave fewer people and matching manufactured traces, while a last lab survivor remains',()=>{
  const totals=[0,0,0,0];for(let i=0;i<56;i++){const rooms=['easy','normal','hard','terminator'].map(d=>factoryRoom(i,d));for(let n=0;n<4;n++){assert.ok(Number.isInteger(rooms[n].people)&&rooms[n].people>=0);totals[n]+=rooms[n].people;if(n)assert.ok(rooms[n].people<=rooms[n-1].people);}}
@@ -48,3 +48,9 @@ test('actual Mirror controller and authored flight combos cannot camp outside th
 test('new background and flight modules are available in the offline precache',()=>{
  const worker=readFileSync(new URL('../countermeasure/sw.js',import.meta.url),'utf8');for(const file of ['factory-world.mjs','factory-story.mjs','mirror-flight.mjs'])assert.ok(worker.includes(`'./${file}'`));
 });
+
+ test('machine sectors move from compute coordination to expanding self-replication and nature',()=>{
+  for(let i=33;i<44;i++){const s=factoryRoom(i);assert.equal(s.kind,'data');assert.equal(s.production,0);assert.equal(s.nature,0);}
+  const first=factoryRoom(44),last=factoryRoom(54);assert.equal(first.production,4);assert.equal(first.nature,0);assert.equal(last.production,6);assert.equal(last.nature,4);assert.ok(last.expansion);assert.match(factoryRoom(34).title,/ALCOVE/);
+  let production=0,nature=0;for(let i=44;i<55;i++){const s=factoryRoom(i);assert.ok(s.production>=production&&s.nature>=nature);production=s.production;nature=s.nature;}
+ });

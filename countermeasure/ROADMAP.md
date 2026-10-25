@@ -1,6 +1,6 @@
 # Countermeasure: later development
 
-Requested October 25, 2026. These gameplay systems remain future work after further polish. Release25 adds the containment/laboratory environmental story and visible survivor scenes; recruitment, hacking, workshops and the scientist’s usable wireless device remain future work. Payment implementation, pricing and purchase rules are deferred. Earned unlocks and any later purchase path must be designed separately from the present combat balance.
+Requested October 25, 2026. These gameplay systems remain future work after further polish. Release26 places the surviving operators in hidden service/cooling alcoves within machine-run Research, followed by expanding autonomous factories and glimpses of nature; recruitment, hacking, workshops and the scientist’s usable wireless device remain future work. Payment implementation, pricing and purchase rules are deferred. Earned unlocks and any later purchase path must be designed separately from the present combat balance.
 
 ## Existing powers and progression
 
@@ -28,7 +28,7 @@ Each allied robot kill has a chance to improve its health, strength and evasive 
 
 ## Survivor laboratory and wireless exploitation
 
-Late in the Campaign, survivors defend a makeshift laboratory. A scientist grants a wireless interception/injection device: it can confuse enemies, disable ally-protection, or turn bots to the human side. Its longer hack presents a large loading/exploit screen that obscures most of the fight, with a visible wireless connector, progress and cancel action. Repeated use makes its success or effectiveness decline; this is separate from the dependable physical exposed-wiring hack. Set recovery, interruption and decline rules before implementation.
+Late in the Campaign, survivors defend a makeshift laboratory hidden in an unindexed cooling/service alcove of the machine-run compute sector. A scientist grants a wireless interception/injection device: it can confuse enemies, disable ally-protection, or turn bots to the human side. Its longer hack presents a large loading/exploit screen that obscures most of the fight, with a visible wireless connector, progress and cancel action. Repeated use makes its success or effectiveness decline; this is separate from the dependable physical exposed-wiring hack. Set recovery, interruption and decline rules before implementation.
 
 Human and robot companions can travel with the player. After clearing suitable rooms, a taser can open prisoner doors and recruit survivors. Robotics workshops can improve the weapons of human and robot allies. New rooms, dialogue and environmental details should carry this story without lengthy combat text.
 

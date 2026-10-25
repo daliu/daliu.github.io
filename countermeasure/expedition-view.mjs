@@ -1,3 +1,4 @@
+import {drawBossFeedback} from './boss-feedback.mjs';
 import {drawSuperLaser} from './boss-laser.mjs';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function scrollView(game,width,previous=null,dt=.016){
@@ -51,7 +52,7 @@ export function drawExpeditionExtras(ctx,g,t){
  const aftermath=g.player.blastAftermath;if(aftermath){ctx.strokeStyle=aftermath.kind==='chemical'?'#caed7055':'#e9a16555';ctx.lineWidth=8;ctx.strokeRect(5,5,990,490);ctx.fillStyle='#e9bc85';ctx.font='10px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(aftermath.kind.toUpperCase()+' '+Math.ceil(aftermath.time),g.player.x,g.player.y-105);}
  for(const b of g.glueBombs??[]){ctx.fillStyle='#d8b6f4';ctx.beginPath();ctx.arc(b.x,b.y,9,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff2cf';ctx.strokeRect(b.x-4,b.y-5,8,10);}
  for(const r of g.robots.filter(r=>r.hp>0)){
-  drawSuperLaser(ctx,r);
+  drawSuperLaser(ctx,r);drawBossFeedback(ctx,r);
   if(r.generation>1&&!r.structure){ctx.fillStyle='#e9bc85';for(let n=0;n<r.generation;n++)ctx.fillRect(r.x-14+n*6,r.y-88,3,5);}
   if(r.fullArmor){ctx.save();ctx.strokeStyle='#d8ad68';ctx.lineWidth=4;ctx.strokeRect(r.x-21,r.y-70,42,56);ctx.strokeRect(r.x-17,r.y-66,34,18);ctx.strokeRect(r.x-23,r.y-19,17,17);ctx.strokeRect(r.x+6,r.y-19,17,17);ctx.restore();}
   if(['slide-windup','dive-slide','shove-windup','shove'].includes(r.action)){ctx.strokeStyle=r.type==='shocker'?'#eff08a':'#e6ad60';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(r.x,r.y-10);ctx.lineTo(r.x+(r.lockDir??r.facing)*130,r.y-10);ctx.stroke();ctx.fillStyle=ctx.strokeStyle;ctx.font='22px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(r.type==='shocker'?'↑':'⇥',r.x+(r.lockDir??r.facing)*130,r.y-20);}

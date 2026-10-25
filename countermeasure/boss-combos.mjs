@@ -1,3 +1,4 @@
+import {trackBossAttack} from './boss-feedback.mjs';
 import {weaponAt} from './engine.mjs';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 export const COMBO_NAMES={rebound:'Rebound circuit',pursuit:'Cut and pursue',feint:'Aerial feint',riposte:'Duck and counter',roll:'Roll and punish',airstrike:'Air dash critical',screen:'Predictive guard'};
@@ -13,20 +14,22 @@ export function chooseCombo(policy,random){let value=random()*policy.weights.red
 function buildFor(r){return r.build??r.lessonBuild;}
 function canFly(r){return (r.type==='mirror'?buildFor(r)?.mechTier>0:r.flies)&&!(r.glueGround>0);}
 function strike(g,r,index,criticalAttempt=false){
+ const feedbackAttack=r.combo?(r.combo.feedbackAttack=trackBossAttack(g,r,'combo-'+r.combo.id,3,r.combo.feedbackAttack)):null;
  const build=buildFor(r),w=weaponAt(index,build.tiers[index]),p=g.player,dir=Math.sign(p.x-r.x)||r.facing;r.facing=dir;
  g.effects.push({kind:'attack',x:r.x,y:r.y-22,dir,range:w.range,weapon:index,energy:w.type==='energy',life:.22,max:.22,color:'#e9a8d1'});if(r.attacks)r.attacks[index]++;
- if(Math.abs(p.x-r.x)<w.range&&Math.abs(p.y-r.y)<72){const critical=g.random()<.06+r.comboPolicy.pace*.1+(criticalAttempt?.22:0);g.botHurt(r,clamp(w.damage*.45*(1+(index<2?.16*build.skills.force:.2*build.skills.voltage)),8,24),r.x,index<2?.25*build.skills.breaker:0,'learned combo',critical);if(index===1)p.exposed=4;}
+ if(Math.abs(p.x-r.x)<w.range&&Math.abs(p.y-r.y)<72){const critical=g.random()<.06+r.comboPolicy.pace*.1+(criticalAttempt?.22:0);g.botHurt(r,clamp(w.damage*.45*(1+(index<2?.16*build.skills.force:.2*build.skills.voltage)),8,24),r.x,index<2?.25*build.skills.breaker:0,'learned combo',critical,feedbackAttack);if(index===1)p.exposed=4;}
 }
 function circuit(g,r,spread=false){
+ const feedbackAttack=r.combo?(r.combo.feedbackAttack=trackBossAttack(g,r,'combo-'+r.combo.id,3,r.combo.feedbackAttack)):null;
  const tier=buildFor(r).tiers[2],w=weaponAt(2,tier);
- for(const dir of [-1,1])for(const vy of spread?[-75,75]:[0])g.shots.push({kind:'mirror-circuit',x:r.x+dir*30,y:r.y-26,vx:dir*370,vy,gravity:.00001,life:1.7,owner:r.id,ownerX:r.x,damage:clamp(w.damage*.4,10,18),critical:g.random()<.08,color:'#d8b6f4'});
+ for(const dir of [-1,1])for(const vy of spread?[-75,75]:[0])g.shots.push({feedbackAttack,kind:'mirror-circuit',x:r.x+dir*30,y:r.y-26,vx:dir*370,vy,gravity:.00001,life:1.7,owner:r.id,ownerX:r.x,damage:clamp(w.damage*.4,10,18),critical:g.random()<.08,color:'#d8b6f4'});
  if(r.attacks)r.attacks[2]++;g.effects.push({kind:'arc',x:r.x-48,y:r.y-26,x2:r.x+48,y2:r.y-26,life:.2,max:.2,color:'#e9a8d1'});
 }
 export function beginCombo(g,r,id){
  if(!COMBO_NAMES[id])return false;const p=g.player;r.combo={id,windup:g.difficulty==='hard'?.72:.6,age:0,fired:0,target:{x:clamp(p.x+p.vx*.15,35,965),y:p.y},approach:Math.sign(p.x-r.x)||r.facing,direction:Math.sign(r.x-p.x)||1};r.windup=r.combo.windup;r.action='combo-'+id;r.comboCounts??={};r.comboCounts[id]=(r.comboCounts[id]??0)+1;return true;
 }
 export function updateBossCombo(g,r,dt){
- if(!r.comboPolicy?.weights.length)return false;r.comboCd=Math.max(0,(r.comboCd??3)-dt);
+ r.comboCd=Math.max(0,(r.comboCd??3)-dt);if(!r.combo&&!r.comboPolicy?.weights.length)return false;
  if(!r.combo){
   if(r.comboCd>0||r.windup>0||r.moduleWindup>0||r.cooldown>.7||g.random()>.5+r.comboPolicy.confidence*.4)return false;
   const id=chooseCombo(r.comboPolicy,()=>g.random());if(!id)return false;beginCombo(g,r,id);
