@@ -11,7 +11,7 @@ import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 function game(wave=1,encounter=null,random=()=>.99){const g=new ExpeditionArena({random});g.mechTier=Math.floor((wave-1)/10);g.plan=g.makePlan(wave,g.memory,encounter);g.state='between';g.startWave();return g;}
 function step(g,time,input={}){for(let t=0;t<time;t+=.02)g.update(.02,input);}
-function clear(g){for(const r of [...g.robots])if(r.hp>0)g.damageRobot(r,10000000);g.update(.02);}
+function clear(g){for(let guard=0;guard<600&&g.state==='playing';guard++){for(const r of [...g.robots])if(r.hp>0)g.damageRobot(r,1e8);g.update(.02);}}
 function walk(g){for(let i=0;i<300&&g.state==='traveling';i++)g.update(.02,{right:true});}
 function hidden(){const g=game(50,'hidden');g.journey={cleared:50,flawless:true,secretQualified:true};g.mechTier=5;g.player.mecha=true;g.player.mechaShield=400;return g;}
 test('weapon families upgrade once per unlock while earlier counter tools remain freely selectable',()=>{

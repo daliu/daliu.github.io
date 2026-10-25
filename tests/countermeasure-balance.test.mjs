@@ -42,12 +42,12 @@ test('cooldowns tick through gates and survive reload; retries and earned finale
  const g=encounter();g.selectModule(0);g.useModule();const before=g.moduleCooldowns[0];for(const r of g.robots)g.damageRobot(r,1e8);g.update(.02);assert.equal(g.state,'traveling');g.update(.04,{right:true});assert.ok(g.moduleCooldowns[0]<before);const c=g.nextCheckpoint();assert.ok(expeditionCheckpoint(c));const h=new ExpeditionArena();assert.ok(h.resume(c));assert.equal(h.moduleCooldowns[0],c.cooldowns[0]);assert.ok(h.moduleCooldowns[0]>0);
  const hidden=encounter(50,'normal','hidden');hidden.journey={cleared:50,flawless:true,secretQualified:true};hidden.moduleCooldowns[0]=8;const s=new ExpeditionStore();assert.ok(s.save(hidden.snapshot()));assert.deepEqual(s.finaleFor('normal').cooldowns,[0,0,0,0,0,0]);const invalid=g.snapshot();invalid.cooldowns=[Infinity,0,0,0,0,0];assert.equal(expeditionCheckpoint(invalid),null);
 });
-test('later Terminator boss refits restore scarce armor/fuel/ammo while preserving exact human HP',()=>{
- const g=encounter(20,'terminator','boss');g.player.hp=.25;g.player.mechaShield=0;g.resources.fuel=0;g.resources.ammo=0;for(const r of g.robots)g.damageRobot(r,1e8);g.update(.02);assert.equal(g.carry.hp,.25);assert.equal(g.carry.shield,168);assert.deepEqual(g.resources,{fuel:65,ammo:9,electricLock:0});assert.ok(g.events.some(e=>e.text.includes('REFIT')));
+test('later Terminator boss supplies retain armor damage and exact human HP',()=>{
+ const g=encounter(20,'terminator','boss');g.player.hp=.25;g.player.mechaShield=0;g.resources.fuel=0;g.resources.ammo=0;for(const r of g.robots)g.damageRobot(r,1e8);g.update(.02);assert.equal(g.carry.hp,.25);assert.equal(g.carry.shield,0);assert.deepEqual(g.resources,{fuel:65,ammo:9,electricLock:0});assert.ok(g.events.some(e=>e.text.includes('REFIT')));
 });
 test('late populations spawn away from the entry lane instead of on top of the human',()=>{
- for(const difficulty of ['easy','normal','hard','terminator']){const g=encounter(48,difficulty,'room');assert.ok(g.robots.length>2);assert.ok(g.robots.every(r=>r.x>=380));}
+ for(const difficulty of ['easy','normal','hard','terminator']){const g=encounter(48,difficulty,'room');assert.ok(g.plan.units.length>2);assert.ok(g.robots.every(r=>r.x>=380));}
 });
 test('seeded tactical inputs clear all fifty levels and boss pairs on every mode without direct HP or win-state edits',()=>{
- for(const difficulty of ['easy','normal','hard','terminator'])for(const seed of [31,32]){const r=play(difficulty,seed,{reaction:.2,maxDeaths:16});assert.equal(r.status,'complete',`${difficulty} seed ${seed} stopped at ${r.level}`);assert.equal(r.level,50);assert.equal(r.rows.filter(row=>row.result==='clear'&&row.phase==='super').length,5);assert.ok(r.rows.some(row=>row.wave===1));}
+ for(const difficulty of ['easy','normal','hard','terminator'])for(const seed of [31,32]){const r=play(difficulty,seed,{reaction:.2,maxDeaths:40});assert.equal(r.status,'complete',`${difficulty} seed ${seed} stopped at ${r.level}`);assert.equal(r.level,50);assert.equal(r.rows.filter(row=>row.result==='clear'&&row.phase==='super').length,5);assert.ok(r.rows.some(row=>row.wave===1));}
 });

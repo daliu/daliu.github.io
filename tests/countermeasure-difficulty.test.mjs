@@ -6,7 +6,7 @@ import {ExpeditionStore,expeditionCheckpoint} from '../countermeasure/expedition
 import {DIFFICULTIES,fullResources} from '../countermeasure/difficulty.mjs';
 import {campaignMemory,learnCampaign} from '../countermeasure/campaign-plan.mjs';
 function start(difficulty='normal',wave=1,encounter=null){const g=new ExpeditionArena({difficulty,random:()=>.99});g.mechTier=Math.floor((wave-1)/10);g.plan=g.makePlan(wave,g.memory,encounter);g.state='between';g.startWave();return g;}
-function clear(g){for(const r of [...g.robots])g.damageRobot(r,1e8);g.update(.02);}
+function clear(g){for(let guard=0;guard<600&&g.state==='playing';guard++){for(const r of [...g.robots])if(r.hp>0)g.damageRobot(r,1e8);g.update(.02);}}
 function walk(g){for(let i=0;i<300&&g.state==='traveling';i++)g.update(.02,{right:true});}
 function qualified(){const g=start('normal',50,'hidden');g.journey={cleared:50,flawless:true,secretQualified:true};return g.snapshot();}
 test('earned finale remains unlocked after death, new run, older-save import and reload',()=>{

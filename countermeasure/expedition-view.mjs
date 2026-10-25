@@ -59,6 +59,8 @@ export function drawEvasion(ctx,e,f){
  ctx.restore();
 }
 export function drawExpeditionExtras(ctx,g,t){
+ const warning=g.deploymentWarning;if(warning){ctx.save();ctx.strokeStyle='#efad79';ctx.fillStyle='#efad7922';ctx.lineWidth=3;const xs=warning.side==='air'?warning.units.map((_,i)=>420+i*100):[warning.side==='left'?100:900];for(const x of xs){ctx.fillRect(x-42,warning.side==='air'?75:335,84,85);ctx.strokeRect(x-42,warning.side==='air'?75:335,84,85);ctx.fillStyle='#efad79';ctx.font='25px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(warning.side==='air'?'↓':warning.side==='left'?'→':'←',x,warning.side==='air'?125:390);ctx.fillStyle='#efad7922';}ctx.restore();}
+
  for(const r of g.robots.filter(r=>r.hp>0)){
   if(r.super){ctx.strokeStyle=r.controlRecovery>0?'#f1c778':r.disabled?'#9ee6ee':r.channel==='radio'?'#d9b5f5':r.channel==='electric'?'#b7e77a':'#ef9b8d';ctx.lineWidth=3;ctx.beginPath();ctx.arc(r.x,r.y-35,49,0,Math.PI*2);ctx.stroke();
    if(r.flies&&!r.disabled){ctx.fillStyle='#e6a078';ctx.fillRect(r.x-23,r.y,10,16+Math.sin(t*30)*6);ctx.fillRect(r.x+13,r.y,10,16+Math.sin(t*30+1)*6);}

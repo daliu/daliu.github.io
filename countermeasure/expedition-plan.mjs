@@ -24,5 +24,16 @@ export function expeditionPlan(wave,memory,encounter=null,profile){
  if(encounter==='boss')return {...base,encounter,units:['mirror'],title:`Mirror ${wave/10}`,phase:'Boss / copied build',boots:false,dark:false};
  if(encounter==='super'){const rules=bossRules(wave/10);return {...base,encounter,rules,units:['overseer',...(rules.cover?['buttonGuard']:[]),...(rules.antenna?['antenna']:[])],title:`Countermeasure ${wave/10}`,phase:'Superboss',boots:false,dark:false,flaw:rules.antenna?TYPES.antenna.flaw:rules.cover?TYPES.buttonGuard.flaw:'High resistance, not immunity. Flight reaches the red EMP button.'};}
  if(encounter==='hidden')return {...base,encounter,units:['overseer','overseer','overseer'],title:'Perfect human / imperfect machines',phase:'Hidden protocol',boots:false,dark:false,flaw:'Three sync cores. EMP / radio / electricity disable different cores. EMP also locks your electric weapons for five seconds.'};
+ if(wave>=6){
+  // Stagger existing squads so one opening shutdown cannot erase the entire challenge.
+  const pattern=wave<11?'crossfire':['crossfire','pincer','airlift','relay'][wave%4],units=[...base.units],extra=profile?.name==='Easy'||wave<11?0:profile?.name==='Terminator'?2:1;
+  const counter=memory.weapon.indexOf(Math.max(...memory.weapon)),screens=['guard','plated','insulated','sealed'];
+  if(extra)units.push(wave>=21&&wave%3===0?'orchestrator':screens[counter]);
+  if(extra>1)units.push(memory.jumpRate>.15?'flak':'lancer');
+  const reserve=units.splice(-Math.max(1,Math.ceil(units.length*.4))),deployments=[];
+  if(pattern==='relay'&&reserve.length>1){deployments.push({at:4,side:'right',units:reserve.slice(0,1)},{at:9,side:'left',units:reserve.slice(1)});}
+  else deployments.push({at:4,side:pattern==='pincer'?'left':pattern==='airlift'?'air':'right',units:reserve});
+  return {...base,encounter,pattern,units:[...units,...reserve],openingUnits:units,deployments};
+ }
  return {...base,encounter};
 }

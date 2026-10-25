@@ -1,38 +1,36 @@
-# Campaign balance playtest — October 24, 2026
+# Campaign tuning — October 25, 2026
 
-This pass preserves all 50 levels, the five boss pairs, permanent finale unlock and separate Demo. It addresses an early difficulty cliff, late boss shutdown loops, room-entry overlap, and two-thumb flight/combat.
+Release 16 replaces one opening squad with staged deployments and removes automatic armor repairs. The running Chrome tab inspected during this pass was still on the original Campaign with a single final mirror; it had not loaded the later five-pair progression. A standalone online updater outside the old worker scope now provides a reliable path to the latest game without deleting saves.
 
-## Changes
+## Current rules
 
-- First Mirror attacks deal 18% less damage and its mech pod drops at 55% remaining health. Collecting the pod remains part of the fight.
-- Extra enemies spawn outside the human entry lane, with front-line and ranged roles separated.
-- Superboss health reserves rise with each milestone. Terminator bosses receive a further 45% reserve. Every weapon and critical hit still damages them.
-- Sustained stuns/roots/shutdowns exhaust a boss control budget. An amber ring marks its brief recovery; damage, corrosion and slowing remain useful. Button and antenna EMPs retain eight seconds of reboot.
-- Power cooldowns survive room changes and saved checkpoints, and tick during travel. Fresh retries, replacement suits and finale replays reset them.
-- Ultra armor absorbs less incoming damage on Hard and Terminator. Ordinary armor repairs scale with difficulty. Terminator still never heals the human; regular boss victories at 20/30/40/50 refit armor, fuel and ammunition.
-- Touch Attack aims toward a nearby target while movement remains independent. Hold Attack and slide upward to jump/fly while firing, leaving the other thumb free to steer. Dash follows the held movement direction. Keyboard and canvas aiming remain manual.
+- Mirror duels copy build, weapon stages, selected power and learned spacing/jump/dash/attack habits at levels 10/20/30/40/50. Each leads into that milestone's resistant superboss. Saved milestone selection starts the pair; Continue resumes the saved phase.
+- Armor damage carries through every doorway in all four modes. The first suit grants armor; later suit upgrades add only their extra capacity. Terminator supplies after later regular boss victories refill fuel/ammunition without repairing armor or healing the human. Zero-armor boosters still work. Retries are fresh attempts; the earned finale retains its ultimate-suit grant.
+- From level 6, part of a squad deploys later. Crossfire, pincer, airlift and relay patterns alternate after the first mech. A 1.6-second warning precedes arrival, and reserves keep the exit locked. The pre-mech sector uses forward reinforcements instead of flanking; later rooms add counter screens and command support. Total authored squads stay bounded at eleven.
+- Existing progressive cognition, resistances, combos, finite fuel/ammo, boss control recovery, eight-second objective EMPs and carried power cooldowns remain. Touch supports simultaneous steering/fire/flight and an optional nearby-target aim preference.
+- Options include current-run difficulty changes (restart the level, preserve spent health/armor/resources), persistent audio/volume/aim preferences, fullscreen and saved levels. Current difficulty and release are visible.
 
 ## Reproduce
 
 ```sh
 node --test tests/countermeasure*.test.mjs
-node scripts/countermeasure-playtest.mjs --seeds 11,12,13,14,15 --reaction .20 --report /tmp/countermeasure-holdout.json
-node scripts/countermeasure-playtest.mjs --seeds 21,22,23,24,25 --reaction .28 --report /tmp/countermeasure-delayed.json
+node scripts/countermeasure-playtest.mjs --seeds 11,12,13,14,15 --reaction .20 --max-deaths 40 --report /tmp/countermeasure-tuning.json
+node scripts/countermeasure-playtest.mjs --seeds 21,22,23,24,25 --reaction .28 --max-deaths 40 --report /tmp/countermeasure-holdout.json
 ```
 
-The test player uses ordinary movement, attacks, weapon stages, skill allocation, powers, pod collection and gate traversal. It never edits health, enemy damage or victory state. Seeded randomness makes failures reproducible. Decision timing is quantized by the 40 ms simulation step. The controller reads arena state and uses touch aim assistance; it is not a human or phone performance model. Comparisons with the previous release include that new assistance, rather than isolating damage tuning alone.
+The deterministic pilot uses normal combat, movement, skills, powers, gates and pod collection. It now targets the visible sync antenna in later superboss fights; this is a test-player strategy change, not extra player damage. It never edits health or victory state. It reads arena state and uses touch aim assistance, so it is not a human or physical-phone model. Decision timing is quantized by a 40 ms simulation step.
 
-## Results
+## Results and limits
 
-179 focused tests pass, including eight complete runs and input routing at all five superboss milestones in all four modes. Forty additional full runs on held-out seeds finished within the 12-death retry budget. Eight direct unlocked triple-core replays finished without deaths.
+189 focused checks pass, including eight complete routes and five-milestone input/copy tests. Forty additional complete runs passed: twenty used during tuning, then twenty on held-out seeds/timing. The higher retry budget is deliberate for the harder armor-attrition rules; prior release results with room repairs and a 12-death budget do not describe this release.
 
-| Difficulty | Completed runs | Deaths per run, 200 ms decisions | Deaths per run, 280 ms decisions | Median superboss combat seconds, 200 / 280 ms |
-| --- | ---: | ---: | ---: | ---: |
-| Easy | 10/10 | 0 | 0 | 10.9 / 11.5 |
-| Normal | 10/10 | 1–2 | 0 | 15.4 / 16.2 |
-| Hard | 10/10 | 8–9 | 1–3 | 17.8 / 18.0 |
-| Terminator | 10/10 | 7–10 | 4–5 | 17.2 / 16.4 |
+| Difficulty | Tuning completion / deaths | Held-out completion / deaths | Median superboss combat seconds, tuning / held-out |
+| --- | --- | --- | ---: |
+| Easy | 5/5 · 0–2 | 5/5 · 0–0 | 10.4 / 13.1 |
+| Normal | 5/5 · 8–10 | 5/5 · 3–4 | 15.4 / 14.4 |
+| Hard | 5/5 · 17–20 | 5/5 · 6–8 | 18.7 / 17.5 |
+| Terminator | 5/5 · 20–40 | 5/5 · 14–26 | 16.8 / 18.0 |
 
-The prior release, with a pod-aware controller, completed 20/20 runs; median superboss combat lasted only 3.8–5.7 seconds. The earlier baseline controller also failed to collect the first pod reliably; those failed experiments were excluded from this comparison. Travel time is excluded from boss timings. Timing/seed resonance explains why slower decisions sometimes perform better; these numbers are regression evidence, not calibrated human win rates or completion times.
+Early flanking trials trapped the pre-mech controller and were revised before these final batches. Timing/seed resonance means slower decisions can sometimes perform better. These counts demonstrate routes with retries, not human win rates, deathless Terminator proof, or proof that the game is fun. Boss timings exclude travel. Human health still repairs by difficulty outside Terminator; armor does not.
 
-Browser checks cover 320×568, 390×844 and 844×390 layouts; boss weapon/power switching, EMP electric lockout, ammunition consumption, pause/resume and skill menu; and a native attack-slide jump gesture. Compact combat targets are at least 44 px. Pointer tests additionally hold firing, flight and steering together, cancel one finger without releasing another, and prevent stale movement after pause. Physical iPhone/Android multitouch and sustained human runs are still needed to judge fatigue, fun and perceived difficulty.
+Browser acceptance covers persisted options, a difficulty change without healing, milestone replay entering Mirror 2 with damaged armor, phone menu layout, cached-client update/return, and offline reload. Input tests cover independent steering/fire/flight, pointer cancellation and pause. Physical iPhone/Android sessions and full human Campaign play remain follow-ups.

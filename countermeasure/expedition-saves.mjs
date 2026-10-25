@@ -37,3 +37,13 @@ export class ExpeditionStore{
  export(){return JSON.stringify({mode:'campaign',version:3,latest:this.latest,deaths:this.deaths,finale:this.finale,levels:[...this.entries.values()].sort((a,b)=>a.wave-b.wave)});}
  import(text){if(typeof text!=='string'||text.length>600000)throw Error('Invalid Campaign save');const s=JSON.parse(text);if(s?.mode!=='campaign'||![2,3].includes(s.version)||!Array.isArray(s.levels)||!integer(s.levels.length,1,50)||!integer(s.latest,1,50)||!integer(s.deaths,0,1000000))throw Error('Invalid Campaign save');const levels=s.levels.map(expeditionCheckpoint);if(levels.some(c=>!c)||new Set(levels.map(c=>c.wave)).size!==levels.length||!levels.some(c=>c.wave===s.latest))throw Error('Invalid Campaign checkpoint');const finale=s.finale?expeditionCheckpoint(s.finale):levels.find(c=>c.encounter==='hidden');if(s.finale&&(!finale||finale.encounter!=='hidden'))throw Error('Invalid finale unlock');this.entries=new Map(levels.map(c=>[c.wave,c]));this.latest=s.latest;this.deaths=s.deaths;if(finale)this.unlockFinale(finale);this.revision++;return true;}
 }
+
+// Restarting at another difficulty preserves damage and spent resources; changing options cannot heal the pilot.
+export function retuneCheckpoint(data,difficulty,{mirror=false}={}){
+ const source=expeditionCheckpoint(data);if(!source||!validDifficulty(difficulty))return null;const c=structuredClone(source),p=profileFor(difficulty);
+ if(mirror&&milestone(c.wave)){c.encounter='boss';c.journey={cleared:Math.min(c.wave-1,c.journey.cleared),flawless:false,secretQualified:false};}
+ c.difficulty=difficulty;const ultra=c.encounter==='hidden'||difficulty==='terminator'&&c.wave>=10;
+ c.mechTier=ultra?5:Math.min(c.mechTier,Math.floor(c.wave/10));const tier=ultra?3:c.wave>=16?2:c.wave>=6?1:0;c.tiers=c.tiers.map(t=>Math.min(t,tier));c.module=Math.min(c.module,ultra?5:Math.min(3,Math.max(0,c.mechTier-1)));c.mirrorBlueprint=null;
+ if(c.carry)c.carry={hp:Math.min(c.carry.hp,p.health),shield:Math.min(c.carry.shield,Math.round((ultra?400:c.mechTier?40+c.mechTier*28:0)*p.armor))};
+ c.resources.fuel=Math.min(c.resources.fuel,p.fuel);c.resources.ammo=Math.min(c.resources.ammo,p.ammo);return expeditionCheckpoint(c);
+}

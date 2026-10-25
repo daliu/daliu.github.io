@@ -7,7 +7,7 @@ import {expeditionCheckpoint} from './expedition-saves.mjs';
 export {POWERS};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export class ExpeditionArena extends CampaignArena{
- reset(){this.difficulty=validDifficulty(this.difficulty)?this.difficulty:'normal';super.reset();this.encounter='room';this.journey={cleared:0,flawless:true,secretQualified:false};this.carry=null;this.resources=fullResources(this.difficulty);this.moduleCooldowns=POWERS.map(()=>0);this.next=null;this.room=0;this.door=0;this.synchronized=false;this.syncClock=0;this.ordnance=[];this.spawnSequence=100;this.lastJumpTap=-10;this.boostTime=0;this.plan=this.makePlan(1,this.memory);this.player.hp=this.maxHealth;}
+ reset(){this.difficulty=validDifficulty(this.difficulty)?this.difficulty:'normal';super.reset();this.encounter='room';this.journey={cleared:0,flawless:true,secretQualified:false};this.carry=null;this.resources=fullResources(this.difficulty);this.moduleCooldowns=POWERS.map(()=>0);this.next=null;this.room=0;this.door=0;this.synchronized=false;this.syncClock=0;this.ordnance=[];this.spawnSequence=100;this.deployments=[];this.deploymentWarning=null;this.deploymentClock=0;this.lastJumpTap=-10;this.boostTime=0;this.plan=this.makePlan(1,this.memory);this.player.hp=this.maxHealth;}
  get bossWave(){return this.encounter==='boss'?this.plan.wave:-1;}
  get finalWave(){return this.encounter==='super'?this.plan.wave:-1;}
  get ultimate(){return this.encounter==='hidden';}
@@ -26,14 +26,15 @@ export class ExpeditionArena extends CampaignArena{
  startWave(){
   if(!['briefing','between'].includes(this.state))return false;
   this.encounter=this.plan.encounter??(milestone(this.plan.wave)?'boss':'room');this.room=roomIndex(this.plan.wave,this.encounter);this.next=null;this.door=0;this.command=null;this.confusion=0;this.deathLearned=false;this.ordnance=[];this.synchronized=this.encounter==='hidden'||this.encounter==='super'&&this.plan.wave>=40;this.syncClock=2.5;this.emergency=null;this.finaleCheckpoint=null;this.events=[];
+  if(this.difficulty==='terminator'&&this.plan.wave>=10&&this.mechTier<5){this.upgradeMech(5);this.resources=fullResources(this.difficulty);}
+  this.autoUpgrade();
   if(this.encounter==='boss'&&!this.mirrorBlueprint)this.mirrorBlueprint={skills:{...this.skills},tiers:[...this.weaponTiers],weapon:this.weapon,style:structuredClone(this.memory),subject:{...this.subject},mechTier:this.mechTier,module:this.difficulty==='terminator'?this.module:Math.min(3,this.module)};
-  const carry=this.carry;const ok=Arena.prototype.startWave.call(this);if(!ok)return false;
+  const carry=this.carry,allUnits=this.plan.units;this.deployments=structuredClone(this.plan.deployments??[]);this.deploymentWarning=null;this.deploymentClock=0;if(this.plan.openingUnits)this.plan.units=this.plan.openingUnits;const ok=Arena.prototype.startWave.call(this);this.plan.units=allUnits;if(!ok)return false;
   this.player.hp=this.maxHealth;this.player.x=80;if(this.mechTier){this.player.mecha=true;this.player.mechaShield=carry?.shield??this.armorCapacity;}if(carry)this.player.hp=carry.hp;
   for(const r of this.robots)if(r.type==='shocker')r.boots=true;
   if(this.ultimate){this.player.mecha=true;this.player.mechaShield=carry?.shield??this.armorCapacity;this.mechTier=5;this.module=Math.min(this.module,5);}
-  if(this.difficulty==='terminator'&&this.wave>=10&&this.mechTier<5){this.upgradeMech(5);this.resources=fullResources(this.difficulty);}
   this.player.mechaShield=Math.min(this.armorCapacity,this.player.mechaShield);
-  if(this.encounter==='super')this.events=[{text:'SUPERBOSS '+this.wave/10,color:'#ef9b8d',time:2.5}];
+  if(['boss','super'].includes(this.encounter))this.events=[{text:(this.encounter==='boss'?'MIRROR DUEL ':'SUPERBOSS ')+this.wave/10,color:this.encounter==='boss'?'#e9a8d1':'#ef9b8d',time:2.5}];
   this.initialHP=this.robots.filter(r=>!r.structure).reduce((n,r)=>n+r.hp,0);this.autoUpgrade();this.entryCheckpoint=this.snapshot();this.carry=null;return true;
  }
  spawn(type,i){const r=super.spawn(type,i);if(type==='mirror'){r.hp=r.maxHp=650+this.wave*27;r.moduleCd=5;}
@@ -46,7 +47,14 @@ export class ExpeditionArena extends CampaignArena{
   if(!r.structure&&!['mirror','overseer'].includes(type)){const front=['guard','bulwark','plated','insulated','sealed','lancer','interceptor','feinter'].includes(type);r.x=Math.min(955,(front?380:650)+(i%3)*100+Math.floor(i/3)*32);}
   if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?1.3:1;r.maxHp=r.hp;}return r;
  }
- upgradeMech(tier){super.upgradeMech(tier);this.moduleCooldowns=POWERS.map((_,i)=>this.moduleCooldowns[i]??0);}
+ upgradeMech(tier){const oldTier=this.mechTier,capacity=this.armorCapacity,shield=this.player.mechaShield,hadSuit=this.player.mecha;super.upgradeMech(tier);if(tier>oldTier&&hadSuit)this.player.mechaShield=Math.min(this.armorCapacity,shield+Math.max(0,this.armorCapacity-capacity));this.moduleCooldowns=POWERS.map((_,i)=>this.moduleCooldowns[i]??0);}
+ signalDeployment(){if(this.deploymentWarning||!this.deployments.length)return;this.deploymentWarning={...this.deployments.shift(),remaining:1.6};}
+ updateDeployments(dt){
+  this.deploymentClock+=dt;if(!this.deploymentWarning&&this.deployments[0]?.at<=this.deploymentClock)this.signalDeployment();const warning=this.deploymentWarning;if(!warning)return;
+  warning.remaining-=dt;if(warning.remaining>0)return;this.deploymentWarning=null;
+  for(const [i,type] of warning.units.entries()){const r=this.spawn(type,this.spawnSequence++);r.x=warning.side==='left'?85+i*55:warning.side==='air'?420+i*100:915-i*55;if(warning.side==='air'){r.y=115;r.vy=60;}r.cooldown=1.5+i*.35;r.facing=Math.sign(this.player.x-r.x)||-1;r.boots=!!this.plan.boots&&i%2===0||type==='shocker';this.robots.push(r);}
+ }
+
  selectModule(index){if(!Number.isInteger(index)||index<0||index>=POWERS.length||POWERS[index].unlock>this.mechTier||POWERS[index].ultimate&&!this.ultra)return false;this.module=index;return true;}
  pause(){this.lastJumpTap=-10;if(this.state==='traveling'){this.pausedFrom='traveling';this.state='paused';}else super.pause();}
  dash(){if(this.state==='traveling'&&this.player.dashCd<=0){this.player.rollTime=this.player.grounded&&this.player.crouching?.34:0;this.player.dashTime=this.player.rollTime||.16;this.player.dashCd=1;return;}super.dash();}
@@ -134,9 +142,10 @@ export class ExpeditionArena extends CampaignArena{
  }
  hurt(...args){if(this.ultra&&this.player.mechaShield>0)args[0]*=this.profile.ultraMitigation;super.hurt(...args);if(this.state==='dead'){this.journey.flawless=false;this.entryCheckpoint=this.snapshot();}}
  finishWave(){
+  if(this.deploymentWarning||this.deployments.length){this.signalDeployment();return;}
   this.memory=learnCampaign(this.memory,this.stats,{wave:this.wave,won:true,learning:this.profile.learning});
   if(this.encounter==='boss'){
-   this.upgradeMech(this.wave/10);if(this.difficulty==='terminator'&&this.wave>=20){this.player.mechaShield=this.armorCapacity;this.resources=fullResources(this.difficulty);this.moduleCooldowns=POWERS.map(()=>0);this.event('ULTRA REFIT / HUMAN HP UNCHANGED','#9ee6ee');}this.player.hp=Math.min(this.maxHealth,this.player.hp+(this.profile.repair?30:0));this.next={wave:this.wave,encounter:'super'};
+   this.upgradeMech(this.wave/10);if(this.difficulty==='terminator'&&this.wave>=20){this.resources=fullResources(this.difficulty);this.moduleCooldowns=POWERS.map(()=>0);this.event('SUPPLIES REFIT / ARMOR DAMAGE RETAINED','#9ee6ee');}this.player.hp=Math.min(this.maxHealth,this.player.hp+(this.profile.repair?30:0));this.next={wave:this.wave,encounter:'super'};
   }else if(this.encounter==='hidden'){this.beginEscape();return;}
   else{
    if(this.journey.cleared===this.wave-1)this.journey.cleared=this.wave;
@@ -146,7 +155,7 @@ export class ExpeditionArena extends CampaignArena{
     else{this.beginEscape();return;}
    }else this.next={wave:this.wave+1,encounter:milestone(this.wave+1)?'boss':'room'};
   }
-  this.carry={hp:Math.max(this.profile.healthFloor,Math.min(this.maxHealth,this.player.hp+this.profile.repair)),shield:Math.min(this.armorCapacity,this.player.mechaShield+this.profile.repair*.5)};if(this.next.encounter==='hidden')this.carry={hp:this.profile.repair?this.maxHealth:this.player.hp,shield:Math.round(400*this.profile.armor)};
+  this.carry={hp:Math.max(this.profile.healthFloor,Math.min(this.maxHealth,this.player.hp+this.profile.repair)),shield:Math.min(this.armorCapacity,this.player.mechaShield)};if(this.next.encounter==='hidden')this.carry={hp:this.profile.repair?this.maxHealth:this.player.hp,shield:Math.round(400*this.profile.armor)};
   this.pools=[];this.shots=[];this.ordnance=[];this.door=0;this.state='traveling';
  }
  nextCheckpoint(){if(!this.next)return null;const c=this.snapshot(this.next.wave);c.encounter=this.next.encounter;c.mirrorBlueprint=null;if(c.encounter==='hidden')c.tiers=[3,3,3,3];if(this.difficulty==='terminator'&&this.next.wave===10&&this.mechTier<5){c.mechTier=5;c.tiers=[3,3,3,3];c.resources=fullResources(this.difficulty);c.carry.shield=Math.round(400*this.profile.armor);}return c;}
@@ -161,7 +170,7 @@ export class ExpeditionArena extends CampaignArena{
   dt=clamp(dt,0,.04);if(this.state==='traveling'){this.updateTravel(dt,input);return;}if(this.state==='playing'){
    this.resources.electricLock=Math.max(0,this.resources.electricLock-dt);this.boostTime=Math.max(0,this.boostTime-dt);
    if(this.boostTime>0){this.player.vy=-670;input={...input,up:false};for(const r of this.robots)if(r.hp>0&&!r.structure&&Math.abs(r.x-this.player.x)<100&&r.y>=this.player.y-10&&r.y<this.player.y+180){r.boostExposed=4;this.damageRobot(r,80*dt,{color:'#ffac65'});}}
-   this.updateOrdnance(dt);if(this.emergency?.activated){this.emergency.backup=Math.max(0,this.emergency.backup-dt);if(this.emergency.backup===0)this.emergency.activated=false;}
+   this.updateDeployments(dt);this.updateOrdnance(dt);if(this.emergency?.activated){this.emergency.backup=Math.max(0,this.emergency.backup-dt);if(this.emergency.backup===0)this.emergency.activated=false;}
    if(this.synchronized){this.syncClock-=dt;if(this.syncClock<=0){this.syncClock=5/this.profile.coordination;this.command={x:this.ultimate?500:160,y:this.ultimate?200:300,time:1.2};for(const r of this.robots)if(r.hp>0&&!r.structure&&!r.disabled)r.cooldown=0;}}
   }
   if(this.state==='playing')for(const r of this.robots)if(r.hp>0&&!r.structure){r.cooldown-=dt*(this.profile.attack-1);if(r.windup>0)r.windup=Math.max(dt*.1,r.windup-dt*(this.profile.attack-1));}

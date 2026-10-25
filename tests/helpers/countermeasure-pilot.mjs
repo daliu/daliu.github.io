@@ -7,9 +7,10 @@ const skills=['agility','agility','plating','plating','voltage','voltage','volta
 export function equip(g){for(const id of skills)if(g.spent<g.points&&g.skills[id]<skills.slice(0,Math.min(g.points,skills.length)).filter(n=>n===id).length)g.allocate(id,1);}
 export function decide(g,t,{reckless=false}={}){
  const p=g.player,alive=g.robots.filter(r=>r.hp>0&&!r.structure);if(!alive.length)return {};
- const target=alive.slice().sort((a,b)=>{const score=r=>Math.abs(r.x-p.x)+Math.abs(r.y-p.y)*.8-(r.type==='orchestrator'?250:r.type==='chemDrone'?180:0);return score(a)-score(b);})[0];
+ const antenna=g.robots.find(r=>r.type==='antenna'&&r.hp>0),target=antenna??alive.slice().sort((a,b)=>{const score=r=>Math.abs(r.x-p.x)+Math.abs(r.y-p.y)*.8-(r.type==='orchestrator'?250:r.type==='chemDrone'?180:0);return score(a)-score(b);})[0];
  let weapon=2,tier=Math.min(g.maxTier,g.ultra?3:1);
- if(target.type==='chemDrone'&&!target.disarmed){weapon=3;tier=0;}
+ if(target.structure){weapon=1;tier=g.maxTier;}
+ else if(target.type==='chemDrone'&&!target.disarmed){weapon=3;tier=0;}
  else if(target.shell){weapon=1;tier=g.maxTier;}
  else if(target.wet<.5){weapon=3;tier=g.maxTier;}
  const floorShock=!p.mecha&&g.pools.some(pool=>g.poolAt(p,pool))&&weapon===2;if(floorShock&&p.grounded)g.jump();
