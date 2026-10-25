@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-24T21:00:15.067869+00:00",
+  "generated_at": "2026-10-25T04:00:15.513153+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "21f30b0",
-      "date": "2026-10-24T08:00:17-07:00",
-      "message": "Update health data 2026-10-24 08:00"
+      "hash": "12348fe",
+      "date": "2026-10-24T20:26:46-07:00",
+      "message": "Add offline 50-wave Countermeasure Campaign alongside Demo"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-24T14:00:05.439476",
+        "updated": "2026-10-24T21:00:03.988539",
         "date_range": null
       },
       "last_commit": {
-        "hash": "21f30b0",
-        "date": "2026-10-24T08:00:17-07:00",
-        "message": "Update health data 2026-10-24 08:00"
+        "hash": "e315e38",
+        "date": "2026-10-24T14:00:15-07:00",
+        "message": "Update health data 2026-10-24 14:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,36 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "12348fe",
+      "date": "2026-10-24T20:26:46-07:00",
+      "message": "Add offline 50-wave Countermeasure Campaign alongside Demo"
+    },
+    {
+      "hash": "9738cb0",
+      "date": "2026-10-24T20:05:16-07:00",
+      "message": "Make Countermeasure Demo installable and offline-ready"
+    },
+    {
+      "hash": "ac5b3aa",
+      "date": "2026-10-24T19:24:11-07:00",
+      "message": "Add phone fullscreen arena and paused loadout menu"
+    },
+    {
+      "hash": "5503e69",
+      "date": "2026-10-24T18:52:30-07:00",
+      "message": "Improve Countermeasure touch controls and phone layouts"
+    },
+    {
+      "hash": "9be40e4",
+      "date": "2026-10-24T18:36:51-07:00",
+      "message": "Publish Countermeasure browser game under /countermeasure/"
+    },
+    {
+      "hash": "e315e38",
+      "date": "2026-10-24T14:00:15-07:00",
+      "message": "Update health data 2026-10-24 14:00"
+    },
     {
       "hash": "21f30b0",
       "date": "2026-10-24T08:00:17-07:00",
@@ -133,36 +163,6 @@
       "hash": "ebb2cbb",
       "date": "2026-10-22T14:00:12-07:00",
       "message": "Update health data 2026-10-22 14:00"
-    },
-    {
-      "hash": "da3d01a",
-      "date": "2026-10-22T12:31:12-07:00",
-      "message": "social: 2026-10-22 MoneySignals deck (3 cards)"
-    },
-    {
-      "hash": "3bdb9ce",
-      "date": "2026-10-22T08:00:13-07:00",
-      "message": "Update health data 2026-10-22 08:00"
-    },
-    {
-      "hash": "94c2ff2",
-      "date": "2026-10-22T07:01:24-07:00",
-      "message": "social: 2026-10-22 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "8e72e63",
-      "date": "2026-10-22T06:40:03-07:00",
-      "message": "health: refresh calendar density 2026-10-22 06:40"
-    },
-    {
-      "hash": "9a6b201",
-      "date": "2026-10-22T10:53:53+00:00",
-      "message": "Update analytics data 2026-10-22"
-    },
-    {
-      "hash": "af09e8a",
-      "date": "2026-10-22T05:37:32-04:00",
-      "message": "blog: 2026-10-22 \u2014 Research evidence and economic schedules"
     }
   ]
 }
