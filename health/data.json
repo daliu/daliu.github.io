@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-24T21:00:03.988539",
+  "updated": "2026-10-25T10:14:25.623737",
   "daily": [
     {
       "date": "2026-07-29",
@@ -2299,10 +2299,10 @@
     },
     {
       "date": "2026-10-25",
-      "avg_body_battery": 29.0,
-      "min_body_battery": 9,
+      "avg_body_battery": 20.0,
+      "min_body_battery": 5,
       "max_body_battery": 51,
-      "avg_stress": 41.0,
+      "avg_stress": 43.0,
       "total_steps": 1242,
       "sleep_score": 50,
       "sleep_hours": 3.2,
@@ -2316,10 +2316,10 @@
       "intensity_minutes": 0,
       "vigorous_minutes": 0,
       "distance_meters": 1082.0,
-      "rest_stress_pct": 28.82,
+      "rest_stress_pct": 33.49,
       "low_stress_pct": 27.59,
       "medium_stress_pct": 29.35,
-      "high_stress_pct": 5.62,
+      "high_stress_pct": 15.81,
       "bb_charged": 42,
       "bb_drained": 45,
       "bb_at_wake": 50,
@@ -2336,33 +2336,6 @@
     "days": 90
   },
   "hourly": [
-    {
-      "timestamp": "2026-10-18 10:22:18",
-      "body_battery_current": 7,
-      "resting_hr": 49,
-      "stress_avg": 28,
-      "steps": 485,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-10-18 14:23:24",
-      "body_battery_current": 58,
-      "resting_hr": 47,
-      "stress_avg": 20,
-      "steps": 522,
-      "sleep_score": null,
-      "hrv_weekly_avg": null
-    },
-    {
-      "timestamp": "2026-10-18 15:23:26",
-      "body_battery_current": 56,
-      "resting_hr": 47,
-      "stress_avg": 21,
-      "steps": 833,
-      "sleep_score": 66,
-      "hrv_weekly_avg": 67
-    },
     {
       "timestamp": "2026-10-19 00:03:26",
       "body_battery_current": 28,
@@ -2596,6 +2569,15 @@
       "steps": 1242,
       "sleep_score": 50,
       "hrv_weekly_avg": 70
+    },
+    {
+      "timestamp": "2026-10-25 11:29:57",
+      "body_battery_current": 10,
+      "resting_hr": 48,
+      "stress_avg": 44,
+      "steps": 55,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
     }
   ],
   "vo2max": [
