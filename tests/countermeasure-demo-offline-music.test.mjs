@@ -11,6 +11,7 @@ test('service worker serves its entire application offline under a GitHub Pages 
  vm.runInNewContext(await readFile(new URL('../countermeasure/sw.js',import.meta.url),'utf8'),{self,caches,URL,fetch:()=>{network++;throw Error('offline');}});
  let pending;handlers.install({waitUntil:p=>pending=p});await pending;stores.set('unrelated-site-cache',new Map());stores.set('countermeasure:/countermeasure/:old',new Map());handlers.activate({waitUntil:p=>pending=p});await pending;assert.deepEqual(removed,['countermeasure:/countermeasure/:old']);assert.ok(stores.has('unrelated-site-cache'));
  for(const file of ['','index.html','style.css','game.mjs','engine.mjs','subjects.mjs','saves.mjs','music.mjs','offline.mjs']){handlers.fetch({request:{method:'GET',url:root+file,mode:file?'cors':'navigate'},respondWith:p=>pending=p});assert.equal(typeof await pending,'string',file);}
+ handlers.fetch({request:{method:'GET',url:root+'statistics.html?view=community',mode:'navigate'},respondWith:p=>pending=p});assert.ok((await pending).includes('How the humans fight.'));assert.ok(!(await pending).includes('id="arena"'));
  assert.equal(network,0);
 });
 test('the application has no external font, music, model or API dependency',async()=>{
