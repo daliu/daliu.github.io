@@ -49,3 +49,22 @@ The deterministic pilot uses normal combat, movement, skills, powers, gates and 
 Total time includes travel and retries. These routes prove possible completion by a state-aware controller, not human win rates, deathless qualification or fun. Later rooms are intentionally much more demanding; old release tables do not describe them. Browser checks use actual route checkpoints via ordinary Import on a separate local origin: generation-V darkness/plating, Mirror quick weapon/power controls, release/cache update and server-off reload. Native fullscreen in the in-app QA browser was inconclusive; it is not claimed as phone acceptance.
 
 Physical-phone sessions, full human play and judgments of frustration versus satisfying pressure remain required follow-ups. Phone-sized browser checks exercise layout and ordinary UI inputs; they do not prove multitouch ergonomics on iOS/Android.
+
+## Release 20 / adaptive boss support
+
+Campaign boss phases now observe a bounded eight-second window of crouch time, airtime and clustered two-dimensional position. The director samples four times per second; a strong recent habit chooses ground support, drones or committed-height airburst artillery. Crouch has priority, then stationary patches, then moving airtime. At least 60% crouch / 65% airtime / 72% position density is needed. Each call has a 1.8-second warning, a safe-distance entry gate and ordinary post-entry attack timing. The director never changes existing hardware or tracks individual input sequences.
+
+| Difficulty | Initial observation | Recovery before next warning | Team size | Live support cap, sectors I–III / IV–V |
+| --- | ---: | ---: | ---: | ---: |
+| Easy | 6.5s | 13s | 1 | 2 / 3 |
+| Normal | 5s | 11s | 1 | 3 / 4 |
+| Hard | 4.5s | 10s | 2 | 4 / 5 |
+| Terminator | 4s | 9s | 2 | 5 / 6 |
+
+Total support per encounter is bounded by sector/difficulty at 3–16 units, with at most ten non-structure enemies active. The old independent late-core summon loop is replaced, so coordinated finale cores share one budget. Calls stop when the last boss dies; remaining deployed enemies still gate the room clear and suit. Objective reboots cancel warnings and freeze observation. No changes to player health, armor repairs, resources, weapon strength or the test controller were made.
+
+The adjacent Superboss aim fix corrects a vertical-origin error: shots previously calculated direction from feet but launched 26px higher. Shots now aim from the muzzle at the sampled posture; target locking and reaction delay remain. A regression test checks that a duck after standing aim locks can evade, while holding crouch before aim locks is targetable. Airbursts retain friendly fire and can be escaped after a mark locks.
+
+247 focused checks pass, including fourteen adaptive-support checks. Eight additional paired full routes (seeds 11 and71, .28s decisions, 60-death budget) complete with the unchanged controller. Previous/current deaths: Easy 2,1 → 2,2; Normal 10,9 → 8,9; Hard 16,15 → 28,18; Terminator 29,45 → 31,45. Hard seed11 also took 29.6 simulated minutes versus18.1 before, a material increase in retry cost. These are possible-completion simulations, not human win rates or full-length phone acceptance.
+
+A separate same-checkpoint Normal level20 Superboss probe held crouch without attacking for30s: prior release ended at100HP with37.7 armor; this release ended at22.1HP with no armor, after lancer and conductor calls. This is one reproducible posture probe, not proof that every fixed attack strategy loses. Browser QA uses normally reached imported checkpoints on an owned local origin. In-app native fullscreen screenshot capture remains inconclusive; ordinary phone layout and real edge-warning/pause controls are checked separately.

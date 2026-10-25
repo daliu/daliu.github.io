@@ -262,7 +262,8 @@ export class Arena{
     for(const s of this.shots){
       const oldX=s.x,oldY=s.y;s.x+=s.vx*dt;s.life-=dt;if(s.gravity){s.vy+=s.gravity*dt;s.y+=s.vy*dt;}
       if(s.kind==='mortar'){
-        if(s.y>=412){s.x=s.targetX;s.life=0;this.effects.push({kind:'blast',x:s.x,y:415,life:.45,max:.45,color:'#e7a56e'});if(Math.abs(s.x-p.x)<52&&p.y>350)this.hurt(20*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&Math.abs(s.x-r.x)<52&&r.y>350)this.friendlyDamage(s.owner,r,20,s.critical);}
+        if(s.airburst){s.burstTime-=dt;if(s.burstTime<=0){s.x=s.targetX;s.y=s.targetY;s.life=0;this.effects.push({kind:'blast',x:s.x,y:s.y,life:.45,max:.45,color:'#e7a56e'});if(Math.hypot(s.x-p.x,s.y-(p.y-(p.crouching?9:23)))<62)this.hurt(18*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&Math.hypot(s.x-r.x,s.y-(r.y-23))<62)this.friendlyDamage(s.owner,r,18,s.critical);}}
+        else if(s.y>=412){s.x=s.targetX;s.life=0;this.effects.push({kind:'blast',x:s.x,y:415,life:.45,max:.45,color:'#e7a56e'});if(Math.abs(s.x-p.x)<52&&p.y>350)this.hurt(20*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&Math.abs(s.x-r.x)<52&&r.y>350)this.friendlyDamage(s.owner,r,20,s.critical);}
       }else{
         // Sweep the travelled segment so faster projectiles cannot tunnel through bodies.
         const candidates=[{entity:p,player:true},...this.robots.filter(r=>r.hp>0&&r.id!==s.owner).map(entity=>({entity,player:false}))];const vx=s.x-oldX,vy=s.y-oldY,length=vx*vx+vy*vy;
