@@ -45,7 +45,7 @@ export function updateSupportArtillery(g,r,dt){
  if(r.supportReason!=='camp'||r.type!=='bombardier')return false;
  const refresh=r.sense<=dt;g.senseRobot(r,dt);if(refresh||r.targetAimY===undefined)r.targetAimY=g.player.y-(g.player.crouching?9:23);
  if(r.windup>0){r.windup-=dt;if(r.windup<=0){
-  const target=r.airburstMark,unsafe=r.cognition.discipline&&g.robots.some(o=>o!==r&&o.hp>0&&Math.hypot(o.x-target.x,o.y-23-target.y)<85);
+  const target=r.airburstMark,unsafe=r.cognition.discipline&&g.robots.some(o=>o!==r&&o.hp>0&&!o.structure&&Math.hypot(o.x-target.x,o.y-23-target.y)<85);
   if(!unsafe&&g.shots.length<96){const flight=Math.max(.72,1.15-(r.generation-1)*.07),gravity=1000+(r.generation-1)*450,start=r.y-50;g.shots.push({kind:'mortar',airburst:true,burstTime:flight,targetX:target.x,targetY:target.y,x:r.x,y:start,vx:(target.x-r.x)/flight,vy:(target.y-start-.5*gravity*flight*flight)/flight,gravity,life:3,owner:r.id,ownerX:r.x,critical:g.random()<r.cognition.crit});}
   r.airburstMark=null;r.action='';r.cooldown=unsafe?.4:3.2/(1+(r.generation-1)*.15);
  }return true;}

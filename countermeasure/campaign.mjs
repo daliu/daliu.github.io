@@ -1,3 +1,4 @@
+import {structureDistance} from './objective-geometry.mjs';
 import {Arena,TYPES,weaponAt} from './engine.mjs';
 import {campaignPlan,campaignPhase,campaignCognition,campaignMemory,learnCampaign,MODULES,CAMPAIGN_MIRROR,CAMPAIGN_FINAL} from './campaign-plan.mjs';
 import {updateMirrorFlight} from './mirror-flight.mjs';
@@ -67,7 +68,7 @@ export class CampaignArena extends Arena{
  explodeDrone(r){if(r.exploded)return;r.exploded=true;this.effects.push({kind:'blast',x:r.x,y:r.y-20,life:.6,max:.6,color:TYPES[r.type].color});
   if(r.type==='chemDrone'){for(let x=r.x-100;x<=r.x+100;x+=70)this.addPool(x,2,r.id);}
   if(Math.hypot(this.player.x-r.x,this.player.y-r.y)<105)this.hurt(r.type==='chemDrone'?22:30,r.x,0,'drone detonation');
-  for(const o of this.robots)if(o!==r&&o.hp>0&&Math.hypot(o.x-r.x,o.y-r.y)<125)this.friendlyDamage(r.id,o,70);
+  for(const o of this.robots)if(o!==r&&o.hp>0&&(o.structure?structureDistance(o,r.x,r.y)<125:Math.hypot(o.x-r.x,o.y-r.y)<125))this.friendlyDamage(r.id,o,70);
  }
  updateMirror(r,dt){
   if(r.moduleWindup>0){r.moduleWindup-=dt;if(r.moduleWindup<=0){const module=r.build.module??0;r.moduleCd=(this.powers??MODULES)[module].cooldown;this.effects.push({kind:'module',module,x:r.x,y:r.y-30,dir:r.facing,range:280,life:.55,max:.55,color:'#e9a8d1'});if(Math.abs(r.x-this.player.x)<280&&Math.abs(r.y-this.player.y)<150){if(module===0)this.player.vy=Math.max(140,this.player.vy);else this.botHurt(r,module===1?12:module===2?24:30,r.x,0,'mirrored mech power');}}return;}

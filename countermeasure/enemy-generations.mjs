@@ -54,7 +54,7 @@ function shocker(g,r,dt){
  if(r.windup>0){r.windup-=dt;if(r.windup<=0){if(r.action==='slide-windup'){r.slide=.52;r.slideHit=false;r.specialCd=6-r.upgrade.n*.4;r.action='dive-slide';}else if(r.action==='floor-shock'){for(const pool of g.pools)pool.charged=.6;for(const o of g.robots)if(o!==r&&o.hp>0&&!o.boots&&g.pools.some(pool=>g.poolAt(o,pool)))g.friendlyDamage(r.id,o,25);r.action='';}else{shot(g,r,{x:r.x,y:r.y-26,vx:r.facing*r.upgrade.projectile});r.action='';}}return true;}
  if(Math.abs(dx)>170)r.x=clamp(r.x+Math.sign(dx)*TYPES.shocker.speed*r.cognition.speed*(1-r.glue*.23)*dt,25,975);
  if(r.specialCd<=0&&Math.abs(dx)<390&&!r.crippled&&!(r.glueGround>0)){r.lockDir=Math.sign(dx)||r.facing;r.windup=.7;r.action='slide-windup';}
- else if(r.cooldown<=0){const unsafe=r.cognition.discipline&&g.robots.some(o=>o!==r&&o.hp>0&&!o.boots&&g.pools.some(pool=>g.poolAt(o,pool)));if(unsafe){r.cooldown=.4;return true;}r.action=g.pools.length?'floor-shock':'linear-shock';r.windup=g.pools.length?1.15:.6;r.cooldown=5/(1+r.upgrade.n*.1);}
+ else if(r.cooldown<=0){const unsafe=r.cognition.discipline&&g.robots.some(o=>o!==r&&o.hp>0&&!o.structure&&!o.boots&&g.pools.some(pool=>g.poolAt(o,pool)));if(unsafe){r.cooldown=.4;return true;}r.action=g.pools.length?'floor-shock':'linear-shock';r.windup=g.pools.length?1.15:.6;r.cooldown=5/(1+r.upgrade.n*.1);}
  return true;
 }
 function drone(g,r,dt){

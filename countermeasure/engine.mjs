@@ -1,3 +1,4 @@
+import {structureBounds,structureDistance,structureHitFraction} from './objective-geometry.mjs';
 import {bodyZone,CRITICAL_MULTIPLIER,validDifficulty} from './difficulty.mjs';
 import {checkpoint} from './saves.mjs';
 import {SubjectRegister} from './subjects.mjs';
@@ -161,9 +162,9 @@ export class Arena{
   }
   bombard(r){const flight=1.15,gravity=760,start=r.y-50;for(const offset of [-48,0,48]){const target=Math.max(35,Math.min(965,r.target+offset));this.shots.push({kind:'mortar',x:r.x,y:start,vx:(target-r.x)/flight,vy:(412-start-.5*gravity*flight*flight)/flight,gravity,life:3,targetX:target,ownerX:r.x,owner:r.id,critical:this.random()<r.cognition.crit});}}
   flak(r){for(const vy of [-180,-300,-420])this.shots.push({kind:'flak',x:r.x,y:r.y-36,vx:r.facing*240,vy,gravity:600,life:3,ownerX:r.x,owner:r.id,critical:this.random()<r.cognition.crit});}
-  aimAtNearest(range,structures=true){const p=this.player,target=this.robots.filter(r=>r.hp>0&&(structures||!r.structure)&&Math.abs(r.y-p.y)<(p.mecha?105:75)&&Math.abs(r.x-p.x)<range).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0];if(target)p.facing=Math.sign(target.x-p.x)||p.facing;return target;}
+  aimAtNearest(range,structures=true){const p=this.player,target=this.robots.filter(r=>r.hp>0&&(structures||!r.structure)&&(r.structure?p.y-23>=structureBounds(r).top&&p.y-23<=structureBounds(r).bottom:Math.abs(r.y-p.y)<(p.mecha?105:75))&&Math.abs(r.x-p.x)<range).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0];if(target)p.facing=Math.sign(target.x-p.x)||p.facing;return target;}
   attack(){if(this.state!=='playing')return;if(this.pressEmergency())return;if(this.aimAssist)this.aimAtNearest(this.activeWeapon.range*(this.player.mecha?1.15:1));const p=this.player,w=this.activeWeapon;if(p.attackCd>0)return;p.attackCd=w.cooldown;this.stats.attacks[this.weapon]++;if(w.type==='energy')this.stats.energyAttacks++;this.effects.push({kind:'attack',x:p.x,y:p.y-22,dir:p.facing,range:w.range*(p.mecha?1.15:1),weapon:this.weapon,energy:w.type==='energy',life:.16,max:.16,color:w.color});
-    const targets=this.robots.filter(r=>r.hp>0&&Math.abs((r.y-(r.crouching?9:23))-(p.y-23))<(r.crouching&&this.weapon>=2?11:p.mecha?100:75)&&(r.x-p.x)*p.facing>-18&&(r.x-p.x)*p.facing<w.range*(p.mecha?1.15:1)).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x));
+    const targets=this.robots.filter(r=>r.hp>0&&(r.structure?structureHitFraction(r,p.x,p.y-23,p.x+p.facing*w.range*(p.mecha?1.15:1),p.y-23)!==null:Math.abs((r.y-(r.crouching?9:23))-(p.y-23))<(r.crouching&&this.weapon>=2?11:p.mecha?100:75)&&(r.x-p.x)*p.facing>-18&&(r.x-p.x)*p.facing<w.range*(p.mecha?1.15:1))).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x));
     let chosen=this.weapon<2||w.type==='energy'?targets:targets.slice(0,1);
     if(w.type==='energy'){const stop=chosen.findIndex(r=>r.type==='bulwark');if(stop>=0){chosen=chosen.slice(0,stop+1);this.effects[this.effects.length-1].range=Math.abs(chosen.at(-1).x-p.x);}}
     if(this.weapon===3){const end=chosen.length?Math.max(80,Math.abs(chosen[0].x-p.x)):w.range;for(let distance=65;distance<=end+20;distance+=75)this.addPool(p.x+p.facing*distance,w.corrosive?w.tier:0);}
@@ -192,7 +193,7 @@ export class Arena{
   botHurt(r,damage,fromX=r.x,penetration=0,cause='combat trauma',critical=null){critical??=this.random()<r.cognition.crit;this.hurt(damage*(critical?1.65:1),fromX,penetration,cause,{critical});}
   robotShotHitsAlly(){return true;}
   friendlyDamage(source,target,damage,critical=false){if(target.hp<=0||source===target.id)return;this.damageRobot(target,damage*(critical?1.65:1),{color:'#e9a165',critical,number:true});}
-  friendlyRisk(r,range=600){return this.robots.some(o=>o!==r&&o.hp>0&&(o.x-r.x)*r.facing>0&&Math.abs(o.x-r.x)<range&&Math.abs(o.y-r.y)<55);}
+  friendlyRisk(r,range=600){return this.robots.some(o=>o!==r&&o.hp>0&&!o.structure&&(o.x-r.x)*r.facing>0&&Math.abs(o.x-r.x)<range&&Math.abs(o.y-r.y)<55);}
   senseRobot(r,dt){const p=this.player,c=r.cognition;r.sense-=dt;r.dodgeCd=Math.max(0,r.dodgeCd-dt);if(r.sense>0)return;r.sense=c.reaction;r.targetX=p.x;r.targetY=p.y;r.targetVX=p.vx;
     if(r.turn<=0&&r.windup<=0){r.facing=Math.sign(p.x-r.x)||r.facing;r.turn=(r.type==='guard'||r.type==='plated'||r.type==='bulwark'?c.turn:c.reaction*.6);}
     const threat=this.effects.some(e=>e.kind==='attack'&&e.weapon!==undefined&&e.color!=='#e9a8d1'&&e.life>0&&(r.x-e.x)*e.dir>0&&Math.abs(r.x-e.x)<e.range+55&&Math.abs(r.y-(e.y+22))<90);
@@ -226,7 +227,7 @@ export class Arena{
       this.senseRobot(r,dt);const dx=r.targetX-r.x,dist=Math.abs(dx),speed=t.speed*c.speed*(r.crippled?.3:1)*(r.wet>0?.72:1);
       if(r.windup>0){
         r.windup-=dt;if(r.windup<=0){
-          const ranged=['shoot','bombard','flak'].includes(r.action),blocked=c.discipline&&(ranged||['strike','charge-windup','leap'].includes(r.action))&&(r.action==='bombard'?alive.some(o=>o!==r&&o.hp>0&&Math.abs(o.x-r.target)<110&&o.y>350):this.friendlyRisk(r,ranged?600:75));
+          const ranged=['shoot','bombard','flak'].includes(r.action),blocked=c.discipline&&(ranged||['strike','charge-windup','leap'].includes(r.action))&&(r.action==='bombard'?alive.some(o=>o!==r&&o.hp>0&&!o.structure&&Math.abs(o.x-r.target)<110&&o.y>350):this.friendlyRisk(r,ranged?600:75));
           if(blocked){r.action='';r.cooldown=.3;if(ranged&&r.y>=420)r.vy=-350;continue;}
           if(r.action==='shoot')this.shots.push({x:r.x,y:r.y-26,vx:r.facing*260,life:4,owner:r.id,ownerX:r.x,critical:this.random()<c.crit});
           else if(r.action==='bombard')this.bombard(r);
@@ -237,14 +238,14 @@ export class Arena{
           else if(r.action==='feint'){r.action='punish';r.cooldown=.4;}
           else if(r.action==='strike'){
             if(Math.abs(p.x-r.x)<75&&(p.x-r.x)*r.facing>-18&&Math.abs(p.y-r.y)<67)this.botHurt(r,12+this.wave);
-            const critical=this.random()<c.crit;for(const o of alive)if(o!==r&&Math.abs(o.x-r.x)<75&&(o.x-r.x)*r.facing>-18&&Math.abs(o.y-r.y)<67)this.friendlyDamage(r.id,o,12+this.wave,critical);
+            const critical=this.random()<c.crit;for(const o of alive)if(o!==r&&(o.structure?structureHitFraction(o,r.x,r.y-30,r.x+r.facing*75,r.y-30)!==null:Math.abs(o.x-r.x)<75&&(o.x-r.x)*r.facing>-18&&Math.abs(o.y-r.y)<67))this.friendlyDamage(r.id,o,12+this.wave,critical);
           }
         }continue;
       }
       if(r.action==='airborne'||r.action==='charge'){
         const charging=r.action==='charge';if(charging)r.chargeTime-=dt;r.x=Math.max(25,Math.min(975,r.x+(charging?r.lockDir*650:Math.sign(r.target-r.x)*speed*1.7)*dt));
         if(Math.abs(r.x-p.x)<45&&Math.abs(r.y-p.y)<55)this.botHurt(r,charging?20:14,r.x,0,charging?'committed charge':'landing interception',r.contactCritical);
-        for(const o of alive)if(o!==r&&o.hp>0&&!r.contactHits.includes(o.id)&&Math.abs(r.x-o.x)<45&&Math.abs(r.y-o.y)<55){r.contactHits.push(o.id);this.friendlyDamage(r.id,o,charging?20:14,r.contactCritical);}
+        for(const o of alive)if(o!==r&&o.hp>0&&!r.contactHits.includes(o.id)&&(o.structure?structureDistance(o,r.x,r.y-25)<45:Math.abs(r.x-o.x)<45&&Math.abs(r.y-o.y)<55)){r.contactHits.push(o.id);this.friendlyDamage(r.id,o,charging?20:14,r.contactCritical);}
         if(charging?r.chargeTime<=0:r.y===420){r.action='';r.cooldown=1.6;}continue;
       }
       if(r.dodgeTime>0){r.dodgeTime=Math.max(0,r.dodgeTime-dt);r.x=Math.max(25,Math.min(975,r.x+r.dodgeDir*speed*2.3*dt));continue;}
@@ -263,12 +264,12 @@ export class Arena{
     for(const s of this.shots){
       const oldX=s.x,oldY=s.y;s.x+=s.vx*dt;s.life-=dt;if(s.gravity){s.vy+=s.gravity*dt;s.y+=s.vy*dt;}
       if(s.kind==='mortar'){
-        if(s.airburst){s.burstTime-=dt;if(s.burstTime<=0){s.x=s.targetX;s.y=s.targetY;s.life=0;this.effects.push({kind:'blast',x:s.x,y:s.y,life:.45,max:.45,color:'#e7a56e'});if(Math.hypot(s.x-p.x,s.y-(p.y-(p.crouching?9:23)))<62)this.hurt(18*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&Math.hypot(s.x-r.x,s.y-(r.y-23))<62)this.friendlyDamage(s.owner,r,18,s.critical);}}
-        else if(s.y>=412){s.x=s.targetX;s.life=0;this.effects.push({kind:'blast',x:s.x,y:415,life:.45,max:.45,color:'#e7a56e'});if(Math.abs(s.x-p.x)<52&&p.y>350)this.hurt(20*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&Math.abs(s.x-r.x)<52&&r.y>350)this.friendlyDamage(s.owner,r,20,s.critical);}
+        if(s.airburst){s.burstTime-=dt;if(s.burstTime<=0){s.x=s.targetX;s.y=s.targetY;s.life=0;this.effects.push({kind:'blast',x:s.x,y:s.y,life:.45,max:.45,color:'#e7a56e'});if(Math.hypot(s.x-p.x,s.y-(p.y-(p.crouching?9:23)))<62)this.hurt(18*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&(r.structure?structureDistance(r,s.x,s.y)<62:Math.hypot(s.x-r.x,s.y-(r.y-23))<62))this.friendlyDamage(s.owner,r,18,s.critical);}}
+        else if(s.y>=412){s.x=s.targetX;s.life=0;this.effects.push({kind:'blast',x:s.x,y:415,life:.45,max:.45,color:'#e7a56e'});if(Math.abs(s.x-p.x)<52&&p.y>350)this.hurt(20*(s.critical?1.65:1),s.ownerX,0,'arcing bombardment',{critical:s.critical});for(const r of this.robots)if(r.hp>0&&(r.structure?structureDistance(r,s.x,415)<52:Math.abs(s.x-r.x)<52&&r.y>350))this.friendlyDamage(s.owner,r,20,s.critical);}
       }else{
         // Sweep the travelled segment so faster projectiles cannot tunnel through bodies.
         const candidates=[{entity:p,player:true},...this.robots.filter(r=>r.hp>0&&r.id!==s.owner&&this.robotShotHitsAlly(s,r)).map(entity=>({entity,player:false}))];const vx=s.x-oldX,vy=s.y-oldY,length=vx*vx+vy*vy;
-        const contacts=candidates.map(c=>{const e=c.entity,y=e.y-(e.crouching?9:23),fraction=length?Math.max(0,Math.min(1,((e.x-oldX)*vx+(y-oldY)*vy)/length)):0;return {...c,fraction,hit:Math.abs(oldX+vx*fraction-e.x)<23&&Math.abs(oldY+vy*fraction-y)<(e.crouching?11:27)};}).filter(c=>c.hit).sort((a,b)=>a.fraction-b.fraction);
+        const contacts=candidates.map(c=>{const e=c.entity;if(e.structure){const fraction=structureHitFraction(e,oldX,oldY,s.x,s.y);return {...c,fraction,hit:fraction!==null};}const y=e.y-(e.crouching?9:23),fraction=length?Math.max(0,Math.min(1,((e.x-oldX)*vx+(y-oldY)*vy)/length)):0;return {...c,fraction,hit:Math.abs(oldX+vx*fraction-e.x)<23&&Math.abs(oldY+vy*fraction-y)<(e.crouching?11:27)};}).filter(c=>c.hit).sort((a,b)=>a.fraction-b.fraction);
         if(contacts.length){const target=contacts[0];if(target.player)this.hurt((s.damage??12)*(s.critical?1.65:1),s.x-Math.sign(s.vx)*20,0,s.kind==='mirror-circuit'?'mirrored circuit combo':s.kind==='flak'?'anti-air volley':'projectile impact',{critical:s.critical});else this.friendlyDamage(s.owner,target.entity,s.damage??12,s.critical,true);s.life=0;}
       }
     }

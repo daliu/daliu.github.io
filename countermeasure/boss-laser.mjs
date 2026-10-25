@@ -1,5 +1,7 @@
+import {structureHitFraction} from './objective-geometry.mjs';
 export const laserRules=difficulty=>({hard:{charge:1.35,blast:.32,recharge:2.5,cooldown:9,damage:28},terminator:{charge:1.05,blast:.3,recharge:1.65,cooldown:6.5,damage:32}})[difficulty]??null;
 export function laserContact(beam,entity){
+ if(entity.structure)return structureHitFraction(entity,beam.x,beam.y,beam.x+beam.dx*1200,beam.y+beam.dy*1200)!==null;
  const y=entity.y-(entity.crouching?9:26),dx=entity.x-beam.x,dy=y-beam.y,along=dx*beam.dx+dy*beam.dy;
  return along>=-12&&along<=1200&&Math.abs(dx*beam.dy-dy*beam.dx)<(entity.crouching?16:25);
 }
@@ -23,7 +25,7 @@ export function updateSuperLaser(g,r,dt){
  if(beam.phase==='blast'){
   r.action='laser-blast';
   if(!beam.hits.has('human')&&laserContact(beam,g.player)){beam.hits.add('human');g.botHurt(r,rules.damage,beam.x,0,'charged core laser',false);}
-  for(const o of g.robots)if(o!==r&&o.hp>0&&!beam.hits.has(o.id)&&laserContact(beam,o)){beam.hits.add(o.id);g.friendlyDamage(r.id,o,40);}
+  for(const o of g.robots)if(o!==r&&o.hp>0&&!beam.hits.has(o.id)&&laserContact(beam,o)){beam.hits.add(o.id);g.friendlyDamage(r.id,o,o.structure?Math.max(180,o.maxHp*.25):40);}
   if(beam.time===0){beam.phase='recharge';beam.time=rules.recharge;beam.total=rules.recharge;r.disabled=true;r.action='laser-recharge';r.vy=160;r.cooldown=rules.recharge+.9;}
  }else if(beam.phase==='recharge'){
   r.action='laser-recharge';r.disabled=true;r.windup=0;r.vy=Math.max(130,r.vy);

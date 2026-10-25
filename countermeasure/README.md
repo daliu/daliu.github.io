@@ -41,7 +41,7 @@ Each milestone's regular boss copies your current build, selected power and lear
 | 40 | 20% anticipation, backup bots, a near-impenetrable button fortress and an obvious sync antenna. Destroy the antenna to force an eight-second reboot and permanently remove synchronization. |
 | 50 | 30% anticipation, heavily reinforced button **and** antenna, and recurring weaker reinforcements. |
 
-The button is optional: the superboss always takes damage. Online cores take 18% of ordinary damage; critical strikes and combos still matter. EMP opens a long vulnerability window without instantly deleting the core. Antenna destruction offers another opening in the last two iterations. Cover collapses when the last superboss core dies. Backup populations are capped.
+The button is optional and single-use per fight: the superboss always takes damage. Online cores take 18% of ordinary damage. The button shuts robots down for eight seconds, then power reroutes permanently to backup: cores take 60% of ordinary damage, reducing shield resistance from 82% to 40%. Temporary EMP, radio and recharge openings still raise this to 85%; critical strikes and combos still matter. A spent switch stays gray and cannot consume an attack. Antenna destruction offers an eight-second reboot and breaks synchronization in the last two iterations. Cover collapses when the last superboss core dies. Backup populations are capped.
 
 ## Deathless hidden room
 
@@ -119,3 +119,7 @@ Campaign robot friendly-fire eligibility is 100% Easy, 70% Normal, 30% Hard and 
 Hard and Terminator superbosses can charge a long-range laser. A dashed orange ray locks its direction at the start; jump, fly or move across it before the blast. The beam fires once per target, then the robot drops and vents, unable to attack and taking increased damage. Charges can be interrupted; extra stuns cannot cancel an already-earned venting window. The existing HUD shows the warning and venting countdown even when the core is offscreen.
 
 Hard has a 1.35s charge, 2.5s recharge and 9s cooldown after recharge; Terminator has 1.05s, 1.65s and 6.5s respectively. Hard's learned combos have a 0.72s warning and longer recovery, 90% armor capacity and +16 HP / floor65 repairs between cleared chambers. Armor damage still carries between rooms. Terminator keeps no HP regeneration, 42% armor, early ultra gear and its boss health; its ordinary-unit health multiplier is now1.15 instead of1.3 and population factor1.35 instead of1.5, compensating for the loss of allied damage. BALANCE.md records paired/fresh simulations and phone-test limits.
+
+## Backup power / Release 23
+
+Antenna and button armor are neutral structures: player and enemy attacks can damage them in every difficulty, including Terminator. Their collision bounds match the visible armor, including upper panels. Hard/Terminator core lasers damage a structure once per blast for 25% of its maximum health (minimum 180), making baiting a committed beam useful. Mobile robots retain the difficulty-specific friendly-fire rules above. Retries begin a fresh encounter with a fresh switch.
