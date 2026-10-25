@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-25T17:15:43.702830+00:00",
+  "generated_at": "2026-10-25T21:00:15.748420+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "c5ac8d0",
-      "date": "2026-10-25T06:40:07-07:00",
-      "message": "health: refresh calendar density 2026-10-25 06:40"
+      "hash": "9599b92",
+      "date": "2026-10-25T13:06:27-07:00",
+      "message": "Make late facility autonomous and superbosses learn from live outcomes"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-25T10:14:25.623737",
+        "updated": "2026-10-25T14:00:03.512081",
         "date_range": null
       },
       "last_commit": {
-        "hash": "c5ac8d0",
-        "date": "2026-10-25T06:40:07-07:00",
-        "message": "health: refresh calendar density 2026-10-25 06:40"
+        "hash": "44b6836",
+        "date": "2026-10-25T10:15:45-07:00",
+        "message": "Update health data 2026-10-25 10:15"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,41 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "9599b92",
+      "date": "2026-10-25T13:06:27-07:00",
+      "message": "Make late facility autonomous and superbosses learn from live outcomes"
+    },
+    {
+      "hash": "c47e752",
+      "date": "2026-10-25T12:45:22-07:00",
+      "message": "Tell the facility escape through sterile rooms and survivor traces"
+    },
+    {
+      "hash": "ada3b24",
+      "date": "2026-10-25T12:27:27-07:00",
+      "message": "Record future companion hacking and challenge reward roadmap"
+    },
+    {
+      "hash": "5f16cd6",
+      "date": "2026-10-25T12:27:27-07:00",
+      "message": "Validate full Terminator bait routes and improve structural laser payoff"
+    },
+    {
+      "hash": "214aad1",
+      "date": "2026-10-25T11:34:07-07:00",
+      "message": "Make emergency EMP single-use and let boss attacks break defenses"
+    },
+    {
+      "hash": "50c1fd0",
+      "date": "2026-10-25T11:12:16-07:00",
+      "message": "Scale allied damage, add charged boss lasers and tune Hard attrition"
+    },
+    {
+      "hash": "44b6836",
+      "date": "2026-10-25T10:15:45-07:00",
+      "message": "Update health data 2026-10-25 10:15"
+    },
     {
       "hash": "c5ac8d0",
       "date": "2026-10-25T06:40:07-07:00",
@@ -128,41 +163,6 @@
       "hash": "7e6ce0f",
       "date": "2026-10-24T22:10:09-07:00",
       "message": "Preserve fractional health in Terminator checkpoints"
-    },
-    {
-      "hash": "e88cac5",
-      "date": "2026-10-24T22:08:47-07:00",
-      "message": "Add persistent finale unlock, difficulty profiles and combat anatomy"
-    },
-    {
-      "hash": "6f293ff",
-      "date": "2026-10-24T21:50:31-07:00",
-      "message": "Add connected campaign rooms and escalating boss encounters"
-    },
-    {
-      "hash": "c9ff863",
-      "date": "2026-10-24T21:00:15-07:00",
-      "message": "Update health data 2026-10-24 21:00"
-    },
-    {
-      "hash": "12348fe",
-      "date": "2026-10-24T20:26:46-07:00",
-      "message": "Add offline 50-wave Countermeasure Campaign alongside Demo"
-    },
-    {
-      "hash": "9738cb0",
-      "date": "2026-10-24T20:05:16-07:00",
-      "message": "Make Countermeasure Demo installable and offline-ready"
-    },
-    {
-      "hash": "ac5b3aa",
-      "date": "2026-10-24T19:24:11-07:00",
-      "message": "Add phone fullscreen arena and paused loadout menu"
-    },
-    {
-      "hash": "5503e69",
-      "date": "2026-10-24T18:52:30-07:00",
-      "message": "Improve Countermeasure touch controls and phone layouts"
     }
   ]
 }
