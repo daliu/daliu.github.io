@@ -85,8 +85,8 @@ test('every campaign room simulates finite positions and no unbounded projectile
 });
 test('all Campaign modules and both query-mode launches are cached for offline home-screen play',async()=>{
  const root='https://test.example/countermeasure/',handlers={},entries=new Map();let pending,network=0;
- const caches={open:async()=>({addAll:async urls=>{for(const url of urls)entries.set(url,await readFile(new URL('../countermeasure/'+(new URL(url).pathname.slice(16)||'index.html'),import.meta.url)));},match:async key=>entries.get(key)}),keys:async()=>[],delete:async()=>{}};
- const self={location:{href:root+'sw.js'},clients:{claim:async()=>{}},addEventListener:(n,f)=>handlers[n]=f};vm.runInNewContext(await readFile(new URL('../countermeasure/sw.js',import.meta.url),'utf8'),{self,caches,URL,fetch:()=>{network++;throw Error('Offline');}});handlers.install({waitUntil:p=>pending=p});await pending;
+ const caches={open:async()=>({addAll:async urls=>{for(const request of urls){const url=typeof request==='string'?request:request.url;entries.set(url,await readFile(new URL('../countermeasure/'+(new URL(url).pathname.slice(16)||'index.html'),import.meta.url)));}},match:async key=>entries.get(key)}),keys:async()=>[],delete:async()=>{}};
+ const self={location:{href:root+'sw.js'},clients:{claim:async()=>{}},addEventListener:(n,f)=>handlers[n]=f};vm.runInNewContext(await readFile(new URL('../countermeasure/sw.js',import.meta.url),'utf8'),{self,caches,URL,Request,fetch:()=>{network++;throw Error('Offline');}});handlers.install({waitUntil:p=>pending=p});await pending;
  for(const path of ['?mode=campaign&launch=homescreen','?mode=demo','campaign.mjs','campaign-plan.mjs','campaign-saves.mjs']){handlers.fetch({request:{method:'GET',url:root+path,mode:path.startsWith('?')?'navigate':'cors'},respondWith:p=>pending=p});assert.ok((await pending).length>0);}assert.equal(network,0);
 });
 test('independent module holds work alongside movement, flight and attack, and clear on pause',async()=>{

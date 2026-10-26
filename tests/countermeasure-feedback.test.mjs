@@ -65,3 +65,13 @@ test('difficulty changes response patience, with bounded reaction tells and offl
   for(let n=0;n<160&&r.feedback.switches===0;n++)g.update(.02,{});
   assert.equal(r.feedback.switches,1);assert.ok(r.combo);assert.equal(r.laserShots??0,0);assert.ok(!r.laser);
  });
+
+test('cross-over warning points along the actual movement at either arena wall',()=>{
+ for(const [bossX,playerX] of [[70,22],[930,978]]){
+  const g=game(),r=g.robots[0];r.x=bossX;g.player.x=playerX;r.combo=null;r.windup=0;r.laser=null;r.feedback.moves=1;
+  repeated(g,r);assert.ok(updateBossReposition(g,r,.02));const direction=r.feedback.motion.direction,start=r.x;
+  while(r.feedback.motion?.phase==='tell')updateBossReposition(g,r,.02);
+  for(let n=0;n<10;n++)updateBossReposition(g,r,.02);
+  assert.notEqual(r.x,start);assert.equal(Math.sign(r.x-start),direction,`wall ${bossX}: warning must match physical travel`);
+ }
+});

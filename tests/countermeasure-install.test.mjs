@@ -49,9 +49,9 @@ test('manifest identity, launch URL and real raster icon sizes stay inside the g
 });
 test('home-screen launch, install UI, manifest and icons all reload with no network after caching',async()=>{
   const root='https://example.test/countermeasure/',handlers={},stores=new Map();let pending,network=0;
-  const caches={open:async key=>{if(!stores.has(key))stores.set(key,new Map());const entries=stores.get(key);return {addAll:async urls=>{for(const url of urls){const name=new URL(url).pathname.slice('/countermeasure/'.length)||'index.html';entries.set(url,await readFile(new URL('../countermeasure/'+name,import.meta.url)));}},match:async key=>entries.get(key)};},keys:async()=>[...stores.keys()],delete:async key=>stores.delete(key)};
+  const caches={open:async key=>{if(!stores.has(key))stores.set(key,new Map());const entries=stores.get(key);return {addAll:async urls=>{for(const request of urls){const url=typeof request==='string'?request:request.url;const name=new URL(url).pathname.slice('/countermeasure/'.length)||'index.html';entries.set(url,await readFile(new URL('../countermeasure/'+name,import.meta.url)));}},match:async key=>entries.get(key)};},keys:async()=>[...stores.keys()],delete:async key=>stores.delete(key)};
   const self={location:{href:root+'sw.js'},clients:{claim:async()=>{}},addEventListener:(name,fn)=>handlers[name]=fn,skipWaiting:()=>{}};
-  vm.runInNewContext(await readFile(new URL('../countermeasure/sw.js',import.meta.url),'utf8'),{self,caches,URL,fetch:()=>{network++;throw Error('Offline');}});
+  vm.runInNewContext(await readFile(new URL('../countermeasure/sw.js',import.meta.url),'utf8'),{self,caches,URL,Request,fetch:()=>{network++;throw Error('Offline');}});
   handlers.install({waitUntil:p=>pending=p});await pending;handlers.activate({waitUntil:p=>pending=p});await pending;
   for(const file of ['?launch=homescreen','install.mjs','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/maskable-512.png','icons/apple-touch-icon.png']){
     handlers.fetch({request:{method:'GET',url:root+file,mode:file.startsWith('?')?'navigate':'cors'},respondWith:p=>pending=p});const result=await pending;assert.ok(result.length>0,file);if(file.startsWith('?'))assert.match(result.toString(),/Countermeasure/);

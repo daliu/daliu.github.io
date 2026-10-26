@@ -32,6 +32,8 @@ export function updateBossReposition(g,r,dt){
  if(!f.motion&&f.movePending){
   const p=g.player,away=Math.sign(r.x-p.x)||r.facing||1,mode=f.moves%3,dir=r.x<115?1:r.x>885?-1:mode===1?-away:away;
   f.motion={mode,phase:'tell',age:0,x:clamp(mode===1?p.x-away*155:r.x+dir*(mode===0?200:110),55,945),y:clamp(mode===2?(r.y<250?340:155):p.y+(p.y<250?95:-95),145,370),direction:dir,expires:g.clock+3};
+  // The wall-clamped cross-over target can lie opposite the initial escape direction.
+  f.motion.direction=Math.sign(f.motion.x-r.x)||dir;
   f.movePending=null;f.moves++;f.lastMove=['break-range','cross-over','change-height'][mode];f.moveCooldown=feedbackRules(g.difficulty).rest;
  }
  const m=f.motion;if(!m)return false;m.age+=dt;r.action='feedback-'+f.lastMove;
