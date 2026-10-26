@@ -25,17 +25,18 @@ export function updateBossSupport(g,dt,input={}){
  if(alive.every(r=>r.objectiveReboot>0||r.emp>0||r.radio>0||r.laser?.phase==='recharge'))return;
  d.elapsed+=dt;d.cooldown=Math.max(0,d.cooldown-dt);d.sampleClock+=dt;
  if(d.sampleClock>=.25){d.sampleClock-=.25;const p=g.player;d.samples.push({x:p.x,y:p.y,crouch:p.grounded&&!!input.down&&!(p.rollTime>0),air:!p.grounded&&p.y<365});if(d.samples.length>32)d.samples.shift();d.observed=observedHabit(d.samples);}
+ const desynchronized=g.encounter==='super'&&g.wave>=40&&['hard','terminator'].includes(g.difficulty)&&alive.every(r=>r.desynchronized);
  const w=d.warning;if(w){w.remaining-=dt;if(w.remaining>0)return;const available=budgetLeft(g,d);if(available<=0){d.warning=null;d.cooldown=2;return;}
   for(const [i,type] of w.units.slice(0,available).entries()){
    const r=g.spawn(type,g.spawnSequence++);r.supportReason=w.reason;r.x=w.xs[i];r.y=w.side==='air'?110:420;r.hoverY=r.y;r.vy=0;r.cooldown=1.5+i*.3;r.specialCd=2;r.facing=Math.sign(g.player.x-r.x)||-1;
    // Support has the current generation's tools but is lighter than the main squad.
    r.hp*=.65;r.maxHp=r.hp;g.robots.push(r);d.spent++;
   }
-  d.history.push({reason:w.reason,at:d.elapsed,units:w.units.slice(0,available)});d.history=d.history.slice(-16);d.warning=null;d.cooldown=d.rules.interval;return;
+  d.history.push({reason:w.reason,at:d.elapsed,units:w.units.slice(0,available)});d.history=d.history.slice(-16);d.warning=null;d.cooldown=d.rules.interval*(desynchronized?(g.difficulty==='hard'?1.5:1.25):1);return;
  }
  if(d.elapsed<d.rules.observe||d.samples.length*.25<d.rules.observe||d.cooldown>0||budgetLeft(g,d)<=0)return;
  const habit=d.observed,lateBackup=g.wave>=40&&g.encounter!=='boss';if(!habit&&!lateBackup)return;
- const reason=habit?.reason??'mixed',number=Math.min(d.rules.batch,budgetLeft(g,d)),units=[];
+ const reason=habit?.reason??'mixed',number=Math.min(desynchronized?1:d.rules.batch,budgetLeft(g,d)),units=[];
  for(let i=0;i<number;i++)units.push(reason==='air'?(i?'flyer':'metalDrone'):reason==='camp'?'bombardier':reason==='crouch'?(g.wave>=20&&(d.spent+i)%2?'shocker':'lancer'):'gunner');
  const side=reason==='air'?'air':g.player.x<500?'right':'left',gate=g.player.x<500?860:140,xs=units.map((_,i)=>clamp(gate+(side==='left'?i*55:-i*55),60,940));
  d.warning={reason,units,side,xs,remaining:d.rules.warning,total:d.rules.warning};

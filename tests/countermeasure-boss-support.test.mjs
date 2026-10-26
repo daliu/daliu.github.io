@@ -53,3 +53,12 @@ test('support pressure reaches a stationary duck in ordinary combat',()=>{
  const g=game(10,'boss');g.player.x=200;g.player.invulnerable=0;const hp=g.player.hp;for(let t=0;t<25&&g.state==='playing';t+=.02)g.update(.02,{down:true});assert.ok(g.bossSupport.history.some(h=>h.reason==='crouch'));assert.ok(g.player.hp<hp);
 });
 test('offline application precaches the adaptive director',async()=>{const sw=await readFile(new URL('../countermeasure/sw.js',import.meta.url),'utf8');assert.ok(sw.includes("'./boss-support.mjs'"));});
+
+test('antenna loss staggers late Hard/Terminator support while keeping its finite budget and live cap',()=>{
+ for(const difficulty of ['easy','normal','hard','terminator']){
+  const g=game(50,'super',difficulty),r=g.robots.find(r=>r.super),a=g.robots.find(r=>r.type==='antenna'),rules={...g.bossSupport.rules};g.player.invulnerable=100;g.damageRobot(a,1e9);assert.ok(r.desynchronized);
+  for(let i=0;i<405;i++)g.update(.02,{up:true});sample(g,rules.observe);
+  const staggered=['hard','terminator'].includes(difficulty);assert.equal(g.bossSupport.warning.units.length,staggered?1:rules.batch);sample(g,2);const factor=difficulty==='hard'?1.5:difficulty==='terminator'?1.25:1;
+  assert.ok(g.bossSupport.cooldown>rules.interval*factor-.6);assert.equal(g.bossSupport.rules.cap,rules.cap);assert.equal(g.bossSupport.rules.budget,rules.budget);
+ }
+});

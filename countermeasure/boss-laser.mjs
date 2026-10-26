@@ -1,6 +1,9 @@
 import {trackBossAttack} from './boss-feedback.mjs';
 import {structureHitFraction} from './objective-geometry.mjs';
 export const laserRules=difficulty=>({hard:{charge:1.35,blast:.32,recharge:2.5,cooldown:9,damage:28},terminator:{charge:1.05,blast:.3,recharge:1.65,cooldown:6.5,damage:32}})[difficulty]??null;
+// Late defenses feed a clean, dodged blast back into the core and its support relay.
+// Finite living defenses limit this reward; tanking or firing into a ruin earns nothing.
+export const structureFeedbackRules=(difficulty,cycle)=>cycle>=3?({hard:{recharge:6,cooldown:3.8,relay:6},terminator:{recharge:3,cooldown:2.8,relay:3}})[difficulty]??null:null;
 export function laserContact(beam,entity){
  if(entity.structure)return structureHitFraction(entity,beam.x,beam.y,beam.x+beam.dx*1200,beam.y+beam.dy*1200)!==null;
  const y=entity.y-(entity.crouching?9:26),dx=entity.x-beam.x,dy=y-beam.y,along=dx*beam.dx+dy*beam.dy;
@@ -26,11 +29,11 @@ export function updateSuperLaser(g,r,dt){
  if(beam.phase==='blast'){
   r.action='laser-blast';
   if(!beam.hits.has('human')&&laserContact(beam,g.player)){beam.hits.add('human');g.botHurt(r,rules.damage,beam.x,0,'charged core laser',false,beam.feedbackAttack);}
-  for(const o of g.robots)if(o!==r&&o.hp>0&&!beam.hits.has(o.id)&&laserContact(beam,o)){beam.hits.add(o.id);g.friendlyDamage(r.id,o,o.structure?Math.max(180,o.maxHp*.25):40);}
-  if(beam.time===0){beam.phase='recharge';beam.time=rules.recharge;beam.total=rules.recharge;r.disabled=true;r.action='laser-recharge';r.vy=160;r.cooldown=rules.recharge+.9;}
+  for(const o of g.robots)if(o!==r&&o.hp>0&&!beam.hits.has(o.id)&&laserContact(beam,o)){beam.hits.add(o.id);const hp=o.hp;g.friendlyDamage(r.id,o,o.structure?Math.max(180,o.maxHp*.25):40);if(o.structure&&o.hp<hp)beam.structureHit={x:o.x,y:o.y-80};}
+  if(beam.time===0){beam.feedback=g.encounter==='super'&&beam.structureHit&&!beam.hits.has('human')?structureFeedbackRules(g.difficulty,r.cycle):null;beam.phase='recharge';beam.time=beam.feedback?.recharge??rules.recharge;beam.total=beam.time;r.disabled=true;r.action='laser-recharge';r.vy=160;r.cooldown=beam.time+.9;if(beam.feedback){for(const o of g.robots)if(o.hp>0&&!o.super&&!o.structure)o.confused=Math.max(o.confused??0,beam.feedback.relay);g.effects.push({kind:'arc',x:beam.structureHit.x,y:beam.structureHit.y,x2:r.x,y2:r.y-26,life:.6,max:.6,color:'#9ee6ee'});}}
  }else if(beam.phase==='recharge'){
   r.action='laser-recharge';r.disabled=true;r.windup=0;r.vy=Math.max(130,r.vy);
-  if(beam.time===0){r.laser=null;r.disabled=false;r.action='';r.cooldown=.9;r.comboCd=Math.max(1.1,r.comboCd??0);r.laserCd=rules.cooldown;}
+  if(beam.time===0){r.laser=null;r.disabled=false;r.action='';r.cooldown=.9;r.comboCd=Math.max(1.1,r.comboCd??0);r.laserCd=beam.feedback?.cooldown??rules.cooldown;}
  }
  return true;
 }
@@ -40,5 +43,5 @@ export function drawSuperLaser(ctx,r){
   ctx.strokeStyle=b.phase==='charge'?'#ffbc75':'#fff3da';ctx.lineWidth=b.phase==='charge'?3:12;ctx.setLineDash(b.phase==='charge'?[12,9]:[]);ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(endX,endY);ctx.stroke();ctx.setLineDash([]);
   ctx.strokeStyle=b.phase==='charge'?'#ffbc75':'#ff6e5e';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,b.y,15+(b.phase==='charge'?1-b.time/b.total:1)*18,0,Math.PI*2);ctx.stroke();
  }else{ctx.strokeStyle='#9ee6ee';ctx.lineWidth=3;ctx.beginPath();ctx.arc(r.x,r.y-30,48,-Math.PI/2,-Math.PI/2+Math.PI*2*b.time/b.total);ctx.stroke();}
- ctx.fillStyle=b.phase==='recharge'?'#9ee6ee':'#ffbc75';ctx.font='11px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(b.phase==='recharge'?'VENTING '+b.time.toFixed(1)+'s':'LASER '+(b.phase==='charge'?b.time.toFixed(1)+'s':''),r.x,r.y-116);ctx.restore();
+ ctx.fillStyle=b.phase==='recharge'?'#9ee6ee':'#ffbc75';ctx.font='11px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(b.phase==='recharge'?(b.feedback?'FEEDBACK ':'VENTING ')+b.time.toFixed(1)+'s':'LASER '+(b.phase==='charge'?b.time.toFixed(1)+'s':''),r.x,r.y-116);ctx.restore();
 }
