@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-25T21:00:15.748420+00:00",
+  "generated_at": "2026-10-26T03:00:06.440772+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "9599b92",
-      "date": "2026-10-25T13:06:27-07:00",
-      "message": "Make late facility autonomous and superbosses learn from live outcomes"
+      "hash": "d375af4",
+      "date": "2026-10-25T19:22:30-07:00",
+      "message": "Correct boss movement warnings and refresh installed game assets"
     },
     "branch": "master"
   },
@@ -29,9 +29,9 @@
         "date_range": null
       },
       "last_commit": {
-        "hash": "44b6836",
-        "date": "2026-10-25T10:15:45-07:00",
-        "message": "Update health data 2026-10-25 10:15"
+        "hash": "b8c23ab",
+        "date": "2026-10-25T14:00:16-07:00",
+        "message": "Update health data 2026-10-25 14:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,16 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "d375af4",
+      "date": "2026-10-25T19:22:30-07:00",
+      "message": "Correct boss movement warnings and refresh installed game assets"
+    },
+    {
+      "hash": "b8c23ab",
+      "date": "2026-10-25T14:00:16-07:00",
+      "message": "Update health data 2026-10-25 14:00"
+    },
     {
       "hash": "9599b92",
       "date": "2026-10-25T13:06:27-07:00",
@@ -153,16 +163,6 @@
       "hash": "75e6508",
       "date": "2026-10-25T00:04:58-07:00",
       "message": "Add tactical deployments, persistent armor damage and unified game options"
-    },
-    {
-      "hash": "572a01e",
-      "date": "2026-10-24T23:46:06-07:00",
-      "message": "Balance Campaign pacing and Terminator resources; improve touch boss combat"
-    },
-    {
-      "hash": "7e6ce0f",
-      "date": "2026-10-24T22:10:09-07:00",
-      "message": "Preserve fractional health in Terminator checkpoints"
     }
   ]
 }
