@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-26T03:00:06.440772+00:00",
+  "generated_at": "2026-10-26T04:00:14.792360+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "d375af4",
-      "date": "2026-10-25T19:22:30-07:00",
-      "message": "Correct boss movement warnings and refresh installed game assets"
+      "hash": "db8704d",
+      "date": "2026-10-25T20:00:06-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-10-25"
     },
     "branch": "master"
   },
@@ -25,7 +25,7 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-25T14:00:03.512081",
+        "updated": "2026-10-25T21:00:03.922825",
         "date_range": null
       },
       "last_commit": {
@@ -44,9 +44,9 @@
         "edge_count": 222
       },
       "last_commit": {
-        "hash": "e7c3bca",
-        "date": "2026-10-18T20:00:05-07:00",
-        "message": "Update knowledge graph + system status + now data 2026-10-18"
+        "hash": "db8704d",
+        "date": "2026-10-25T20:00:06-07:00",
+        "message": "Update knowledge graph + system status + now data 2026-10-25"
       }
     },
     "site_analytics": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "db8704d",
+      "date": "2026-10-25T20:00:06-07:00",
+      "message": "Update knowledge graph + system status + now data 2026-10-25"
+    },
     {
       "hash": "d375af4",
       "date": "2026-10-25T19:22:30-07:00",
@@ -158,11 +163,6 @@
       "hash": "6b76a2f",
       "date": "2026-10-25T00:31:55-07:00",
       "message": "Unlock new suits after victory and teach bosses adaptive combos"
-    },
-    {
-      "hash": "75e6508",
-      "date": "2026-10-25T00:04:58-07:00",
-      "message": "Add tactical deployments, persistent armor damage and unified game options"
     }
   ]
 }
