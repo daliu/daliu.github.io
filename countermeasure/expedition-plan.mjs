@@ -42,3 +42,14 @@ export function expeditionPlan(wave,memory,encounter=null,profile){
  }
  return {...base,encounter};
 }
+
+// UI-only availability; acquisition and combat remain owned by the arena.
+export function powerCue(g,index,touch=false){
+ const m=POWERS[index],input=touch?'tap power · ↻ cycle':'F use · G cycle';
+ const available=m.unlock<=g.mechTier&&(!m.ultimate||g.ultra);
+ const unlock=m.ultimate&&!g.ultra?(g.difficulty==='terminator'?'Clear Mirror 10 · collect Ultra':'Deathless 50 · earned finale'):(g.difficulty==='terminator'?'Clear Mirror 10 · collect Ultra':`Clear Mirror ${m.unlock*10} · collect Mech ${m.unlock}`);
+ const cd=g.moduleCooldowns?.[index]??0,locked=index===3&&g.resources.electricLock>0;
+ const status=!available?unlock:cd>0?`Recharging ${Math.ceil(cd)}s`:index===5&&g.resources.ammo===0?'No AP rounds':locked?'Electric circuit reboot':'Ready';
+ const hint=index===5?`${g.resources.ammo} rounds left · finite ammo`:m.hint;
+ return {available,ready:available&&cd===0&&!locked&&!(index===5&&g.resources.ammo===0),status,hint,input};
+}

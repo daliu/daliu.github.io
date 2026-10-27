@@ -36,7 +36,7 @@ export class Statistics{
   if(g.state==='complete'&&this.escapeEntry){this.emit('cm_escape',this.escapeEntry);this.escapeEntry=null;}
   if(g.state==='playing'&&g.wave>0&&this.lastStats!==g.stats){
    if(this.active)this.finish(null,'abandoned');
-   this.escapeEntry=null;this.lastStats=g.stats;this.active={entry:{id:globalThis.crypto?.randomUUID?.()??`${this.now()}-${Math.random()}`,date:new Date(this.now()).toISOString(),mode:this.mode,release:this.release,wave:g.wave,encounter:encounterOf(g),difficulty:this.mode==='demo'?'normal':g.difficulty,source:this.source,killsAtStart:g.kills},seconds:0};this.source='continuation';
+   this.escapeEntry=null;this.lastStats=g.stats;this.active={entry:{id:globalThis.crypto?.randomUUID?.()??`${this.now()}-${Math.random()}`,date:new Date(this.now()).toISOString(),mode:this.mode,release:this.release,wave:g.wave,encounter:encounterOf(g),difficulty:this.mode==='demo'?'normal':g.difficulty,source:this.source,boosted:!!(g.premiumBoosts?.armor||g.premiumBoosts?.thrusters),killsAtStart:g.kills},seconds:0};this.source='continuation';
    this.emit('cm_attempt_start',{...this.active.entry});
   }
   if(!this.active)return;
@@ -55,8 +55,8 @@ export class Statistics{
  export(){return JSON.stringify({version:1,scope:'this_browser',retention:'latest 500 attempts within 90 days',attempts:this.attempts},null,2);}
 }
 function validAttempt(a,now){return a&&['demo','campaign'].includes(a.mode)&&['easy','normal','hard','terminator'].includes(a.difficulty)&&['room','boss','super','hidden'].includes(a.encounter)&&['clear','death','abandoned'].includes(a.outcome)&&Number.isInteger(a.wave)&&a.wave>=1&&a.wave<=50&&Number.isFinite(Date.parse(a.date))&&Date.parse(a.date)>=now-MAX_AGE&&Date.parse(a.date)<=now+60000&&['attacks','hits','damage'].every(k=>Array.isArray(a[k])&&a[k].length===4&&a[k].every(n=>Number.isFinite(n)&&n>=0&&n<=1000000));}
-export function aggregate(attempts,{mode='all',difficulty='all'}={}){
- const rows=attempts.filter(a=>(mode==='all'||a.mode===mode)&&(difficulty==='all'||a.difficulty===difficulty));
+export function aggregate(attempts,{mode='all',difficulty='all',loadout='standard'}={}){
+ const rows=attempts.filter(a=>(mode==='all'||a.mode===mode)&&(difficulty==='all'||a.difficulty===difficulty)&&(loadout==='all'||(loadout==='boosted'?a.boosted===true:a.boosted!==true)));
  const result={attempts:rows.length,clears:0,deaths:0,abandoned:0,seconds:0,attacks:[0,0,0,0],strategies:{},levels:[],cells:Array(50).fill(0),criticals:0,combos:0};const levels=new Map();
  for(const a of rows){result[a.outcome==='clear'?'clears':a.outcome==='death'?'deaths':'abandoned']++;result.seconds+=bounded(a.seconds);four(a.attacks).forEach((v,i)=>result.attacks[i]+=v);result.strategies[a.strategy]=(result.strategies[a.strategy]??0)+1;result.criticals+=Object.values(a.criticals??{}).reduce((n,v)=>n+bounded(v),0);result.combos+=Object.values(a.combos??{}).reduce((n,v)=>n+bounded(v),0);
   const key=[a.mode,a.difficulty,a.wave,a.encounter].join('/');if(!levels.has(key))levels.set(key,{key,mode:a.mode,difficulty:a.difficulty,wave:a.wave,encounter:a.encounter,attempts:0,deaths:0,clears:0,seconds:0});const l=levels.get(key);l.attempts++;l.deaths+=a.outcome==='death'?1:0;l.clears+=a.outcome==='clear'?1:0;l.seconds+=bounded(a.seconds);
