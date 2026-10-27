@@ -123,3 +123,10 @@ body.play-mode{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none;b
 .camera-edge.incoming{color:#f0bd77;font-size:25px}
 
 .campaign .emergency-switch.spent{background:#344744;border-color:#88aaa1;color:#bdd2ca;box-shadow:none}
+
+/* Optional local test store; hidden unless the dedicated test service enables it. */
+.premium-kit{border:1px solid var(--line,#4b5a42);padding:18px;margin:20px 0}.premium-finishes{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}.premium-finishes label{border-left:8px solid var(--swatch);padding:12px;display:flex;gap:8px;align-items:center;background:#253126}.premium-finishes input{min-width:20px;min-height:20px}#premium-dialog input[type=password]{display:block;width:100%;box-sizing:border-box;background:#121c16;color:#d9e6ca;border:1px solid #69785d;padding:12px;margin:10px 0;font:inherit}#premium-dialog small{display:block;line-height:1.6;color:#a5b499}#premium-status{padding:12px;border-left:3px solid #9ee6ee;min-height:2em}#premium-dialog details{margin:18px 0}#premium-dialog .option-toggle{gap:20px}#premium-dialog .option-toggle input{min-width:22px;min-height:22px}#statistics-loadout{padding:8px;margin:10px}#premium-provider{color:#f0bd79}
+
+.equipment-summary{font:10px/1.6 var(--mono);color:var(--muted);margin:8px 0 12px}
+
+#module-options button:disabled{opacity:.72}

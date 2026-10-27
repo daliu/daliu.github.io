@@ -74,7 +74,7 @@ export class ExpeditionArena extends CampaignArena{
  jump(){
   if(this.player.rollTime>0)return;
   if(this.state==='traveling'&&this.player.grounded){this.player.vy=-510;this.player.grounded=false;return;}
-  if(this.ultra&&this.state==='playing'&&this.clock-this.lastJumpTap<=.28&&this.resources.fuel>=20){this.resources.fuel-=20;this.boostTime=.65;this.player.vy=-670;this.player.grounded=false;this.player.invulnerable=Math.max(.3,this.player.invulnerable);this.lastJumpTap=-10;this.effects.push({kind:'boost',x:this.player.x,y:this.player.y,life:.65,max:.65,color:'#ffac65'});return;}
+  const fuelCost=this.premiumBoosts?.thrusters?16:20;if(this.ultra&&this.state==='playing'&&this.clock-this.lastJumpTap<=.28&&this.resources.fuel>=fuelCost){this.resources.fuel-=fuelCost;this.boostTime=.65;this.player.vy=-670;this.player.grounded=false;this.player.invulnerable=Math.max(.3,this.player.invulnerable);this.lastJumpTap=-10;this.effects.push({kind:'boost',x:this.player.x,y:this.player.y,life:.65,max:.65,color:'#ffac65'});return;}
   this.lastJumpTap=this.clock;super.jump();
  }
  disable(r,channel,duration){if(r.structure||r.hp<=0||r.super&&r.controlRecovery>0&&channel!=='button'||this.ultimate&&r.channel&&r.channel!==channel)return false;r.emp=Math.max(r.emp??0,duration);r.weakness=Math.max(r.weakness??0,duration+1);r.windup=0;r.moduleWindup=0;r.action='';r.disabled=true;r.vy=Math.max(150,r.vy);r.disabledBy=channel;return true;}
@@ -198,7 +198,12 @@ export class ExpeditionArena extends CampaignArena{
   p.flying=p.mecha&&!!input.up;p.vy=p.flying?-255:p.vy+1250*dt;p.y=clamp(p.y+p.vy*dt,86,420);p.grounded=p.y===420;
   if(p.x>=1020&&this.next){this.collectMechReward();const next=this.next,entryY=p.y,entryVY=p.vy;this.encounter=next.encounter;this.plan=this.makePlan(next.wave,this.memory,next.encounter);this.mirrorBlueprint=null;this.state='between';this.startWave();this.player.x=22;this.player.y=entryY;this.player.vy=entryVY;this.player.grounded=entryY===420;}
  }
- updateOrdnance(dt){for(const s of this.ordnance){const old=s.x;s.x+=s.vx*dt;s.life-=dt;const target=this.robots.filter(r=>r.hp>0&&Math.abs(r.y-26-s.y)<65&&(r.x-old)*(r.x-s.x)<=0).sort((a,b)=>Math.abs(a.x-old)-Math.abs(b.x-old))[0];if(target){s.life=0;if(!this.anticipate(target,'explosive')){this.effects.push({kind:'blast',x:target.x,y:target.y-25,life:.5,max:.5,color:'#ffbd85'});for(const r of this.robots)if(r.hp>0&&Math.hypot(r.x-target.x,r.y-target.y)<110){const critical=this.random()<.1;this.damageRobot(r,240*(r.super?3:1)*(critical?1.65:1),{critical,number:true,color:'#ffbd85',feedbackKey:'ap',feedbackSerial:s.feedbackSerial});};}}}this.ordnance=this.ordnance.filter(s=>s.life>0&&s.x>0&&s.x<1000);}
+ updateOrdnance(dt){for(const s of this.ordnance){const old=s.x;s.x+=s.vx*dt;s.life-=dt;const target=this.robots.filter(r=>r.hp>0&&Math.abs(r.y-26-s.y)<65&&(r.x-old)*(r.x-s.x)<=0).sort((a,b)=>Math.abs(a.x-old)-Math.abs(b.x-old))[0];if(target){s.life=0;if(!this.anticipate(target,'explosive')){this.effects.push({kind:'blast',x:target.x,y:target.y-25,life:.5,max:.5,color:'#ffbd85'});for(const r of this.robots)if(r.hp>0&&Math.hypot(r.x-target.x,r.y-target.y)<110){const critical=this.random()<.1;
+ // Early ultra rounds still pierce the core; reserve the full burst for earned openings.
+ const opening=r.objectiveReboot>0||r.shieldReduced||r.laser?.phase==='recharge';
+ const early=this.difficulty==='terminator'&&!this.ultimate&&this.wave<=20;
+ const penetration=r.super?(early&&!opening?2:3):1;
+ this.damageRobot(r,240*penetration*(critical?1.65:1),{critical,number:true,color:'#ffbd85',feedbackKey:'ap',feedbackSerial:s.feedbackSerial});};}}}this.ordnance=this.ordnance.filter(s=>s.life>0&&s.x>0&&s.x<1000);}
  update(dt,input={}){
   dt=clamp(dt,0,.04);const oldX=this.player.x;if(this.state==='playing')updateAftermath(this,dt);if(this.state==='traveling'){this.updateTravel(dt,input);return;}if(this.state==='playing'){
    this.resources.electricLock=Math.max(0,this.resources.electricLock-dt);this.boostTime=Math.max(0,this.boostTime-dt);
