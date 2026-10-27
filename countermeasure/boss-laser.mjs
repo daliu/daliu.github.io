@@ -37,10 +37,23 @@ export function updateSuperLaser(g,r,dt){
  }
  return true;
 }
-export function drawSuperLaser(ctx,r){
+// Read only the currently committed beam, including when its source is off-screen.
+export function laserDefenseImpacts(beam,robots){
+ if(!beam||!['charge','blast'].includes(beam.phase))return [];
+ return robots.filter(r=>r.structure&&r.hp>0).flatMap(r=>{
+  const fraction=structureHitFraction(r,beam.x,beam.y,beam.x+beam.dx*1200,beam.y+beam.dy*1200);
+  return fraction===null?[]:[{id:r.id,x:beam.x+beam.dx*1200*fraction,y:beam.y+beam.dy*1200*fraction}];
+ });
+}
+export function drawSuperLaser(ctx,r,robots=[]){
  const b=r.laser;if(!b)return;ctx.save();const endX=b.x+b.dx*1200,endY=b.y+b.dy*1200;
  if(b.phase!=='recharge'){
   ctx.strokeStyle=b.phase==='charge'?'#ffbc75':'#fff3da';ctx.lineWidth=b.phase==='charge'?3:12;ctx.setLineDash(b.phase==='charge'?[12,9]:[]);ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(endX,endY);ctx.stroke();ctx.setLineDash([]);
+  for(const hit of laserDefenseImpacts(b,robots)){
+   const size=b.phase==='charge'?18+6*(1-b.time/b.total):25;ctx.strokeStyle='#ffbc75';ctx.lineWidth=3;ctx.beginPath();
+   ctx.moveTo(hit.x-size,hit.y);ctx.lineTo(hit.x,hit.y-size);ctx.lineTo(hit.x+size,hit.y);ctx.lineTo(hit.x,hit.y+size);ctx.lineTo(hit.x-size,hit.y);ctx.stroke();
+   ctx.beginPath();ctx.moveTo(hit.x-8,hit.y);ctx.lineTo(hit.x+8,hit.y);ctx.moveTo(hit.x,hit.y-8);ctx.lineTo(hit.x,hit.y+8);ctx.stroke();
+  }
   ctx.strokeStyle=b.phase==='charge'?'#ffbc75':'#ff6e5e';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,b.y,15+(b.phase==='charge'?1-b.time/b.total:1)*18,0,Math.PI*2);ctx.stroke();
  }else{ctx.strokeStyle='#9ee6ee';ctx.lineWidth=3;ctx.beginPath();ctx.arc(r.x,r.y-30,48,-Math.PI/2,-Math.PI/2+Math.PI*2*b.time/b.total);ctx.stroke();}
  ctx.fillStyle=b.phase==='recharge'?'#9ee6ee':'#ffbc75';ctx.font='11px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(b.phase==='recharge'?(b.feedback?'FEEDBACK ':'VENTING ')+b.time.toFixed(1)+'s':'LASER '+(b.phase==='charge'?b.time.toFixed(1)+'s':''),r.x,r.y-116);ctx.restore();

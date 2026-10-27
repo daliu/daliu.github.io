@@ -167,3 +167,9 @@ At late Hard/Terminator superbosses (levels30/40/50), bait a charged laser into 
 Destroying the antenna in late Hard/Terminator fights retains its8s reboot and desynchronization. Subsequent support calls arrive one bot at a time, at1.5×/1.25× the previous interval; total budgets and live caps remain. Live projectiles and pools persist during per-hit feedback. The single-use button still routes to weaker backup shields after8s; neither objective heals the human or replenishes resources. These are earned attack/repositioning windows, not automatic victories.
 
 The objective probe now supports `--modes hard,terminator`, `--waves 30,40,50`, `--style fast|careful` and `--route-seeds`. It records actual charged-laser structure kills, clean baits and damage on backup. Its corrected controller uses unlocked powers, electrical Arc projector against wet targets, and visible laser evasion. Compare reports only with matching pilot/checkpoint hashes. `BALANCE.md` records both improved and unsuccessful validation cases.
+
+## Follow the beam / Release 29
+
+Locked charged lasers now show a small orange impact diamond on each living defense they intersect. It uses the same armor bounds as damage, remains visible when the shooter is outside the camera, and disappears during recovery or when the defense is gone. The beam still pierces armor: the marker identifies collateral damage, not safe cover. Move out of its path to earn feedback. No extra panel or reading is required.
+
+This pass changes rendering and validation only. Release28 damage, timings, enemy learning, resources and objectives remain. The objective pilot now plans short movement taps near the switch and accounts for falling acceleration before using electricity over pools; improved model completion from that controller is not a game difficulty reduction.

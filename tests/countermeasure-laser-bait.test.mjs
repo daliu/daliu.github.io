@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {ExpeditionArena} from '../countermeasure/expedition.mjs';
-import {laserRules,structureFeedbackRules} from '../countermeasure/boss-laser.mjs';
+import {laserRules,structureFeedbackRules,laserDefenseImpacts,drawSuperLaser} from '../countermeasure/boss-laser.mjs';
 function game(mode='hard',wave=40){const g=new ExpeditionArena({difficulty:mode,random:()=>.99});g.mechTier=mode==='terminator'?5:wave/10;g.plan=g.makePlan(wave,g.memory,'super');g.state='between';g.startWave();return g;}
 function prime(g){const r=g.robots[0];r.x=500;r.y=200;r.laserCd=0;r.combo=null;r.windup=0;g.player.x=680;g.player.y=200;g.player.invulnerable=0;g.update(.02,{});assert.equal(r.laser.phase,'charge');return r;}
 function recharge(g,{tank=false}={}){const r=g.robots[0];for(let i=0;i<150&&r.laser?.phase!=='recharge';i++){if(tank){g.player.y=200;g.player.vy=0;}g.update(.02,{up:!tank});}assert.equal(r.laser.phase,'recharge');return r.laser;}
@@ -29,4 +29,19 @@ test('earned recovery has a finite end and uses its shorter next-laser cooldown'
 });
 test('a later ordinary miss returns to normal recovery rather than retaining feedback forever',()=>{
  const g=game(),r=prime(g);recharge(g);g.player.invulnerable=100;while(r.laser)g.update(.02,{up:true});g.robots=g.robots.filter(r=>!r.structure);r.laserCd=0;r.windup=0;r.combo=null;r.feedback.attackPending=null;r.feedback.motion=null;g.player.x=680;g.player.y=200;g.update(.02,{});const beam=recharge(g);assert.equal(beam.feedback,null);assert.equal(beam.total,laserRules('hard').recharge);
+});
+
+test('visible defense impact marks match real charged-beam damage without changing the fight',()=>{
+ const g=game(),r=prime(g),wall=g.robots.find(r=>r.type==='buttonGuard');
+ const marks=laserDefenseImpacts(r.laser,g.robots);assert.ok(marks.some(m=>m.id===wall.id));assert.ok(marks.every(m=>Number.isFinite(m.x)&&Number.isFinite(m.y)));
+ const before=JSON.stringify(g.snapshot()),coords=[];const ctx=new Proxy({}, {get:(o,k)=>k in o?o[k]:(...a)=>coords.push(...a.filter(n=>typeof n==='number')),set:(o,k,v)=>{o[k]=v;return true;}});
+ drawSuperLaser(ctx,r,g.robots);assert.equal(JSON.stringify(g.snapshot()),before);assert.ok(coords.every(Number.isFinite));
+ recharge(g);assert.equal(wall.hp,wall.maxHp*.75);assert.deepEqual(laserDefenseImpacts(r.laser,g.robots),[]);
+});
+test('impact marks ignore ruins, missed armor and targets behind the muzzle',()=>{
+ const g=game(),r=prime(g),wall=g.robots.find(r=>r.type==='buttonGuard'),beam=r.laser;
+ assert.deepEqual(laserDefenseImpacts({...beam,dy:-1,dx:0},g.robots),[]);
+ assert.deepEqual(laserDefenseImpacts({...beam,dx:-1},[wall]),[]);
+ wall.hp=0;assert.deepEqual(laserDefenseImpacts(beam,[wall]),[]);
+ assert.deepEqual(laserDefenseImpacts(null,g.robots),[]);
 });

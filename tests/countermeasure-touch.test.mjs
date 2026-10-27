@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,access} from 'node:fs/promises';
 import vm from 'node:vm';
 import {HeldControls,bindPointerControl,bindWeaponSwitch} from '../countermeasure/controls.mjs';
+import {ExpeditionArena} from '../countermeasure/expedition.mjs';
 import {Arena,makePlan,FINAL_WAVE} from '../countermeasure/engine.mjs';
 
 class Button extends EventTarget {
@@ -112,4 +113,18 @@ test('touch controls are available offline and the game cache leaves other site 
   handlers.install({waitUntil:p=>pending=p});await pending;stores.set('other-site-cache',new Map());handlers.activate({waitUntil:p=>pending=p});await pending;
   handlers.fetch({request:{method:'GET',url:root+'controls.mjs',mode:'cors'},respondWith:p=>pending=p});assert.match(await pending,/class HeldControls/);assert.equal(network,0);assert.ok(stores.has('other-site-cache'));
   let intercepted=false;handlers.fetch({request:{method:'GET',url:'https://example.test/portfolio.html',mode:'navigate'},respondWith:()=>intercepted=true});assert.equal(intercepted,false);
+});
+
+test('late Campaign laser baits allow independent flight/fire/steering and mid-hold weapon changes',()=>{
+ for(const [difficulty,wave] of [['hard',40],['terminator',50]]){
+  const game=new ExpeditionArena({difficulty,random:()=>.99});game.mechTier=difficulty==='terminator'?5:4;game.plan=game.makePlan(wave,game.memory,'super');game.state='between';game.startWave();
+  const core=game.robots[0];Object.assign(core,{x:500,y:200,laserCd:0,combo:null,windup:0});Object.assign(game.player,{x:680,y:200,vy:0});game.update(.02,{});assert.equal(core.laser.phase,'charge');
+  const {controls,buttons:b}=setup(game),bar=new Button();bindWeaponSwitch(bar,n=>game.weapon=n);
+  b.up.emit('pointerdown',1);b.right.emit('pointerdown',2);b.attack.emit('pointerdown',3);
+  bar.emit('pointerdown',4,{target:{closest:()=>({dataset:{weapon:'3'}})}});advance(game,controls,.2);
+  b.right.emit('pointercancel',2);assert.equal(controls.state.up,true);assert.equal(controls.state.attack,true);
+  advance(game,controls,1.5);assert.equal(core.laser.phase,'recharge');assert.ok(core.laser.feedback);assert.ok(!core.laser.hits.has('human'));assert.ok(game.player.y<200);assert.ok(game.stats.attacks[3]>0);
+  b.attack.emit('pointerup',3);assert.equal(controls.state.up,true);assert.equal(controls.state.attack,false);
+  game.pause();controls.clear();assert.ok(Object.values(controls.state).every(v=>!v));
+ }
 });
