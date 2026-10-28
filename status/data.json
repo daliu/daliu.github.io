@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-27T21:00:14.759358+00:00",
+  "generated_at": "2026-10-28T04:00:13.826866+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "bb809d6",
-      "date": "2026-10-27T12:30:47-07:00",
-      "message": "social: 2026-10-27 MoneySignals deck (4 cards)"
+      "hash": "fc5acda",
+      "date": "2026-10-27T15:41:15-07:00",
+      "message": "Publish Countermeasure Release 30 with billing disabled"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-27T14:00:04.805245",
+        "updated": "2026-10-27T21:00:01.972309",
         "date_range": null
       },
       "last_commit": {
-        "hash": "2775647",
-        "date": "2026-10-27T08:00:17-07:00",
-        "message": "Update health data 2026-10-27 08:00"
+        "hash": "78e4ac5",
+        "date": "2026-10-27T14:00:14-07:00",
+        "message": "Update health data 2026-10-27 14:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,16 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "fc5acda",
+      "date": "2026-10-27T15:41:15-07:00",
+      "message": "Publish Countermeasure Release 30 with billing disabled"
+    },
+    {
+      "hash": "78e4ac5",
+      "date": "2026-10-27T14:00:14-07:00",
+      "message": "Update health data 2026-10-27 14:00"
+    },
     {
       "hash": "bb809d6",
       "date": "2026-10-27T12:30:47-07:00",
@@ -153,16 +163,6 @@
       "hash": "d375af4",
       "date": "2026-10-25T19:22:30-07:00",
       "message": "Correct boss movement warnings and refresh installed game assets"
-    },
-    {
-      "hash": "b8c23ab",
-      "date": "2026-10-25T14:00:16-07:00",
-      "message": "Update health data 2026-10-25 14:00"
-    },
-    {
-      "hash": "9599b92",
-      "date": "2026-10-25T13:06:27-07:00",
-      "message": "Make late facility autonomous and superbosses learn from live outcomes"
     }
   ]
 }
