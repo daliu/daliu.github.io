@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-29T04:00:16.561202+00:00",
+  "generated_at": "2026-10-29T15:00:20.681938+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "8a4bf8e",
-      "date": "2026-10-28T14:00:19-07:00",
-      "message": "Update health data 2026-10-28 14:00"
+      "hash": "09f9937",
+      "date": "2026-10-29T07:01:22-07:00",
+      "message": "social: 2026-10-29 MoneySignals deck (3 cards)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 180,
+      "page_count": 181,
       "last_commit": {
-        "hash": "0aabdda",
-        "date": "2026-10-28T12:31:17-07:00",
-        "message": "social: 2026-10-28 MoneySignals deck (3 cards)"
+        "hash": "09f9937",
+        "date": "2026-10-29T07:01:22-07:00",
+        "message": "social: 2026-10-29 MoneySignals deck (3 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-28T21:00:03.720839",
+        "updated": "2026-10-29T08:00:06.398401",
         "date_range": null
       },
       "last_commit": {
-        "hash": "8a4bf8e",
-        "date": "2026-10-28T14:00:19-07:00",
-        "message": "Update health data 2026-10-28 14:00"
+        "hash": "7969019",
+        "date": "2026-10-29T06:40:04-07:00",
+        "message": "health: refresh calendar density 2026-10-29 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,51 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-10-28T11:52:49Z"
+        "updated": "2026-10-29T12:00:21Z"
       },
       "last_commit": {
-        "hash": "14912a4",
-        "date": "2026-10-28T11:52:49+00:00",
-        "message": "Update analytics data 2026-10-28"
+        "hash": "545835b",
+        "date": "2026-10-29T12:00:21+00:00",
+        "message": "Update analytics data 2026-10-29"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "09f9937",
+      "date": "2026-10-29T07:01:22-07:00",
+      "message": "social: 2026-10-29 MoneySignals deck (3 cards)"
+    },
+    {
+      "hash": "7969019",
+      "date": "2026-10-29T06:40:04-07:00",
+      "message": "health: refresh calendar density 2026-10-29 06:40"
+    },
+    {
+      "hash": "545835b",
+      "date": "2026-10-29T12:00:21+00:00",
+      "message": "Update analytics data 2026-10-29"
+    },
+    {
+      "hash": "717a877",
+      "date": "2026-10-29T05:37:25-04:00",
+      "message": "blog: 2026-10-29 \u2014 Research evidence and economic schedules"
+    },
+    {
+      "hash": "ca63bc2",
+      "date": "2026-10-29T05:37:21-04:00",
+      "message": "daily: 2026-10-29 market update"
+    },
+    {
+      "hash": "82ae2db",
+      "date": "2026-10-28T21:43:15-07:00",
+      "message": "Merge pull request #53 from daliu/worktree-countermeasure-pageview-default"
+    },
+    {
+      "hash": "d2eb205",
+      "date": "2026-10-28T21:00:16-07:00",
+      "message": "Update health data 2026-10-28 21:00"
+    },
     {
       "hash": "8a4bf8e",
       "date": "2026-10-28T14:00:19-07:00",
@@ -110,6 +145,16 @@
       "message": "Update health data 2026-10-27 21:00"
     },
     {
+      "hash": "51eb493",
+      "date": "2026-10-27T16:17:07-07:00",
+      "message": "Merge remote-tracking branch 'origin/master' into worktree-countermeasure-pageview-default"
+    },
+    {
+      "hash": "b99fd8e",
+      "date": "2026-10-27T16:07:16-07:00",
+      "message": "Countermeasure: report page views by default, keep gameplay events opt-in"
+    },
+    {
       "hash": "fc5acda",
       "date": "2026-10-27T15:41:15-07:00",
       "message": "Publish Countermeasure Release 30 with billing disabled"
@@ -118,51 +163,6 @@
       "hash": "78e4ac5",
       "date": "2026-10-27T14:00:14-07:00",
       "message": "Update health data 2026-10-27 14:00"
-    },
-    {
-      "hash": "bb809d6",
-      "date": "2026-10-27T12:30:47-07:00",
-      "message": "social: 2026-10-27 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "2775647",
-      "date": "2026-10-27T08:00:17-07:00",
-      "message": "Update health data 2026-10-27 08:00"
-    },
-    {
-      "hash": "5b16aea",
-      "date": "2026-10-27T07:01:20-07:00",
-      "message": "social: 2026-10-27 MoneySignals deck (3 cards)"
-    },
-    {
-      "hash": "0fd4191",
-      "date": "2026-10-27T06:40:04-07:00",
-      "message": "health: refresh calendar density 2026-10-27 06:40"
-    },
-    {
-      "hash": "bdfd214",
-      "date": "2026-10-27T11:19:53+00:00",
-      "message": "Update analytics data 2026-10-27"
-    },
-    {
-      "hash": "3ec75f2",
-      "date": "2026-10-27T05:37:53-04:00",
-      "message": "blog: 2026-10-27 \u2014 Research evidence and economic schedules"
-    },
-    {
-      "hash": "f6811f0",
-      "date": "2026-10-27T05:37:49-04:00",
-      "message": "daily: 2026-10-27 market update"
-    },
-    {
-      "hash": "9c2584b",
-      "date": "2026-10-27T01:54:01-07:00",
-      "message": "Mark committed laser impacts and qualify late boss touch inputs"
-    },
-    {
-      "hash": "efb4dd2",
-      "date": "2026-10-26T21:00:18-07:00",
-      "message": "Update health data 2026-10-26 21:00"
     }
   ]
 }
