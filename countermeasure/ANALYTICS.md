@@ -14,11 +14,19 @@ map. JSON export is separate from save export. Clearing statistics preserves
 game saves, settings and the fictional subject register. Imports do not import
 statistics or manufacture prior gameplay events.
 
-**Share gameplay statistics defaults off.** Enabling it loads Google's tag only
-on the canonical HTTPS origin. Preview origins, offline use, Do Not Track and
-Global Privacy Control do not send events. Turning it off disables the tag,
-clears pending events and removes the game's `cm_` analytics cookies. It does
-not delete previously received Google data. Tabs honor changes to the preference.
+The game page loads Google's tag by default and sends one `page_view` per load,
+only on the canonical HTTPS origin and only when the browser allows it: preview
+origins, offline use, Do Not Track and Global Privacy Control disable the tag and
+send nothing. The page view carries the fixed page URL and standard browser
+information, no gameplay data, and no sharing preference changes it. The
+community statistics page does not load the tag.
+
+**Share gameplay statistics defaults off.** Enabling it adds the `cm_` gameplay
+events under the same browser conditions. Turning it off stops gameplay events,
+clears pending events and removes the game's `cm_` analytics cookies; the next
+page view sets a new client cookie, so the browser is counted as a new one. It
+does not delete previously received Google data. Tabs honor changes to the
+preference.
 There is no historical/offline upload queue: only events created while sharing
 is enabled and online are eligible. An in-memory queue of at most 32 events
 covers initial script loading. Delivery is best effort, not exactly-once or an
@@ -108,8 +116,8 @@ observational, not causal tests of weapon effectiveness or exact population size
 
 ## Validation
 
-Use `?analytics_test=1` on an owned production QA tab to mark sent events `qa`
-and enable DebugView. This flag also isolates all game records under a QA
+Use `?analytics_test=1` on an owned production QA tab to mark sent events,
+including the default page view, `qa` and enable DebugView. This flag also isolates all game records under a QA
 storage prefix and uses separate `cmqa_` cookies, preserving player saves and
 analytics preferences. These events are explicitly excluded from the aggregate
 export. Local preview always blocks Google requests, even if sharing is enabled.

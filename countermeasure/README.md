@@ -1,7 +1,7 @@
 # Countermeasure
 
 Play at https://daliu.github.io/countermeasure/?mode=campaign.
-Static, installable, offline JavaScript game. No LLM, game backend, account, external game assets or build step. Optional opt-in gameplay reporting uses the site’s existing Google Analytics; it is separate from offline play and opponent learning. Includes original synthesized chiptune music.
+Static, installable, offline JavaScript game. No LLM, game backend, account, external game assets or build step. The game page counts visits with the site’s existing Google Analytics when the browser allows it; gameplay reporting is opt-in and separate from offline play and opponent learning. Includes original synthesized chiptune music.
 
 ## Modes and saved runs
 
@@ -113,7 +113,7 @@ Checks cover migration/save refusal, automatic upgrades, physical gate traversal
 
 ## Statistics
 
-Menu → Statistics includes local encounter results, weapon/strategy preferences, critical/combo counts, death rates and an arena death map. Sharing defaults off. Opt-in online events feed the existing Analytics property and daily aggregate community view; approximate unique browsers are not unique people or IPs. See [ANALYTICS.md](ANALYTICS.md) for the schema, retention, reporting definitions, privacy controls and validation limits.
+Menu → Statistics includes local encounter results, weapon/strategy preferences, critical/combo counts, death rates and an arena death map. Page views are counted by default when browser privacy signals allow; gameplay sharing defaults off. Opt-in online events feed the existing Analytics property and daily aggregate community view; approximate unique browsers are not unique people or IPs. See [ANALYTICS.md](ANALYTICS.md) for the schema, retention, reporting definitions, privacy controls and validation limits.
 
 ## The human factory / Release 21
 
