@@ -29,6 +29,7 @@ export function updateSuperLaser(g,r,dt){
  if(beam.phase==='blast'){
   r.action='laser-blast';
   if(!beam.hits.has('human')&&laserContact(beam,g.player)){beam.hits.add('human');g.botHurt(r,rules.damage,beam.x,0,'charged core laser',false,beam.feedbackAttack);}
+  for(const a of g.companions??[])if(a.hp>0&&!beam.hits.has(a.id)&&laserContact(beam,a)){beam.hits.add(a.id);g.hurtCompanion(a,rules.damage);}
   for(const o of g.robots)if(o!==r&&o.hp>0&&!beam.hits.has(o.id)&&laserContact(beam,o)){beam.hits.add(o.id);const hp=o.hp;g.friendlyDamage(r.id,o,o.structure?Math.max(180,o.maxHp*.25):40);if(o.structure&&o.hp<hp)beam.structureHit={x:o.x,y:o.y-80};}
   if(beam.time===0){beam.feedback=g.encounter==='super'&&beam.structureHit&&!beam.hits.has('human')?structureFeedbackRules(g.difficulty,r.cycle):null;beam.phase='recharge';beam.time=beam.feedback?.recharge??rules.recharge;beam.total=beam.time;r.disabled=true;r.action='laser-recharge';r.vy=160;r.cooldown=beam.time+.9;if(beam.feedback){for(const o of g.robots)if(o.hp>0&&!o.super&&!o.structure)o.confused=Math.max(o.confused??0,beam.feedback.relay);g.effects.push({kind:'arc',x:beam.structureHit.x,y:beam.structureHit.y,x2:r.x,y2:r.y-26,life:.6,max:.6,color:'#9ee6ee'});}}
  }else if(beam.phase==='recharge'){

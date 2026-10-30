@@ -1,10 +1,11 @@
+import {validReinforcement} from './resistance-learning.mjs';
 import {SKILLS} from './engine.mjs';
 const finite=(v,a,b)=>Number.isFinite(v)&&v>=a&&v<=b,integer=(v,a,b)=>Number.isInteger(v)&&finite(v,a,b);
 const exact=(o,keys)=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length===keys.length&&keys.every(k=>Object.hasOwn(o,k));
 function build(b){if(!b||!exact(b.skills,SKILLS.map(s=>s.id))||!SKILLS.every(s=>integer(b.skills[s.id],0,s.max)&&(!b.skills[s.id]||!s.parent||b.skills[s.parent]>0))||!Array.isArray(b.tiers)||b.tiers.length!==4||!b.tiers.every(v=>integer(v,0,2))||!integer(b.weapon,0,3))return null;return {skills:{...b.skills},tiers:[...b.tiers],weapon:b.weapon};}
 function memory(m){
  if(!m||!integer(m.waves,0,1000000)||!integer(m.attempts,0,1000000)||!integer(m.failures,0,m.attempts)||m.waves+m.failures!==m.attempts)return null;
- const out={waves:m.waves,attempts:m.attempts,failures:m.failures};
+ const reinforcement=validReinforcement(m.reinforcement);if(!reinforcement)return null;const out={waves:m.waves,attempts:m.attempts,failures:m.failures,reinforcement};
  for(const k of ['weapon','effective']){if(!Array.isArray(m[k])||m[k].length!==4||!m[k].every(v=>finite(v,0,1))||Math.abs(m[k].reduce((a,b)=>a+b,0)-1)>.001)return null;out[k]=[...m[k]];}
  for(const k of ['energyShare','groundShockShare','stationaryRatio','duckRatio','farRatio']){if(!finite(m[k],0,1))return null;out[k]=m[k];}
  for(const k of ['groundShockHits','attackRate','jumpRate','dashRate']){if(!finite(m[k],0,1000000))return null;out[k]=m[k];}
@@ -13,8 +14,11 @@ function memory(m){
  out.history=m.history.map(h=>({total:h.total}));out.outcomes=[];
  for(const h of m.outcomes){if(!h||!integer(h.wave,1,50)||typeof h.won!=='boolean'||!finite(h.damageTaken,0,1000000)||!finite(h.attacks,0,1000000)||!finite(h.seconds,0,1000000))return null;out.outcomes.push({wave:h.wave,won:h.won,damageTaken:h.damageTaken,attacks:h.attacks,seconds:h.seconds});}return out;
 }
-export function campaignCheckpoint(data){try{
- if(data?.mode!=='campaign'||data.version!==2||!integer(data.wave,1,50)||!integer(data.points,5,Math.min(12,5+Math.floor((data.wave-1)/4)))||!integer(data.runDeaths,0,1000000)||!integer(data.kills,0,1000000)||!integer(data.mechTier,Math.floor((data.wave-1)/10),Math.floor(data.wave/10))||!integer(data.module,0,3))return null;
+// Fifteen core ranks plus physical hacking; all available on entering level 30.
+export const legacySkillPoints=wave=>Math.min(16,5+Math.floor((Math.max(1,wave)-1)*11/29));
+export const campaignSkillPoints=wave=>wave<=10?Math.max(1,Math.floor((wave+1)/2)):Math.min(16,5+Math.floor((wave-10)*11/20));
+export function campaignCheckpoint(data,{pointLimit=Math.min(12,5+Math.floor((data?.wave-1)/4)),pointMinimum=5}={}){try{
+ if(data?.mode!=='campaign'||data.version!==2||!integer(data.wave,1,50)||!integer(data.points,pointMinimum,pointLimit)||!integer(data.runDeaths,0,1000000)||!integer(data.kills,0,1000000)||!integer(data.mechTier,Math.floor((data.wave-1)/10),Math.floor(data.wave/10))||!integer(data.module,0,3))return null;
  const b=build(data),m=memory(data.memory);if(!b||!m||Object.values(b.skills).reduce((a,v)=>a+v,0)>data.points||b.tiers.some(t=>t>(data.wave>=16?2:data.wave>=6?1:0))||data.module>=Math.max(1,data.mechTier))return null;
  const out={version:2,mode:'campaign',wave:data.wave,points:data.points,...b,memory:m,runDeaths:data.runDeaths,kills:data.kills,mechTier:data.mechTier,module:data.module,mirrorBlueprint:null,finaleCheckpoint:null};
  if(data.mirrorBlueprint){const bb=build(data.mirrorBlueprint),style=memory(data.mirrorBlueprint.style);if(!bb||!style||!integer(data.mirrorBlueprint.mechTier,4,4)||!integer(data.mirrorBlueprint.module,0,3))return null;out.mirrorBlueprint={...bb,style,mechTier:4,module:data.mirrorBlueprint.module,subject:{name:String(data.mirrorBlueprint.subject?.name??'COPIED BUILD').slice(0,80)}};}

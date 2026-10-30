@@ -1,3 +1,4 @@
+import {bossMobility} from './boss-integrity.mjs';
 import {trackBossAttack} from './boss-feedback.mjs';
 import {weaponAt} from './engine.mjs';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -34,7 +35,7 @@ export function updateBossCombo(g,r,dt){
   if(r.comboCd>0||r.windup>0||r.moduleWindup>0||r.cooldown>.7||g.random()>.5+r.comboPolicy.confidence*.4)return false;
   const id=chooseCombo(r.comboPolicy,()=>g.random());if(!id)return false;beginCombo(g,r,id);
  }
- const c=r.combo,p=g.player,slow=1-(r.glue??0)*.23;c.age+=dt;
+ const c=r.combo,p=g.player,slow=(1-(r.glue??0)*.23)*bossMobility(r);c.age+=dt;
  const windup=c.windup??.6,active=c.age-windup;r.windup=Math.max(0,windup-c.age);r.action='combo-'+c.id;r.predictBlock=Math.max(0,(r.predictBlock??0)-dt);r.rollTime=Math.max(0,(r.rollTime??0)-dt);
  if(active<0){r.crouching=c.id==='riposte'&&r.y>=414;if(canFly(r)&&r.y<380)r.vy=0;return true;}
  if(c.id==='rebound'){

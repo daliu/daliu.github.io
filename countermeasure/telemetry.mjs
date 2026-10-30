@@ -25,7 +25,7 @@ export class Telemetry{
  }
  eraseCookies(){for(const cookie of this.document.cookie.split(';')){const key=cookie.trim().split('=')[0];if(!key.startsWith(this.cookiePrefix+'_'))continue;for(const domain of ['',`; Domain=${this.window.location.hostname}`])this.document.cookie=`${key}=; Max-Age=0; Path=/countermeasure/${domain}; SameSite=Lax`;}}
  // Page views load by default wherever the browser permits; gameplay events also need sharing enabled.
- permitted(){return this.window.location.origin==='https://daliu.github.io'&&this.navigator.onLine!==false&&this.navigator.doNotTrack!=='1'&&!this.navigator.globalPrivacyControl;}
+ permitted(){return ['https://daliu.github.io','https://aygen.us'].includes(this.window.location.origin)&&this.navigator.onLine!==false&&this.navigator.doNotTrack!=='1'&&!this.navigator.globalPrivacyControl;}
  allowed(){return this.enabled&&this.permitted();}
  report(status){this.status=this.enabled?status:'Sharing off';this.onChange(this.status);}
  connect(){
@@ -34,7 +34,7 @@ export class Telemetry{
   if(this.ready){this.report('Sharing enabled · delivery may be blocked');return;}
   if(this.loading){this.report('Connecting…');return;}this.loading=true;this.report('Connecting…');
   const script=this.document.createElement('script');script.async=true;script.src=`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
-  script.onload=()=>{this.loading=false;if(!this.permitted()){this.pending=[];return;}this.window.dataLayer=this.window.dataLayer||[];const layer=this.window.dataLayer;this.gtag=function(){layer.push(arguments);};this.gtag('js',new Date());this.gtag('config',MEASUREMENT_ID,{send_page_view:true,allow_google_signals:false,allow_ad_personalization_signals:false,cookie_prefix:this.cookiePrefix,cookie_path:'/countermeasure/',cookie_expires:90*86400,cookie_update:false,cookie_flags:'SameSite=Lax;Secure',page_location:'https://daliu.github.io/countermeasure/',page_referrer:'',ignore_referrer:true,...(this.test?{cm_entry:'qa',debug_mode:true}:{})});this.ready=true;const queue=this.pending;this.pending=[];for(const e of queue)this.send(...e);this.report('Sharing enabled · delivery may be blocked');};
+  script.onload=()=>{this.loading=false;if(!this.permitted()){this.pending=[];return;}this.window.dataLayer=this.window.dataLayer||[];const layer=this.window.dataLayer;this.gtag=function(){layer.push(arguments);};this.gtag('js',new Date());this.gtag('config',MEASUREMENT_ID,{send_page_view:true,allow_google_signals:false,allow_ad_personalization_signals:false,cookie_prefix:this.cookiePrefix,cookie_path:'/countermeasure/',cookie_expires:90*86400,cookie_update:false,cookie_flags:'SameSite=Lax;Secure',page_location:this.window.location.origin+'/countermeasure/',page_referrer:'',ignore_referrer:true,...(this.test?{cm_entry:'qa',debug_mode:true}:{})});this.ready=true;const queue=this.pending;this.pending=[];for(const e of queue)this.send(...e);this.report('Sharing enabled · delivery may be blocked');};
   script.onerror=()=>{this.loading=false;this.pending=[];this.report('Analytics unavailable · local only');};this.document.head.append(script);
  }
  send(name,attempt){

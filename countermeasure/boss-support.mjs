@@ -1,3 +1,4 @@
+import {woundPressure} from './boss-integrity.mjs';
 // A short local observation window, not instant reactions to individual inputs.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const SUPPORT_ICONS={crouch:'↓',air:'↑',camp:'⌖',mixed:'+'};
@@ -17,12 +18,13 @@ export function observedHabit(samples){
  return null;
 }
 function bosses(g){return g.robots.filter(r=>r.hp>0&&(r.type==='mirror'||r.super));}
-function budgetLeft(g,d){return Math.min(d.rules.budget-d.spent,d.rules.cap-g.robots.filter(r=>r.hp>0&&r.supportReason).length,10-g.robots.filter(r=>r.hp>0&&!r.structure).length);}
+function budgetLeft(g,d){return Math.min((d.rules.budget+(d.pressurePhase??0)*2)-d.spent,Math.min(8,d.rules.cap+(d.pressurePhase??0))-g.robots.filter(r=>r.hp>0&&r.supportReason).length,10-g.robots.filter(r=>r.hp>0&&!r.structure).length);}
 export function updateBossSupport(g,dt,input={}){
  const d=g.bossSupport;if(!d||g.state!=='playing')return;const alive=bosses(g);
  if(!alive.length){d.warning=null;return;}
  // Objective EMPs and radio shutdowns remain real windows of relief.
  if(alive.every(r=>r.objectiveReboot>0||r.emp>0||r.radio>0||r.laser?.phase==='recharge'))return;
+ d.pressurePhase=Math.max(d.pressurePhase??0,woundPressure(alive));
  d.elapsed+=dt;d.cooldown=Math.max(0,d.cooldown-dt);d.sampleClock+=dt;
  if(d.sampleClock>=.25){d.sampleClock-=.25;const p=g.player;d.samples.push({x:p.x,y:p.y,crouch:p.grounded&&!!input.down&&!(p.rollTime>0),air:!p.grounded&&p.y<365});if(d.samples.length>32)d.samples.shift();d.observed=observedHabit(d.samples);}
  const desynchronized=g.encounter==='super'&&g.wave>=40&&['hard','terminator'].includes(g.difficulty)&&alive.every(r=>r.desynchronized);
@@ -32,14 +34,15 @@ export function updateBossSupport(g,dt,input={}){
    // Support has the current generation's tools but is lighter than the main squad.
    r.hp*=.65;r.maxHp=r.hp;g.robots.push(r);d.spent++;
   }
-  d.history.push({reason:w.reason,at:d.elapsed,units:w.units.slice(0,available)});d.history=d.history.slice(-16);d.warning=null;d.cooldown=d.rules.interval*(desynchronized?(g.difficulty==='hard'?1.5:1.25):1);return;
+  d.history.push({reason:w.reason,at:d.elapsed,units:w.units.slice(0,available)});d.history=d.history.slice(-16);d.warning=null;d.cooldown=d.rules.interval/(1+(d.pressurePhase??0)*.18)*(desynchronized?(g.difficulty==='hard'?1.5:1.25):1);return;
  }
  if(d.elapsed<d.rules.observe||d.samples.length*.25<d.rules.observe||d.cooldown>0||budgetLeft(g,d)<=0)return;
- const habit=d.observed,lateBackup=g.wave>=40&&g.encounter!=='boss';if(!habit&&!lateBackup)return;
- const reason=habit?.reason??'mixed',number=Math.min(desynchronized?1:d.rules.batch,budgetLeft(g,d)),units=[];
+ const habit=d.observed,lateBackup=g.wave>=40&&g.encounter!=='boss';if(!habit&&!lateBackup&&!d.pressurePhase)return;
+ const reason=habit?.reason??'mixed',number=Math.min(desynchronized?1:d.rules.batch+((d.pressurePhase??0)>=2?1:0),budgetLeft(g,d)),units=[];
  for(let i=0;i<number;i++)units.push(reason==='air'?(i?'flyer':'metalDrone'):reason==='camp'?'bombardier':reason==='crouch'?(g.wave>=20&&(d.spent+i)%2?'shocker':'lancer'):'gunner');
  const side=reason==='air'?'air':g.player.x<500?'right':'left',gate=g.player.x<500?860:140,xs=units.map((_,i)=>clamp(gate+(side==='left'?i*55:-i*55),60,940));
  d.warning={reason,units,side,xs,remaining:d.rules.warning,total:d.rules.warning};
+ g.event?.((g.wave<21?'INTERCEPT / ':'LOCAL SCAN / ')+({crouch:'GROUND UNITS',air:'DRONES',camp:'ARTILLERY',mixed:'ENEMY BACKUP'}[reason])+' INCOMING','#f0bd77');
 }
 // Adaptive artillery can burst at a committed airborne target as well as the floor.
 export function updateSupportArtillery(g,r,dt){

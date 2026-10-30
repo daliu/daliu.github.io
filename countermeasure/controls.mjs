@@ -1,6 +1,6 @@
 // Keep every finger and keyboard key independent, including overlapping holds.
 export class HeldControls {
-  state = {left:false,right:false,down:false,up:false,attack:false,dash:false,module:false,aim:false};
+  state = {left:false,right:false,down:false,up:false,attack:false,dash:false,module:false,tool:false,charge:false,aim:false,hack:false};
   sources = new Map();
   listeners = new Set();
   hold(source,action) {
@@ -18,7 +18,7 @@ export class HeldControls {
   subscribe(listener) { this.listeners.add(listener); return () => this.listeners.delete(listener); }
 }
 
-export function bindPointerControl(element,{controls,action,canStart=()=>true,onPress=()=>{},aim=false}) {
+export function bindPointerControl(element,{controls,action,canStart=()=>true,onPress=()=>{},onCancel=()=>{},aim=false}) {
   const pointers = new Set();
   const source = id => `pointer:${id}`;
   const paint = () => element.classList.toggle('held',[...pointers].some(id => controls.sources.has(source(id))));
@@ -33,6 +33,7 @@ export function bindPointerControl(element,{controls,action,canStart=()=>true,on
     onPress(event); // A quick tap must act even if no animation frame occurs during it.
   });
   const release = event => {
+    if(event.type!=='pointerup'&&pointers.has(event.pointerId)&&action==='attack'&&[...controls.sources.values()].filter(a=>a==='attack').length===1)onCancel();
     pointers.delete(event.pointerId);
     controls.release(source(event.pointerId));
     controls.release(source(event.pointerId)+':aim');
@@ -43,9 +44,9 @@ export function bindPointerControl(element,{controls,action,canStart=()=>true,on
 }
 
 // One right thumb can keep firing and add thrust; the left thumb stays free to steer.
-export function bindAttackControl(element,{controls,canStart=()=>true,canFly=()=>false,onJump=()=>{},onPress=()=>{}}) {
+export function bindAttackControl(element,{controls,canStart=()=>true,canFly=()=>false,onJump=()=>{},onPress=()=>{},onCancel=()=>{}}) {
   const starts=new Map(),source=id=>`pointer:${id}:lift`;
-  bindPointerControl(element,{controls,action:'attack',aim:true,canStart,onPress:event=>{starts.set(event.pointerId,{y:event.clientY,lifted:false});onPress(event);}});
+  bindPointerControl(element,{controls,action:'attack',aim:true,canStart,onCancel,onPress:event=>{starts.set(event.pointerId,{y:event.clientY,lifted:false});onPress(event);}});
   element.addEventListener('pointermove',event=>{
     const start=starts.get(event.pointerId);
     if(!start||!canStart()||!controls.sources.has(`pointer:${event.pointerId}`))return;

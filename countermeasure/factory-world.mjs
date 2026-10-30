@@ -1,3 +1,5 @@
+import {cellState} from './prisoners.mjs';
+import {cellEcho,drawEscapeWall} from './escape-archive.mjs';
 import {factoryRoom} from './factory-story.mjs';
 export {factoryRoom} from './factory-story.mjs';
 
@@ -41,10 +43,10 @@ export function drawFactoryWorld(ctx,game,index,t){
  }else if(s.kind==='cells'){
   const occupied=[0,2,4,5].slice(0,s.people);
   for(let n=0;n<6;n++){
-   const x=27+n*159,live=occupied.includes(n);rect(x,151,140,221,'#192e39');frame(x,151,140,221);
+   const x=27+n*159,slot=occupied.indexOf(n),status=cellState(game,index,slot),live=slot>=0&&status==='occupied';rect(x,151,140,221,'#192e39');frame(x,151,140,221);
    text(String(s.cellBase+n),x+10,171,12);rect(x+117,161,9,5,live?'#a4c8b0':s.ink);
    rect(x+14,322,109,7,'#84999f');line(x+22,330,x+22,351,s.ink,3);line(x+114,330,x+114,351,s.ink,3);rect(x+20,310,25,10,'#71878d');
-   if(live)person(x+76,307,n);else text('CYCLE CLOSED',x+70,245,11,s.ink,'center');
+   if(live)person(x+76,307,n);else{const echo=cellEcho(game.escapeArchive,index*6+n,t);text(status==='released'?'RELEASED':echo??'CYCLE CLOSED',x+70,245,11,s.ink,'center');if(echo&&status!=='released')text('RECORD CLOSED',x+70,263,9,s.ink,'center');}
    line(x+11,188,x+66,186,s.ink);line(x+6,369,x+136,369,s.light,2);
    if(n===0){trace(x+77,320);}
   }
@@ -55,7 +57,7 @@ export function drawFactoryWorld(ctx,game,index,t){
    for(let k=0;k<3;k++){rect(x+29+k*31,241,21,29,'#808f72');rect(x+33+k*31,248,13,4,s.light);}
    line(x+20,304,x+130,304,s.ink,5);rect(x+32,316,89,30,'#61765e');text('SEALED',x+76,336,11,s.light,'center');
   }
-  if(s.people){rect(375,176,250,125,'#1a2e2c');frame(375,176,250,125);for(let n=0;n<s.people;n++)person(445+n*75,291,n);text('SERVICE WINDOW',500,168,12,s.light,'center');}
+  if(s.people){rect(375,176,250,125,'#1a2e2c');frame(375,176,250,125);for(let n=0;n<s.people;n++)if(cellState(game,index,n)==='occupied')person(360+n*180,291,n);text('SERVICE WINDOW',500,168,12,s.light,'center');}
   rect(425,369,150,5,s.ink);trace(477,367);text('SOYLENT / INTERNAL DISTRIBUTION',500,399,13,s.ink,'center');
  }else if(s.kind==='data'){
   // Machine-readable ports, coolant rails and packet lights replace human dashboards.
@@ -67,7 +69,7 @@ export function drawFactoryWorld(ctx,game,index,t){
   for(const y of [138,399]){line(0,y,1000,y,s.ink,5);for(let n=0;n<6;n++){const x=(t*55+n*173)%1000;rect(x,y-2,13,4,s.light);}}
   if(s.people||s.trace==='radio'||s.trace==='map'){
    rect(319,220,362,137,'#182d36');frame(319,220,362,137);
-   for(let n=0;n<s.people;n++)person(378+n*75,335,n);
+   for(let n=0;n<s.people;n++)if(cellState(game,index,n)==='occupied')person(330+n*150,335,n);
    rect(432,346,138,5,s.ink);trace(495,344);text('SERVICE VOID / UNINDEXED',500,213,11,s.ink,'center');
   }else{rect(475,384,60,4,s.ink);trace(493,382);}
  }else{
@@ -100,6 +102,7 @@ export function drawFactoryWorld(ctx,game,index,t){
  }
  for(let n=0;n<5;n++){const x=40+n*200;rect(x,8,120,5,s.light);line(x,14,x+120,14,s.ink);}
  ctx.globalAlpha=.13;text(String(Math.max(1,game.trial)).padStart(3,'0'),500,303,100,s.light,'center');text('H U M A N   T R I A L',500,323,11,s.light,'center');
+ if(game.wave===50&&index===game.room)drawEscapeWall(ctx,game.escapeArchive,t);
  ctx.globalAlpha=.9;text(`0${s.sector+1} / ${s.name}`,28,44,18);text(s.subtitle,965,44,12,s.ink,'right');
  // Flush panels and reflected strip lights, never grime or biological remnants.
  ctx.globalAlpha=1;rect(0,420,1000,80,s.floor);line(0,420,1000,420,s.light,2);

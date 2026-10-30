@@ -67,6 +67,7 @@ export class CampaignArena extends Arena{
  }
  explodeDrone(r){if(r.exploded)return;r.exploded=true;this.effects.push({kind:'blast',x:r.x,y:r.y-20,life:.6,max:.6,color:TYPES[r.type].color});
   if(r.type==='chemDrone'){for(let x=r.x-100;x<=r.x+100;x+=70)this.addPool(x,2,r.id);}
+  for(const a of this.companions??[])if(a.hp>0&&Math.hypot(a.x-r.x,a.y-r.y)<125)this.hurtCompanion(a,70);
   if(Math.hypot(this.player.x-r.x,this.player.y-r.y)<105)this.hurt(r.type==='chemDrone'?22:30,r.x,0,'drone detonation');
   for(const o of this.robots)if(o!==r&&o.hp>0&&(o.structure?structureDistance(o,r.x,r.y)<125:Math.hypot(o.x-r.x,o.y-r.y)<125))this.friendlyDamage(r.id,o,70);
  }
