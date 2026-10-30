@@ -140,6 +140,13 @@ export class ExpeditionArena extends CampaignArena{
   const serial=this.player.dashTime>0?this.stats.dashes:this.stats.attacks.reduce((a,b)=>a+b,0);if(r.hp<hpBefore&&serial>0)recordBossHit(this,r,(this.player.dashTime>0?'dash:':'weapon:')+index,(this.player.dashTime>0?'dash:':'attack:')+serial);
  }
  bossCriticalBonus(r){return bossCriticalBonus(r);}
+ materialResistance(r,type){
+  const resistance=super.materialResistance(r,type);
+  // Material cutting armor matures over the first two sectors. Learned lessons
+  // still apply independently; weaknesses and boss/objective defenses stay intact.
+  if(type!=='cutting'||resistance>=1||r.structure||r.super||['mirror','overseer'].includes(r.type))return resistance;
+  return 1-(1-resistance)*clamp(.2+(this.wave-1)*.04,.2,1);
+ }
  damageRobot(r,damage,options={}){
   const alive=r.hp>0,hpBefore=r.hp;if(!alive)return;
   if(r.humanPilot){if(pilotEvasion(this,r))return;super.damageRobot(r,damage,options);if(r.hp<=0){this.finalPilot.phase='defeated';this.pilotOutcome='defeated';this.event('TRIAL ENDED.','#dfc5a1');}return;}

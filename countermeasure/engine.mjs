@@ -21,7 +21,7 @@ export const WEAPONS = [
 ];
 export const UPGRADES = [
   [{}, {name:'Floor lamp',damage:37,range:145,cooldown:.46,short:'Wide blunt sweep',detail:'More reach and impact than the desk lamp, with a slower swing.'}, {name:'Street lamp',damage:49,range:195,cooldown:.58,short:'Heavy crowd control',detail:'An enormous blunt sweep. Long reach and heavy damage, but slow recovery.'}],
-  [{}, {name:'Chainsaw',damage:9,range:68,cooldown:.16,short:'Fast armor shredding',detail:'Small, rapid cutting hits at close quarters. Excellent against polymer and guards.'}, {name:'Diamond chainsaw',damage:13,range:82,cooldown:.16,short:'Diamond-edged cutting',detail:'Short diamond-edged teeth deal small rapid hits. Get close to exposed wiring.'}],
+  [{}, {name:'Chainsaw',damage:12,range:68,cooldown:.16,short:'Fast armor shredding',detail:'Small, rapid cutting hits at close quarters. Excellent against polymer and guards.'}, {name:'Diamond chainsaw',damage:16,range:82,cooldown:.16,short:'Diamond-edged cutting',detail:'Short diamond-edged teeth deal small rapid hits. Get close to exposed wiring.'}],
   [{}, {name:'Arc projector',damage:29,range:320,cooldown:.35,short:'Longer electrical reach'}, {name:'Laser',type:'energy',damage:40,range:510,cooldown:.42,color:'#f29c87',short:'Piercing thermal beam',detail:'A piercing energy beam. Does not electrify water or gain the wet-target bonus. Heavy plating resists it.'}],
   [{}, {name:'Chemical sprayer',damage:14,range:365,corrosive:true,color:'#a9d992',short:'Mild corrosive mixture',detail:'Soaks and corrodes robots. Its conductive pools damage anyone standing in them.'}, {name:'Acid sprayer',damage:19,range:380,corrosive:true,color:'#caed70',short:'Corrode armor & floor',detail:'Stronger corrosive spray. Softens armor and leaves conductive acid pools that burn everyone faster.'}]
 ];
@@ -180,8 +180,9 @@ export class Arena{
   }
   damageRobot(r,damage,{color='#caed70',critical=false,number=false}={}){if(r.hp<=0)return;if(r.type==='overseer'&&!r.disabled){if(number)this.countered(r);return;}r.hp-=damage;r.flash=.10;if(number)this.effects.push({kind:'number',x:r.x,y:r.y-65,text:`${critical?'CRIT '+(r.lastCritical??'body').toUpperCase()+' ':''}${Math.round(damage)}`,life:.65,max:.65,color:critical?'#fff0a3':color});if(r.type==='mirror')this.checkMechaDrop();if(r.hp<=0){this.kills++;this.effects.push({kind:'burst',x:r.x,y:r.y-25,life:.5,max:.5,color:TYPES[r.type].color});}}
   bossCriticalBonus(){return 0;}
+  materialResistance(r,type){return TYPES[r.type].resistance[type]??1;}
   tryHitStun(r,chance,duration,paralysis=0){if(r.hp<=0||r.structure||r.controlRecovery>0||this.random()>=chance)return false;r.stun=Math.max(r.stun??0,duration);if(paralysis)r.paralyzed=Math.max(r.paralyzed??0,paralysis);return true;}
-  hit(r,weapon,scale=1){if(r.type==='overseer'&&!r.disabled&&r.hp>0){this.countered(r,weapon);return;}if(r.hp<=0||r.type==='mirror'&&r.dashTime>0&&!(this.robotReassessment>0))return;r.lastHitStunned=false;const w=weaponAt(weapon,this.weaponTiers[weapon]),t=TYPES[r.type],p=this.player,front=r.type==='guard'&&r.shield>0&&(p.x-r.x)*r.facing>0;let resistance=r.type==='mirror'?1-.15*r.build.skills.plating:t.resistance[w.type]??1;
+  hit(r,weapon,scale=1){if(r.type==='overseer'&&!r.disabled&&r.hp>0){this.countered(r,weapon);return;}if(r.hp<=0||r.type==='mirror'&&r.dashTime>0&&!(this.robotReassessment>0))return;r.lastHitStunned=false;const w=weaponAt(weapon,this.weaponTiers[weapon]),t=TYPES[r.type],p=this.player,front=r.type==='guard'&&r.shield>0&&(p.x-r.x)*r.facing>0;let resistance=r.type==='mirror'?1-.15*r.build.skills.plating:this.materialResistance(r,w.type);
     if(r.type==='guard'&&w.type==='impact')resistance=front?.4:1.2;
     if(r.corrosion>0&&resistance<1)resistance+=(1-resistance)*.3;
     if(weapon<2&&resistance<1)resistance+=(1-resistance)*(.25*this.skills.breaker);
