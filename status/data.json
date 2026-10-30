@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-30T04:00:13.812696+00:00",
+  "generated_at": "2026-10-30T15:00:23.768366+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "826326d",
-      "date": "2026-10-29T14:00:17-07:00",
-      "message": "Update health data 2026-10-29 14:00"
+      "hash": "238d95b",
+      "date": "2026-10-30T07:01:26-07:00",
+      "message": "social: 2026-10-30 MoneySignals deck (4 cards)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 181,
+      "page_count": 182,
       "last_commit": {
-        "hash": "396d77a",
-        "date": "2026-10-29T12:30:49-07:00",
-        "message": "social: 2026-10-29 MoneySignals deck (4 cards)"
+        "hash": "238d95b",
+        "date": "2026-10-30T07:01:26-07:00",
+        "message": "social: 2026-10-30 MoneySignals deck (4 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-29T21:00:03.627701",
+        "updated": "2026-10-30T08:00:04.389264",
         "date_range": null
       },
       "last_commit": {
-        "hash": "826326d",
-        "date": "2026-10-29T14:00:17-07:00",
-        "message": "Update health data 2026-10-29 14:00"
+        "hash": "2b0af88",
+        "date": "2026-10-30T06:40:03-07:00",
+        "message": "health: refresh calendar density 2026-10-30 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,51 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-10-29T12:00:21Z"
+        "updated": "2026-10-30T11:54:22Z"
       },
       "last_commit": {
-        "hash": "545835b",
-        "date": "2026-10-29T12:00:21+00:00",
-        "message": "Update analytics data 2026-10-29"
+        "hash": "481f524",
+        "date": "2026-10-30T11:54:23+00:00",
+        "message": "Update analytics data 2026-10-30"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "238d95b",
+      "date": "2026-10-30T07:01:26-07:00",
+      "message": "social: 2026-10-30 MoneySignals deck (4 cards)"
+    },
+    {
+      "hash": "2b0af88",
+      "date": "2026-10-30T06:40:03-07:00",
+      "message": "health: refresh calendar density 2026-10-30 06:40"
+    },
+    {
+      "hash": "481f524",
+      "date": "2026-10-30T11:54:23+00:00",
+      "message": "Update analytics data 2026-10-30"
+    },
+    {
+      "hash": "e9581ee",
+      "date": "2026-10-30T05:37:12-04:00",
+      "message": "blog: 2026-10-30 \u2014 Research evidence and economic schedules"
+    },
+    {
+      "hash": "85043a3",
+      "date": "2026-10-30T05:37:06-04:00",
+      "message": "daily: 2026-10-30 market update"
+    },
+    {
+      "hash": "c0d2499",
+      "date": "2026-10-29T23:30:08-07:00",
+      "message": "Publish Countermeasure Demo 49 with full game link to Aygen"
+    },
+    {
+      "hash": "971cfb9",
+      "date": "2026-10-29T21:00:13-07:00",
+      "message": "Update health data 2026-10-29 21:00"
+    },
     {
       "hash": "826326d",
       "date": "2026-10-29T14:00:17-07:00",
@@ -128,41 +163,6 @@
       "hash": "cb5f350",
       "date": "2026-10-28T08:00:19-07:00",
       "message": "Update health data 2026-10-28 08:00"
-    },
-    {
-      "hash": "dda8bd7",
-      "date": "2026-10-28T07:01:27-07:00",
-      "message": "social: 2026-10-28 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "ee2fa23",
-      "date": "2026-10-28T06:40:06-07:00",
-      "message": "health: refresh calendar density 2026-10-28 06:40"
-    },
-    {
-      "hash": "14912a4",
-      "date": "2026-10-28T11:52:49+00:00",
-      "message": "Update analytics data 2026-10-28"
-    },
-    {
-      "hash": "4725cdb",
-      "date": "2026-10-28T05:37:49-04:00",
-      "message": "blog: 2026-10-28 \u2014 Research evidence and economic schedules"
-    },
-    {
-      "hash": "105d634",
-      "date": "2026-10-28T05:37:45-04:00",
-      "message": "daily: 2026-10-28 market update"
-    },
-    {
-      "hash": "1c1c4ba",
-      "date": "2026-10-27T21:00:14-07:00",
-      "message": "Update health data 2026-10-27 21:00"
-    },
-    {
-      "hash": "51eb493",
-      "date": "2026-10-27T16:17:07-07:00",
-      "message": "Merge remote-tracking branch 'origin/master' into worktree-countermeasure-pageview-default"
     }
   ]
 }
