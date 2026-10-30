@@ -1,3 +1,4 @@
+import {sideIsDeadEnd} from './side-layout.mjs';
 import {narrativeUI} from './narrative-ui.mjs';
 import {drawMicroSpider} from './micro-spiders.mjs';
 import {learningReport,learningBroadcast} from './resistance-learning.mjs';
@@ -17,7 +18,7 @@ import {equipmentCues,drawMechPowerCue} from './equipment-cues.mjs';
 import {drawSupplies} from './supplies.mjs';
 import {voiceOrdersUI} from './voice-orders.mjs';
 import {bindMenuShortcut} from './menu-shortcut.mjs';
-import {nearRescue,rescueTarget,rescueWeapon,drawRescueDoor} from './prisoners.mjs';
+import {nearRescue,rescueTarget,rescueWeapon,rescueCue,drawRescueDoor} from './prisoners.mjs';
 import {HACK_SKILL,hackOpportunity,cancelHack,drawHack} from './companions.mjs';
 import {drawCompanions} from './squad-orders.mjs';
 import {squadControls} from './squad-controls.mjs';
@@ -210,7 +211,8 @@ $('statistics-clear').onclick=()=>{statistics.clear();showStatistics();};
 $('statistics-export').onclick=()=>{const url=URL.createObjectURL(new Blob([statistics.export()],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='countermeasure-statistics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 window.addEventListener('keydown',()=>telemetry.noteInput('keyboard'));
 window.addEventListener('pointerdown',e=>telemetry.noteInput(e.pointerType==='touch'?'touch':'mouse'));
-window.addEventListener('pagehide',()=>statistics.startFrom('resume',game));
+window.addEventListener('pagehide',()=>{flushCombatSupplies();statistics.startFrom('resume',game);});window.addEventListener('beforeunload',flushCombatSupplies);
+function flushCombatSupplies(){if(campaign&&game.entryCheckpoint&&(game.state==='playing'||game.state==='paused'&&game.pausedFrom!=='traveling')){progress.save(game.combatCheckpoint());persistProgress();}}
 window.addEventListener('pageshow',e=>{if(e.persisted){statistics.lastStats=null;statistics.source='resume';}});
 window.addEventListener('storage',e=>{if(e.key==='countermeasure.sharing.v1')showStatistics();});
 $('help-menu').onclick=()=>{$('menu-dialog').close();showHelp();};$('menu').onclick=openMenu;$('touch-menu').onclick=openMenu;$('close-menu').onclick=closeMenu;$('menu-dialog').addEventListener('cancel',e=>{e.preventDefault();closeMenu();});
@@ -272,7 +274,7 @@ function sync(){
   $('begin').innerHTML=(game.state==='briefing'?'Enter':nextFinale?'Continue':nextMirror?'Face Mirror':game.state==='between'?'Next wave':game.state==='paused'?'Resume':game.state==='dead'?'Retry':'Again')+' <span>↗</span>';
   $('brief-hint').textContent=nextFinale?(touchUI.matches?'HOLD FLY ↑':'W ↑'):game.state==='paused'?'P / resume':game.state==='dead'?`TRIAL ${String(game.trial).padStart(3,'0')}`:'';
   if(campaign&&['briefing','between'].includes(game.state)){$('brief-kicker').textContent=game.plan.title.toUpperCase();$('brief-hint').textContent=game.plan.dark?'◉ LIGHTS OUT':game.plan.wave%10===0?'↓ MECH '+game.plan.wave/10:'50-WAVE CAMPAIGN';}
-  if(game.state==='playing'&&game.entryCheckpoint)progress.save(game.entryCheckpoint);else if(game.state==='between')progress.save(game.snapshot(game.plan.wave));else if(campaign&&game.state==='dead')progress.save(game.snapshot());persistProgress();
+  if(game.state==='playing'&&game.entryCheckpoint)progress.save(campaign?game.combatCheckpoint():game.entryCheckpoint);else if(game.state==='between')progress.save(game.snapshot(game.plan.wave));else if(campaign&&game.state==='dead')progress.save(game.snapshot());persistProgress();
   if(game.memory.waves||campaign&&game.memory.attempts){$('intel-title').textContent=game.state==='complete'?'Experiment complete. The data is yours.':`Your habits became a blueprint.`;$('intel-copy').textContent=`${campaign?game.memory.attempts:game.memory.waves} ${campaign?'attempts':'completed waves'} analyzed. Recent behavior carries more weight; change your tactics to change its response.`;$('observed').textContent=game.plan.observations.join(' ');$('counter').textContent=game.plan.adaptation;$('counter-weakness').textContent=game.plan.flaw;$('learn-state').textContent=`${game.plan.sampleAttacks} ATTACKS OBSERVED / UPDATED BETWEEN WAVES`;$('weapon-meter').innerHTML=game.memory.weapon.map((v,i)=>`<div style="width:${v*100}%;background:${WEAPONS[i].color}" title="${WEAPONS[i].name}: ${Math.round(v*100)}%"></div>`).join('');$('weapon-meter').setAttribute('aria-label',game.memory.weapon.map((v,i)=>`${WEAPONS[i].name} ${Math.round(v*100)}%`).join(', '));}else{$('intel-title').textContent='The machine is watching.';$('intel-copy').textContent='Learning starts with your first fight. Enemy hardware is locked during a wave.';$('observed').textContent='Awaiting a useful sample of human violence.';$('counter').textContent='Calibration unit';$('counter-weakness').textContent='No armor. No strategy. Unreasonable confidence.';$('learn-state').textContent='NO COMBAT DATA';$('weapon-meter').innerHTML='';}renderSkills();renderWeapons();renderModules();
 }
 let lastPoints=-1,expeditionKey='',knownPowerCount=0;
@@ -283,14 +285,16 @@ function syncSkillAlert(){
  if(remaining<=0)$('reward-live').textContent='';
 }
 $('skill-alert').onclick=()=>loadout.open();
+let lastSupplySave=0;
 function syncExpedition(){
- const p=game.player,e=game.emergency,superFight=game.encounter==='super',hidden=game.ultimate,ultra=game.ultra;
+ if(performance.now()-lastSupplySave>1000){lastSupplySave=performance.now();flushCombatSupplies();}
+ const p=game.player,e=game.emergency,superFight=game.encounter==='super',hidden=game.ultimate,ultra=game.ultra,exitArrow=sideIsDeadEnd(game)?'←':'→';
  const upgraded=game.autoUpgrade();
  const earned=MODULES.filter((_,i)=>powerCue(game,i).available).length;if(earned>knownPowerCount&&p.mecha)announce(`MECH ${game.mechTier} · ${earned} EARNED POWERS · ${touchUI.matches?'Skills to inspect':hint('skills')+' to inspect'}`);knownPowerCount=earned;
  syncSkillAlert();syncRegister();progress.setDeaths(game.runDeaths);persistProgress();document.body.classList.toggle('ultimate',ultra);
  $('touch-wave').textContent=(drillMode?'DRILL · ':'')+'L'+String(Math.max(1,game.wave)).padStart(2,'0')+(hidden?' / ???':superFight?' / SUPER':game.encounter==='boss'?' / MIRROR':'')+' · '+game.profile.name.toUpperCase();
  $('touch-fly').textContent=ultra?'Fly ↑ · '+Math.ceil(game.resources.fuel):p.mecha?'Fly ↑':'Jump ↑';$('touch-fly').setAttribute('aria-label',p.mecha?'Hold to fly':'Jump');
- $('side-door-button').hidden=!nearSideDoor(game);const rescueNear=nearRescue(game);$('rescue-button').hidden=!rescueNear;$('rescue-button').textContent=game.companions.filter(a=>a.hp>0).length>=3&&rescueTarget(game,{near:true})?.survivor?'Squad full · Skills':'Break lock';
+ $('side-door-button').hidden=!nearSideDoor(game);$('side-door-button').textContent=game.encounter==='side'?'Return to corridor':'Enter annex';const rescueNear=nearRescue(game);$('rescue-button').hidden=!rescueNear;$('rescue-button').textContent=game.companions.filter(a=>a.hp>0).length>=3&&rescueTarget(game,{near:true})?.survivor?'Squad full · Skills':rescueCue(game)?.label??'Break lock';const lockCue=rescueCue(game);if(lockCue)$('rescue-button').setAttribute('aria-label',lockCue.label+'; '+(lockCue.reason||'attack the highlighted lock, even during combat'));
  const sideNear=nearSideDoor(game),near=game.nearEmergency()&&!e?.activated;$('touch-attack').textContent=sideNear?'ENTER':near?'USE':p.mecha?'Attack ↑ fly':'Attack ↑ jump';$('touch-attack').setAttribute('aria-label',near?'Activate emergency button':p.mecha?'Attack; drag up to fly':'Attack; drag up to jump');
  const equipment=syncLateTools();syncResourceRail();const power=MODULES[game.module],cd=game.moduleCooldowns[game.module]??0;
  $('power-group').hidden=!p.mecha||!canControl();$('mech-power').hidden=!p.mecha;syncLateTools();
@@ -301,22 +305,22 @@ function syncExpedition(){
  const cores=game.robots.filter(r=>r.hp>0&&(r.super||r.type==='mirror'||r.humanPilot)),totalHP=cores.reduce((n,r)=>n+r.hp,0),totalMax=cores.reduce((n,r)=>n+r.maxHp,0);$('mirror-hud').hidden=!cores.length||!!game.escape||game.state==='concluded';
  if(cores.length){$('mirror-owner').textContent=cores[0].humanPilot?'THE OTHER SURVIVOR':hidden?`${cores.length} SYNC CORES`:superFight?'SUPERBOSS '+game.wave/10:'MIRROR '+game.wave/10;$('mirror-health').textContent=Math.ceil(totalHP)+' / '+Math.ceil(totalMax);$('mirror-hp').style.width=totalHP/totalMax*100+'%';$('mirror-style').textContent=cores[0].humanPilot?'HUMAN · FRAGILE · SLOW THE TEMPO':superFight?(e?.rerouted?'BACKUP POWER · SHIELDS REDUCED':'RESISTANT · CRITS CAN PENETRATE'):hidden?'EMP / RADIO / ELECTRIC':'COPIED BUILD · '+WEAPONS[cores[0].build?.weapon??0].name.toUpperCase();}
  const wall=game.robots.find(r=>r.type==='buttonGuard'&&r.hp>0),antenna=game.robots.find(r=>r.type==='antenna'&&r.hp>0),reboot=Math.max(0,...cores.map(r=>r.emp??0));
- $('objective-hud').textContent=game.state==='concluded'?'ENDING RECORDED':game.escape?'← EXIT':game.finalPilot?.phase==='hostile'?'SURVIVOR / SLOW THE TEMPO':game.state==='pilot-choice'?'PILOT EJECTED':game.state==='traveling'?'CHAMBER CLEAR →':hidden?'EMP / RADIO / ELECTRIC':superFight?e?.rerouted?'BACKUP · SHIELDS LOW':reboot>0?'REBOOT '+reboot.toFixed(1)+'s':e?.activated?'BACKUP IN '+e.backup.toFixed(1)+'s':antenna?'⌁ SYNC ANTENNA':wall?'BUTTON ARMORED':'↑ DO NOT PRESS':'';
+ $('objective-hud').textContent=game.state==='concluded'?'ENDING RECORDED':game.escape?'← EXIT':game.finalPilot?.phase==='hostile'?'SURVIVOR / SLOW THE TEMPO':game.state==='pilot-choice'?'PILOT EJECTED':game.state==='traveling'?'CHAMBER CLEAR '+exitArrow:hidden?'EMP / RADIO / ELECTRIC':superFight?e?.rerouted?'BACKUP · SHIELDS LOW':reboot>0?'REBOOT '+reboot.toFixed(1)+'s':e?.activated?'BACKUP IN '+e.backup.toFixed(1)+'s':antenna?'⌁ SYNC ANTENNA':wall?'BUTTON ARMORED':'↑ DO NOT PRESS':'';
  const activeLaser=cores.find(r=>r.laser?.phase==='charge'||r.laser?.phase==='blast')??cores.find(r=>r.laser?.phase==='recharge');if(activeLaser&&game.state==='playing'){const beam=activeLaser.laser;$('objective-hud').textContent=beam.phase==='recharge'?(beam.feedback?'CORE FEEDBACK · ':'CORE VENTING · ')+beam.time.toFixed(1)+'s':beam.phase==='charge'?'LASER LOCKED · MOVE':'LASER FIRING';}
  const event=game.events.at(-1);$('reward-notice').textContent=performance.now()<hudUntil?hudText:event?.time>0?event.text:'';
  const view=cameraView(),offset=game.roomOffset,switchX=e?screenAt(offset+e.x,view):.9;
  $('emergency-switch').style.left=switchX*100+'%';$('emergency-switch').style.width=54/view.width*100+'%';$('emergency-switch').hidden=!superFight||!e||!!wall||!!game.escape||switchX<0||switchX>1;$('emergency-switch').disabled=game.state!=='playing'||!near;$('emergency-switch').textContent=e?.activated?'OFF':'●';$('emergency-switch').setAttribute('aria-label',e?.activated?'Emergency button spent':'DO NOT PRESS');$('emergency-switch').classList.toggle('spent',!!e?.activated);
  $('backup-time').hidden=!superFight||!e?.activated||!!e?.rerouted;$('backup-time').textContent=e?.activated?'↻ '+e.backup.toFixed(1)+'s':'';$('finale-objective').hidden=true;
  const supportWarning=game.bossSupport?.warning,warnLeft=supportWarning?.xs.some(x=>x+offset<view.left),warnRight=supportWarning?.xs.some(x=>x+offset>view.left+view.width),supportIcon=SUPPORT_ICONS[supportWarning?.reason]??'';
- $('camera-left').hidden=!(warnLeft||playMode.active&&game.robots.some(r=>r.hp>0&&r.x+offset<view.left));$('camera-right').hidden=!(warnRight||playMode.active&&(game.robots.some(r=>r.hp>0&&r.x+offset>view.left+view.width)||game.state==='traveling'));$('camera-left').classList.toggle('incoming',!!warnLeft);$('camera-right').classList.toggle('incoming',!!warnRight);
+ $('camera-left').hidden=!(warnLeft||playMode.active&&(game.robots.some(r=>r.hp>0&&r.x+offset<view.left)||game.state==='traveling'&&sideIsDeadEnd(game)));$('camera-right').hidden=!(warnRight||playMode.active&&(game.robots.some(r=>r.hp>0&&r.x+offset>view.left+view.width)||game.state==='traveling'&&!sideIsDeadEnd(game)));$('camera-left').classList.toggle('incoming',!!warnLeft);$('camera-right').classList.toggle('incoming',!!warnRight);
  $('camera-left').textContent=(warnLeft?supportIcon:'')+'‹';$('camera-right').textContent=(warnRight?supportIcon:'')+'›';$('camera-left').setAttribute('aria-label',warnLeft?`${supportWarning.reason} support incoming from the left`:'Activity to the left');$('camera-right').setAttribute('aria-label',warnRight?`${supportWarning.reason} support incoming from the right`:'Activity to the right');
- $('boss-message').textContent=game.escape?'←':game.state==='traveling'?'→':'';
+ $('boss-message').textContent=game.escape?'←':game.state==='traveling'?exitArrow:'';
  $('enemy-count').textContent=game.robots.filter(r=>r.hp>0&&!r.structure).length+' ACTIVE · '+((game.deployments??[]).reduce((n,d)=>n+d.units.length,0)+(game.deploymentWarning?.units.length??0)+(game.bossSupport?.warning?.units.length??0))+' INBOUND';
  const key=[game.state,game.wave,game.encounter,game.mechTier,game.unlockedTier,game.difficulty,game.rescuedRooms.length,game.supplyRevision,game.inventoryRevision].join(':');if(key===expeditionKey&&!upgraded)return;expeditionKey=key;if(!canControl())clearInput();
- $('wave-display').textContent=String(game.wave).padStart(2,'0');$('state-label').textContent=game.state==='playing'?game.plan.phase.toUpperCase():({traveling:'CHAMBER CLEAR →',paused:'SIMULATION PAUSED',dead:'HUMAN OFFLINE',complete:'ESCAPED',concluded:'INTEGRATED',escaping:'← EXIT','story-offer':'FINAL OFFER','story-iris':'YOUR CHOICE',briefing:'AWAITING HUMAN'})[game.state]??'';
+ $('wave-display').textContent=String(game.wave).padStart(2,'0');$('state-label').textContent=game.state==='playing'?game.plan.phase.toUpperCase():({traveling:'CHAMBER CLEAR '+exitArrow,paused:'SIMULATION PAUSED',dead:'HUMAN OFFLINE',complete:'ESCAPED',concluded:'INTEGRATED',escaping:'← EXIT','story-offer':'FINAL OFFER','story-iris':'YOUR CHOICE',briefing:'AWAITING HUMAN'})[game.state]??'';
  $('pause').innerHTML=(game.state==='paused'?'Resume':'Pause')+' <kbd>'+hint('pause')+'</kbd>';$('resume-loadout').textContent=game.state==='paused'?'Resume ↗':'Back to arena ↗';
  $('overlay').classList.toggle('hidden',['playing','traveling','escaping','pilot-choice','story-offer','story-iris'].includes(game.state));$('brief-title').textContent=game.state==='dead'?'NEXT HUMAN':game.state==='complete'?'ESCAPED.':game.state==='concluded'?'ENDING RECORDED.':game.state==='paused'?'PAUSED':`TRIAL ${String(game.trial).padStart(3,'0')}`;$('brief-kicker').textContent=game.plan.title.toUpperCase();$('brief-description').textContent='';$('incoming').innerHTML=['briefing','dead'].includes(game.state)?incoming():'';$('begin').innerHTML=(game.state==='dead'?'Retry':game.state==='paused'?'Resume':['complete','concluded'].includes(game.state)?'Again':'Enter')+' <span>↗</span>';$('brief-hint').textContent=game.state==='briefing'?'50 LEVELS · BOSSES EVERY 10':'';
- if(game.state==='playing'&&game.entryCheckpoint)progress.save(game.entryCheckpoint);else if(game.state==='traveling')progress.save(game.nextCheckpoint());else if(game.state==='dead')progress.save(game.snapshot());persistProgress();
+ if(game.state==='playing'&&game.entryCheckpoint)progress.save(campaign?game.combatCheckpoint():game.entryCheckpoint);else if(game.state==='traveling')progress.save(game.nextCheckpoint());else if(game.state==='dead')progress.save(game.snapshot());persistProgress();
  $('intel-title').textContent=game.plan.title;$('intel-copy').textContent=game.wave>=21?'The factory discovered the receiver. Watch the machines for evidence of its next strategy.':game.plan.reason;$('observed').textContent=learningReport(game.wave,game.memory);$('counter').textContent=learningBroadcast(game.wave,game.memory,game.plan);$('counter-weakness').textContent=game.wave>=21?'Transmission lost. Observe how the machines move and react.':game.plan.flaw;$('learn-state').textContent=game.memory.attempts+' ATTEMPTS ANALYZED';renderSkills();renderWeapons();renderModules();
 }
 function line(x,y,x2,y2,color,width=1){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.stroke();}
@@ -440,13 +444,13 @@ playerBackupUI({storage,document,window,beforeExport:()=>{syncRegister();persist
 characterMenu=characterUI({storage,document,earned:()=>escapeArchive.unlocked,entitled:()=>PREMIUM_CONFIG.enabled&&premiumAccess?.active===true,onChange:style=>{appearance=style;registerRevision=-1;renderWeapons();},onOpen:()=>{$('menu-dialog').close();clearInput();},onClose:()=>{$('menu-dialog').showModal();}});
 
 for(const el of document.querySelectorAll('.support-copy'))el.textContent=SUPPORT_COPY;
-feedback=feedbackUI({storage,document,game,campaign,onOpen:auto=>{feedbackWasActive=auto&&['playing','escaping','traveling'].includes(game.state);$('menu-dialog').close();clearInput();if(feedbackWasActive)pause();},onClose:auto=>{if(auto){if(feedbackWasActive&&game.state==='paused')pause();canvas.focus({preventScroll:true});}else $('menu-dialog').showModal();feedbackWasActive=false;}});
+feedback=feedbackUI({storage,document,game,campaign,onOpen:auto=>{feedbackWasActive=auto&&['playing','escaping','traveling'].includes(game.state);$('menu-dialog').close();clearInput();if(feedbackWasActive)pause();},onClose:(auto,keepPlaying)=>{if(auto||keepPlaying){if((feedbackWasActive||keepPlaying)&&game.state==='paused')pause();canvas.focus({preventScroll:true});}else $('menu-dialog').showModal();feedbackWasActive=false;}});
 
 function cycleTool(){for(let i=1;i<=LATE_TOOLS.length;i++){const index=(game.gear.selected+i)%LATE_TOOLS.length;if(toolAvailable(game,index)){selectUtility(game,'tool',index);announceUtility();renderLateTools();return;}}}
 function renderLateTools(){if(!campaign)return;$('late-tools').hidden=false;$('late-tool-options').innerHTML=LATE_TOOLS.map((m,i)=>`<button data-tool="${i}" aria-pressed="${game.utilityKind==='tool'&&game.gear.selected===i}" ${toolAvailable(game,i)?'':'disabled'}><b>${m.name}</b><small>${m.hint.replace('Hold B','Hold '+hint('power')).replace('B ',hint('power')+' ')}</small></button>`).join('');}
 let utilityNoticeUntil=0,lastUtilityCue='';
 function utilityCue(){const u=currentUtility(game),c=equipmentCues(game,{hacking:input.hack});return u?{...u,...(u.kind==='tool'?c.tool:c.power),name:u.name}:null;}
-function announceUtility(){const c=utilityCue();if(!c)return;utilityNoticeUntil=performance.now()+3000;$('utility-status').textContent=hint('power')+' · '+c.name+' '+c.label+' · '+hint('cyclePower')+' cycle';}
+function announceUtility(){const c=utilityCue();if(!c)return;utilityNoticeUntil=performance.now()+3000;$('utility-status').textContent=hint('power')+' · '+c.name+(Number.isFinite(c.stock)?' ×'+Math.ceil(c.stock):'')+' '+c.label+' · '+hint('cyclePower')+' cycle';}
 function syncLateTools(){if(!campaign)return;
  if($('supply-status').textContent!==game.supplyNotice)$('supply-status').textContent=game.supplyNotice;
  const dock=$('equipment-dock'),inline=touchUI.matches&&innerHeight>=innerWidth,touch=document.querySelector('.touch-controls'),parent=inline?touch:canvas.parentElement;
@@ -454,7 +458,7 @@ function syncLateTools(){if(!campaign)return;
  if(dock.parentElement!==parent){clearInput();if(inline)parent.insertBefore(dock,touch.querySelector('.touch-move'));else parent.append(dock);}
  dock.dataset.inline=String(inline);dock.dataset.single='true';dock.hidden=!touchUI.matches||!game.player.mecha||!canControl();touch.classList.toggle('has-equipment',inline&&!dock.hidden);$('late-tool-control').hidden=true;
  const cues=equipmentCues(game,{hacking:input.hack}),c=utilityCue(),button=$('mech-power');
- if(c){button.textContent=c.icon+' '+c.name+' · '+c.label;button.dataset.state=c.state;button.setAttribute('aria-label','Use '+c.name+' · '+c.label);const key=c.kind+':'+c.index+':'+c.state;if(key!==lastUtilityCue){lastUtilityCue=key;announceUtility();}}
+ if(c){const stock=Number.isFinite(c.stock)?' ×'+Math.ceil(c.stock):'';button.textContent=c.icon+' '+c.name+stock+' · '+c.label;button.dataset.state=c.state;button.setAttribute('aria-label','Use '+c.name+stock+' · '+c.label);const key=c.kind+':'+c.index+':'+c.state+':'+c.stock;if(key!==lastUtilityCue){lastUtilityCue=key;announceUtility();}}
  $('utility-status').hidden=!game.player.mecha||!canControl()||performance.now()>utilityNoticeUntil;
  $('turret-status').hidden=true;return cues;
 }

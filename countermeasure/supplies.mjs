@@ -1,6 +1,11 @@
+import {powerRefill} from './special-stock.mjs';
 import {fullLateGear} from './late-tools.mjs';
 import {overdriveEnabled} from './overdrive.mjs';
 
+export function validSupplyLedger(value,wave=50){
+ if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length>67)return false;
+ return Object.entries(value).every(([key,n])=>{const m=key.match(/^(\d{1,2}):(room|boss|super|hidden|side)$/);if(!m||!Number.isInteger(n)||n<0||n>4)return false;const w=Number(m[1]),phase=m[2];return w>=1&&w<=wave&&w<=50&&(phase==='room'?w%10!==0:phase==='side'?[4,14,18,24,34,44].includes(w):phase==='hidden'?w===50:w%10===0);});
+}
 const LABELS={battery:'BATTERY',lava:'LAVA ×1',turret:'AMMO',ap:'AP ×2'};
 function changes(g,type){
  const max=fullLateGear(g.difficulty),small=g.difficulty==='terminator';
@@ -11,13 +16,14 @@ function changes(g,type){
  ]:type==='lava'&&g.mechTier>=2?[[g.gear,'lava',1,1,'LAVA']]
  :type==='turret'&&g.mechTier>=2?[[g.gear,'turretAmmo',max.turretAmmo,small?8:12,'AMMO']]
  :type==='ap'&&g.ultra?[[g.resources,'ammo',g.profile.ammo,2,'AP']]:[];
- return rows.map(([object,key,cap,amount,label])=>({object,key,amount:Math.max(0,Math.min(amount,cap-object[key])),label})).filter(row=>row.amount>0);
+ const result=rows.map(([object,key,cap,amount,label])=>({object,key,amount:Math.max(0,Math.min(amount,cap-object[key])),label})).filter(row=>row.amount>0);
+ const charge=type==='battery'?powerRefill(g):null;if(charge)result.push(charge);return result;
 }
 export function beginSupplyRoom(g){
  const key=g.wave+':'+g.encounter;
  // Retry cannot mint another room's supply allowance. Checkpoints store the
  // resulting equipment amounts; loose crates belong only to the current room.
- if(g.supplyRoom?.key!==key)g.supplyRoom={key,dropped:0,kills:0,time:0,lastDrop:0,lastKill:0};
+ g.supplyLedger??={};if(g.supplyRoom?.key!==key)g.supplyRoom={key,dropped:g.supplyLedger[key]??0,kills:0,time:0,lastDrop:0,lastKill:0};
  g.supplyCrates=[];g.supplyNotice='';
 }
 export function supplyRobotDown(g,r){if(!r.structure&&r.faction!=='ally'&&g.supplyRoom)g.supplyRoom.kills++;}
@@ -39,7 +45,7 @@ export function updateSupplies(g,dt){
  const kinds=s.dropped%2?['lava','ap','turret','battery']:['battery','turret','ap','lava'];
  const type=kinds.find(kind=>changes(g,kind).length);if(!type)return;
  const x=Math.max(90,Math.min(910,g.player.x+(g.player.x<500?180:-180)));
- g.supplyCrates.push({type,x,y:403,life:40,collected:false});s.dropped++;s.lastDrop=s.time;s.lastKill=s.kills;
+ g.supplyCrates.push({type,x,y:403,life:40,collected:false});s.dropped++;g.supplyLedger[s.key]=s.dropped;g.supplyRevision=(g.supplyRevision??0)+1;s.lastDrop=s.time;s.lastKill=s.kills;
  g.supplyNotice=LABELS[type]+' ↓ WALK OVER TO COLLECT';g.event(g.supplyNotice,'#9ce5e3');
 }
 export function drawSupplies(ctx,g,t){

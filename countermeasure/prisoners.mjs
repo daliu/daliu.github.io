@@ -12,13 +12,24 @@ export function rescueScenes(room,difficulty){
 }
 export const rescueScene=(room,difficulty)=>rescueScenes(room,difficulty)[0]??null;
 const doors=g=>g.rescueDoors??(g.rescueDoor?[g.rescueDoor]:[]);
+const LOCK_REACH=100;
+const weaponLabels=['LAMP','BLADE','TASER','SPRAY'];
+const lockAction=(d,weapon)=>d.lock==='collar'?'Cut collar':d.lock==='mesh'?'Cut mesh':d.lock==='circuit'?(weapon===3?'Soak circuit':'Shock lock'):weapon===1?'Cut lock':'Smash lock';
 export function rescueTarget(g,{near=false}={}){
  if(!['playing','traveling'].includes(g.state)||g.encounter!=='room'||g.player.hp<=0)return null;
- const p=g.player,range=near?100:g.activeWeapon.range*(p.mecha?1.15:1);
- return doors(g).filter(d=>!d.opened&&!d.exterminated&&cellState(g,d.room,d.slot)!=='lost'&&Math.abs(p.y-d.y)<85&&Math.abs(p.x-d.x)<range&&(near||(d.x-p.x)*p.facing>=-20)).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0]??null;
+ // Locks have a generous interaction reach, independent of short chainsaw combat reach.
+ const p=g.player,range=near?LOCK_REACH:Math.max(LOCK_REACH,g.activeWeapon.range*(p.mecha?1.15:1));
+ return doors(g).filter(d=>!d.opened&&!d.exterminated&&cellState(g,d.room,d.slot)!=='lost'&&Math.abs(p.y-d.y)<85&&Math.abs(p.x-d.x)<=range&&(near||(d.x-p.x)*p.facing>=-20)).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0]??null;
 }
 export const nearRescue=g=>!!rescueTarget(g,{near:true});
-export function rescueWeapon(g,d=rescueTarget(g,{near:true})){if(!d)return null;return [g.weapon,...LOCKS[d.lock??'circuit'].weapons].find(i=>LOCKS[d.lock??'circuit'].weapons.includes(i)&&g.weaponAvailable(i))??null;}
+export function rescueWeapon(g,d=rescueTarget(g,{near:true})){if(!d)return null;return [g.weapon,...LOCKS[d.lock??'circuit'].weapons].find(i=>LOCKS[d.lock??'circuit'].weapons.includes(i)&&g.weaponAvailable(i)&&!(i===2&&g.resources.electricLock>0))??null;}
+export function rescueCue(g){
+ const door=rescueTarget(g,{near:true});if(!door)return null;
+ const weapon=rescueWeapon(g,door),full=!!door.survivor&&g.companions.filter(a=>a.hp>0).length>=3,available=weapon!==null;
+ const equipped=available&&weapon===g.weapon,facing=(door.x-g.player.x)*g.player.facing>=-20,reason=full?'Squad full · Skills':!available?'Matching weapon unavailable':!equipped?'Switch to '+weaponLabels[weapon]:!facing?'Face lock '+(door.x<g.player.x?'←':'→'):g.player.attackCd>0?'Recovering':'';
+ return {door,weapon,label:full?'Squad full · Skills':available?lockAction(door,weapon):'Need matching weapon',available,equipped,facing,ready:available&&!full&&g.player.attackCd<=0,reason};
+}
+function lockImpact(g,d,text){const color=LOCKS[d.lock??'circuit'].color;d.lockFlashUntil=g.clock+.5;g.effects.push({kind:'burst',x:d.x+48,y:d.y-74,life:.35,max:.35,color},{kind:'number',x:d.x,y:d.y-125,text,life:.7,max:.7,color});}
 export function beginRescues(g){
  g.rescueDoors=g.encounter==='room'?rescueScenes(g.room,g.difficulty):[];g.rescueDoor=g.rescueDoors[0]??null;
  const seconds=g.difficulty==='hard'?38:g.difficulty==='terminator'?24:0;
@@ -32,17 +43,18 @@ export function updateRescues(g,dt){
 }
 export function releasePrisoner(g){
  const d=rescueTarget(g),p=g.player;if(!d||p.attackCd>0||!g.weaponAvailable(g.weapon)||g.rescuedCells?.includes(d.cellId))return false;
- if(!LOCKS[d.lock??'circuit'].weapons.includes(g.weapon)){if(g.clock>=(g.lockNoticeAt??0)){g.lockNoticeAt=g.clock+1;g.event(LOCKS[d.lock??'circuit'].label,LOCKS[d.lock??'circuit'].color);}return false;}
+ if(!LOCKS[d.lock??'circuit'].weapons.includes(g.weapon)){d.lockHintUntil=g.clock+1.2;if(g.clock>=(g.lockNoticeAt??0)){g.lockNoticeAt=g.clock+1;g.event(LOCKS[d.lock??'circuit'].label,LOCKS[d.lock??'circuit'].color);}return false;}
  if(g.weapon===2&&g.resources.electricLock>0)return false;
- if(d.compliance&&!d.unsealed){p.attackCd=g.activeWeapon.cooldown;d.unsealed=true;d.lock='collar';g.collarDoors??=[];if(!g.collarDoors.includes(d.cellId))g.collarDoors.push(d.cellId);g.supplyRevision++;g.event('CELL OPEN / CUT THE COLLAR CABLE','#efc9ad');g.effects.push({kind:'arc',x:p.x,y:p.y-30,x2:d.x,y2:d.y-70,life:.2,max:.2,color:'#9ce5e3'});return true;}
+ if(d.compliance&&!d.unsealed){p.attackCd=g.activeWeapon.cooldown;d.unsealed=true;d.lock='collar';g.collarDoors??=[];if(!g.collarDoors.includes(d.cellId))g.collarDoors.push(d.cellId);g.supplyRevision++;g.event('CELL OPEN / CUT THE COLLAR CABLE','#efc9ad');g.effects.push({kind:'arc',x:p.x,y:p.y-30,x2:d.x,y2:d.y-70,life:.2,max:.2,color:'#9ce5e3'});lockImpact(g,d,'CUT COLLAR');return true;}
  const full=g.companions.filter(a=>a.hp>0).length>=3;if(full&&d.survivor){g.event('SQUAD FULL / MAKE ROOM FOR IRIS IN SKILLS','#9ce5e3');return false;}
- p.attackCd=g.activeWeapon.cooldown;d.opened=true;g.rescuedCells??=[];g.rescuedCells.push(d.cellId);if(!g.rescuedRooms.includes(d.room))g.rescuedRooms.push(d.room);
+ p.attackCd=g.activeWeapon.cooldown;d.opened=true;lockImpact(g,d,d.compliance?'COLLAR CUT':'LOCK OPEN');g.rescuedCells??=[];g.rescuedCells.push(d.cellId);if(!g.rescuedRooms.includes(d.room))g.rescuedRooms.push(d.room);
  if(g.weapon<2)g.effects.push({kind:'attack',source:'player',x:p.x,y:p.y-30,dir:p.facing,range:Math.max(40,Math.abs(d.x-p.x)),weapon:g.weapon,life:.2,max:.2,color:LOCKS[d.lock??'circuit'].color});else g.effects.push({kind:'arc',x:p.x,y:p.y-30,x2:d.x,y2:d.y-70,life:.25,max:.25,color:LOCKS[d.lock??'circuit'].color});g.supplyRevision++;
  if(full){d.escaped=true;g.event(d.name.toUpperCase()+' / ESCAPED THROUGH SERVICE VENT','#9ce5e3');return true;}
  const id='ally-'+(++g.squadSequence);g.companions=g.companions.filter(a=>a.hp>0);g.companions.push({id,type:'human',kind:'human',rescueRoom:d.room,rescueSlot:d.slot??0,name:d.name,role:'gunner',faction:'ally',x:d.x,y:420,hp:40,maxHp:160,rank:0,kills:0,boots:false,flying:false,generation:1,facing:p.facing,cooldown:.7,joinFlash:1.2,...(d.survivor?{survivor:'iris',hair:survivorHair(g.subject?.id),armor:SURVIVOR_ARMOR}:{})});g.recruited++;
  g.event(d.name.toUpperCase()+' / WITH YOU','#9ce5e3');return true;
 }
 export function drawRescueDoor(ctx,g,t){
+ const cue=rescueCue(g);
  for(const d of doors(g)){
  const cleared=g.state==='traveling',open=d.opened,lost=d.exterminated,lock=LOCKS[d.lock??'circuit'];
  ctx.save();ctx.translate(d.x,d.y);ctx.strokeStyle=lost?'#8f8661':open?'#9ce5e3':lock.color;ctx.fillStyle=ctx.strokeStyle;ctx.lineWidth=3;ctx.strokeRect(-57,-260,114,212);
@@ -54,6 +66,13 @@ export function drawRescueDoor(ctx,g,t){
  if(d.purgeTotal&&!open&&!lost){ctx.fillStyle='#de9f83';ctx.fillText('PURGE '+Math.ceil(d.purgeRemaining)+'s',0,-203);ctx.fillRect(-45,-192,90*d.purgeRemaining/d.purgeTotal,4);}
  if(d.survivor&&cleared&&!open)ctx.fillText('ARMOR + EVASION',0,-3);
  if(lost){ctx.fillStyle='#9ec36555';ctx.fillRect(-54,-250,108,200);}
+ if(!open&&!lost&&(cue?.door===d||d.lockHintUntil>g.clock)){
+  const weapon=rescueWeapon(g,d),equipped=weapon===g.weapon,color=equipped?'#b7e77a':lock.color;
+  ctx.strokeStyle=color;ctx.lineWidth=3+Math.sin(t*7);ctx.strokeRect(31,-97,34,47);
+  ctx.fillStyle='#102027ee';ctx.fillRect(-94,-34,188,47);ctx.fillStyle=color;ctx.font='bold 16px ui-monospace,monospace';ctx.fillText(cue?.door===d?cue.label:weapon===null?'MATCHING WEAPON':lockAction(d,weapon),0,-13);
+  ctx.font='11px ui-monospace,monospace';ctx.fillText(weapon===null?'NEED COMPATIBLE TOOL':cue?.door===d&&equipped&&!cue.facing?cue.reason.toUpperCase():(equipped?'ATTACK · ':'SWITCH · ')+weaponLabels[weapon],0,4);
+ }
+ if(d.lockFlashUntil>g.clock){ctx.strokeStyle='#f5f4d7';ctx.lineWidth=3;ctx.strokeRect(-62,-265,124,222);}
  ctx.restore();
  }
 }

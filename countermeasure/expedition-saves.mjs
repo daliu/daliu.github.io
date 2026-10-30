@@ -1,3 +1,5 @@
+import {validSupplyLedger} from './supplies.mjs';
+import {fullPowerStock,validPowerStock} from './special-stock.mjs';
 import {validStory,freshStory} from './narrative.mjs';
 import {validateOpening,legacyOpening} from './opening-escape.mjs';
 import {SIDE_ROOMS} from './side-rooms.mjs';
@@ -30,6 +32,10 @@ export function expeditionCheckpoint(data){try{
  if(!j||!integer(j.cleared,0,ultimate?50:encounter==='side'?data.wave:data.wave-1)||typeof j.flawless!=='boolean'||typeof j.secretQualified!=='boolean'||j.flawless&&data.runDeaths>0||j.secretQualified&&j.cleared!==50||ultimate&&!j.secretQualified)return null;
  c.journey={cleared:j.cleared,flawless:j.flawless,secretQualified:j.secretQualified};
  c.carry=null;if(!legacy&&data.carry){const v=data.carry;if(!(v.hp>0)||!finite(v.hp,0,profile.health)||!finite(v.shield,0,Math.round((ultra?400:40+data.mechTier*28)*profile.armor)))return null;c.carry={hp:v.hp,shield:v.shield};}
+ c.supplyLedger=data.supplyLedger===undefined?{}:data.supplyLedger;if(!validSupplyLedger(c.supplyLedger,data.wave))return null;c.supplyLedger={...c.supplyLedger};
+ c.sideSeed=data.sideSeed===undefined?0:data.sideSeed;if(!integer(c.sideSeed,0,4294967295))return null;
+ c.sideParentPurge=data.sideParentPurge??null;if(c.sideParentPurge!==null&&(!(encounter==='side'&&data.wave===14)||!finite(c.sideParentPurge,0,38)))return null;
+ c.powerStock=data.powerStock===undefined?fullPowerStock(difficulty):data.powerStock;if(!validPowerStock(c.powerStock,difficulty))return null;c.powerStock=[...c.powerStock];
  c.cooldowns=[0,0,0,0,0,0];if(data.cooldowns!==undefined){if(!Array.isArray(data.cooldowns)||data.cooldowns.length!==6||!data.cooldowns.every(n=>finite(n,0,30)))return null;c.cooldowns=[...data.cooldowns];}
  c.resources=fullResources(difficulty);if(!legacy&&data.resources){const r=data.resources;if(!finite(r.fuel,0,profile.fuel)||!integer(r.ammo,0,profile.ammo)||!finite(r.electricLock,0,5))return null;c.resources={fuel:r.fuel,ammo:r.ammo,electricLock:r.electricLock};}
  c.hacking=data.version>=4?data.hacking:false;c.squad=data.version>=4?validateSquad(data.squad):emptySquad();if(typeof c.hacking!=='boolean'||!c.squad||c.hacking&&(data.wave<11||!c.skills.voltage)||Object.values(c.skills).reduce((a,b)=>a+b,0)+Number(c.hacking)>c.points||data.wave<11&&c.squad.allies.length||encounter==='hidden'&&c.squad.allies.length)return null;
@@ -56,7 +62,7 @@ export class ExpeditionStore{
  setDeaths(n){if(integer(n,0,1000000)&&n!==this.deaths){if(n>this.deaths)for(const c of this.entries.values())c.journey.flawless=false;this.deaths=n;this.revision++;}}
  beginRun(checkpoint){const fresh=expeditionCheckpoint(checkpoint);if(!fresh||fresh.wave!==1||fresh.journey.cleared!==0)return false;for(const c of this.entries.values())c.journey.flawless=false;this.deaths=0;return this.save(fresh);}
  unlockFinale(data){const c=expeditionCheckpoint(data);if(!c||c.encounter!=='hidden')return false;if(!this.finale){this.finale=c;if(!this.entries.size){this.entries.set(50,structuredClone(c));this.latest=50;this.deaths=c.runDeaths;}this.revision++;}return true;}
- finaleFor(difficulty=this.finale?.difficulty){if(!this.finale||!validDifficulty(difficulty))return null;const c=structuredClone(this.finale),p=profileFor(difficulty);c.difficulty=difficulty;c.carry={hp:p.health,shield:Math.round(400*p.armor)};c.resources=fullResources(difficulty);c.gear=fullLateGear(difficulty);c.cooldowns=[0,0,0,0,0,0];c.squad=emptySquad();c.runDeaths=0;c.mechTier=5;c.tiers=[3,3,3,3];return c;}
+ finaleFor(difficulty=this.finale?.difficulty){if(!this.finale||!validDifficulty(difficulty))return null;const c=structuredClone(this.finale),p=profileFor(difficulty);c.difficulty=difficulty;c.carry={hp:p.health,shield:Math.round(400*p.armor)};c.resources=fullResources(difficulty);c.powerStock=fullPowerStock(difficulty);c.gear=fullLateGear(difficulty);c.cooldowns=[0,0,0,0,0,0];c.squad=emptySquad();c.runDeaths=0;c.mechTier=5;c.tiers=[3,3,3,3];return c;}
  get(w){return this.entries.has(w)?structuredClone(this.entries.get(w)):null;}
  export(){return JSON.stringify({mode:'campaign',version:6,latest:this.latest,deaths:this.deaths,finale:this.finale,levels:[...this.entries.values()].sort((a,b)=>a.wave-b.wave)});}
  import(text){if(typeof text!=='string'||text.length>600000)throw Error('Invalid Campaign save');const s=JSON.parse(text);if(s?.mode!=='campaign'||![2,3,4,5,6].includes(s.version)||!Array.isArray(s.levels)||!integer(s.levels.length,1,50)||!integer(s.latest,1,50)||!integer(s.deaths,0,1000000))throw Error('Invalid Campaign save');const levels=s.levels.map(expeditionCheckpoint);if(levels.some(c=>!c)||new Set(levels.map(c=>c.wave)).size!==levels.length||!levels.some(c=>c.wave===s.latest))throw Error('Invalid Campaign checkpoint');const finale=s.finale?expeditionCheckpoint(s.finale):levels.find(c=>c.encounter==='hidden');if(s.finale&&(!finale||finale.encounter!=='hidden'))throw Error('Invalid finale unlock');this.entries=new Map(levels.map(c=>[c.wave,c]));this.latest=s.latest;this.deaths=s.deaths;if(finale)this.unlockFinale(finale);this.revision++;return true;}
@@ -70,5 +76,6 @@ export function retuneCheckpoint(data,difficulty,{mirror=false}={}){
  c.mechTier=ultra?5:Math.min(c.mechTier,Math.floor(c.wave/10));const tier=ultra?3:c.wave>=16?2:c.wave>=6?1:0;c.tiers=c.tiers.map(t=>Math.min(t,tier));c.module=Math.min(c.module,ultra?5:Math.min(3,Math.max(0,c.mechTier-1)));c.mirrorBlueprint=null;
  if(c.carry)c.carry={hp:Math.min(c.carry.hp,p.health),shield:Math.min(c.carry.shield,Math.round((ultra?400:c.mechTier?40+c.mechTier*28:0)*p.armor))};
  const gearMax=fullLateGear(difficulty);for(const key of ['turretAmmo','lava','drillFuel','battery'])c.gear[key]=Math.min(c.gear[key],gearMax[key]);
+ const powerMax=fullPowerStock(difficulty);c.powerStock=c.powerStock.map((n,i)=>Math.min(n,powerMax[i]));
  c.resources.fuel=Math.min(c.resources.fuel,p.fuel);c.resources.ammo=Math.min(c.resources.ammo,p.ammo);return expeditionCheckpoint(c);
 }

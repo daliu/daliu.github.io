@@ -17,9 +17,9 @@ export function feedbackUI({storage,document,game,campaign,onOpen,onClose}){
  const store=new FeedbackStore(storage),$=id=>document.getElementById(id),dialog=$('feedback-dialog');let automatic=false;
  function render(){const saved=store.draft({enjoyed:$('feedback-enjoyed').getAttribute('aria-pressed')==='true',text:$('feedback-text').value});$('feedback-send').href=store.emailURL();$('feedback-email-draft').value=store.emailText();$('feedback-status').textContent=saved?'Draft saved on this browser. Nothing sent.':'Draft is session only. Nothing sent.';}
  function open(auto=false){automatic=auto;store.markPrompted();onOpen(auto);$('feedback-enjoyed').setAttribute('aria-pressed',String(store.record.enjoyed));$('feedback-text').value=store.record.text;render();dialog.showModal();}
- function close(){dialog.close();onClose(automatic);automatic=false;}
+ function close(keepPlaying=false){dialog.close();onClose(automatic,keepPlaying);automatic=false;}
  $('feedback-menu').onclick=()=>open();$('feedback-enjoyed').onclick=()=>{$('feedback-enjoyed').setAttribute('aria-pressed',String($('feedback-enjoyed').getAttribute('aria-pressed')!=='true'));render();};$('feedback-text').addEventListener('input',render);
- $('close-feedback').onclick=close;$('feedback-later').onclick=close;dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
+ $('close-feedback').onclick=()=>close();$('feedback-later').onclick=()=>close(true);dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
  $('feedback-send').onclick=()=>{render();$('feedback-status').textContent='Review and send in your email app. If nothing opens, use “No email app?” below.';};
  $('feedback-copy').onclick=async()=>{render();try{await document.defaultView.navigator.clipboard.writeText(store.emailText());$('feedback-status').textContent='Email address and message copied. Paste into a new email and send when ready.';}catch{$('feedback-fallback').open=true;$('feedback-email-draft').focus();$('feedback-email-draft').select();$('feedback-status').textContent='Select and copy the email draft below, then paste it into your email app.';}};
  // The mail link only opens a draft. The player decides whether to send it.

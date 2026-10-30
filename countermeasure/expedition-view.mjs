@@ -1,3 +1,4 @@
+import {sideIsDeadEnd} from './side-layout.mjs';
 import {drawRocketExhaust} from './late-tools.mjs';
 import {drawScrambleTarget} from './magnetic-scramble.mjs';
 import {drawBossIntegrity} from './boss-integrity.mjs';
@@ -6,13 +7,15 @@ import {drawBossFeedback} from './boss-feedback.mjs';
 import {drawSuperLaser} from './boss-laser.mjs';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function scrollView(game,width,previous=null,dt=.016){
- const maximum=game.roomOffset+(game.state==='traveling'||game.pausedFrom==='traveling'?2000:1000)-width;
- const target=clamp(game.roomOffset+game.player.x-width/2,0,Math.max(0,maximum));
+ const deadEnd=sideIsDeadEnd(game),minimum=deadEnd?game.roomOffset:0;
+ const maximum=game.roomOffset+(!deadEnd&&(game.state==='traveling'||game.pausedFrom==='traveling')?2000:1000)-width;
+ const target=clamp(game.roomOffset+game.player.x-width/2,Math.min(minimum,Math.max(0,maximum)),Math.max(0,maximum));
  const snap=previous===null||Math.abs(target-previous)>1800;
- return {width,left:snap?target:previous+(target-previous)*Math.min(1,dt*8)};
+ const left=snap?target:previous+(target-previous)*Math.min(1,dt*8);
+ return {width,left:deadEnd?clamp(left,Math.min(minimum,Math.max(0,maximum)),Math.max(0,maximum)):left};
 }
 export function roomShell(ctx,game,index,t){
- const current=index===game.room,open=index<game.room||current&&game.state==='traveling'||current&&game.pausedFrom==='traveling',amount=index<game.room?1:open?game.door:0;
+ const current=index===game.room,deadEnd=current&&sideIsDeadEnd(game),open=!deadEnd&&(index<game.room||current&&game.state==='traveling'||current&&game.pausedFrom==='traveling'),amount=index<game.room?1:open?game.door:0;
 
  ctx.fillStyle='#28372f';ctx.fillRect(974,58,26,362);ctx.fillStyle=open?'#9de7b2':'#d88d77';ctx.fillRect(980,60,3,360);ctx.fillStyle='#4d6256';ctx.fillRect(984,60,16,360*(1-amount));
  if(open){ctx.fillStyle='#b7e77a';ctx.font='28px ui-monospace,monospace';ctx.textAlign='center';for(let x=810;x<=950;x+=65)ctx.fillText('→',x,365);}
