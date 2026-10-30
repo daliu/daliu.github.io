@@ -1,4 +1,10 @@
 // This portfolio shell contains no game runtime. The Demo runs on Aygen.
+// Only the existing isolated-QA flag may pass through from the outer page.
+export function portfolioDemoURL(search=''){
+  const url=new URL('https://aygen.us/countermeasure/update.html?mode=demo&embed=portfolio');
+  if(new URLSearchParams(search).get('analytics_test')==='1')url.searchParams.set('analytics_test','1');
+  return url.href;
+}
 // Upgrade the old game worker at its existing URL so it can retire its own cache.
 export async function retireLegacyWorker(serviceWorker,baseUrl,{force=false}={}){
   if(!serviceWorker)return false;
@@ -44,6 +50,7 @@ export function legacyDownloadsUI({document,storageAccess=()=>globalThis.localSt
   }
 }
 if(typeof document!=='undefined'&&document.getElementById('demo-frame')){
+  document.getElementById('demo-frame').src=portfolioDemoURL(globalThis.location?.search??'');
   retireLegacyWorker(globalThis.navigator?.serviceWorker,import.meta.url);
   legacyDownloadsUI({document});
 }

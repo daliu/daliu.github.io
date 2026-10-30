@@ -6,7 +6,10 @@ self.addEventListener('activate',event=>event.waitUntil((async()=>{
   await self.clients.claim();
   const clients=await self.clients.matchAll({type:'window'});
   await self.registration.unregister();
-  const destination=new URL('./?portal=1',ROOT).href;
-  await Promise.allSettled(clients.filter(client=>{const url=new URL(client.url);return url.origin===ROOT.origin&&url.pathname.startsWith(ROOT.pathname)&&url.searchParams.get('portal')!=='1';}).map(client=>client.navigate(destination)));
+  await Promise.allSettled(clients.filter(client=>{const url=new URL(client.url);return url.origin===ROOT.origin&&url.pathname.startsWith(ROOT.pathname)&&url.searchParams.get('portal')!=='1';}).map(client=>{
+    const destination=new URL('./?portal=1',ROOT);
+    if(new URL(client.url).searchParams.get('analytics_test')==='1')destination.searchParams.set('analytics_test','1');
+    return client.navigate(destination.href);
+  }));
 })()));
 self.addEventListener('message',event=>{if(event.data==='ACTIVATE_UPDATE')self.skipWaiting();});
