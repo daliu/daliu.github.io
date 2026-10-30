@@ -5,6 +5,8 @@ export const SURVIVOR_DODGE=.7;
 export const SURVIVOR_DAMAGE=.55;
 export const SURVIVOR_HAIR=['#e9ba70','#402f39','#a74849','#eff0df','#6bc5b6','#967cce','#d88fa9','#4287b2'];
 export const isSurvivor=a=>a?.kind==='human'&&a.survivor==='iris';
+export const survivorDodge=g=>g.difficulty==='terminator'?Math.min(.92,.82+.02*Math.floor((g.wave-1)/10)):SURVIVOR_DODGE;
+export const survivorMorale=g=>(g.companions??[]).some(a=>isSurvivor(a)&&a.hp>0)?1.12:1;
 export function survivorHair(subject=''){
  let hash=2166136261;for(const c of String(subject)){hash=Math.imul(hash^c.charCodeAt(0),16777619)>>>0;}
  return SURVIVOR_HAIR[hash%SURVIVOR_HAIR.length];

@@ -14,6 +14,7 @@ const ultimate=[
 ];
 for(let i=0;i<4;i++)UPGRADES[i][3]=ultimate[i];
 Object.assign(TYPES,{
+ microSpider:{name:'Micro harvester',color:'#a2b9ae',hp:24,speed:105,resistance:{},flaw:'Tiny sealed harvesters deflect blades, blunt hits and plain water. Acid or electric weapons clear them; roll away from the amber spin/stab tells.',behavior:'harvester'},
  buttonGuard:{name:'Button fortress',color:'#b7c1c8',hp:600,speed:0,resistance:{impact:.8,cutting:1,electric:.35,energy:.8,water:.25},flaw:'Destroy its plates to reach the button. Or fight the resistant core directly.',behavior:'structure'},
  antenna:{name:'Sync antenna',color:'#e9c77a',hp:700,speed:0,resistance:{impact:1,cutting:1,electric:.5,energy:.8,water:.35},flaw:'Destroy it: every robot reboots for eight seconds, then loses synchronization.',behavior:'structure'}
 });

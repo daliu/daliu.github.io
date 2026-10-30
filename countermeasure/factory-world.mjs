@@ -11,10 +11,41 @@ export function drawFactoryWorld(ctx,game,index,t){
  const text=(value,x,y,size=10,color=s.ink,align='left')=>{ctx.fillStyle=color;ctx.font=`${size}px ui-monospace,monospace`;ctx.textAlign=align;ctx.fillText(value,x,y);};
  const frame=(x,y,w,h)=>{ctx.strokeStyle=s.ink;ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);};
  const person=(x,y,n)=>{
-  // Living people are small, unarmed figures behind glass, never combat entities.
+  // Adults remain fully clothed behind glass. Their work, not their bodies, is on display.
+  const seated=s.task==='writing'||s.task==='compute',work=Math.sin(t*2+n)*3;
   ctx.fillStyle='#b9b5a5';ctx.beginPath();ctx.arc(x,y-51,8,0,Math.PI*2);ctx.fill();
-  rect(x-9,y-41,18,27,'#8a9c9d');line(x-5,y-14,x-8,y,s.ink,5);line(x+5,y-14,x+8,y,s.ink,5);
-  line(x-10,y-35,x-19,y-22,s.ink,4);line(x+10,y-35,x+22,y-44+Math.sin(t*1.4+n)*3,s.ink,4);
+  rect(x-9,y-41,18,27,'#8a9c9d');line(x-5,y-14,x-(seated?16:8),y,s.ink,5);line(x+5,y-14,x+(seated?16:8),y,s.ink,5);
+  if(s.task==='compliance'){rect(x-9,y-66,18,12,'#555f66');rect(x-10,y-43,20,4,'#c9b881');rect(x+7,y-43,3,4,'#e9bb89');}
+  if(seated){line(x-13,y-39,x-13,y-9,s.ink,4);line(x-13,y-9,x+10,y-9,s.ink,4);}
+  if(['writing','folding','weaving'].includes(s.task)){
+   rect(x-37,y-21,74,4,s.ink);line(x-30,y-17,x-30,y+8,s.ink,3);line(x+30,y-17,x+30,y+8,s.ink,3);
+   line(x-10,y-35,x-19,y-24,s.ink,4);line(x+10,y-35,x+18+work,y-25,s.ink,4);
+   if(s.task==='writing'){rect(x-17,y-24,35,2,'#d2d4bd');line(x+14+work,y-29,x+10+work,y-24,s.light,2);}
+   if(s.task==='folding'){for(let k=0;k<3;k++)rect(x-23+k*3,y-26-k*4,39,4,k%2?s.light:'#91a7b2');line(x-7,y-38,x+14+work,y-30,s.ink,3);}
+   if(s.task==='weaving'){frame(x-25,y-52,50,31);for(let k=0;k<7;k++)line(x-21+k*7,y-49,x-21+k*7,y-24,s.light,1);for(let k=0;k<4;k++)line(x-24,y-43+k*6,x+24,y-43+k*6,'#94afa5',2);}
+  }else{line(x-10,y-35,x-19,y-22,s.ink,4);line(x+10,y-35,x+22,y-44+work,s.ink,4);}
+  if(s.task==='compute'){rect(x-10,y-58,20,3,'#9aabb6');line(x-13,y-26,x-31,y-26,s.ink,2);line(x-31,y-26,x-31,370,s.ink,2);rect(x-35,367,8,6,s.light);}
+ };
+ const observer=(x,y)=>{rect(x-13,y-6,26,12,'#748e96');rect(x+2,y-3,8,6,s.light);line(x-13,y,x-22,y-12,s.ink,2);};
+ const specimen=(x,y,kind,n)=>{
+  rect(x-66,y-53,132,94,'#1b3037');frame(x-66,y-53,132,94);line(x-62,y+35,x+62,y+35,s.ink,3);observer(x+40,y-39);
+  if(kind==='polymer'){
+   rect(x-30,y+13,60,20,'#526d63');for(let k=0;k<3;k++){const stem=x-25+k*25;line(stem,y+13,stem,y-25+k%2*10,'#a3b898',3);for(const side of [-1,1]){ctx.fillStyle='#849f77';ctx.beginPath();ctx.ellipse(stem+side*8,y-6,11,5,side*.5,0,Math.PI*2);ctx.fill();}line(stem,y+5,stem+7,y+17,s.light,1);rect(stem+5,y+15,5,5,s.light);}
+  }else if(kind==='spider'){
+   const sx=x+Math.sin(t*.4+n)*13,sy=y-2;line(x-53,y-48,x+52,y+31,'#63818a');line(x+56,y-48,x-47,y+29,'#63818a');
+   for(const side of [-1,1])for(let k=0;k<4;k++){line(sx+side*3,sy-5+k*3,sx+side*(17+k*2),sy-19+k*10,'#b2b8a1',1);line(sx+side*(17+k*2),sy-19+k*10,sx+side*26,sy-13+k*9,'#b2b8a1',1);}
+   ctx.fillStyle='#a0aa91';ctx.beginPath();ctx.ellipse(sx,sy,6,9,0,0,Math.PI*2);ctx.fill();
+  }else{
+   rect(x-45,y-20,18,20,'#869b8b');ctx.fillStyle='#c4c0a8';ctx.beginPath();ctx.ellipse(x+15,y+17,19,10,0,0,Math.PI*2);ctx.ellipse(x+32,y+12,8,7,0,0,Math.PI*2);ctx.arc(x+31,y+4,4,0,Math.PI*2);ctx.fill();line(x-3,y+18,x-18,y+9,s.ink,2);rect(x+40,y+29,15,4,s.light);
+  }
+ };
+ const silhouette=(x,y,motif)=>{
+  rect(x-10,y-47,20,13,'#71858c');rect(x-13,y-31,26,27,'#536d78');line(x-8,y-4,x-12,y+12,s.ink,5);line(x+8,y-4,x+12,y+12,s.ink,5);
+  if(motif===0){rect(x-8,y-42,16,4,s.light);line(x-15,y-22,x-25,y-35,s.ink,3);}
+  if(motif===1){rect(x-26,y-29,14,32,'#8ca0a0');rect(x+14,y-28,5,32,s.ink);}
+  if(motif===2){rect(x-22,y-25,10,24,'#a8ac88');line(x+13,y-23,x+25,y-8,s.ink,5);rect(x+22,y-12,9,12,s.light);}
+  if(motif===3){line(x-18,y-17,x+18,y-17,s.light,2);for(const side of [-1,1])line(x+side*14,y-24,x+side*29,y-39,s.ink,4);}
+  if(motif===4){for(const side of [-1,1]){line(x+side*12,y-24,x+side*30,y-15,s.ink,5);rect(x+side*25-3,y-14,6,10,s.light);}}
  };
  const trace=(x,y)=>{
   // Manufactured belongings sit on shelves; the floor has no human remains or debris.
@@ -46,7 +77,7 @@ export function drawFactoryWorld(ctx,game,index,t){
    const x=27+n*159,slot=occupied.indexOf(n),status=cellState(game,index,slot),live=slot>=0&&status==='occupied';rect(x,151,140,221,'#192e39');frame(x,151,140,221);
    text(String(s.cellBase+n),x+10,171,12);rect(x+117,161,9,5,live?'#a4c8b0':s.ink);
    rect(x+14,322,109,7,'#84999f');line(x+22,330,x+22,351,s.ink,3);line(x+114,330,x+114,351,s.ink,3);rect(x+20,310,25,10,'#71878d');
-   if(live)person(x+76,307,n);else{const echo=cellEcho(game.escapeArchive,index*6+n,t);text(status==='released'?'RELEASED':echo??'CYCLE CLOSED',x+70,245,11,s.ink,'center');if(echo&&status!=='released')text('RECORD CLOSED',x+70,263,9,s.ink,'center');}
+   if(live){person(x+76,307,n);if(s.task){observer(x+111,204);text(s.task.toUpperCase()+' / OBSERVED',x+70,356,8,s.light,'center');}}else{const echo=cellEcho(game.escapeArchive,index*6+n,t);text(status==='released'?'RELEASED':echo??'CYCLE CLOSED',x+70,245,11,s.ink,'center');if(echo&&status!=='released')text('RECORD CLOSED',x+70,263,9,s.ink,'center');}
    line(x+11,188,x+66,186,s.ink);line(x+6,369,x+136,369,s.light,2);
    if(n===0){trace(x+77,320);}
   }
@@ -57,8 +88,9 @@ export function drawFactoryWorld(ctx,game,index,t){
    for(let k=0;k<3;k++){rect(x+29+k*31,241,21,29,'#808f72');rect(x+33+k*31,248,13,4,s.light);}
    line(x+20,304,x+130,304,s.ink,5);rect(x+32,316,89,30,'#61765e');text('SEALED',x+76,336,11,s.light,'center');
   }
-  if(s.people){rect(375,176,250,125,'#1a2e2c');frame(375,176,250,125);for(let n=0;n<s.people;n++)if(cellState(game,index,n)==='occupied')person(360+n*180,291,n);text('SERVICE WINDOW',500,168,12,s.light,'center');}
-  rect(425,369,150,5,s.ink);trace(477,367);text('SOYLENT / INTERNAL DISTRIBUTION',500,399,13,s.ink,'center');
+  if(s.people){rect(300,176,310,147,'#1a2e2c');frame(300,176,310,147);for(let n=0;n<s.people;n++)if(cellState(game,index,n)==='occupied'){person(360+n*180,291,n);if(s.compliance)observer(393+n*180,205);}text(s.compliance?'ADULT COHORT / COLLAR CONTROL':'SERVICE WINDOW',500,168,12,s.light,'center');}
+  if(s.biology)for(let n=0;n<3;n++)specimen(215+n*285,269,s.biology,n);
+  rect(425,369,150,5,s.ink);trace(477,367);text(s.compliance?'CONSENT FIELD / NOT RECORDED':s.biology==='polymer'?'PLANT DERIVATION / CONDUCTIVE COATING':s.biology==='behavior'?'MAMMAL RESPONSE / MODEL TRANSFER':'SOYLENT / INTERNAL DISTRIBUTION',500,399,12,s.ink,'center');
  }else if(s.kind==='data'){
   // Machine-readable ports, coolant rails and packet lights replace human dashboards.
   for(let n=0;n<7;n++){
@@ -67,10 +99,16 @@ export function drawFactoryWorld(ctx,game,index,t){
    line(x+14,388,x+14,407,s.ink,5);line(x+97,388,x+97,407,s.ink,5);
   }
   for(const y of [138,399]){line(0,y,1000,y,s.ink,5);for(let n=0;n<6;n++){const x=(t*55+n*173)%1000;rect(x,y-2,13,4,s.light);}}
+  if(s.biology==='neural'){
+   rect(285,203,550,172,'#182d36');frame(285,203,550,172);line(288,370,832,370,s.ink,5);
+   for(let n=0;n<4;n++){const x=330+n*150;line(x-13,299,x-13,326,s.ink,4);line(x-13,326,x+10,326,s.ink,4);line(x-31,309,x-31,370,s.ink,2);rect(x-35,367,8,6,s.light);observer(x+39,230);}
+   text('LIVING SUBSTRATE / FACILITY MODEL',560,195,11,s.light,'center');
+  }
+  if(s.biology==='behavior')for(let n=0;n<3;n++)specimen(215+n*285,273,'behavior',n);
   if(s.people||s.trace==='radio'||s.trace==='map'){
-   rect(319,220,362,137,'#182d36');frame(319,220,362,137);
+   if(s.task!=='compute'){rect(319,220,362,137,'#182d36');frame(319,220,362,137);}
    for(let n=0;n<s.people;n++)if(cellState(game,index,n)==='occupied')person(330+n*150,335,n);
-   rect(432,346,138,5,s.ink);trace(495,344);text('SERVICE VOID / UNINDEXED',500,213,11,s.ink,'center');
+   rect(432,346,138,5,s.ink);trace(495,344);if(s.task!=='compute')text('SERVICE VOID / UNINDEXED',500,213,11,s.ink,'center');
   }else{rect(475,384,60,4,s.ink);trace(493,382);}
  }else{
   // The last sector manufactures more workers and erects its own perimeter.
@@ -100,6 +138,12 @@ export function drawFactoryWorld(ctx,game,index,t){
   }
   rect(466,383,73,4,s.ink);trace(487,380);
  }
+ if(game.encounter==='side'&&game.wave===18&&index===game.room){
+  for(let n=0;n<3;n++)specimen(180+n*310,269,'spider',n);text('ARACHNID LOCOMOTION / SOURCE SPECIMENS',500,383,11,s.light,'center');
+ }
+ // Sector prototypes accumulate quietly. The milestone joins their silhouettes into one system.
+ if(s.synthesis){for(let n=0;n<5;n++){const x=360+n*70;silhouette(x,392,n);if(n<4)line(x+25,381,x+45,381,s.light,2);}text('SECTOR MODELS / MERGED',500,342,10,s.light,'center');}
+ else{silhouette(930,387,s.sector);if(s.local>=5){silhouette(864,387,(s.sector+4)%5);line(884,373,909,373,s.ink,2);}}
  for(let n=0;n<5;n++){const x=40+n*200;rect(x,8,120,5,s.light);line(x,14,x+120,14,s.ink);}
  ctx.globalAlpha=.13;text(String(Math.max(1,game.trial)).padStart(3,'0'),500,303,100,s.light,'center');text('H U M A N   T R I A L',500,323,11,s.light,'center');
  if(game.wave===50&&index===game.room)drawEscapeWall(ctx,game.escapeArchive,t);

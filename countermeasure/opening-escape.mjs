@@ -30,6 +30,12 @@ export function drawOpeningCell(ctx,g,room,t){
  ctx.fillStyle='#c0cfb5';ctx.font='14px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText('CELL '+o.cell,425,192);
  ctx.fillStyle='#667b75';ctx.fillRect(355,352,150,9);ctx.fillRect(367,361,6,57);ctx.fillRect(487,361,6,57);ctx.fillRect(302,388,35,23);
  if(!o.lamp){ctx.strokeStyle='#f2b966';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(420,351);ctx.lineTo(420,320);ctx.lineTo(440,300);ctx.stroke();ctx.fillStyle='#efc584';ctx.beginPath();ctx.moveTo(434,291);ctx.lineTo(456,309);ctx.lineTo(425,316);ctx.fill();ctx.globalAlpha=.2+.15*Math.sin(t*3)**2;ctx.fillRect(389,315,83,33);ctx.globalAlpha=1;ctx.font='12px ui-monospace,monospace';ctx.fillText('LAMP ↓',430,276);}
- if(o.decontaminated){ctx.fillStyle='#97c66e66';ctx.fillRect(282,197,286,211);ctx.strokeStyle='#c5ec7b';ctx.lineWidth=3;for(let i=0;i<9;i++){const x=295+i*30,y=202+(t*95+i*29)%190;ctx.beginPath();ctx.moveTo(x,198);ctx.lineTo(x+Math.sin(t*9+i)*12,y);ctx.stroke();}ctx.fillStyle='#c8e7a0';ctx.font='12px ui-monospace,monospace';ctx.fillText('EXTERMINATION IN PROGRESS',425,240);}
+ if(o.decontaminated){
+  // Gas circulates inside a sealed, empty cell. The corridor and its clean floor stay clear.
+  ctx.save();ctx.beginPath();ctx.rect(282,197,286,211);ctx.clip();ctx.fillStyle='#9bb4bd';ctx.globalAlpha=.14;ctx.fillRect(282,197,286,211);
+  for(let i=0;i<14;i++){const x=288+(i*47+t*17)%280,y=235+i%4*43+Math.sin(t*.7+i)*16;ctx.globalAlpha=.11+i%3*.035;ctx.beginPath();ctx.ellipse(x,y,43+i%3*9,24+i%4*5,Math.sin(t*.2+i)*.35,0,Math.PI*2);ctx.fill();}ctx.restore();
+  ctx.fillStyle='#97abb2';ctx.fillRect(295,204,37,7);ctx.fillRect(522,204,37,7);ctx.strokeStyle='#bbd0d3';ctx.lineWidth=2;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(298+i*7,205);ctx.lineTo(298+i*7,211);ctx.stroke();}
+  ctx.fillStyle='#e0c18e';ctx.font='12px ui-monospace,monospace';ctx.fillText('EXTERMINATION IN PROGRESS',425,240);ctx.font='10px ui-monospace,monospace';ctx.fillText('GAS CYCLE / DOOR SEALED',425,258);
+ }
  ctx.restore();
 }

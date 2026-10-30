@@ -1,10 +1,13 @@
 import {autoAllocate} from './auto-skills.mjs';
+import {freshStory} from './narrative.mjs';
+import {beginStoryRoom,chooseStory,chooseIrisStory,updateStoryFlow} from './story-flow.mjs';
+import {swarmPlan,equipMicroSpider,updateMicroSpider,microSpiderDamage,microSpiderVulnerable} from './micro-spiders.mjs';
 import {resistanceFactor,learningBroadcast} from './resistance-learning.mjs';
 import {dryFloor} from './floor-heat.mjs';
 import {updateSpider,updateSpiderLight} from './spider-ambush.mjs';
 import {loseOrdinaryCompanions} from './companion-loss.mjs';
 import {freshOpening,beginOpeningRoom,openingBlocksExit,updateOpening} from './opening-escape.mjs';
-import {isSurvivor,SURVIVOR_DAMAGE} from './survivor.mjs';
+import {isSurvivor,survivorMorale,SURVIVOR_DAMAGE} from './survivor.mjs';
 import {awardSpareWeapon,beginWeaponLootRoom,weaponLootDown,updateWeaponLoot} from './weapon-loot.mjs';
 import {enterSideRoom,completeSideRoom,equipSideBoss,updateSideBoss} from './side-rooms.mjs';
 import {weaponAvailable,lendWeapon,ensurePlayerWeapon} from './weapon-lending.mjs';
@@ -36,7 +39,7 @@ import {expeditionCheckpoint} from './expedition-saves.mjs';
 export {POWERS};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export class ExpeditionArena extends CampaignArena{
- reset(){this.utilityKind='power';this.opening=undefined;this.skillFloor=0;this.weaponStock=[1,1,1,1];this.inventoryRevision=0;this.weaponLoot=[];this.weaponLootRoom=null;this.sideCleared=[];this.fieldCalibration=0;this.finalPilot=null;this.pilotOutcome=null;this.supplyRevision=0;this.supplyRoom=null;this.supplyCrates=[];this.rescuedRooms=[];this.rescuedCells=[];this.lostCells=[];this.rescueDoors=[];this.rescueDoor=null;this.difficulty=validDifficulty(this.difficulty)?this.difficulty:'normal';super.reset();this.encounter='room';this.journey={cleared:0,flawless:true,secretQualified:false};this.carry=null;this.resources=fullResources(this.difficulty);this.moduleCooldowns=POWERS.map(()=>0);this.moduleActiveUntil=POWERS.map(()=>0);this.gear=fullLateGear(this.difficulty);this.gearShots=[];this.next=null;this.room=0;this.door=0;this.synchronized=false;this.syncClock=0;this.ordnance=[];this.glueBombs=[];this.spawnSequence=100;this.bossSupport=null;this.deployments=[];this.deploymentWarning=null;this.deploymentClock=0;this.lastJumpTap=-10;this.boostTime=0;this.plan=this.makePlan(1,this.memory);this.player.hp=this.maxHealth;initCompanions(this);this.opening=freshOpening(this.subject.id);this.points=campaignSkillPoints(1);this.weapon=2;this.plan=this.makePlan(1,this.memory);}
+ reset(){this.story=freshStory();this.storyRatio=null;this.utilityKind='power';this.opening=undefined;this.skillFloor=0;this.weaponStock=[1,1,1,1];this.inventoryRevision=0;this.weaponLoot=[];this.weaponLootRoom=null;this.sideCleared=[];this.fieldCalibration=0;this.finalPilot=null;this.pilotOutcome=null;this.supplyRevision=0;this.supplyRoom=null;this.supplyCrates=[];this.rescuedRooms=[];this.rescuedCells=[];this.lostCells=[];this.collarDoors=[];this.rescueDoors=[];this.rescueDoor=null;this.difficulty=validDifficulty(this.difficulty)?this.difficulty:'normal';super.reset();this.encounter='room';this.journey={cleared:0,flawless:true,secretQualified:false};this.carry=null;this.resources=fullResources(this.difficulty);this.moduleCooldowns=POWERS.map(()=>0);this.moduleActiveUntil=POWERS.map(()=>0);this.gear=fullLateGear(this.difficulty);this.gearShots=[];this.next=null;this.room=0;this.door=0;this.synchronized=false;this.syncClock=0;this.ordnance=[];this.glueBombs=[];this.spawnSequence=100;this.bossSupport=null;this.deployments=[];this.deploymentWarning=null;this.deploymentClock=0;this.lastJumpTap=-10;this.boostTime=0;this.plan=this.makePlan(1,this.memory);this.player.hp=this.maxHealth;initCompanions(this);this.opening=freshOpening(this.subject.id);this.points=campaignSkillPoints(1);this.weapon=2;this.plan=this.makePlan(1,this.memory);}
  get spent(){return super.spent+Number(this.hackSkill??false);}
  allocate(id,delta){if(id==='hack'){if(![-1,1].includes(delta)||delta===1&&(this.hackSkill||this.wave<11||!this.skills.voltage||this.spent>=this.points)||delta===-1&&!this.hackSkill)return false;this.hackSkill=delta===1;cancelHack(this);return true;}if(id==='voltage'&&delta===-1&&this.skills.voltage===1&&this.hackSkill)return false;return super.allocate(id,delta);}
  respec(){super.respec();this.hackSkill=false;cancelHack(this);}
@@ -57,10 +60,10 @@ export class ExpeditionArena extends CampaignArena{
  get armorCapacity(){return Math.round((this.ultra?400:super.armorCapacity)*this.profile.armor);}
  get powers(){return POWERS;}
  get roomOffset(){return this.room*1000;}
- makePlan(w,m,encounter=null){return expeditionPlan(w,m?.effective?m:campaignMemory(),encounter??(w===this.wave?this.encounter:null),this.profile,{opening:this.opening?.story!==false});}
+ makePlan(w,m,encounter=null){const plan=expeditionPlan(w,m?.effective?m:campaignMemory(),encounter??(w===this.wave?this.encounter:null),this.profile,{opening:this.opening?.story!==false}),swarm=swarmPlan(w,this.difficulty);if(plan.encounter==='room'&&swarm.count){plan.openingUnits??=[...plan.units];plan.units=[...plan.units];plan.deployments=(plan.deployments??[]).map(d=>({...d,units:[...d.units]}));let replaced=0;for(let i=plan.deployments.length-1;i>=0&&replaced<3;i--)while(plan.deployments[i].units.length&&replaced<3){const type=plan.deployments[i].units.pop(),at=plan.units.lastIndexOf(type);if(at>=0)plan.units.splice(at,1);replaced++;}plan.deployments=plan.deployments.filter(d=>d.units.length);plan.units.push(...Array(swarm.count).fill('microSpider'));for(let i=0;i<swarm.count;i+=3)plan.deployments.push({at:6+i*1.2,side:'right',units:Array(Math.min(3,swarm.count-i)).fill('microSpider')});plan.deployments.sort((a,b)=>a.at-b.at);plan.activeCap=Math.max(plan.activeCap??0,swarm.activeCap);}return plan;}
  validateCheckpoint(c){return expeditionCheckpoint(c);}
- snapshot(wave=this.wave){return {...super.snapshot(wave),version:6,skillFloor:this.skillFloor,opening:{...this.opening},weaponStock:[...this.weaponStock],sideCleared:[...this.sideCleared],fieldCalibration:this.fieldCalibration,pilotOutcome:this.pilotOutcome??null,rescuedRooms:[...this.rescuedRooms],rescuedCells:[...this.rescuedCells],lostCells:[...this.lostCells],hacking:!!this.hackSkill,squad:squadSnapshot(this),difficulty:this.difficulty,encounter:this.encounter??(milestone(wave)?'boss':'room'),gear:{...this.gear},journey:structuredClone(this.journey??{cleared:0,flawless:false,secretQualified:false}),carry:this.carry?{...this.carry}:null,cooldowns:this.state==='dead'?POWERS.map(()=>0):POWERS.map((_,i)=>this.moduleCooldowns[i]??0),resources:{...(this.state==='dead'&&this.ultra?fullResources(this.difficulty):this.resources??fullResources(this.difficulty))},finaleCheckpoint:null};}
- resume(data,deaths=null){const c=expeditionCheckpoint(data);if(!c)return false;this.skillFloor=c.skillFloor;this.opening={...c.opening};this.weaponStock=[...c.weaponStock];restoreSquad(this,c.squad);this.hackSkill=c.hacking;this.sideCleared=[...c.sideCleared];this.fieldCalibration=c.fieldCalibration;this.rescuedRooms=[...c.rescuedRooms];this.rescuedCells=[...c.rescuedCells];this.lostCells=[...c.lostCells];this.difficulty=c.difficulty;this.encounter=c.encounter;this.pilotOutcome=c.pilotOutcome;this.finalPilot=c.pilotOutcome==='spared'?{phase:'spared',x:30,y:420}:null;this.wave=c.wave;this.journey=c.journey;this.mechTier=c.mechTier;this.module=c.module;this.resources=c.resources;this.gear=c.gear;if(Number.isInteger(deaths)&&deaths>c.runDeaths)loseOrdinaryCompanions(this);this.carry=c.carry;this.moduleCooldowns=c.cooldowns;if(deaths>0)this.journey.flawless=false;return Arena.prototype.resume.call(this,c,deaths);}
+ snapshot(wave=this.wave){return {...super.snapshot(wave),version:6,story:structuredClone(this.story),skillFloor:this.skillFloor,opening:{...this.opening},weaponStock:[...this.weaponStock],sideCleared:[...this.sideCleared],fieldCalibration:this.fieldCalibration,pilotOutcome:this.pilotOutcome??null,rescuedRooms:[...this.rescuedRooms],rescuedCells:[...this.rescuedCells],lostCells:[...this.lostCells],collarDoors:[...this.collarDoors],hacking:!!this.hackSkill,squad:squadSnapshot(this),difficulty:this.difficulty,encounter:this.encounter??(milestone(wave)?'boss':'room'),gear:{...this.gear},journey:structuredClone(this.journey??{cleared:0,flawless:false,secretQualified:false}),carry:this.carry?{...this.carry}:null,cooldowns:this.state==='dead'?POWERS.map(()=>0):POWERS.map((_,i)=>this.moduleCooldowns[i]??0),resources:{...(this.state==='dead'&&this.ultra?fullResources(this.difficulty):this.resources??fullResources(this.difficulty))},finaleCheckpoint:null};}
+ resume(data,deaths=null){const c=expeditionCheckpoint(data);if(!c)return false;this.story=structuredClone(c.story);this.skillFloor=c.skillFloor;this.opening={...c.opening};this.weaponStock=[...c.weaponStock];restoreSquad(this,c.squad);this.hackSkill=c.hacking;this.sideCleared=[...c.sideCleared];this.fieldCalibration=c.fieldCalibration;this.rescuedRooms=[...c.rescuedRooms];this.rescuedCells=[...c.rescuedCells];this.lostCells=[...c.lostCells];this.collarDoors=[...c.collarDoors];this.difficulty=c.difficulty;this.encounter=c.encounter;this.pilotOutcome=c.pilotOutcome;this.finalPilot=c.pilotOutcome==='spared'?{phase:'spared',x:30,y:420}:null;this.wave=c.wave;this.journey=c.journey;this.mechTier=c.mechTier;this.module=c.module;this.resources=c.resources;this.gear=c.gear;if(Number.isInteger(deaths)&&deaths>c.runDeaths)loseOrdinaryCompanions(this);this.carry=c.carry;this.moduleCooldowns=c.cooldowns;if(deaths>0)this.journey.flawless=false;return Arena.prototype.resume.call(this,c,deaths);}
  startWave(){
   if(!['briefing','between'].includes(this.state))return false;
   this.points=Math.max(this.skillFloor,campaignSkillPoints(this.plan.wave));if(this.autoSkills)autoAllocate(this);
@@ -76,7 +79,7 @@ export class ExpeditionArena extends CampaignArena{
   if(this.wave>10&&this.wave%10===1)this.event('ENEMY GENERATION '+Math.ceil(this.wave/10),'#e9bc85');
   if(this.encounter==='room'&&this.wave>1)this.event(learningBroadcast(this.wave,this.memory,this.plan),'#a7c8bb');
   this.bossSupport=['boss','super','hidden'].includes(this.encounter)?createBossSupport(this):null;
-  this.initialHP=this.robots.filter(r=>!r.structure).reduce((n,r)=>n+r.hp,0);this.autoUpgrade();this.checkMechaDrop();this.companions=this.companions.filter(a=>a.hp>0);this.companions.forEach((a,i)=>{a.x=45+i*35;a.y=420;a.cooldown=.7;a.hurtCd=0;});this.orders.command='follow';this.orders.targetId=null;cancelHack(this);this.companionDeathHandled=false;beginOpeningRoom(this);this.entrySquad=squadSnapshot(this);beginSupplyRoom(this);beginWeaponLootRoom(this);this.entryCheckpoint=this.snapshot();this.carry=null;return true;
+  this.initialHP=this.robots.filter(r=>!r.structure).reduce((n,r)=>n+r.hp,0);this.autoUpgrade();this.checkMechaDrop();this.companions=this.companions.filter(a=>a.hp>0);this.companions.forEach((a,i)=>{a.x=45+i*35;a.y=420;a.cooldown=.7;a.hurtCd=0;});this.orders.command='follow';this.orders.targetId=null;cancelHack(this);this.companionDeathHandled=false;beginOpeningRoom(this);this.entrySquad=squadSnapshot(this);beginSupplyRoom(this);beginWeaponLootRoom(this);this.entryCheckpoint=this.snapshot();this.carry=null;beginStoryRoom(this);return true;
  }
  spawn(type,i){const r=super.spawn(type,i);if(type==='mirror'){r.hp=r.maxHp=this.wave===10&&this.mechTier===0?450:650+this.wave*27;r.moduleCd=5;}
   if(type==='overseer'){
@@ -87,7 +90,7 @@ export class ExpeditionArena extends CampaignArena{
   }if(r.super){r.feedback=createBossFeedback();r.hp*=(this.ultimate?1.8:1.35+r.cycle*.35)*this.profile.bossHealth;r.controlSpent=0;r.controlRecovery=0;r.objectiveReboot=0;}
   if(['mirror','overseer'].includes(type)){r.comboPolicy=comboPolicy(type==='mirror'?r.build.style:this.memory,Math.max(1,Math.ceil(this.wave/10)));r.lessonBuild={skills:{...this.skills},tiers:[...this.weaponTiers],mechTier:this.mechTier};r.comboCd=type==='mirror'&&this.wave>=20?1.2:3;r.controlSpent=0;r.controlRecovery=0;}
   if(!r.structure&&!['mirror','overseer'].includes(type)){const front=['guard','bulwark','plated','insulated','sealed','lancer','interceptor','feinter'].includes(type);r.x=Math.min(955,(front?380:650)+(i%3)*100+Math.floor(i/3)*32);}
-  if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?(['mirror','overseer'].includes(type)?1.3:1.15):1;r.maxHp=r.hp;}equipGeneration(this,r);equipCounterTools(this,r);equipSideBoss(this,r,i);return r;
+  if(!r.structure){r.hp*=this.difficulty==='easy'?.8:this.difficulty==='hard'?1.15:this.difficulty==='terminator'?(['mirror','overseer'].includes(type)?1.3:1.15):1;r.maxHp=r.hp;}equipGeneration(this,r);equipCounterTools(this,r);equipSideBoss(this,r,i);if(type==='microSpider')equipMicroSpider(this,r,i);return r;
  }
  upgradeMech(tier){super.upgradeMech(tier);this.moduleCooldowns=POWERS.map((_,i)=>this.moduleCooldowns[i]??0);}
  get rewardTier(){return this.difficulty==='terminator'?5:this.wave/10;}
@@ -99,7 +102,7 @@ export class ExpeditionArena extends CampaignArena{
  updateDeployments(dt){
   this.deploymentClock+=dt;if(!this.deploymentWarning&&this.deployments[0]?.at<=this.deploymentClock)this.signalDeployment();const warning=this.deploymentWarning;if(!warning)return;
   warning.remaining-=dt;if(warning.remaining>0||this.robots.filter(r=>r.hp>0&&!r.structure).length+warning.units.length>(this.plan.activeCap??30))return;this.deploymentWarning=null;
-  for(const [i,type] of warning.units.entries()){const r=this.spawn(type,this.spawnSequence++);r.x=warning.side==='left'?85+i*55:warning.side==='air'?420+i*100:915-i*55;if(warning.side==='air'){r.y=115;r.vy=60;}r.cooldown=1.5+i*.35;r.facing=Math.sign(this.player.x-r.x)||-1;r.boots=!!this.plan.boots&&i%2===0||type==='shocker';this.robots.push(r);}
+  for(const [i,type] of warning.units.entries()){const r=this.spawn(type,this.spawnSequence++);r.x=warning.side==='left'?85+i*55:warning.side==='air'?420+i*100:915-i*55;if(r.microSpider){r.microSpider.x=r.x;r.microSpider.y=r.y;}if(warning.side==='air'){r.y=115;r.vy=60;}r.cooldown=1.5+i*.35;r.facing=Math.sign(this.player.x-r.x)||-1;r.boots=!!this.plan.boots&&i%2===0||type==='shocker';this.robots.push(r);}
  }
 
  useLateTool(){this.companionAction++;cancelHack(this);return useLateTool(this);}
@@ -119,12 +122,12 @@ export class ExpeditionArena extends CampaignArena{
   this.effects.push({kind:'evasion',attackKind:kind,x:r.x,y:r.y-28,dir:r.facing,life:.42,max:.42,color:'#e6c4fa'});return true;
  }
  cancelCharge(){cancelCharge(this);}
- attack(){if(!this.weaponAvailable(this.weapon)){this.cancelCharge();return;}this.companionAction++;cancelHack(this);if(this.state==='traveling'&&releasePrisoner(this))return true;if(this.state==='playing'&&releasePrisoner(this))return true;if(this.chargeState?.active||this.player.drilling>0&&!this.nearEmergency())return;if(this.weapon===2&&this.resources.electricLock>0&&this.state==='playing'){if(this.player.attackCd<=0){this.player.attackCd=.4;this.event('CIRCUIT REBOOT', '#9ee6ee');}return;}const boost=overdriveEnabled(this)&&this.weapon===2&&this.state==='playing'&&this.player.attackCd<=0&&this.gear.battery>=2&&!this.nearEmergency();if(boost)this.gear.battery-=2;this.dischargeScale=boost?1.25:1;try{super.attack();}finally{this.dischargeScale=1;}}
+ attack(){if(!this.weaponAvailable(this.weapon)){this.cancelCharge();return;}this.companionAction++;cancelHack(this);if(this.state==='traveling'&&releasePrisoner(this))return true;if(this.state==='playing'&&releasePrisoner(this))return true;if(this.chargeState?.active||this.player.drilling>0&&!this.nearEmergency())return;if(this.weapon===2&&this.resources.electricLock>0&&this.state==='playing'){if(this.player.attackCd<=0){this.player.attackCd=.4;this.event('CIRCUIT REBOOT', '#9ee6ee');}return;}const boost=overdriveEnabled(this)&&this.weapon===2&&this.state==='playing'&&this.player.attackCd<=0&&this.gear.battery>=2&&!this.nearEmergency();if(boost)this.gear.battery-=2;this.dischargeScale=boost?1.25:1;const attacks=this.stats.attacks.reduce((a,b)=>a+b,0);try{super.attack();if(this.stats.attacks.reduce((a,b)=>a+b,0)>attacks)this.player.attackCd/=survivorMorale(this);}finally{this.dischargeScale=1;}}
  hit(r,index,scale=1){
   if(!this.weaponAvailable(index)&&!(index===1&&this.player.drilling>0))return;
   scale*=1+.05*this.fieldCalibration;
   if(r.humanPilot){if(index===2&&this.resources.electricLock>0)return;return hitPilot(this,r,index,scale);}
-  if(r.structure&&r.hp<=0)return;const w=weaponAt(index,this.weaponTiers[index]);if(index===2&&this.resources.electricLock>0)return;
+  if(r.structure&&r.hp<=0)return;const w=weaponAt(index,this.weaponTiers[index]);if(r.microSpider&&!microSpiderVulnerable({damageType:w.type,tier:w.tier})){microSpiderDamage(r,1,{});return;}if(index===2&&this.resources.electricLock>0)return;
   if(r.type==='buttonGuard'&&r.coating>0&&index===3){r.flash=.1;return;}
   const kind=index===0?'impact':index===1?'cutting':w.type==='water'?'liquid':w.type==='energy'?'laser':'electric';if(this.anticipate(r,kind))return;
   if(r.fullArmor){const factor=[.82,.7,1.05,.82][index];scale*=r.corrosion>0?factor+(1-factor)*.6:factor;}
@@ -148,7 +151,7 @@ export class ExpeditionArena extends CampaignArena{
   return 1-(1-resistance)*clamp(.2+(this.wave-1)*.04,.2,1);
  }
  damageRobot(r,damage,options={}){
-  const alive=r.hp>0,hpBefore=r.hp;if(!alive)return;
+  const alive=r.hp>0,hpBefore=r.hp;if(!alive)return;if(r.microSpider){damage=microSpiderDamage(r,damage,options);if(!damage)return;}
   if(r.humanPilot){if(pilotEvasion(this,r))return;super.damageRobot(r,damage,options);if(r.hp<=0){this.finalPilot.phase='defeated';this.pilotOutcome='defeated';this.event('TRIAL ENDED.','#dfc5a1');}return;}
   if(!r.structure)damage*=resistanceFactor(this.memory,options.fire?'fire':options.damageType);
   if(options.fire&&combustibleArmor(r)){damage*=2;igniteArmor(r);}
@@ -217,6 +220,7 @@ export class ExpeditionArena extends CampaignArena{
   }
   if(r.emp>0||r.radio>0||r.root>0||r.confused>0){r.windup=0;r.action='';r.dive=null;r.burst=0;r.slide=0;r.shove=0;r.predictBlock=0;r.crouching=false;r.combo=null;}
   const hadGlue=r.glueSlow>0;r.glueGround=Math.max(0,(r.glueGround??0)-dt);r.glueSlow=Math.max(0,(r.glueSlow??0)-dt);if(hadGlue&&r.glueSlow===0){r.glue=0;r.glueTimer=0;}
+  if(r.microSpider){for(const k of ['radio','root','confused','glueTimer'])r[k]=Math.max(0,(r[k]??0)-dt);return updateMicroSpider(this,r,dt);}
   const flying=r.flying;if(r.glueGround>0){r.flying=false;r.vy=Math.max(180,r.vy);}const handled=super.updateSpecialRobot(r,dt);r.flying=flying;if(r.type==='spider')return updateSpider(this,r,dt);
   if(r.super){
    r.objectiveReboot=Math.max(0,(r.objectiveReboot??0)-dt);r.controlRecovery=Math.max(0,(r.controlRecovery??0)-dt);
@@ -244,6 +248,8 @@ export class ExpeditionArena extends CampaignArena{
  hurt(...args){if(this.encounter==='boss'&&this.wave===10&&this.mechTier===0)args[0]*=.55;if(this.ultra&&this.player.mechaShield>0)args[0]*=this.profile.ultraMitigation;super.hurt(...args);if(this.state==='dead'){this.journey.flawless=false;if(!this.companionDeathHandled)loseOrdinaryCompanions(this);this.entryCheckpoint=this.snapshot();this.entryCheckpoint.squad=structuredClone(this.entrySquad??emptySquad());}}
  enterSideRoom(){return enterSideRoom(this);}
  choosePilot(mercy){return choosePilot(this,mercy);}
+ chooseStory(id){return chooseStory(this,id);}
+ chooseIrisStory(id){return chooseIrisStory(this,id);}
  finishWave(){
   if(openingBlocksExit(this))return;
   if(this.encounter==='side'){if(completeSideRoom(this))this.memory=learnCampaign(this.memory,this.stats,{wave:this.wave,won:true,learning:this.profile.learning,levelComplete:false});return;}
@@ -257,7 +263,7 @@ export class ExpeditionArena extends CampaignArena{
    if(this.journey.cleared===this.wave-1)this.journey.cleared=this.wave;
    this.points=Math.max(this.skillFloor,campaignSkillPoints(this.wave+1));
    if(this.wave===50){
-    if(this.journey.cleared===50&&this.journey.flawless&&this.runDeaths===0){this.journey.secretQualified=true;this.next={wave:50,encounter:'hidden'};this.resources=fullResources(this.difficulty);this.event('PERFECT HUMAN / VAULT OPEN', '#e6c4fa');}
+    if(this.journey.cleared===50&&this.journey.flawless&&this.runDeaths===0){this.journey.secretQualified=true;this.story.irisSafe=this.story.choice==='refuse'&&this.companions.some(a=>isSurvivor(a)&&a.hp>0);this.next={wave:50,encounter:'hidden'};this.resources=fullResources(this.difficulty);this.event('PERFECT HUMAN / VAULT OPEN', '#e6c4fa');}
     else{this.beginEscape();return;}
    }else this.next={wave:this.wave+1,encounter:milestone(this.wave+1)?'boss':'room'};
   }
@@ -280,7 +286,7 @@ export class ExpeditionArena extends CampaignArena{
  const penetration=r.super?(early&&!opening?2:3):1;
  this.damageRobot(r,240*penetration*(critical?1.65:1),{critical,number:true,color:'#ffbd85',damageType:'impact',feedbackKey:'ap',feedbackSerial:s.feedbackSerial});};}}}this.ordnance=this.ordnance.filter(s=>s.life>0&&s.x>0&&s.x<1000);}
  update(dt,input={}){
-  dt=clamp(dt,0,.04);updatePilotScene(this,dt);if(this.state==='pilot-choice')return;const oldX=this.player.x;if(this.state==='playing')updateAftermath(this,dt);if(this.state==='traveling'){this.updateTravel(dt,input);updateOpening(this);updateRescues(this,dt);updateCompanions(this,dt);updateSupplies(this,dt);updateWeaponLoot(this,dt);return;}if(this.state==='playing'){
+  dt=clamp(dt,0,.04);if(['story-offer','story-iris','concluded'].includes(this.state))return;updatePilotScene(this,dt);if(this.state==='pilot-choice')return;const oldX=this.player.x;if(this.state==='playing')updateAftermath(this,dt);if(this.state==='traveling'){this.updateTravel(dt,input);updateOpening(this);updateRescues(this,dt);updateCompanions(this,dt);updateSupplies(this,dt);updateWeaponLoot(this,dt);return;}if(this.state==='playing'){
    this.resources.electricLock=Math.max(0,this.resources.electricLock-dt);
    if(this.boostTime>0){const burn=Math.min(dt,this.boostTime);this.boostTime=Math.max(0,this.boostTime-dt);this.player.vy=-670;input={...input,up:false};updateRocketExhaust(this,burn);}
    if(!(this.robotReassessment>0)){updateBossSupport(this,dt,input);this.updateDeployments(dt);}this.updateGlueBombs(dt);this.updateOrdnance(dt);updateCharge(this,dt,input);updateLateTools(this,dt,input);this.player.glueSlow=Math.max(0,(this.player.glueSlow??0)-dt);if(this.emergency?.activated&&!this.emergency.rerouted){this.emergency.backup=Math.max(0,this.emergency.backup-dt);if(this.emergency.backup===0){this.emergency.rerouted=true;for(const r of this.robots)if(r.super&&r.hp>0)r.shieldReduced=true;this.event('BACKUP POWER / SHIELDS REDUCED','#f1c778');}}
@@ -289,7 +295,7 @@ export class ExpeditionArena extends CampaignArena{
   if(this.state==='playing'&&!(this.robotReassessment>0))for(const r of this.robots)if(r.hp>0&&!r.structure){r.cooldown-=dt*(this.profile.attack-1);if(r.windup>0)r.windup=Math.max(dt*.1,r.windup-dt*(this.profile.attack-1));}
   if(this.state==='playing')updateCompanions(this,dt);
   updateOpening(this);updateRescues(this,dt);super.update(dt,input);if(this.state==='playing')updateSpiderLight(this,dt);
-  updateHack(this,dt,input);updateSupplies(this,dt);updateWeaponLoot(this,dt);
+  updateHack(this,dt,input);updateSupplies(this,dt);updateWeaponLoot(this,dt);updateStoryFlow(this);
   if(this.state==='playing'){if(this.player.glueSlow>0){this.player.x=oldX+(this.player.x-oldX)*.55;this.player.vx*=.55;}if(this.player.blastAftermath?.kind==='shrapnel'){this.player.x=oldX+(this.player.x-oldX)*.72;this.player.vx*=.72;}blockGuardCrossing(this,oldX);}
   if(this.state==='playing'){const wall=this.robots.find(r=>r.type==='buttonGuard'&&r.hp>0);if(wall&&this.player.x>wall.x-105&&this.player.y<245)this.player.x=wall.x-105;}
  }

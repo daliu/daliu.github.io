@@ -1,3 +1,4 @@
+import {validStory,freshStory} from './narrative.mjs';
 import {validateOpening,legacyOpening} from './opening-escape.mjs';
 import {SIDE_ROOMS} from './side-rooms.mjs';
 import {rescueScene,rescueScenes,cellId} from './prisoners.mjs';
@@ -39,12 +40,14 @@ export function expeditionCheckpoint(data){try{
  c.rescuedRooms=[...c.rescuedRooms];c.rescuedCells=data.version>=6?data.rescuedCells:c.rescuedRooms.map(room=>cellId(room));c.lostCells=data.version>=6?data.lostCells:[];
  const validCells=v=>Array.isArray(v)&&v.length<=80&&new Set(v).size===v.length&&v.every(id=>{const m=typeof id==='string'&&id.match(/^(\d{1,2}):([0-3])$/);if(!m)return false;const room=Number(m[1]),slot=Number(m[2]);return room<=roomIndex(c.wave,c.encounter)&&!!rescueScenes(room,'easy')[slot]&&id===cellId(room,slot);});
  if(!validCells(c.rescuedCells)||!validCells(c.lostCells)||c.lostCells.some(id=>c.rescuedCells.includes(id))||c.rescuedRooms.some(room=>!c.rescuedCells.some(id=>id.startsWith(room+':')))||c.rescuedCells.some(id=>!c.rescuedRooms.includes(Number(id.split(':')[0]))))return null;
+ c.collarDoors=data.collarDoors??c.rescuedCells.filter(id=>[28,30].includes(Number(id.split(':')[0])));if(!validCells(c.collarDoors)||c.collarDoors.length>4||c.collarDoors.some(id=>![28,30].includes(Number(id.split(':')[0])))||c.rescuedCells.some(id=>[28,30].includes(Number(id.split(':')[0]))&&!c.collarDoors.includes(id)))return null;c.collarDoors=[...c.collarDoors];
  c.rescuedCells=[...c.rescuedCells];c.lostCells=[...c.lostCells];const humanCells=c.squad.allies.filter(a=>a.kind==='human').map(a=>cellId(a.rescueRoom,a.rescueSlot??0));
  if(data.version<5&&humanCells.length||new Set(humanCells).size!==humanCells.length||humanCells.some(id=>!c.rescuedCells.includes(id)))return null;
  // Backfill earned points only after the original build and resources validate.
  c.sideCleared=data.sideCleared??[];if(!Array.isArray(c.sideCleared)||c.sideCleared.length>Object.keys(SIDE_ROOMS).length||new Set(c.sideCleared).size!==c.sideCleared.length||c.sideCleared.some(w=>!Number.isInteger(w)||!SIDE_ROOMS[w]||w>data.wave||encounter==='side'&&w===data.wave))return null;c.sideCleared=[...c.sideCleared];c.fieldCalibration=data.fieldCalibration??0;if(!integer(c.fieldCalibration,0,Math.min(3,c.sideCleared.length)))return null;
  c.points=Math.max(c.skillFloor,campaignSkillPoints(c.wave));
  c.gear=validateLateGear(data.gear,difficulty);if(!c.gear)return null;
+ c.story=validStory(data.story,c);if(!c.story)return null;
  return c;
  }catch{return null;}}
 export class ExpeditionStore{
@@ -62,7 +65,7 @@ export class ExpeditionStore{
 // Restarting at another difficulty preserves damage and spent resources; changing options cannot heal the pilot.
 export function retuneCheckpoint(data,difficulty,{mirror=false}={}){
  const source=expeditionCheckpoint(data);if(!source||!validDifficulty(difficulty))return null;const c=structuredClone(source),p=profileFor(difficulty);
- if(mirror&&milestone(c.wave)){c.encounter='boss';c.journey={cleared:Math.min(c.wave-1,c.journey.cleared),flawless:false,secretQualified:false};}
+ if(mirror&&milestone(c.wave)){c.story=freshStory();c.encounter='boss';c.journey={cleared:Math.min(c.wave-1,c.journey.cleared),flawless:false,secretQualified:false};}
  c.difficulty=difficulty;const ultra=c.encounter==='hidden'||difficulty==='terminator'&&c.wave>=10&&(c.wave>10||c.encounter!=='boss'||c.mechTier===5);
  c.mechTier=ultra?5:Math.min(c.mechTier,Math.floor(c.wave/10));const tier=ultra?3:c.wave>=16?2:c.wave>=6?1:0;c.tiers=c.tiers.map(t=>Math.min(t,tier));c.module=Math.min(c.module,ultra?5:Math.min(3,Math.max(0,c.mechTier-1)));c.mirrorBlueprint=null;
  if(c.carry)c.carry={hp:Math.min(c.carry.hp,p.health),shield:Math.min(c.carry.shield,Math.round((ultra?400:c.mechTier?40+c.mechTier*28:0)*p.armor))};

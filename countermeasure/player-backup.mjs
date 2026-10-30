@@ -5,9 +5,10 @@ import {EscapeArchive,ESCAPE_KEY} from './escape-archive.mjs';
 import {CHARACTER_KEY,normalizeCharacter} from './character.mjs';
 import {OPTIONS_KEY,readOptions} from './options.mjs';
 import {validDifficulty} from './difficulty.mjs';
+import {EndingArchive,ENDINGS_KEY} from './narrative.mjs';
 export const PROFILE_PENDING='countermeasure.profile.pending.v1';
 const DEMO='countermeasure.progress.v1',SUBJECTS='countermeasure.subjects.v1',FINALE='countermeasure.finale.v1',MODE='countermeasure.mode.v1',DIFFICULTY='countermeasure.difficulty.v1';
-const KEYS=[DEMO,EXPEDITION_SAVE_KEY,SUBJECTS,ESCAPE_KEY,CHARACTER_KEY,OPTIONS_KEY,FINALE,MODE,DIFFICULTY];
+const KEYS=[DEMO,EXPEDITION_SAVE_KEY,SUBJECTS,ESCAPE_KEY,ENDINGS_KEY,CHARACTER_KEY,OPTIONS_KEY,FINALE,MODE,DIFFICULTY];
 const memory=()=>{const values=new Map();return {getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,String(v)),removeItem:k=>values.delete(k)};};
 const parse=(s,k)=>{try{return JSON.parse(s.getItem(k));}catch{return null;}};
 // A write-ahead undo record protects the previous profile if a browser closes or
@@ -20,7 +21,9 @@ export function playerStorage(base){
   let pending;try{pending=JSON.parse(base.getItem(PROFILE_PENDING));}catch{sessionOnly=true;fallback=new Map();return false;}
   if(!pending)return true;
   const legacyKey=['countermeasure.campaign.v8','countermeasure.campaign.v7','countermeasure.campaign.v6','countermeasure.campaign.v5'].find(k=>pending.old&&Object.hasOwn(pending.old,k));
-  const recoverKeys=legacyKey&&!Object.hasOwn(pending.old,EXPEDITION_SAVE_KEY)?KEYS.map(k=>k===EXPEDITION_SAVE_KEY?legacyKey:k):KEYS;
+  const campaignKeys=legacyKey&&!Object.hasOwn(pending.old,EXPEDITION_SAVE_KEY)?KEYS.map(k=>k===EXPEDITION_SAVE_KEY?legacyKey:k):KEYS;
+  // Older write-ahead records never touched ending history; undo only their keys.
+  const recoverKeys=campaignKeys.filter(k=>k!==ENDINGS_KEY||pending.old&&Object.hasOwn(pending.old,ENDINGS_KEY));
   if(pending.version!==1||!['prepared','complete'].includes(pending.phase)||pending.phase==='prepared'&&(!pending.old||!recoverKeys.every(k=>pending.old[k]===null||typeof pending.old[k]==='string'))){try{base.removeItem(PROFILE_PENDING);}catch{}return true;}
   if(pending.phase==='complete'){try{base.removeItem(PROFILE_PENDING);}catch{}return true;}
   try{for(const k of recoverKeys)write(k,pending.old[k]);base.removeItem(PROFILE_PENDING);return true;}
@@ -37,24 +40,25 @@ function normalized(value){
  if(p.demo!==null)demo.import(JSON.stringify(p.demo));if(p.campaign!==null)campaign.import(JSON.stringify(p.campaign));
  if(!p.subjects||!Number.isInteger(p.subjects.seed)||p.subjects.seed<0||p.subjects.seed>0xffffffff||!Number.isSafeInteger(p.subjects.sequence)||p.subjects.sequence<0||p.subjects.sequence>1000000000||!Array.isArray(p.subjects.records)||p.subjects.records.length>24)throw Error('Invalid subject records');
  if(!p.archive||!Array.isArray(p.archive.winners)||p.archive.winners.length>48||!Array.isArray(p.archive.lost)||p.archive.lost.length>128)throw Error('Invalid escape archive');
- const store=memory();store.setItem(ESCAPE_KEY,JSON.stringify(p.archive));const archive=new EscapeArchive(store,p.subjects.records),subjects=new SubjectRegister(p.subjects),opts=memory();opts.setItem(OPTIONS_KEY,JSON.stringify(p.options));
- return {format:'countermeasure-player',version:1,profile:{demo:demo.entries.size?demo.snapshot():null,campaign:campaign.entries.size?JSON.parse(campaign.export()):null,subjects:subjects.snapshot(),archive:{winners:archive.winners,lost:archive.lost,unlocked:archive.unlocked},character:normalizeCharacter(p.character,false,archive.unlocked),options:readOptions(opts),mode:p.mode==='campaign'?'campaign':'demo',difficulty:validDifficulty(p.difficulty)?p.difficulty:'normal'}};
+ const store=memory();store.setItem(ESCAPE_KEY,JSON.stringify(p.archive));if(p.endings!==undefined)store.setItem(ENDINGS_KEY,JSON.stringify(p.endings));const archive=new EscapeArchive(store,p.subjects.records),endings=new EndingArchive(store),subjects=new SubjectRegister(p.subjects),opts=memory();opts.setItem(OPTIONS_KEY,JSON.stringify(p.options));
+ return {format:'countermeasure-player',version:1,profile:{demo:demo.entries.size?demo.snapshot():null,campaign:campaign.entries.size?JSON.parse(campaign.export()):null,subjects:subjects.snapshot(),archive:{winners:archive.winners,lost:archive.lost,unlocked:archive.unlocked},endings:{version:1,entries:endings.list()},character:normalizeCharacter(p.character,false,archive.unlocked),options:readOptions(opts),mode:p.mode==='campaign'?'campaign':'demo',difficulty:validDifficulty(p.difficulty)?p.difficulty:'normal'}};
 }
 export function readPlayerBackup(text){if(typeof text!=='string'||text.length>1000000)throw Error('Backup too large');return normalized(JSON.parse(text));}
 export function capturePlayerBackup(storage){
  const d=new ProgressStore(storage.getItem(DEMO)),c=new ExpeditionStore(campaignSaveFrom(storage)),legacyFinale=parse(storage,FINALE);
  if(legacyFinale&&expeditionCheckpoint(legacyFinale))c.unlockFinale(legacyFinale);
  const register=new SubjectRegister(parse(storage,SUBJECTS)),temp=memory();temp.setItem(ESCAPE_KEY,JSON.stringify(parse(storage,ESCAPE_KEY)));const archive=new EscapeArchive(temp,register.records);
- return normalized({format:'countermeasure-player',version:1,profile:{demo:d.entries.size?d.snapshot():null,campaign:c.entries.size?JSON.parse(c.export()):null,subjects:register.snapshot(),archive:{winners:archive.winners,lost:archive.lost,unlocked:archive.unlocked},character:parse(storage,CHARACTER_KEY),options:readOptions(storage),mode:storage.getItem(MODE),difficulty:storage.getItem(DIFFICULTY)}});
+ return normalized({format:'countermeasure-player',version:1,profile:{demo:d.entries.size?d.snapshot():null,campaign:c.entries.size?JSON.parse(c.export()):null,subjects:register.snapshot(),archive:{winners:archive.winners,lost:archive.lost,unlocked:archive.unlocked},endings:{version:1,entries:new EndingArchive(storage).list()},character:parse(storage,CHARACTER_KEY),options:readOptions(storage),mode:storage.getItem(MODE),difficulty:storage.getItem(DIFFICULTY)}});
 }
 export function restorePlayerBackup(storage,value){
  if(storage.sessionOnly)throw Error('Storage unavailable. Keep your backup and retry in a browser with local storage.');
  const p=normalized(value).profile,current=capturePlayerBackup(storage).profile;
  // Entry progress is replaced, but already-earned permanent rewards are retained.
  const winners=new Map([...current.archive.winners,...p.archive.winners].map(r=>[r.id,r]));p.archive.winners=[...winners.values()].slice(-48);p.archive.lost=[...new Set([...current.archive.lost,...p.archive.lost])].slice(-128);p.archive.unlocked ||=current.archive.unlocked;
+ const endings=new Map(current.endings.entries.map(e=>[e.id,e]));for(const e of p.endings.entries){const earned=endings.get(e.id);if(!earned)endings.set(e.id,e);else if(e.difficulty==='terminator'&&earned.difficulty!=='terminator')endings.set(e.id,{...earned,difficulty:'terminator'});}p.endings={version:1,entries:[...endings.values()]};
  p.character=normalizeCharacter(value.profile.character,false,p.archive.unlocked);
  const campaign=new ExpeditionStore();if(p.campaign)campaign.import(JSON.stringify(p.campaign));if(current.campaign?.finale)campaign.unlockFinale(current.campaign.finale);p.campaign=campaign.entries.size?JSON.parse(campaign.export()):null;
- const values={[DEMO]:p.demo,[EXPEDITION_SAVE_KEY]:p.campaign,[SUBJECTS]:p.subjects,[ESCAPE_KEY]:p.archive,[CHARACTER_KEY]:p.character,[OPTIONS_KEY]:p.options,[FINALE]:campaign.finale,[MODE]:p.mode,[DIFFICULTY]:p.difficulty};
+ const values={[DEMO]:p.demo,[EXPEDITION_SAVE_KEY]:p.campaign,[SUBJECTS]:p.subjects,[ESCAPE_KEY]:p.archive,[ENDINGS_KEY]:p.endings,[CHARACTER_KEY]:p.character,[OPTIONS_KEY]:p.options,[FINALE]:campaign.finale,[MODE]:p.mode,[DIFFICULTY]:p.difficulty};
  const old=Object.fromEntries(KEYS.map(k=>[k,storage.getItem(k)??null]));storage.setItem(PROFILE_PENDING,JSON.stringify({version:1,phase:'prepared',old}));
  try{for(const k of KEYS){const v=values[k];if(v===null)storage.removeItem(k);else storage.setItem(k,k===MODE||k===DIFFICULTY?v:JSON.stringify(v));}storage.setItem(PROFILE_PENDING,JSON.stringify({version:1,phase:'complete'}));}
  catch(error){storage.recover();throw error;}

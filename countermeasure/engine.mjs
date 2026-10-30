@@ -154,7 +154,7 @@ export class Arena{
     const within=Math.abs(p.x-r.x)<w.range&&(p.x-r.x)*r.facing>-18&&Math.abs((p.y-(p.crouching?9:23))-(r.y-23))<(p.crouching&&r.weapon>=2?11:70);
     if(r.weapon===3)for(let distance=65;distance<=w.range;distance+=75)this.addPool(r.x+r.facing*distance,w.corrosive?w.tier:0);
     if(within){let damage=w.damage*(1+(r.weapon<2?.16*skills.force:.2*skills.voltage))*.65;if(r.weapon===3&&p.exposed>0)damage*=1.75;if(w.type==='electric'){if(p.wet>0)damage*=3;if(p.dented>0)damage*=1.08;}this.botHurt(r,damage,r.x,r.weapon<2?.25*skills.breaker:0);if(r.weapon===1)p.exposed=6;if(r.weapon===0)p.dented=5;if(r.weapon===3){p.wet=5;if(w.corrosive){p.corrosion=4;p.corrosionTier=w.tier;}}}
-    if(w.type==='electric'){const network=this.conductiveNetwork(within?[r,p]:[r]);for(const pool of network)pool.charged=.55;if(network.some(pool=>this.poolAt(p,pool)))this.hurt(18,r.x);if(network.some(pool=>this.poolAt(r,pool))){this.damageRobot(r,18*(1-.15*skills.plating));}}
+    if(w.type==='electric'){const network=this.conductiveNetwork(within?[r,p]:[r]);for(const pool of network)pool.charged=.55;if(network.some(pool=>this.poolAt(p,pool)))this.hurt(18,r.x);if(network.some(pool=>this.poolAt(r,pool))){this.damageRobot(r,18*(1-.15*skills.plating),{damageType:'electric'});}}
     r.cooldown=Math.max(w.cooldown,.65,1/Math.max(.3,r.build.style.attackRate??1));r.decisions++;let weight=(r.decisions*.61803398875)%1;for(let i=0;i<4;i++){weight-=r.build.style.weapon[i];if(weight<=0){r.weapon=i;break;}}
   }
   updateMirror(r,dt){const p=this.player,style=r.build.style,skills=r.build.skills;r.reaction-=dt;r.jumpCd-=dt;r.dashCd-=dt;r.dashTime=Math.max(0,r.dashTime-dt);

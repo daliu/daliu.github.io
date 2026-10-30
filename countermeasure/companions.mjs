@@ -1,9 +1,9 @@
 import {borrowedLoadout,ensurePlayerWeapon} from './weapon-lending.mjs';
 import {TYPES} from './engine.mjs';
 import {SquadOrders} from './squad-orders.mjs';
-import {isSurvivor,SURVIVOR_DODGE,SURVIVOR_DAMAGE} from './survivor.mjs';
+import {isSurvivor,survivorDodge,SURVIVOR_DAMAGE} from './survivor.mjs';
 export const HACK_SKILL={id:'hack',name:'Physical hack',branch:'CIRCUIT',tier:1,parent:'voltage',max:1,desc:'Level 11 · expose wiring, disable, then hold Hack nearby for 2s. Up to 3 allies.'};
-export const ordinaryRobot=r=>!!r&&!r.sideBoss&&!r.humanPilot&&r.type!=='trialPilot'&&!r.structure&&!r.super&&!['mirror','overseer','spider','antenna','buttonGuard'].includes(r.type)&&!!TYPES[r.type];
+export const ordinaryRobot=r=>!!r&&!r.sideBoss&&!r.humanPilot&&r.type!=='trialPilot'&&!r.structure&&!r.super&&!['mirror','overseer','spider','microSpider','antenna','buttonGuard'].includes(r.type)&&!!TYPES[r.type];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function eligibleHack(g,r){return g.wave>=11&&g.hackSkill&&ordinaryRobot(r)&&r.hp>0&&r.faction!=='ally'&&r.exposed>0&&['emp','radio','paralyzed','stun','root'].some(k=>r[k]>0)&&Math.hypot(r.x-g.player.x,r.y-g.player.y)<=70;}
 export function hackTarget(g){return g.robots.filter(r=>eligibleHack(g,r)).sort((a,b)=>Math.hypot(a.x-g.player.x,a.y-g.player.y)-Math.hypot(b.x-g.player.x,b.y-g.player.y))[0]??null;}
@@ -30,10 +30,10 @@ export function updateHack(g,dt,input){
 }
 export function hurtCompanion(g,a,damage,{continuous=false,dodgeable=true}={}){
  if(a.hp<=0||!Number.isFinite(damage)||damage<=0||!continuous&&a.hurtCd>0)return false;
- if(isSurvivor(a)&&!continuous&&dodgeable&&g.random()<SURVIVOR_DODGE){a.hurtCd=.2;a.dodgeFlash=.3;return false;}
+ if(isSurvivor(a)&&!continuous&&dodgeable&&g.random()<survivorDodge(g)){a.hurtCd=.2;a.dodgeFlash=.3;return false;}
  damage*=1-.04*a.rank;
- if(isSurvivor(a)){const absorbed=Math.min(a.armor,damage);a.armor-=absorbed;damage-=absorbed;}
- a.hp=Math.max(0,a.hp-damage);if(!continuous)a.hurtCd=.2;if(a.hp===0)g.event(a.name+' / SIGNAL LOST','#9ce5e3');return true;
+ if(isSurvivor(a)){if(g.difficulty==='terminator')damage/=1+.16*Math.floor((g.wave-1)/10);const absorbed=Math.min(a.armor,damage);a.armor-=absorbed;damage-=absorbed;}
+ a.hp=Math.max(isSurvivor(a)&&g.difficulty==='terminator'?1:0,a.hp-damage);if(!continuous)a.hurtCd=.2;if(a.hp===0)g.event(a.name+' / SIGNAL LOST','#9ce5e3');return true;
 }
 export function awardCompanionKill(g,a){a.kills++;if(a.rank<5&&g.random()<.25){a.rank++;g.event(a.name+' / ADAPTED '+a.rank,'#9ce5e3');}}
 export function companionAttack(g,a,r){
@@ -42,7 +42,7 @@ export function companionAttack(g,a,r){
  const resistance=TYPES[r.type].resistance[type]??1;let damage=(loan?loan.w.damage*.5:water?7:a.role==='fighter'?12:10)*(1+.1*a.rank)*(1+.12*(a.generation-1))*resistance*(isSurvivor(a)?SURVIVOR_DAMAGE:1);
  if(electric&&r.wet>0)damage*=3;if(electric&&r.dented>0)damage*=1.08;if(water){r.wet=Math.max(r.wet,3);if(loan?.w.corrosive){r.corrosion=4;r.corrosionTier=loan.w.tier;r.corrosionOwner=a.id;}}if(loan?.weapon===1)r.exposed=6;if(loan?.weapon===0)r.dented=5;
  if((loan?.role??a.role)==='fighter')g.effects.push({kind:'attack',x:a.x,y:a.y-22,dir:Math.sign(r.x-a.x)||a.facing,range:loan?.range??90,weapon:loan?.weapon??1,life:.15,max:.15,color:'#9ce5e3'});else g.effects.push({kind:'arc',x:a.x,y:a.y-30,x2:r.x,y2:r.y-27,life:.13,max:.13,color:loan?.w.color??(water?'#7cc9e8':'#9ce5e3')});
- g.damageRobot(r,damage,{number:true,color:'#9ce5e3',companionId:a.id});
+ g.damageRobot(r,damage,{number:true,color:'#9ce5e3',companionId:a.id,...(r.microSpider?{damageType:type,tier:loan?.w.tier??0}:{})});
 }
 export function updateCompanions(g,dt){
  if(!['playing','traveling'].includes(g.state))return;ensurePlayerWeapon(g);
