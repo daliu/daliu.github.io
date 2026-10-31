@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-30T21:00:20.316106+00:00",
+  "generated_at": "2026-10-31T04:00:14.020487+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "f001a83",
-      "date": "2026-10-30T13:57:17-07:00",
-      "message": "Keep Demo portal tests isolated and preserve legacy QA migration"
+      "hash": "f883284",
+      "date": "2026-10-30T14:00:20-07:00",
+      "message": "Update health data 2026-10-30 14:00"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-10-30T14:00:04.432246",
+        "updated": "2026-10-30T21:00:03.634028",
         "date_range": null
       },
       "last_commit": {
-        "hash": "518f779",
-        "date": "2026-10-30T08:00:23-07:00",
-        "message": "Update health data 2026-10-30 08:00"
+        "hash": "f883284",
+        "date": "2026-10-30T14:00:20-07:00",
+        "message": "Update health data 2026-10-30 14:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "f883284",
+      "date": "2026-10-30T14:00:20-07:00",
+      "message": "Update health data 2026-10-30 14:00"
+    },
     {
       "hash": "f001a83",
       "date": "2026-10-30T13:57:17-07:00",
@@ -158,11 +163,6 @@
       "hash": "7969019",
       "date": "2026-10-29T06:40:04-07:00",
       "message": "health: refresh calendar density 2026-10-29 06:40"
-    },
-    {
-      "hash": "545835b",
-      "date": "2026-10-29T12:00:21+00:00",
-      "message": "Update analytics data 2026-10-29"
     }
   ]
 }
