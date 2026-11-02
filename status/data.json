@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-02T16:00:17.590241+00:00",
+  "generated_at": "2026-11-02T22:00:15.364482+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "c6f1dae",
-      "date": "2026-11-02T07:01:19-08:00",
-      "message": "social: 2026-11-02 MoneySignals deck (3 cards)"
+      "hash": "0085e39",
+      "date": "2026-11-02T12:31:28-08:00",
+      "message": "social: 2026-11-02 MoneySignals deck (4 cards)"
     },
     "branch": "master"
   },
@@ -15,9 +15,9 @@
       "schedule": "5:30 AM ET on weekdays",
       "page_count": 183,
       "last_commit": {
-        "hash": "c6f1dae",
-        "date": "2026-11-02T07:01:19-08:00",
-        "message": "social: 2026-11-02 MoneySignals deck (3 cards)"
+        "hash": "0085e39",
+        "date": "2026-11-02T12:31:28-08:00",
+        "message": "social: 2026-11-02 MoneySignals deck (4 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-02T08:00:05.648478",
+        "updated": "2026-11-02T14:00:04.281947",
         "date_range": null
       },
       "last_commit": {
-        "hash": "7468a0d",
-        "date": "2026-11-02T06:40:04-08:00",
-        "message": "health: refresh calendar density 2026-11-02 06:40"
+        "hash": "423aa6d",
+        "date": "2026-11-02T08:00:17-08:00",
+        "message": "Update health data 2026-11-02 08:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,16 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "0085e39",
+      "date": "2026-11-02T12:31:28-08:00",
+      "message": "social: 2026-11-02 MoneySignals deck (4 cards)"
+    },
+    {
+      "hash": "423aa6d",
+      "date": "2026-11-02T08:00:17-08:00",
+      "message": "Update health data 2026-11-02 08:00"
+    },
     {
       "hash": "c6f1dae",
       "date": "2026-11-02T07:01:19-08:00",
@@ -153,16 +163,6 @@
       "hash": "f883284",
       "date": "2026-10-30T14:00:20-07:00",
       "message": "Update health data 2026-10-30 14:00"
-    },
-    {
-      "hash": "f001a83",
-      "date": "2026-10-30T13:57:17-07:00",
-      "message": "Keep Demo portal tests isolated and preserve legacy QA migration"
-    },
-    {
-      "hash": "53bb21d",
-      "date": "2026-10-30T13:51:48-07:00",
-      "message": "Keep only the hosted Countermeasure Demo portal in the public repository"
     }
   ]
 }
