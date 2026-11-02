@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-01T14:00:05.913307",
+  "updated": "2026-11-01T21:00:07.851118",
   "date_range": {
     "start": "2026-01-12",
-    "end": "2026-11-01",
-    "days": 220
+    "end": "2026-11-02",
+    "days": 221
   },
   "baseline": {
     "avg_body_battery": 39.4,
@@ -21,12 +21,12 @@
       "sample_size": 32
     },
     "Mon": {
-      "battery": 41.7,
+      "battery": 41.5,
       "stress": 28.3,
-      "sleep_score": 80.7,
-      "sleep_hours": 7.2,
-      "steps": 9182,
-      "sample_size": 30
+      "sleep_score": 80.5,
+      "sleep_hours": 7.3,
+      "steps": 9582.2,
+      "sample_size": 31
     },
     "Tue": {
       "battery": 42.2,
@@ -92,11 +92,11 @@
       "sample_size": 54
     },
     "intense": {
-      "battery": 28.1,
-      "battery_delta": -11.3,
-      "stress": 30.0,
-      "sleep": 72.0,
-      "sample_size": 24
+      "battery": 28.4,
+      "battery_delta": -11.0,
+      "stress": 29.9,
+      "sleep": 72.1,
+      "sample_size": 25
     }
   },
   "event_categories": {
@@ -120,11 +120,11 @@
         "battery": 37.5,
         "battery_delta": -3.0,
         "stress": 26.9,
-        "sample_size": 77
+        "sample_size": 78
       },
       "+3d": {
         "battery": 38.7,
-        "battery_delta": -1.2,
+        "battery_delta": -1.1,
         "stress": 27.2,
         "sample_size": 77
       }
@@ -137,10 +137,10 @@
         "sample_size": 24
       },
       "+2d": {
-        "battery": 43.7,
-        "battery_delta": 4.8,
-        "stress": 25.8,
-        "sample_size": 23
+        "battery": 43.4,
+        "battery_delta": 4.5,
+        "stress": 25.9,
+        "sample_size": 24
       },
       "+3d": {
         "battery": 42.7,
@@ -192,9 +192,9 @@
   },
   "exercise_streaks": {
     "no_streak": {
-      "battery": 40.9,
+      "battery": 40.8,
       "stress": 28.2,
-      "sample_size": 142
+      "sample_size": 143
     },
     "1-2_days": {
       "battery": 34.9,
@@ -219,9 +219,9 @@
       "sample_size": 42
     },
     "good": {
-      "next_day_battery": 41.6,
+      "next_day_battery": 41.5,
       "next_day_stress": 27.1,
-      "sample_size": 103
+      "sample_size": 104
     },
     "fair": {
       "next_day_battery": 37.6,
