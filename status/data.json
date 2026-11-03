@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-02T22:00:15.364482+00:00",
+  "generated_at": "2026-11-03T05:00:16.720973+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "0085e39",
-      "date": "2026-11-02T12:31:28-08:00",
-      "message": "social: 2026-11-02 MoneySignals deck (4 cards)"
+      "hash": "90f83a6",
+      "date": "2026-11-02T20:49:40-08:00",
+      "message": "Filter Countermeasure reports to the Aygen game hostname"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-02T14:00:04.281947",
+        "updated": "2026-11-02T21:00:03.553718",
         "date_range": null
       },
       "last_commit": {
-        "hash": "423aa6d",
-        "date": "2026-11-02T08:00:17-08:00",
-        "message": "Update health data 2026-11-02 08:00"
+        "hash": "1d0be2e",
+        "date": "2026-11-02T14:00:15-08:00",
+        "message": "Update health data 2026-11-02 14:00"
       }
     },
     "knowledge_graph": {
@@ -64,6 +64,16 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "90f83a6",
+      "date": "2026-11-02T20:49:40-08:00",
+      "message": "Filter Countermeasure reports to the Aygen game hostname"
+    },
+    {
+      "hash": "1d0be2e",
+      "date": "2026-11-02T14:00:15-08:00",
+      "message": "Update health data 2026-11-02 14:00"
+    },
     {
       "hash": "0085e39",
       "date": "2026-11-02T12:31:28-08:00",
@@ -153,16 +163,6 @@
       "hash": "f8ece9b",
       "date": "2026-10-31T11:27:52+00:00",
       "message": "Update analytics data 2026-10-31"
-    },
-    {
-      "hash": "693039d",
-      "date": "2026-10-30T21:00:14-07:00",
-      "message": "Update health data 2026-10-30 21:00"
-    },
-    {
-      "hash": "f883284",
-      "date": "2026-10-30T14:00:20-07:00",
-      "message": "Update health data 2026-10-30 14:00"
     }
   ]
 }
