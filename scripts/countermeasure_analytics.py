@@ -53,7 +53,7 @@ def fetch_game_analytics(client, date_range):
             match_type=Filter.StringFilter.MatchType.EXACT, value=value)))
 
     def query(dimensions, metrics, event):
-        filters = [exact("hostName", "daliu.github.io"), FilterExpression(
+        filters = [exact("hostName", "aygen.us"), FilterExpression(
             not_expression=exact("customEvent:cm_entry", "qa"))]
         if event == "all":
             filters.append(FilterExpression(filter=Filter(field_name="eventName", in_list_filter=Filter.InListFilter(

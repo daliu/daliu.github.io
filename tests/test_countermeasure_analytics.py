@@ -59,7 +59,7 @@ class ReportsTest(unittest.TestCase):
             self.assertEqual(request.property, "properties/530194999")
             expr = request.dimension_filter.and_group.expressions
             self.assertEqual(expr[0].filter.field_name, "hostName")
-            self.assertEqual(expr[0].filter.string_filter.value, "daliu.github.io")
+            self.assertEqual(expr[0].filter.string_filter.value, "aygen.us")
             self.assertEqual(expr[1].not_expression.filter.field_name, "customEvent:cm_entry")
             self.assertEqual(expr[1].not_expression.filter.string_filter.value, "qa")
             self.assertEqual(expr[2].filter.field_name, "eventName")
