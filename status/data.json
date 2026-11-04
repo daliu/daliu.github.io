@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-04T05:00:39.003909+00:00",
+  "generated_at": "2026-11-04T16:00:18.407343+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "011d76e",
-      "date": "2026-11-03T14:00:16-08:00",
-      "message": "Update health data 2026-11-03 14:00"
+      "hash": "3e9a803",
+      "date": "2026-11-04T07:01:21-08:00",
+      "message": "social: 2026-11-04 MoneySignals deck (3 cards)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 184,
+      "page_count": 185,
       "last_commit": {
-        "hash": "694dad6",
-        "date": "2026-11-03T12:31:25-08:00",
-        "message": "social: 2026-11-03 MoneySignals deck (3 cards)"
+        "hash": "3e9a803",
+        "date": "2026-11-04T07:01:21-08:00",
+        "message": "social: 2026-11-04 MoneySignals deck (3 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-03T21:00:07.045058",
+        "updated": "2026-11-04T08:00:03.201997",
         "date_range": null
       },
       "last_commit": {
-        "hash": "011d76e",
-        "date": "2026-11-03T14:00:16-08:00",
-        "message": "Update health data 2026-11-03 14:00"
+        "hash": "625b70c",
+        "date": "2026-11-04T06:40:04-08:00",
+        "message": "health: refresh calendar density 2026-11-04 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,46 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-11-03T13:19:55Z"
+        "updated": "2026-11-04T13:31:03Z"
       },
       "last_commit": {
-        "hash": "882907d",
-        "date": "2026-11-03T13:19:55+00:00",
-        "message": "Update analytics data 2026-11-03"
+        "hash": "8bdabe4",
+        "date": "2026-11-04T13:31:04+00:00",
+        "message": "Update analytics data 2026-11-04"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "3e9a803",
+      "date": "2026-11-04T07:01:21-08:00",
+      "message": "social: 2026-11-04 MoneySignals deck (3 cards)"
+    },
+    {
+      "hash": "6e4363d",
+      "date": "2026-11-04T10:00:04-05:00",
+      "message": "blog: 2026-11-04 \u2014 Research evidence and economic schedules"
+    },
+    {
+      "hash": "7f40e70",
+      "date": "2026-11-04T10:00:04-05:00",
+      "message": "daily: 2026-11-04 market update"
+    },
+    {
+      "hash": "625b70c",
+      "date": "2026-11-04T06:40:04-08:00",
+      "message": "health: refresh calendar density 2026-11-04 06:40"
+    },
+    {
+      "hash": "8bdabe4",
+      "date": "2026-11-04T13:31:04+00:00",
+      "message": "Update analytics data 2026-11-04"
+    },
+    {
+      "hash": "54477cc",
+      "date": "2026-11-03T21:00:39-08:00",
+      "message": "Update health data 2026-11-03 21:00"
+    },
     {
       "hash": "011d76e",
       "date": "2026-11-03T14:00:16-08:00",
@@ -133,36 +163,6 @@
       "hash": "c6f1dae",
       "date": "2026-11-02T07:01:19-08:00",
       "message": "social: 2026-11-02 MoneySignals deck (3 cards)"
-    },
-    {
-      "hash": "7468a0d",
-      "date": "2026-11-02T06:40:04-08:00",
-      "message": "health: refresh calendar density 2026-11-02 06:40"
-    },
-    {
-      "hash": "31e5765",
-      "date": "2026-11-02T14:18:51+00:00",
-      "message": "Update analytics data 2026-11-02"
-    },
-    {
-      "hash": "bacf4f6",
-      "date": "2026-11-02T05:38:24-05:00",
-      "message": "blog: 2026-11-02 \u2014 Research evidence and economic schedules"
-    },
-    {
-      "hash": "f5a4588",
-      "date": "2026-11-02T05:38:20-05:00",
-      "message": "daily: 2026-11-02 market update"
-    },
-    {
-      "hash": "924327d",
-      "date": "2026-11-01T21:00:19-08:00",
-      "message": "Update health data 2026-11-01 21:00"
-    },
-    {
-      "hash": "f625a95",
-      "date": "2026-11-01T20:00:05-08:00",
-      "message": "Update knowledge graph + system status + now data 2026-11-01"
     }
   ]
 }
