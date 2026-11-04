@@ -1,55 +1,55 @@
 {
-  "updated": "2026-11-04T08:00:07.650875",
-  "n": 72,
+  "updated": "2026-11-04T14:00:09.150954",
+  "n": 73,
   "bedtime": {
-    "recommended_norm": 3.404,
-    "recommended_label": "9:24 PM",
+    "recommended_norm": 3.551,
+    "recommended_label": "9:33 PM",
     "kind": "interior-optimum",
     "monotonic_earlier_better": false,
-    "ci_label": "9:13 PM \u2013 4:55 AM",
-    "median_label": "2:12 AM",
-    "pct10_label": "11:25 PM",
+    "ci_label": "9:45 PM \u2013 3:46 AM",
+    "median_label": "1:57 AM",
+    "pct10_label": "11:26 PM",
     "pct90_label": "4:40 AM",
     "stats": {
       "sleep_score": {
-        "kind": "linear",
-        "cv_r2": -0.089,
-        "r": 0.28,
-        "p": 0.0194,
-        "per_hour_earlier": -1.47
+        "kind": "quadratic",
+        "cv_r2": -0.105,
+        "r": 0.27,
+        "p": 0.0219,
+        "per_hour_earlier": -1.43
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": -0.232,
+        "cv_r2": -0.189,
         "r": -0.41,
-        "p": 0.0004,
+        "p": 0.0003,
         "per_hour_earlier": 0.3
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.257,
-        "r": 0.03,
-        "p": 0.7793,
-        "per_hour_earlier": -0.23
+        "cv_r2": -0.226,
+        "r": 0.02,
+        "p": 0.8462,
+        "per_hour_earlier": -0.16
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 67.3,
+      "sleep_score": 68.4,
       "sleep_hours": 8.5,
-      "battery": 75.3
+      "battery": 75.9
     },
     "pred_at_median": {
-      "sleep_score": 74.4,
-      "sleep_hours": 7.1,
-      "battery": 76.4
+      "sleep_score": 76.4,
+      "sleep_hours": 7.2,
+      "battery": 76.6
     }
   },
   "exercise": {
     "effect_r": {
       "prior_day_load": {
-        "sleep_score": 0.15,
-        "sleep_hours": 0.1,
-        "battery": 0.03
+        "sleep_score": 0.14,
+        "sleep_hours": 0.09,
+        "battery": 0.02
       },
       "weekly_frequency": {
         "sleep_score": -0.05,
