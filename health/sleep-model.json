@@ -1,47 +1,47 @@
 {
-  "updated": "2026-11-04T21:00:08.458114",
-  "n": 73,
+  "updated": "2026-11-05T14:00:13.086076",
+  "n": 74,
   "bedtime": {
-    "recommended_norm": 3.551,
-    "recommended_label": "9:33 PM",
-    "kind": "interior-optimum",
-    "monotonic_earlier_better": false,
-    "ci_label": "9:45 PM \u2013 3:46 AM",
-    "median_label": "1:57 AM",
-    "pct10_label": "11:26 PM",
-    "pct90_label": "4:40 AM",
+    "recommended_norm": 5.445,
+    "recommended_label": "11:27 PM",
+    "kind": "earlier-is-better",
+    "monotonic_earlier_better": true,
+    "ci_label": "10:44 PM \u2013 4:54 AM",
+    "median_label": "2:12 AM",
+    "pct10_label": "11:27 PM",
+    "pct90_label": "4:39 AM",
     "stats": {
       "sleep_score": {
-        "kind": "quadratic",
+        "kind": "linear",
         "cv_r2": -0.105,
         "r": 0.27,
-        "p": 0.0219,
-        "per_hour_earlier": -1.43
+        "p": 0.0198,
+        "per_hour_earlier": -1.45
       },
       "sleep_hours": {
         "kind": "linear",
-        "cv_r2": -0.189,
-        "r": -0.41,
-        "p": 0.0003,
+        "cv_r2": -0.245,
+        "r": -0.4,
+        "p": 0.0004,
         "per_hour_earlier": 0.3
       },
       "battery": {
         "kind": "linear",
         "cv_r2": -0.226,
-        "r": 0.02,
-        "p": 0.8462,
-        "per_hour_earlier": -0.16
+        "r": 0.03,
+        "p": 0.8035,
+        "per_hour_earlier": -0.21
       }
     },
     "pred_at_recommended": {
-      "sleep_score": 68.4,
-      "sleep_hours": 8.5,
-      "battery": 75.9
+      "sleep_score": 70.6,
+      "sleep_hours": 7.9,
+      "battery": 76.4
     },
     "pred_at_median": {
-      "sleep_score": 76.4,
-      "sleep_hours": 7.2,
-      "battery": 76.6
+      "sleep_score": 74.6,
+      "sleep_hours": 7.1,
+      "battery": 77.0
     }
   },
   "exercise": {
@@ -49,7 +49,7 @@
       "prior_day_load": {
         "sleep_score": 0.14,
         "sleep_hours": 0.09,
-        "battery": 0.02
+        "battery": 0.01
       },
       "weekly_frequency": {
         "sleep_score": -0.05,
