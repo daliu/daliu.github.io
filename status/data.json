@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-09T04:00:04.527373+00:00",
+  "generated_at": "2026-11-09T05:00:15.397972+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "f98cedc",
-      "date": "2026-11-08T14:00:12-08:00",
-      "message": "Update health data 2026-11-08 14:00"
+      "hash": "7d9ac48",
+      "date": "2026-11-08T20:00:04-08:00",
+      "message": "Update knowledge graph + system status + now data 2026-11-08"
     },
     "branch": "master"
   },
@@ -25,7 +25,7 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-08T14:00:04.200017",
+        "updated": "2026-11-08T21:00:06.097373",
         "date_range": null
       },
       "last_commit": {
@@ -44,9 +44,9 @@
         "edge_count": 222
       },
       "last_commit": {
-        "hash": "f625a95",
-        "date": "2026-11-01T20:00:05-08:00",
-        "message": "Update knowledge graph + system status + now data 2026-11-01"
+        "hash": "7d9ac48",
+        "date": "2026-11-08T20:00:04-08:00",
+        "message": "Update knowledge graph + system status + now data 2026-11-08"
       }
     },
     "site_analytics": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "7d9ac48",
+      "date": "2026-11-08T20:00:04-08:00",
+      "message": "Update knowledge graph + system status + now data 2026-11-08"
+    },
     {
       "hash": "f98cedc",
       "date": "2026-11-08T14:00:12-08:00",
@@ -157,11 +162,6 @@
     {
       "hash": "bedce90",
       "date": "2026-11-05T12:31:18-08:00",
-      "message": "social: 2026-11-05 MoneySignals deck (3 cards)"
-    },
-    {
-      "hash": "aaaab4b",
-      "date": "2026-11-05T09:42:49-08:00",
       "message": "social: 2026-11-05 MoneySignals deck (3 cards)"
     }
   ]
