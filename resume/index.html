@@ -289,7 +289,7 @@
 
   <section>
     <h2>Summary</h2>
-    <p>I build production machine learning systems end-to-end — from data ingestion and feature engineering through model training, serving, and measurement — and I instrument them to verify their own claims. My work has a consistent pattern: question the accepted metric, find the architectural gap, build the system others extend into production. Currently leading personalization at Shipt for millions of grocery shoppers, and concurrently the lead AI engineer at a healthcare stealth startup, where I build the AI validation and safety tooling for LLM-driven behavioral-health systems — clinical-expert validation loops, LLM-as-judge evaluation, and auditable prompt experimentation. Previously a Machine Learning Research Engineer at Freenome (multiomics cancer detection) and a Sr. ML Engineer at Change Healthcare. I also run an independent AI research program — three papers spanning multi-agent synthesis, model selection under distribution shift, and LLM-grounded feature extraction — with evaluation designed so the system that produces a number is never the one that grades it.</p>
+    <p>At every company I've worked for, I have built production machine learning systems end-to-end — data ingestion, feature engineering, training, serving, and measurement — and I instrument them to verify their own claims. My work has a consistent pattern: question the accepted metric, find the architectural gap, build the system others extend into production. Currently leading personalization at Shipt for millions of grocery shoppers, and concurrently the lead AI engineer at a healthcare stealth startup, where I architected the clinical-scoring AI framework end to end, from document intake and scoring to clinician review and evaluation. Previously a Machine Learning Research Engineer at Freenome (multiomics cancer detection) and a Sr. ML Engineer at Change Healthcare. I also run an independent AI research program — three papers spanning multi-agent synthesis, model selection under distribution shift, and LLM-grounded feature extraction — with evaluation designed so the system that produces a number is never the one that grades it.</p>
   </section>
 
   <section>
@@ -300,13 +300,13 @@
         <span class="role-title">Lead AI Engineer <span class="role-company">— Stealth Startup</span> (Behavioral Health AI)</span>
         <span class="role-dates">Mar 2026 — Present</span>
       </div>
-      <p class="role-context">Lead AI engineer (concurrent with Shipt) at a healthcare startup building behavioral-health solutions with LLMs; I own the AI validation and safety tooling — clinical-SME review loops, agentic evaluation, orchestration, and experimentation.</p>
+      <p class="role-context">Lead AI engineer (concurrent with Shipt) at a healthcare startup building behavioral-health solutions with LLMs. I architected its clinical-scoring AI framework end to end, from document intake to clinician review.</p>
       <ul>
-        <li>Building the clinical validation framework: scores agent decisions and escalates uncertain or high-stakes cases to <strong>clinical subject-matter experts</strong>, converting each SME ruling into reusable development signal — the same expert-gated pattern as my <strong>Adaptive Domain Intelligence</strong> research in legal AI (LLM-as-judge, with changes shipping only when a domain expert and a frozen gold set agree).</li>
-        <li>Built an <strong>LLM-as-judge</strong> pipeline that turns the varied visual elements in clinical documents into consistent determinations.</li>
-        <li>Standardized agentic outputs across the product and validate them in a <strong>PHI-compliant AI Sandbox</strong>, with cross-agent orchestration on AWS Bedrock under a zero-retention configuration.</li>
-        <li>Built SMOTE-inspired synthetic test-case generation — controlled perturbations of real examples — to expand regression coverage of already-observed failure modes and error classes without fabricating novel behavior claims.</li>
-        <li>Formalizing an experimentation process for prompt changes: configurable candidate boards and A/B tests across multiple prompt variants, integrated with <strong>Langfuse</strong> for prompt registration and auditable, reproducible results.</li>
+        <li>Architected the production scoring pipeline: OCR on case documents, an LLM on <strong>AWS Bedrock</strong> (zero-retention) scoring each clinical criterion, and a rule-based tree that rolls criteria up to the final score. Quoted evidence is checked against the source text, so every score traces back to the chart.</li>
+        <li>Designed the trust layer: recommendation lanes (auto-release, suggest, review-required, suppress), fixed safety gates for high-risk findings, and reviewer-reliability weighting. Output is advisory; the <strong>clinician always has the final say</strong>.</li>
+        <li>Built the evaluation loop: a run ledger, A/B arms with significance tests, and scorecards against clinician-reviewed cases. A change ships only if it passes a no-net-regression gate; most prompt changes I tested were rejected on that evidence. Same expert-gated pattern as my <strong>Adaptive Domain Intelligence</strong> research.</li>
+        <li>Designed a model adapter and response cache for like-for-like model comparison; outputs are validated in a <strong>PHI-compliant AI Sandbox</strong>.</li>
+        <li>Built an <strong>LLM-as-judge</strong> pipeline for visual elements in clinical documents, and SMOTE-inspired synthetic test cases (controlled perturbations of real examples) to widen regression coverage.</li>
       </ul>
     </div>
 
@@ -315,12 +315,12 @@
         <span class="role-title">Senior Data Scientist <span class="role-company">— Shipt</span> (Personalization Team)</span>
         <span class="role-dates">Sep 2024 — Present</span>
       </div>
-      <p class="role-context">Lead data scientist on Shipt's Personalization team; architected recommender and eligibility systems behind personalized shelves for millions of grocery shoppers. Mentored 4 data scientists, including 2 direct reports.</p>
+      <p class="role-context">Lead data scientist on Shipt's Personalization team; designed and built the recommendation platform behind personalized shelves for millions of shoppers, from model to measurement, with Engineering on serving. Mentored 4 data scientists, including 2 direct reports.</p>
       <ul>
         <li>Built and launched Deals For You V2, replacing matrix factorization with two-tower retrieval and precision reranking; a CUPED-corrected A/B test drove <strong>+91% shelf engagement</strong>, <strong>+1.76% order incidence</strong>, and <strong>+1.41% orders per user</strong>.</li>
         <li>Audited pre-treatment imbalance and a variant activation gap before SVP planning, correcting the annualized estimate from +83K to <strong>~50K incremental orders (95% CI: 20K–80K)</strong> and <strong>~$3.7M directional GMV</strong>; preserved a real win while retiring an inflated topline.</li>
         <li>The validated result prompted leadership to re-plan H2 around Deals as a potential <strong>~$6M contributor to Shipt's $20M incremental-GMV target</strong>, prioritizing scale-up, holdback measurement, and reuse of the eligibility platform.</li>
-        <li>Architected a reusable real-time Eligibility platform: a store-scoped hard pre-filter before ANN with swappable content tables; reduced an initial <strong>448M-row design by ~95%</strong> to ~20M store-specific rows plus a compact global set, with zero-downtime refreshes and p99 &lt;750 ms serving.</li>
+        <li>Architected a reusable real-time Eligibility platform: a store-scoped hard pre-filter before ANN with swappable content tables; reduced an initial <strong>448M-row design by ~95%</strong> to ~20M store-specific rows plus a compact global set, zero-downtime refreshes, and a p99 &lt;750 ms serving target.</li>
         <li>Across the broader personalization portfolio, delivered up to <strong>23% Personalized GMV lift</strong> across A/B-tested shelves and a cold-start strategy with <strong>+47% engagement</strong> and <strong>+8% first-time orders</strong>.</li>
         <li>Created the Personalization Interaction Score (views → clicks → ATC → purchases) and an automated Shelf Attribution pipeline; challenged an irreproducible 5% attribution claim, established the defensible 1–4% range, and raised the organization's measurement standard.</li>
         <li>Partnered with Engineering to replace CSV-based recommendation delivery with Kafka pipelines across legacy recommenders; served as the team's sole data scientist for its first four months while maintaining 16 repositories.</li>
@@ -333,7 +333,7 @@
         <span class="role-title">Machine Learning Research Engineer <span class="role-company">— Freenome</span></span>
         <span class="role-dates">Nov 2020 — Jun 2024</span>
       </div>
-      <p class="role-context">Core ML engineer at a genomics company developing a blood test for early-stage cancer detection. Worked at the intersection of infrastructure and research.</p>
+      <p class="role-context">Core ML engineer at a genomics company developing a blood test for early-stage cancer detection. I worked across the whole model lifecycle, from data and training to serving and audit.</p>
       <ul>
         <li>Key contributor to Freenome's core multiomics cancer-detection model that predicts cancer stage (1–4) from blood-draw data; built data abstractions for petabyte-scale genomic datasets that unblocked cross-analyte feature development and accelerated training/evaluation cycles.</li>
         <li>Built a model-comparison system tracking research-vs-production model performance side-by-side — required for FDA audit compliance, gave the team confidence that production models stayed aligned with research intent.</li>
@@ -349,7 +349,7 @@
         <span class="role-title">Sr. Machine Learning Engineer <span class="role-company">— Change Healthcare</span></span>
         <span class="role-dates">Jan 2020 — Nov 2020</span>
       </div>
-      <p class="role-context">ML systems for health-insurance claims processing — accuracy translates directly into operational cost savings.</p>
+      <p class="role-context">ML systems for health-insurance claims processing, where accuracy translates directly into operational cost savings. I built the models and their path to production.</p>
       <ul>
         <li>Designed a ranking model matching human workers to claims tasks based on skill, history, and complexity; <strong>$7M annual value</strong> by reducing manual task assignment and the need for additional hires.</li>
         <li>Built a classification model partitioning sensitive patient documents (image + text) to route claims to the correct processing workflow.</li>
