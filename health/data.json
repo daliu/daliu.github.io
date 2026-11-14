@@ -1,12 +1,12 @@
 {
-  "updated": "2026-11-13T14:00:06.857924",
+  "updated": "2026-11-13T21:00:04.444358",
   "daily": [
     {
       "date": "2026-08-16",
-      "avg_body_battery": 45.0,
+      "avg_body_battery": 39.0,
       "min_body_battery": 5,
       "max_body_battery": 73,
-      "avg_stress": 25.0,
+      "avg_stress": 28.0,
       "total_steps": 65825,
       "sleep_score": 77,
       "sleep_hours": 8.33,
@@ -21,7 +21,7 @@
       "vigorous_minutes": 251,
       "distance_meters": 60025.0,
       "rest_stress_pct": 93.76,
-      "low_stress_pct": 10.8,
+      "low_stress_pct": 9.99,
       "medium_stress_pct": 14.15,
       "high_stress_pct": 9.87,
       "bb_charged": 68,
@@ -2324,6 +2324,34 @@
       "bb_drained": 43,
       "bb_at_wake": 66,
       "sedentary_seconds": 54559
+    },
+    {
+      "date": "2026-11-14",
+      "avg_body_battery": 24.0,
+      "min_body_battery": 5,
+      "max_body_battery": 67,
+      "avg_stress": 32.0,
+      "total_steps": 3243,
+      "sleep_score": 68,
+      "sleep_hours": 5.27,
+      "hrv_weekly": 77,
+      "hrv_last_night": 72,
+      "hrv_status": "BALANCED",
+      "resting_hr": 49,
+      "sleep_start": "03:13",
+      "sleep_end": "08:39",
+      "active_calories": 39.0,
+      "intensity_minutes": 0,
+      "vigorous_minutes": 0,
+      "distance_meters": 2805.0,
+      "rest_stress_pct": 42.31,
+      "low_stress_pct": 27.11,
+      "medium_stress_pct": 15.37,
+      "high_stress_pct": 1.65,
+      "bb_charged": 62,
+      "bb_drained": 46,
+      "bb_at_wake": 66,
+      "sedentary_seconds": 51754
     }
   ],
   "hr_zones": {
@@ -2336,15 +2364,6 @@
     "days": 90
   },
   "hourly": [
-    {
-      "timestamp": "2026-11-07 01:46:48",
-      "body_battery_current": 13,
-      "resting_hr": 45,
-      "stress_avg": 34,
-      "steps": 12600,
-      "sleep_score": 51,
-      "hrv_weekly_avg": 74
-    },
     {
       "timestamp": "2026-11-07 22:54:36",
       "body_battery_current": 42,
@@ -2495,6 +2514,15 @@
       "resting_hr": 49,
       "stress_avg": 24,
       "steps": 526,
+      "sleep_score": 68,
+      "hrv_weekly_avg": 77
+    },
+    {
+      "timestamp": "2026-11-14 04:53:19",
+      "body_battery_current": 24,
+      "resting_hr": 49,
+      "stress_avg": 32,
+      "steps": 3243,
       "sleep_score": 68,
       "hrv_weekly_avg": 77
     }

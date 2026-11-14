@@ -1,14 +1,14 @@
 {
-  "updated": "2026-11-13T14:00:09.185056",
+  "updated": "2026-11-13T21:00:06.549009",
   "date_range": {
     "start": "2026-01-12",
-    "end": "2026-11-13",
-    "days": 231
+    "end": "2026-11-14",
+    "days": 232
   },
   "baseline": {
     "avg_body_battery": 39.4,
-    "avg_stress": 28.3,
-    "sleep_score": 74.5,
+    "avg_stress": 28.4,
+    "sleep_score": 74.4,
     "sleep_hours": 6.7
   },
   "day_of_week": {
@@ -61,21 +61,21 @@
       "sample_size": 36
     },
     "Sat": {
-      "battery": 31.5,
-      "stress": 30.5,
+      "battery": 31.2,
+      "stress": 30.6,
       "sleep_score": 70.1,
       "sleep_hours": 6.4,
-      "steps": 11247.7,
-      "sample_size": 30
+      "steps": 10989.5,
+      "sample_size": 31
     }
   },
   "activity_levels": {
     "rest_day": {
-      "battery": 44.6,
-      "battery_delta": 5.2,
+      "battery": 44.4,
+      "battery_delta": 5.0,
       "stress": 28.7,
-      "sleep": 72.8,
-      "sample_size": 94
+      "sleep": 72.7,
+      "sample_size": 95
     },
     "light": {
       "battery": 40.4,
@@ -112,19 +112,19 @@
     "exercise": {
       "+1d": {
         "battery": 37.4,
-        "battery_delta": -3.2,
+        "battery_delta": -3.1,
         "stress": 28.6,
         "sample_size": 81
       },
       "+2d": {
         "battery": 37.3,
-        "battery_delta": -3.3,
+        "battery_delta": -3.2,
         "stress": 27.0,
         "sample_size": 81
       },
       "+3d": {
         "battery": 39.3,
-        "battery_delta": -0.3,
+        "battery_delta": -0.2,
         "stress": 27.1,
         "sample_size": 81
       }
@@ -132,19 +132,19 @@
     "high_steps": {
       "+1d": {
         "battery": 38.5,
-        "battery_delta": -1.1,
+        "battery_delta": -1.0,
         "stress": 28.0,
         "sample_size": 25
       },
       "+2d": {
         "battery": 44.0,
-        "battery_delta": 5.1,
+        "battery_delta": 5.2,
         "stress": 25.8,
         "sample_size": 25
       },
       "+3d": {
         "battery": 43.0,
-        "battery_delta": 3.9,
+        "battery_delta": 4.0,
         "stress": 26.2,
         "sample_size": 25
       }
@@ -152,7 +152,7 @@
     "sleep_great": {
       "+1d": {
         "battery": 40.0,
-        "battery_delta": 0.6,
+        "battery_delta": 0.7,
         "stress": 28.7,
         "sample_size": 42
       },
@@ -164,7 +164,7 @@
       },
       "+3d": {
         "battery": 36.8,
-        "battery_delta": -3.3,
+        "battery_delta": -3.2,
         "stress": 29.5,
         "sample_size": 42
       }
@@ -184,7 +184,7 @@
       },
       "+3d": {
         "battery": 36.2,
-        "battery_delta": -3.5,
+        "battery_delta": -3.4,
         "stress": 36.4,
         "sample_size": 10
       }
@@ -192,9 +192,9 @@
   },
   "exercise_streaks": {
     "no_streak": {
-      "battery": 40.5,
-      "stress": 28.2,
-      "sample_size": 150
+      "battery": 40.4,
+      "stress": 28.3,
+      "sample_size": 151
     },
     "1-2_days": {
       "battery": 35.8,
@@ -224,9 +224,9 @@
       "sample_size": 109
     },
     "fair": {
-      "next_day_battery": 37.6,
-      "next_day_stress": 27.7,
-      "sample_size": 53
+      "next_day_battery": 37.3,
+      "next_day_stress": 27.8,
+      "sample_size": 54
     },
     "poor": {
       "next_day_battery": 29.6,
@@ -237,12 +237,12 @@
   "insights": [
     {
       "type": "day_of_week",
-      "text": "Weds have 12 more body battery than Sats on average",
+      "text": "Weds have 13 more body battery than Sats on average",
       "impact": "positive"
     },
     {
       "type": "sleep_lag",
-      "text": "Great sleep benefits peak at +3 days: -3.3 body battery vs non-great sleep days",
+      "text": "Great sleep benefits peak at +3 days: -3.2 body battery vs non-great sleep days",
       "impact": "negative"
     },
     {
@@ -252,7 +252,7 @@
     },
     {
       "type": "exercise_recovery",
-      "text": "Active days (10K+ steps) lower next-day battery by 3.2",
+      "text": "Active days (10K+ steps) lower next-day battery by 3.1",
       "impact": "negative"
     }
   ]
