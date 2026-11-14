@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-14T05:00:16.036237+00:00",
+  "generated_at": "2026-11-14T16:00:18.272071+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "cefd870",
-      "date": "2026-11-13T14:00:17-08:00",
-      "message": "Update health data 2026-11-13 14:00"
+      "hash": "99c09ab",
+      "date": "2026-11-14T06:40:09-08:00",
+      "message": "health: refresh calendar density 2026-11-14 06:40"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-13T21:00:04.444358",
+        "updated": "2026-11-14T08:00:04.380674",
         "date_range": null
       },
       "last_commit": {
-        "hash": "cefd870",
-        "date": "2026-11-13T14:00:17-08:00",
-        "message": "Update health data 2026-11-13 14:00"
+        "hash": "99c09ab",
+        "date": "2026-11-14T06:40:09-08:00",
+        "message": "health: refresh calendar density 2026-11-14 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-11-12T14:21:10Z"
+        "updated": "2026-11-14T12:45:32Z"
       },
       "last_commit": {
-        "hash": "3449ab9",
-        "date": "2026-11-12T14:21:11+00:00",
-        "message": "Update analytics data 2026-11-12"
+        "hash": "9c73b2b",
+        "date": "2026-11-14T12:45:32+00:00",
+        "message": "Update analytics data 2026-11-14"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "99c09ab",
+      "date": "2026-11-14T06:40:09-08:00",
+      "message": "health: refresh calendar density 2026-11-14 06:40"
+    },
+    {
+      "hash": "9c73b2b",
+      "date": "2026-11-14T12:45:32+00:00",
+      "message": "Update analytics data 2026-11-14"
+    },
+    {
+      "hash": "57b5cd7",
+      "date": "2026-11-13T21:00:16-08:00",
+      "message": "Update health data 2026-11-13 21:00"
+    },
     {
       "hash": "cefd870",
       "date": "2026-11-13T14:00:17-08:00",
@@ -148,21 +163,6 @@
       "hash": "8a90f68",
       "date": "2026-11-11T14:03:13-08:00",
       "message": "Resume: end-to-end ownership at every role; startup role leads with the clinical-scoring framework"
-    },
-    {
-      "hash": "44c4c2d",
-      "date": "2026-11-11T14:00:17-08:00",
-      "message": "Update health data 2026-11-11 14:00"
-    },
-    {
-      "hash": "97596b1",
-      "date": "2026-11-11T12:31:19-08:00",
-      "message": "social: 2026-11-11 MoneySignals deck (3 cards)"
-    },
-    {
-      "hash": "5a17092",
-      "date": "2026-11-11T08:00:14-08:00",
-      "message": "Update health data 2026-11-11 08:00"
     }
   ]
 }
