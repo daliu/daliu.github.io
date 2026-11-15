@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T08:00:03.778853",
+  "updated": "2026-11-15T14:00:03.830623",
   "daily": [
     {
       "date": "2026-08-18",
@@ -2299,24 +2299,24 @@
     },
     {
       "date": "2026-11-15",
-      "avg_body_battery": 23.0,
-      "min_body_battery": 10,
+      "avg_body_battery": 43.0,
+      "min_body_battery": 5,
       "max_body_battery": 85,
-      "avg_stress": 37.0,
+      "avg_stress": 32.0,
       "total_steps": 11148,
       "sleep_score": 77,
       "sleep_hours": 6.14,
       "hrv_weekly": 78,
       "hrv_last_night": 80,
       "hrv_status": "BALANCED",
-      "resting_hr": 46,
-      "sleep_start": "02:08",
-      "sleep_end": "08:18",
+      "resting_hr": 45,
+      "sleep_start": "03:03",
+      "sleep_end": "09:05",
       "active_calories": 958.0,
       "intensity_minutes": 3,
       "vigorous_minutes": 74,
       "distance_meters": 11235.0,
-      "rest_stress_pct": 57.62,
+      "rest_stress_pct": 65.69,
       "low_stress_pct": 34.78,
       "medium_stress_pct": 60.87,
       "high_stress_pct": 4.35,
@@ -2336,15 +2336,6 @@
     "days": 90
   },
   "hourly": [
-    {
-      "timestamp": "2026-11-08 18:55:04",
-      "body_battery_current": null,
-      "resting_hr": null,
-      "stress_avg": -1,
-      "steps": 110,
-      "sleep_score": null,
-      "hrv_weekly_avg": 74
-    },
     {
       "timestamp": "2026-11-08 22:55:09",
       "body_battery_current": 43,
@@ -2524,13 +2515,27 @@
       "steps": null,
       "sleep_score": null,
       "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-11-15 17:54:10",
+      "body_battery_current": 68,
+      "resting_hr": 45,
+      "stress_avg": 25,
+      "steps": 337,
+      "sleep_score": null,
+      "hrv_weekly_avg": null
+    },
+    {
+      "timestamp": "2026-11-15 18:54:11",
+      "body_battery_current": 58,
+      "resting_hr": 45,
+      "stress_avg": 29,
+      "steps": 442,
+      "sleep_score": 72,
+      "hrv_weekly_avg": 77
     }
   ],
   "vo2max": [
-    {
-      "date": "2026-05-19",
-      "vo2max": 54.0
-    },
     {
       "date": "2026-05-20",
       "vo2max": 54.0

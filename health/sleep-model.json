@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T08:00:07.337859",
+  "updated": "2026-11-15T14:00:09.296509",
   "n": 75,
   "bedtime": {
     "recommended_norm": 5.83,
@@ -7,36 +7,36 @@
     "kind": "earlier-is-better",
     "monotonic_earlier_better": true,
     "ci_label": "11:02 PM \u2013 4:53 AM",
-    "median_label": "2:40 AM",
+    "median_label": "2:41 AM",
     "pct10_label": "11:50 PM",
     "pct90_label": "4:38 AM",
     "stats": {
       "sleep_score": {
         "kind": "linear",
         "cv_r2": -0.126,
-        "r": 0.21,
-        "p": 0.0646,
+        "r": 0.22,
+        "p": 0.063,
         "per_hour_earlier": -1.2
       },
       "sleep_hours": {
         "kind": "quadratic",
-        "cv_r2": -0.079,
+        "cv_r2": -0.078,
         "r": -0.47,
         "p": 0.0,
         "per_hour_earlier": 0.37
       },
       "battery": {
         "kind": "linear",
-        "cv_r2": -0.199,
+        "cv_r2": -0.2,
         "r": 0.03,
-        "p": 0.8136,
-        "per_hour_earlier": -0.21
+        "p": 0.7984,
+        "per_hour_earlier": -0.22
       }
     },
     "pred_at_recommended": {
       "sleep_score": 70.2,
       "sleep_hours": 7.4,
-      "battery": 75.7
+      "battery": 75.6
     },
     "pred_at_median": {
       "sleep_score": 73.6,
