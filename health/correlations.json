@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-15T14:00:06.314062",
+  "updated": "2026-11-15T21:00:05.438612",
   "date_range": {
     "start": "2026-01-12",
-    "end": "2026-11-15",
-    "days": 233
+    "end": "2026-11-16",
+    "days": 234
   },
   "baseline": {
     "avg_body_battery": 39.5,
@@ -23,10 +23,10 @@
     "Mon": {
       "battery": 41.2,
       "stress": 28.8,
-      "sleep_score": 79.9,
-      "sleep_hours": 7.2,
-      "steps": 9631.3,
-      "sample_size": 32
+      "sleep_score": 79.6,
+      "sleep_hours": 7.1,
+      "steps": 9468.5,
+      "sample_size": 33
     },
     "Tue": {
       "battery": 43.0,
@@ -73,9 +73,9 @@
     "rest_day": {
       "battery": 44.5,
       "battery_delta": 5.0,
-      "stress": 28.7,
+      "stress": 28.8,
       "sleep": 72.8,
-      "sample_size": 95
+      "sample_size": 96
     },
     "light": {
       "battery": 40.4,
@@ -111,10 +111,10 @@
   "lagged_effects": {
     "exercise": {
       "+1d": {
-        "battery": 37.4,
-        "battery_delta": -3.2,
+        "battery": 37.5,
+        "battery_delta": -3.1,
         "stress": 28.6,
-        "sample_size": 81
+        "sample_size": 82
       },
       "+2d": {
         "battery": 37.3,
@@ -138,7 +138,7 @@
       },
       "+2d": {
         "battery": 44.0,
-        "battery_delta": 5.1,
+        "battery_delta": 5.0,
         "stress": 25.8,
         "sample_size": 25
       },
@@ -199,7 +199,7 @@
     "1-2_days": {
       "battery": 35.8,
       "stress": 29.4,
-      "sample_size": 71
+      "sample_size": 72
     },
     "3-4_days": {
       "battery": 54.5,
@@ -220,8 +220,8 @@
     },
     "good": {
       "next_day_battery": 41.7,
-      "next_day_stress": 27.4,
-      "sample_size": 110
+      "next_day_stress": 27.5,
+      "sample_size": 111
     },
     "fair": {
       "next_day_battery": 37.6,
@@ -252,7 +252,7 @@
     },
     {
       "type": "exercise_recovery",
-      "text": "Active days (10K+ steps) lower next-day battery by 3.2",
+      "text": "Active days (10K+ steps) lower next-day battery by 3.1",
       "impact": "negative"
     }
   ]

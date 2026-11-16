@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-16T04:00:04.719000+00:00",
+  "generated_at": "2026-11-16T05:00:15.645748+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "6186e0f",
-      "date": "2026-11-15T14:00:15-08:00",
-      "message": "Update health data 2026-11-15 14:00"
+      "hash": "abe27fe",
+      "date": "2026-11-15T20:00:05-08:00",
+      "message": "Update knowledge graph + system status + now data 2026-11-15"
     },
     "branch": "master"
   },
@@ -25,7 +25,7 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-15T14:00:03.830623",
+        "updated": "2026-11-15T21:00:03.021504",
         "date_range": null
       },
       "last_commit": {
@@ -44,9 +44,9 @@
         "edge_count": 222
       },
       "last_commit": {
-        "hash": "7d9ac48",
-        "date": "2026-11-08T20:00:04-08:00",
-        "message": "Update knowledge graph + system status + now data 2026-11-08"
+        "hash": "abe27fe",
+        "date": "2026-11-15T20:00:05-08:00",
+        "message": "Update knowledge graph + system status + now data 2026-11-15"
       }
     },
     "site_analytics": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "abe27fe",
+      "date": "2026-11-15T20:00:05-08:00",
+      "message": "Update knowledge graph + system status + now data 2026-11-15"
+    },
     {
       "hash": "6186e0f",
       "date": "2026-11-15T14:00:15-08:00",
@@ -158,11 +163,6 @@
       "hash": "72b11b0",
       "date": "2026-11-12T20:59:06-08:00",
       "message": "Portfolio: add the startup role to About; Freenome clause states platform ownership"
-    },
-    {
-      "hash": "949c5bc",
-      "date": "2026-11-12T14:00:19-08:00",
-      "message": "Update health data 2026-11-12 14:00"
     }
   ]
 }
