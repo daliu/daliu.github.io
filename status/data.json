@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-16T05:00:15.645748+00:00",
+  "generated_at": "2026-11-17T05:00:26.910801+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "abe27fe",
-      "date": "2026-11-15T20:00:05-08:00",
-      "message": "Update knowledge graph + system status + now data 2026-11-15"
+      "hash": "e8ea4a0",
+      "date": "2026-11-16T20:53:31-08:00",
+      "message": "social: 2026-11-16 MoneySignals deck (3 cards)"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 192,
+      "page_count": 193,
       "last_commit": {
-        "hash": "81459b3",
-        "date": "2026-11-13T12:31:18-08:00",
-        "message": "social: 2026-11-13 MoneySignals deck (3 cards)"
+        "hash": "e8ea4a0",
+        "date": "2026-11-16T20:53:31-08:00",
+        "message": "social: 2026-11-16 MoneySignals deck (3 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-15T21:00:03.021504",
+        "updated": "2026-11-16T21:00:04.514014",
         "date_range": null
       },
       "last_commit": {
-        "hash": "6186e0f",
-        "date": "2026-11-15T14:00:15-08:00",
-        "message": "Update health data 2026-11-15 14:00"
+        "hash": "953c0a5",
+        "date": "2026-11-15T21:00:15-08:00",
+        "message": "Update health data 2026-11-15 21:00"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,41 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-11-15T13:12:54Z"
+        "updated": "2026-11-16T14:22:30Z"
       },
       "last_commit": {
-        "hash": "48327cb",
-        "date": "2026-11-15T13:12:54+00:00",
-        "message": "Update analytics data 2026-11-15"
+        "hash": "8fcf777",
+        "date": "2026-11-16T14:22:30+00:00",
+        "message": "Update analytics data 2026-11-16"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "e8ea4a0",
+      "date": "2026-11-16T20:53:31-08:00",
+      "message": "social: 2026-11-16 MoneySignals deck (3 cards)"
+    },
+    {
+      "hash": "8fcf777",
+      "date": "2026-11-16T14:22:30+00:00",
+      "message": "Update analytics data 2026-11-16"
+    },
+    {
+      "hash": "a2cab7a",
+      "date": "2026-11-16T05:35:55-05:00",
+      "message": "blog: 2026-11-16 \u2014 Research evidence and economic schedules"
+    },
+    {
+      "hash": "fc5d2e1",
+      "date": "2026-11-16T05:35:51-05:00",
+      "message": "daily: 2026-11-16 market update"
+    },
+    {
+      "hash": "953c0a5",
+      "date": "2026-11-15T21:00:15-08:00",
+      "message": "Update health data 2026-11-15 21:00"
+    },
     {
       "hash": "abe27fe",
       "date": "2026-11-15T20:00:05-08:00",
@@ -138,31 +163,6 @@
       "hash": "a5f7954",
       "date": "2026-11-13T07:01:24-08:00",
       "message": "social: 2026-11-13 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "a7f7baf",
-      "date": "2026-11-13T06:40:07-08:00",
-      "message": "health: refresh calendar density 2026-11-13 06:40"
-    },
-    {
-      "hash": "e08ec8a",
-      "date": "2026-11-13T05:34:52-05:00",
-      "message": "blog: 2026-11-13 \u2014 Research evidence and economic schedules"
-    },
-    {
-      "hash": "e222dc4",
-      "date": "2026-11-13T05:34:48-05:00",
-      "message": "daily: 2026-11-13 market update"
-    },
-    {
-      "hash": "5990e97",
-      "date": "2026-11-12T21:00:21-08:00",
-      "message": "Update health data 2026-11-12 21:00"
-    },
-    {
-      "hash": "72b11b0",
-      "date": "2026-11-12T20:59:06-08:00",
-      "message": "Portfolio: add the startup role to About; Freenome clause states platform ownership"
     }
   ]
 }
