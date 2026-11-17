@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-17T05:00:26.910801+00:00",
+  "generated_at": "2026-11-17T16:00:26.994717+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "e8ea4a0",
-      "date": "2026-11-16T20:53:31-08:00",
-      "message": "social: 2026-11-16 MoneySignals deck (3 cards)"
+      "hash": "1b4fb05",
+      "date": "2026-11-17T15:14:14+00:00",
+      "message": "Update analytics data 2026-11-17"
     },
     "branch": "master"
   },
@@ -13,11 +13,11 @@
       "name": "AutoTrader Daily",
       "url": "/autotrader/daily/",
       "schedule": "5:30 AM ET on weekdays",
-      "page_count": 193,
+      "page_count": 194,
       "last_commit": {
-        "hash": "e8ea4a0",
-        "date": "2026-11-16T20:53:31-08:00",
-        "message": "social: 2026-11-16 MoneySignals deck (3 cards)"
+        "hash": "01d48ae",
+        "date": "2026-11-17T07:01:24-08:00",
+        "message": "social: 2026-11-17 MoneySignals deck (4 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-16T21:00:04.514014",
+        "updated": "2026-11-17T08:00:04.744109",
         "date_range": null
       },
       "last_commit": {
-        "hash": "953c0a5",
-        "date": "2026-11-15T21:00:15-08:00",
-        "message": "Update health data 2026-11-15 21:00"
+        "hash": "6cc9b1a",
+        "date": "2026-11-17T06:40:07-08:00",
+        "message": "health: refresh calendar density 2026-11-17 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,46 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-11-16T14:22:30Z"
+        "updated": "2026-11-17T15:14:13Z"
       },
       "last_commit": {
-        "hash": "8fcf777",
-        "date": "2026-11-16T14:22:30+00:00",
-        "message": "Update analytics data 2026-11-16"
+        "hash": "1b4fb05",
+        "date": "2026-11-17T15:14:14+00:00",
+        "message": "Update analytics data 2026-11-17"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "1b4fb05",
+      "date": "2026-11-17T15:14:14+00:00",
+      "message": "Update analytics data 2026-11-17"
+    },
+    {
+      "hash": "01d48ae",
+      "date": "2026-11-17T07:01:24-08:00",
+      "message": "social: 2026-11-17 MoneySignals deck (4 cards)"
+    },
+    {
+      "hash": "6cc9b1a",
+      "date": "2026-11-17T06:40:07-08:00",
+      "message": "health: refresh calendar density 2026-11-17 06:40"
+    },
+    {
+      "hash": "02842d6",
+      "date": "2026-11-17T05:35:57-05:00",
+      "message": "blog: 2026-11-17 \u2014 Research evidence and economic schedules"
+    },
+    {
+      "hash": "0189c32",
+      "date": "2026-11-17T05:35:54-05:00",
+      "message": "daily: 2026-11-17 market update"
+    },
+    {
+      "hash": "c634d81",
+      "date": "2026-11-16T21:00:27-08:00",
+      "message": "Update health data 2026-11-16 21:00"
+    },
     {
       "hash": "e8ea4a0",
       "date": "2026-11-16T20:53:31-08:00",
@@ -133,36 +163,6 @@
       "hash": "99c09ab",
       "date": "2026-11-14T06:40:09-08:00",
       "message": "health: refresh calendar density 2026-11-14 06:40"
-    },
-    {
-      "hash": "9c73b2b",
-      "date": "2026-11-14T12:45:32+00:00",
-      "message": "Update analytics data 2026-11-14"
-    },
-    {
-      "hash": "57b5cd7",
-      "date": "2026-11-13T21:00:16-08:00",
-      "message": "Update health data 2026-11-13 21:00"
-    },
-    {
-      "hash": "cefd870",
-      "date": "2026-11-13T14:00:17-08:00",
-      "message": "Update health data 2026-11-13 14:00"
-    },
-    {
-      "hash": "81459b3",
-      "date": "2026-11-13T12:31:18-08:00",
-      "message": "social: 2026-11-13 MoneySignals deck (3 cards)"
-    },
-    {
-      "hash": "ef8292c",
-      "date": "2026-11-13T08:00:15-08:00",
-      "message": "Update health data 2026-11-13 08:00"
-    },
-    {
-      "hash": "a5f7954",
-      "date": "2026-11-13T07:01:24-08:00",
-      "message": "social: 2026-11-13 MoneySignals deck (4 cards)"
     }
   ]
 }
