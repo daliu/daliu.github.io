@@ -1,14 +1,14 @@
 {
-  "updated": "2026-11-18T14:00:06.372552",
+  "updated": "2026-11-18T21:00:07.915849",
   "date_range": {
     "start": "2026-01-12",
-    "end": "2026-11-18",
-    "days": 236
+    "end": "2026-11-19",
+    "days": 237
   },
   "baseline": {
     "avg_body_battery": 39.3,
     "avg_stress": 28.4,
-    "sleep_score": 74.4,
+    "sleep_score": 74.5,
     "sleep_hours": 6.7
   },
   "day_of_week": {
@@ -45,12 +45,12 @@
       "sample_size": 35
     },
     "Thu": {
-      "battery": 39.1,
+      "battery": 39.0,
       "stress": 27.7,
-      "sleep_score": 78.0,
+      "sleep_score": 78.2,
       "sleep_hours": 6.9,
-      "steps": 7326.2,
-      "sample_size": 33
+      "steps": 7222.0,
+      "sample_size": 34
     },
     "Fri": {
       "battery": 37.4,
@@ -71,11 +71,11 @@
   },
   "activity_levels": {
     "rest_day": {
-      "battery": 44.4,
-      "battery_delta": 5.1,
+      "battery": 44.3,
+      "battery_delta": 5.0,
       "stress": 28.7,
-      "sleep": 73.0,
-      "sample_size": 96
+      "sleep": 73.1,
+      "sample_size": 97
     },
     "light": {
       "battery": 39.9,
@@ -132,7 +132,7 @@
     "high_steps": {
       "+1d": {
         "battery": 38.5,
-        "battery_delta": -1.0,
+        "battery_delta": -0.9,
         "stress": 28.0,
         "sample_size": 25
       },
@@ -151,10 +151,10 @@
     },
     "sleep_great": {
       "+1d": {
-        "battery": 40.0,
-        "battery_delta": 0.8,
-        "stress": 28.7,
-        "sample_size": 42
+        "battery": 39.9,
+        "battery_delta": 0.7,
+        "stress": 28.6,
+        "sample_size": 43
       },
       "+2d": {
         "battery": 39.6,
@@ -193,8 +193,8 @@
   "exercise_streaks": {
     "no_streak": {
       "battery": 40.3,
-      "stress": 28.3,
-      "sample_size": 154
+      "stress": 28.2,
+      "sample_size": 155
     },
     "1-2_days": {
       "battery": 35.7,
@@ -214,9 +214,9 @@
   },
   "sleep_impact": {
     "great": {
-      "next_day_battery": 40.0,
-      "next_day_stress": 28.7,
-      "sample_size": 42
+      "next_day_battery": 39.9,
+      "next_day_stress": 28.6,
+      "sample_size": 43
     },
     "good": {
       "next_day_battery": 41.4,
