@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T08:00:17.791579-08:00",
+  "updated": "2026-11-20T14:00:16.440341-08:00",
   "window_days": 90,
   "date_range": {
     "start": "2026-08-23",
@@ -7,8 +7,8 @@
     "days_with_data": 86
   },
   "intraday": {
-    "n_episodes": 300,
-    "n_observed": 298,
+    "n_episodes": 301,
+    "n_observed": 299,
     "episodes_per_day": 3.4,
     "days_with_data": 86,
     "median_peak": 81,
@@ -25,38 +25,38 @@
       {
         "t": -30,
         "mean": 40.5,
-        "sem": 1.13,
-        "n": 186
+        "sem": 1.12,
+        "n": 187
       },
       {
         "t": -27,
-        "mean": 43.4,
+        "mean": 43.3,
         "sem": 1.17,
-        "n": 190
+        "n": 191
       },
       {
         "t": -24,
-        "mean": 43.2,
+        "mean": 43.1,
         "sem": 1.15,
-        "n": 189
+        "n": 190
       },
       {
         "t": -21,
-        "mean": 44.8,
+        "mean": 44.7,
         "sem": 1.16,
-        "n": 183
+        "n": 184
       },
       {
         "t": -18,
-        "mean": 44.8,
+        "mean": 44.6,
         "sem": 1.11,
-        "n": 188
+        "n": 189
       },
       {
         "t": -15,
-        "mean": 46.8,
+        "mean": 46.7,
         "sem": 1.1,
-        "n": 182
+        "n": 183
       },
       {
         "t": -12,
@@ -66,51 +66,51 @@
       },
       {
         "t": -9,
-        "mean": 49.7,
+        "mean": 49.6,
         "sem": 1.19,
-        "n": 164
+        "n": 165
       },
       {
         "t": -6,
-        "mean": 52.3,
-        "sem": 1.17,
-        "n": 161
+        "mean": 52.1,
+        "sem": 1.18,
+        "n": 162
       },
       {
         "t": -3,
-        "mean": 58.0,
-        "sem": 0.97,
-        "n": 157
+        "mean": 57.8,
+        "sem": 0.98,
+        "n": 158
       },
       {
         "t": 0,
         "mean": 80.7,
         "sem": 0.27,
-        "n": 239
+        "n": 240
       },
       {
         "t": 3,
-        "mean": 60.0,
-        "sem": 1.13,
-        "n": 169
-      },
-      {
-        "t": 6,
-        "mean": 53.7,
-        "sem": 1.3,
+        "mean": 59.8,
+        "sem": 1.14,
         "n": 170
       },
       {
+        "t": 6,
+        "mean": 53.5,
+        "sem": 1.31,
+        "n": 171
+      },
+      {
         "t": 9,
-        "mean": 54.2,
-        "sem": 1.38,
-        "n": 166
+        "mean": 54.0,
+        "sem": 1.39,
+        "n": 167
       },
       {
         "t": 12,
-        "mean": 52.7,
+        "mean": 52.5,
         "sem": 1.33,
-        "n": 171
+        "n": 172
       },
       {
         "t": 15,
@@ -332,7 +332,7 @@
     "settle_hist": [
       {
         "bin": 0,
-        "count": 104
+        "count": 105
       },
       {
         "bin": 15,
@@ -393,66 +393,66 @@
         "key": "bb_at_wake",
         "label": "Body Battery @ wake",
         "good": 1,
-        "baseline": 73.7,
+        "baseline": 73.8,
         "epoch": [
           {
             "off": -2,
             "z": -0.15,
-            "delta": -2.4,
+            "delta": -2.5,
             "n": 33
           },
           {
             "off": -1,
-            "z": 0.17,
-            "delta": 2.8,
+            "z": 0.16,
+            "delta": 2.7,
             "n": 42
           },
           {
             "off": 0,
             "z": -0.24,
-            "delta": -3.9,
+            "delta": -4.0,
             "n": 46
           },
           {
             "off": 1,
-            "z": -0.46,
-            "delta": -7.6,
+            "z": -0.47,
+            "delta": -7.8,
             "n": 42
           },
           {
             "off": 2,
             "z": -0.09,
-            "delta": -1.4,
+            "delta": -1.6,
             "n": 41
           },
           {
             "off": 3,
-            "z": -0.07,
-            "delta": -1.2,
+            "z": -0.08,
+            "delta": -1.3,
             "n": 35
           },
           {
             "off": 4,
-            "z": -0.1,
-            "delta": -1.7,
-            "n": 41
+            "z": -0.07,
+            "delta": -1.2,
+            "n": 42
           },
           {
             "off": 5,
-            "z": -0.25,
-            "delta": -4.2,
+            "z": -0.26,
+            "delta": -4.3,
             "n": 39
           },
           {
             "off": 6,
             "z": -0.21,
-            "delta": -3.5,
+            "delta": -3.6,
             "n": 38
           },
           {
             "off": 7,
-            "z": -0.21,
-            "delta": -3.5,
+            "z": -0.22,
+            "delta": -3.6,
             "n": 36
           }
         ]
@@ -529,66 +529,66 @@
         "key": "sleep_score",
         "label": "Sleep score",
         "good": 1,
-        "baseline": 70.5,
+        "baseline": 70.6,
         "epoch": [
           {
             "off": -2,
-            "z": -0.19,
-            "delta": -2.8,
+            "z": -0.2,
+            "delta": -2.9,
             "n": 33
           },
           {
             "off": -1,
-            "z": 0.16,
-            "delta": 2.3,
+            "z": 0.15,
+            "delta": 2.2,
             "n": 42
           },
           {
             "off": 0,
             "z": -0.3,
-            "delta": -4.3,
+            "delta": -4.4,
             "n": 46
           },
           {
             "off": 1,
             "z": -0.03,
-            "delta": -0.4,
+            "delta": -0.5,
             "n": 42
           },
           {
             "off": 2,
-            "z": -0.0,
-            "delta": -0.0,
+            "z": -0.01,
+            "delta": -0.1,
             "n": 41
           },
           {
             "off": 3,
             "z": 0.03,
-            "delta": 0.5,
+            "delta": 0.4,
             "n": 35
           },
           {
             "off": 4,
-            "z": -0.19,
-            "delta": -2.8,
-            "n": 41
+            "z": -0.17,
+            "delta": -2.4,
+            "n": 42
           },
           {
             "off": 5,
-            "z": -0.09,
-            "delta": -1.4,
+            "z": -0.1,
+            "delta": -1.5,
             "n": 39
           },
           {
             "off": 6,
-            "z": -0.14,
-            "delta": -2.1,
+            "z": -0.15,
+            "delta": -2.2,
             "n": 38
           },
           {
             "off": 7,
             "z": -0.02,
-            "delta": -0.3,
+            "delta": -0.4,
             "n": 36
           }
         ]
@@ -599,7 +599,7 @@
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>27 min</strong> to settle, <strong>74%</strong> of 298 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>27 min</strong> to settle, <strong>74%</strong> of 299 episodes gone within an hour."
     },
     {
       "impact": "neutral",
