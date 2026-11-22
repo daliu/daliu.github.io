@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-22T05:00:12.795712+00:00",
+  "generated_at": "2026-11-22T16:00:18.415757+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "461b9a7",
-      "date": "2026-11-21T14:00:14-08:00",
-      "message": "Update health data 2026-11-21 14:00"
+      "hash": "8f5f344",
+      "date": "2026-11-22T06:40:08-08:00",
+      "message": "health: refresh calendar density 2026-11-22 06:40"
     },
     "branch": "master"
   },
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-21T21:00:01.384970",
+        "updated": "2026-11-22T08:00:05.274520",
         "date_range": null
       },
       "last_commit": {
-        "hash": "461b9a7",
-        "date": "2026-11-21T14:00:14-08:00",
-        "message": "Update health data 2026-11-21 14:00"
+        "hash": "8f5f344",
+        "date": "2026-11-22T06:40:08-08:00",
+        "message": "health: refresh calendar density 2026-11-22 06:40"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-11-21T13:56:25Z"
+        "updated": "2026-11-22T13:49:27Z"
       },
       "last_commit": {
-        "hash": "e487d2a",
-        "date": "2026-11-21T13:56:25+00:00",
-        "message": "Update analytics data 2026-11-21"
+        "hash": "9d26eb5",
+        "date": "2026-11-22T13:49:28+00:00",
+        "message": "Update analytics data 2026-11-22"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "8f5f344",
+      "date": "2026-11-22T06:40:08-08:00",
+      "message": "health: refresh calendar density 2026-11-22 06:40"
+    },
+    {
+      "hash": "9d26eb5",
+      "date": "2026-11-22T13:49:28+00:00",
+      "message": "Update analytics data 2026-11-22"
+    },
+    {
+      "hash": "617435e",
+      "date": "2026-11-21T21:00:12-08:00",
+      "message": "Update health data 2026-11-21 21:00"
+    },
     {
       "hash": "461b9a7",
       "date": "2026-11-21T14:00:14-08:00",
@@ -148,21 +163,6 @@
       "hash": "8cbc126",
       "date": "2026-11-19T08:00:15-08:00",
       "message": "Update health data 2026-11-19 08:00"
-    },
-    {
-      "hash": "b76d4e2",
-      "date": "2026-11-19T07:01:22-08:00",
-      "message": "social: 2026-11-19 MoneySignals deck (4 cards)"
-    },
-    {
-      "hash": "3583367",
-      "date": "2026-11-19T14:57:26+00:00",
-      "message": "Update analytics data 2026-11-19"
-    },
-    {
-      "hash": "3a3238e",
-      "date": "2026-11-19T06:40:06-08:00",
-      "message": "health: refresh calendar density 2026-11-19 06:40"
     }
   ]
 }
