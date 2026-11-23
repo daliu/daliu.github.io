@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-23T04:00:03.352409+00:00",
+  "generated_at": "2026-11-23T05:00:17.297395+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "b2aa864",
-      "date": "2026-11-22T14:00:13-08:00",
-      "message": "Update health data 2026-11-22 14:00"
+      "hash": "3a3f2c8",
+      "date": "2026-11-22T20:00:03-08:00",
+      "message": "Update knowledge graph + system status + now data 2026-11-22"
     },
     "branch": "master"
   },
@@ -25,7 +25,7 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-22T14:00:03.096712",
+        "updated": "2026-11-22T21:00:05.987029",
         "date_range": null
       },
       "last_commit": {
@@ -44,9 +44,9 @@
         "edge_count": 223
       },
       "last_commit": {
-        "hash": "abe27fe",
-        "date": "2026-11-15T20:00:05-08:00",
-        "message": "Update knowledge graph + system status + now data 2026-11-15"
+        "hash": "3a3f2c8",
+        "date": "2026-11-22T20:00:03-08:00",
+        "message": "Update knowledge graph + system status + now data 2026-11-22"
       }
     },
     "site_analytics": {
@@ -64,6 +64,11 @@
     }
   },
   "recent_commits": [
+    {
+      "hash": "3a3f2c8",
+      "date": "2026-11-22T20:00:03-08:00",
+      "message": "Update knowledge graph + system status + now data 2026-11-22"
+    },
     {
       "hash": "b2aa864",
       "date": "2026-11-22T14:00:13-08:00",
@@ -158,11 +163,6 @@
       "hash": "f81c9e3",
       "date": "2026-11-19T21:00:17-08:00",
       "message": "Update health data 2026-11-19 21:00"
-    },
-    {
-      "hash": "d4d2d91",
-      "date": "2026-11-19T14:00:14-08:00",
-      "message": "Update health data 2026-11-19 14:00"
     }
   ]
 }
