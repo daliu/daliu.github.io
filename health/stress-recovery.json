@@ -1,14 +1,14 @@
 {
-  "updated": "2026-11-22T21:00:17.224419-08:00",
+  "updated": "2026-11-23T08:00:15.616121-08:00",
   "window_days": 90,
   "date_range": {
-    "start": "2026-08-25",
-    "end": "2026-11-22",
+    "start": "2026-08-26",
+    "end": "2026-11-23",
     "days_with_data": 86
   },
   "intraday": {
-    "n_episodes": 303,
-    "n_observed": 301,
+    "n_episodes": 301,
+    "n_observed": 299,
     "episodes_per_day": 3.4,
     "days_with_data": 86,
     "median_peak": 81,
@@ -20,54 +20,54 @@
       "within_120min_pct": 85,
       "to_rest_median_min": 12
     },
-    "half_life_min": 2,
+    "half_life_min": 3,
     "decay_curve": [
       {
         "t": -30,
-        "mean": 40.9,
-        "sem": 1.11,
+        "mean": 40.8,
+        "sem": 1.12,
         "n": 191
       },
       {
         "t": -27,
-        "mean": 43.5,
+        "mean": 43.3,
         "sem": 1.16,
         "n": 195
       },
       {
         "t": -24,
-        "mean": 43.4,
+        "mean": 43.2,
         "sem": 1.13,
         "n": 193
       },
       {
         "t": -21,
-        "mean": 45.5,
-        "sem": 1.14,
-        "n": 186
+        "mean": 45.3,
+        "sem": 1.16,
+        "n": 185
       },
       {
         "t": -18,
-        "mean": 45.1,
+        "mean": 44.8,
         "sem": 1.1,
         "n": 192
       },
       {
         "t": -15,
-        "mean": 46.8,
+        "mean": 46.7,
         "sem": 1.1,
-        "n": 187
+        "n": 186
       },
       {
         "t": -12,
-        "mean": 49.2,
+        "mean": 48.9,
         "sem": 1.13,
         "n": 179
       },
       {
         "t": -9,
-        "mean": 49.8,
-        "sem": 1.16,
+        "mean": 49.6,
+        "sem": 1.15,
         "n": 169
       },
       {
@@ -78,212 +78,212 @@
       },
       {
         "t": -3,
-        "mean": 58.0,
+        "mean": 57.9,
         "sem": 0.97,
-        "n": 161
+        "n": 163
       },
       {
         "t": 0,
         "mean": 80.6,
         "sem": 0.27,
-        "n": 243
+        "n": 241
       },
       {
         "t": 3,
-        "mean": 60.0,
-        "sem": 1.12,
+        "mean": 60.1,
+        "sem": 1.1,
         "n": 170
       },
       {
         "t": 6,
-        "mean": 53.3,
+        "mean": 53.5,
         "sem": 1.3,
-        "n": 172
+        "n": 171
       },
       {
         "t": 9,
-        "mean": 53.7,
-        "sem": 1.38,
-        "n": 169
+        "mean": 53.9,
+        "sem": 1.39,
+        "n": 168
       },
       {
         "t": 12,
-        "mean": 52.5,
-        "sem": 1.32,
-        "n": 175
+        "mean": 52.7,
+        "sem": 1.3,
+        "n": 174
       },
       {
         "t": 15,
-        "mean": 52.7,
+        "mean": 53.1,
         "sem": 1.32,
-        "n": 180
+        "n": 178
       },
       {
         "t": 18,
-        "mean": 51.5,
-        "sem": 1.29,
-        "n": 186
+        "mean": 51.6,
+        "sem": 1.28,
+        "n": 184
       },
       {
         "t": 21,
-        "mean": 51.1,
-        "sem": 1.35,
-        "n": 183
+        "mean": 51.4,
+        "sem": 1.37,
+        "n": 181
       },
       {
         "t": 24,
-        "mean": 48.9,
-        "sem": 1.28,
-        "n": 181
+        "mean": 49.1,
+        "sem": 1.3,
+        "n": 179
       },
       {
         "t": 27,
         "mean": 48.5,
         "sem": 1.3,
-        "n": 176
+        "n": 175
       },
       {
         "t": 30,
-        "mean": 49.4,
+        "mean": 49.5,
         "sem": 1.36,
-        "n": 183
+        "n": 182
       },
       {
         "t": 33,
-        "mean": 50.5,
+        "mean": 50.7,
         "sem": 1.39,
-        "n": 190
+        "n": 189
       },
       {
         "t": 36,
         "mean": 50.1,
-        "sem": 1.28,
-        "n": 201
-      },
-      {
-        "t": 39,
-        "mean": 50.1,
-        "sem": 1.35,
-        "n": 184
-      },
-      {
-        "t": 42,
-        "mean": 50.5,
         "sem": 1.29,
         "n": 198
       },
       {
+        "t": 39,
+        "mean": 49.9,
+        "sem": 1.36,
+        "n": 183
+      },
+      {
+        "t": 42,
+        "mean": 50.3,
+        "sem": 1.3,
+        "n": 197
+      },
+      {
         "t": 45,
-        "mean": 49.7,
+        "mean": 49.5,
         "sem": 1.33,
         "n": 188
       },
       {
         "t": 48,
-        "mean": 48.9,
+        "mean": 49.0,
         "sem": 1.31,
-        "n": 183
+        "n": 182
       },
       {
         "t": 51,
-        "mean": 49.1,
+        "mean": 49.4,
         "sem": 1.37,
-        "n": 187
+        "n": 186
       },
       {
         "t": 54,
-        "mean": 48.5,
-        "sem": 1.34,
-        "n": 199
+        "mean": 48.6,
+        "sem": 1.33,
+        "n": 197
       },
       {
         "t": 57,
-        "mean": 49.2,
+        "mean": 49.5,
         "sem": 1.36,
-        "n": 194
+        "n": 193
       },
       {
         "t": 60,
-        "mean": 48.2,
+        "mean": 48.5,
         "sem": 1.48,
         "n": 182
       },
       {
         "t": 63,
-        "mean": 48.6,
-        "sem": 1.41,
-        "n": 195
+        "mean": 48.5,
+        "sem": 1.43,
+        "n": 193
       },
       {
         "t": 66,
         "mean": 47.9,
         "sem": 1.43,
-        "n": 193
+        "n": 192
       },
       {
         "t": 69,
         "mean": 49.2,
-        "sem": 1.41,
-        "n": 192
+        "sem": 1.42,
+        "n": 191
       },
       {
         "t": 72,
-        "mean": 48.8,
+        "mean": 48.6,
         "sem": 1.46,
-        "n": 188
+        "n": 187
       },
       {
         "t": 75,
-        "mean": 48.0,
-        "sem": 1.41,
-        "n": 190
+        "mean": 47.9,
+        "sem": 1.4,
+        "n": 189
       },
       {
         "t": 78,
-        "mean": 48.9,
-        "sem": 1.45,
+        "mean": 48.8,
+        "sem": 1.44,
         "n": 187
       },
       {
         "t": 81,
-        "mean": 48.6,
-        "sem": 1.47,
+        "mean": 48.4,
+        "sem": 1.48,
         "n": 181
       },
       {
         "t": 84,
-        "mean": 48.7,
-        "sem": 1.44,
-        "n": 193
+        "mean": 48.9,
+        "sem": 1.43,
+        "n": 194
       },
       {
         "t": 87,
         "mean": 49.0,
-        "sem": 1.44,
+        "sem": 1.45,
         "n": 193
       },
       {
         "t": 90,
-        "mean": 47.9,
+        "mean": 47.6,
         "sem": 1.32,
-        "n": 195
+        "n": 194
       },
       {
         "t": 93,
-        "mean": 48.0,
+        "mean": 47.7,
         "sem": 1.46,
         "n": 185
       },
       {
         "t": 96,
-        "mean": 45.6,
+        "mean": 45.5,
         "sem": 1.41,
         "n": 184
       },
       {
         "t": 99,
-        "mean": 48.1,
-        "sem": 1.41,
+        "mean": 48.0,
+        "sem": 1.4,
         "n": 186
       },
       {
@@ -300,39 +300,39 @@
       },
       {
         "t": 108,
-        "mean": 47.9,
-        "sem": 1.46,
-        "n": 183
+        "mean": 47.7,
+        "sem": 1.45,
+        "n": 182
       },
       {
         "t": 111,
-        "mean": 46.2,
-        "sem": 1.52,
-        "n": 191
+        "mean": 46.0,
+        "sem": 1.54,
+        "n": 189
       },
       {
         "t": 114,
-        "mean": 46.9,
+        "mean": 46.8,
         "sem": 1.48,
         "n": 182
       },
       {
         "t": 117,
-        "mean": 45.0,
-        "sem": 1.42,
-        "n": 198
+        "mean": 45.2,
+        "sem": 1.44,
+        "n": 196
       },
       {
         "t": 120,
-        "mean": 45.5,
+        "mean": 45.3,
         "sem": 1.39,
-        "n": 192
+        "n": 190
       }
     ],
     "settle_hist": [
       {
         "bin": 0,
-        "count": 105
+        "count": 103
       },
       {
         "bin": 15,
@@ -348,7 +348,7 @@
       },
       {
         "bin": 60,
-        "count": 13
+        "count": 14
       },
       {
         "bin": 75,
@@ -360,7 +360,7 @@
       },
       {
         "bin": 105,
-        "count": 7
+        "count": 6
       },
       {
         "bin": 120,
@@ -386,7 +386,7 @@
     ]
   },
   "daily": {
-    "n_spikes": 49,
+    "n_spikes": 50,
     "load_p80_min": 266,
     "markers": [
       {
@@ -397,45 +397,45 @@
         "epoch": [
           {
             "off": -2,
-            "z": -0.16,
-            "delta": -2.6,
-            "n": 33
+            "z": -0.12,
+            "delta": -2.0,
+            "n": 34
           },
           {
             "off": -1,
-            "z": 0.16,
-            "delta": 2.7,
-            "n": 42
+            "z": 0.17,
+            "delta": 2.8,
+            "n": 43
           },
           {
             "off": 0,
-            "z": -0.25,
-            "delta": -4.1,
-            "n": 46
+            "z": -0.22,
+            "delta": -3.7,
+            "n": 47
           },
           {
             "off": 1,
-            "z": -0.47,
-            "delta": -7.8,
-            "n": 42
+            "z": -0.49,
+            "delta": -8.2,
+            "n": 43
           },
           {
             "off": 2,
-            "z": -0.1,
-            "delta": -1.6,
-            "n": 41
+            "z": -0.08,
+            "delta": -1.3,
+            "n": 42
           },
           {
             "off": 3,
-            "z": -0.08,
-            "delta": -1.3,
-            "n": 35
+            "z": -0.06,
+            "delta": -1.1,
+            "n": 36
           },
           {
             "off": 4,
-            "z": -0.07,
-            "delta": -1.2,
-            "n": 42
+            "z": -0.09,
+            "delta": -1.6,
+            "n": 43
           },
           {
             "off": 5,
@@ -451,9 +451,9 @@
           },
           {
             "off": 7,
-            "z": -0.22,
-            "delta": -3.7,
-            "n": 36
+            "z": -0.24,
+            "delta": -3.9,
+            "n": 37
           }
         ]
       },
@@ -461,67 +461,67 @@
         "key": "resting_hr",
         "label": "Resting HR",
         "good": -1,
-        "baseline": 43.7,
+        "baseline": 43.8,
         "epoch": [
           {
             "off": -2,
-            "z": 0.37,
-            "delta": 1.2,
-            "n": 41
+            "z": 0.31,
+            "delta": 1.0,
+            "n": 42
           },
           {
             "off": -1,
-            "z": 0.24,
-            "delta": 0.8,
-            "n": 47
+            "z": 0.22,
+            "delta": 0.7,
+            "n": 48
           },
           {
             "off": 0,
-            "z": 0.05,
-            "delta": 0.2,
-            "n": 49
+            "z": 0.01,
+            "delta": 0.0,
+            "n": 50
           },
           {
             "off": 1,
-            "z": 0.37,
+            "z": 0.35,
             "delta": 1.2,
-            "n": 47
+            "n": 48
           },
           {
             "off": 2,
-            "z": 0.47,
-            "delta": 1.5,
-            "n": 44
+            "z": 0.43,
+            "delta": 1.4,
+            "n": 45
           },
           {
             "off": 3,
-            "z": 0.59,
-            "delta": 1.9,
-            "n": 45
+            "z": 0.56,
+            "delta": 1.8,
+            "n": 46
           },
           {
             "off": 4,
-            "z": 0.16,
-            "delta": 0.5,
-            "n": 45
+            "z": 0.13,
+            "delta": 0.4,
+            "n": 46
           },
           {
             "off": 5,
-            "z": 0.42,
-            "delta": 1.4,
+            "z": 0.41,
+            "delta": 1.3,
             "n": 45
           },
           {
             "off": 6,
             "z": 0.39,
             "delta": 1.3,
-            "n": 43
+            "n": 44
           },
           {
             "off": 7,
-            "z": 0.43,
-            "delta": 1.4,
-            "n": 40
+            "z": 0.45,
+            "delta": 1.5,
+            "n": 42
           }
         ]
       },
@@ -533,45 +533,45 @@
         "epoch": [
           {
             "off": -2,
-            "z": -0.2,
-            "delta": -2.9,
-            "n": 33
+            "z": -0.17,
+            "delta": -2.4,
+            "n": 34
           },
           {
             "off": -1,
-            "z": 0.15,
-            "delta": 2.2,
-            "n": 42
+            "z": 0.14,
+            "delta": 2.1,
+            "n": 43
           },
           {
             "off": 0,
-            "z": -0.3,
-            "delta": -4.4,
-            "n": 46
+            "z": -0.29,
+            "delta": -4.2,
+            "n": 47
           },
           {
             "off": 1,
-            "z": -0.03,
-            "delta": -0.5,
-            "n": 42
+            "z": -0.05,
+            "delta": -0.7,
+            "n": 43
           },
           {
             "off": 2,
-            "z": -0.01,
-            "delta": -0.1,
-            "n": 41
+            "z": 0.02,
+            "delta": 0.3,
+            "n": 42
           },
           {
             "off": 3,
-            "z": 0.03,
-            "delta": 0.4,
-            "n": 35
+            "z": 0.05,
+            "delta": 0.7,
+            "n": 36
           },
           {
             "off": 4,
-            "z": -0.17,
-            "delta": -2.4,
-            "n": 42
+            "z": -0.2,
+            "delta": -2.9,
+            "n": 43
           },
           {
             "off": 5,
@@ -587,9 +587,9 @@
           },
           {
             "off": 7,
-            "z": -0.02,
-            "delta": -0.3,
-            "n": 36
+            "z": -0.06,
+            "delta": -0.9,
+            "n": 37
           }
         ]
       }
@@ -599,15 +599,15 @@
   "insights": [
     {
       "impact": "positive",
-      "text": "A high-stress peak fades fast: median <strong>27 min</strong> to settle, <strong>74%</strong> of 301 episodes gone within an hour."
+      "text": "A high-stress peak fades fast: median <strong>27 min</strong> to settle, <strong>74%</strong> of 299 episodes gone within an hour."
     },
     {
       "impact": "neutral",
-      "text": "Peak-aligned, stress decays with a <strong>~2-min half-life</strong> back to baseline \u2014 no elevated plateau once the peak passes."
+      "text": "Peak-aligned, stress decays with a <strong>~3-min half-life</strong> back to baseline \u2014 no elevated plateau once the peak passes."
     },
     {
       "impact": "positive",
-      "text": "At the daily scale, a high-stress day (n=49) leaves only a same-day dip that recovers to baseline by <strong>day +2</strong> \u2014 no multi-day residue on independent markers."
+      "text": "At the daily scale, a high-stress day (n=50) leaves only a same-day dip that recovers to baseline by <strong>day +2</strong> \u2014 no multi-day residue on independent markers."
     },
     {
       "impact": "neutral",
