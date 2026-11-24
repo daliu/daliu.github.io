@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23T21:00:07.842185",
+  "updated": "2026-11-24T08:00:06.267638",
   "date_range": {
     "start": "2026-01-12",
     "end": "2026-11-24",
@@ -29,11 +29,11 @@
       "sample_size": 34
     },
     "Tue": {
-      "battery": 42.0,
-      "stress": 26.9,
+      "battery": 41.7,
+      "stress": 26.8,
       "sleep_score": 71.9,
       "sleep_hours": 6.2,
-      "steps": 5486.0,
+      "steps": 5521.7,
       "sample_size": 35
     },
     "Wed": {
@@ -71,9 +71,9 @@
   },
   "activity_levels": {
     "rest_day": {
-      "battery": 44.6,
-      "battery_delta": 5.1,
-      "stress": 28.6,
+      "battery": 44.5,
+      "battery_delta": 5.0,
+      "stress": 28.5,
       "sleep": 73.3,
       "sample_size": 101
     },
@@ -112,7 +112,7 @@
     "exercise": {
       "+1d": {
         "battery": 37.3,
-        "battery_delta": -3.5,
+        "battery_delta": -3.4,
         "stress": 28.6,
         "sample_size": 82
       },
@@ -124,7 +124,7 @@
       },
       "+3d": {
         "battery": 39.1,
-        "battery_delta": -0.8,
+        "battery_delta": -0.7,
         "stress": 27.0,
         "sample_size": 82
       }
@@ -138,7 +138,7 @@
       },
       "+2d": {
         "battery": 44.0,
-        "battery_delta": 4.9,
+        "battery_delta": 5.0,
         "stress": 25.8,
         "sample_size": 25
       },
@@ -152,20 +152,20 @@
     "sleep_great": {
       "+1d": {
         "battery": 41.3,
-        "battery_delta": 2.1,
+        "battery_delta": 2.2,
         "stress": 28.0,
         "sample_size": 46
       },
       "+2d": {
         "battery": 40.9,
-        "battery_delta": 1.6,
+        "battery_delta": 1.7,
         "stress": 27.4,
         "sample_size": 46
       },
       "+3d": {
-        "battery": 37.3,
-        "battery_delta": -2.9,
-        "stress": 29.4,
+        "battery": 37.0,
+        "battery_delta": -3.2,
+        "stress": 29.3,
         "sample_size": 46
       }
     },
@@ -184,7 +184,7 @@
       },
       "+3d": {
         "battery": 36.2,
-        "battery_delta": -3.6,
+        "battery_delta": -3.5,
         "stress": 36.4,
         "sample_size": 10
       }
@@ -192,7 +192,7 @@
   },
   "exercise_streaks": {
     "no_streak": {
-      "battery": 40.7,
+      "battery": 40.6,
       "stress": 28.1,
       "sample_size": 160
     },
@@ -219,7 +219,7 @@
       "sample_size": 46
     },
     "good": {
-      "next_day_battery": 41.4,
+      "next_day_battery": 41.3,
       "next_day_stress": 27.6,
       "sample_size": 114
     },
@@ -241,13 +241,18 @@
       "impact": "positive"
     },
     {
+      "type": "sleep_lag",
+      "text": "Great sleep benefits peak at +3 days: -3.2 body battery vs non-great sleep days",
+      "impact": "negative"
+    },
+    {
       "type": "activity",
       "text": "High activity days (20K+ steps) drain battery by 16 vs rest days",
       "impact": "negative"
     },
     {
       "type": "exercise_recovery",
-      "text": "Active days (10K+ steps) lower next-day battery by 3.5",
+      "text": "Active days (10K+ steps) lower next-day battery by 3.4",
       "impact": "negative"
     }
   ]
