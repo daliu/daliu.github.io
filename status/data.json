@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-24T16:00:18.264976+00:00",
+  "generated_at": "2026-11-24T22:00:15.159293+00:00",
   "deploy": {
     "latest_commit": {
-      "hash": "54e997a0",
-      "date": "2026-11-24T07:01:18-08:00",
-      "message": "social: 2026-11-24 MoneySignals deck (3 cards)"
+      "hash": "d08c3828",
+      "date": "2026-11-24T12:31:22-08:00",
+      "message": "social: 2026-11-24 MoneySignals deck (4 cards)"
     },
     "branch": "master"
   },
@@ -15,9 +15,9 @@
       "schedule": "5:30 AM ET on weekdays",
       "page_count": 199,
       "last_commit": {
-        "hash": "54e997a0",
-        "date": "2026-11-24T07:01:18-08:00",
-        "message": "social: 2026-11-24 MoneySignals deck (3 cards)"
+        "hash": "d08c3828",
+        "date": "2026-11-24T12:31:22-08:00",
+        "message": "social: 2026-11-24 MoneySignals deck (4 cards)"
       }
     },
     "health_dashboard": {
@@ -25,13 +25,13 @@
       "url": "/health/",
       "schedule": "8 AM, 2 PM, 9 PM PT (3\u00d7/day)",
       "data": {
-        "updated": "2026-11-24T08:00:03.887571",
+        "updated": "2026-11-24T14:00:03.900548",
         "date_range": null
       },
       "last_commit": {
-        "hash": "34eb8366",
-        "date": "2026-11-24T06:40:05-08:00",
-        "message": "health: refresh calendar density 2026-11-24 06:40"
+        "hash": "ce6a2d04",
+        "date": "2026-11-24T08:00:18-08:00",
+        "message": "Update health data 2026-11-24 08:00"
       }
     },
     "knowledge_graph": {
@@ -54,16 +54,31 @@
       "url": "/analytics/",
       "schedule": "Daily at 6 AM UTC (GitHub Actions)",
       "data": {
-        "updated": "2026-11-23T16:55:36Z"
+        "updated": "2026-11-24T16:45:14Z"
       },
       "last_commit": {
-        "hash": "dcf83fac",
-        "date": "2026-11-23T16:55:36+00:00",
-        "message": "Update analytics data 2026-11-23"
+        "hash": "cd14122d",
+        "date": "2026-11-24T16:45:14+00:00",
+        "message": "Update analytics data 2026-11-24"
       }
     }
   },
   "recent_commits": [
+    {
+      "hash": "d08c3828",
+      "date": "2026-11-24T12:31:22-08:00",
+      "message": "social: 2026-11-24 MoneySignals deck (4 cards)"
+    },
+    {
+      "hash": "cd14122d",
+      "date": "2026-11-24T16:45:14+00:00",
+      "message": "Update analytics data 2026-11-24"
+    },
+    {
+      "hash": "ce6a2d04",
+      "date": "2026-11-24T08:00:18-08:00",
+      "message": "Update health data 2026-11-24 08:00"
+    },
     {
       "hash": "54e997a0",
       "date": "2026-11-24T07:01:18-08:00",
@@ -148,21 +163,6 @@
       "hash": "d27d6c71",
       "date": "2026-11-22T08:00:18-08:00",
       "message": "Update health data 2026-11-22 08:00"
-    },
-    {
-      "hash": "8f5f344f",
-      "date": "2026-11-22T06:40:08-08:00",
-      "message": "health: refresh calendar density 2026-11-22 06:40"
-    },
-    {
-      "hash": "9d26eb5e",
-      "date": "2026-11-22T13:49:28+00:00",
-      "message": "Update analytics data 2026-11-22"
-    },
-    {
-      "hash": "617435e8",
-      "date": "2026-11-21T21:00:12-08:00",
-      "message": "Update health data 2026-11-21 21:00"
     }
   ]
 }
